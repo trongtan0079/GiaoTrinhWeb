@@ -1,0 +1,915 @@
+% ==============================================================================
+% CHƯƠNG 4: THẺ BỐ CỤC NGỮ NGHĨA & THẺ VĂN BẢN MASTERCLASS
+% ==============================================================================
+\chapter{Thẻ Bố Cục Ngữ Nghĩa (Layout Semantics) \& Thẻ Văn Bản}
+\label{chap:semantic_structure}
+
+Chương này trình bày chi tiết từng thẻ thuộc nhóm Bố cục ngữ nghĩa và nhóm Văn bản trong HTML5.
+
+\section{Thẻ Thân Tài Liệu <body>}
+\subsection{1. Lý Thuyết \& Thuộc Tính Sự Kiện Window}
+Thẻ \codeinline{<body>} chứa toàn bộ nội dung trực quan hiển thị trên cửa sổ trình duyệt (Văn bản, Hình ảnh, Video, Biểu mẫu).
+
+\begin{itemize}
+    \item Các thuộc tính sự kiện cửa sổ: \codeinline{onload}, \codeinline{onunload}, \codeinline{onresize}, \codeinline{onpopstate}, \codeinline{ononline}, \codeinline{onoffline}.
+\end{itemize}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Sử Dụng Thẻ body Với Sự Kiện Trạng Thái Mạng]
+\begin{lstlisting}[language=HTML5]
+<body ononline="(*@console.log('Đã kết nối Internet')@*)" onoffline="(*@alert('Mất kết nối mạng!')@*)">
+  <h1>(*@Nội dung chính hiển thị tại đây@*)</h1>
+</body>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thẻ <body>]
+\sffamily
+{\Huge\bfseries Nội dung chính hiển thị tại đây}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Đỉnh Trang / Đỉnh Phân Đoạn <header>}
+\subsection{1. Lý Thuyết \& Quy Tắc Sử Dụng}
+Thẻ \codeinline{<header>} đại diện cho nhóm các phần tử dẫn nhập hoặc điều hướng. Một trang web có thể chứa nhiều thẻ \codeinline{<header>} (một ở đỉnh trang web và các thẻ \codeinline{<header>} con nằm bên trong \codeinline{<article>} hoặc \codeinline{<section>}).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thẻ Header Đỉnh Trang Web Chuẩn SEO]
+\begin{lstlisting}[language=HTML5]
+<header>
+  <a href="/" class="logo">
+    <img src="logo.svg" alt="EduWeb Academy">
+  </a>
+  <nav>
+    <ul>
+      <li><a href="/courses">(*@Khóa Học@*)</a></li>
+      <li><a href="/blog">(*@Bài Viết@*)</a></li>
+    </ul>
+  </nav>
+</header>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thẻ Header Đỉnh Trang]
+\sffamily\small
+\begin{tcolorbox}[colback=primaryBlue!5, colframe=primaryBlue!30, arc=5pt, boxsep=3pt, left=12pt, right=12pt, top=6pt, bottom=6pt]
+\textcolor{primaryBlue}{\bfseries [LOGO] EduWeb Academy} \hfill \textcolor{primaryBlue}{\underline{Khóa Học}} \quad \textcolor{primaryBlue}{\underline{Bài Viết}}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Thanh Điều Hướng <nav>}
+\subsection{1. Lý Thuyết \& Accessibility (a11y)}
+Thẻ \codeinline{<nav>} đại diện cho một phần của trang web chứa các liên kết điều hướng chính (Navigation Links). Trình đọc màn hình (Screen Reader) sử dụng thẻ này để giúp người khiếm thị nhảy nhanh đến menu chính.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Menu Điều Hướng Phân Tầng Với Thẻ Nav]
+\begin{lstlisting}[language=HTML5]
+<nav aria-label="(*@Thanh điều hướng chính@*)">
+  <ul>
+    <li><a href="/" aria-current="page">(*@Trang Chủ@*)</a></li>
+    <li><a href="/about">(*@Giới Thiệu@*)</a></li>
+    <li><a href="/contact">(*@Liên Hệ@*)</a></li>
+  </ul>
+</nav>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thanh Điều Hướng Nav]
+\sffamily\small
+\textcolor{primaryBlue}{\bfseries Trang Chủ} \quad$\bullet$\quad \textcolor{primaryBlue}{\underline{Giới Thiệu}} \quad$\bullet$\quad \textcolor{primaryBlue}{\underline{Liên Hệ}}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Nội Dung Chính <main>}
+\subsection{1. Lý Thuyết \& Quy Tắc Độc Nhất}
+Thẻ \codeinline{<main>} chứa nội dung độc nhất và trung tâm của tài liệu.
+
+\begin{warnBox}[Quy Tắc Vàng Thẻ <main>]
+Trong một tệp HTML chỉ được phép có \textbf{duy nhất 1 thẻ \codeinline{<main>} hiển thị}. Thẻ \codeinline{<main>} KHÔNG được là phần tử con của \codeinline{<header>}, \codeinline{<nav>}, \codeinline{<article>}, \codeinline{<aside>} hay \codeinline{<footer>}.
+\end{warnBox}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Khối Nội Dung Chính Độc Nhất <main>]
+\begin{lstlisting}[language=HTML5]
+<main id="main-content">
+  <h1>(*@Khóa Học HTML5 Masterclass@*)</h1>
+  <p>(*@Nội dung chi tiết khóa học...@*)</p>
+</main>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Khối Nội Dung Chính Main]
+\sffamily
+{\Large\bfseries Khóa Học HTML5 Masterclass}\\[3pt]
+{\small Nội dung chi tiết khóa học...}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Bài Viết Độc Lập <article>}
+\subsection{1. Lý Thuyết \& Tiêu Chuẩn Tách Tải}
+Thẻ \codeinline{<article>} đại diện cho một thành phần hoàn chỉnh, độc lập trong trang web mà có thể phân phối hoặc tái sử dụng độc lập (ví dụ: bài báo, sản phẩm thương mại điện tử, bài đăng blog, bình luận).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thẻ Article Mô Phỏng UI Card Sản Phẩm Độc Lập]
+\begin{lstlisting}[language=HTML5]
+<article class="product-card">
+  <img src="laptop.jpg" alt="Laptop Gaming">
+  <h2>Laptop Gaming Pro 2026</h2>
+  <p class="price">(*@25.000.000 VNĐ@*)</p>
+  <button>(*@Thêm Vào Giỏ Hàng@*)</button>
+</article>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: UI Card Sản Phẩm Article]
+\sffamily\small
+\begin{tcolorbox}[colback=white, colframe=gray!30, width=0.65\linewidth, arc=6pt, drop shadow=black!5!white]
+\centering
+\tcbox[on line, colback=gray!15, colframe=gray!30, arc=3pt]{\small\color{gray!80}[Hình ảnh Laptop Gaming]} \\[4pt]
+{\bfseries Laptop Gaming Pro 2026}\\[2pt]
+\textcolor{accentOrange}{\bfseries 25.000.000 VNĐ}\\[4pt]
+\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=8pt, right=8pt, top=2pt, bottom=2pt]{\color{white}\bfseries\small Thêm Vào Giỏ Hàng}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Phân Đoạn Chủ Đề <section>}
+\subsection{1. Lý Thuyết \& So Sánh <section> vs <article>}
+Thẻ \codeinline{<section>} đại diện cho một phân đoạn độc lập chứa các nội dung cùng chung một chủ đề. Mỗi \codeinline{<section>} luôn luôn nên đi kèm với một thẻ tiêu đề (\codeinline{<h2>}-\codeinline{<h6>}).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Phân Đoạn Các Section Trong Bài Viết]
+\begin{lstlisting}[language=HTML5]
+<section id="introduction">
+  <h2>(*@1. Giới Thiệu Căn Bản@*)</h2>
+  <p>(*@Nội dung giới thiệu...@*)</p>
+</section>
+
+<section id="features">
+  <h2>(*@2. Các Tính Năng Nổi Bật@*)</h2>
+  <p>(*@Nội dung tính năng...@*)</p>
+</section>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Các Phân Đoạn Section]
+\sffamily\small
+{\bfseries\large 1. Giới Thiệu Căn Bản}\\[2pt]
+Nội dung giới thiệu...\\[6pt]
+{\bfseries\large 2. Các Tính Năng Nổi Bật}\\[2pt]
+Nội dung tính năng...
+\end{browserWindow}
+
+\begin{prettyTableBox}[Bảng So Sánh Ngữ Nghĩa: <article> vs <section> vs <div>]
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{2.2cm} Z Z K{3.5cm}}
+\rowcolor{primaryBlue}
+\thd{Thẻ HTML} & \thd{Ý Nghĩa Ngữ Nghĩa (Semantics)} & \thd{Đặc Điểm Độc Lập Nội Dung} & \thd{Trường Hợp Khuyên Dùng} \\
+\codeinline{<article>} & Thành phần nội dung hoàn chỉnh, độc lập. & \textbf{Có thể phân phối độc lập} (Bản tin RSS, Widget, Card). & Bài viết blog, Tin tức, Sản phẩm eCommerce, Bình luận. \\
+\codeinline{<section>} & Phân đoạn gom nhóm các ý thuộc cùng một chủ đề. & Cần đi kèm tiêu đề (\codeinline{<h2>}-\codeinline{<h6>}) để tạo Outline. & Các mục trong trang (Giới thiệu, Tính năng, Báo giá, FAQ). \\
+\codeinline{<div>} & \textbf{Thẻ rỗng vô nghĩa} (Pure Container). & Không mang bất kỳ ý nghĩa ngữ nghĩa nào. & Phục vụ định kiểu CSS Flexbox/Grid hoặc JavaScript DOM. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Thanh Bên Phụ <aside>}
+\subsection{1. Lý Thuyết \& Mục Đích Sử Dụng}
+Thẻ \codeinline{<aside>} chứa các nội dung liên quan gián tiếp đến nội dung chính xung quanh (như thanh bên Sidebar, bài viết liên quan, quảng cáo, ô trích dẫn).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thanh Bên Phụ Aside Cho Trang Blog]
+\begin{lstlisting}[language=HTML5]
+<aside class="sidebar">
+  <h3>(*@Bài Viết Được Xem Nhiều Nhất@*)</h3>
+  <ul>
+    <li><a href="/post/1">(*@Làm chủ CSS Grid@*)</a></li>
+    <li><a href="/post/2">(*@Học JavaScript ES6@*)</a></li>
+  </ul>
+</aside>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thanh Bên Aside]
+\sffamily\small
+\begin{tcolorbox}[colback=secondaryTeal!5, colframe=secondaryTeal!30, width=0.75\linewidth, arc=5pt]
+{\bfseries\color{secondaryTeal} Bài Viết Được Xem Nhiều Nhất}\\[4pt]
+$\bullet$ \textcolor{primaryBlue}{\underline{Làm chủ CSS Grid}}\\[2pt]
+$\bullet$ \textcolor{primaryBlue}{\underline{Học JavaScript ES6}}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Chân Trang <footer>}
+\subsection{1. Lý Thuyết \& Thành Phần Bên Trong}
+Thẻ \codeinline{<footer>} đại diện cho chân của trang web hoặc chân của một phân đoạn \codeinline{<article>}. Thường chứa thông tin bản quyền, liên kết điều khoản dịch vụ, bản đồ trang web (Sitemap) và icon mạng xã hội.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Chân Trang Footer Đầy Đủ]
+\begin{lstlisting}[language=HTML5]
+<footer>
+  <p>(*@\&copy; 2026 EduWeb Academy. Tất cả quyền được bảo lưu.@*)</p>
+  <ul>
+    <li><a href="/privacy">(*@Chính Sách Bảo Mật@*)</a></li>
+    <li><a href="/terms">(*@Điều Khoản Sử Dụng@*)</a></li>
+  </ul>
+</footer>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Chân Trang Footer]
+\sffamily\small
+\begin{tcolorbox}[colback=gray!10, colframe=gray!30, arc=4pt]
+\centering
+\small \copyright\; 2026 EduWeb Academy. Tất cả quyền được bảo lưu.\\[3pt]
+\textcolor{primaryBlue}{\underline{Chính Sách Bảo Mật}} \quad$\vert$\quad \textcolor{primaryBlue}{\underline{Điều Khoản Sử Dụng}}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Thông Tin Liên Hệ <address>}
+\subsection{1. Lý Thuyết \& Định Dạng Chuẩn}
+Thẻ \codeinline{<address>} cung cấp thông tin liên hệ cho tác giả hoặc chủ sở hữu của tài liệu/bài viết.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thông Tin Liên Hệ Tác Giả Với Thẻ Address]
+\begin{lstlisting}[language=HTML5]
+<address>
+  (*@Viết bởi@*) <a href="mailto:tan@eduweb.vn">(*@Nguyễn Trọng Tấn@*)</a>.<br>
+  (*@Địa chỉ: Tòa nhà EduWeb, Hà Nội, Việt Nam.<br> *@Điện thoại: <a href="tel:+84987654321">0987 654 321</a>@*)
+</address>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thẻ Address]
+\sffamily\small
+\textit{Viết bởi} \textcolor{primaryBlue}{\underline{Nguyễn Trọng Tấn}}.<br>
+\textit{Địa chỉ: Tòa nhà EduWeb, Hà Nội, Việt Nam.}<br>
+\textit{Điện thoại:} \textcolor{primaryBlue}{\underline{0987 654 321}}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Nhóm Thẻ Tiêu Đề <h1> đến <h6> \& <hgroup>}
+\subsection{1. Lý Thuyết \& Cây Phân Tầng Tiêu Đề SEO}
+Các thẻ từ \codeinline{<h1>} đến \codeinline{<h6>} đại diện cho 6 cấp độ tiêu đề phân tầng. Thẻ \codeinline{<hgroup>} dùng để nhóm một tiêu đề chính và các tiêu đề phụ lại với nhau.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Cấu Trúc Hgroup Và Tiêu Đề Phân Tầng]
+\begin{lstlisting}[language=HTML5]
+<hgroup>
+  <h1>(*@Lập Trình Web Chuyên Sâu@*)</h1>
+  <p>(*@Giáo trình Bách khoa toàn thư Frontend 2026@*)</p>
+</hgroup>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Hgroup \& Tiêu Đề Phân Tầng]
+\sffamily
+{\Huge\bfseries Lập Trình Web Chuyên Sâu}\\[2pt]
+{\color{gray!80}\Large Giáo trình Bách khoa toàn thư Frontend 2026}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Khối Chứa Tìm Kiếm <search>}
+\subsection{1. Lý Thuyết \& Chuẩn WHATWG Mới}
+Thẻ \codeinline{<search>} là thẻ ngữ nghĩa mới được đưa vào HTML Living Standard đại diện cho khối giao diện chứa công cụ tìm kiếm và lọc dữ liệu.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thẻ Search Chứa Form Tìm Kiếm Chuẩn WHATWG]
+\begin{lstlisting}[language=HTML5]
+<search>
+  <form action="/search" method="GET">
+    <label for="query">(*@Tìm khóa học:@*)</label>
+    <input type="search" id="query" name="q" placeholder="(*@Nhập từ khóa...@*)">
+    <button type="submit">(*@Tìm Kiếm@*)</button>
+  </form>
+</search>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Khối Tìm Kiếm Search]
+\sffamily\small
+\textbf{Tìm khóa học:} \;\;
+\tcbox[on line, arc=3pt, colback=white, colframe=gray!40, left=6pt, right=30pt, top=3pt, bottom=3pt]{\color{gray!70}Nhập từ khóa...} \;\;
+\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, left=8pt, right=8pt, top=3pt, bottom=3pt]{\color{white}\bfseries Tìm Kiếm}
+\end{browserWindow}
+
+\subsection{3. Đọc Thêm: Hệ Thống ARIA Landmarks \& Accessibility Tree}
+
+Khi trình duyệt phân tích các thẻ Bố cục ngữ nghĩa HTML5, nó tự động ánh xạ (\textit{mapping}) các thẻ này thành các \term{Vùng Mốc ARIA (Landmark Roles)} trên Cây Trợ Năng (\term{Accessibility Tree}) mà không cần viết thủ công thuộc tính \codeinline{role="..."}:
+
+\begin{prettyTableBox}[Bảng Ánh Xạ Thẻ Bố Cục HTML5 Sang ARIA Landmarks]
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{2.8cm} K{3.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thẻ Bố Cục HTML5} & \thd{ARIA Role Tương Đương} & \thd{Hành Vi Trình Đọc Màn Hình (Screen Reader)} \\
+\codeinline{<header>} & \codeinline{role="banner"} & Giúp người khiếm thị định vị vùng đầu trang chứa Logo và Tiêu đề. \\
+\codeinline{<nav>} & \codeinline{role="navigation"} & Cho phép ấn phím tắt nhảy trực tiếp đến danh sách liên kết điều hướng. \\
+\codeinline{<main>} & \codeinline{role="main"} & Bỏ qua toàn bộ Menu để đi thẳng vào nội dung chính của trang web. \\
+\codeinline{<aside>} & \codeinline{role="complementary"} & Đánh dấu khu vực thông tin phụ hỗ trợ cho nội dung chính. \\
+\codeinline{<footer>} & \codeinline{role="contentinfo"} & Định vị vùng thông tin bản quyền và liên kết chân trang. \\
+\codeinline{<search>} & \codeinline{role="search"} & Đánh dấu vùng công cụ tìm kiếm dữ liệu. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Đoạn Văn <p> \& Khối Văn Bản Giữ Nguyên <pre>}
+\subsection{1. Lý Thuyết \& Khác Biệt Cốt Lõi}
+- \codeinline{<p>}: Đoạn văn bản thông thường (Trình duyệt tự động nén nhiều khoảng trắng liền nhau thành 1 khoảng trắng).
+- \codeinline{<pre>}: Định dạng văn bản giữ nguyên chính xác từng khoảng trắng, dấu cách và xuống dòng như trong mã nguồn.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: So Sánh Thẻ p và Thẻ pre]
+\begin{lstlisting}[language=HTML5]
+<!-- (*@Đoạn văn bình thường@*) --><p>(*@Đây là một đoạn văn bản chuẩn.@*)</p>
+
+<!-- (*@Khối hiển thị giữ nguyên khoảng trắng@*) --><pre>
+  (*@Họ và Tên    : Nguyễn Văn A *@Quê Quán     : Hà Nội@*)
+</pre>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: So Sánh Thẻ p vs Thẻ pre]
+\sffamily\small
+\textbf{Thẻ <p> (Dòng chảy chuẩn):}\\[2pt]
+Đây là một đoạn văn bản chuẩn.\\[6pt]
+\textbf{Thẻ <pre> (Giữ nguyên khoảng trắng font Monospace):}\\[2pt]
+\begin{tcolorbox}[colback=gray!8, colframe=gray!20, boxrule=0.5pt, arc=3pt]
+\ttfamily\small
+Họ và Tên    : Nguyễn Văn A\\
+Quê Quán     : Hà Nội
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{conceptBox}[Cơ Chế Nén Khoảng Trắng (Whitespace Collapse)]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+    \item \textbf{Thẻ \codeinline{<p>}}: Áp dụng quy tắc nén khoảng trắng (\term{Whitespace Collapse}). Mọi dấu cách thừa, dấu Tab và ký tự xuống dòng trong mã nguồn đều bị trình duyệt nén lại thành \textbf{duy nhất 1 dấu cách}.
+    \item \textbf{Thẻ \codeinline{<pre>}}: Vô hiệu hóa quy tắc nén khoảng trắng. Trình duyệt hiển thị chính xác từng ký tự khoảng trắng và dòng mới với phông chữ độ rộng cố định (\term{Monospace Font}).
+    \item \textbf{Mẹo CSS Thay Thế}: Thay vì dùng thẻ \codeinline{<pre>}, bạn có thể dùng thẻ \codeinline{<p>} đính kèm CSS \codeinline{white-space: pre-wrap;} để vừa giữ nguyên khoảng trắng vừa hỗ trợ tự động xuống dòng khi màn hình nhỏ.
+\end{itemize}
+\end{conceptBox}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Trích Dẫn Khối <blockquote> \& Trích Dẫn Nội Dòng <q>}
+\subsection{1. Lý Thuyết \& Thuộc Tính cite}
+- \codeinline{<blockquote>}: Trích dẫn một đoạn văn bản dài từ nguồn khác (Hiển thị lùi lề khối).
+- \codeinline{<q>}: Trích dẫn ngắn nằm trực tiếp trong dòng (Trình duyệt tự động thêm dấu ngoặc kép \codeinline{"..."}).
+- Thuộc tính \codeinline{cite="..."}: Chứa URL nguồn gốc của bài trích dẫn.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thẻ Blockquote và Thẻ q Với Thuộc Tính Cite]
+\begin{lstlisting}[language=HTML5]
+<blockquote cite="https://w3.org/TR/html5">
+  <p>(*@HTML5 là chuẩn Living Standard phát triển bởi WHATWG.@*)</p>
+</blockquote>
+
+<p>(*@Tim Berners-Lee (*@từng nói:@*)<q cite="https://quote.com">(*@Internet (*@là dành@*) cho (*@tất cả mọi người@*)</q>.</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Blockquote \& Quoted Text]
+\sffamily\small
+\begin{tcolorbox}[colback=primaryBlue!4, colframe=primaryBlue!40, leftrule=3pt, boxrule=0pt, arc=0pt]
+\textit{HTML5 là chuẩn Living Standard phát triển bởi WHATWG.}
+\end{tcolorbox}
+Tim Berners-Lee từng nói: "Internet là dành cho tất cả mọi người".
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Các Thẻ Danh Sách <ol>, <ul>, <li>, <dl>, <dt>, <dd>}
+\subsection{1. Lý Thuyết \& Các Thuộc Tính Danh Sách}
+- \codeinline{<ul>}: Danh sách không thứ tự (Dấu chấm tròn bullet).
+- \codeinline{<ol>}: Danh sách có thứ tự (Đánh số 1, 2, 3). Thuộc tính \codeinline{type="1|a|A|i|I"}, \codeinline{start="5"}, \codeinline{reversed} (đánh số ngược).
+- \codeinline{<dl>}, \codeinline{<dt>}, \codeinline{<dd>}: Danh sách mô tả / Từ điển (\term{Description List}) dùng cho các cặp Thuật ngữ - Giải nghĩa.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Danh Sách Đánh Số Ngược Và Danh Sách Từ Điển DL]
+\begin{lstlisting}[language=HTML5]
+<!-- (*@Danh sách đánh số ngược từ 3 về 1@*) --><ol reversed start="3">
+  <li>(*@Bước 3: Xuất bản ứng dụng@*)</li>
+  <li>(*@Bước 2: Viết mã nguồn@*)</li>
+  <li>(*@Bước 1: Lập kế hoạch@*)</li>
+</ol>
+
+<!-- (*@Danh sách từ điển thuật ngữ@*) --><dl>
+  <dt>HTML5</dt>
+  <dd>(*@Ngôn ngữ đánh dấu siêu văn bản phiên bản 5.@*)</dd>
+  <dt>CSS3</dt>
+  <dd>(*@Ngôn ngữ định kiểu trang trí giao diện web.@*)</dd>
+</dl>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Danh Sách Thống Kê \& Từ Điển]
+\sffamily\small
+\textbf{Danh sách đánh số ngược (start="3" reversed):}\\[2pt]
+3. Bước 3: Xuất bản ứng dụng\\
+2. Bước 2: Viết mã nguồn\\
+1. Bước 1: Lập kế hoạch\\[6pt]
+\textbf{Danh sách từ điển (Description List <dl>):}\\[2pt]
+\textbf{HTML5}\\
+\quad Ngôn ngữ đánh dấu siêu văn bản phiên bản 5.\\[2pt]
+\textbf{CSS3}\\
+\quad Ngôn ngữ định kiểu trang trí giao diện web.
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Đường Kẻ Phân Cách <hr>}
+\subsection{1. Lý Thuyết \& Ý Nghĩa Ngữ Nghĩa}
+Thẻ \codeinline{<hr>} trong HTML5 đại diện cho một điểm chuyển đổi chủ đề ngữ nghĩa (\term{Thematic Break}) giữa các đoạn văn chứ không đơn thuần là vẽ một đường kẻ ngang trang trí.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Chuyển Đổi Chủ Đề Với Thẻ Hr]
+\begin{lstlisting}[language=HTML5]
+<p>(*@Kết thúc chương 1 tại đây.@*)</p>
+<hr>
+<p>(*@Bắt đầu nội dung chương 2...@*)</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Đường Kẻ Phân Cách Hr]
+\sffamily\small
+Kết thúc chương 1 tại đây.\par\vspace{4pt}
+{\color{gray!40}\hrule height 0.8pt}\vspace{4pt}
+Bắt đầu nội dung chương 2...
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Liên Kết Siêu Văn Bản <a> Masterclass}
+\label{sec:anchor_tag_masterclass}
+
+\subsection{1. Lý Thuyết \& Mục Đích Sử Dụng}
+Thẻ \codeinline{<a>} (viết tắt của \term{Anchor} -- điểm neo) được sử dụng để tạo các siêu liên kết (\term{Hyperlinks}). Đây là "xương sống" của mạng lưới World Wide Web, cho phép người dùng chuyển hướng giữa các trang web hoặc tài nguyên khác nhau.
+
+Thẻ \codeinline{<a>} hỗ trợ 6 mục đích liên kết chính:
+\begin{enumerate}
+    \item Liên kết đến một trang web khác (Ngoại trang -- External Link).
+    \item Liên kết đến một phần cụ thể trên cùng trang (Liên kết nội bộ -- Internal Anchor Link).
+    \item Mở ứng dụng gửi Email (\codeinline{mailto:}).
+    \item Gọi điện thoại trực tiếp trên thiết bị di động (\codeinline{tel:}).
+    \item Kích hoạt tải xuống tệp tin (\codeinline{download}).
+    \item Thực thi hành động JavaScript.
+\end{enumerate}
+
+\subsection{2. Cú Pháp Cơ Bản \& Phân Loại Các Loại Đường Dẫn (href)}
+Cú pháp cơ bản: \codeinline{<a href="URL\_dich">Nội dung hiển thị</a>}. Thuộc tính \codeinline{href} (\term{Hypertext Reference}) là thuộc tính \textbf{bắt buộc} nếu muốn tạo liên kết.
+
+\begin{enumerate}
+    \item \textbf{URL Tuyệt Đối (\term{Absolute URL})}: Địa chỉ web đầy đủ bao gồm giao thức (\codeinline{https://}), tên miền và đường dẫn.
+    \item \textbf{URL Tương Đối (\term{Relative URL})}: Địa chỉ tương đối so với trang hiện tại (cùng thư mục \codeinline{contact.html}, thư mục con \codeinline{pages/about.html}, thư mục cha \codeinline{../index.html}).
+    \item \textbf{Liên Kết Nội Bộ (\term{Internal Anchor Links})}: Trỏ đến phần tử có \codeinline{id="..."} duy nhất trên trang qua cú pháp \codeinline{href="\#id\_dich"}.
+    \item \textbf{Liên Kết Email (\codeinline{mailto:})}: Mở trình gửi email. Hỗ trợ tiêu đề và nội dung mặc định bằng cú pháp mã hóa URL (\codeinline{\%20} cho dấu cách).
+    \item \textbf{Liên Kết Điện Thoại (\codeinline{tel:})}: Kích hoạt cuộc gọi trên điện thoại.
+    \item \textbf{Liên Kết Tải Xuống (\codeinline{download})}: Gợi ý trình duyệt tải file thay vì mở trực tiếp.
+\end{enumerate}
+
+\begin{codeWindow}[Mã Nguồn: Các Loại Đường Dẫn Href Phổ Biến Trong Thẻ a]
+\begin{lstlisting}[language=HTML5]
+<!-- (*@1. URL Tuyệt đối@*) --><a href="https://www.example.com/pages/about.html">(*@Về chúng tôi@*)</a>
+<!-- (*@2. URL Tương đối@*) --><a href="contact.html">(*@Liên hệ@*)</a>
+<a href="../index.html">(*@Trang chủ@*)</a>
+
+<!-- (*@3. Liên kết nội bộ Anchor Link@*) --><h2 id="section1">(*@Giới thiệu sản phẩm@*)</h2>
+<a href="#section1">(*@Đi đến phần giới thiệu@*)</a>
+
+<!-- (*@4. Liên kết Email (Mailto)@*) --><a href="mailto:info@example.com?subject=Ho%20tro%20san%20pham&body=Toi%20co%20cau%20hoi:">(*@Gửi Email Hỗ Trợ@*)</a>
+
+<!-- (*@5. Liên kết Điện thoại (Tel)@*) --><a href="tel:+84123456789">(*@Gọi ngay: 0123.456.789@*)</a>
+
+<!-- (*@6. Liên kết Tải xuống (Download)@*) --><a href="document.pdf" download="BaoCaoQuy3.pdf">(*@Tải báo cáo PDF@*)</a>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Các Loại Đường Dẫn Href]
+\sffamily\small
+1. URL Tuyệt đối: \textcolor{primaryBlue}{\underline{Về chúng tôi}}\\[2pt]
+2. URL Tương đối: \textcolor{primaryBlue}{\underline{Liên hệ}} \quad$\vert$\quad \textcolor{primaryBlue}{\underline{Trang chủ}}\\[2pt]
+3. Anchor Link: \textcolor{primaryBlue}{\underline{Đi đến phần giới thiệu}}\\[2pt]
+4. Email: \textcolor{primaryBlue}{\underline{Gửi Email Hỗ Trợ}}\\[2pt]
+5. Tel: \textcolor{primaryBlue}{\underline{Gọi ngay: 0123.456.789}}\\[2pt]
+6. Download: \textcolor{primaryBlue}{\underline{Tải báo cáo PDF}}
+\end{browserWindow}
+
+\subsection{3. Phân Tích Chuyên Sâu Về href="\#" (Masterclass href="\#")}
+Dấu thăng \codeinline{href="\#"} đóng vai trò là một định danh mảnh (\term{Fragment Identifier}) rỗng. Khi nhấp vào liên kết \codeinline{href="\#"}:
+\begin{itemize}
+    \item Trình duyệt không tải lại trang nhưng sẽ \textbf{tự động cuộn mượt/giật lên đầu trang} (\codeinline{<body>} hoặc \codeinline{<html>}).
+    \item Đôi khi thêm ký tự \codeinline{\#} vào cuối URL trên thanh địa chỉ.
+\end{itemize}
+
+\begin{warnBox}[Cạm Bẫy Giật Cuộn Trang Khi Dùng href="\#"]
+Nếu bạn dùng \codeinline{href="\#"} để chạy hàm JavaScript (như mở Modal, bật Menu) mà không ngăn hành vi mặc định, người dùng sẽ bị giật cuộn lên đầu trang rất khó chịu!
+\end{warnBox}
+
+\subsubsection{Các Cách Ngăn Hành Vi Mặc Định Của href="\#"}
+\begin{codeWindow}[Mã Nguồn: Ngăn Hành Vi Cuộn Trang Khi Dùng href="\#"]
+\begin{lstlisting}[language=HTML5]
+<!-- (*@Cách 1: Dùng e.preventDefault() trong JavaScript (Khuyên dùng)@*) --><a href="#" id="openModalBtn">(*@Mở Hộp Thoại@*)</a><script>
+  document.getElementById('openModalBtn').addEventListener('click', function(e) {
+    e.preventDefault(); // (*@Ngăn hành vi cuộn mượt mặc định@*)
+    alert('(*@Hộp thoại đã mở!@*)');
+  });
+</script>
+
+<!-- (*@Cách 2: Dùng return false trong inline onclick@*) --><a href="#" onclick="alert('(*@Đã@*) click!'); return false;">(*@Click tôi@*)</a>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thẻ a Ngăn Cuộn Mặc Định]
+\sffamily\small
+\tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!40, left=8pt, right=8pt, top=3pt, bottom=3pt]{\textcolor{primaryBlue}{\bfseries Mở Hộp Thoại}} \;\;
+\textit{(Trang web giữ nguyên vị trí cuộn khi người dùng click vào nút!)}
+\end{browserWindow}
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lXX}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Giải Pháp Thay Thế} & \color{white}\textbf{Ưu / Nhược Điểm} & \color{white}\textbf{Khuyên Dùng Khi Nào?} \\
+\hline
+\codeinline{<a href="\#">} + \codeinline{preventDefault()} & Tạo nút bấm giả, giữ được focus phím Tab. & Khi cần giả lập link chạy JS. \\
+\codeinline{<a href="javascript:void(0)">} & Không cuộn trang nhưng kém a11y & Không khuyến khích. \\
+\codeinline{<button type="button">} & \textbf{Chuẩn ngữ nghĩa a11y 100\%} & \textbf{Rất khuyên dùng} cho các hành động JS không điều hướng trang. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{So sánh giữa href="\#", href="javascript:void(0)" và thẻ button}
+\end{table}
+
+\subsection{4. Bảng Tra Cứu Các Thuộc Tính Quan Trọng Của Thẻ <a>}
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Hành Vi} \\
+\hline
+\codeinline{href} & URL chuẩn & Đường dẫn trỏ đến trang/tài nguyên đích. \\
+\codeinline{target} & \codeinline{\_self}, \codeinline{\_blank}, \codeinline{\_parent}, \codeinline{\_top} & Nơi hiển thị trang mới (\codeinline{\_blank} mở tab mới). \\
+\codeinline{rel} & \codeinline{noopener}, \codeinline{noreferrer}, \codeinline{nofollow}, \codeinline{external} & Khai báo mối quan hệ SEO và bảo mật. \\
+\codeinline{download} & Tên file tùy chọn & Ép trình duyệt tải file về thay vì mở trên web. \\
+\codeinline{title} & Chuỗi văn bản & Tooltip hiển thị khi di chuột qua liên kết. \\
+\codeinline{ping} & URLs phân cách khoảng trắng & Gửi request theo dõi lượt nhấp (Analytics tracking). \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Toàn bộ các thuộc tính nâng cao của thẻ <a>}
+\end{table}
+
+\begin{warnBox}[Bảo Mật Với target="\_blank" \& rel="noopener noreferrer"]
+Khi dùng \codeinline{target="\_blank"} mở tab mới, trang mới có thể can thiệp vào trang cũ qua \codeinline{window.opener} (\term{Tấn công Tabnabbing}). 
+\textbf{Luôn bổ sung}: \codeinline{rel="noopener noreferrer"} khi mở liên kết ngoại trang tab mới!
+\end{warnBox}
+
+\begin{codeWindow}[Mã Nguồn: Liên Kết Mở Tab Mới An Toàn Chuẩn SEO \& Bảo Mật]
+\begin{lstlisting}[language=HTML5]
+<a href="https://www.example.org" target="_blank" rel="noopener noreferrer" title="(*@Ghé thăm trang web bên ngoài@*)">
+  (*@Trang Web Bên Ngoài (Mở Tab Mới)@*)
+</a>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Target \_blank An Toàn]
+\sffamily\small
+\textcolor{primaryBlue}{\underline{Trang Web Bên Ngoài (Mở Tab Mới)}} \;\; \textcolor{gray!70}{\small(Hiển thị tooltip: "Ghé thăm trang web bên ngoài")}
+\end{browserWindow}
+
+\subsection{5. Thẻ <a> Với Nội Dung Khối (Clickable UI Cards)}
+Trong HTML5, bạn có quyền bọc các phần tử khối (\codeinline{<div>}, \codeinline{<h3>}, \codeinline{<p>}, \codeinline{<img>}) bên trong thẻ \codeinline{<a>} để biến toàn bộ một \textbf{Card UI} thành khu vực nhấp chuột chuyển hướng.
+
+\begin{codeWindow}[Mã Nguồn: Bọc Khối UI Card Bên Trong Thẻ a Để Nhấp Chuyển Trang]
+\begin{lstlisting}[language=HTML5]
+<!-- (*@HTML5 cho phép bọc khối div bên trong thẻ a@*) --><a href="/blog/html5-masterclass" class="blog-card-link">
+  <div class="blog-card">
+    <img src="thumbnail.jpg" alt="(*@Ảnh đại diện bài viết@*)">
+    <h3>(*@Khóa Học HTML5 Masterclass 2026@*)</h3>
+    <p>(*@Tìm hiểu toàn bộ thẻ HTML5 ngữ nghĩa chuẩn SEO...@*)</p>
+  </div>
+</a>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Clickable UI Card]
+\sffamily\small
+\begin{tcolorbox}[colback=white, colframe=primaryBlue!30, arc=6pt, drop shadow=black!6!white]
+\tcbox[on line, colback=primaryBlue!10, colframe=primaryBlue!30, arc=3pt]{\small\color{primaryBlue}[Ảnh Thumbnail]} \\[4pt]
+{\bfseries\color{primaryBlue} Khóa Học HTML5 Masterclass 2026}\\[2pt]
+{\small Tìm hiểu toàn bộ thẻ HTML5 ngữ nghĩa chuẩn SEO...}
+\end{tcolorbox}
+\end{browserWindow}
+
+\subsection{6. Tạo Kiểu Thẻ <a> Bằng CSS \& Pseudo-Classes (Quy Tắc LVHA)}
+Trạng thái của thẻ \codeinline{<a>} được điều khiển bởi 5 Lớp giả (\term{Pseudo-classes}) theo quy tắc ưu tiên \textbf{LVHA}:
+\begin{enumerate}
+    \item \codeinline{a:link}: Liên kết ban đầu chưa được truy cập.
+    \item \codeinline{a:visited}: Liên kết đã từng được người dùng nhấp ghé thăm.
+    \item \codeinline{a:focus}: Liên kết đang nhận tiêu điểm bàn phím (ấn phím Tab).
+    \item \codeinline{a:hover}: Con trỏ chuột đang di chuyển đè lên liên kết.
+    \item \codeinline{a:active}: Liên kết đang trong khoảng thời gian đè giữ chuột.
+\end{enumerate}
+
+\begin{codeWindow}[Mã Nguồn: CSS Định Kiểu Thẻ a Thành Button Nút Bấm Với Quy Tắc LVHA]
+\begin{lstlisting}[language=HTML5]
+<style>
+  /* (*@1. Kỹ thuật tạo nút bấm từ thẻ a@*) */
+  .btn-link {
+    display: inline-block;
+    background: #0F4C81;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+
+  /* (*@2. Thứ tự ưu tiên LVHA@*) */
+  a:link { color: #0F4C81; text-decoration: none; }
+  a:visited { color: #5E35B1; }
+  a:focus { outline: 2px solid #E65100; outline-offset: 2px; }
+  a:hover { color: #E65100; text-decoration: underline; }
+  a:active { color: #008080; }
+</style>
+
+<a href="/courses" class="btn-link">(*@Khám Phá Khóa Học@*)</a>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thẻ a Tạo Kiểu Thành Button]
+\sffamily\small
+\tcbox[on line, arc=4pt, colback=primaryBlue, colframe=primaryBlue, boxsep=3pt, left=14pt, right=14pt, top=5pt, bottom=5pt]{\color{white}\bfseries Khám Phá Khóa Học}
+\end{browserWindow}
+
+
+% ------------------------------------------------------------------------------
+\section{Nhóm Thẻ Nhấn Mạnh Văn Bản <strong>, <em>, <mark>, <small>, <s>, <del>, <ins>}
+\subsection{1. Lý Thuyết \& Mục Đích Ngữ Nghĩa}
+- \codeinline{<strong>}: Văn bản có tầm quan trọng đặc biệt (In đậm).
+- \codeinline{<em>}: Nhấn mạnh ngữ điệu nói (In nghiêng).
+- \codeinline{<mark>}: Tô sáng văn bản tìm kiếm (Mặc định nền vàng).
+- \codeinline{<small>}: Văn bản ghi chú nhỏ (Bản quyền, miễn trừ trách nhiệm).
+- \codeinline{<del>} \& \codeinline{<ins>}: Văn bản bị xóa bỏ (gạch ngang) và văn bản được thêm mới (gạch chân) kèm thuộc tính \codeinline{datetime}.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Ứng Dụng Nhóm Thẻ Nhấn Mạnh Văn Bản]
+\begin{lstlisting}[language=HTML5]
+<p>(*@Giá gốc:@*)<del>(*@500.000 VNĐ@*)</del> <ins datetime="2026-07-20">(*@350.000 VNĐ@*)</ins></p>
+<p>(*@Từ khóa tìm kiếm:@*)<mark>HTML5 Masterclass</mark></p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Nhóm Thẻ Nhấn Mạnh Văn Bản]
+\sffamily\small
+Giá gốc: \sout{\color{gray!80}500.000 VNĐ} \;\; \underline{\color{primaryBlue}\bfseries 350.000 VNĐ}\\[4pt]
+Từ khóa tìm kiếm: \tcbox[on line, colback=yellow!60!orange!40, colframe=yellow!70!orange, arc=2pt, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\bfseries HTML5 Masterclass}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Nhóm Thẻ Kỹ Thuật <code>, <kbd>, <var>, <samp>}
+\subsection{1. Lý Thuyết \& Mục Đích Sử Dụng}
+- \codeinline{<code>}: Hiển thị đoạn mã máy tính.
+- \codeinline{<kbd>}: Đại diện cho phím bấm bàn phím người dùng ấn.
+- \codeinline{<var>}: Biến toán học hoặc lập trình.
+- \codeinline{<samp>}: Kết quả mẫu xuất ra từ chương trình máy tính.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Kết Hợp Các Thẻ Kỹ Thuật Code, Kbd, Var]
+\begin{lstlisting}[language=HTML5]
+<p>(*@Nhấn@*)<kbd>Ctrl</kbd> + <kbd>C</kbd>(*@để sao chép biến@*)<var>x</var>(*@trong hàm@*)<code>main()</code>.</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Nhóm Thẻ Kỹ Thuật Code, Kbd, Var]
+\sffamily\small
+Nhấn \tcbox[on line, arc=3pt, colback=gray!15, colframe=gray!40, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\ttfamily\bfseries Ctrl} + \tcbox[on line, arc=3pt, colback=gray!15, colframe=gray!40, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\ttfamily\bfseries C} để sao chép biến \textit{x} trong hàm \codeinline{main()}.
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Nhóm Thẻ Thời Gian \& Mã Số <time> \& <data>}
+\subsection{1. Lý Thuyết \& Thuộc Tính datetime/value}
+- \codeinline{<time datetime="YYYY-MM-DDThh:mm:ss">}: Chuẩn hóa mốc thời gian cho con bọ tìm kiếm và trình đọc màn hình.
+- \codeinline{<data value="...">}: Gắn mã sản phẩm / ID máy tính đọc được với tên hiển thị.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thẻ Thời Gian Time Và Thẻ Mã Số Data]
+\begin{lstlisting}[language=HTML5]
+<p>(*@Đăng ngày@*)<time datetime="2026-07-20T08:30">(*@20 Tháng 7, 2026@*)</time></p>
+<p>(*@Sản phẩm:@*)<data value="PROD-9982">Laptop Dell XPS</data></p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thẻ Time \& Thẻ Data]
+\sffamily\small
+Đăng ngày 20 Tháng 7, 2026\\[2pt]
+Sản phẩm: Laptop Dell XPS \textcolor{gray!70}{\small(Thuộc tính ngầm value="PROD-9982")}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Từ Viết Tắt <abbr> \& Định Nghĩa <dfn>}
+\subsection{1. Lý Thuyết \& Thuộc Tính title}
+- \codeinline{<abbr title="...">}: Từ viết tắt. Thuộc tính \codeinline{title} chứa cụm từ giải nghĩa đầy đủ hiển thị khi di chuột.
+- \codeinline{<dfn>}: Đánh dấu thuật ngữ lần đầu tiên được định nghĩa trong bài viết.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thẻ Từ Viết Tắt Abbr Và Định Nghĩa Dfn]
+\begin{lstlisting}[language=HTML5]
+<p><dfn><abbr title="HyperText Markup Language">HTML</abbr></dfn>(*@là ngôn ngữ đánh dấu siêu văn bản chuẩn của Web.@*)</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thẻ Abbr \& Thẻ Dfn]
+\sffamily\small
+\textit{\underline{HTML}} (HyperText Markup Language) là ngôn ngữ đánh dấu siêu văn bản chuẩn của Web.
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Nhóm Thẻ Đa Ngôn Ngữ \& Ruby Annotations <bdi>, <bdo>, <ruby>, <rt>, <rp>}
+\subsection{1. Lý Thuyết \& Chú Thích Phát Âm}
+- \codeinline{<bdi>}: Cô lập đoạn văn bản không rõ hướng đọc (RTL/LTR).
+- \codeinline{<bdo dir="rtl|ltr">}: Ép buộc hướng đọc văn bản.
+- \codeinline{<ruby>}, \codeinline{<rt>}, \codeinline{<rp>}: Hệ thống thẻ chú thích phiên âm phát âm trên đầu chữ Á Đông.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Chú Thích Phát Âm Chữ Á Đông Với Thẻ Ruby]
+\begin{lstlisting}[language=HTML5]
+<ruby>
+  Kan <rp>(</rp><rt>kan</rt><rp>)</rp>
+  Ji <rp>(</rp><rt>ji</rt><rp>)</rp>
+</ruby>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Chú Thích Phiên Âm Ruby]
+\sffamily\small
+\begin{tabular}{c c}
+\tiny kan & \tiny ji \\
+\bfseries Kan & \bfseries Ji \\
+\end{tabular}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Chia Khối <div> \& Thẻ Inline <span>}
+\subsection{1. Lý Thuyết \& Cảnh Báo Lạm Dụng Div/Span}
+\codeinline{<div>} (Division) và \codeinline{<span>} là hai thẻ "khô" không mang bất kỳ ý nghĩa ngữ nghĩa nào, được sử dụng làm container gom nhóm để định kiểu CSS hoặc thao tác JavaScript.
+
+\begin{warnBox}[Cảnh Báo Hội Chứng Divitis (Div-Soup)]
+Không sử dụng \codeinline{<div onClick="...">} thay thế cho thẻ \codeinline{<button>} hoặc \codeinline{<a>}. Việc lạm dụng thẻ div vô nghĩa thay cho thẻ ngữ nghĩa sẽ phá hỏng toàn bộ điểm số SEO và khiến người khiếm thị không thể sử dụng trang web!
+\end{warnBox}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Gom Nhóm Container Div Và Span Hợp Lệ]
+\begin{lstlisting}[language=HTML5]
+<div class="card-wrapper">
+  <span class="badge badge-success">(*@Mới@*)</span>
+  <p>(*@Nội dung thẻ card...@*)</p>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Gom Nhóm Div \& Span]
+\sffamily\small
+\begin{tcolorbox}[colback=white, colframe=gray!30, arc=4pt]
+\tcbox[on line, arc=3pt, colback=green!70!black, colframe=green!70!black, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\color{white}\bfseries\tiny Mới} \\[4pt]
+Nội dung thẻ card...
+\end{tcolorbox}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Khối Chú Thích Hình Ảnh \& Sơ Đồ <figure> \& <figcaption>}
+\subsection{1. Lý Thuyết \& Accessibility (a11y)}
+Thẻ \codeinline{<figure>} đại diện cho một đơn vị nội dung tự chứa độc lập (Hình ảnh, sơ đồ, minh họa, đoạn mã nguồn), thường đi kèm với một chú thích \codeinline{<figcaption>} bên dưới hoặc bên trên. Trình đọc màn hình và con bọ tìm kiếm Googlebot gắn kết chặt chẽ chú thích này với hình ảnh/sơ đồ tương ứng để tối ưu SEO hình ảnh.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Nhúng Hình Ảnh Minh Họa Kèm Chú Thích Figure Và Figcaption]
+\begin{lstlisting}[language=HTML5]
+<figure class="article-image">
+  <img src="dom-tree.png" alt="(*@Sơ đồ cây DOM trong HTML5@*)" loading="lazy">
+  <figcaption>(*@Hình 4.1: Sơ đồ phân cấp cây Document Object Model (DOM).@*)</figcaption>
+</figure>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Khối Figure Kèm Chú Thích Figcaption]
+\sffamily\small
+\begin{tcolorbox}[colback=gray!10, colframe=gray!30, width=0.85\linewidth, arc=4pt]
+\centering
+\textcolor{gray!80}{\small [Hình ảnh minh họa: Sơ đồ cây DOM trong HTML5]}\\[6pt]
+\textit{\small Hình 4.1: Sơ đồ phân cấp cây Document Object Model (DOM).}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Chỉ Số \& Trích Dẫn Nguồn <sub>, <sup>, <cite>}
+\subsection{1. Lý Thuyết \& Ứng Dụng Trong Khoa Học \& Văn Bản}
+\begin{itemize}
+    \item \codeinline{<sub>} (\term{Subscript}): Chỉ số dưới, dùng hiển thị công thức hóa học ($H_2O$), chỉ số mảng toán học.
+    \item \codeinline{<sup>} (\term{Superscript}): Chỉ số trên, dùng hiển thị lũy thừa ($E=mc^2$), diện tích ($m^2$) hoặc chú thích chân trang (\term{Footnote}).
+    \item \codeinline{<cite>}: Đánh dấu tên nguồn trích dẫn của một tác phẩm (Tên sách, bài báo, bài hát, phim, nghiên cứu khoa học).
+\end{itemize}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Sử Dụng Thẻ Sub, Sup Và Cite]
+\begin{lstlisting}[language=HTML5]
+<!-- (*@Công thức hóa học và toán học@*) --><p>(*@Công thức phân tử nước là H@*)<sub>2</sub>(*@O và diện tích căn phòng là 45 m@*)<sup>2</sup>.</p>
+
+<!-- (*@Trích dẫn tên tác phẩm@*) --><p>(*@Theo cuốn sách@*)<cite>(*@Bách Khoa Lập Trình Web 2026@*)</cite>(*@, HTML5 là nền tảng của mọi trang web.@*)</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Chỉ Số Sub, Sup \& Trích Dẫn Cite]
+\sffamily\small
+Công thức phân tử nước là H\textsubscript{2}O và diện tích căn phòng là 45 m\textsuperscript{2}.\\[4pt]
+Theo cuốn sách \textit{Bách Khoa Lập Trình Web 2026}, HTML5 là nền tảng của mọi trang web.
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Ngắt Dòng \& Ngắt Từ Linh Hoạt <br> \& <wbr>}
+\subsection{1. Lý Thuyết \& So Sánh Behavior}
+\begin{itemize}
+    \item \codeinline{<br>} (\term{Line Break}): Ép trình duyệt xuống dòng ngay lập tức tại vị trí đặt thẻ (không được dùng \codeinline{<br>} để tạo khoảng cách giữa các đoạn văn thay cho CSS margin!).
+    \item \codeinline{<wbr>} (\term{Word Break Opportunity}): Khai báo một vị trí trình duyệt \textbf{được phép ngắt dòng nếu cần thiết} khi hiển thị trên màn hình nhỏ di động (rất hữu ích cho các đường dẫn URL siêu dài hoặc các từ ghép tiếng Đức/Anh dài).
+\end{itemize}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Sử Dụng Thẻ Br Ngắt Dòng Và Wbr Ngắt Từ Linh Hoạt]
+\begin{lstlisting}[language=HTML5]
+<!-- (*@Ngắt dòng trong địa chỉ thơ văn@*) --><p>EduWeb Academy<br>(*@123 Đường Cầu Giấy@*)<br>(*@Hà Nội, Việt Nam@*)</p>
+
+<!-- (*@Ngắt từ linh hoạt cho đường dẫn dài@*) --><p>(*@Truy cập: https://eduweb.vn/courses/html5@*)<wbr>-masterclass<wbr>-advanced<wbr>-2026.html</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Ngắt Dòng Br \& Ngắt Từ Wbr]
+\sffamily\small
+EduWeb Academy\\
+123 Đường Cầu Giấy\\
+Hà Nội, Việt Nam\\[6pt]
+Truy cập: \textcolor{primaryBlue}{\underline{https://eduweb.vn/courses/html5-masterclass-advanced-2026.html}}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Định Dạng Giao Diện Phân Biệt Ngữ Nghĩa <b>, <i>, <u>}
+\subsection{1. Lý Thuyết \& Phân Biệt Với Strong / Em}
+HTML5 phân biệt rõ ràng giữa thẻ định kiểu giao diện thuần túy và thẻ mang ngữ nghĩa:
+\begin{itemize}
+    \item \codeinline{<b>} (\term{Bring Attention To}): Làm đậm văn bản thuần thị giác mà \textbf{không làm tăng độ quan trọng} (khác với \codeinline{<strong>}).
+    \item \codeinline{<i>} (\term{Idiomatic Text}): In nghiêng văn bản dành cho thuật ngữ kỹ thuật, từ ngoại ngữ, tên loài khoa học, suy nghĩ nội tâm (khác với \codeinline{<em>} nhấn mạnh giọng đọc).
+    \item \codeinline{<u>} (\term{Unarticulated Annotation}): Gạch chân văn bản đánh dấu từ sai chính tả hoặc tên riêng tiếng Trung/Nhật.
+\end{itemize}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thẻ b, i Và u Chuẩn Ngữ Nghĩa HTML5]
+\begin{lstlisting}[language=HTML5]
+<p>(*@Tên khoa học của loài mèo là@*)<i>Felis catus</i>.</p>
+<p>(*@Vui lòng chú ý từ@*)<b>(*@lưu ý@*)</b>(*@trong hợp đồng.@*)</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Định Dạng Thẻ b, i, u]
+\sffamily\small
+Tên khoa học của loài mèo là \textit{Felis catus}.\\[4pt]
+Vui lòng chú ý từ \textbf{lưu ý} trong hợp đồng.
+\end{browserWindow}
+
+\subsection{3. Đọc Thêm: Phân Biệt Ngữ Nghĩa Trợ Năng (Screen Reader Sound Modulation)}
+
+\begin{tipBox}[Sự Khác Biệt Giữa Định Kiểu Thị Giác Và Âm Thanh Trợ Năng]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item \textbf{Thẻ \codeinline{<b>} \& \codeinline{<i>}}: Chỉ thay đổi diện mạo thị giác trên màn hình (\term{Visual Styling}). Trình đọc màn hình (Screen Reader) sẽ đọc các từ này với giọng đọc bình thường không thay đổi.
+    \item \textbf{Thẻ \codeinline{<strong>} \& \codeinline{<em>}}: Thay đổi ngữ nghĩa cảm xúc và tầm quan trọng (\term{Semantic Emphasis}). Trình đọc màn hình như NVDA hoặc JAWS sẽ **tự động tăng âm lượng, thay đổi cao độ giọng đọc** hoặc đọc nhấn mạnh từ đó để thông báo cho người khiếm thị!
+\end{itemize}
+\end{tipBox}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Danh Sách Nút Hành Động <menu>}
+\subsection{1. Lý Thuyết \& Ngữ Nghĩa Toolbar}
+Thẻ \codeinline{<menu>} trong chuẩn HTML5 Living Standard là một phiên bản ngữ nghĩa của thẻ \codeinline{<ul>}, đại diện cho một danh sách không thứ tự chứa các nút bấm hành động (\term{Toolbar / Context Menu}) thay vì danh sách các liên kết điều hướng.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{codeWindow}[Mã Nguồn: Thanh Công Cụ Thao Tác Bài Viết Với Thẻ Menu]
+\begin{lstlisting}[language=HTML5]
+<menu class="editor-toolbar">
+  <li><button type="button">(*@Sao Chép@*)</button></li>
+  <li><button type="button">(*@Dán@*)</button></li>
+  <li><button type="button">(*@Xóa Bài@*)</button></li>
+</menu>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thanh Menu Công Cụ]
+\sffamily\small
+\tcbox[on line, arc=3pt, colback=gray!15, colframe=gray!30, boxsep=2pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{\bfseries Sao Chép} \;\;
+\tcbox[on line, arc=3pt, colback=gray!15, colframe=gray!30, boxsep=2pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{\bfseries Dán} \;\;
+\tcbox[on line, arc=3pt, colback=red!70!black, colframe=red!70!black, boxsep=2pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{\color{white}\bfseries Xóa Bài}
+\end{browserWindow}
+
+\section{Tóm Tắt Chương 4}
+Chương 4 đã phân tích trọn bộ 27 mục section riêng biệt dành cho toàn bộ các thẻ thuộc nhóm Bố cục ngữ nghĩa và Định dạng văn bản. Chương tiếp theo sẽ tiến sang hệ thống Thẻ Bảng Biểu và Thẻ Tương Tác Nội Tạng.
+

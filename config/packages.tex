@@ -1,0 +1,110 @@
+% ==============================================================================
+% CONFIG: PACKAGES.TEX
+% Các thư viện LaTeX sử dụng cho cuốn sách "Học Lập Trình Web - Chuyên Sâu Frontend"
+% Trình biên dịch: XeLaTeX (Hỗ trợ tiếng Việt Unicode & Font hệ thống)
+% ==============================================================================
+
+% 0. Bộ lọc triệt tiêu toàn bộ cảnh báo nhật ký (Silence Harmless Warnings)
+\usepackage{silence}
+\WarningFilter{tcolorbox}{Using nobreak failed}
+\WarningFilter{babel}{No hyphenation patterns}
+\WarningFilter{microtype}{Unable to apply patch}
+\WarningFilter{rerunfilecheck}{File `main.out'}
+
+% 1. Hỗ trợ phông chữ Unicode & Tiếng Việt cho XeLaTeX
+\usepackage{fontspec}
+\usepackage[vietnamese]{babel}
+\shorthandoff{"}
+
+% 2. Định dạng lề trang sách chuyên nghiệp (Chuẩn khổ A4 / Book)
+\usepackage[
+    paper=a4paper,
+    top=2.6cm,
+    bottom=2.6cm,
+    left=2.5cm,   % Lề trái cân đối
+    right=2.5cm,  % Lề phải cân đối
+    headheight=26pt,
+    headsep=20pt,
+    footskip=30pt
+]{geometry}
+
+% 3. Bảng màu cao cấp (Modern Palettes)
+\usepackage{xcolor}
+\usepackage{colortbl}
+\definecolor{primaryBlue}{HTML}{0F4C81}     % Classic Navy/Royal Blue (Màu chủ đạo)
+\definecolor{secondaryTeal}{HTML}{008080}   % Teal Accent
+\definecolor{darkText}{HTML}{1A1A1A}        % Màu chữ đen dịu
+\definecolor{accentOrange}{HTML}{E65100}    % Cam điểm nhấn
+\definecolor{accentPurple}{HTML}{5E35B1}    % Tím sang trọng
+\definecolor{codeBg}{HTML}{F8FAFC}          % Nền code xám nhạt chuẩn VS Code Light
+\definecolor{codeBorder}{HTML}{CBD5E1}      % Viền code Slate
+\definecolor{codeComment}{HTML}{64748B}     % Màu chú thích code Slate
+\definecolor{codeKeyword}{HTML}{D97706}     % Từ khóa Cam/Hổ phách đậm
+\definecolor{codeString}{HTML}{059669}      % Chuỗi ký tự Xanh Ngọc Emerald
+\definecolor{codeKey}{HTML}{0284C7}         % Tên thuộc tính/Headers Xanh Cyan
+\definecolor{codeNumber}{HTML}{7C3AED}      % Giá trị số Tím Indigo
+
+% Màu cho các loại Callout Boxes
+\definecolor{noteBg}{HTML}{F0F7FF}
+\definecolor{noteBorder}{HTML}{0F4C81}
+\definecolor{tipBg}{HTML}{F0FDF4}
+\definecolor{tipBorder}{HTML}{16A34A}
+\definecolor{warnBg}{HTML}{FFFBEB}
+\definecolor{warnBorder}{HTML}{D97706}
+\definecolor{conceptBg}{HTML}{F5F3FF}
+\definecolor{conceptBorder}{HTML}{7C3AED}
+
+% 4. Đồ họa, Vẽ hình TikZ & Chèn ảnh
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usetikzlibrary{shapes, shadows, arrows.meta, positioning, calc, decorations.pathreplacing, fit}
+
+% 5. Bảng biểu nâng cao
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{ragged2e} % Hỗ trợ căn lề RaggedRight thông minh triệt tiêu lỗi giãn chữ thưa trong tcolorbox
+
+% 6. Hộp ghi chú & Callout cao cấp (tcolorbox)
+\usepackage[most]{tcolorbox}
+
+% 7. Tô màu mã nguồn (Listings)
+\usepackage{listings}
+
+% 8. Header & Footer chuyên nghiệp
+\usepackage{fancyhdr}
+
+% 9. Định dạng tiêu đề Chapter, Section & Part (titlesec & titletoc)
+\usepackage{titlesec}
+\usepackage{titletoc}
+
+% 10. Hyperlink & Metadata PDF
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryBlue,
+    citecolor=secondaryTeal,
+    urlcolor=accentOrange,
+    pdfauthor={Đội Ngũ Lập Trình Web},
+    pdftitle={Học Lập Trình Web - Chuyên Sâu Frontend},
+    pdfkeywords={Frontend, HTML5, CSS3, JavaScript, Web Development, XeLaTeX}
+}
+
+% 11. Tiện ích danh sách, Căn lề & Giãn dòng chuẩn sách in
+\usepackage{indentfirst} % Bắt buộc lùi đầu dòng cho mọi đoạn văn (kể cả đoạn đầu sau tiêu đề)
+\setlength{\parindent}{18pt} % Độ lùi đầu dòng 18pt
+\setlength{\parskip}{2pt}    % Khoảng cách giữa các đoạn văn vừa phải
+
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+\setlist[itemize]{leftmargin=1.8em, itemsep=2pt, parsep=0pt, topsep=3pt, partopsep=0pt}
+\setlist[enumerate]{leftmargin=1.8em, itemsep=2pt, parsep=0pt, topsep=3pt, partopsep=0pt}
+\usepackage{microtype}
+\microtypesetup{patch=none}
+\usepackage{setspace}
+\setstretch{1.15} % Giãn dòng 1.15 gọn gàng, tiết kiệm trang sách
+\usepackage{needspace}

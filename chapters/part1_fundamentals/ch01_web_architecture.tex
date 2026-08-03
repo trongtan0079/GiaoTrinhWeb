@@ -1,0 +1,1446 @@
+% ==============================================================================
+% CHƯƠNG 1: KIẾN TRÚC WEB & CÁCH TRÌNH DUYỆT HOẠT ĐỘNG
+% ==============================================================================
+\chapter{Kiến Trúc Web \& Các Khái Niệm Cốt Lõi}
+\label{chap:web_architecture}
+
+\section{Lịch Sử và Nguồn Gốc của Lập Trình Web}
+\label{sec:web_history}
+
+Lập trình web đã phát triển vượt bậc trong hơn 30 năm qua, từ những trang web tĩnh đầu tiên cho đến các ứng dụng web động mạnh mẽ ngày nay. Dưới đây là cái nhìn tổng quan về lịch sử lập trình web.
+
+\subsection{Những năm đầu của World Wide Web (1990 -- 1995)}
+
+\begin{prettyTableBox}[Các Mốc Lịch Sử World Wide Web (1990 -- 1995)]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}\centering\arraybackslash}p{2.2cm} X}
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{Năm}} & \textcolor{white}{\textbf{Sự kiện quan trọng}} \\
+1989 & Tim Berners-Lee đề xuất ý tưởng về World Wide Web (WWW) tại CERN. \\
+1990 & Berners-Lee phát triển trình duyệt web đầu tiên: WorldWideWeb (NeXT). \\
+1991 & Trang web đầu tiên ra đời tại CERN, chỉ có văn bản và các liên kết. \\
+1993 & Trình duyệt đồ họa đầu tiên Mosaic được phát triển, giúp web phổ biến hơn. \\
+1994 & Netscape Navigator ra mắt, thống trị thị trường trình duyệt. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{\textbf{Đặc điểm:}}
+\begin{itemize}
+    \item Trang web hoàn toàn tĩnh, chỉ hiển thị văn bản và hình ảnh.
+    \item Sử dụng HTML cơ bản để tạo các trang web đơn giản.
+\end{itemize}
+
+\paragraph{Ví dụ trang web đầu tiên:}
+\begin{codeWindow}[Mã Nguồn HTML Trang Web Đầu Tiên]
+\begin{lstlisting}[language=HTML5, frame=none]
+<html>
+  <head><title>(*@Trang web đầu tiên@*)</title></head>
+  <body>
+    <h1>(*@Chào mừng đến với World Wide Web!@*)</h1>
+    <p>(*@Đây là trang web đầu tiên trên thế giới.@*)</p>
+  </body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{noteBox}[Bổ sung kiến thức: Sự ra đời của HTML]
+HTML (HyperText Markup Language) ban đầu do Tim Berners-Lee thiết kế năm 1991 chỉ bao gồm 18 thẻ cơ bản. Mục đích chính ban đầu của HTML chỉ là chia sẻ các tài liệu nghiên cứu khoa học có chứa liên kết siêu văn bản (\textit{hyperlinks}) giữa các nhà vật lý tại CERN.
+\end{noteBox}
+
+\subsection{Sự phát triển của Web động (1995 -- 2005)}
+
+\begin{prettyTableBox}[Công Nghệ Động \& Hệ CSDL Đầu Tiên (1995 -- 2005)]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}\centering\arraybackslash}p{2.2cm} X}
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{Năm}} & \textcolor{white}{\textbf{Công nghệ quan trọng}} \\
+1995 & JavaScript ra đời bởi Netscape, giúp tạo hiệu ứng động. \\
+1995 & PHP (Personal Home Page) xuất hiện, hỗ trợ tạo web động. \\
+1995 & MySQL ra mắt, giúp quản lý cơ sở dữ liệu cho web. \\
+1996 & CSS1 ra đời, giúp định dạng giao diện web dễ dàng hơn. \\
+2000 & XHTML ra mắt, giúp chuẩn hóa HTML. \\
+2003 & WordPress được phát triển, giúp tạo blog dễ dàng. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Đặc điểm:}
+\begin{itemize}
+    \item Web bắt đầu có tính tương tác nhờ JavaScript.
+    \item Sự xuất hiện của PHP + MySQL giúp xây dựng website động.
+    \item CSS giúp tùy chỉnh giao diện dễ dàng hơn.
+\end{itemize}
+
+\paragraph{Ví dụ trang web động với PHP:}
+\begin{codeWindow}[Mã Nguồn PHP Minh Họa Trang Web Động]
+\begin{lstlisting}[language=PHP, frame=none]
+<?php
+(*@echo "Chào mừng! Hôm nay là " . date("Y-m-d");@*)
+?>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Kỷ nguyên LAMP Stack]
+Trong giai đoạn này, bộ tứ công nghệ \textbf{LAMP} (Linux, Apache, MySQL, PHP) đã trở thành tiêu chuẩn vàng thống trị ngành phát triển web động, là nền tảng khởi đầu cho các hệ quản trị nội dung (CMS) khổng lồ như WordPress, Joomla và Drupal.
+\end{tipBox}
+
+\subsection{Web 2.0 -- Mạng xã hội và Web động (2005 -- 2015)}
+
+\begin{prettyTableBox}[Kỷ Nguyên Web 2.0 \& Mạng Xã Hội (2005 -- 2015)]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}\centering\arraybackslash}p{2.2cm} X}
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{Năm}} & \textcolor{white}{\textbf{Công nghệ quan trọng}} \\
+2005 & AJAX giúp web tải dữ liệu mà không cần tải lại trang. \\
+2006 & Facebook API ra đời, mở ra kỷ nguyên mạng xã hội. \\
+2008 & Google Chrome ra mắt, hỗ trợ tốt JavaScript. \\
+2009 & Node.js xuất hiện, giúp viết backend bằng JavaScript. \\
+2010 & HTML5 và CSS3 ra mắt, cải tiến mạnh về đồ họa và video. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Đặc điểm:}
+\begin{itemize}
+    \item Web 2.0 xuất hiện với mạng xã hội như Facebook, Twitter.
+    \item AJAX giúp web trở nên nhanh và mượt hơn.
+    \item HTML5 \& CSS3 giúp phát triển web mạnh mẽ hơn.
+\end{itemize}
+
+\paragraph{Ví dụ AJAX gửi yêu cầu mà không tải lại trang:}
+\begin{codeWindow}[Yêu Cầu AJAX Sử Dụng Fetch API]
+\begin{lstlisting}[language=JavaScript, frame=none]
+fetch("server.php")
+  .then(response => response.text())
+  .then(data => console.log(data));
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Bước ngoặt AJAX \& Node.js]
+\textbf{AJAX} (Asynchronous JavaScript and XML) xóa bỏ trải nghiệm "trắng màn hình" mỗi khi người dùng click chuột. Trong khi đó, \textbf{Node.js} (2009) dựa trên V8 Engine của Chrome đã biến JavaScript từ ngôn ngữ kịch bản chạy ở trình duyệt thành ngôn ngữ lập trình đa nền tảng, cho phép lập trình viên dùng duy nhất JS cho cả Frontend và Backend (Full-stack JS).
+\end{conceptBox}
+
+\subsection{Web 3.0 -- Trí tuệ nhân tạo và Blockchain (2015 -- Nay)}
+
+\begin{prettyTableBox}[Kỷ Nguyên Web 3.0, AI \& Decentralized Apps (2015 -- Nay)]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}\centering\arraybackslash}p{2.2cm} X}
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{Năm}} & \textcolor{white}{\textbf{Công nghệ quan trọng}} \\
+2015 & React.js và Vue.js xuất hiện, giúp phát triển SPA (Single Page Application). \\
+2018 & WebAssembly cho phép chạy mã máy trên trình duyệt. \\
+2020 & AI, Chatbot, Blockchain tích hợp vào web. \\
+2022 & Web 3.0 với ứng dụng phi tập trung (DApps) phát triển mạnh. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Đặc điểm:}
+\begin{itemize}
+    \item SPA (Single Page Application): Web hoạt động mượt mà như ứng dụng di động.
+    \item AI \& Machine Learning giúp cá nhân hóa trải nghiệm web.
+    \item Web 3.0: Dữ liệu phân tán, bảo mật tốt hơn nhờ blockchain.
+\end{itemize}
+
+\paragraph{Ví dụ React.js tạo trang web hiện đại:}
+\begin{codeWindow}[Component React.js Hiện Đại]
+\begin{lstlisting}[language=JavaScript, frame=none]
+function App() {
+  return <h1>(*@Chào mừng đến với Web 3.0!@*)</h1>;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Tương lai của lập trình web}
+
+\begin{itemize}
+    \item \textbf{AI và Trí tuệ nhân tạo}: Các website sẽ trở nên thông minh hơn.
+    \item \textbf{Web 3.0 \& Blockchain}: Mạng phi tập trung giúp bảo mật tốt hơn.
+    \item \textbf{VR/AR Web}: Web sẽ hỗ trợ thực tế ảo (VR) và thực tế tăng cường (AR).
+    \item \textbf{No-code \& Low-code}: Xây dựng web mà không cần code nhiều.
+\end{itemize}
+
+\begin{noteBox}[Kết luận]
+Lập trình web đã phát triển mạnh mẽ trong hơn 30 năm và sẽ còn tiến xa hơn trong tương lai.
+\end{noteBox}
+
+% ==============================================================================
+% 2. MÔ HÌNH CLIENT - SERVER
+% ==============================================================================
+\section{Mô Hình Client -- Server (Client -- Server Architecture)}
+\label{sec:client_server}
+
+Mô hình \term{Client -- Server} là một mô hình kiến trúc mạng nền tảng, trong đó các máy tính được phân chia chức năng thành hai nhóm chính:
+
+\begin{itemize}
+    \item \term{Server (Máy chủ)}: Là máy tính chuyên nghiệp cung cấp tài nguyên, dữ liệu hoặc dịch vụ.
+    \item \term{Client (Máy khách)}: Là máy tính hoặc thiết bị gửi yêu cầu (\textit{Request}) đến Server để sử dụng tài nguyên/dịch vụ đó.
+\end{itemize}
+
+Thay vì mỗi máy tính phải tự lưu trữ toàn bộ dữ liệu, Client chỉ cần gửi yêu cầu (\textit{Request}), còn Server đảm nhận việc xử lý yêu cầu và trả về kết quả (\textit{Response}).
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[
+        enhanced,
+        width=\linewidth,
+        colback=codeBg,
+        colframe=primaryBlue!25,
+        arc=7pt,
+        boxrule=0.8pt,
+        top=8pt, bottom=8pt, left=4pt, right=4pt,
+        drop shadow=black!3!white
+    ]
+    \centering
+    \resizebox{0.85\linewidth}{!}{%
+    \begin{tikzpicture}[
+        >=stealth,
+        serverNode/.style={
+            draw=primaryBlue!80,
+            fill=primaryBlue!12,
+            thick,
+            rounded corners=6pt,
+            minimum height=1.1cm,
+            minimum width=3.2cm,
+            font=\sffamily\bfseries\small,
+            text=primaryBlue,
+            align=center
+        },
+        clientNode/.style={
+            draw=secondaryTeal!80,
+            fill=secondaryTeal!10,
+            thick,
+            rounded corners=5pt,
+            minimum height=0.85cm,
+            minimum width=2.4cm,
+            font=\sffamily\bfseries\small,
+            text=secondaryTeal,
+            align=center
+        },
+        connLine/.style={
+            <->,
+            thick,
+            primaryBlue!70,
+            line width=1.1pt
+        }
+    ]
+    % Server Top Center
+    \node[serverNode] (server) at (4, 2.2) {Server (Máy Chủ)\\ \scriptsize\normalfont Cung cấp dữ liệu \& dịch vụ};
+
+    % Clients Bottom
+    \node[clientNode] (c1) at (0, 0) {Client 1\\ \scriptsize (Máy tính)};
+    \node[clientNode] (c2) at (4, 0) {Client 2\\ \scriptsize (Điện thoại)};
+    \node[clientNode] (cn) at (8, 0) {Client N\\ \scriptsize (Máy tính bảng)};
+
+    % Connections
+    \draw[connLine] (c1.north) -- (server.south west) node[midway, left, font=\tiny\sffamily\color{codeComment}] {Request / Response};
+    \draw[connLine] (c2.north) -- (server.south) node[midway, right, font=\tiny\sffamily\color{codeComment}] {Request / Response};
+    \draw[connLine] (cn.north) -- (server.south east) node[midway, right, font=\tiny\sffamily\color{codeComment}] {Request / Response};
+    \end{tikzpicture}%
+    }
+    \end{tcolorbox}
+    \vspace{-2pt}
+    \caption{Mô hình Kiến trúc Client -- Server}
+    \label{fig:client_server_arch}
+\end{figure}
+
+\subsection{Cách hoạt động của Mô hình Client -- Server}
+
+Quá trình giao tiếp giữa Client và Server diễn ra theo chu kỳ 5 bước chính:
+
+\begin{conceptBox}[Quy Trình 5 Bước Giao Tiếp Client -- Server]
+\begin{enumerate}[label=\textbf{\color{conceptBorder}Bước \arabic*:}, leftmargin=4.5em, itemsep=3pt, parsep=0pt, topsep=4pt]
+    \item \textbf{Client gửi yêu cầu đến Server}: Ví dụ như mở website, đăng nhập tài khoản, xem sản phẩm hoặc gửi tin nhắn.
+    \item \textbf{Server tiếp nhận yêu cầu}: Máy chủ lắng nghe cổng mạng và nhận gói tin yêu cầu.
+    \item \textbf{Server xử lý dữ liệu}: Thực hiện truy vấn CSDL, kiểm tra quyền tài khoản, tính toán logic hoặc đọc file.
+    \item \textbf{Server gửi kết quả về Client}: Đóng gói dữ liệu kết quả và trả về qua phản hồi (\textit{Response}).
+    \item \textbf{Client hiển thị kết quả}: Trình duyệt hoặc ứng dụng hiển thị dữ liệu phản hồi cho người dùng.
+\end{enumerate}
+\end{conceptBox}
+
+\subsection{Ví dụ thực tế: Truy cập Website Google}
+
+Khi người dùng nhập địa chỉ \codeinline{https://google.com} vào trình duyệt:
+\begin{enumerate}[label=\textbf{\color{primaryBlue}\arabic*.}, leftmargin=2em, itemsep=2pt, parsep=0pt, topsep=2pt]
+    \item Trình duyệt (Client) gửi yêu cầu (\textit{Request}) đến máy chủ Google.
+    \item Máy chủ Google nhận yêu cầu.
+    \item Google xử lý yêu cầu tìm kiếm.
+    \item Máy chủ trả về trang HTML.
+    \item Trình duyệt hiển thị giao diện Google cho người dùng xem.
+\end{enumerate}
+\textit{Người dùng chỉ nhìn thấy kết quả cuối cùng mà không cần biết Server đã xử lý bên dưới phức tạp ra sao.}
+
+\subsection{Tìm hiểu sâu về Server (Máy chủ)}
+
+\paragraph{Khái niệm:} Server là máy tính hoặc hệ thống máy tính có nhiệm vụ \textbf{cung cấp dịch vụ, dữ liệu hoặc tài nguyên} cho nhiều Client cùng lúc thông qua kết nối mạng.
+
+\paragraph{Đặc điểm của Server:}
+\begin{itemize}
+    \item Hoạt động liên tục 24/7/365 không ngừng nghỉ.
+    \item Cấu hình phần cứng chuyên dụng (CPU nhiều nhân, RAM lớn, ổ SSD NVMe tốc độ cao).
+    \item Kết nối mạng băng thông rộng cao và ổn định.
+    \item Chạy hệ điều hành tối ưu cho máy chủ (\textit{Linux Server, Windows Server}).
+\end{itemize}
+
+\begin{prettyTableBox}[Các Loại Server Phổ Biến Trong Ngành Web]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{3.2cm} >{\bfseries}L{3.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Loại Server} & \thd{Nhiệm vụ chính} & \thd{Phần mềm / Công nghệ phổ biến} \\
+Web Server & Lưu trữ \& trả về HTML, CSS, JS & Apache, Nginx, IIS, LiteSpeed \\
+Database Server & Lưu trữ \& quản lý CSDL & MySQL, PostgreSQL, SQL Server, Oracle \\
+File Server & Chia sẻ tập tin trong mạng & NAS, Samba, FTP Server \\
+Mail Server & Xử lý gửi \& nhận Email & Microsoft Exchange, Postfix, Exim \\
+Application Server & Chạy ứng dụng doanh nghiệp & Tomcat, WildFly, GlassFish, Node.js \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Một Máy Chủ Có Thể Đảm Nhận Nhiều Nhiệm Vụ]
+Một máy chủ hoàn toàn có thể chạy đồng thời Web Server, Database Server và Mail Server. Tuy nhiên, trong các hệ thống lớn, người ta thường tách riêng từng dịch vụ ra các Server độc lập để tối ưu hiệu năng và dễ dàng mở rộng (\textit{Scaling}).
+\end{tipBox}
+
+\subsection{Tìm hiểu sâu về Client (Máy khách)}
+
+\paragraph{Khái niệm:} Client là thiết bị hoặc ứng dụng tiêu thụ dịch vụ do Server cung cấp. Client bao gồm: Máy tính bàn, Laptop, Điện thoại thông minh, Máy tính bảng, Smart TV, thiết bị IoT.
+
+\paragraph{Nhiệm vụ của Client:}
+\begin{itemize}
+    \item Gửi yêu cầu (\textit{Request}) đến Server.
+    \item Nhận dữ liệu phản hồi (\textit{Response}) từ Server.
+    \item Render và hiển thị giao diện cho người dùng tương tác.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[
+        enhanced,
+        width=\linewidth,
+        colback=codeBg,
+        colframe=primaryBlue!25,
+        arc=7pt,
+        boxrule=0.8pt,
+        top=10pt, bottom=10pt, left=6pt, right=6pt,
+        drop shadow=black!3!white
+    ]
+    \centering
+    \resizebox{0.95\linewidth}{!}{%
+    \begin{tikzpicture}[
+        >=stealth,
+        boxNode/.style={
+            draw=primaryBlue!80,
+            fill=primaryBlue!10,
+            thick,
+            rounded corners=6pt,
+            minimum height=1.0cm,
+            minimum width=3.4cm,
+            font=\sffamily\bfseries\small,
+            text=primaryBlue,
+            align=center
+        },
+        arrowLine1/.style={
+            ->,
+            thick,
+            accentOrange,
+            line width=1.2pt
+        },
+        arrowLine2/.style={
+            <-,
+            thick,
+            accentPurple,
+            line width=1.2pt
+        }
+    ]
+    \node[boxNode] (client) at (0, 0) {Client\\ \scriptsize (Trình duyệt / App)};
+    \node[boxNode] (server) at (8.5, 0) {Facebook Server\\ \scriptsize (Máy chủ Facebook)};
+
+    % Top arrow: Request
+    \draw[arrowLine1] (client.east |- 0, 0.25) -- (server.west |- 0, 0.25) 
+        node[midway, above=3pt, font=\sffamily\small\bfseries\color{accentOrange}] {1. Gửi Yêu Cầu bài viết (Request)};
+
+    % Bottom arrow: Response
+    \draw[arrowLine2] (client.east |- 0, -0.25) -- (server.west |- 0, -0.25) 
+        node[midway, below=3pt, font=\sffamily\small\bfseries\color{accentPurple}] {2. Trả Về News Feed (Response)};
+
+    \end{tikzpicture}%
+    }
+    \end{tcolorbox}
+    \vspace{-2pt}
+    \caption{Luồng Truy Vấn Facebook giữa Client và Server}
+    \label{fig:facebook_client_server}
+\end{figure}
+
+\begin{noteBox}[Một Máy Tính Vừa Là Client Vừa Là Server]
+Khi lập trình web local trên máy cá nhân, máy tính của bạn vừa đóng vai trò \textbf{Client} (mở trình duyệt xem web) vừa đóng vai trò \textbf{Server} (chạy môi trường XAMPP, Node.js hoặc Python local server).
+\end{noteBox}
+
+% ==============================================================================
+% 3. GIAO THỨC MẠNG
+% ==============================================================================
+\section{Giao Thức Mạng (Network Protocol)}
+\label{sec:protocols}
+
+\subsection{Khái niệm \& Vai trò của Giao thức Mạng}
+
+\term{Giao thức mạng (Network Protocol)} là tập hợp các quy tắc, tiêu chuẩn và quy ước được thiết lập để các thiết bị trong mạng có thể giao tiếp, trao đổi dữ liệu với nhau một cách chính xác và thống nhất.
+
+Nói cách khác, giao thức mạng giống như \textbf{ngôn ngữ chung} mà các thiết bị phải tuân theo để có thể hiểu nhau. Nếu mỗi thiết bị sử dụng một cách giao tiếp khác nhau, dữ liệu sẽ không thể được truyền nhận hoặc sẽ bị hiểu sai.
+
+Ví dụ, khi một người Việt nói chuyện với một người Anh, cả hai cần sử dụng một ngôn ngữ chung (chẳng hạn tiếng Anh) để hiểu nhau. Trong mạng máy tính cũng vậy, các thiết bị phải sử dụng cùng một giao thức để truyền và nhận dữ liệu.
+
+Giao thức mạng đóng vai trò nền tảng trong mọi hoạt động của Internet và mạng máy tính. Nó quy định toàn bộ quá trình truyền thông giữa các thiết bị, bao gồm:
+\begin{itemize}[leftmargin=2.2em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Thiết lập connection}: Xác định cách thiết lập kết nối giữa các máy tính.
+    \item \textbf{Đóng gói \& Phân đoạn}: Quy định cách đóng gói dữ liệu và chia thành các gói tin (\textit{Packets}).
+    \item \textbf{Định tuyến địa chỉ}: Xác định chính xác địa chỉ gửi (\textit{Source IP}) và địa chỉ nhận (\textit{Destination IP}).
+    \item \textbf{Kiểm soát lỗi \& Tốc độ}: Kiểm tra tính toàn vẹn dữ liệu, phát hiện/xử lý lỗi và điều khiển tốc độ truyền nhằm tránh tắc nghẽn mạng.
+    \item \textbf{Giải phóng kết nối}: Quy định quy trình kết thúc kết nối sau khi hoàn tất truyền nhận.
+\end{itemize}
+
+Nhờ các giao thức mạng, dữ liệu có thể được truyền đi một cách chính xác, an toàn và hiệu quả ngay cả khi phải đi qua nhiều thiết bị trung gian như router, switch hoặc firewall.
+
+\subsection{Giao thức hoạt động như thế nào?}
+
+Giả sử người dùng mở trình duyệt và truy cập địa chỉ \codeinline{https://www.google.com}. Quá trình truyền dữ liệu diễn ra qua 10 bước phối hợp nhịp nhàng giữa các tầng giao thức:
+
+\begin{conceptBox}[Quy Trình 10 Bước Phối Hợp Giữa Các Giao Thức Mạng]
+\begin{enumerate}[label=\textbf{\color{conceptBorder}Bước \arabic*:}, leftmargin=4.8em, itemsep=3pt, parsep=0pt, topsep=4pt]
+    \item \textbf{Nhập URL}: Người dùng nhập đường dẫn \codeinline{https://www.google.com} trên trình duyệt.
+    \item \textbf{Gửi Yêu Cầu HTTPS}: Trình duyệt khởi tạo giao thức HTTPS để chuẩn bị gửi yêu cầu bảo mật.
+    \item \textbf{Thiết Lập Kết Nối TCP}: HTTPS sử dụng tầng giao vận TCP để mở kết nối 3 bước (\textit{3-way handshake}) với máy chủ.
+    \item \textbf{Chia Gói Tin (Packets)}: TCP cắt nhỏ dữ liệu thành nhiều gói tin và đánh số thứ tự từng gói.
+    \item \textbf{Định Tuyến IP}: Giao thức IP gán địa chỉ nguồn/đích và định tuyến các gói tin qua mạng Internet.
+    \item \textbf{Máy Chủ Nhận Gói Tin}: Máy chủ Google tiếp nhận các gói tin truyền tới từ mạng.
+    \item \textbf{Máy Chủ Xử Lý}: Máy chủ Google phân tích và xử lý yêu cầu tìm kiếm của người dùng.
+    \item \textbf{Máy Chủ Trả Dữ Liệu}: Máy chủ đóng gói dữ liệu HTML, CSS, JavaScript gửi phản hồi lại cho Client.
+    \item \textbf{Tái Hợp Gói Tin}: Tầng TCP ở phía Client kiểm tra lỗi và ghép các gói tin lại theo đúng thứ tự.
+    \item \textbf{Hiển Thị Trang Web}: Trình duyệt đọc mã HTML/CSS/JS và vẽ ra giao diện web hoàn chỉnh.
+\end{enumerate}
+\end{conceptBox}
+\textit{Có thể thấy, chỉ một thao tác đơn giản là mở một trang web nhưng đã có rất nhiều giao thức phối hợp chặt chẽ với nhau để hoàn thành quá trình truyền dữ liệu.}
+
+\subsection{Bộ giao thức TCP/IP}
+
+Internet hiện nay hoạt động dựa trên \term{bộ giao thức TCP/IP (Transmission Control Protocol / Internet Protocol)}. TCP/IP không phải là một giao thức duy nhất mà là một \textbf{tập hợp nhiều giao thức khác nhau}, mỗi giao thức đảm nhận một chức năng riêng.
+
+Mô hình TCP/IP tiêu chuẩn được chia thành bốn tầng chính:
+
+\begin{prettyTableBox}[Mô Hình 4 Tầng Của Bộ Giao Thức TCP/IP]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{3.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Tầng (Layer)} & \thd{Chức năng \& Giao thức tiêu biểu} \\
+Application Layer (Ứng dụng) & Cung cấp giao diện dịch vụ cho người dùng (HTTP, HTTPS, FTP, SMTP, DNS). \\
+Transport Layer (Giao vận) & Quản lý kết nối truyền dữ liệu đầu-cuối giữa hai thiết bị (TCP, UDP). \\
+Internet Layer (Mạng) & Định tuyến và chuyển tiếp các gói tin qua mạng Internet (IP, ICMP). \\
+Network Access (Truy nhập) & Truyền dữ liệu tín hiệu trên môi trường vật lý (Ethernet, Wi-Fi). \\
+\end{tabularx}
+\end{prettyTableBox}
+
+Các tầng này phối hợp với nhau để đảm bảo dữ liệu được truyền từ thiết bị gửi đến thiết bị nhận một cách chính xác.
+
+\subsection{Các Giao Thức Mạng Phổ Biến}
+
+\subsubsection{Giao thức TCP (Transmission Control Protocol)}
+
+TCP là giao thức truyền dữ liệu đáng tin cậy nhất trên Internet với các đặc điểm cốt lõi:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Thiết lập kết nối trước khi truyền dữ liệu (\textit{Connection-oriented}).
+    \item Chia dữ liệu thành nhiều gói tin và đánh số thứ tự từng gói.
+    \item Kiểm tra lỗi, tự động yêu cầu truyền lại gói tin bị mất và ghép dữ liệu đúng thứ tự tại máy nhận.
+\end{itemize}
+
+\textbf{Ứng dụng tiêu biểu}: Được dùng trong Website, Email, Ngân hàng điện tử, Mạng xã hội và các Hệ thống quản lý dữ liệu nơi tính chính xác của dữ liệu là ưu tiên hàng đầu.
+
+\begin{tipBox}[Ví dụ thực tế về TCP]
+Khi tải một tệp PDF, nếu một gói tin bị mất trên đường truyền, TCP sẽ tự động yêu cầu gửi lại gói tin đó thay vì tiếp tục với dữ liệu bị thiếu, đảm bảo file PDF sau khi tải về không bị hỏng.
+\end{tipBox}
+
+\subsubsection{Giao thức UDP (User Datagram Protocol)}
+
+UDP là giao thức truyền dữ liệu không yêu cầu thiết lập kết nối trước và không kiểm tra việc dữ liệu có đến nơi hay không.
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Không thiết lập kết nối trước khi truyền, không kiểm tra lỗi hay truyền lại gói tin bị mất.
+    \item Tốc độ truyền cực nhanh và độ trễ (\textit{latency}) rất thấp.
+\end{itemize}
+
+\textbf{Ứng dụng tiêu biểu}: Phù hợp cho Xem video trực tuyến, Livestream, Họp trực tuyến, Chơi game online và Cuộc gọi VoIP -- những ứng dụng ưu tiên tốc độ thời gian thực hơn độ chính xác tuyệt đối.
+
+\begin{tipBox}[Ví dụ thực tế về UDP]
+Khi xem một trận bóng đá trực tiếp, nếu mất một vài khung hình thì người xem vẫn có thể tiếp tục theo dõi trận đấu. Tuy nhiên, nếu phải chờ truyền lại từng gói tin bị mất, hình ảnh sẽ bị giật và trải nghiệm sẽ kém hơn. Vì vậy UDP được ưu tiên trong các ứng dụng thời gian thực.
+\end{tipBox}
+
+\subsubsection{Giao thức IP (Internet Protocol)}
+
+IP là giao thức chịu trách nhiệm xác định địa chỉ và định tuyến các gói tin trên Internet. Nhiệm vụ của IP bao gồm:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Gán địa chỉ IP cho thiết bị, xác định địa chỉ nguồn và địa chỉ đích.
+    \item Chọn đường đi tối ưu cho gói tin qua các router trung gian và chuyển tiếp dữ liệu đến đúng máy nhận.
+\end{itemize}
+\textit{Lưu ý: IP không đảm bảo dữ liệu sẽ đến nơi, nhiệm vụ kiểm soát tin cậy này do tầng TCP đảm nhận.}
+
+\begin{noteBox}[Ví dụ định tuyến IP]
+Một gói tin từ Việt Nam đến máy chủ ở Hoa Kỳ có thể phải đi qua nhiều quốc gia và nhiều router khác nhau. Giao thức IP chịu trách nhiệm tìm đường đi phù hợp cho gói tin.
+\end{noteBox}
+
+\subsubsection{Giao thức HTTP (HyperText Transfer Protocol)}
+
+HTTP là giao thức dùng để truyền tải tài liệu siêu văn bản (HyperText) dùng cho các trang web, hoạt động theo mô hình \textbf{Request -- Response}:
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Trình duyệt gửi yêu cầu (\textit{HTTP Request}).
+    \item Máy chủ xử lý yêu cầu và phản hồi (\textit{HTTP Response}).
+    \item Trình duyệt nhận và hiển thị nội dung.
+\end{enumerate}
+
+\begin{codeWindow}[Ví Dụ Một Cặp HTTP Request \& Response]
+\begin{lstlisting}[language=HTTP, frame=none]
+GET /index.html HTTP/1.1
+Host: example.com
+
+HTTP/1.1 200 OK
+Content-Type: text/html
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Cảnh Báo An Toàn Của HTTP]
+HTTP không mã hóa dữ liệu, vì vậy thông tin truyền trên mạng có thể bị đọc hoặc chỉnh sửa nếu bị kẻ xấu chặn bắt.
+\end{warnBox}
+
+\subsubsection{Giao thức HTTPS (HyperText Transfer Protocol Secure)}
+
+HTTPS là phiên bản bảo mật của HTTP, kết hợp giữa \textbf{HTTP} và chứng chỉ \textbf{SSL/TLS} (\textit{Secure Sockets Layer / Transport Layer Security}).
+
+\paragraph{Ưu điểm vượt trội:}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Mã hóa toàn bộ dữ liệu truyền giữa trình duyệt và máy chủ, ngăn chặn nghe lén.
+    \item Bảo vệ thông tin tài khoản, mật khẩu và giao dịch ngân hàng.
+    \item Chống giả mạo máy chủ và đảm bảo tính toàn vẹn của dữ liệu.
+\end{itemize}
+\textit{Khi truy cập website sử dụng HTTPS (ví dụ: \codeinline{https://google.com}), trình duyệt hiển thị biểu tượng ổ khóa an toàn. Hầu hết các website hiện đại ngày nay đều bắt buộc sử dụng HTTPS.}
+
+\subsubsection{Giao thức FTP (File Transfer Protocol)}
+
+FTP là giao thức dùng để truyền tập tin giữa máy tính và máy chủ, thường dùng để: Upload mã nguồn website lên Hosting, tải dữ liệu hoặc quản lý tệp trên máy chủ từ xa qua các phần mềm như FileZilla, WinSCP, Cyberduck.
+
+\begin{tipBox}[Ví dụ thực tế sử dụng FTP]
+Một lập trình viên sau khi hoàn thành website sẽ sử dụng FileZilla để tải toàn bộ mã nguồn từ máy tính cá nhân lên Hosting thông qua giao thức FTP.
+\end{tipBox}
+
+\subsubsection{Giao thức SMTP (Simple Mail Transfer Protocol)}
+
+SMTP là giao thức chuyên dụng chịu trách nhiệm gửi thư điện tử (Email) từ máy tính người gửi đến máy chủ thư và chuyển tiếp Email giữa các máy chủ thư với nhau.
+
+\begin{noteBox}[Ví dụ về SMTP]
+Khi gửi Email bằng Gmail, SMTP sẽ chuyển nội dung thư từ máy tính của bạn đến máy chủ Gmail và sau đó đến máy chủ của người nhận.
+\end{noteBox}
+
+\subsubsection{Giao thức POP3 \& IMAP (Nhận Email)}
+
+POP3 và IMAP là hai giao thức chịu trách nhiệm nhận Email từ máy chủ về Client:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item \textbf{POP3 (Post Office Protocol v3)}: Tải Email từ máy chủ về máy tính cá nhân và có thể xóa thư trên máy chủ sau khi tải. Phù hợp khi chỉ sử dụng một thiết bị duy nhất.
+    \item \textbf{IMAP (Internet Message Access Protocol)}: Đồng bộ Email liên tục trên nhiều thiết bị (điện thoại, máy tính) và giữ nguyên thư trên máy chủ.
+\end{itemize}
+\textit{Hiện nay, hầu hết các dịch vụ Email hiện đại đều mặc định sử dụng giao thức IMAP.}
+
+\subsubsection{Hệ Thống Phân Giải Tên Miền DNS (Domain Name System)}
+
+DNS là hệ thống dịch chuyển tên miền dễ nhớ (ví dụ: \codeinline{www.google.com}) thành địa chỉ IP số (ví dụ: \codeinline{142.250.xxx.xxx}) để máy tính có thể định tuyến đến đúng máy chủ. Quá trình phân giải này diễn ra tự động và tức thì mỗi khi bạn gõ tên miền trên trình duyệt.
+
+\subsection{Bảng so sánh tổng hợp các giao thức mạng}
+
+\begin{prettyTableBox}[Bảng So Sánh Chi Tiết 10 Giao Thức Mạng Phổ Biến]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{1.8cm} Z C{2.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Giao thức} & \thd{Chức năng} & \thd{Có mã hóa} & \thd{Ví dụ sử dụng} \\
+TCP & Truyền dữ liệu tin cậy & Không & Website, Email, Ngân hàng \\
+UDP & Truyền dữ liệu nhanh & Không & Game, Livestream, VoIP \\
+IP & Định tuyến gói tin & Không & Mọi kết nối Internet \\
+HTTP & Truyền trang web & Không & Website cũ \\
+HTTPS & Truyền trang web an toàn & Có & Website hiện đại, thương mại điện tử \\
+FTP & Truyền tập tin & Không (FTP truyền thống) & Upload website \\
+SMTP & Gửi Email & Có thể kết hợp TLS & Gửi thư điện tử \\
+POP3 & Tải Email về thiết bị & Có thể kết hợp TLS & Nhận Email trên một thiết bị \\
+IMAP & Đồng bộ Email & Có thể kết hợp TLS & Đồng bộ Email trên nhiều thiết bị \\
+DNS & Phân giải tên miền thành địa chỉ IP & Không (DNS truyền thống, có DoH/DoT) & Truy cập website \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{noteBox}[Tổng Kết Giao Thức Mạng]
+Giao thức mạng là nền tảng của mọi hoạt động trên Internet. Khi người dùng truy cập một website, nhiều giao thức sẽ phối hợp với nhau: \textbf{DNS} phân giải tên miền thành địa chỉ IP, \textbf{TCP} thiết lập kết nối đáng tin cậy, \textbf{IP} định tuyến các gói tin, \textbf{HTTPS} mã hóa và truyền dữ liệu giữa trình duyệt và máy chủ. Nhờ sự kết hợp này, dữ liệu được truyền đi chính xác, an toàn và hiệu quả. Đây cũng là nền tảng để các ứng dụng web, ứng dụng di động và hầu hết các dịch vụ Internet hiện đại hoạt động.
+\end{noteBox}
+
+% ==============================================================================
+% 4. ĐỊA CHỈ IP (INTERNET PROTOCOL ADDRESS)
+% ==============================================================================
+\section{Địa Chỉ IP (IP Address)}
+\label{sec:ip_address}
+
+Địa chỉ IP là địa chỉ định danh duy nhất của mỗi thiết bị trong mạng (tương tự như số nhà trong đời thực). 
+
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item \textbf{IPv4}: Chuỗi 4 nhóm số phân cách bởi dấu chấm (từ \codeinline{0} đến \codeinline{255}), ví dụ: \codeinline{192.168.1.100}, \codeinline{8.8.8.8} (Google DNS).
+    \item \textbf{Localhost (\codeinline{127.0.0.1})}: Địa chỉ IP đặc biệt trỏ về chính máy tính bạn đang sử dụng. Khi lập trình web local, ta truy cập qua \codeinline{http://localhost}.
+\end{itemize}
+
+% ==============================================================================
+% 5. TÊN MIỀN (DOMAIN NAME)
+% ==============================================================================
+\section{Tên Miền (Domain Name)}
+\label{sec:domain_name_deep_dive}
+
+\subsection{Khái niệm Tên Miền}
+
+\term{Tên miền (Domain Name)} là một chuỗi ký tự có ý nghĩa, được sử dụng để \textbf{định danh và truy cập một website hoặc một dịch vụ trên Internet}. Mỗi tên miền được liên kết với một hoặc nhiều \textbf{địa chỉ IP} thông qua hệ thống \textbf{DNS (Domain Name System)}.
+
+Nói một cách đơn giản, tên miền đóng vai trò như \textbf{"địa chỉ dễ nhớ"} của một website. Thay vì phải ghi nhớ các dãy số IP dài và khó nhớ, người dùng chỉ cần nhập tên miền vào trình duyệt để truy cập website.
+
+\begin{prettyTableBox}[Ví Dụ Ánh Xạ Giữa Tên Miền Và Địa Chỉ IP]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}\centering\arraybackslash}p{4cm} >{\codeinline\centering\arraybackslash}X}
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{Tên miền (Domain)}} & \textcolor{white}{\textbf{Địa chỉ IP (Ví dụ thực tế)}} \\
+google.com & 142.250.xxx.xxx \\
+facebook.com & 157.240.xxx.xxx \\
+ut.edu.vn & 35.197.136.140 \\
+\end{tabularx}
+\end{prettyTableBox}
+
+Khi người dùng nhập địa chỉ \codeinline{https://www.google.com}, trình duyệt sẽ không kết nối trực tiếp đến tên miền mà sẽ yêu cầu hệ thống DNS chuyển đổi tên miền này thành địa chỉ IP của máy chủ Google trước khi thiết lập kết nối.
+
+\subsection{Tại sao cần tên miền?}
+
+Máy tính trên Internet chỉ có thể giao tiếp với nhau thông qua \textbf{địa chỉ IP}, trong khi con người lại dễ ghi nhớ tên hơn các dãy số. Ví dụ: Thay vì phải nhớ dãy số phức tạp \codeinline{142.250.190.78}, chúng ta chỉ cần nhớ tên gọi ngắn gọn \codeinline{google.com}.
+
+\paragraph{Các lợi ích cốt lõi của Tên miền:}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Dễ nhớ hơn địa chỉ IP rất nhiều.
+    \item Tạo sự chuyên nghiệp và uy tín cho website.
+    \item Xây dựng và bảo vệ thương hiệu trên môi trường Internet.
+    \item Giúp người dùng truy cập nhanh chóng và chính xác.
+    \item Cho phép linh hoạt thay đổi máy chủ mà không cần thay đổi địa chỉ website (chỉ cần cập nhật bản ghi DNS).
+\end{itemize}
+
+\begin{tipBox}[Tính Linh Hoạt Của Tên Miền]
+Nếu Google thay đổi toàn bộ hệ thống máy chủ và địa chỉ IP mới, người dùng vẫn chỉ cần truy cập \codeinline{google.com}, hệ thống DNS sẽ tự động chuyển hướng đến địa chỉ IP mới mà không ảnh hưởng tới người dùng.
+\end{tipBox}
+
+\subsection{Tên miền hoạt động như thế nào?}
+
+Giả sử người dùng nhập địa chỉ \codeinline{https://www.ut.edu.vn}. Quá trình phân giải tên miền diễn ra qua 8 bước:
+
+\begin{conceptBox}[Quy Trình 8 Bước Hoạt Động Phân Giải Tên Miền (DNS Resolution)]
+\begin{enumerate}[label=\textbf{\color{conceptBorder}Bước \arabic*:}, leftmargin=4.8em, itemsep=3pt, parsep=0pt, topsep=4pt]
+    \item \textbf{Nhập Tên Miền}: Người dùng nhập tên miền vào trình duyệt.
+    \item \textbf{Kiểm Tra DNS Cache}: Trình duyệt kiểm tra xem IP của tên miền đã lưu trong bộ nhớ đệm (\textit{DNS Cache}) chưa. Nếu có $\rightarrow$ sử dụng ngay; nếu chưa $\rightarrow$ chuyển sang bước 3.
+    \item \textbf{Gửi Yêu Cầu DNS}: Trình duyệt gửi yêu cầu đến \textbf{DNS Server} hỏi: \textit{"Địa chỉ IP của \codeinline{www.ut.edu.vn} là gì?"}.
+    \item \textbf{Tìm Kiếm Database}: DNS Server thực hiện tìm kiếm trong cơ sở dữ liệu phân giải của mình.
+    \item \textbf{Trả Về IP}: DNS Server trả về địa chỉ IP tương ứng (ví dụ: \codeinline{35.197.136.140}).
+    \item \textbf{Kết Nối Server}: Trình duyệt sử dụng địa chỉ IP đó để thiết lập kết nối đến máy chủ web.
+    \item \textbf{Xử Lý Yêu Cầu}: Máy chủ web xử lý yêu cầu và trả về nội dung trang web.
+    \item \textbf{Hiển Thị Website}: Trình duyệt kết xuất và hiển thị trang web cho người dùng.
+\end{enumerate}
+\end{conceptBox}
+\textit{Lưu ý: Toàn bộ quá trình phân giải tên miền (DNS Resolution) thường chỉ mất vài mili giây và diễn ra hoàn toàn tự động.}
+
+\subsection{Cấu trúc của tên miền}
+
+Tên miền được tổ chức theo dạng phân cấp (\textit{Hierarchy}), các cấp được phân tách bằng dấu chấm (\codeinline{.}).
+
+Xét ví dụ tên miền \codeinline{www.ut.edu.vn}:
+\begin{center}
+\begin{tabular}{c c c c}
+\codeinline{www} & \codeinline{ut} & \codeinline{edu} & \codeinline{vn} \\
+$\uparrow$ & $\uparrow$ & $\uparrow$ & $\uparrow$ \\
+\textbf{\color{accentOrange}Subdomain} & \textbf{\color{primaryBlue}Tên tổ chức} & \textbf{\color{conceptBorder}Cấp 2 (SLD)} & \textbf{\color{secondaryTeal}Cấp cao nhất (TLD)} \\
+\end{tabular}
+\end{center}
+
+Xét ví dụ khác \codeinline{mail.google.com}:
+\begin{prettyTableBox}[Phân Tích Cấu Trúc Tên Miền mail.google.com]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}\centering\arraybackslash}p{3cm} X}
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{Thành phần}} & \textcolor{white}{\textbf{Ý nghĩa chức năng}} \\
+mail & Subdomain (máy chủ thư điện tử chuyên dụng). \\
+google & Tên doanh nghiệp / tổ chức sở hữu. \\
+com & Tên miền cấp cao nhất (Top-Level Domain -- TLD). \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Các cấp của tên miền}
+
+\subsubsection{1. Tên miền cấp cao nhất (Top-Level Domain -- TLD)}
+Đây là phần nằm ngoài cùng bên phải của tên miền. Ví dụ: \codeinline{.com}, \codeinline{.net}, \codeinline{.org}, \codeinline{.edu}, \codeinline{.gov}, \codeinline{.vn}.
+
+\begin{prettyTableBox}[Các Tên Miền Dùng Chung (gTLD) Phổ Biến Phân Theo Lĩnh Vực]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{2.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Đuôi TLD} & \thd{Ý nghĩa định danh lĩnh vực} \\
+.com & Commercial -- Thương mại, doanh nghiệp \\
+.org & Organization -- Tổ chức phi lợi nhuận \\
+.net & Network -- Hạ tầng mạng và dịch vụ Internet \\
+.edu & Education -- Giáo dục, trường học, viện nghiên cứu \\
+.gov & Government -- Cơ quan chính phủ \\
+.mil & Military -- Quân đội Hoa Kỳ \\
+.info & Information -- Trang thông tin đại chúng \\
+.biz & Business -- Hoạt động kinh doanh thương mại \\
+\end{tabularx}
+\end{prettyTableBox}
+
+Ngoài ra còn có các tên miền quốc gia (\textit{Country Code Top-Level Domain -- ccTLD}):
+\begin{prettyTableBox}[Một Số Tên Miền Quốc Gia (ccTLD) Tiêu Biểu]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{2.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Đuôi ccTLD} & \thd{Quốc gia sở hữu} \\
+.vn & Việt Nam \\
+.jp & Nhật Bản \\
+.kr & Hàn Quốc \\
+.uk & Vương quốc Anh \\
+.us & Hoa Kỳ \\
+.au & Úc \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{2. Tên miền cấp hai (Second-Level Domain -- SLD)}
+Đây là phần đứng ngay trước TLD. Ví dụ trong \codeinline{google.com}, thì \codeinline{google} là tên miền cấp hai.
+
+\subsubsection{3. Tên miền cấp ba (Subdomain)}
+Subdomain là tên miền con được tạo ra từ tên miền chính để phân chia dịch vụ.
+
+\begin{prettyTableBox}[Các Subdomain Phổ Biến Trong Phát Triển Web]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{3cm} Z}
+\rowcolor{primaryBlue}
+\thd{Subdomain} & \thd{Chức năng định danh dịch vụ} \\
+www & Website chính (\textit{World Wide Web}) \\
+mail & Hệ thống quản trị Email \\
+blog & Trang nhật ký bài viết / tin tức \\
+api & Cổng giao tiếp API cho ứng dụng \\
+docs & Hệ thống tài liệu hướng dẫn \\
+admin & Trang quản trị hệ thống nội bộ \\
+shop & Cửa hàng thương mại điện tử \\
+\end{tabularx}
+\end{prettyTableBox}
+
+Ví dụ thực tế: \codeinline{api.facebook.com}, \codeinline{docs.python.org}, \codeinline{mail.google.com}.
+
+\subsection{Phân loại tên miền}
+
+\paragraph{1. Tên miền quốc tế:} Là các tên miền được quản lý trên phạm vi toàn cầu (ví dụ: \codeinline{google.com}, \codeinline{facebook.com}, \codeinline{github.com}, \codeinline{microsoft.com}). Tổ chức chịu trách nhiệm quản lý toàn cầu là \textbf{ICANN} (\textit{Internet Corporation for Assigned Names and Numbers}).
+
+\paragraph{2. Tên miền quốc gia:} Là tên miền dành riêng cho từng quốc gia (ví dụ: \codeinline{.gov.vn}, \codeinline{.edu.vn}, \codeinline{.com.vn}, \codeinline{.org.vn}). Tại Việt Nam, các tên miền đuôi \codeinline{.vn} được quản lý trực tiếp bởi Trung tâm Internet Việt Nam \textbf{VNNIC} (\textit{Vietnam Internet Network Information Center}). Ví dụ: \codeinline{moet.gov.vn}, \codeinline{ut.edu.vn}.
+
+\subsection{Quy trình đăng ký tên miền}
+
+Tên miền không tự động thuộc sở hữu của bất kỳ cá nhân hay tổ chức nào. Muốn sở hữu một tên miền, người dùng phải thực hiện 4 bước:
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Kiểm tra xem tên miền mong muốn đã có người đăng ký hay chưa.
+    \item Đăng ký thông qua nhà đăng ký tên miền hợp pháp (\textit{Domain Registrar}).
+    \item Thanh toán phí đăng ký quyền sử dụng.
+    \item Gia hạn quyền sử dụng định kỳ (thường tính theo từng năm).
+\end{enumerate}
+Ví dụ: Bạn muốn đăng ký tên miền \codeinline{myshop.vn}. Nếu chưa ai sở hữu, bạn có thể đăng ký sử dụng ngay. Nếu đã có người đăng ký, bạn phải chọn tên miền khác hoặc thương lượng mua lại.
+
+\subsection{Vai trò của hệ thống DNS đối với tên miền}
+
+Tên miền chỉ đơn thuần là một chuỗi chữ cái đại diện. Để truy cập được website, nhất thiết phải có \textbf{DNS (Domain Name System)} làm nhiệm vụ chuyển đổi tên miền thành địa chỉ IP số:
+\begin{center}
+\codeinline{www.google.com} \quad $\rightarrow$ \quad DNS \quad $\rightarrow$ \quad \codeinline{142.250.xxx.xxx} \quad $\rightarrow$ \quad Google Server
+\end{center}
+
+\begin{warnBox}[Hậu Quả Khi Hệ Thống DNS Sự Cố]
+Nếu hệ thống DNS gặp sự cố hoặc bị hỏng, trình duyệt sẽ không thể biết địa chỉ IP của máy chủ, dẫn đến website không thể truy cập mặc dù máy chủ web vẫn đang hoạt động bình thường.
+\end{warnBox}
+
+\subsection{Ví dụ tổng hợp phân tích tên miền}
+
+Xét tên miền dịch vụ Email \codeinline{https://mail.google.com}:
+\begin{prettyTableBox}[Phân Tích Tên Miền mail.google.com]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{2.5cm} K{3cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thành phần} & \thd{Giá trị} & \thd{Ý nghĩa chức năng} \\
+Giao thức & https & Giao thức bảo mật mã hóa SSL/TLS. \\
+Subdomain & mail & Máy chủ cung cấp dịch vụ Email Gmail. \\
+Domain chính & google & Tên doanh nghiệp / tổ chức sở hữu. \\
+TLD & com & Tên miền cấp cao nhất thương mại. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+Xét ví dụ tên miền trước. Một URL đầy đủ tiêu chuẩn có cấu trúc cú pháp như sau:
+\begin{center}
+\texttt{%
+\textcolor{primaryBlue}{protocol}%
+\textcolor{codeComment}{://}%
+\textcolor{codeKey}{host\_name}%
+\textcolor{codeComment}{:}%
+\textcolor{codeNumber}{port}%
+\textcolor{codeComment}{/}%
+\textcolor{codeString}{path}%
+\textcolor{codeComment}{/}%
+\textcolor{codeString}{file}%
+\textcolor{codeComment}{?}%
+\textcolor{accentOrange}{query}%
+\textcolor{codeComment}{\#}%
+\textcolor{secondaryTeal}{fragment}%
+}
+\end{center}
+
+Để phân biệt rõ ràng giữa tên miền và địa chỉ IP, ta có bảng so sánh chi tiết dưới đây:
+\begin{prettyTableBox}[Bảng So Sánh Tên Miền Và Địa Chỉ IP]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{3.2cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Tiêu chí} & \thd{Tên Miền (Domain Name)} & \thd{Địa Chỉ IP (IP Address)} \\
+Bản chất & Chuỗi ký tự chữ cái có ý nghĩa dễ nhớ. & Dãy số định danh thiết bị mạng. \\
+Mục đích & Giúp người dùng truy cập website dễ dàng. & Giúp máy tính định vị và giao tiếp với nhau. \\
+Ví dụ minh họa & \codeinline{google.com} & \codeinline{142.250.190.78} \\
+Đối tượng sử dụng & Con người trực tiếp tương tác. & Máy tính, router và thiết bị mạng. \\
+Khả năng thay đổi & Thường giữ ổn định định danh thương hiệu. & Thay đổi linh hoạt khi đổi hạ tầng máy chủ. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Mối quan hệ tổng hòa giữa Domain, DNS và IP}
+
+Ba khái niệm Domain, DNS và IP luôn phối hợp khép kín theo mô hình sau:
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[
+        enhanced,
+        width=\linewidth,
+        colback=codeBg,
+        colframe=primaryBlue!25,
+        arc=7pt,
+        boxrule=0.8pt,
+        top=8pt, bottom=8pt, left=4pt, right=4pt,
+        drop shadow=black!3!white
+    ]
+    \centering
+    \small\sffamily
+    \begin{tabular}{c c c c c}
+        \badge{Người Dùng} & $\rightarrow$ \codeinline{google.com} $\rightarrow$ & \badge{DNS Server} & $\rightarrow$ \codeinline{142.250.xxx.xxx} $\rightarrow$ & \badge{Google Server} \\
+        & (Nhập tên miền) & & (Phân giải IP) & $\downarrow$ \\
+        & & & & \badge{Trang Web} \\
+    \end{tabular}
+    \end{tcolorbox}
+    \vspace{-2pt}
+    \caption{Sơ Đồ Mối Quan Hệ Giữa Domain, DNS Server Và Máy Chủ IP}
+    \label{fig:domain_dns_ip_relation}
+\end{figure}
+
+\begin{noteBox}[Tổng Kết Mối Quan Hệ Domain - DNS - IP]
+Tên miền là cầu nối giữa con người và hệ thống mạng Internet. Con người sử dụng \textbf{Domain Name} vì dễ nhớ, trong khi máy tính sử dụng \textbf{IP Address} để giao tiếp. Hệ thống \textbf{DNS} đóng vai trò trung gian, tự động phân giải tên miền thành địa chỉ IP. Nhờ cơ chế này, người dùng có thể truy cập các website bằng những tên gọi thân thiện như \codeinline{google.com}, \codeinline{facebook.com} hay \codeinline{ut.edu.vn} mà không cần ghi nhớ các dãy số IP phức tạp.
+\end{noteBox}
+
+% ==============================================================================
+% 6. CỔNG DỊCH VỤ (PORT)
+% ==============================================================================
+\section{Cổng Dịch Vụ (Port)}
+\label{sec:port}
+
+Port là số hiệu định danh xác định dịch vụ hoặc chương trình cụ thể đang chạy trên máy chủ (phạm vi từ \codeinline{0} đến \codeinline{65535}).
+
+\begin{prettyTableBox}[Các Cổng Dịch Vụ (Port) Phổ Biến Theo Tiêu Chuẩn]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{2.8cm} >{\bfseries\color{primaryBlue}}C{2.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Số Cổng (Port)} & \thd{Dịch Vụ} & \thd{Mô Tả Chức Năng} \\
+\codeinline{20, 21} & FTP & Truyền tập tin dữ liệu tập trung \\
+\codeinline{22} & SSH & Truy cập điều khiển máy chủ từ xa an toàn \\
+\codeinline{25} & SMTP & Gửi thư điện tử (Email) \\
+\codeinline{53} & DNS & Phân giải tên miền thành địa chỉ IP \\
+\codeinline{80} & HTTP & Truyền tải trang web không mã hóa \\
+\codeinline{110 / 143} & POP3 / IMAP & Nhận và đồng bộ thư điện tử \\
+\codeinline{443} & HTTPS & Truyền tải trang web bảo mật mã hóa SSL/TLS \\
+\codeinline{3306} & MySQL & Hệ quản trị cơ sở dữ liệu MySQL \\
+\codeinline{5432} & PostgreSQL & Hệ quản trị cơ sở dữ liệu PostgreSQL \\
+\end{tabularx}
+\end{prettyTableBox}
+
+% ==============================================================================
+% 7. URL (UNIFORM RESOURCE LOCATOR)
+% ==============================================================================
+\section{URL (Uniform Resource Locator)}
+\label{sec:url_deep_dive}
+
+\subsection{Khái niệm URL}
+
+\term{URL (Uniform Resource Locator)} là địa chỉ dùng để xác định \textbf{vị trí của một tài nguyên trên Internet hoặc trong mạng nội bộ}, đồng thời chỉ ra \textbf{cách thức truy cập} đến tài nguyên đó.
+
+Tài nguyên (\textit{Resource}) trên Internet có thể bao gồm:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Một trang web (\textit{Web Page}).
+    \item Một hình ảnh, video, tệp âm thanh hoặc tệp PDF.
+    \item Một điểm cuối giao diện lập trình ứng dụng (\textit{API Endpoint}).
+    \item Một tài liệu trực tuyến hoặc một tệp tin tải xuống.
+\end{itemize}
+
+\begin{tipBox}[Ví Dụ Thực Tế Về Địa Chỉ Nhà]
+Nói một cách đơn giản, URL giống như \textbf{địa chỉ nhà} trong đời thực. Nếu muốn gửi thư cho ai đó, bạn cần biết địa chỉ nhà của họ; tương tự, nếu muốn truy cập một tài nguyên trên Internet, trình duyệt cần biết URL chính xác của tài nguyên đó.
+\end{tipBox}
+
+\textbf{Ví dụ về đường dẫn URL}:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{https://www.google.com}: URL trang chủ của Google.
+    \item \codeinline{https://ut.edu.vn/articles/triet-ly-giao-duc-119.html}: URL bài viết trên website Trường Đại học Giao thông Vận tải TP.HCM.
+\end{itemize}
+
+\subsection{Vai trò của URL}
+
+URL đóng vai trò vô cùng quan trọng trong hệ thống Web vì nó giúp:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Xác định chính xác vị trí của tài nguyên trên mạng toàn cầu.
+    \item Cho biết giao thức truyền dữ liệu cần sử dụng (HTTP, HTTPS, FTP...).
+    \item Chỉ định máy chủ lưu trữ tài nguyên và cổng giao tiếp.
+    \item Xác định đường dẫn chính xác đến tệp tin trên máy chủ.
+    \item Cho phép người dùng chia sẻ hoặc truy cập trực tiếp một nội dung cụ thể.
+\end{itemize}
+\textit{Nếu không có URL, trình duyệt sẽ không thể biết phải kết nối đến máy chủ nào và lấy tài nguyên gì.}
+
+\subsection{Cấu trúc tổng quát của URL}
+
+Một URL đầy đủ tiêu chuẩn có cấu trúc cú pháp chi tiết như sau:
+\begin{center}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    node distance=1.5pt and 2pt,
+    every node/.style={outer sep=0pt, inner sep=3pt},
+    block/.style={rounded corners=3pt, inner sep=5pt, font=\ttfamily\bfseries\small},
+    delim/.style={font=\ttfamily\bfseries\color{codeComment}, inner sep=2pt},
+    protoBox/.style={block, fill=primaryBlue!12, text=primaryBlue, draw=primaryBlue!30},
+    hostBox/.style={block, fill=codeKey!12, text=codeKey, draw=codeKey!30},
+    portBox/.style={block, fill=codeNumber!12, text=codeNumber, draw=codeNumber!30},
+    pathBox/.style={block, fill=codeString!12, text=codeString, draw=codeString!30},
+    fileBox/.style={block, fill=codeString!20, text=codeString, draw=codeString!45},
+    queryBox/.style={block, fill=accentOrange!12, text=accentOrange, draw=accentOrange!30},
+    fragBox/.style={block, fill=secondaryTeal!12, text=secondaryTeal, draw=secondaryTeal!30},
+    % Annotation styles
+    annoBox/.style={rounded corners=4pt, draw=gray!30, fill=white, font=\sffamily\scriptsize, align=center, inner sep=4pt, drop shadow={opacity=0.1, shadow xshift=1pt, shadow yshift=-1pt}},
+    protoAnno/.style={annoBox, draw=primaryBlue!30, fill=primaryBlue!3},
+    hostAnno/.style={annoBox, draw=codeKey!30, fill=codeKey!3},
+    portAnno/.style={annoBox, draw=codeNumber!30, fill=codeNumber!3},
+    pathAnno/.style={annoBox, draw=codeString!30, fill=codeString!3},
+    fileAnno/.style={annoBox, draw=codeString!40, fill=codeString!5},
+    queryAnno/.style={annoBox, draw=accentOrange!30, fill=accentOrange!3},
+    fragAnno/.style={annoBox, draw=secondaryTeal!30, fill=secondaryTeal!3},
+    annoLine/.style={draw=gray!40, ->, >=stealth, thick, shorten >=1pt, line width=0.8pt}
+]
+    % Layout URL components
+    \node (proto) [protoBox] {protocol};
+    \node (d1) [delim, right=of proto] {://};
+    \node (host) [hostBox, right=of d1] {host\_name};
+    \node (d2) [delim, right=of host] {:};
+    \node (port) [portBox, right=of d2] {port};
+    \node (d3) [delim, right=of port] {/};
+    \node (path) [pathBox, right=of d3] {path};
+    \node (d4) [delim, right=of path] {/};
+    \node (file) [fileBox, right=of d4] {file};
+    \node (d5) [delim, right=of file] {?};
+    \node (query) [queryBox, right=of d5] {query};
+    \node (d6) [delim, right=of query] {\#};
+    \node (frag) [fragBox, right=of d6] {fragment};
+
+    % Draw row 1 annotations (nearer)
+    \node (proto_lbl) [protoAnno, below=0.6cm of proto] {\textbf{Giao thức truyền dữ liệu}\\(http, https, ftp...)};
+    \node (port_lbl) [portAnno, below=0.6cm of port] {\textbf{Cổng kết nối}\\(Mặc định 80/443)};
+    \node (file_lbl) [fileAnno, below=0.6cm of file] {\textbf{Tệp tin tài nguyên}\\(index.html, logo.png...)};
+    \node (frag_lbl) [fragAnno, below=0.6cm of frag] {\textbf{Vị trí neo trong trang}\\(\#section-id, \#top...)};
+
+    % Draw row 2 annotations (further)
+    \node (host_lbl) [hostAnno, below=1.8cm of host] {\textbf{Tên miền hoặc IP}\\(google.com, 1.1.1.1...)};
+    \node (path_lbl) [pathAnno, below=1.8cm of path] {\textbf{Đường dẫn thư mục}\\(/assets/images/...)};
+    \node (query_lbl) [queryAnno, below=1.8cm of query] {\textbf{Tham số truyền dữ liệu}\\(?q=keyword\&page=2...)};
+
+    % Connect lines
+    \draw [annoLine, primaryBlue!70] (proto.south) -- (proto_lbl.north);
+    \draw [annoLine, codeKey!70] (host.south) -- (host_lbl.north);
+    \draw [annoLine, codeNumber!70] (port.south) -- (port_lbl.north);
+    \draw [annoLine, codeString!70] (path.south) -- (path_lbl.north);
+    \draw [annoLine, codeString!85] (file.south) -- (file_lbl.north);
+    \draw [annoLine, accentOrange!70] (query.south) -- (query_lbl.north);
+    \draw [annoLine, secondaryTeal!70] (frag.south) -- (frag_lbl.north);
+\end{tikzpicture}%
+}
+\end{center}
+
+\begin{prettyTableBox}[Bảng Phân Tích Ý Nghĩa 7 Thành Phần Căn Bản Của URL]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{C{2.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thành phần} & \thd{Ý nghĩa \& Chức năng} \\
+\textcolor{primaryBlue}{\bfseries protocol} & Giao thức truyền dữ liệu (HTTP, HTTPS, FTP, SMTP...). \\
+\textcolor{codeKey}{\bfseries host\_name} & Tên miền hoặc địa chỉ IP định danh máy chủ. \\
+\textcolor{codeNumber}{\bfseries port} & Cổng dịch vụ kết nối của máy chủ (mặc định 80 cho HTTP, 443 cho HTTPS). \\
+\textcolor{codeString}{\bfseries path} & Đường dẫn đến thư mục chứa tài nguyên trên máy chủ. \\
+\textcolor{codeString}{\bfseries file} & Tên tệp tin tài nguyên cụ thể cần truy cập. \\
+\textcolor{accentOrange}{\bfseries query} & Các tham số truyền dữ liệu cho máy chủ (\textit{Query String}). \\
+\textcolor{secondaryTeal}{\bfseries fragment} & Vị trí mỏ neo cụ thể bên trong tài liệu (\textit{Anchor}). \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{Giao thức (Protocol)}
+Thành phần \codeinline{https} chỉ định giao thức mà trình duyệt sử dụng để giao tiếp với máy chủ.
+
+\begin{prettyTableBox}[Các Giao Thức Thường Gặp Trong URL]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{3.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Giao thức} & \thd{Mục đích sử dụng} \\
+HTTP & Truyền trang web không mã hóa văn bản thuần (\textit{plain text}). \\
+HTTPS & Truyền trang web bảo mật được mã hóa SSL/TLS. \\
+FTP & Truyền tập tin dữ liệu lớn giữa Client và Server. \\
+SMTP & Gửi thư điện tử Email. \\
+WebSocket (ws, wss) & Giao tiếp hai chiều thời gian thực giữa trình duyệt và máy chủ. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+Ví dụ: \codeinline{http://example.com} không mã hóa dữ liệu, trong khi \codeinline{https://example.com} mã hóa toàn bộ dữ liệu giữa trình duyệt và máy chủ.
+
+\subsubsection{Tên máy chủ (Host Name)}
+Thành phần \codeinline{ut.edu.vn} là tên miền đại diện cho máy chủ. Trình duyệt gửi yêu cầu đến địa chỉ IP tương ứng thông qua hệ thống DNS:
+\begin{center}
+\codeinline{google.com} \quad $\rightarrow$ \quad DNS \quad $\rightarrow$ \quad \codeinline{142.250.xxx.xxx} \quad $\rightarrow$ \quad Kết nối máy chủ Google
+\end{center}
+Host cũng có thể là địa chỉ IP trực tiếp, ví dụ: \codeinline{http://192.168.1.100} hoặc \codeinline{http://127.0.0.1} (Localhost).
+
+\subsubsection{Cổng dịch vụ (Port)}
+Thành phần \codeinline{:443} xác định cổng dịch vụ tiếp nhận yêu cầu trên máy chủ. Một máy chủ chạy nhiều dịch vụ cùng lúc nên cần Port để phân biệt.
+
+\begin{prettyTableBox}[Các Cổng Dịch Vụ Mặc Định Phổ Biến]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{2.5cm} >{\bfseries\color{primaryBlue}}C{3cm} Z}
+\rowcolor{primaryBlue}
+\thd{Số Port} & \thd{Dịch vụ} & \thd{Ghi chú mặc định} \\
+80 & HTTP & Trình duyệt tự động ẩn trên URL \\
+443 & HTTPS & Trình duyệt tự động ẩn trên URL \\
+21 & FTP & Cổng truyền file \\
+22 & SSH & Cổng điều khiển máy chủ an toàn \\
+3306 & MySQL & Cổng cơ sở dữ liệu \\
+\end{tabularx}
+\end{prettyTableBox}
+
+Thông thường, \codeinline{https://google.com} thực chất là \codeinline{https://google.com:443}, nhưng trình duyệt tự động ẩn cổng 443 vì đây là chuẩn mặc định của HTTPS.
+
+\subsubsection{Đường dẫn thư mục (Path)}
+Thành phần \codeinline{/articles/} chỉ ra đường dẫn thư mục lưu trữ tài nguyên trên ổ cứng máy chủ. Ví dụ trong \codeinline{https://example.com/images/logo.png}, thì \codeinline{/images/} là thư mục chứa hình ảnh.
+
+\subsubsection{Tên tài nguyên (File)}
+Thành phần \codeinline{triet-ly-giao-duc-119.html} là tên tệp tài nguyên cụ thể (HTML, PDF, PNG, JPG, MP4, CSS, JS), ví dụ: \codeinline{logo.png} hoặc \codeinline{index.html}.
+
+\begin{noteBox}[Lưu Ý Về Định Tuyến Routing Hiện Đại]
+Ngày nay, nhiều website sử dụng cơ chế định tuyến (\textit{Routing}), vì vậy URL có thể không hiển thị tên tệp thực tế. Ví dụ: \codeinline{https://facebook.com/profile} dù không có đuôi \codeinline{.html}, máy chủ vẫn xử lý và trả về giao diện trang cá nhân phù hợp.
+\end{noteBox}
+
+\subsubsection{Tham số truy vấn (Query String)}
+Thành phần \codeinline{?id=10\&page=2} là tập hợp các tham số gửi dữ liệu lên máy chủ theo cặp \codeinline{key=value}, các tham số phân cách nhau bằng dấu \codeinline{\&}.
+
+Ví dụ:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{https://shop.com/products?id=15}: Server biết người dùng muốn xem sản phẩm có mã số 15.
+    \item \codeinline{https://google.com/search?q=frontend}: Tham số \codeinline{q} có giá trị \codeinline{frontend}, máy chủ Google sẽ tìm kiếm từ khóa "frontend".
+\end{itemize}
+
+\subsubsection{Mỏ neo nội dung (Fragment)}
+Thành phần \codeinline{\#section3} được dùng làm vị trí mỏ neo. \textbf{Fragment không được gửi lên máy chủ}, nó chỉ giúp trình duyệt tự động cuộn màn hình xuống vị trí thẻ có ID tương ứng.
+
+Ví dụ: Trong \codeinline{https://example.com/tutorial.html\#chapter5}, trình duyệt cuộn ngay xuống phần \codeinline{chapter5}. Fragment thường dùng trong mục lục, tài liệu hướng dẫn, ebook và website dài.
+
+\subsection{URL hoạt động như thế nào?}
+
+Giả sử người dùng nhập URL:
+\begin{center}
+\codeinline{https://www.example.com/products/laptop?id=15}
+\end{center}
+
+Quá trình xử lý URL diễn ra qua 10 bước chuẩn hóa:
+
+\begin{conceptBox}[Quy Trình 10 Bước Trình Duyệt Xử Lý Và Tải URL]
+\begin{enumerate}[label=\textbf{\color{conceptBorder}Bước \arabic*:}, leftmargin=4.8em, itemsep=3pt, parsep=0pt, topsep=4pt]
+    \item \textbf{Nhập URL}: Người dùng nhập URL vào thanh địa chỉ trình duyệt.
+    \item \textbf{Phân Tích URL}: Trình duyệt kiểm tra giao thức HTTPS và tên miền \codeinline{www.example.com}.
+    \item \textbf{Tra Cứu DNS}: Trình duyệt gửi yêu cầu đến hệ thống DNS để chuyển tên miền \codeinline{www.example.com} thành IP \codeinline{203.113.xx.xx}.
+    \item \textbf{Mở Kết Nối}: Trình duyệt thiết lập kết nối TCP và SSL/TLS (đối với HTTPS) đến máy chủ.
+    \item \textbf{Gửi Request}: Trình duyệt gửi yêu cầu: \codeinline{GET /products/laptop?id=15 HTTP/1.1} (\codeinline{Host: www.example.com}).
+    \item \textbf{Tiếp Nhận Request}: Máy chủ tiếp nhận yêu cầu gửi tới.
+    \item \textbf{Xử Lý Server}: Máy chủ xử lý: truy vấn CSDL tìm sản phẩm ID=15 và sinh trang HTML.
+    \item \textbf{Trả Phản Hồi}: Máy chủ gửi trả về kết quả phản hồi cho Client.
+    \item \textbf{Tải Tài Nguyên Phụ}: Trình duyệt tải các tệp HTML, CSS, JavaScript, hình ảnh, font chữ.
+    \item \textbf{Render Hiển Thị}: Trình duyệt kết xuất (Render) và hiển thị trang web cho người dùng.
+\end{enumerate}
+\end{conceptBox}
+
+\subsection{Phân biệt URL Tuyệt Đối và URL Tương Đối}
+
+Trong phát triển web, có hai loại URL chính:
+
+\begin{prettyTableBox}[So Sánh URL Tuyệt Đối Và URL Tương Đối]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{2.8cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Đặc điểm} & \thd{URL Tuyệt Đối (Absolute URL)} & \thd{URL Tương Đối (Relative URL)} \\
+Cấu trúc & Chứa đầy đủ thông tin từ giao thức đến tài nguyên. & Chỉ chứa đường dẫn tương đối so với trang hiện tại. \\
+Ví dụ & \codeinline{https://example.com/images/logo.png} & \codeinline{images/logo.png} hoặc \codeinline{../css/style.css} \\
+Phạm vi sử dụng & Truy cập từ bất kỳ đâu trên Internet. & Liên kết giữa các tài nguyên trong cùng một website. \\
+Ưu điểm & Không phụ thuộc vào vị trí file hiện tại. & Linh hoạt hơn khi thay đổi tên miền hoặc môi trường triển khai. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Ví dụ tổng hợp phân tích cấu trúc URL}
+
+Xét URL phức hợp thực tế dưới đây:
+\begin{center}
+\codeinline{https://shop.example.com:443/products/electronics/laptop.html?id=20\&color=black\#review}
+\end{center}
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Phân Tích Cấu Trúc URL Phức Hợp]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{2.2cm} K{4cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thành phần} & \thd{Giá trị mẫu} & \thd{Ý nghĩa chức năng} \\
+Protocol & https & Giao thức truyền dữ liệu an toàn. \\
+Host & shop.example.com & Tên miền của máy chủ. \\
+Port & 443 & Cổng HTTPS. \\
+Path & /products/electronics/ & Thư mục chứa tài nguyên. \\
+File & laptop.html & Trang hoặc tài nguyên được yêu cầu. \\
+Query & id=20\&color=black & Tham số gửi đến máy chủ. \\
+Fragment & review & Vị trí trong trang mà trình duyệt sẽ cuộn tới. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{noteBox}[Ứng Dụng URL Trong Các Framework Web Hiện Đại (Routing)]
+Trong các ứng dụng web hiện đại (React, Angular, Vue, Next.js...), URL không chỉ dùng để xác định vị trí tài nguyên vật lý mà còn được sử dụng để \textbf{định tuyến (Routing)} giữa các trang hoặc trạng thái của ứng dụng. Ví dụ, URL \codeinline{https://shop.example.com/products/20} có thể được Router ánh xạ đến trang chi tiết sản phẩm có mã số 20 mà không cần tồn tại tệp \codeinline{products/20.html} trên máy chủ. Điều này giúp tạo ra các URL thân thiện, dễ đọc và tối ưu cho SEO.
+\end{noteBox}
+
+% ==============================================================================
+% 6. WEBPAGE, WEBSITE VÀ HOSTING
+% ==============================================================================
+\section{Trang Web, Website \& Dịch Vụ Hosting}
+\label{sec:hosting}
+
+\subsection{Phân biệt Web Page và Website}
+\begin{itemize}
+    \item \textbf{Web Page (Trang web)}: Là một tài liệu HTML đơn lẻ hiển thị trên trình duyệt, tạo thành từ HTML, CSS và JavaScript.
+    \item \textbf{Website}: Là một tập hợp nhiều Web Page có liên quan với nhau, cùng chia sẻ chung một tên miền (ví dụ: \codeinline{wikipedia.org} gồm trang chủ, trang bài viết, trang đăng nhập...).
+\end{itemize}
+
+\subsection{Dịch vụ Hosting \& Các loại Hosting}
+
+Hosting là dịch vụ cho thuê không gian lưu trữ và tài nguyên tính toán trên máy chủ để đưa website lên mạng Internet.
+
+\begin{prettyTableBox}[Phân Loại Các Dạng Dịch Vụ Hosting]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{3.2cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Loại Hosting} & \thd{Ưu điểm} & \thd{Nhược điểm} \\
+Shared Hosting & Chi phí rất rẻ, dễ cài đặt quản lý & Chia sẻ tài nguyên, dễ bị ảnh hưởng bởi web khác \\
+VPS (Máy chủ ảo) & Hiệu năng cao, toàn quyền quản trị & Cần có kiến thức quản trị hệ thống Linux/Windows \\
+Dedicated Server & Hiệu năng tối đa, bảo mật tuyệt đối & Chi phí đầu tư \& vận hành rất cao \\
+Cloud Hosting & Mở rộng linh hoạt, độ ổn định cực cao & Chi phí tính theo lưu lượng sử dụng thực tế \\
+\end{tabularx}
+\end{prettyTableBox}
+
+
+% ==============================================================================
+% 7. CÁCH TRÌNH DUYỆT RENDER TRANG (CRITICAL RENDERING PATH)
+% ==============================================================================
+\section{Cách Trình Duyệt Render Trang (Critical Rendering Path)}
+\label{sec:crp}
+
+Để trở thành một kĩ sư Frontend chuyên nghiệp, việc hiểu cách trình duyệt chuyển đổi mã HTML/CSS thô thành các điểm ảnh (pixels) trên màn hình là cực kỳ quan trọng. Quá trình này được gọi là \term{Critical Rendering Path (CRP)}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[
+        enhanced,
+        width=\linewidth,
+        colback=codeBg,
+        colframe=primaryBlue!25,
+        arc=7pt,
+        boxrule=0.8pt,
+        top=8pt, bottom=8pt, left=4pt, right=4pt,
+        drop shadow=black!3!white
+    ]
+    \centering
+    \resizebox{0.98\linewidth}{!}{%
+    \begin{tikzpicture}[
+        >=stealth,
+        tagNode/.style={
+            draw=accentOrange!70,
+            fill=accentOrange!10,
+            thick,
+            rounded corners=4pt,
+            minimum height=0.75cm,
+            minimum width=1.5cm,
+            font=\sffamily\bfseries\small,
+            text=accentOrange
+        },
+        treeNode/.style={
+            draw=primaryBlue!60,
+            fill=primaryBlue!8,
+            thick,
+            rounded corners=4pt,
+            minimum height=0.75cm,
+            minimum width=2.3cm,
+            font=\sffamily\bfseries\small,
+            text=primaryBlue
+        },
+        renderNode/.style={
+            draw=conceptBorder!70,
+            fill=conceptBg,
+            thick,
+            rounded corners=4pt,
+            minimum height=0.75cm,
+            minimum width=2.4cm,
+            font=\sffamily\bfseries\small,
+            text=conceptBorder
+        },
+        stepNode/.style={
+            draw=tipBorder!70,
+            fill=tipBg,
+            thick,
+            rounded corners=4pt,
+            minimum height=0.75cm,
+            minimum width=2.2cm,
+            font=\sffamily\bfseries\small,
+            text=tipBorder
+        },
+        flowArrow/.style={
+            ->,
+            thick,
+            primaryBlue!75,
+            line width=1.1pt
+        }
+    ]
+
+    % Positions (Explicit Coordinates for Perfect Horizontal/Vertical Balance)
+    \node[tagNode] (html) at (0, 0.9) {HTML};
+    \node[treeNode] (dom) at (2.4, 0.9) {DOM Tree};
+
+    \node[tagNode] (css) at (0, -0.9) {CSS};
+    \node[treeNode] (cssom) at (2.4, -0.9) {CSSOM Tree};
+
+    \node[renderNode] (render) at (5.7, 0) {Render Tree};
+
+    \node[stepNode] (layout) at (9.0, 0) {Layout (Reflow)};
+    \node[stepNode] (paint) at (12.1, 0) {Paint};
+    \node[stepNode] (composite) at (15.0, 0) {Composite};
+
+    % Connections (Smooth Curves without Z-Bends or Overlaps)
+    \draw[flowArrow] (html) -- (dom);
+    \draw[flowArrow] (css) -- (cssom);
+
+    \draw[flowArrow] (dom.east) to[out=0, in=155] (render.west);
+    \draw[flowArrow] (cssom.east) to[out=0, in=205] (render.west);
+
+    \draw[flowArrow] (render) -- (layout);
+    \draw[flowArrow] (layout) -- (paint);
+    \draw[flowArrow] (paint) -- (composite);
+
+    \end{tikzpicture}%
+    }
+    \end{tcolorbox}
+    \vspace{-2pt}
+    \caption{Cơ chế Critical Rendering Path của Trình duyệt Web}
+    \label{fig:crp_process}
+\end{figure}
+
+Các giai đoạn cụ thể:
+\begin{enumerate}
+    \item \textbf{Xây dựng DOM (Document Object Model)}: Trình duyệt đọc dữ liệu nhị phân (bytes) của HTML, chuyển thành các ký tự, tokens, nodes và tạo nên cây DOM.
+    \item \textbf{Xây dựng CSSOM (CSS Object Model)}: Tương tự DOM, trình duyệt phân tích các quy tắc CSS để dựng cây quy tắc kiểu dáng CSSOM.
+    \item \textbf{Tạo Render Tree}: Kết hợp DOM và CSSOM để lọc ra các phần tử thực sự hiển thị trên màn hình (loại bỏ các thẻ có \texttt{display: none}).
+    \item \textbf{Bố cục (Layout / Reflow)}: Tính toán tọa độ chính xác ($x, y$) và kích thước ($width, height$) của từng phần tử trong màn hình (\textit{viewport}).
+    \item \textbf{Vẽ (Paint)}: Tô màu, kẻ viền, vẽ văn bản và ảnh lên các lớp (\textit{layers}).
+    \item \textbf{Hợp nhất Lớp (Composite)}: Ghép các lớp lại theo đúng thứ tự hiển thị (z-index, 3D transforms) và đẩy ra màn hình.
+\end{enumerate}
+
+\begin{warnBox}[Tránh Hiện Tượng Reflow \& Repaint Cắm Đầu]
+Khi bạn thay đổi kích thước phần tử bằng JavaScript hoặc CSS Animation như \codeinline{width}, \codeinline{height}, \codeinline{margin}, trình duyệt bắt buộc phải chạy lại từ bước \textbf{Layout (Reflow)}, gây hiện tượng giật lag (jank). 
+
+\textbf{Mẹo tốt nhất}: Ưu tiên sử dụng \codeinline{transform} (scale, translate) và \codeinline{opacity} vì chúng chỉ kích hoạt bước \textbf{Composite}, giúp animation mượt mà ở tần số 60fps.
+\end{warnBox}
+
+% ==============================================================================
+% 8. LẬP TRÌNH FRONT-END LÀ GÌ?
+% ==============================================================================
+\section{Lập Trình Front-End (Frontend Development)}
+\label{sec:frontend_dev}
+
+\term{Lập trình Front-end} là quá trình phát triển giao diện người dùng của một ứng dụng hoặc trang web, bao gồm tất cả những gì mà người dùng có thể nhìn thấy và tương tác trực tiếp. Lập trình Front-end tập trung vào việc hiển thị nội dung, bố cục, hình ảnh, hiệu ứng động và các yếu tố tương tác như nút bấm, biểu mẫu nhập liệu, menu điều hướng,...
+
+\subsection{Các công nghệ chính trong lập trình Front-end}
+
+Nền tảng cốt lõi của lập trình Front-end dựa trên bộ ba công nghệ tiêu chuẩn web:
+
+\begin{prettyTableBox}[Bộ Ba Công Nghệ Cốt Lõi Của Lập Trình Front-End]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{2.5cm} >{\bfseries\color{primaryBlue}}C{3.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Công nghệ} & \thd{Tên đầy đủ} & \thd{Vai trò \& Chức năng chính} \\
+HTML & HyperText Markup Language & Ngôn ngữ đánh dấu giúp xây dựng cấu trúc và định hình nội dung của trang web. \\
+CSS & Cascading Style Sheets & Ngôn ngữ dùng để thiết kế, định dạng giao diện (màu sắc, bố cục, font chữ, hiệu ứng...). \\
+JavaScript (JS) & JavaScript Programming Language & Ngôn ngữ lập trình giúp trang web có các chức năng động và xử lý tương tác người dùng. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Các thư viện và framework phổ biến}
+
+Để tối ưu tốc độ phát triển và xây dựng các ứng dụng lớn, lập trình viên Front-end thường sử dụng các công cụ hiện đại:
+
+\begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
+    \item \term{React.js}: Thư viện JavaScript mạnh mẽ do Meta phát triển, giúp xây dựng giao diện người dùng theo dạng thành phần tái sử dụng (\textit{Component-based}).
+    \item \term{Vue.js}: Framework nhẹ, linh hoạt, dễ tiếp cận và học tập, phù hợp cho nhiều quy mô dự án.
+    \item \term{Angular}: Framework toàn diện và mạnh mẽ của Google, sử dụng TypeScript để xây dựng các ứng dụng web phức tạp cấp doanh nghiệp (\textit{Enterprise Apps}).
+    \item \term{Tailwind CSS, Bootstrap}: Thư viện và framework CSS giúp thiết kế giao diện nhanh chóng, chuẩn hóa và nhất quán trên các thiết bị.
+\end{itemize}
+
+\subsection{Công việc của lập trình viên Front-end}
+
+Một kĩ sư lập trình Front-end đảm nhận các trách nhiệm chính bao gồm:
+\begin{enumerate}[label=\textbf{\color{primaryBlue}\arabic*.}, leftmargin=2em, itemsep=3pt, parsep=0pt, topsep=2pt]
+    \item Thiết kế và phát triển giao diện trang web hoặc ứng dụng theo bản vẽ UI/UX.
+    \item Tối ưu hiệu suất hiển thị và tốc độ tải trang (\textit{Page Speed Optimization}).
+    \item Đảm bảo tính tương thích trên nhiều thiết bị và kích thước màn hình khác nhau (\textit{Responsive Web Design}).
+    \item Xử lý các thao tác tương tác của người dùng và giao tiếp dữ liệu với máy chủ Backend thông qua API.
+\end{enumerate}
+
+\subsection{Sự khác biệt giữa Front-end và Back-end}
+
+\begin{prettyTableBox}[Bảng So Sánh Sự Khác Biệt Giữa Front-End Và Back-End]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{2.6cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Yếu tố} & \thd{Front-end} & \thd{Back-end} \\
+Vai trò & Hiển thị giao diện, trực tiếp tương tác với người dùng. & Xử lý logic nghiệp vụ, lưu trữ và quản lý dữ liệu. \\
+Công nghệ chính & HTML, CSS, JavaScript, React, Vue, Angular. & Node.js, Python, Java, C\#, SQL, NoSQL. \\
+Giao tiếp & Làm việc với API, nhận dữ liệu từ Backend để hiển thị. & Xây dựng API, xử lý dữ liệu, xác thực và bảo mật người dùng. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Học lập trình Front-end bắt đầu từ đâu?}
+
+Để trở thành một lập trình viên Front-end chuyên nghiệp, bạn có thể tham khảo lộ trình 5 bước nền tảng:
+\begin{conceptBox}[Lộ Trình 5 Bước Học Lập Trình Front-End Từ Cơ Bản Đến Chuyên Nghiệp]
+\begin{enumerate}[label=\textbf{\color{conceptBorder}Bước \arabic*:}, leftmargin=4.8em, itemsep=3pt, parsep=0pt, topsep=4pt]
+    \item \textbf{Nắm Vững HTML \& CSS}: Học cấu trúc trang web cơ bản, dàn trang, phối màu và làm chủ \textit{Responsive Design}.
+    \item \textbf{Thành Thạo JavaScript}: Học cú pháp cơ bản, xử lý sự kiện, thao tác DOM và JavaScript ES6+.
+    \item \textbf{Làm Quen Framework Modern UI}: Chọn và thành thạo một trong các thư viện/framework phổ biến như React.js, Vue.js hoặc Angular.
+    \item \textbf{Quản Lý Mã Nguồn Git/GitHub}: Học các lệnh Git cơ bản để quản lý phiên bản mã nguồn và làm việc nhóm hiệu quả.
+    \item \textbf{Kết Nối Backend Qua API}: Tìm hiểu về REST API, giao thức HTTP và dữ liệu JSON để kết nối ứng dụng với máy chủ Backend.
+\end{enumerate}
+\end{conceptBox}
+
+% ==============================================================================
+% 9. KHÁI NIỆM UI VÀ UX: SỰ KHÁC BIỆT VÀ MỐI QUAN HỆ
+% ==============================================================================
+\section{Khái Niệm UI và UX: Sự Khác Biệt \& Mối Quan Hệ}
+\label{sec:ui_ux_concepts}
+
+\term{UI (User Interface)} và \term{UX (User Experience)} là hai khái niệm quan trọng trong thiết kế và phát triển phần mềm, đặc biệt là trong lĩnh vực lập trình Front-end. Mặc dù liên quan mật thiết với nhau, nhưng chúng có vai trò và mục đích hoàn toàn khác nhau.
+
+\subsection{UI (User Interface) -- Giao diện người dùng}
+
+\term{UI (Giao diện người dùng)} là tất cả những yếu tố trên màn hình mà người dùng có thể nhìn thấy và tương tác trực tiếp, bao gồm:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Bố cục (\textit{layout}) của trang web hoặc ứng dụng.
+    \item Màu sắc, kiểu chữ (\textit{typography}), biểu tượng (\textit{icons}), nút bấm, hình ảnh.
+    \item Hiệu ứng chuyển động (\textit{animations \& transitions}).
+    \item Các thành phần tương tác như nút bấm, biểu mẫu nhập liệu, menu điều hướng, v.v.
+\end{itemize}
+
+\begin{tipBox}[Mục Tiêu Của UI]
+Mục tiêu cốt lõi của UI là làm cho giao diện ứng dụng trở nên \textbf{trực quan, thẩm mỹ, hài hòa và dễ sử dụng}.
+\end{tipBox}
+
+\paragraph{Ví dụ về UI tốt:}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Một trang web có thiết kế đẹp mắt, màu sắc hài hòa, phông chữ dễ đọc và cấu trúc bố cục giúp tìm kiếm thông tin nhanh chóng.
+    \item Một ứng dụng di động có các nút bấm rõ ràng, kích thước hợp lý, dễ thao tác vuốt chạm trên cả điện thoại và máy tính.
+\end{itemize}
+
+\subsection{UX (User Experience) -- Trải nghiệm người dùng}
+
+\term{UX (Trải nghiệm người dùng)} là tổng thể cảm nhận và phản ứng của người dùng khi sử dụng sản phẩm. UX không chỉ liên quan đến giao diện hiển thị mà còn bao gồm:
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Tính dễ sử dụng (\textit{usability}) của sản phẩm.
+    \item Mức độ tiện lợi, nhanh chóng khi người dùng hoàn thành một tác vụ.
+    \item Cảm xúc của người dùng trong suốt quá trình trải nghiệm (thoải mái, hài lòng hay bực bội, khó chịu...).
+    \item Khả năng giải quyết đúng nhu cầu và mong muốn thực tế của người dùng.
+\end{itemize}
+
+\begin{tipBox}[Mục Tiêu Của UX]
+Mục tiêu cốt lõi của UX là \textbf{tạo ra trải nghiệm tốt nhất}, giúp người dùng đạt được mục tiêu của họ một cách dễ dàng, nhanh chóng và thoải mái nhất.
+\end{tipBox}
+
+\paragraph{Ví dụ về UX tốt:}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Một ứng dụng đặt hàng online có quy trình thanh toán nhanh gọn 1-click, không bắt người dùng nhập lại các thông tin không cần thiết.
+    \item Một trang web có hệ thống tìm kiếm thông minh với gợi ý tự động, giúp người dùng dễ dàng tìm thấy chính xác sản phẩm họ cần.
+\end{itemize}
+
+\subsection{Sự khác biệt giữa UI và UX}
+
+\begin{prettyTableBox}[Bảng So Sánh Sự Khác Biệt Chi Tiết Giữa UI Và UX]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{2.6cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Tiêu chí} & \thd{UI (Giao diện người dùng)} & \thd{UX (Trải nghiệm người dùng)} \\
+Định nghĩa & Giao diện trực quan mà người dùng nhìn thấy và tương tác. & Cảm giác và tổng thể trải nghiệm của người dùng khi sử dụng sản phẩm. \\
+Mục tiêu & Tạo ra giao diện đẹp, bắt mắt, hấp dẫn và dễ nhìn. & Giúp người dùng có trải nghiệm thoải mái, dễ dàng và đạt hiệu quả cao. \\
+Thành phần & Màu sắc, hình ảnh, bố cục, typography, hiệu ứng động. & Luồng điều hướng, tốc độ tải trang, sự thuận tiện trong thao tác. \\
+Liên quan đến & Thiết kế đồ họa, phối màu, lập trình Front-end. & Tâm lý học người dùng, nghiên cứu hành vi và tối ưu luồng. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Mối quan hệ giữa UI và UX}
+
+UI và UX có sự liên kết hữu cơ và chặt chẽ với nhau:
+\begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
+    \item \textbf{UI đẹp nhưng UX tệ}: Sản phẩm có giao diện cực kỳ bắt mắt nhưng tốc độ tải trang quá chậm, luồng thanh toán rắc rối hoặc khó tìm kiếm thông tin $\rightarrow$ Người dùng sẽ nhanh chóng rời bỏ sản phẩm.
+    \item \textbf{UX tốt nhưng UI xấu}: Sản phẩm rất tiện lợi và dễ sử dụng nhưng thiết kế sơ sài, màu sắc nhếch nhác, thiếu chuyên nghiệp $\rightarrow$ Giảm niềm tin của người dùng và làm giảm trải nghiệm chung.
+\end{itemize}
+
+\begin{noteBox}[Sự Kết Hợp Hoàn Hảo Giữa UI Và UX]
+Một sản phẩm công nghệ thành công \textbf{bắt buộc phải có cả UI đẹp mắt lẫn UX mượt mà}. Hai yếu tố này bổ trợ cho nhau để mang lại sản phẩm toàn diện cho người dùng.
+\end{noteBox}
+
+\subsection{Làm thế nào để cải thiện UI/UX?}
+
+\paragraph{Về mặt UI (Giao diện):}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Sử dụng màu sắc hợp lý, chuẩn hóa bảng màu và đảm bảo độ tương phản tốt giữa chữ và nền.
+    \item Chọn kiểu chữ dễ đọc, kích thước phông và khoảng cách dòng phù hợp.
+    \item Giữ thiết kế đơn giản, tối giản (\textit{Clean Design}), tránh đưa quá nhiều chi tiết gây rối mắt.
+    \item Đảm bảo tính đồng nhất (\textit{Consistency}) trong toàn bộ thiết kế (như kiểu dáng nút bấm, khoảng cách các lề).
+\end{itemize}
+
+\paragraph{Về mặt UX (Trải nghiệm):}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Tìm hiểu nhu cầu và hành vi thực tế của người dùng thông qua khảo sát và thử nghiệm kiểm thử (\textit{User Testing}).
+    \item Cắt giảm các bước thao tác trung gian không cần thiết để tối ưu hóa quy trình.
+    \item Cải thiện tốc độ tải trang và phản hồi giao diện tức thì khi người dùng tương tác.
+    \item Áp dụng triết lý "Mobile-First", đảm bảo sản phẩm hoạt động mượt mà và mĩ quan trên mọi kích thước màn hình.
+\end{itemize}
+
+\begin{warnBox}[Kết Luận Về UI/UX Trong Phát Triển Web]
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+    \item \textbf{UI} giúp sản phẩm trở nên đẹp mắt, ấn tượng và thu hút người dùng ngay từ cái nhìn đầu tiên.
+    \item \textbf{UX} giúp sản phẩm trở nên tiện lợi, dễ dùng và giải quyết triệt để nhu cầu người dùng.
+    \item Một ứng dụng web thành công phải kết hợp hoàn hảo cả UI xuất sắc và UX tối ưu để giữ chân người dùng lâu dài.
+\end{itemize}
+\end{warnBox}
+
+% ==============================================================================
+% 10. TÓM TẮT CHƯƠNG 1
+% ==============================================================================
+\section{Tóm Tắt Chương 1}
+
+\begin{noteBox}[Tổng Kết Cốt Lõi Chương 1]
+Mô hình \textbf{Client--Server} chính là nền tảng khởi đầu của hầu hết mọi ứng dụng web hiện đại. Để một website vận hành hoàn chỉnh trên Internet, cần sự phối hợp nhịp nhàng của nhiều thành phần: 
+\begin{center}
+\textbf{Client} gửi yêu cầu $\rightarrow$ \textbf{DNS} phân giải \textbf{Domain} thành \textbf{IP} $\rightarrow$ Kết nối đến \textbf{Server} qua \textbf{Protocol} \& \textbf{Port} $\rightarrow$ Server xử lý và phản hồi \textbf{Web Page} qua \textbf{URL}.
+\end{center}
+Website được triển khai trên hạ tầng \textbf{Hosting}, trình duyệt kết xuất giao diện qua quy trình \textbf{Critical Rendering Path (CRP)}. Từ đó, kĩ sư \textbf{Front-end} vận dụng bộ ba công nghệ \textbf{HTML, CSS, JavaScript} và các framework hiện đại kết hợp nguyên lý \textbf{UI/UX} để tạo ra các ứng dụng web chất lượng cao, tối ưu trải nghiệm người dùng.
+\end{noteBox}
+

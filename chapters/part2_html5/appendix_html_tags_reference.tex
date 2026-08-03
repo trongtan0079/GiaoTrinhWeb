@@ -1,0 +1,186 @@
+% ==============================================================================
+% PHỤ LỤC A: BẢNG TRA CỨU TOÀN BỘ 110+ THẺ HTML & THUỘC TÍNH (WHATWG LIVING STANDARD)
+% ==============================================================================
+\chapter{Phụ Lục A: Bách Khoa Tra Cứu Toàn Bộ 110+ Thẻ HTML \& Thuộc Tính}
+\label{chap:appendix_html_tags}
+
+Phụ lục này tổng hợp toàn bộ \textbf{110+ thẻ HTML} thuộc chuẩn chính thức \textbf{WHATWG HTML Living Standard}, phân loại theo nhóm chức năng, liệt kê đầy đủ các thuộc tính hợp lệ (\textit{Attributes}) và mục đích sử dụng.
+
+\section{1. Các Thẻ Khởi Tạo \& Siêu Dữ Liệu (<head>)}
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thẻ HTML} & \color{white}\textbf{Thuộc Tính Đặc Thù} & \color{white}\textbf{Mô Tả CHức Năng \& Ý Nghĩa} \\
+\hline
+\codeinline{<!DOCTYPE>} & không có & Khai báo chuẩn HTML5 kích hoạt Standards Mode. \\
+\codeinline{<html>} & \codeinline{lang}, \codeinline{dir}, \codeinline{xmlns} & Thẻ gốc tài liệu. \\
+\codeinline{<head>} & không có & Chứa siêu dữ liệu không hiển thị trực tiếp. \\
+\codeinline{<title>} & không có & Tiêu đề trang hiển thị trên thẻ trình duyệt. \\
+\codeinline{<base>} & \codeinline{href}, \codeinline{target} & Đặt URL cơ sở cho tất cả liên kết tương đối. \\
+\codeinline{<meta>} & \codeinline{charset}, \codeinline{name}, \codeinline{content}, \codeinline{http-equiv}, \codeinline{media} & Siêu dữ liệu SEO, mã hóa, viewport, CSP. \\
+\codeinline{<link>} & \codeinline{rel}, \codeinline{href}, \codeinline{sizes}, \codeinline{type}, \codeinline{as}, \codeinline{crossorigin}, \codeinline{integrity} & Liên kết CSS, Favicon, Resource Hints (preload). \\
+\codeinline{<style>} & \codeinline{media}, \codeinline{blocking} & Nhúng mã CSS nội bộ (Inline CSS). \\
+\codeinline{<script>} & \codeinline{src}, \codeinline{async}, \codeinline{defer}, \codeinline{type}, \codeinline{integrity}, \codeinline{crossorigin} & Nhúng mã JavaScript, ES Modules, mã băm SRI. \\
+\codeinline{<noscript>} & không có & Khối nội dung dự phòng khi trình duyệt tắt JS. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Các thẻ cấu trúc gốc và siêu dữ liệu Metadata}
+\end{table}
+
+\section{2. Các Thẻ Bố Cục \& Ngữ Nghĩa Khối (Sectioning \& Structural Semantics)}
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thẻ HTML} & \color{white}\textbf{Thuộc Tính Đặc Thù} & \color{white}\textbf{Mô Tả CHức Năng \& Ý Nghĩa} \\
+\hline
+\codeinline{<body>} & Thuộc tính sự kiện Window & Chứa toàn bộ nội dung trực quan hiển thị. \\
+\codeinline{<header>} & Thuộc tính toàn cục & Đỉnh trang web hoặc đỉnh phân đoạn/bài viết. \\
+\codeinline{<nav>} & Thuộc tính toàn cục & Thanh chứa danh sách liên kết điều hướng. \\
+\codeinline{<main>} & Thuộc tính toàn cục & Khối nội dung chính duy nhất của trang. \\
+\codeinline{<article>} & Thuộc tính toàn cục & Bài viết độc lập, card sản phẩm, comment. \\
+\codeinline{<section>} & Thuộc tính toàn cục & Phân đoạn nội dung có cùng chủ đề. \\
+\codeinline{<aside>} & Thuộc tính toàn cục & Thanh bên phụ, trích dẫn, liên kết xem thêm. \\
+\codeinline{<footer>} & Thuộc tính toàn cục & Chân trang, bản quyền, liên kết sitemap. \\
+\codeinline{<address>} & Thuộc tính toàn cục & Thông tin liên hệ tác giả/doanh nghiệp. \\
+\codeinline{<h1>} đến \codeinline{<h6>} & Thuộc tính toàn cục & Tiêu đề phân tầng từ bậc 1 đến bậc 6. \\
+\codeinline{<hgroup>} & Thuộc tính toàn cục & Nhóm tiêu đề chính và tiêu đề phụ. \\
+\codeinline{<search>} & Thuộc tính toàn cục & Khối chứa công cụ tìm kiếm (WHATWG mới). \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Các thẻ ngữ nghĩa cấu trúc bố trúc trang web}
+\end{table}
+
+\section{3. Thẻ Định Dạng Văn Bản Nội Dòng (Inline Text Semantics)}
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thẻ HTML} & \color{white}\textbf{Thuộc Tính Đặc Thù} & \color{white}\textbf{Mô Tả CHức Năng \& Ý Nghĩa} \\
+\hline
+\codeinline{<a>} & \codeinline{href}, \codeinline{target}, \codeinline{download}, \codeinline{rel}, \codeinline{ping}, \codeinline{referrerpolicy} & Liên kết siêu văn bản, tải file. \\
+\codeinline{<strong>} & Thuộc tính toàn cục & Văn bản có tầm quan trọng cao. \\
+\codeinline{<em>} & Thuộc tính toàn cục & Nhấn mạnh ngữ điệu phát âm. \\
+\codeinline{<small>} & Thuộc tính toàn cục & Chữ nhỏ chú thích pháp lý/bản quyền. \\
+\codeinline{<s>} & Thuộc tính toàn cục & Văn bản bị hủy bỏ hoặc hết hạn. \\
+\codeinline{<cite>} & Thuộc tính toàn cục & Nguồn trích dẫn tác phẩm/tài liệu. \\
+\codeinline{<q>} & \codeinline{cite} & Trích dẫn ngắn trong dòng. \\
+\codeinline{<dfn>} & Thuộc tính toàn cục & Thuật ngữ đang được định nghĩa. \\
+\codeinline{<abbr>} & \codeinline{title} & Từ viết tắt kèm giải nghĩa đầy đủ. \\
+\codeinline{<time>} & \codeinline{datetime} & Đánh dấu mốc thời gian ISO-8601. \\
+\codeinline{<data>} & \codeinline{value} & Gắn giá trị mã số đọc bởi máy tính. \\
+\codeinline{<code>} & Thuộc tính toàn cục & Đoạn mã máy tính nội dòng. \\
+\codeinline{<kbd>} & Thuộc tính toàn cục & Phím bấm bàn phím. \\
+\codeinline{<var>} & Thuộc tính toàn cục & Biến số toán học hoặc lập trình. \\
+\codeinline{<samp>} & Thuộc tính toàn cục & Kết quả đầu ra mẫu từ máy tính. \\
+\codeinline{<sub>}, \codeinline{<sup>} & Thuộc tính toàn cục & Chỉ số dưới ($H_2O$) và chỉ số trên ($E=mc^2$). \\
+\codeinline{<mark>} & Thuộc tính toàn cục & Tô sáng đoạn văn bản được tìm kiếm. \\
+\codeinline{<bdi>}, \codeinline{<bdo>} & \codeinline{dir} & Xử lý hướng đọc văn bản RTL/LTR. \\
+\codeinline{<ruby>}, \codeinline{<rt>}, \codeinline{<rp>} & Thuộc tính toàn cục & Chú thích phát âm chữ Á Đông (Ruby). \\
+\codeinline{<span>} & Thuộc tính toàn cục & Thẻ inline vô nghĩa dùng để CSS/JS. \\
+\codeinline{<br>}, \codeinline{<wbr>} & Thuộc tính toàn cục & Ngắt dòng và điểm ngắt từ linh hoạt. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Tất cả các thẻ văn bản nội dòng và thuộc tính đi kèm}
+\end{table}
+
+\section{4. Thẻ Form \& Điều Khiển Đầu Vào (Forms \& Controls)}
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thẻ HTML} & \color{white}\textbf{Thuộc Tính Đặc Thù} & \color{white}\textbf{Mô Tả CHức Năng \& Ý Nghĩa} \\
+\hline
+\codeinline{<form>} & \codeinline{action}, \codeinline{method}, \codeinline{enctype}, \codeinline{autocomplete}, \codeinline{novalidate}, \codeinline{target} & Khung chứa biểu mẫu gửi dữ liệu. \\
+\codeinline{<input>} & 22+ \codeinline{type}, \codeinline{name}, \codeinline{value}, \codeinline{required}, \codeinline{pattern}, \codeinline{min}, \codeinline{max}, \codeinline{step}, \codeinline{placeholder}, \codeinline{inputmode}, \codeinline{enterkeyhint}, \codeinline{popovertarget} & Trường nhập dữ liệu đa dạng. \\
+\codeinline{<button>} & \codeinline{type}, \codeinline{disabled}, \codeinline{form}, \codeinline{popovertarget}, \codeinline{popovertargetaction} & Nút bấm thực thi hành động. \\
+\codeinline{<select>} & \codeinline{name}, \codeinline{multiple}, \codeinline{size}, \codeinline{disabled}, \codeinline{required} & Danh sách chọn xổ xuống (Dropdown). \\
+\codeinline{<optgroup>} & \codeinline{label}, \codeinline{disabled} & Nhóm các tùy chọn trong select. \\
+\codeinline{<option>} & \codeinline{value}, \codeinline{selected}, \codeinline{disabled}, \codeinline{label} & Một phần tử tùy chọn trong select. \\
+\codeinline{<textarea>} & \codeinline{rows}, \codeinline{cols}, \codeinline{maxlength}, \codeinline{placeholder}, \codeinline{wrap} & Khung nhập văn bản nhiều dòng. \\
+\codeinline{<label>} & \codeinline{for} & Nhãn dán mô tả ô nhập liệu. \\
+\codeinline{<fieldset>} & \codeinline{disabled}, \codeinline{form}, \codeinline{name} & Khung gom nhóm các trường form. \\
+\codeinline{<legend>} & Thuộc tính toàn cục & Tiêu đề cho khối fieldset. \\
+\codeinline{<datalist>} & không có & Danh sách gợi ý tự động cho input. \\
+\codeinline{<output>} & \codeinline{for}, \codeinline{form}, \codeinline{name} & Hiển thị kết quả tính toán form. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Toàn bộ thẻ điều khiển Form và thuộc tính nhập liệu}
+\end{table}
+
+\section{5. Đa Phương Tiện, Graphics \& Web Components}
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thẻ HTML} & \color{white}\textbf{Thuộc Tính Đặc Thù} & \color{white}\textbf{Mô Tả CHức Năng \& Ý Nghĩa} \\
+\hline
+\codeinline{<img>} & \codeinline{src}, \codeinline{alt}, \codeinline{srcset}, \codeinline{sizes}, \codeinline{loading}, \codeinline{decoding}, \codeinline{fetchpriority} & Hiển thị hình ảnh đa thiết bị. \\
+\codeinline{<picture>} & không có & Khung chứa các nguồn ảnh thích ứng. \\
+\codeinline{<source>} & \codeinline{src}, \codeinline{srcset}, \codeinline{type}, \codeinline{media}, \codeinline{sizes} & Nguồn tài nguyên cho picture/video. \\
+\codeinline{<video>} & \codeinline{src}, \codeinline{controls}, \codeinline{autoplay}, \codeinline{muted}, \codeinline{loop}, \codeinline{poster}, \codeinline{preload}, \codeinline{playsinline} & Phát trình trình chiếu video gốc. \\
+\codeinline{<audio>} & \codeinline{src}, \codeinline{controls}, \codeinline{autoplay}, \codeinline{muted}, \codeinline{loop}, \codeinline{preload} & Phát âm thanh mp3/wav/ogg. \\
+\codeinline{<track>} & \codeinline{kind}, \codeinline{src}, \codeinline{srclang}, \codeinline{label}, \codeinline{default} & Nhúng phụ đề chuẩn WebVTT. \\
+\codeinline{<iframe>} & \codeinline{src}, \codeinline{srcdoc}, \codeinline{sandbox}, \codeinline{allow}, \codeinline{loading}, \codeinline{width}, \codeinline{height} & Nhúng khung trang web bên ngoài. \\
+\codeinline{<svg>} & \codeinline{viewBox}, \codeinline{width}, \codeinline{height}, \codeinline{xmlns} & Đồ họa Vector nhị thức Inline. \\
+\codeinline{<canvas>} & \codeinline{width}, \codeinline{height} & Khung vẽ đồ họa 2D / WebGL. \\
+\codeinline{<math>} & \codeinline{xmlns} & Nhúng công thức toán học MathML. \\
+\codeinline{<template>} & không có & Khối mã HTML thụ động dùng cho JS. \\
+\codeinline{<slot>} & \codeinline{name} & Điểm chèn dữ liệu Shadow DOM. \\
+\codeinline{<details>} & \codeinline{open}, \codeinline{name} & Khung Accordion ẩn/hiện nội dung. \\
+\codeinline{<summary>} & Thuộc tính toàn cục & Tiêu đề cho khối details. \\
+\codeinline{<dialog>} & \codeinline{open} & Cửa sổ Popup Modal gốc trình duyệt. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Các thẻ nhúng tài nguyên đa phương tiện và kỹ thuật mới}
+\end{table}
+
+\section{6. Tất Cả Thuộc Tính Toàn Cục (Global Attributes)}
+
+Mọi thẻ HTML trong tài liệu đều có quyền sử dụng các \textbf{Thuộc tính Toàn Cục (Global Attributes)} sau:
+
+\begin{itemize}
+    \item \codeinline{id}: Định danh duy nhất cho phần tử trong toàn bộ cây DOM.
+    \item \codeinline{class}: Tên lớp định kiểu cho CSS và truy vấn bằng JavaScript.
+    \item \codeinline{style}: Viết mã CSS trực tiếp trên phần tử (Inline style).
+    \item \codeinline{title}: Văn bản trợ giúp hiển thị dạng chú thích khi di chuột vào (Tooltip).
+    \item \codeinline{lang}: Khai báo ngôn ngữ riêng cho phần tử (ví dụ: \codeinline{lang="en"}).
+    \item \codeinline{dir}: Hướng đọc văn bản (\codeinline{ltr}, \codeinline{rtl}, \codeinline{auto}).
+    \item \codeinline{hidden}: Ẩn phần tử khỏi màn hình hoàn toàn (tương đương \codeinline{display: none}).
+    \item \codeinline{tabindex}: Thứ tự nhận focus bàn phím khi ấn phím Tab.
+    \item \codeinline{accesskey}: Gán phím tắt kích hoạt nhanh phần tử từ bàn phím.
+    \item \codeinline{autofocus}: Tự động trỏ con trỏ vào phần tử khi trang vừa tải xong.
+    \item \codeinline{contenteditable}: Cho phép người dùng chỉnh sửa trực tiếp nội dung thẻ trên màn hình.
+    \item \codeinline{spellcheck}: Bật/Tắt kiểm tra lỗi chính tả ngôn ngữ của trình duyệt.
+    \item \codeinline{inputmode}: Bật đúng bàn phím di động thích hợp.
+    \item \codeinline{enterkeyhint}: Đổi nhãn nút Enter trên bàn phím di động.
+    \item \codeinline{inert}: Vô hiệu hóa toàn bộ tương tác bàn phím, chuột và trình đọc màn hình.
+    \item \codeinline{popover}: Biến phần tử thành khung Popover hiển thị ở lớp trên cùng (Top Layer).
+    \item \codeinline{data-*}: Thuộc tính lưu trữ dữ liệu tùy chỉnh riêng của ứng dụng (truy cập qua \codeinline{dataset}).
+\end{itemize}

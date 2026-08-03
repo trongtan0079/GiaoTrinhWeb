@@ -1,0 +1,175 @@
+% ==============================================================================
+% CHƯƠNG 18: DỰ ÁN THỰC CHIẾN FRONTEND TỪ A-Z (FULL FRONTEND PROJECT MASTERCLASS)
+% ==============================================================================
+\chapter{Dự Án Thực Chiến Frontend Từ A-Z}
+\label{chap:full_frontend_project}
+
+Chương này hướng dẫn xây dựng trọn vẹn một ứng dụng Web thực tế: \term{Dashboard Quản Lý Khóa Học Trực Tuyến (EduWeb Admin Dashboard)} từ khâu phân tích bố cục, dựng HTML5 ngữ nghĩa, thiết kế CSS3 nâng cao đến xử lý logic JavaScript tương tác và Dark Mode.
+
+% ==============================================================================
+% 1. PHÂN TÍCH YÊU CẦU & THIẾT KẾ BỐ CỤC DỰ ÁN
+% ==============================================================================
+\section{Phân Tích Yêu Cầu \& Thiết Kế Bố Cục Dự Án}
+
+\subsection{1. Cấu Trúc Thư Mục Dự Án Chuẩn Thực Tế}
+
+\begin{codeWindow}[Cấu Trúc Thư Mục Dự Án Frontend Chuyên Nghiệp]
+\begin{lstlisting}[language=HTTP]
+eduweb-dashboard/
+├── index.html              # Trang chu giao dien Dashboard
+├── assets/
+│   ├── css/
+│   │   ├── main.css        # CSS Design System & Variables
+│   │   └── dashboard.css   # Dynamic UI styles
+│   ├── js/
+│   │   ├── app.js          # Main Application Entry Point
+│   │   └── courses.js      # Data Manager & Event Handlers
+│   └── images/
+│       └── logo.svg
+└── README.md
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{2. Bố Cục Giao Diện Kiến Trúc Grid \& Flexbox}
+
+\begin{conceptBox}[Kiến Trúc Giao Diện 2 Cột (Sidebar + Main Area)]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+    \item \textbf{Thanh Bên (Sidebar <aside>)}: Chứa Logo thương hiệu, Menu điều hướng chính và Nút đổi chế độ Sáng/Tối (\term{Dark Mode Toggle}).
+    \item \textbf{Khu Vực Chính (<main>)}: Chứa Header tìm kiếm, Bộ lọc khóa học theo danh mục và Lưới sản phẩm (\term{Course Card Grid}).
+\end{itemize}
+\end{conceptBox}
+
+% ==============================================================================
+% 2. TRIỂN KHAI MÃ NGUỒN HTML, CSS & JAVASCRIPT
+% ==============================================================================
+\section{Triển Khai Mã Nguồn HTML, CSS \& JavaScript}
+
+\subsection{1. Mã Nguồn Cấu Trúc HTML5 Masterclass}
+
+\begin{codeWindow}[Mã Nguồn HTML5: Khung Xương Giao Diện Dashboard]
+\begin{lstlisting}[language=HTML5]
+<div class="dashboard-wrapper">
+  (*@<!-- Thanh (*@bên@*) Sidebar -->@*)
+  <aside class="sidebar">
+    <div class="logo">EduWeb Admin</div>
+    <nav class="sidebar-nav">
+      <a href="#" class="active">(*@Khóa *@Học@*)</a>
+      <a href="#">(*@Học *@Viên@*)</a>
+      <a href="#">(*@Báo *@Cáo@*)</a>
+    </nav>
+    <button id="dark-mode-btn">(*@Đổi@*) Giao (*@Diện@*)</button>
+  </aside>
+
+  (*@<!-- Khu (*@vực nội@*) dung (*@chính@*) -->@*)
+  <main class="main-content">
+    <header class="top-bar">
+      <search>
+        <input type="search" id="search-input" placeholder="(*@Tìm kiếm khóa học...@*)">
+      </search>
+    </header>
+
+    <section class="course-grid" id="course-list">
+      <!-- Dynamic render by JS -->
+    </section>
+  </main>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Mô Phỏng Giao Diện Dashboard Tổng Thể]
+\sffamily\small
+\begin{tcolorbox}[colback=gray!4, colframe=primaryBlue!30, arc=6pt, top=4pt, bottom=4pt, left=6pt, right=6pt]
+\begin{tabularx}{\linewidth}{K{3.8cm} Z}
+\begin{tcolorbox}[colback=primaryBlue, colframe=primaryBlue, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+\color{white}
+\textbf{EduWeb Admin}\\[8pt]
+\tcbox[on line, arc=3pt, colback=white!20, colframe=white!20, left=4pt, right=4pt, top=2pt, bottom=2pt]{\color{white}\bfseries $\bullet$ Khóa Học}\\[4pt]
+$\circ$ Học Viên\\[3pt]
+$\circ$ Báo Cáo\\[12pt]
+\tcbox[on line, arc=3pt, colback=accentOrange, colframe=accentOrange, left=6pt, right=6pt, top=2pt, bottom=2pt]{\color{white}\tiny Dark Mode: Off}
+\end{tcolorbox}
+&
+\begin{tcolorbox}[colback=white, colframe=gray!20, arc=4pt, left=8pt, right=8pt, top=6pt, bottom=6pt]
+\textbf{Tìm kiếm:} \tcbox[on line, arc=3pt, colback=gray!8, colframe=gray!30, left=6pt, right=40pt, top=2pt, bottom=2pt]{\color{gray!70}Nhập tên khóa học...}\\[8pt]
+\textbf{\color{primaryBlue} Danh Sách Khóa Học Nổi Bật:}\\[6pt]
+\begin{tabular}{@{}l l@{}}
+\begin{tcolorbox}[colback=white, colframe=primaryBlue!30, width=5.2cm, arc=4pt]
+\textbf{\color{primaryBlue} HTML5 Masterclass 2026}\\[2pt]
+\tiny Tác giả: Nguyễn Trọng Tấn\\[2pt]
+\tcbox[on line, arc=2pt, colback=green!10, colframe=green!50, boxsep=1pt]{\color{green!60!black}\tiny Đang Hoạt Động}
+\end{tcolorbox}
+&
+\begin{tcolorbox}[colback=white, colframe=primaryBlue!30, width=5.2cm, arc=4pt]
+\textbf{\color{primaryBlue} Modern CSS Grid \& Flexbox}\\[2pt]
+\tiny Tác giả: Đội Ngũ EduWeb\\[2pt]
+\tcbox[on line, arc=2pt, colback=green!10, colframe=green!50, boxsep=1pt]{\color{green!60!black}\tiny Đang Hoạt Động}
+\end{tcolorbox}
+\end{tabular}
+\end{tcolorbox}
+\end{tabularx}
+\end{tcolorbox}
+
+\vspace{4pt}
+\textbf{$\rightarrow$ Giải thích kết quả}: Bố cục 2 cột hoàn chỉnh với Sidebar bên trái chứa nút đổi giao diện và Main Area bên phải chứa thanh tìm kiếm cùng các Card khóa học render động.
+\end{browserWindow}
+
+\subsection{2. Triển Khai Logic JavaScript Tương Tác (Search \& Dark Mode)}
+
+\begin{codeWindow}[Mã Nguồn JavaScript: Tìm Kiếm Thời Gian Thực \& Chế Độ Dark Mode]
+\begin{lstlisting}[language=JavaScript]
+// 1. Tinh nang tim kiem khoa hoc nhanh (Real-time Filter)
+const searchInput = document.getElementById('search-input');
+const courseCards = document.querySelectorAll('.course-card');
+
+searchInput.addEventListener('input', function(e) {
+  const searchTerm = e.target.value.toLowerCase().trim();
+
+  courseCards.forEach(card => {
+    const titleText = card.querySelector('.course-title').textContent.toLowerCase();
+    if (titleText.includes(searchTerm {
+      card.style.display = 'block'; (*@// Hien thi card trung (*@khớp@*)
+    } else {
+      card.style.display = 'none';  # An card khong (*@khớp@*)
+    }
+  });
+});
+
+// 2. Tinh nang chuyen doi Dark Mode luu vao localStorage
+const darkModeBtn = document.getElementById('dark-mode-btn');
+darkModeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-theme');
+  const isDark = document.body.classList.contains('dark-theme');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Mô Phỏng Khi Tìm Kiếm Từ Khóa "HTML5"]
+\sffamily\small
+\begin{tcolorbox}[colback=gray!90!black, colframe=gray!70!black, arc=6pt, top=4pt, bottom=4pt, left=6pt, right=6pt]
+\color{white}
+\textbf{Trạng Thái Dark Mode: ON} \hfill \textbf{Ô tìm kiếm:} \tcbox[on line, arc=3pt, colback=gray!80, colframe=gray!60, left=6pt, right=30pt, top=2pt, bottom=2pt]{\color{yellow}\bfseries HTML5}\\[6pt]
+\begin{tcolorbox}[colback=gray!80!black, colframe=yellow!70!orange, width=0.85\linewidth, arc=4pt]
+\color{white}
+\textbf{\color{yellow} HTML5 Masterclass 2026} \hfill \tcbox[on line, arc=2pt, colback=yellow!20, colframe=yellow!80, boxsep=1pt]{\color{yellow!90!black}\tiny Match: 1 Kết Quả}\\[2pt]
+{\small Tác giả: Nguyễn Trọng Tấn --- Khóa học lập trình HTML5 ngữ nghĩa từ căn bản đến nâng cao.}
+\end{tcolorbox}
+\end{tcolorbox}
+
+\vspace{4pt}
+\textbf{$\rightarrow$ Giải thích kết quả}: Khi gõ từ khóa "HTML5", JavaScript ngay lập tức lọc các card trùng khớp và giao diện tự động bật tone màu tối mượt mà nhờ Dark Mode!
+\end{browserWindow}
+
+% ==============================================================================
+% 3. TÓM TẮT DỰ ÁN
+% ==============================================================================
+\section{Tóm Tắt \& Checklist Đóng Gói Đưa Lên Production}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item Đảm bảo mã HTML5 passing kiểm thử chuẩn W3C Validator không có lỗi đóng thẻ.
+    \item Tối ưu dung lượng hình ảnh WebP/SVG và bật lazy loading cho các ảnh thumbnail.
+    \item Kiểm thử giao diện Responsive trên màn hình di động 320px đến màn hình 4K.
+    \item Kiểm tra điểm số Lighthouse đạt trên 90 điểm cho 4 tiêu chí: Performance, Accessibility, Best Practices và SEO.
+\end{itemize}
+
+Dự án thực chiến này đã tổng kết thành công toàn bộ hành trình học tập từ Nền tảng HTML5, CSS3 đến JavaScript Modern.

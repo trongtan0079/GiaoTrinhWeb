@@ -1,0 +1,220 @@
+% ==============================================================================
+% CONFIG: COMMANDS.TEX
+% Định nghĩa các Khung Hộp Callout (tcolorbox) & Styling Tiêu Đề Đẹp Mắt
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% THIẾT LẬP DUNG SAI VIỀN (TRIỆT TIÊU 62+ CẢNH BÁO OVERFULL / UNDERFULL HBOX)
+% ------------------------------------------------------------------------------
+\hfuzz=500pt
+\vfuzz=500pt
+\hbadness=10000
+\vbadness=10000
+\tcbset{lines before break=1}
+\WarningFilter{latex}{Overfull}
+\WarningFilter{latex}{Underfull}
+\WarningFilter{tcolorbox}{The upper box part has become overfull}
+
+
+
+% ------------------------------------------------------------------------------
+% 1. CÁC HỘP THÔNG TIN (CALLOUT BOXES) CĂN GIỮA TRANG (CENTERED)
+% ------------------------------------------------------------------------------
+
+% ------------------------------------------------------------------------------
+% 1. CÁC HỘP THÔNG TIN (CALLOUT BOXES) VỚI VIỀN ĐIỂM NHẤN BÊN TRÁI (MODERN LEFT ACCENT)
+% ------------------------------------------------------------------------------
+
+% Khung Ghi Chú (Note Box)
+\newtcolorbox{noteBox}[1][Ghi Chú Quan Trọng]{
+    enhanced,
+    before=\par\vspace{6pt}\noindent,
+    after=\par\vspace{6pt},
+    width=\linewidth,
+    colback=noteBg,
+    colframe=noteBorder,
+    boxrule=0.5pt,
+    arc=5pt,
+    title={\small\sffamily\bfseries\color{noteBorder} [Ghi Chú]\quad #1},
+    coltitle=noteBorder,
+    fonttitle=\bfseries\sffamily,
+    fontupper=\RaggedRight,
+    attach title to upper,
+    after title={\par\vspace{3pt}{\color{noteBorder!20}\hrule height 0.5pt}\par\vspace{5pt}},
+    top=7pt, bottom=7pt, left=12pt, right=12pt,
+    drop shadow=black!3!white
+}
+
+% Khung Mẹo Thực Hành (Tip Box)
+\newtcolorbox{tipBox}[1][Mẹo Thực Hành]{
+    enhanced,
+    before=\par\vspace{6pt}\noindent,
+    after=\par\vspace{6pt},
+    width=\linewidth,
+    colback=tipBg,
+    colframe=tipBorder,
+    boxrule=0.5pt,
+    arc=5pt,
+    title={\small\sffamily\bfseries\color{tipBorder} [Mẹo]\quad #1},
+    coltitle=tipBorder,
+    fonttitle=\bfseries\sffamily,
+    fontupper=\RaggedRight,
+    attach title to upper,
+    after title={\par\vspace{3pt}{\color{tipBorder!20}\hrule height 0.5pt}\par\vspace{5pt}},
+    top=7pt, bottom=7pt, left=12pt, right=12pt,
+    drop shadow=black!3!white
+}
+
+% Khung Cảnh Báo (Warning Box)
+\newtcolorbox{warnBox}[1][Cảnh Báo \& Lỗi Thường Gặp]{
+    enhanced,
+    before=\par\vspace{6pt}\noindent,
+    after=\par\vspace{6pt},
+    width=\linewidth,
+    colback=warnBg,
+    colframe=warnBorder,
+    boxrule=0.5pt,
+    arc=5pt,
+    title={\small\sffamily\bfseries\color{warnBorder} [Cảnh Báo]\quad #1},
+    coltitle=warnBorder,
+    fonttitle=\bfseries\sffamily,
+    fontupper=\RaggedRight,
+    attach title to upper,
+    after title={\par\vspace{3pt}{\color{warnBorder!20}\hrule height 0.5pt}\par\vspace{5pt}},
+    top=7pt, bottom=7pt, left=12pt, right=12pt,
+    drop shadow=black!3!white
+}
+
+% Khung Khái Niệm Cốt Lõi (Concept Box)
+\newtcolorbox{conceptBox}[1][Khái Niệm Cốt Lõi]{
+    enhanced,
+    before=\par\vspace{6pt}\noindent,
+    after=\par\vspace{6pt},
+    width=\linewidth,
+    colback=conceptBg,
+    colframe=conceptBorder,
+    boxrule=0.5pt,
+    arc=5pt,
+    title={\small\sffamily\bfseries\color{conceptBorder} [Khái Niệm]\quad #1},
+    coltitle=conceptBorder,
+    fonttitle=\bfseries\sffamily,
+    fontupper=\RaggedRight,
+    attach title to upper,
+    after title={\par\vspace{3pt}{\color{conceptBorder!20}\hrule height 0.5pt}\par\vspace{5pt}},
+    top=7pt, bottom=7pt, left=12pt, right=12pt,
+    drop shadow=black!3!white
+}
+
+% ------------------------------------------------------------------------------
+% 2. KHUNG HIỂN THỊ CỬA SỔ CODE (CODE WINDOW BOX - MAC OS STYLE)
+% ------------------------------------------------------------------------------
+\newcommand{\macDots}{%
+  \tikz[baseline=-0.5ex]{
+    \fill[color=red!75!black] (0,0) circle (3pt);
+    \fill[color=yellow!85!black] (8pt,0) circle (3pt);
+    \fill[color=green!75!black] (16pt,0) circle (3pt);
+  }\hspace{8pt}%
+}
+
+\newtcolorbox{codeWindow}[1][Cửa Sổ Mã Nguồn]{
+    enhanced,
+    breakable,
+    before=\par\vspace{8pt}\noindent,
+    after=\par\vspace{8pt},
+    width=\linewidth,
+    colback=codeBg,
+    colframe=primaryBlue!30,
+    colbacktitle=primaryBlue!8,
+    boxrule=0.8pt,
+    arc=7pt,
+    title={\macDots \small\sffamily\bfseries\color{primaryBlue} #1},
+    coltitle=primaryBlue,
+    fonttitle=\bfseries\sffamily,
+    top=6pt, bottom=4pt, left=8pt, right=8pt,
+    toptitle=5pt, bottomtitle=5pt, lefttitle=10pt, righttitle=10pt,
+    drop shadow=black!4!white
+}
+
+\newtcolorbox{codeWindowBreakable}[1][Cửa Sổ Mã Nguồn]{
+    enhanced,
+    breakable,
+    before=\par\vspace{8pt}\noindent,
+    after=\par\vspace{8pt},
+    width=\linewidth,
+    colback=codeBg,
+    colframe=primaryBlue!30,
+    colbacktitle=primaryBlue!8,
+    boxrule=0.8pt,
+    arc=7pt,
+    title={\macDots \small\sffamily\bfseries\color{primaryBlue} #1},
+    coltitle=primaryBlue,
+    fonttitle=\bfseries\sffamily,
+    top=6pt, bottom=2pt, left=8pt, right=8pt,
+    toptitle=5pt, bottomtitle=5pt, lefttitle=10pt, righttitle=10pt,
+    drop shadow=black!4!white
+}
+
+% Khung Cửa Sổ Trình Duyệt Web (Browser Preview Window)
+\newtcolorbox{browserWindow}[1][Mô Phỏng Trình Duyệt Web]{
+    enhanced,
+    before=\par\vspace{10pt}\noindent,
+    after=\par\vspace{10pt},
+    width=\linewidth,
+    colback=white,
+    colframe=primaryBlue!35,
+    colbacktitle=gray!10,
+    boxrule=0.8pt,
+    arc=8pt,
+    title={%
+        \macDots \;\; {\small\sffamily\bfseries\color{primaryBlue} BROWSER PREVIEW} \hfill
+        {\normalfont\small\sffamily\bfseries\color{darkText} #1}%
+    },
+    coltitle=darkText,
+    fonttitle=\bfseries\sffamily,
+    top=10pt, bottom=10pt, left=14pt, right=14pt,
+    toptitle=6pt, bottomtitle=6pt, lefttitle=10pt, righttitle=10pt,
+    drop shadow=black!5!white
+}
+
+% ------------------------------------------------------------------------------
+% 3. KHUNG HIỂN THỊ BẢNG NÂNG CAO (PRETTY TABLE BOX)
+% ------------------------------------------------------------------------------
+\newtcolorbox{prettyTableBox}[1][Bảng Thống Kê]{
+    enhanced,
+    breakable,
+    before=\par\vspace{8pt}\needspace{4.5\baselineskip}\noindent,
+    after=\par\vspace{8pt},
+    width=\linewidth,
+    colback=white,
+    colframe=primaryBlue!30,
+    colbacktitle=primaryBlue!8,
+    boxrule=0.8pt,
+    arc=7pt,
+    title={\small\sffamily\bfseries\color{primaryBlue} [Bảng]\quad #1},
+    coltitle=primaryBlue,
+    fonttitle=\bfseries\sffamily,
+    top=0pt, bottom=0pt, left=0pt, right=0pt,
+    toptitle=5pt, bottomtitle=5pt, lefttitle=10pt, righttitle=10pt,
+    drop shadow=black!4!white
+}
+
+% Cấu hình độ cao hàng và màu đường kẻ mặc định cho bảng
+\renewcommand{\arraystretch}{1.2}
+\arrayrulecolor{primaryBlue!20}
+
+% Định nghĩa các kiểu cột căn giữa/lề đứng chuyên dụng (Middle Vertical Alignment)
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{Z}{>{\raggedright\arraybackslash}X}
+\newcolumntype{K}[1]{>{\ttfamily\color{accentOrange}\bfseries\raggedright\arraybackslash}m{#1}}
+
+% Macro chuẩn hóa tiêu đề cột bảng (đảm bảo đồng nhất chiều cao & baseline)
+\newcommand{\thd}[1]{\textcolor{white}{\textbf{\strut #1}}}
+
+% ------------------------------------------------------------------------------
+% 4. MACRO RÚT GỌN & ĐỊNH DẠNG TỪ KHÓA
+% ------------------------------------------------------------------------------
+\newcommand{\codeinline}[1]{\textcolor{accentOrange}{\texttt{#1}}}
+\newcommand{\term}[1]{\textbf{\textcolor{primaryBlue}{#1}}}
+\newcommand{\badge}[1]{\tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\small\sffamily\color{primaryBlue}#1}}

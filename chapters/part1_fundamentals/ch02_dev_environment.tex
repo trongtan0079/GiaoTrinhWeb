@@ -1,0 +1,216 @@
+% ==============================================================================
+% CHƯƠNG 2: MÔI TRƯỜNG & CÔNG CỤ LẬP TRÌNH FRONTEND MASTERCLASS
+% ==============================================================================
+\chapter{Môi Trường \& Công Cụ Lập Trình Frontend Masterclass}
+\label{chap:dev_environment}
+
+Một môi trường phát triển (\term{Development Environment}) được chuẩn hóa, kết hợp với bộ công cụ hiện đại và quy trình quản lý mã nguồn chuyên nghiệp là yếu tố quyết định tốc độ làm việc, chất lượng sản phẩm và khả năng làm việc nhóm của một kĩ sư Frontend chuyên nghiệp.
+
+% ==============================================================================
+% 1. TRÌNH SOẠN THẢO MÃ NGUỒN: VISUAL STUDIO CODE
+% ==============================================================================
+\section{Trình Soạn Thảo Mã Nguồn: Visual Studio Code (VS Code)}
+
+\term{Visual Studio Code (VS Code)} là trình biên soạn mã nguồn (\textit{Code Editor}) phổ biến nhất thế giới hiện nay cho các lập trình viên Web. VS Code sở hữu tốc độ xử lý nhanh, tiêu tốn ít tài nguyên hệ thống, tích hợp sẵn Terminal, Git client và có một chợ ứng dụng mở rộng (\textit{Extension Marketplace}) cực kỳ phong phú.
+
+\subsection{Top Extension Quan Trọng Cho Frontend Developer}
+
+Để biến VS Code thành một môi trường lập trình Frontend mạnh mẽ, các kĩ sư web cần cài đặt các Extension cốt lõi sau:
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Các Extension Hàng Đầu Cho VS Code]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{3.2cm} K{2.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Tên Extension} & \thd{Từ khóa Search} & \thd{Chức năng \& Ý nghĩa kỹ thuật cốt lõi} \\
+Live Server & Ritwick Dey & Tự động tạo local server và làm mới trình duyệt (\textit{Hot Reloading}) ngay khi lưu file HTML/CSS/JS. \\
+Prettier & Prettier & Tự động định dạng mã nguồn chuẩn mực, thẳng hàng, căn lề tự động theo chuẩn công nghiệp. \\
+ESLint & Microsoft & Kiểm tra lỗi cú pháp, cảnh báo mã xấu (\textit{code smell}) và bắt buộc tuân thủ chuẩn JavaScript. \\
+Auto Rename Tag & Jun Han & Tự động đổi tên thẻ đóng tương ứng khi bạn chỉnh sửa thẻ mở trong HTML/JSX. \\
+GitLens & GitKraken & Hiển thị chi tiết lịch sử commit, tác giả và thời gian chỉnh sửa trực tiếp trên từng dòng code. \\
+Path Intellisense & Christian Kohler & Tự động gợi ý đường dẫn tệp tin (\textit{file path}) khi nhúng hình ảnh, CSS hoặc JS. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Cấu Hình settings.json Chuẩn Cho VS Code \& Prettier}
+
+Để đảm bảo mã nguồn luôn được tự động định dạng chuẩn mực mỗi khi bấm lưu tệp (\texttt{Ctrl+S}), bạn hãy thiết lập tệp cấu hình \codeinline{.vscode/settings.json} trong thư mục gốc của dự án:
+
+\begin{codeWindow}[Cấu Hình tệp .vscode/settings.json Chuẩn Cho Prettier]
+\begin{lstlisting}[language=JavaScript]
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.tabWidth": 2,
+  "prettier.trailingComma": "es5",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Bảng Tra Cứu Phím Tắt Nâng Cao Năng Suất Lập Trình}
+
+\begin{prettyTableBox}[Bảng Tra Cứu Phím Tắt VS Code Thường Dùng Cho Frontend]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{3.8cm} >{\bfseries\color{primaryBlue}}C{3.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Phím tắt (Windows)} & \thd{Phím tắt (macOS)} & \thd{Chức năng \& Tác dụng nhanh} \\
+Ctrl + S & Cmd + S & Lưu tệp tin và kích hoạt tự động định dạng Prettier. \\
+Ctrl + / & Cmd + / & Bật/Tắt ghi chú (\textit{Comment}) cho dòng hoặc khối code. \\
+Alt + Shift + F & Option + Shift + F & Định dạng lại toàn bộ tệp tin mã nguồn ngay lập tức. \\
+Alt + Up / Down & Option + Up / Down & Di chuyển dòng code hiện tại lên hoặc xuống. \\
+Shift + Alt + Down & Shift + Option + Down & Nhân bản (\textit{Duplicate}) dòng code hiện tại xuống dưới. \\
+Ctrl + D & Cmd + D & Chọn các từ giống nhau tiếp theo để sửa đồng loạt. \\
+Ctrl + \codeinline{} & Cmd + \codeinline{} & Ẩn/Hiện cửa sổ dòng lệnh Terminal tích hợp. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Cơ Chế Chú Thích Mã Nguồn Trong VS Code (VS Code Commenting)}
+
+Trong Visual Studio Code (VS Code), bạn có thể sử dụng các tổ hợp phím tắt nhanh để tạo hoặc gỡ chú thích (\textit{comment}) một cách hiệu quả, giúp lập hồ sơ ghi chú tài liệu hoặc vô hiệu hóa tạm thời các đoạn mã nguồn trong quá trình phát triển.
+
+\begin{prettyTableBox}[Tổ Hợp Phím Tắt Chú Thích Trong VS Code]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{3.8cm} K{3cm} K{3cm} Z}
+\rowcolor{primaryBlue}
+\thd{Loại chú thích} & \thd{Windows/Linux} & \thd{macOS} & \thd{Nguyên lý hoạt động} \\
+Dòng đơn (Single-line) & Ctrl + / & Cmd + / & Tự động chèn ký hiệu chú thích ở đầu dòng hiện tại. \\
+Nhiều dòng (Multi-line) & Shift + Alt + A & Shift + Option + A & Bọc đoạn mã nguồn được bôi đen trong khối chú thích. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+Dưới đây là cú pháp và ví dụ minh họa cách viết chú thích trong các ngôn ngữ lập trình phổ biến:
+
+\begin{codeWindow}[Ví dụ cú pháp chú thích trong các ngôn ngữ lập trình]
+\begin{lstlisting}[language=HTML5]
+<!-- (*@1. HTML: Sử dụng cặp thẻ mở/đóng đặc trưng@*) -->(*@<!-- Đây là một chú thích dòng đơn trong HTML --><!-- *@Đây là một chú thích *@trên nhiều dòng trong HTML@*)
+-->
+\end{lstlisting}
+\begin{lstlisting}[language=JavaScript]
+(*@/* 2. CSS: Chỉ hỗ trợ kiểu chú thích khối (dùng cặp ký hiệu) *@*)// (*@* Đây là một chú thích trong CSS *//* *@Đây là một chú thích *@nhiều dòng trong CSS@*)
+*/
+
+// (*@3. JS / C++ / C\# / Java: Hỗ trợ cả chú thích dòng đơn và khối// Đây là chú thích dòng đơn (dùng hai dấu gạch chéo)@*)
+/* 
+  (*@Đây là chú thích nhiều dòng (dùng cặp ký hiệu mở/đóng)@*)
+*/
+\end{lstlisting}
+\begin{lstlisting}[language=Python]
+# (*@4. Python: Sử dụng ký tự thăng (\#) làm chú thích dòng đơn\# Đây là một chú thích dòng đơn trong Python@*)
+# (*@Python không hỗ trợ chú thích nhiều dòng chính thức,\# nhưng có thể dùng Docstring (chuỗi 3 dấu nháy đơn) thay thế:''' *@Đây là một chú thích nhiều dòng *@sử dụng Docstring trong Python@*)
+'''
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Mẹo Sử Dụng Phím Tắt Chú Thích Hiệu Quả]
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Hủy chú thích nhanh}: Để bỏ chú thích dòng hoặc khối code, chỉ cần đặt con trỏ tại dòng đó hoặc bôi đen khối đó, rồi nhấn lại chính tổ hợp phím tắt tương ứng (\texttt{Ctrl + /} hoặc \texttt{Shift + Alt + A}).
+    \item \textbf{Chú thích đồng loạt}: Nếu bôi đen nhiều dòng và nhấn \texttt{Ctrl + /}, VS Code sẽ tự động chèn ký hiệu chú thích dòng đơn vào đầu mỗi dòng được chọn cùng lúc.
+\end{itemize}
+\end{tipBox}
+
+% ==============================================================================
+% 2. LÀM CHỦ CHROME DEVTOOLS
+% ==============================================================================
+\section{Làm Chủ Chrome DevTools (Developer Tools Masterclass)}
+
+\term{Chrome Developer Tools (Chrome DevTools)} là bộ công cụ kiểm tra và gỡ lỗi (\textit{Debugging}) bá đạo được tích hợp sẵn trong trình duyệt Google Chrome. Nhấn phím \texttt{F12} hoặc \texttt{Ctrl+Shift+I} (trên macOS: \texttt{Cmd+Option+I}) để mở DevTools.
+
+\subsection{5 Tab DevTools Cốt Lõi Không Thể Sống Thiếu}
+
+\begin{prettyTableBox}[Bảng Phân Tích 5 Tab DevTools Quan Trọng Nhất]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{2.8cm} K{2.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Tên Tab DevTools} & \thd{Phím tắt mở} & \thd{Tác dụng \& Ứng dụng gỡ lỗi kỹ thuật cốt lõi} \\
+Elements Tab & Ctrl+Shift+C & Kiểm tra và chỉnh sửa cấu trúc DOM, hiển thị sơ đồ Box Model, Flexbox/Grid và thử nghiệm CSS thời gian thực. \\
+Console Tab & Esc / Ctrl+` & Xem nhật ký lỗi JavaScript, chạy thử các đoạn mã JS trực tiếp và kiểm tra dữ liệu qua \codeinline{console.log()}, \codeinline{console.table()}. \\
+Network Tab & F12 $\rightarrow$ Network & Theo dõi tất cả yêu cầu HTTP/HTTPS (Requests), thời gian phản hồi, dung lượng tài nguyên và dữ liệu API (JSON/Payloads). \\
+Application Tab & F12 $\rightarrow$ App & Kiểm tra bộ nhớ đệm trình duyệt: LocalStorage, SessionStorage, Cookies, Cache Storage và Service Workers. \\
+Lighthouse Tab & F12 $\rightarrow$ Audit & Đánh giá điểm số tự động về Hiệu năng (Performance), Độ truy cập (Accessibility), SEO và Best Practices. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Mẹo Kiểm Tra Responsive Trên Nhiều Thiết Bị Với Toggle Device Toolbar]
+Nhấn tổ hợp phím \texttt{Ctrl + Shift + M} (hoặc click vào biểu tượng Điện thoại/Máy tính bảng ở góc trên bên trái cửa sổ DevTools) để bật chế độ giả lập màn hình di động. Bạn có thể chọn thử nghiệm trên iPhone, iPad, Samsung Galaxy hoặc tùy chỉnh độ phân giải màn hình linh hoạt.
+\end{tipBox}
+
+% ==============================================================================
+% 3. QUẢN LÝ MÃ NGUỒN VỚI GIT & GITHUB
+% ==============================================================================
+\section{Quản Lý Mã Nguồn Với Git \& GitHub (Git Version Control System)}
+
+\term{Git} là Hệ thống quản lý phiên bản phân tán (\textit{Distributed Version Control System}) giúp theo dõi mọi sự thay đổi trong mã nguồn, lưu lại các mốc lịch sử và hỗ trợ nhiều lập trình viên cùng làm việc trên một dự án mà không bị ghi đè code của nhau.
+
+\term{GitHub} là nền tảng điện toán đám mây cung cấp dịch vụ lưu trữ kho mã nguồn (\textit{Repository}) sử dụng Git, giúp chia sẻ code, quản lý dự án và làm việc nhóm trực tuyến.
+
+\subsection{Mô Hình Hoạt Động 4 Trạng Thái Của Git}
+
+\begin{prettyTableBox}[Bảng Phân Tích 4 Trạng Thái Làm Việc Của Git]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}C{3.2cm} K{2.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Trạng Thái / Khu Vực} & \thd{Lệnh di chuyển} & \thd{Ý nghĩa \& Bản chất kỹ thuật} \\
+Working Directory & Tệp vừa sửa & Thư mục làm việc thực tế chứa các tệp tin mã nguồn đang được chỉnh sửa. \\
+Staging Area & \codeinline{git add .} & Trạng thái đệm chuẩn bị. Đánh dấu các tệp tin sẵn sàng để đóng gói commit. \\
+Local Repository & \codeinline{git commit} & Kho lưu trữ nội bộ trên máy tính cá nhân, lưu giữ các bản đóng gói history. \\
+Remote Repository & \codeinline{git push} & Kho lưu trữ trực tuyến trên GitHub/GitLab giúp đồng bộ mã nguồn với nhóm. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Quy Trình Làm Việc Chuẩn Với Git \& GitHub Hàng Ngày}
+
+\begin{codeWindow}[Quy Trình Làm Việc Chuẩn Với Git \& GitHub (Terminal Commands)]
+\begin{lstlisting}[language=HTTP]
+# 1. Khai bao thong tin ca nhan (Luu y: Chi thuc hien 1 lan dau tien)
+git config --global user.name "Nguyen Van A"
+git config --global user.email "nguyenvana@example.com"
+
+# 2. Khoi tao kho luu tru local moi trong thu muc du an
+git init
+
+# 3. Kiem tra trang thai cac tep tin (Tracked / Untracked)
+git status
+
+# 4. Dua toan bo tep tin thay doi vao Staging Area
+git add .
+
+# 5. Dong goi phien ban thay doi voi thong diep commit ro rang
+git commit -m "feat: Khoi tao giao dien trang chu HTML5"
+
+# 6. Ket noi kho local voi GitHub va truyen tai code len Remote
+git remote add origin https://github.com/user/my-project.git
+git branch -M main
+git push -u origin main
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Quy Chuẩn Viết Commit Message (Conventional Commits Standard)}
+
+Một kĩ sư Frontend chuyên nghiệp luôn tuân thủ quy chuẩn viết thông điệp Commit (\term{Conventional Commits}) để lịch sử dự án rõ ràng, dễ tra cứu:
+
+\begin{prettyTableBox}[Bảng Tiêu Chuẩn Tiền Đề Commit (Conventional Commits)]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{2.5cm} >{\bfseries\color{primaryBlue}}C{3.0cm} Z}
+\rowcolor{primaryBlue}
+\thd{Tiền đề Prefix} & \thd{Ý nghĩa thay đổi} & \thd{Ví dụ thông điệp Commit chuẩn} \\
+\codeinline{feat:} & Tính năng mới & \codeinline{feat: add responsive navigation bar} \\
+\codeinline{fix:} & Sửa lỗi bug & \codeinline{fix: resolve broken image path on mobile} \\
+\codeinline{docs:} & Cập nhật tài liệu & \codeinline{docs: update README with installation steps} \\
+\codeinline{style:} & Định dạng code & \codeinline{style: reformat HTML with prettier} \\
+\codeinline{refactor:} & Tái cấu trúc code & \codeinline{refactor: simplify header component layout} \\
+\codeinline{chore:} & Cập nhật cấu hình & \codeinline{chore: update package dependencies} \\
+\end{tabularx}
+\end{prettyTableBox}
+
+% ==============================================================================
+% 4. TÓM TẮT CHƯƠNG 2
+% ==============================================================================
+\section{Tóm Tắt Chương 2}
+
+\begin{noteBox}[Tổng Kết Cốt Lõi Chương 2 \& Checklist Môi Trường Mẫu]
+Một môi trường phát triển chuyên nghiệp với VS Code được cấu hình chuẩn hóa, cài đặt đầy đủ các Extension hỗ trợ, thành thạo bộ công cụ Chrome DevTools để kiểm tra DOM/Network, cùng quy trình quản lý mã nguồn Git/GitHub chuẩn mực sẽ nâng cao hiệu suất làm việc và chất lượng sản phẩm của kĩ sư Web lên gấp nhiều lần.
+\end{noteBox}

@@ -1,0 +1,127 @@
+% ==============================================================================
+% CHƯƠNG 8: THẺ WEB COMPONENTS, GLOBAL ATTRIBUTES & SEO METADATA
+% ==============================================================================
+\chapter{Thẻ Web Components, Global Attributes \& SEO Metadata}
+\label{chap:web_components_seo}
+
+Chương này phân tích các thẻ Web Components, danh sách toàn bộ Thuộc Tính Toàn Cục (Global Attributes), bộ thẻ SEO Social Media và Dữ liệu cấu trúc JSON-LD.
+
+\section{Thẻ Mẫu Thụ Động <template> \& Thẻ Điểm Chèn <slot>}
+\subsection{1. Lý Thuyết \& Web Components Architecture}
+- \codeinline{<template>}: Chứa đoạn mã HTML thụ động không dựng hình khi tải trang, chỉ được nhân bản bằng JavaScript.
+- \codeinline{<slot name="...">}: Điểm chèn nội dung động trong kiến trúc Web Components và Shadow DOM.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ định nghĩa *@thẻ@*) template (*@và@*) named slot}]
+<template id="user-card-template">
+  <style>
+    .card { padding: 16px; border: 1px solid # ccc; border-radius: 8px; }
+  </style>
+  <div class="card">
+    <h2><slot name="username">(*@Tên Mặc Định@*)</slot></h2>
+    <p><slot name="bio">(*@Mô tả mặc định...@*)</slot></p>
+  </div>
+</template>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Tất Cả Thuộc Tính Toàn Cục (Global Attributes Masterclass)}
+\subsection{1. Lý Thuyết \& Bảng Tra Cứu Toàn Bộ Thuộc Tính Toàn Cục}
+Thuộc tính toàn cục (\term{Global Attributes}) là các thuộc tính có thể áp dụng cho \textbf{tất cả mọi thẻ HTML5} không ngoại lệ.
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Tác Dụng} \\
+\hline
+\codeinline{id} & Mã định danh duy nhất & Đặt ID duy nhất trong trang (Dùng cho CSS/JS/Anchor). \\
+\codeinline{class} & Danh sách tên lớp & Gom nhóm các phần tử để định kiểu CSS. \\
+\codeinline{style} & Chuỗi mã CSS & Nhúng mã CSS trực tiếp trong thẻ (Inline Style). \\
+\codeinline{title} & Chuỗi văn bản & Chú thích bổ sung hiển thị khi di chuột (Tooltip). \\
+\codeinline{hidden} & \codeinline{hidden}, \codeinline{until-found} & Ẩn phần tử khỏi màn hình và Trình đọc màn hình. \\
+\codeinline{tabindex} & \codeinline{-1}, \codeinline{0}, \codeinline{1+} & Cấu hình thứ tự di chuyển con trỏ Focus phím Tab. \\
+\codeinline{accesskey} & Ký tự bàn phím & Phím tắt kích hoạt phần tử (\codeinline{Alt + Key}). \\
+\codeinline{autofocus} & Boolean & Tự động Focus con trỏ chuột vào thẻ khi nạp trang. \\
+\codeinline{contenteditable} & \codeinline{true}, \codeinline{false} & Cho phép người dùng chỉnh sửa văn bản trực tiếp. \\
+\codeinline{spellcheck} & \codeinline{true}, \codeinline{false} & Kiểm tra lỗi chính tả văn bản. \\
+\codeinline{inert} & Boolean & Vô hiệu hóa toàn bộ tương tác và focus của vùng phần tử. \\
+\codeinline{data-*} & Giá trị tùy biến & Lưu trữ dữ liệu tùy biến máy tính đọc được trong \codeinline{dataset}. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Toàn bộ các thuộc tính toàn cục trong HTML5}
+\end{table}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ ứng dụng *@các thuộc tính@*) contenteditable, inert (*@và@*) data-*}]
+<!-- (*@Cho phép người dùng trực tiếp sửa văn bản@*) --><h1 contenteditable="true" spellcheck="false">(*@Nhấp vào đây để chỉnh sửa tiêu đề@*)</h1>
+
+<!-- (*@Khung bị vô hiệu hóa hoàn toàn tương tác với inert@*) --><div inert>
+  <button>(*@Nút này không thể nhấp@*)</button>
+</div>
+
+<!-- (*@Lưu trữ dữ liệu tùy biến với data-*@*) --><article data-product-id="9982" data-category="laptop" data-price="25000000">
+  <h2>Laptop Gaming Pro</h2>
+</article>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Bộ Thẻ Social Media Metadata (Open Graph \& Twitter Cards)}
+\subsection{1. Lý Thuyết \& Thẻ Hiển Thị Xem Trước Khi Chia Sẻ}
+Bộ thẻ Open Graph (\codeinline{og:*}) do Facebook phát triển và Twitter Cards (\codeinline{twitter:*}) điều khiển hình ảnh, tiêu đề và mô tả hiển thị khi người dùng chia sẻ liên kết trang web lên mạng xã hội.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ bộ thẻ@*) Open Graph (*@chuẩn@*) khi chia (*@sẻ@*) Facebook/Zalo}]
+<!-- Facebook Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="(*@Khóa Học HTML5 Masterclass 2026@*)">
+<meta property="og:description" content="(*@Giáo trình bách khoa toàn thư lập trình Web chuyên sâu.@*)">
+<meta property="og:image" content="https://eduweb.vn/assets/og-cover.png">
+<meta property="og:url" content="https://eduweb.vn/courses/html5">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="(*@Khóa Học HTML5 Masterclass 2026@*)">
+<meta name="twitter:image" content="https://eduweb.vn/assets/og-cover.png">
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Dữ Liệu Cấu Trúc Schema.org JSON-LD}
+\subsection{1. Lý Thuyết \& Cú Pháp <script type="application/ld+json">}
+Dữ liệu cấu trúc Schema.org theo chuẩn \textbf{JSON-LD} giúp Googlebot hiểu chính xác ngữ nghĩa của trang web (Bài viết, Sản phẩm, Khóa học, FAQ) để hiển thị các kết quả tìm kiếm nổi bật (\term{Rich Snippets}).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ@*) khai (*@báo dữ liệu cấu *@trúc Khóa Học chuẩn@*) Google Rich Results}]
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "(*@HTML5 Masterclass Toàn Tập@*)",
+  "description": "(*@Giáo trình bách khoa toàn thư thiết kế web hiện đại.@*)",
+  "provider": {
+    "@type": "Organization",
+    "name": "EduWeb Academy",
+    "sameAs": "https://eduweb.vn"
+  }
+}
+</script>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Kỹ Thuật Bảo Mật Với HTML Header Tags}
+\subsection{1. Lý Thuyết \& CSP, SRI}
+- Content Security Policy (CSP): Ngăn chặn tấn công XSS bằng cách quy định các nguồn tài nguyên hợp lệ.
+- Subresource Integrity (SRI): Bảo vệ tệp CDN khỏi bị sửa đổi mã độc bằng mã băm Hash.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ cấu hình@*) Content Security Policy trong (*@thẻ@*) meta}]
+<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; script-src 'self' https:// trustedscripts.example.com; style-src 'self' 'unsafe-inline';">
+\end{lstlisting}
+
+\section{Tóm Tắt Chương 9}
+Chương 9 đã hoàn tất hệ thống Bách Khoa Toàn Thư Thẻ HTML5 với các phần tử Web Components, danh sách Thuộc tính toàn cục, bộ thẻ Social Media Metadata và Dữ liệu cấu trúc JSON-LD.

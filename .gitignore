@@ -1,0 +1,23 @@
+# LaTeX temporary build files
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.idx
+*.ind
+*.ilg
+*.lof
+*.lot
+*.run.xml
+*-blx.bib
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

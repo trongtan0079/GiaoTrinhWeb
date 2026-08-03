@@ -1,0 +1,117 @@
+% ==============================================================================
+% CONFIG: CODE_STYLE.TEX
+% Cấu hình hiển thị Mã Nguồn (Code Listings) cho HTML5, CSS3 & Modern JavaScript
+% Hỗ trợ hiển thị Tiếng Việt Unicode hoàn hảo 100% trên XeLaTeX
+% ==============================================================================
+
+% 1. Định nghĩa ngôn ngữ JavaScript
+\lstdefinelanguage{JavaScript}{
+    keywords={break, case, catch, class, const, continue, debugger, default, delete, do, else, export, extends, false, finally, for, function, if, import, in, instanceof, new, null, return, super, switch, this, throw, true, try, typeof, var, void, while, with, yield, async, await, let},
+    keywordstyle=\color{codeKeyword}\bfseries,
+    ndkeywords={class, export, default, boolean, throw, implements, import, this, fetch, console, log, then},
+    ndkeywordstyle=\color{codeKey}\bfseries,
+    identifierstyle=\color{darkText},
+    sensitive=true,
+    comment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{codeComment}\upshape,
+    stringstyle=\color{codeString},
+    morestring=[b]',
+    morestring=[b]",
+    morestring=[b]`
+}
+
+% 2. Định nghĩa ngôn ngữ HTML5
+\lstdefinelanguage{HTML5}{
+    language=html,
+    sensitive=true,
+    alsoletter={<>=-/},
+    morekeywords={
+        <!DOCTYPE, html, head, title, meta, link, script, body,
+        header, nav, main, section, article, aside, footer,
+        h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, div, span,
+        form, input, button, select, option, textarea, label, table, tr, td, th,
+        figure, figcaption, details, summary, dialog, meter, progress, picture, source, video, audio, track, iframe, svg, canvas, math
+    },
+    keywordstyle=\color{primaryBlue}\bfseries,
+    tag=[s]{<}{>},
+    tagstyle=\color{primaryBlue}\bfseries,
+    stringstyle=\color{codeString},
+    morestring=[b]",
+    comment=[s]{<!--}{-->},
+    commentstyle=\color{codeComment}\upshape
+}
+
+% 2b. Định nghĩa ngôn ngữ CSS3 & CSS
+\lstdefinelanguage{CSS3}{
+    keywords={color, background, background-color, border, border-radius, padding, margin, margin-bottom, font-weight, font-size, display, flex, grid, width, height, appearance},
+    keywordstyle=\color{primaryBlue}\bfseries,
+    sensitive=false,
+    comment=[s]{/*}{*/},
+    commentstyle=\color{codeComment}\upshape,
+    stringstyle=\color{codeString},
+    morestring=[b]",
+    morestring=[b]'
+}
+\lstdefinelanguage{CSS}{language=CSS3}
+
+% 3. Định nghĩa ngôn ngữ PHP
+\lstdefinelanguage{PHP}{
+    keywords={<?php, ?>, echo, print, date, if, else, foreach, while, return, function, class, array},
+    keywordstyle=\color{codeKeyword}\bfseries,
+    ndkeywords={echo, print, date},
+    ndkeywordstyle=\color{codeKey}\bfseries,
+    stringstyle=\color{codeString},
+    morestring=[b]",
+    morestring=[b]',
+    comment=[l]{//},
+    commentstyle=\color{codeComment}\upshape
+}
+
+% 4. Định nghĩa ngôn ngữ HTTP & JSON (Headers, Status Codes, JSON payloads)
+\lstdefinelanguage{HTTP}{
+    keywords={GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS, HTTP, HTTPS, OK},
+    keywordstyle=\color{codeKeyword}\bfseries,
+    ndkeywords={Host, Content-Type, Content-Length, Cache-Control, Authorization, User-Agent, Accept, Connection, Server, Date, Status, Bearer, status, data, id, name, role},
+    ndkeywordstyle=\color{codeKey}\bfseries,
+    identifierstyle=\color{darkText},
+    sensitive=false,
+    stringstyle=\color{codeString},
+    morestring=[b]",
+    morestring=[b]',
+    comment=[l]{//},
+    commentstyle=\color{codeComment}\upshape
+}
+
+% 5. Style mặc định webcode hỗ trợ XeLaTeX Unicode Tiếng Việt hoàn hảo
+\lstdefinestyle{webcode}{
+    backgroundcolor=\color{codeBg},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    keepspaces=true,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    deletekeywords={...},
+    escapeinside={(*@}{@*)},
+    extendedchars=false,
+    inputencoding=utf8,
+    firstnumber=1,
+    frame=none,
+    rulecolor=\color{codeBorder},
+    language=JavaScript,
+    numbersep=8pt,
+    numbers=left,
+    numberstyle=\ttfamily\scriptsize\color{codeComment},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stepnumber=1,
+    tabsize=2,
+    aboveskip=3pt,
+    belowskip=1pt,
+    xleftmargin=16pt,
+    xrightmargin=4pt
+}
+
+\lstset{style=webcode}

@@ -1,0 +1,247 @@
+% ==============================================================================
+% CHƯƠNG 8: THẺ ĐA PHƯƠNG TIỆN, NHÚNG & GRAPHICS MASTERCLASS
+% ==============================================================================
+\chapter{Thẻ Đa Phương Tiện (Multimedia), Nhúng \& Graphics}
+\label{chap:multimedia_graphics}
+
+Chương này phân tích chi tiết từng thẻ thuộc nhóm Đa phương tiện, Nhúng khung web và Đồ họa Vector SVG/Canvas trong HTML5.
+
+\section{Thẻ Hình Ảnh <img>}
+\subsection{1. Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính Tối Ưu Hiệu Năng}
+Thẻ \codeinline{<img>} dùng để nhúng hình ảnh vào tài liệu.
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Tối Ưu Hiệu Năng} \\
+\hline
+\codeinline{src} & URL ảnh & Đường dẫn tệp ảnh. \\
+\codeinline{alt} & Chuỗi văn bản & Văn bản thay thế khi lỗi ảnh hoặc cho Screen Reader. \\
+\codeinline{srcset} & Danh sách URLs kèm mật độ pixel & Cung cấp các định dạng ảnh theo độ phân giải màn hình. \\
+\codeinline{sizes} & Media queries (\codeinline{(max-width: 600px) 100vw}) & Khai báo kích thước hiển thị dự kiến của ảnh. \\
+\codeinline{loading} & \codeinline{lazy}, \codeinline{eager} & Tải ngầm Lazy Loading khi cuộn tới ảnh. \\
+\codeinline{decoding} & \codeinline{async}, \codeinline{sync} & Giải mã hình ảnh bất đồng bộ không làm giật trang. \\
+\codeinline{fetchpriority} & \codeinline{high}, \codeinline{low}, \codeinline{auto} & Ép trình duyệt tải ảnh Banner Hero trước tiên. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Toàn bộ thuộc tính tối ưu hình ảnh của thẻ <img>}
+\end{table}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ ảnh chuẩn@*) Responsive (*@kèm@*) Lazy Loading (*@và@*) Fetch Priority}]
+<!-- (*@Ảnh Hero banner tải ngay lập tức với ưu tiên cao nhất@*) --><img src="hero-1200.webp"
+     srcset="hero-600.webp 600w, hero-1200.webp 1200w"
+     sizes="(max-width: 600px) 100vw, 1200px"
+     alt="(*@Banner Khóa Học HTML5@*)"
+     width="1200" height="600"
+     fetchpriority="high"
+     decoding="async">
+
+<!-- (*@Ảnh bên dưới cuộn tới đâu tải tới đó (Lazy Loading)@*) --><img src="course-thumb.jpg" alt="(*@Minh họa bài học@*)" loading="lazy">
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Nguồn Ảnh Thích Ứng <picture> \& <source>}
+\subsection{1. Lý Thuyết \& Kỹ Thuật Art Direction}
+Thẻ \codeinline{<picture>} là wrapper chứa một hoặc nhiều thẻ \codeinline{<source>} và một thẻ \codeinline{<img>} dự phòng. Thẻ này áp dụng kỹ thuật \term{Art Direction} (Đổi khung ảnh theo màn hình di động/máy tính) và tự động chọn định dạng ảnh thế hệ mới (AVIF, WebP).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ đổi định *@dạng ảnh@*) AVIF/WebP (*@với thẻ@*) picture}]
+<picture>
+  <!-- (*@1. Ưu tiên cao nhất: Định dạng AVIF siêu nhẹ@*) -->  <source srcset="image.avif" type="image/avif">
+  
+  <!-- (*@2. Ưu tiên 2: Định dạng WebP@*) -->  <source srcset="image.webp" type="image/webp">
+  
+  <!-- (*@3. Dự phòng cho trình duyệt cũ@*) -->  <img src="image.jpg" alt="(*@Mô tả hình ảnh@*)">
+</picture>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Bản Đồ Ảnh <map> \& <area>}
+\subsection{1. Lý Thuyết \& Thuộc Tính Tọa Độ}
+- \codeinline{<map name="mapname">}: Khai báo một bản đồ hình ảnh chứa các vùng liên kết nhấp chuột.
+- \codeinline{<area>}: Khai báo một vùng nhấp chuột cụ thể. Thuộc tính \codeinline{shape="rect|circle|poly"}, \codeinline{coords="x1,y1,x2,y2"}, \codeinline{href="..."}.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ tạo vùng *@nhấp chuột tương tác *@trên ảnh@*)}]
+<img src="planets.jpg" alt="(*@Hệ Mặt Trời@*)" usemap="#                    image-map">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<map name="image-map">
+  <!-- (*@Vùng hình tròn nhấp vào Mặt Trời@*) -->  <area shape="circle" coords="100,100,50" href="sun.html" alt="(*@Mặt Trời@*)">
+  <!-- (*@Vùng hình chữ nhật nhấp vào Trái Đất@*) -->  <area shape="rect" coords="200,80,260,140" href="earth.html" alt="(*@Trái Đất@*)">
+</map>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Phát Video <video>}
+\subsection{1. Lý Thuyết \& Bảng Thuộc Tính}
+Thẻ \codeinline{<video>} phát trình chiếu các tệp video gốc (MP4, WebM, Ogg).
+
+\begin{itemize}
+    \item \codeinline{controls}: Hiển thị thanh điều khiển phát/dừng/âm lượng.
+    \item \codeinline{poster="..."}: Ảnh đại diện hiển thị trước khi ấn play.
+    \item \codeinline{autoplay}, \codeinline{muted}, \codeinline{loop}: Tự động phát ngầm (Phải kèm \codeinline{muted} mới chạy trên iOS/Android).
+    \item \codeinline{playsinline}: Phát video trực tiếp trong dòng trên trình duyệt iOS Safari.
+\end{itemize}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ thẻ@*) video (*@phát chuẩn đa thiết *@bị@*)}]
+<video controls poster="thumbnail.jpg" width="800" height="450" playsinline preload="metadata">
+  <source src="course-intro.webm" type="video/webm">
+  <source src="course-intro.mp4" type="video/mp4">
+  (*@Trình duyệt của bạn không hỗ trợ thẻ video.@*)
+</video>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Phát Âm Thanh <audio>}
+\subsection{1. Lý Thuyết \& Định Dạng Hỗ Trợ}
+Thẻ \codeinline{<audio>} nhúng trình phát âm thanh gốc (MP3, WAV, OGG).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ thẻ@*) audio (*@phát nhạc@*) podcast}]
+<audio controls preload="none">
+  <source src="podcast-ep1.mp3" type="audio/mpeg">
+  <source src="podcast-ep1.ogg" type="audio/ogg">
+</audio>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Nhúng Phụ Đề <track>}
+\subsection{1. Lý Thuyết \& Chuẩn Phụ Đề WebVTT}
+Thẻ \codeinline{<track>} nhúng phụ đề văn bản chuẩn \textbf{WebVTT} (\codeinline{.vtt}) vào các thẻ \codeinline{<video>} hoặc \codeinline{<audio>}.
+
+\begin{itemize}
+    \item \codeinline{kind="subtitles|captions|descriptions|chapters"}: Loại phụ đề.
+    \item \codeinline{srclang="vi|en"}: Mã ngôn ngữ của phụ đề.
+    \item \codeinline{label="..."}: Tên hiển thị trên menu chọn phụ đề.
+    \item \codeinline{default}: Bật sẵn phụ đề này.
+\end{itemize}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ nhúng phụ *@đề tiếng Việt và *@tiếng@*) Anh cho video}]
+<video controls src="lecture.mp4">
+  <track kind="subtitles" src="subtitles-vi.vtt" srclang="vi" label="(*@Tiếng Việt@*)" default>
+  <track kind="subtitles" src="subtitles-en.vtt" srclang="en" label="English">
+</video>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Khung Nhúng Trang Web <iframe>}
+\subsection{1. Lý Thuyết \& Bảo Mật Sandbox}
+Thẻ \codeinline{<iframe>} (Inline Frame) nhúng một tài liệu HTML độc lập khác vào trang web hiện tại.
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Bảo Mật} \\
+\hline
+\codeinline{src} & URL & Địa chỉ trang web nhúng. \\
+\codeinline{srcdoc} & Mã HTML & Nhúng trực tiếp chuỗi HTML vào iframe mà không cần URL. \\
+\codeinline{sandbox} & \codeinline{allow-scripts}, \codeinline{allow-forms}, \codeinline{allow-same-origin} & Bật tường lửa bảo mật cô lập iframe. \\
+\codeinline{allow} & \codeinline{camera; microphone; fullscreen} & Phân quyền truy cập thiết bị phần cứng. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{Các thuộc tính bảo mật của thẻ iframe}
+\end{table}
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ nhúng@*) video YouTube an (*@toàn với@*) sandbox (*@và@*) allow}]
+<iframe width="560" height="315"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="(*@Trình chiếu Video YouTube@*)"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        sandbox="allow-scripts allow-same-origin allow-popups"
+        loading="lazy"
+        allowfullscreen></iframe>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Đồ Họa Vector Inline <svg> \& Các Thẻ Con}
+\subsection{1. Lý Thuyết \& Đồ Họa Độc Lập Độ Phân Giải}
+Thẻ \codeinline{<svg>} nhúng mã đồ họa Vector 2D trực tiếp vào trang web. Các thẻ con chính: \codeinline{<path>}, \codeinline{<circle>}, \codeinline{<rect>}, \codeinline{<line>}, \codeinline{<text>}, \codeinline{<defs>}, \codeinline{<use>}.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ vẽ@*) icon (*@hình tròn và hình@*) sao (*@bằng@*) SVG}]
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="40" stroke="# 0F4C81" stroke-width="4" fill="#008080" />
+</svg>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Khung Vẽ Điểm Ảnh <canvas>}
+\subsection{1. Lý Thuyết \& 2D Context API}
+Thẻ \codeinline{<canvas>} tạo ra một vùng trống tính bằng điểm ảnh (Pixels) cho phép JavaScript vẽ đồ họa 2D, biểu đồ động hoặc game WebGL.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ vẽ hình *@chữ nhật đỏ bằng@*) Canvas API}]
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #ccc;"></canvas>
+
+<script>
+  const canvas = document.getElementById('myCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0F4C81';
+  ctx.fillRect(10, 10, 150, 80);
+</script>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Công Thức Toán Học <math> (MathML)}
+\subsection{1. Lý Thuyết \& Các Phần Tử MathML}
+Thẻ \codeinline{<math>} nhúng công thức toán học chuẩn W3C MathML. Các thẻ con: \codeinline{<mfrac>} (Phân số), \codeinline{<msqrt>} (Căn bậc hai), \codeinline{<msup>} (Số mũ).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ hiển thị *@công thức toán học *@Phân số@*)}]
+<math>
+  <mfrac>
+    <mi>a</mi>
+    <mi>b</mi>
+  </mfrac>
+</math>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Nhúng Đối Tượng Khác <object>, <embed>, <param>}
+\subsection{1. Lý Thuyết \& Nhúng File PDF}
+- \codeinline{<object data="..." type="...">}: Nhúng tài nguyên ngoài như file PDF.
+- \codeinline{<embed src="..." type="...">}: Nhúng đa phương tiện ứng dụng ngoài.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ nhúng tệp@*) PDF (*@hiển thị trực tiếp@*)}]
+<object data="document.pdf" type="application/pdf" width="100%" height="500px">
+  <p>(*@Trình duyệt không hỗ trợ xem PDF.@*)<a href="document.pdf">(*@Tải tệp tại đây@*)</a>.</p>
+</object>
+\end{lstlisting}
+
+\section{Tóm Tắt Chương 8}
+Chương 8 đã phân tích trọn bộ các mục riêng biệt dành cho từng thẻ Đa phương tiện, Nhúng khung web và Đồ họa Vector/Canvas. Chương tiếp theo sẽ tiến sang nhóm Thẻ Web Components, WAI-ARIA và SEO Metadata.

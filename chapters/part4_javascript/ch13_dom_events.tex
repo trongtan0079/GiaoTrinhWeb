@@ -1,0 +1,219 @@
+% ==============================================================================
+% CHƯƠNG 13: THAO TÁC DOM & XỬ LÝ SỰ KIỆN (DOM MANIPULATION & EVENTS MASTERCLASS)
+% ==============================================================================
+\chapter{Thao Tác DOM \& Xử Lý Sự Kiện}
+\label{chap:dom_events}
+
+Chương này đi sâu vào kiến trúc cây Document Object Model (DOM), các phương thức truy vấn phần tử, kỹ thuật thao tác giao diện động và cơ chế xử lý sự kiện nâng cao trong JavaScript hiện đại.
+
+% ==============================================================================
+% 1. TỔNG QUAN VỀ DOM & CÂY DOM TREE
+% ==============================================================================
+\section{Tổng Quan Về DOM \& Cấu Trúc Cây DOM Tree}
+
+\term{Document Object Model (DOM)} là giao diện lập trình ứng dụng (API) cho phép JavaScript truy cập, đọc, thay đổi cấu trúc, nội dung và định kiểu của tài liệu HTML.
+
+\begin{conceptBox}[Khái Niệm Cốt Lõi Về Cây DOM Tree]
+Khi trình duyệt nạp một tệp HTML, nó phân tích (\textit{parse}) mã nguồn và dựng thành một \textbf{cây nút (Node Tree)} trong bộ nhớ RAM:
+\begin{itemize}
+    \item \textbf{Document Node}: Nút gốc đại diện cho toàn bộ tài liệu web.
+    \item \textbf{Element Node}: Các nút thẻ HTML (\codeinline{<div>}, \codeinline{<p>}, \codeinline{<button>}).
+    \item \textbf{Text Node}: Nút chứa nội dung văn bản bên trong thẻ.
+    \item \textbf{Attribute Node}: Thuộc tính của phần tử (\codeinline{id}, \codeinline{class}, \codeinline{src}).
+\end{itemize}
+\end{conceptBox}
+
+\subsection{Ví Dụ Mã Nguồn Cấu Trúc DOM}
+
+\begin{codeWindow}[Mã Nguồn: Cấu Trúc Thẻ HTML Minh Họa DOM Tree]
+\begin{lstlisting}[language=HTML5]
+<div id="card" class="box">
+  <h2>(*@Tiêu đề bài viết@*)</h2>
+  <p>(*@Nội dung chi tiết...@*)</p>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Trình Duyệt: Minh Họa Mô Hình Phân Cấp Cây DOM]
+\sffamily\small
+\centering
+\begin{tcolorbox}[colback=primaryBlue!4, colframe=primaryBlue!30, width=0.85\linewidth, arc=5pt]
+\centering
+\textbf{\color{primaryBlue} Document Node (window.document)}\\[4pt]
+$\downarrow$\\[4pt]
+\textbf{\color{primaryBlue} Element Node: <div id="card" class="box">}\\[4pt]
+$\swarrow \quad \searrow$\\[4pt]
+\textbf{Element Node: <h2>} \qquad\qquad \textbf{Element Node: <p>}\\[2pt]
+{\small (Text: "Tiêu đề bài viết")} \qquad\qquad {\small (Text: "Nội dung chi tiết...")}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ==============================================================================
+% 2. DOM MANIPULATION API
+% ==============================================================================
+\section{DOM Manipulation API Masterclass}
+
+Để thao tác với bất kỳ phần tử nào trên trang web, trước hết trình duyệt cần xác định được vị trí phần tử đó thông qua các API truy vấn.
+
+\subsection{1. Các Phương Thức Truy Vấn Phần Tử (DOM Selection)}
+
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}[Bảng So Sánh Các API Truy Vấn DOM]
+\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{4.2cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Phương Thức Truy Vấn} & \thd{Kiểu Dữ Liệu Trả Về} & \thd{Đặc Điểm \& Hiệu Năng} \\
+\codeinline{document.getElementById()} & Single Element (hoặc \codeinline{null}) & Truy vấn theo ID duy nhất. Tốc độ thực thi nhanh nhất. \\
+\codeinline{document.querySelector()} & Single Element (đầu tiên trùng khớp) & Dùng CSS Selector (\codeinline{.class}, \codeinline{\#id}, \codeinline{[attr]}). Rất linh hoạt. \\
+\codeinline{document.querySelectorAll()} & \codeinline{NodeList} tĩnh (\textit{Static}) & Trả về danh sách tất cả phần tử khớp CSS Selector. Hỗ trợ \codeinline{.forEach()}. \\
+\codeinline{getElementsByClassName()} & \codeinline{HTMLCollection} động (\textit{Live}) & Tự động cập nhật khi DOM thay đổi. Không hỗ trợ \codeinline{.forEach()} trực tiếp. \\
+\end{tabularx}
+\end{prettyTableBox}
+\vspace{-2pt}
+\caption{So sánh các API chọn phần tử DOM trong JavaScript}
+\end{table}
+
+\subsection{2. Ví Dụ Mã Nguồn Truy Vấn \& Thao Tác Nội Dung}
+
+\begin{codeWindow}[Mã Nguồn JavaScript: Truy Vấn Và Thay Đổi Nội Dung HTML]
+\begin{lstlisting}[language=JavaScript]
+// 1. Truy van phan tu qua ID va CSS Selector
+const mainTitle = document.querySelector('#main-title');
+const statusBadge = document.querySelector('.badge');
+const actionBtn = document.getElementById('btn-update');
+
+// 2. Thao tac noi dung text va HTML
+mainTitle.textContent = "(*@Học Lập Trình@*) DOM Masterclass 2026";
+statusBadge.innerHTML = "<strong>(*@Trạng *@Thái: Đã Cập Nhật@*)</strong>";
+
+// 3. Thay doi Style va Class bang JS
+statusBadge.classList.remove('badge-pending');
+statusBadge.classList.add('badge-success');
+actionBtn.style.backgroundColor = '#16A34A';
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Giao Diện Sau Khi JS Thao Tác DOM]
+\sffamily\small
+{\Large\bfseries\color{primaryBlue} Học Lập Trình DOM Masterclass 2026}\\[6pt]
+\tcbox[on line, arc=3pt, colback=green!10, colframe=green!60!black, boxsep=2pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{\color{green!50!black}\bfseries Trạng Thái: Đã Cập Nhật} \;\;
+\tcbox[on line, arc=3pt, colback=tipBorder, colframe=tipBorder, boxsep=2pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{\color{white}\bfseries Cập Nhật Xong}
+
+\vspace{6pt}
+\textbf{$\rightarrow$ Kết quả trực quan}: Tiêu đề được đổi chữ mới, Badge đổi màu xanh lá lá nhờ class \codeinline{badge-success}, và nút bấm đổi màu nền qua thuộc tính \codeinline{style.backgroundColor}.
+\end{browserWindow}
+
+\subsection{3. Tạo, Chèn Và Xóa Phần Tử Động (Dynamic DOM Node Building)}
+
+Trong các ứng dụng Web hiện đại, dữ liệu thường được tải từ Server (qua Fetch API/AJAX) và render động ra giao diện.
+
+\begin{codeWindow}[Mã Nguồn: Tạo Danh Sách Công Việc To-Do Động Với DocumentFragment]
+\begin{lstlisting}[language=JavaScript]
+const todoData = ["(*@Học@*) HTML5 Semantics", "(*@Thực hành@*) CSS Grid", "(*@Làm chủ@*) DOM Events"];
+const listContainer = document.getElementById('todo-list');
+
+(*@// Dung DocumentFragment de toi uu hieu nang (*@Tránh@*) reflow nhieu lan)@*)
+const fragment = document.createDocumentFragment();
+
+todoData.forEachtaskText, index) => {
+  const li = document.createElement('li');
+  li.className = 'todo-item';
+  li.innerHTML = `<span>${index + 1}. ${taskText}</span> <button class="btn-del">(*@Xóa@*)</button>`;
+  fragment.appendChild(li);
+});
+
+listContainer.appendChild(fragment);
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Danh Sách Công Việc Render Từ JavaScript]
+\sffamily\small
+\begin{tcolorbox}[colback=white, colframe=primaryBlue!30, arc=5pt, width=0.85\linewidth]
+\textbf{\color{primaryBlue} Danh Sách Công Việc Cần Làm (To-Do List):}\\[4pt]
+1. Học HTML5 Semantics \hfill \tcbox[on line, arc=2pt, colback=red!70!black, colframe=red!70!black, boxsep=1pt, left=5pt, right=5pt, top=1pt, bottom=1pt]{\color{white}\tiny Xóa}\\[3pt]
+2. Thực hành CSS Grid \hfill \tcbox[on line, arc=2pt, colback=red!70!black, colframe=red!70!black, boxsep=1pt, left=5pt, right=5pt, top=1pt, bottom=1pt]{\color{white}\tiny Xóa}\\[3pt]
+3. Làm chủ DOM Events \hfill \tcbox[on line, arc=2pt, colback=red!70!black, colframe=red!70!black, boxsep=1pt, left=5pt, right=5pt, top=1pt, bottom=1pt]{\color{white}\tiny Xóa}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ==============================================================================
+% 3. CƠ CHẾ SỰ KIỆN: BUBBLING, CAPTURING & DELEGATION
+% ==============================================================================
+\section{Cơ Chế Sự Kiện: Bubbling, Capturing \& Delegation}
+
+Sự kiện (\term{Events}) là các tín hiệu do trình duyệt hoặc người dùng kích hoạt (như nhấp chuột \codeinline{click}, gõ phím \codeinline{keydown}, cuộn trang \codeinline{scroll}, gửi biểu mẫu \codeinline{submit}).
+
+\subsection{1. Luồng Truyền Sự Kiện (Event Propagation Flow)}
+
+Khi một sự kiện xảy ra trên một phần tử con, sự kiện đó trải qua 3 giai đoạn:
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt]
+    \item \textbf{Giai Đoạn Bắt Sự Kiện (\term{Event Capturing Phase})}: Sự kiện đi từ \codeinline{window} down qua các phần tử cha tới phần tử đích.
+    \item \textbf{Giai Đoạn Tại Đích (\term{Target Phase})}: Sự kiện kích hoạt ngay tại phần tử mục tiêu được nhấp chuột (\codeinline{e.target}).
+    \item \textbf{Giai Đoạn Nổi Mọt (\term{Event Bubbling Phase})}: Sự kiện "nổi ngược" từ phần tử mục tiêu lên lại các phần tử cha đến tận \codeinline{window}.
+\end{enumerate}
+
+\begin{browserWindow}[Kết Quả Trình Duyệt: Mô Phỏng Sơ Đồ Luồng Truyền Sự Kiện]
+\sffamily\small
+\centering
+\begin{tcolorbox}[colback=gray!5, colframe=primaryBlue!40, arc=6pt, width=0.9\linewidth]
+\centering
+\textbf{\color{primaryBlue} [WINDOW / DOCUMENT]} \\[2pt]
+$\downarrow$ \textit{(1. Capturing Phase)} \qquad\qquad $\uparrow$ \textit{(3. Bubbling Phase)} \\[2pt]
+\textbf{<div id="parent-container">} \\[2pt]
+$\downarrow$ \qquad\qquad\qquad\qquad\qquad\qquad $\uparrow$ \\[2pt]
+\tcbox[on line, arc=3pt, colback=accentOrange, colframe=accentOrange, boxsep=2pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{\color{white}\bfseries 2. Target Phase: <button id="btn">Click Me</button>}
+\end{tcolorbox}
+\end{browserWindow}
+
+\subsection{2. Kỹ Thuật Uỷ Quyền Sự Kiện (Event Delegation Masterclass)}
+
+\begin{tipBox}[Tối Ưu Hiệu Năng Với Event Delegation]
+Thay vì gắn hàng trăm Event Listener lên từng nút bấm con trong một danh sách lớn, hãy gắn \textbf{duy nhất 1 Event Listener} lên phần tử cha chung và kiểm tra \codeinline{e.target.matches()}!
+\end{tipBox}
+
+\begin{codeWindow}[Mã Nguồn JavaScript: Triển Khai Kỹ Thuật Event Delegation]
+\begin{lstlisting}[language=JavaScript]
+const tableBody = document.querySelector('#user-table tbody');
+
+(*@// Gan 1 listener duy nhat tren (*@thẻ@*) tbody cha@*)
+tableBody.addEventListener('click', function(e) {
+  (*@// Kiem tra xem nguoi dung co nhap vao nut (*@Xoá@*) hay khong@*)
+  if (e.target.classList.contains('btn-delete-user' {
+    const userId = e.target.getAttribute('data-id');
+    const row = e.target.closest('tr');
+    
+    row.remove(); // Xoa hang khoi DOM
+    console.log(*@`Đã xóa người dùng *@có@*) ID: ${userId}`);
+  }
+});
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Thao Tác Bảng Sử Dụng Event Delegation]
+\sffamily\small
+\begin{tabularx}{\linewidth}{c Z K{3cm} c}
+\rowcolor{primaryBlue!10}
+\textbf{ID} & \textbf{Họ và Tên} & \textbf{Vai Trò} & \textbf{Hành Động} \\
+1 & Nguyễn Văn A & Frontend Developer & \tcbox[on line, arc=2pt, colback=red!70!black, colframe=red!70!black, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\color{white}\tiny Xóa User} \\
+2 & Trần Thị B & UI/UX Designer & \tcbox[on line, arc=2pt, colback=red!70!black, colframe=red!70!black, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\color{white}\tiny Xóa User} \\
+\end{tabularx}
+
+\vspace{6pt}
+\textbf{$\rightarrow$ Nhật ký Console}: \codeinline{Đã xóa người dùng có ID: 1} (Hàng 1 tự động biến mất khỏi bảng mượt mà).
+\end{browserWindow}
+
+% ==============================================================================
+% 4. TÓM TẮT CHƯƠNG 13
+% ==============================================================================
+\section{Tóm Tắt \& Bộ Câu Hỏi Phỏng Vấn DOM \& Events}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item DOM là cấu trúc cây đối tượng biểu diễn toàn bộ tài liệu HTML trong bộ nhớ.
+    \item Ưu tiên sử dụng \codeinline{querySelector} / \codeinline{querySelectorAll} cho sự linh hoạt và \codeinline{getElementById} cho hiệu năng tối đa.
+    \item Dùng \codeinline{DocumentFragment} khi cần chèn nhiều phần tử liên tiếp để tối ưu số lần Render/Reflow.
+    \item Hiểu rõ Event Bubbling và ứng dụng kỹ thuật Event Delegation để quản lý bộ nhớ hiệu quả.
+\end{itemize}
+
+Chương này đã hoàn thành việc trang bị toàn bộ kỹ thuật thao tác DOM và cơ chế sự kiện chuyên sâu cho ứng dụng Frontend.
