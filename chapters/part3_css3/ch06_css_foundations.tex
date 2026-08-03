@@ -7848,6 +7848,263 @@ div.head h2.title:last-child { color: yellow; }
 \end{tabularx}
 \end{prettyTableBox}
 
+
+%% ==============================================================================
+%% MỤC 10: THUỘC TÍNH OPACITY (ĐỘ MỜ & ĐỘ TRONG SUỐT TRONG CSS)
+%% ==============================================================================
+\section{Thuộc Tính Opacity (Độ Mờ \& Độ Trong Suốt Trong CSS)}
+\label{sec:css_opacity_masterclass}
+
+Thuộc tính \codeinline{opacity} trong CSS cho phép lập trình viên kiểm soát mức độ hiển thị, độ mờ và độ trong suốt của bất kỳ phần tử HTML nào trên giao diện web.
+
+\paragraph{1. Opacity Là Gì?}
+
+\begin{conceptBox}[Khái Niệm \& Giá Trị Của Thuộc Tính Opacity]
+\textbf{Opacity} xác định độ trong suốt của một phần tử HTML. Nó quyết định xem ánh sáng/màu nền phía sau phần tử có thể nhìn xuyên qua được hay không.
+\par\vspace{4pt}
+\textbf{Dải giá trị chấp nhận từ 0 đến 1:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{0} $\rightarrow$ Hoàn toàn trong suốt (phần tử vô hình nhưng vẫn chiếm vị trí không gian trên luồng tài liệu).
+    \item \textbf{1} $\rightarrow$ Không trong suốt (hiển thị rõ ràng $100\%$ như bình thường).
+    \item \textbf{Giữa 0 và 1 (ví dụ 0.1 -- 0.9)} $\rightarrow$ Mờ dần theo tỷ lệ phần trăm (ví dụ: \codeinline{0.5} mờ $50\%$, \codeinline{0.2} mờ $80\%$).
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{2. Cú Pháp Khai Báo CSS:}
+
+\begin{codeWindow}[Cú Pháp Định Mức Độ Mờ Opacity]
+\begin{lstlisting}[language=CSS3]
+selector {
+    opacity: value; /* Gia tri so tu 0.0 den 1.0 */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{0}: Hoàn toàn trong suốt (ẩn hoàn toàn).
+    \item \textbf{1}: Hoàn toàn không trong suốt (hiển thị rõ ràng).
+    \item \textbf{Giữa 0 và 1}: Mờ dần theo mức độ (ví dụ: \codeinline{0.5} là mờ $50\%$).
+\end{itemize}
+
+\paragraph{3. Ví Dụ Minh Họa \& Kết Quả Trực Quan Trên Trình Duyệt:}
+
+\begin{codeWindow}[Khai Báo 3 Mức Độ Mờ Cho Các Khối Div]
+\begin{lstlisting}[language=HTML5]
+<div class="box full-opacity">Opacity: 1</div>
+<div class="box semi-opacity">Opacity: 0.5</div>
+<div class="box low-opacity">Opacity: 0.2</div>
+
+<style>
+.box {
+    width: 200px;
+    height: 100px;
+    margin: 10px;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    line-height: 100px;
+    font-size: 20px;
+}
+.full-opacity {
+    background: #ff0000;
+    opacity: 1; /* Khong mo */
+}
+.semi-opacity {
+    background: #007bff;
+    opacity: 0.5; /* Mo 50% */
+}
+.low-opacity {
+    background: #28a745;
+    opacity: 0.2; /* Mo 80% */
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan 3 Khối Box Mờ Trình Duyệt]
+\sffamily\small
+\begin{center}
+\setlength{\tabcolsep}{12pt}
+\begin{tabular}{c c c}
+\textbf{Box 1 (Khối Đỏ)} & \textbf{Box 2 (Khối Xanh Dương)} & \textbf{Box 3 (Khối Xanh Lá)} \\[2pt]
+{\scriptsize\codeinline{opacity: 1;}} & {\scriptsize\codeinline{opacity: 0.5;}} & {\scriptsize\codeinline{opacity: 0.2;}} \\[6pt]
+\fcolorbox{red!90!black}{red!90!black}{\parbox[c][35pt][c]{70pt}{\centering\color{white}\bfseries Opacity 1.0}} &
+\fcolorbox{blue!90!black}{blue!50!white}{\parbox[c][35pt][c]{70pt}{\centering\color{white}\bfseries Opacity 0.5}} &
+\fcolorbox{green!60!black}{green!20!white}{\parbox[c][35pt][c]{70pt}{\centering\color{gray!80!black}\bfseries Opacity 0.2}} \\[6pt]
+\textcolor{green!60!black}{\textbf{Hiển thị 100\% (Không mờ)}} & \textcolor{primaryBlue}{\textbf{Mờ 50\% (Xuyên thấu)}} & \textcolor{red!80!black}{\textbf{Mờ 80\% (Rất mờ)}}
+\end{tabular}
+\end{center}
+\end{browserWindow}
+
+\paragraph{4. Lưu Ý Quan Trọng Khi Sử Dụng Opacity:}
+
+\begin{warnBox}[3 Cạm Bẫy Quan Trọng Cần Ghi Nhớ Với Opacity]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Opacity làm mờ CẢ phần tử lẫn tất cả nội dung con bên trong:} Khi bạn áp dụng \codeinline{opacity} cho một thẻ cha, toàn bộ chữ, hình ảnh, nút bấm con bên trong thẻ cha đó \textbf{đều bị mờ theo}.
+\begin{codeWindow}[Lỗi Tự Động Mờ Nội Dung Con]
+\begin{lstlisting}[language=CSS3]
+.parent {
+    background: purple;
+    opacity: 0.5; /* Chu va nut bam con ben trong cung bi mo 50%! */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+    \item \textbf{Phần tử vẫn chiếm không gian luồng tài liệu dù \codeinline{opacity: 0}:} Phần tử không bị xóa khỏi bố cục trang mà chỉ bị biến thành vô hình. (Nếu muốn ẩn hoàn toàn và xóa khỏi luồng bố cục, hãy dùng \codeinline{display: none;}).
+
+    \item \textbf{Không thể click tương tác khi phần tử vô hình (\codeinline{opacity: 0}):} Mặc dù phần tử vẫn tồn tại nhưng người dùng không thể nhìn thấy để thao tác (tương tự như bị vô hình).
+\end{enumerate}
+\end{warnBox}
+
+\paragraph{5. Thay Thế Bằng RGBA Để Chỉ Làm Mờ Nền (Giữ Chữ Rõ Nét):}
+
+Nếu bạn muốn \textbf{chỉ làm mờ màu nền} nhưng vẫn giữ nội dung văn bản và phần tử con hiển thị rõ nét $100\%$, hãy sử dụng giá trị màu \codeinline{rgba()} thay vì thuộc tính \codeinline{opacity}:
+
+\begin{codeWindow}[Sử Dụng RGBA Để Chỉ Mờ Màu Nền]
+\begin{lstlisting}[language=CSS3]
+.box {
+    background: rgba(255, 0, 0, 0.5); /* Nen do mo 50%, van ban ben trong van ro 100% */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Cấu Trúc Giá Trị Màu RGBA (Red, Green, Blue, Alpha)]
+\textbf{RGBA (Red, Green, Blue, Alpha):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{R}: Giá trị kênh Đỏ (Red: $0 \rightarrow 255$).
+    \item \textbf{G}: Giá trị kênh Xanh lá (Green: $0 \rightarrow 255$).
+    \item \textbf{B}: Giá trị kênh Xanh dương (Blue: $0 \rightarrow 255$).
+    \item \textbf{A}: Kênh Alpha độ trong suốt ($0 \rightarrow 1$).
+\end{itemize}
+\par\vspace{4pt}
+\textbf{Ưu điểm vượt trội của RGBA:} Chỉ làm mờ riêng màu nền, nội dung văn bản và các phần tử con bên trong \textbf{hoàn toàn không bị ảnh hưởng}!
+\end{conceptBox}
+
+\paragraph{6. Các Ứng Dụng Thực Tế Phổ Biến Của Opacity:}
+
+\begin{conceptBox}[4 Kịch Bản Ứng Dụng Opacity Trong Dự Án Web Thực Tế]
+\begin{enumerate}[leftmargin=1.5em, itemsep=5pt, parsep=0pt]
+    \item \textbf{Hiệu ứng di chuột (Hover Effect):} Làm mờ nhẹ thẻ hoặc ảnh khi di chuột qua để báo hiệu khả năng nhấp chuột:
+\begin{codeWindow}[Làm Mờ Khi Di Chuột Di Vào Card]
+\begin{lstlisting}[language=CSS3]
+.card:hover {
+    opacity: 0.7;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+    \item \textbf{Màn hình phủ tải trang (Loading Screen Overlay):} Làm mờ tối toàn bộ trang web khi hiển thị cửa sổ tải dữ liệu:
+\begin{codeWindow}[Tạo Màn Phủ Tối Overlay]
+\begin{lstlisting}[language=CSS3]
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+    \item \textbf{Hiệu ứng ảnh mờ dần / Hiện dần (CSS Fade Animation):}
+\begin{codeWindow}[Tạo Animation Hiện Dần Vừa Mờ Đến Rõ]
+\begin{lstlisting}[language=CSS3]
+@keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+\end{lstlisting}
+\end{codeWindow}
+
+    \item \textbf{Làm nổi bật \& Vô hiệu hóa nút bấm (Disabled State):} Kết hợp \codeinline{opacity} với \codeinline{pointer-events: none} để vừa làm mờ vừa khóa tương tác nhấp chuột:
+\begin{codeWindow}[Vô Hiệu Hóa Thao Tác Click Vẫn Làm Mờ Nut]
+\begin{lstlisting}[language=CSS3]
+.disabled {
+    opacity: 0.5;
+    pointer-events: none; /* Vo hieu hoa moi tuong tac click */
+}
+\end{lstlisting}
+\end{codeWindow}
+\end{enumerate}
+\end{conceptBox}
+
+\paragraph{7. Bảng Tổng Kết Trực Quan Kiến Thức Opacity:}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Tra Cứu Toàn Diện Về Thuộc Tính Opacity \& Giải Pháp RGBA]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\color{accentOrange}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash\ttfamily\color{primaryBlue}}p{4.2cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính / Giá trị} & \thd{\sffamily Ý nghĩa \& Hành vi hiển thị} & \thd{\sffamily Cú pháp ví dụ minh họa} \\
+\hline
+opacity: 1 & Phần tử hoàn toàn hiển thị (không mờ). & opacity: 1; \\
+\hline
+opacity: 0.5 & Phần tử và mọi thẻ con mờ $50\%$. & opacity: 0.5; \\
+\hline
+opacity: 0 & Phần tử hoàn toàn trong suốt (vẫn chiếm bố cục). & opacity: 0; \\
+\hline
+pointer-events & Kết hợp với opacity để vô hiệu hóa click chuột. & pointer-events: none; \\
+\hline
+rgba(...) & Chỉ làm mờ màu nền, giữ nguyên chữ con $100\%$. & background: rgba(0, 0, 0, 0.5); \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Tóm Lại Cốt Lõi Kiến Thức]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{opacity} là công cụ cực kỳ mạnh mẽ để tạo hiệu ứng mờ, lớp phủ overlay, và làm nổi bật nội dung giao diện.
+    \item Thuộc tính này tác động đến \textbf{cả phần tử cha lẫn toàn bộ phần tử con}. Nếu chỉ muốn mờ màu nền, hãy sử dụng \codeinline{rgba()} hoặc kết hợp \codeinline{pointer-events} để kiểm soát trải nghiệm người dùng tốt nhất.
+\end{itemize}
+\end{conceptBox}
+
+%% ==============================================================================
+%% MỞ RỘNG KIẾN THỨC NÂNG CAO VỀ OPACITY (SENIOR FRONTEND MASTERCLASS)
+%% ==============================================================================
+\paragraph{Mở Rộng Kiến Thức \& Kinh Nghiệm Thực Tế Chuyên Sâu Về Opacity}
+\mbox{}\par\vspace{2pt}
+
+\begin{conceptBox}[1. Nguyên Lý Tạo Stacking Context Trực Tiếp Từ Opacity < 1]
+Trong cơ chế render của trình duyệt, khi một phần tử có thuộc tính \codeinline{opacity < 1}, trình duyệt tự động tạo ra một \textbf{Ngữ cảnh xếp chồng mới (Stacking Context)} trên phần tử đó!
+\par\vspace{4pt}
+\textbf{Hệ quả quan trọng:} Thẻ con chứa \codeinline{z-index: 9999} bên trong phần tử có \codeinline{opacity: 0.99} sẽ \textbf{KHÔNG THỂ} ngoi lên trên các phần tử bên ngoài có z-index cao hơn thẻ cha! Đây là nguyên nhân khiến nhiều lập trình viên Junior loay hoay không hiểu tại sao z-index của thẻ con bị vô hiệu hóa.
+\end{conceptBox}
+
+\begin{prettyTableBox}[So Sánh 3 Phương Pháp Ẩn Phần Tử HTML Trong CSS (opacity vs visibility vs display)]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí so sánh} & \thd{\sffamily opacity: 0;} & \thd{\sffamily visibility: hidden;} & \thd{\sffamily display: none;} \\
+\hline
+Chiếm không gian layout? & \textcolor{green!60!black}{\textbf{CÓ}} (Vẫn chiếm diện tích). & \textcolor{green!60!black}{\textbf{CÓ}} (Vẫn chiếm diện tích). & \textcolor{red}{\textbf{KHÔNG}} (Xóa khỏi luồng layout). \\
+\hline
+Click / Sự kiện DOM? & Vẫn nhận click ngoại trừ khi dùng \codeinline{pointer-events: none}. & \textcolor{red}{\textbf{KHÔNG}} nhận sự kiện mouse/click. & \textcolor{red}{\textbf{KHÔNG}} nhận bất kỳ sự kiện nào. \\
+\hline
+Hỗ trợ CSS Transition / Animation? & \textcolor{green!60!black}{\textbf{CÓ}} (Mượt mà từ $0 \rightarrow 1$). & Hỗ trợ hạn chế (chỉ bật/tắt ở cuối). & \textcolor{red}{\textbf{KHÔNG}} (Biến mất tức thì, không transition). \\
+\hline
+Tăng tốc phần cứng GPU? & \textcolor{green!60!black}{\textbf{CÓ}} (Dùng GPU Composite Layer). & \textcolor{red}{\textbf{KHÔNG}}. & \textcolor{red}{\textbf{KHÔNG}}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[2. Tối Ưu Hiệu Năng Animation Bằng Tăng Tốc Phần Cứng GPU]
+\codeinline{opacity} cùng với \codeinline{transform} là hai thuộc tính CSS duy nhất được xử lý trực tiếp trên tầng \textbf{Composite Layer của GPU (Graphics Processing Unit)}. Khi thay đổi \codeinline{opacity}, trình duyệt \textbf{KHÔNG cần phải tính toán lại Layout (Reflow) hay vẽ lại pixel (Repaint)}, giúp hiệu ứng đạt mượt mà chuẩn \textbf{60 FPS} ngay cả trên thiết bị di động cấu hình yếu.
+\end{tipBox}
+
+\begin{warnBox}[3. Bộ Câu Hỏi Phỏng Vấn Senior Frontend Về Opacity]
+\begin{enumerate}[leftmargin=1.5em, itemsep=5pt, parsep=0pt]
+    \item \textbf{Câu hỏi 1: Làm thế nào để thẻ cha mờ nhưng thẻ con bên trong vẫn giữ nguyên opacity 100\%?} \par
+    $\rightarrow$ \textbf{Trả lời:} Không thể đặt \codeinline{opacity} trên thẻ cha rồi chỉnh thẻ con \codeinline{opacity: 1} vì opacity mang tính chất nhân dồn ($0.5 \times 1.0 = 0.5$). Giải pháp là dùng màu \codeinline{rgba()} cho nền thẻ cha, hoặc tách thẻ con ra thành phần tử đồng cấp rồi xếp chồng bằng CSS \codeinline{position: absolute}.
+
+    \item \textbf{Câu hỏi 2: Tại sao khi đổi opacity từ 1 về 0 lại không click được nếu dùng pointer-events: none?} \par
+    $\rightarrow$ \textbf{Trả lời:} Thuộc tính \codeinline{pointer-events: none} giúp phần tử hoàn toàn bỏ qua mọi sự kiện chuột, giúp các sự kiện click xuyên qua phần tử vô hình để tác động tới phần tử bên dưới.
+
+    \item \textbf{Câu hỏi 3: Sự khác biệt bản chất giữa opacity: 0 và display: none trong SEO và Accessibility (SEO \& Màn hình đọc Screen Reader)?} \par
+    $\rightarrow$ \textbf{Trả lời:} \codeinline{display: none} ẩn hoàn toàn với cả người dùng lẫn Màn hình đọc (\term{Screen Reader}). Trong khi \codeinline{opacity: 0} vẫn được trình đọc màn hình đọc dữ liệu văn bản bên trong cho người khiếm thị.
+\end{enumerate}
+\end{warnBox}
+
 %% ===================================================================
 %% PHẦN 8.9: KINH NGHIỆM THỰC TẾ & BEST PRACTICES
 %% ===================================================================
