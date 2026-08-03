@@ -6,163 +6,264 @@
 
 Chương này đi sâu phân tích toàn bộ các thẻ biểu mẫu HTML Forms, bao gồm 22+ loại Input Types, các thuộc tính điều khiển và cơ chế kiểm tra hợp lệ Constraint Validation API.
 
+% ==============================================================================
 \section{Thẻ Khung Biểu Mẫu <form>}
 \subsection{Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính}
+
 Thẻ \codeinline{<form>} đại diện cho một phần tử chứa các trường nhập liệu tương tác để thu thập và gửi dữ liệu tới máy chủ.
 
-\begin{table}[H]
-\centering
-\begin{prettyTableBox}
+\begin{prettyTableBox}[Toàn Bộ Các Thuộc Tính Của Thẻ <form>]
 \small
 \rowcolors{2}{white}{primaryBlue!4}
-\begin{tabularx}{\linewidth}{lp{3.5cm}X}
-\rowcolor{primaryBlue}
-\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Hành Vi} \\
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{accentOrange}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash\ttfamily}p{3.8cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\codeinline{action} & URL máy chủ & Địa chỉ API nhận dữ liệu form khi submit. \\
-\codeinline{method} & \codeinline{GET}, \codeinline{POST}, \codeinline{dialog} & Phương thức truyền dữ liệu HTTP Request. \\
-\codeinline{enctype} & \codeinline{application/x-www-form-urlencoded}, \codeinline{multipart/form-data} & Mã hóa dữ liệu (Dùng \codeinline{multipart} khi tải file). \\
-\codeinline{autocomplete} & \codeinline{on}, \codeinline{off} & Bật/Tắt tự động gợi ý điền thông tin của trình duyệt. \\
-\codeinline{novalidate} & Boolean & Tắt cơ chế kiểm tra hợp lệ dữ liệu mặc định của HTML5. \\
-\codeinline{target} & \codeinline{\_self}, \codeinline{\_blank} & Nơi nhận kết quả trả về từ server. \\
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Giá trị hợp lệ} & \thd{\sffamily Chức năng \& Hành vi trình duyệt} \\
+\hline
+action & URL máy chủ & Địa chỉ API nhận dữ liệu form khi submit. \\
+\hline
+method & GET, POST, dialog & Phương thức truyền dữ liệu HTTP Request. \\
+\hline
+enctype & application/x-www-form-urlencoded, multipart/form-data & Mã hóa dữ liệu (Dùng \codeinline{multipart} khi tải file). \\
+\hline
+autocomplete & on, off & Bật/Tắt tự động gợi ý điền thông tin của trình duyệt. \\
+\hline
+novalidate & Boolean & Tắt cơ chế kiểm tra hợp lệ dữ liệu mặc định của HTML5. \\
+\hline
+target & \_self, \_blank & Nơi nhận kết quả trả về từ server. \\
+\hline
 \end{tabularx}
 \end{prettyTableBox}
-\vspace{-2pt}
-\caption{Toàn bộ các thuộc tính của thẻ <form>}
-\end{table}
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ biểu mẫu đăng ký hồ sơ hỗ trợ tải file}]
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[Mã Nguồn: Khai Báo Biểu Mẫu Đăng Ký Hỗ Trợ Tải File]
+\begin{lstlisting}[language=HTML5]
 <form action="/api/v1/register" method="POST"
       enctype="multipart/form-data" autocomplete="on">
-  <!-- (*@Các trường nhập liệu nằm ở đây@*) -->
+  <!-- Các trường nhập liệu nằm ở đây -->
   <button type="submit">(*@Đăng Ký Hồ Sơ@*)</button>
 </form>
 \end{lstlisting}
+\end{codeWindow}
 
-% ------------------------------------------------------------------------------
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Khung Form Đăng Ký]
+\sffamily\small
+\begin{center}
+\begin{tcolorbox}[arc=4pt, colback=gray!5, colframe=primaryBlue!40, boxsep=8pt, width=0.85\linewidth]
+  \textbf{\color{primaryBlue} FORM ĐĂNG KÝ HỒ SƠ TRỰC TUYẾN} \par\vspace{6pt}
+  \begin{tabular}{r l}
+    \textbf{Tải hồ sơ (File):} & \fcolorbox{gray!40}{white}{\small Choose File} \textcolor{gray!80}{\scriptsize No file chosen} \\[6pt]
+    & \fcolorbox{primaryBlue}{primaryBlue}{\color{white}\bfseries\small Đăng Ký Hồ Sơ}
+  \end{tabular}
+\end{tcolorbox}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
 \section{Thẻ Nhãn Dán <label>}
 \subsection{Lý Thuyết \& Accessibility (a11y)}
+
 Thẻ \codeinline{<label>} tạo nhãn mô tả cho ô nhập liệu. Khi người dùng nhấp chuột vào thẻ \codeinline{<label>}, trình duyệt sẽ tự động nhảy con trỏ chuột vào ô input tương ứng.
 
-\begin{itemize}
-    \item Thuộc tính \codeinline{for="id\_input"}: Liên kết nhãn với \codeinline{id} của phần tử input.
+\begin{conceptBox}[Thuộc Tính Cốt Lõi Của Thẻ Label]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{for="id\_input"}: Liên kết nhãn dán với thuộc tính \codeinline{id} của phần tử nhập liệu tương ứng.
+    \item \textbf{Lợi ích Accessibility}: Giúp trình đọc màn hình (\term{Screen Reader}) đọc đúng tên trường và giúp người dùng di động dễ chạm nhấp vào ô nhập liệu.
 \end{itemize}
+\end{conceptBox}
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ liên kết thẻ label với input}]
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[Mã Nguồn: Liên Kết Thẻ Label Với Input]
+\begin{lstlisting}[language=HTML5]
 <label for="username">(*@Tên Đăng Nhập@*)<span style="color: red;">*</span></label>
 <input type="text" id="username" name="username" required>
 \end{lstlisting}
+\end{codeWindow}
 
-% ------------------------------------------------------------------------------
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Nhấp Chuột Vào Label Con Trỏ Tự Động Focus]
+\sffamily\small
+\begin{center}
+\begin{tabular}{l l}
+  \textbf{Tên Đăng Nhập} \textcolor{red}{\textbf{*}}: & \fcolorbox{primaryBlue}{white}{\parbox[c][18pt][c]{160pt}{~admin\_user \textcolor{primaryBlue}{\textbf{|}}}}
+\end{tabular}
+\par\vspace{4pt}
+\textcolor{codeComment}{\small\textit{$\rightarrow$ Nhấp chuột vào chữ "Tên Đăng Nhập" tự động kích hoạt viền xanh Focus và con trỏ chuột vào ô nhập liệu.}}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
 \section{Thẻ Khung Nhóm <fieldset> \& Tiêu Đề Khung <legend>}
 \subsection{Lý Thuyết \& Bảng Thuộc Tính}
-- \codeinline{<fieldset>}: Gom nhóm các ô nhập liệu có liên quan lại trong một khung viền.
-- \codeinline{<legend>}: Đặt tiêu đề hiển thị nằm trên viền của khối \codeinline{<fieldset>}.
-- Thuộc tính \codeinline{disabled} trên \codeinline{<fieldset>}: Vô hiệu hóa \textbf{tất cả các input con} bên trong cùng lúc!
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ gom nhóm trường thông tin bằng fieldset và legend}]
+\begin{conceptBox}[Vai Trò Của Fieldset \& Legend trong Bố Cục Biểu Mẫu]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{<fieldset>}: Gom nhóm các ô nhập liệu có liên quan lại trong một khung viền giao diện.
+    \item \codeinline{<legend>}: Đặt tiêu đề hiển thị nằm đè lên viền trên của khối \codeinline{<fieldset>}.
+    \item \textbf{Thuộc tính \codeinline{disabled}} trên \codeinline{<fieldset>}: Vô hiệu hóa \textbf{tất cả các input con} bên trong cùng một lúc!
+\end{itemize}
+\end{conceptBox}
+
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[Mã Nguồn: Gom Nhóm Trường Thông Tin Bằng Fieldset Và Legend]
+\begin{lstlisting}[language=HTML5]
 <fieldset>
   <legend>(*@Thông Tin Giao Hàng@*)</legend>
   <label for="address">(*@Địa Chỉ:@*)</label>
   <input type="text" id="address" name="address">
 </fieldset>
 \end{lstlisting}
+\end{codeWindow}
 
-% ------------------------------------------------------------------------------
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Khung Nhóm Fieldset Nổi Tiêu Đề Legend]
+\sffamily\small
+\begin{center}
+\begin{tcolorbox}[arc=2pt, colback=white, colframe=gray!40, title={\sffamily\small\bfseries\color{primaryBlue} THÔNG TIN GIAO HÀNG}, boxsep=6pt, width=0.85\linewidth]
+  \small
+  \begin{tabular}{r l}
+    \textbf{Địa Chỉ:} & \fcolorbox{gray!40}{white}{\parbox[c][18pt][c]{180pt}{~\textcolor{gray!80}{Số 123 Đường Nguyễn Huệ, Q.1...}}}
+  \end{tabular}
+\end{tcolorbox}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
 \section{Thẻ Đầu Vào <input> \& Toàn Bộ 22+ Input Types}
 \subsection{Lý Thuyết \& Bảng Tra Cứu All Input Types}
+
 Thẻ \codeinline{<input>} là thẻ nhập liệu quan trọng nhất trong HTML5, linh hoạt thay đổi giao diện dựa vào thuộc tính \codeinline{type="..."}.
 
-\begin{table}[H]
-\centering
-\begin{prettyTableBox}
+\begin{prettyTableBox}[Bảng Tra Cứu Toàn Bộ 22+ Kiểu Đầu Vào (Input Types) Trong HTML5]
 \small
 \rowcolors{2}{white}{primaryBlue!4}
-\begin{tabularx}{\linewidth}{lX}
-\rowcolor{primaryBlue}
-\color{white}\textbf{Input Type} & \color{white}\textbf{Giao Diện \& Hành Vi Trình Duyệt} \\
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{accentOrange}\bfseries}p{3.8cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\codeinline{text}, \codeinline{password} & Nhập văn bản 1 dòng và ẩn mật khẩu dạng dấu chấm. \\
-\codeinline{email}, \codeinline{url}, \codeinline{tel} & Tự động bật bàn phím di động tương ứng (@, .com, phím số). \\
-\codeinline{search} & Ô tìm kiếm có nút dấu "X" xóa nhanh văn bản. \\
-\codeinline{number}, \codeinline{range} & Nhập số có nút tăng giảm và thanh trượt khoảng. \\
-\codeinline{color} & Bật bảng chọn màu sắc (Color Picker). \\
-\codeinline{date}, \codeinline{time}, \codeinline{datetime-local} & Bật giao diện chọn Lịch (Calendar) và Đồng hồ gốc. \\
-\codeinline{month}, \codeinline{week} & Chọn tháng/năm hoặc tuần cụ thể. \\
-\codeinline{checkbox}, \codeinline{radio} & Chọn nhiều ô vuông hoặc chọn duy nhất 1 ô tròn trong nhóm \codeinline{name}. \\
-\codeinline{file} & Tải tệp lên máy chủ (Hỗ trợ thuộc tính \codeinline{multiple}, \codeinline{accept}, \codeinline{capture}). \\
-\codeinline{hidden} & Trữ dữ liệu ngầm gửi lên server mà không hiển thị ra màn hình. \\
-\codeinline{submit}, \codeinline{reset}, \codeinline{button} & Các dạng nút thực thi form cổ điển. \\
+\rowcolor{primaryBlue} \thd{\sffamily Input Type} & \thd{\sffamily Giao diện \& Hành vi tương tác trình duyệt} \\
+\hline
+text, password & Nhập văn bản 1 dòng và ẩn mật khẩu dạng dấu chấm tròn. \\
+\hline
+email, url, tel & Tự động bật bàn phím di động tương ứng (@, .com, phím số). \\
+\hline
+search & Ô tìm kiếm có nút dấu "X" xóa nhanh văn bản vừa gõ. \\
+\hline
+number, range & Nhập số có nút tăng giảm spinner và thanh trượt khoảng min-max. \\
+\hline
+color & Bật bảng chọn màu sắc giao diện đồ họa (Color Picker). \\
+\hline
+date, time, datetime-local & Bật giao diện chọn Lịch (Calendar) và Đồng hồ hệ thống. \\
+\hline
+month, week & Chọn tháng/năm hoặc chọn tuần cụ thể trong năm. \\
+\hline
+checkbox, radio & Chọn nhiều ô vuông chọn lựa hoặc chọn duy nhất 1 ô tròn trong nhóm name. \\
+\hline
+file & Tải tệp lên máy chủ (Hỗ trợ thuộc tính \codeinline{multiple}, \codeinline{accept}, \codeinline{capture}). \\
+\hline
+hidden & Trữ dữ liệu ngầm gửi lên server mà không hiển thị ra giao diện màn hình. \\
+\hline
+submit, reset, button & Các dạng nút thực thi gửi form hoặc làm mới ô nhập liệu. \\
+\hline
 \end{tabularx}
 \end{prettyTableBox}
-\vspace{-2pt}
-\caption{Bảng 22+ loại kiểu đầu vào của thẻ <input>}
-\end{table}
 
 \subsection{Bảng Thuộc Tính Nhập Liệu \& Mobile UX Attributes}
-\begin{itemize}
-    \item \codeinline{inputmode="numeric|decimal|tel|search|email"}: Ép bàn phím ảo hiển thị đúng dạng.
-    \item \codeinline{enterkeyhint="search|send|done|next"}: Đổi nhãn nút Enter trên bàn phím di động.
-    \item \codeinline{autocomplete="one-time-code"}: Tự động đọc mã OTP SMS gửi về di động.
-    \item \codeinline{pattern="..."}: Ràng buộc dữ liệu bằng Biểu thức chính quy (Regex).
-\end{itemize}
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ tổng hợp các ô input di động nâng cao}]
-<!-- (*@Ô nhập OTP tự động đọc SMS trên iOS/Android@*) -->
+\begin{conceptBox}[Các Thuộc Tính Tối Ưu Trải Nghiệm Di Động (Mobile UX)]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{inputmode="numeric|decimal|tel|search|email"}: Ép bàn phím ảo hiển thị đúng dạng mong muốn.
+    \item \codeinline{enterkeyhint="search|send|done|next"}: Đổi nhãn nút Enter trên bàn phím di động.
+    \item \codeinline{autocomplete="one-time-code"}: Tự động đọc mã OTP SMS gửi về thiết bị iOS/Android.
+    \item \codeinline{pattern="..."}: Ràng buộc dữ liệu bằng Biểu thức chính quy (\term{Regex}).
+\end{itemize}
+\end{conceptBox}
+
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[Mã Nguồn: Các Ô Input Di Động Nâng Cao]
+\begin{lstlisting}[language=HTML5]
+<!-- Ô nhập OTP tự động đọc SMS trên iOS/Android -->
 <label for="otp">(*@Nhập Mã OTP:@*)</label>
 <input type="text" id="otp" name="otp" inputmode="numeric" 
-       autocomplete="one-time-code" required placeholder="(*@6 chữ số@*)">
+       autocomplete="one-time-code" required placeholder="6 chữ số">
 
-<!-- (*@Chọn tệp ảnh PNG/JPEG nhiều file@*) -->
+<!-- Chọn tệp ảnh PNG/JPEG nhiều file -->
 <label for="photos">(*@Tải Ảnh Hóa Đơn:@*)</label>
 <input type="file" id="photos" name="photos" 
        accept="image/png, image/jpeg" multiple>
 
-<!-- (*@Thanh chọn khoảng giá@*) -->
+<!-- Thanh chọn khoảng giá -->
 <label for="price">(*@Khoảng Giá:@*)</label>
 <input type="range" id="price" name="price" 
        min="100" max="1000" step="50" value="500">
 \end{lstlisting}
+\end{codeWindow}
 
-% ------------------------------------------------------------------------------
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Giao Diện Các Trường Input Nâng Cao]
+\sffamily\small
+\begin{center}
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{r l}
+  \textbf{Nhập Mã OTP:} & \fcolorbox{gray!40}{white}{\parbox[c][18pt][c]{100pt}{\centering\codeinline{8 4 9 2 0 1}}} \textcolor{green!60!black}{\scriptsize (SMS OTP Auto)} \\[6pt]
+  \textbf{Tải Ảnh Hóa Đơn:} & \fcolorbox{gray!40}{white}{\small Choose Files} \textcolor{primaryBlue}{\bfseries\small 2 files selected} \\[6pt]
+  \textbf{Khoảng Giá (500\$):} & \fcolorbox{gray!20}{white}{\small 100\$ [=========O---------] 1000\$}
+\end{tabular}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
 \section{Thẻ Nút Bấm <button>}
 \subsection{Lý Thuyết \& Các Thuộc Tính Ghi Đè Form}
-Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ \codeinline{<input type="button">} vì cho phép nhúng icon HTML bên trong.
 
-\begin{itemize}
+Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ \codeinline{<input type="button">} vì cho phép nhúng icon HTML và các thẻ con bên trong.
+
+\begin{conceptBox}[Thuộc Tính Ghi Đè Trực Tiếp Form Của Button]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \codeinline{type="submit|reset|button"}: Loại hành động của nút (Mặc định là \codeinline{submit}).
-    \item Thuộc tính ghi đè Form: \codeinline{formaction}, \codeinline{formenctype}, \codeinline{formmethod}, \codeinline{formnovalidate}, \codeinline{formtarget}.
+    \item \textbf{Các thuộc tính ghi đè Cấu hình Form}: \codeinline{formaction}, \codeinline{formenctype}, \codeinline{formmethod}, \codeinline{formnovalidate}, \codeinline{formtarget}.
 \end{itemize}
+\end{conceptBox}
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ nút bấm button chứa icon SVG}]
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[Mã Nguồn: Nút Bấm Button Chứa Icon SVG]
+\begin{lstlisting}[language=HTML5]
 <button type="submit" class="btn-primary">
   <svg width="16" height="16"><circle cx="8" cy="8" r="7"/></svg>
   <span>(*@Gửi Đơn Hàng@*)</span>
 </button>
 \end{lstlisting}
+\end{codeWindow}
 
-% ------------------------------------------------------------------------------
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Nút Bấm Tích Hợp Icon SVG]
+\sffamily\small
+\begin{center}
+\fcolorbox{primaryBlue}{primaryBlue}{\parbox[c][22pt][c]{130pt}{\centering\color{white}\bfseries [V] Gửi Đơn Hàng}}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
 \section{Thẻ Danh Sách Chọn <select>, <optgroup> \& <option>}
 \subsection{Lý Thuyết \& Bảng Thuộc Tính}
-- \codeinline{<select>}: Thẻ tạo danh sách chọn xổ xuống (Dropdown). Thuộc tính \codeinline{multiple} (cho chọn nhiều), \codeinline{size} (số dòng hiển thị).
-- \codeinline{<optgroup>}: Gom nhóm các tùy chọn có cùng chủ đề. Thuộc tính \codeinline{label}.
-- \codeinline{<option>}: Một phần tử chọn cụ thể. Thuộc tính \codeinline{value}, \codeinline{selected}, \codeinline{disabled}.
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{conceptBox}[Bộ Ba Thẻ Tạo Menu Dropdown Nâng Cao]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{<select>}: Thẻ tạo danh sách chọn xổ xuống (Dropdown). Thuộc tính \codeinline{multiple} (cho chọn nhiều), \codeinline{size} (số dòng hiển thị).
+    \item \codeinline{<optgroup>}: Gom nhóm các tùy chọn có cùng chủ đề. Thuộc tính \codeinline{label}.
+    \item \codeinline{<option>}: Một phần tử chọn cụ thể. Thuộc tính \codeinline{value}, \codeinline{selected}, \codeinline{disabled}.
+\end{itemize}
+\end{conceptBox}
+
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
 \begin{codeWindow}[Mã Nguồn: Menu Dropdown Gom Nhóm Optgroup]
 \begin{lstlisting}[language=HTML5]
 <label for="city">(*@Chọn Thành Phố:@*)</label>
 <select id="city" name="city">
-  <optgroup label="(*@Miền Bắc@*)">
+  <optgroup label="Miền Bắc">
     <option value="hn" selected>(*@Hà Nội@*)</option>
     <option value="hp">(*@Hải Phòng@*)</option>
   </optgroup>
-  <optgroup label="(*@Miền Nam@*)">
+  <optgroup label="Miền Nam">
     <option value="hcm">(*@Hồ Chí Minh@*)</option>
     <option value="ct">(*@Cần Thơ@*)</option>
   </optgroup>
@@ -170,13 +271,14 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Select Gom Nhóm Thành Phố Optgroup]
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Select Gom Nhóm Optgroup]
 \sffamily\small
+\begin{center}
 \textbf{Chọn Thành Phố:} \par\vspace{4pt}
 \begin{tcolorbox}[arc=2pt, colback=white, colframe=primaryBlue!50, boxsep=4pt, width=0.55\linewidth]
   \small
   \textbf{\textcolor{gray!80}{MIỀN BẮC}} \par\vspace{2pt}
-  \quad \textcolor{primaryBlue}{\textbf{Hà Nội (Được chọn sẵn)}} \par\vspace{2pt}
+  \quad \textcolor{primaryBlue}{\textbf{Hà Nội (Được chọn mặc định)}} \par\vspace{2pt}
   \quad Hải Phòng \par\vspace{3pt}
   \textbf{\textcolor{gray!80}{MIỀN NAM}} \par\vspace{2pt}
   \quad Hồ Chí Minh \par\vspace{2pt}
@@ -184,33 +286,52 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
 \end{tcolorbox}
 \par\vspace{4pt}
 \textcolor{codeComment}{\small\textit{$\rightarrow$ Thẻ optgroup phân chia Miền Bắc / Miền Nam in đậm, mục "Hà Nội" được chọn mặc định nhờ thuộc tính selected.}}
+\end{center}
 \end{browserWindow}
 
-% ------------------------------------------------------------------------------
+% ==============================================================================
 \section{Thẻ Ô Nhập Nhiều Dòng <textarea>}
 \subsection{Lý Thuyết \& Thuộc Tính Khoảng Kích Thước}
+
 Thẻ \codeinline{<textarea>} cho phép người dùng nhập các đoạn văn bản dài nhiều dòng (như bình luận, ghi chú đơn hàng).
 
-\begin{itemize}
+\begin{conceptBox}[Các Thuộc Tính Điều Khiển Textarea]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \codeinline{rows="..."}: Số dòng hiển thị mặc định.
     \item \codeinline{cols="..."}: Số cột chiều rộng mặc định.
     \item \codeinline{maxlength="..."}: Giới hạn số ký tự tối đa.
 \end{itemize}
+\end{conceptBox}
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ khung textarea nhập bình luận}]
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[Mã Nguồn: Khung Textarea Nhập Bình Luận]
+\begin{lstlisting}[language=HTML5]
 <label for="comment">(*@Bình Luận Bài Viết:@*)</label>
 <textarea id="comment" name="comment" rows="5" cols="50" 
-          maxlength="500" placeholder="(*@Viết phản hồi của bạn...@*)"></textarea>
+          maxlength="500" placeholder="Viết phản hồi của bạn..."></textarea>
 \end{lstlisting}
+\end{codeWindow}
 
-% ------------------------------------------------------------------------------
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Khung Textarea Có Nút Kéo Giãn Kích Thước]
+\sffamily\small
+\begin{center}
+\begin{tabular}{r l}
+  \textbf{Bình Luận Bài Viết:} & \fcolorbox{gray!40}{white}{\parbox[t][50pt][t]{180pt}{\textcolor{gray!60}{\small Viết phản hồi của bạn...}\hfill\textcolor{gray!50}{\tiny ::}}}
+\end{tabular}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
 \section{Thẻ Gợi Ý Tự Động <datalist>}
 \subsection{Lý Thuyết \& Cơ Chế Tự Động Điền}
-Thẻ \codeinline{<datalist>} chứa danh sách các tùy chọn gợi ý cho thẻ \codeinline{<input>}. Người dùng vừa có thể gõ văn bản tùy ý, vừa có thể chọn từ danh sách gợi ý.
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ liên kết ô input với thẻ datalist}]
+Thẻ \codeinline{<datalist>} chứa danh sách các tùy chọn gợi ý cho thẻ \codeinline{<input>}. Người dùng vừa có thể gõ văn bản tùy ý, vừa có thể chọn từ danh sách gợi ý xổ xuống.
+
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[Mã Nguồn: Liên Kết Ô Input Với Thẻ Datalist]
+\begin{lstlisting}[language=HTML5]
 <label for="browser">(*@Chọn Trình Duyệt Thường Dùng:@*)</label>
 <input type="text" id="browser" name="browser" list="browser-list">
 
@@ -221,24 +342,56 @@ Thẻ \codeinline{<datalist>} chứa danh sách các tùy chọn gợi ý cho th
   <option value="Microsoft Edge">
 </datalist>
 \end{lstlisting}
+\end{codeWindow}
 
-% ------------------------------------------------------------------------------
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Datalist Tự Động Gợi Ý Trình Duyệt]
+\sffamily\small
+\begin{center}
+\textbf{Chọn Trình Duyệt Thường Dùng:} \fcolorbox{primaryBlue}{white}{\small Google \textcolor{primaryBlue}{\textbf{|}} \hfill v} \par\vspace{3pt}
+\begin{tcolorbox}[arc=2pt, colback=white, colframe=gray!40, boxsep=4pt, width=0.55\linewidth]
+  \small
+  \textcolor{primaryBlue}{\textbf{Google Chrome}} \par\vspace{2pt}
+  Mozilla Firefox \par\vspace{2pt}
+  Apple Safari \par\vspace{2pt}
+  Microsoft Edge
+\end{tcolorbox}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
 \section{Thẻ Hiển Thị Kết Quả <output>}
 \subsection{Lý Thuyết \& Thuộc Tính for}
+
 Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tính toán hoặc hành động người dùng thực hiện trong form.
 
-\begin{itemize}
-    \item Thuộc tính \codeinline{for="id1 id2"}: Khai báo danh sách ID các ô input tham gia vào phép tính.
+\begin{conceptBox}[Thuộc Tính Của Thẻ Output]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{for="id1 id2"}: Khai báo danh sách ID các ô input tham gia vào phép tính toán.
 \end{itemize}
+\end{conceptBox}
 
-\subsection{Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ tự động tính toán tổng số tiền bằng thẻ output và JS}]
+\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[Mã Nguồn: Tự Động Tính Toán Phép Nhân Bằng Output Và JS]
+\begin{lstlisting}[language=HTML5]
 <form oninput="result.value = parseInt(a.value) * parseInt(b.value)">
   <input type="number" id="a" value="10"> x
   <input type="number" id="b" value="5"> =
-  (*@<output name="result" for="a b">50</output> VNĐ@*)
+  <output name="result" for="a b">50</output> VNĐ
 </form>
 \end{lstlisting}
+\end{codeWindow}
 
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Thẻ Output Tính Toán Trực Tiếp]
+\sffamily\small
+\begin{center}
+\fcolorbox{gray!40}{white}{\small 10} $\times$ \fcolorbox{gray!40}{white}{\small 5} $=$ \textcolor{green!60!black}{\textbf{50 VNĐ}}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
 \section{Tóm Tắt Chương 7}
+
+\begin{conceptBox}[Tóm Lại Cốt Lõi Kiến Thức Chương 7]
 Chương 7 đã hệ thống trọn bộ các mục cho từng thẻ Biểu mẫu HTML Forms, 22+ loại Input Types, thuộc tính bàn phím di động và thẻ tính toán kết quả \codeinline{<output>}. Chương tiếp theo sẽ đi sâu vào nhóm Thẻ Đa Phương Tiện và Đồ Họa Graphics.
+\end{conceptBox}
