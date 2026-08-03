@@ -7921,18 +7921,41 @@ selector {
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan 3 Khối Box Mờ Trình Duyệt]
+\begin{browserWindow}[Kết Quả Trực Quan 3 Khối Box Trên Nền Ca-rô Trong Suốt Mờ Trình Duyệt]
 \sffamily\small
 \begin{center}
-\setlength{\tabcolsep}{12pt}
-\begin{tabular}{c c c}
-\textbf{Box 1 (Khối Đỏ)} & \textbf{Box 2 (Khối Xanh Dương)} & \textbf{Box 3 (Khối Xanh Lá)} \\[2pt]
-{\scriptsize\codeinline{opacity: 1;}} & {\scriptsize\codeinline{opacity: 0.5;}} & {\scriptsize\codeinline{opacity: 0.2;}} \\[6pt]
-\fcolorbox{red!90!black}{red!90!black}{\parbox[c][35pt][c]{70pt}{\centering\color{white}\bfseries Opacity 1.0}} &
-\fcolorbox{blue!90!black}{blue!50!white}{\parbox[c][35pt][c]{70pt}{\centering\color{white}\bfseries Opacity 0.5}} &
-\fcolorbox{green!60!black}{green!20!white}{\parbox[c][35pt][c]{70pt}{\centering\color{gray!80!black}\bfseries Opacity 0.2}} \\[6pt]
-\textcolor{green!60!black}{\textbf{Hiển thị 100\% (Không mờ)}} & \textcolor{primaryBlue}{\textbf{Mờ 50\% (Xuyên thấu)}} & \textcolor{red!80!black}{\textbf{Mờ 80\% (Rất mờ)}}
-\end{tabular}
+\begin{tikzpicture}[scale=0.95, transform shape]
+  % 1. Background Grid (Nen ca-ro mo phong Chrome/Photoshop transparency grid)
+  \begin{scope}
+    \clip (-0.2,-0.2) rectangle (11.5, 2.2);
+    \foreach \x in {0,0.4,...,12} {
+      \foreach \y in {0,0.4,...,2.4} {
+        \pgfmathparse{int(mod(\x*2.5 + \y*2.5, 2))}
+        \ifnum\pgfmathresult=0
+          \fill[gray!20] (\x,\y) rectangle (\x+0.4,\y+0.4);
+        \else
+          \fill[white] (\x,\y) rectangle (\x+0.4,\y+0.4);
+        \fi
+      }
+    }
+  \end{scope}
+  \draw[gray!35, rounded corners=4pt] (-0.2,-0.2) rectangle (11.5, 2.2);
+
+  % Box 1: Opacity 1.0 (Solid Red - #ff0000)
+  \node[draw=red!90!black, fill=red, fill opacity=1.0, text=white, font=\bfseries\sffamily, minimum width=2.9cm, minimum height=1.4cm, rounded corners=3pt] at (1.7, 1.0) {Opacity 1.0};
+  \node[anchor=north, font=\scriptsize\sffamily, text=green!60!black] at (1.7, -0.3) {\textbf{Box 1: Đỏ đặc 100\%}};
+  \node[anchor=south, font=\tiny\ttfamily\bfseries, text=accentOrange] at (1.7, 2.3) {opacity: 1;};
+
+  % Box 2: Opacity 0.5 (Semi-transparent Blue - #007bff)
+  \node[draw=blue!90!black, fill=blue!80!cyan, fill opacity=0.5, text=white, text opacity=1, font=\bfseries\sffamily, minimum width=2.9cm, minimum height=1.4cm, rounded corners=3pt] at (5.6, 1.0) {Opacity 0.5};
+  \node[anchor=north, font=\scriptsize\sffamily, text=primaryBlue] at (5.6, -0.3) {\textbf{Box 2: Xanh mờ 50\%}};
+  \node[anchor=south, font=\tiny\ttfamily\bfseries, text=accentOrange] at (5.6, 2.3) {opacity: 0.5;};
+
+  % Box 3: Opacity 0.2 (Low Opacity Green - #28a745)
+  \node[draw=green!70!black, fill=green!70!black, fill opacity=0.2, text=green!30!black, text opacity=1, font=\bfseries\sffamily, minimum width=2.9cm, minimum height=1.4cm, rounded corners=3pt] at (9.5, 1.0) {Opacity 0.2};
+  \node[anchor=north, font=\scriptsize\sffamily, text=red!80!black] at (9.5, -0.3) {\textbf{Box 3: Xanh mờ 80\%}};
+  \node[anchor=south, font=\tiny\ttfamily\bfseries, text=accentOrange] at (9.5, 2.3) {opacity: 0.2;};
+\end{tikzpicture}
 \end{center}
 \end{browserWindow}
 
