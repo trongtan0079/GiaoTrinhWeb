@@ -856,3 +856,44 @@ Nếu có bất kỳ xung đột nào giữa các quy tắc, hãy luôn tuân th
 3. Hợp nhất thông minh với nội dung cũ khi cùng chủ đề.
 4. Sắp xếp lại bố cục để tài liệu ngày càng hoàn thiện.
 5. Tự bổ sung kiến thức nhằm nâng cao chất lượng giáo trình nhưng luôn phân biệt rõ với nội dung gốc.
+
+---
+
+# ⛔ QUY TẮC BẢO TOÀN NỘI DUNG TUYỆT ĐỐI (CRITICAL)
+
+> Đây là quy tắc có mức ưu tiên CAO NHẤT, vượt trên mọi quy tắc khác.
+> Vi phạm bất kỳ điều nào dưới đây đều KHÔNG ĐƯỢC CHẤP NHẬN.
+
+## Nguyên tắc cốt lõi
+
+1. **KHÔNG BAO GIỜ XÓA hoặc GHI ĐÈ toàn bộ file** mà không đọc kỹ nội dung cũ trước.
+2. **KHÔNG BAO GIỜ dùng `Overwrite: true`** trên các file `.tex` lớn (>100 dòng) trừ khi đã sao chép 100% nội dung cũ vào nội dung mới.
+3. **Luôn dùng `replace_file_content` hoặc `multi_replace_file_content`** để chỉnh sửa từng đoạn cụ thể thay vì viết lại toàn bộ file.
+4. **Trước khi chỉnh sửa bất kỳ file nào**, phải đọc (`view_file`) đầy đủ nội dung hiện tại của file đó.
+5. **Mỗi lần chỉnh sửa xong**, phải commit và push lên GitHub ngay lập tức.
+
+## Quy trình bắt buộc khi chỉnh sửa nội dung
+
+```
+Bước 1: view_file → Đọc toàn bộ file hiện tại
+Bước 2: Xác định chính xác đoạn cần sửa (StartLine, EndLine)
+Bước 3: Dùng replace_file_content để sửa ĐÚNG đoạn đó
+Bước 4: Biên dịch XeLaTeX để kiểm tra
+Bước 5: git commit + git push ngay lập tức
+```
+
+## Cơ chế bảo vệ trên GitHub
+
+- **Tag backup**: Tạo tag `backup-YYYY-MM-DD-safe` trước mỗi phiên chỉnh sửa lớn.
+- **Khôi phục**: Nếu phát hiện mất dữ liệu, chạy `git checkout <tag> -- <file>` để phục hồi.
+- **Lịch sử commit**: Mỗi thay đổi đều có commit riêng biệt với mô tả rõ ràng.
+
+## Danh sách file quan trọng nhất (CẤM ghi đè)
+
+| File | Kích thước | Nội dung |
+|------|-----------|----------|
+| `ch01_web_architecture.tex` | ~91KB | Chương 1-2: Kiến trúc Web |
+| `ch03_semantic_html5.tex` | ~511KB | Chương 3: HTML5 Semantic |
+| `ch04_forms_accessibility.tex` | ~238KB | Chương 5: Forms & Accessibility |
+| `ch06_css_foundations.tex` | ~447KB | Chương 11: CSS Foundations |
+| `main.tex` | ~14KB | File gốc cấu trúc toàn bộ giáo trình |
