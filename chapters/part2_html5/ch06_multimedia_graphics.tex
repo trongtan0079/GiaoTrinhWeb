@@ -7,7 +7,7 @@
 Chương này đi sâu phân tích toàn bộ các thẻ biểu mẫu HTML Forms, bao gồm 22+ loại Input Types, các thuộc tính điều khiển và cơ chế kiểm tra hợp lệ Constraint Validation API.
 
 \section{Thẻ Khung Biểu Mẫu <form>}
-\subsection{1. Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính}
+\subsection{Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính}
 Thẻ \codeinline{<form>} đại diện cho một phần tử chứa các trường nhập liệu tương tác để thu thập và gửi dữ liệu tới máy chủ.
 
 \begin{table}[H]
@@ -31,37 +31,39 @@ Thẻ \codeinline{<form>} đại diện cho một phần tử chứa các trư�
 \caption{Toàn bộ các thuộc tính của thẻ <form>}
 \end{table}
 
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ biểu mẫu *@đăng ký hồ sơ *@hỗ trợ tải@*) file}]
-<form action="/api/v1/register" method="POST" enctype="multipart/form-data" autocomplete="on">
-  <!-- (*@Các trường nhập liệu nằm ở đây@*) -->  <button type="submit">(*@Đăng Ký Hồ Sơ@*)</button>
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ biểu mẫu đăng ký hồ sơ hỗ trợ tải file}]
+<form action="/api/v1/register" method="POST"
+      enctype="multipart/form-data" autocomplete="on">
+  <!-- (*@Các trường nhập liệu nằm ở đây@*) -->
+  <button type="submit">(*@Đăng Ký Hồ Sơ@*)</button>
 </form>
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
 \section{Thẻ Nhãn Dán <label>}
-\subsection{1. Lý Thuyết \& Accessibility (a11y)}
+\subsection{Lý Thuyết \& Accessibility (a11y)}
 Thẻ \codeinline{<label>} tạo nhãn mô tả cho ô nhập liệu. Khi người dùng nhấp chuột vào thẻ \codeinline{<label>}, trình duyệt sẽ tự động nhảy con trỏ chuột vào ô input tương ứng.
 
 \begin{itemize}
     \item Thuộc tính \codeinline{for="id\_input"}: Liên kết nhãn với \codeinline{id} của phần tử input.
 \end{itemize}
 
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ liên kết *@thẻ@*) label (*@với@*) input}]
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ liên kết thẻ label với input}]
 <label for="username">(*@Tên Đăng Nhập@*)<span style="color: red;">*</span></label>
 <input type="text" id="username" name="username" required>
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
 \section{Thẻ Khung Nhóm <fieldset> \& Tiêu Đề Khung <legend>}
-\subsection{1. Lý Thuyết \& Bảng Thuộc Tính}
+\subsection{Lý Thuyết \& Bảng Thuộc Tính}
 - \codeinline{<fieldset>}: Gom nhóm các ô nhập liệu có liên quan lại trong một khung viền.
 - \codeinline{<legend>}: Đặt tiêu đề hiển thị nằm trên viền của khối \codeinline{<fieldset>}.
 - Thuộc tính \codeinline{disabled} trên \codeinline{<fieldset>}: Vô hiệu hóa \textbf{tất cả các input con} bên trong cùng lúc!
 
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ@*) gom (*@nhóm trường thông@*) tin (*@bằng@*) fieldset (*@và@*) legend}]
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ gom nhóm trường thông tin bằng fieldset và legend}]
 <fieldset>
   <legend>(*@Thông Tin Giao Hàng@*)</legend>
   <label for="address">(*@Địa Chỉ:@*)</label>
@@ -71,7 +73,7 @@ Thẻ \codeinline{<label>} tạo nhãn mô tả cho ô nhập liệu. Khi ngư�
 
 % ------------------------------------------------------------------------------
 \section{Thẻ Đầu Vào <input> \& Toàn Bộ 22+ Input Types}
-\subsection{1. Lý Thuyết \& Bảng Tra Cứu All Input Types}
+\subsection{Lý Thuyết \& Bảng Tra Cứu All Input Types}
 Thẻ \codeinline{<input>} là thẻ nhập liệu quan trọng nhất trong HTML5, linh hoạt thay đổi giao diện dựa vào thuộc tính \codeinline{type="..."}.
 
 \begin{table}[H]
@@ -100,7 +102,7 @@ Thẻ \codeinline{<input>} là thẻ nhập liệu quan trọng nhất trong HTM
 \caption{Bảng 22+ loại kiểu đầu vào của thẻ <input>}
 \end{table}
 
-\subsection{2. Bảng Thuộc Tính Nhập Liệu \& Mobile UX Attributes}
+\subsection{Bảng Thuộc Tính Nhập Liệu \& Mobile UX Attributes}
 \begin{itemize}
     \item \codeinline{inputmode="numeric|decimal|tel|search|email"}: Ép bàn phím ảo hiển thị đúng dạng.
     \item \codeinline{enterkeyhint="search|send|done|next"}: Đổi nhãn nút Enter trên bàn phím di động.
@@ -108,21 +110,27 @@ Thẻ \codeinline{<input>} là thẻ nhập liệu quan trọng nhất trong HTM
     \item \codeinline{pattern="..."}: Ràng buộc dữ liệu bằng Biểu thức chính quy (Regex).
 \end{itemize}
 
-\subsection{3. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ tổng hợp *@các ô@*) input di (*@động nâng@*) cao}]
-<!-- (*@Ô nhập OTP tự động đọc SMS trên iOS/Android@*) --><label for="otp">(*@Nhập Mã OTP:@*)</label>
-<input type="text" id="otp" name="otp" inputmode="numeric" autocomplete="one-time-code" required placeholder="(*@6 chữ số@*)">
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ tổng hợp các ô input di động nâng cao}]
+<!-- (*@Ô nhập OTP tự động đọc SMS trên iOS/Android@*) -->
+<label for="otp">(*@Nhập Mã OTP:@*)</label>
+<input type="text" id="otp" name="otp" inputmode="numeric" 
+       autocomplete="one-time-code" required placeholder="(*@6 chữ số@*)">
 
-<!-- (*@Chọn tệp ảnh PNG/JPEG nhiều file@*) --><label for="photos">(*@Tải Ảnh Hóa Đơn:@*)</label>
-<input type="file" id="photos" name="photos" accept="image/png, image/jpeg" multiple>
+<!-- (*@Chọn tệp ảnh PNG/JPEG nhiều file@*) -->
+<label for="photos">(*@Tải Ảnh Hóa Đơn:@*)</label>
+<input type="file" id="photos" name="photos" 
+       accept="image/png, image/jpeg" multiple>
 
-<!-- (*@Thanh chọn khoảng giá@*) --><label for="price">(*@Khoảng Giá:@*)</label>
-<input type="range" id="price" name="price" min="100" max="1000" step="50" value="500">
+<!-- (*@Thanh chọn khoảng giá@*) -->
+<label for="price">(*@Khoảng Giá:@*)</label>
+<input type="range" id="price" name="price" 
+       min="100" max="1000" step="50" value="500">
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
 \section{Thẻ Nút Bấm <button>}
-\subsection{1. Lý Thuyết \& Các Thuộc Tính Ghi Đè Form}
+\subsection{Lý Thuyết \& Các Thuộc Tính Ghi Đè Form}
 Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ \codeinline{<input type="button">} vì cho phép nhúng icon HTML bên trong.
 
 \begin{itemize}
@@ -130,8 +138,8 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
     \item Thuộc tính ghi đè Form: \codeinline{formaction}, \codeinline{formenctype}, \codeinline{formmethod}, \codeinline{formnovalidate}, \codeinline{formtarget}.
 \end{itemize}
 
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ nút bấm@*) button (*@chứa@*) icon SVG}]
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ nút bấm button chứa icon SVG}]
 <button type="submit" class="btn-primary">
   <svg width="16" height="16"><circle cx="8" cy="8" r="7"/></svg>
   <span>(*@Gửi Đơn Hàng@*)</span>
@@ -140,12 +148,12 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
 
 % ------------------------------------------------------------------------------
 \section{Thẻ Danh Sách Chọn <select>, <optgroup> \& <option>}
-\subsection{1. Lý Thuyết \& Bảng Thuộc Tính}
+\subsection{Lý Thuyết \& Bảng Thuộc Tính}
 - \codeinline{<select>}: Thẻ tạo danh sách chọn xổ xuống (Dropdown). Thuộc tính \codeinline{multiple} (cho chọn nhiều), \codeinline{size} (số dòng hiển thị).
 - \codeinline{<optgroup>}: Gom nhóm các tùy chọn có cùng chủ đề. Thuộc tính \codeinline{label}.
 - \codeinline{<option>}: Một phần tử chọn cụ thể. Thuộc tính \codeinline{value}, \codeinline{selected}, \codeinline{disabled}.
 
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
 \begin{codeWindow}[Mã Nguồn: Menu Dropdown Gom Nhóm Optgroup]
 \begin{lstlisting}[language=HTML5]
 <label for="city">(*@Chọn Thành Phố:@*)</label>
@@ -180,7 +188,7 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
 
 % ------------------------------------------------------------------------------
 \section{Thẻ Ô Nhập Nhiều Dòng <textarea>}
-\subsection{1. Lý Thuyết \& Thuộc Tính Khoảng Kích Thước}
+\subsection{Lý Thuyết \& Thuộc Tính Khoảng Kích Thước}
 Thẻ \codeinline{<textarea>} cho phép người dùng nhập các đoạn văn bản dài nhiều dòng (như bình luận, ghi chú đơn hàng).
 
 \begin{itemize}
@@ -189,19 +197,20 @@ Thẻ \codeinline{<textarea>} cho phép người dùng nhập các đoạn văn 
     \item \codeinline{maxlength="..."}: Giới hạn số ký tự tối đa.
 \end{itemize}
 
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ@*) khung textarea (*@nhập bình luận@*)}]
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ khung textarea nhập bình luận}]
 <label for="comment">(*@Bình Luận Bài Viết:@*)</label>
-<textarea id="comment" name="comment" rows="5" cols="50" maxlength="500" placeholder="(*@Viết phản hồi của bạn...@*)"></textarea>
+<textarea id="comment" name="comment" rows="5" cols="50" 
+          maxlength="500" placeholder="(*@Viết phản hồi của bạn...@*)"></textarea>
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
 \section{Thẻ Gợi Ý Tự Động <datalist>}
-\subsection{1. Lý Thuyết \& Cơ Chế Tự Động Điền}
+\subsection{Lý Thuyết \& Cơ Chế Tự Động Điền}
 Thẻ \codeinline{<datalist>} chứa danh sách các tùy chọn gợi ý cho thẻ \codeinline{<input>}. Người dùng vừa có thể gõ văn bản tùy ý, vừa có thể chọn từ danh sách gợi ý.
 
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ liên kết *@ô@*) input (*@với thẻ@*) datalist}]
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ liên kết ô input với thẻ datalist}]
 <label for="browser">(*@Chọn Trình Duyệt Thường Dùng:@*)</label>
 <input type="text" id="browser" name="browser" list="browser-list">
 
@@ -215,15 +224,15 @@ Thẻ \codeinline{<datalist>} chứa danh sách các tùy chọn gợi ý cho th
 
 % ------------------------------------------------------------------------------
 \section{Thẻ Hiển Thị Kết Quả <output>}
-\subsection{1. Lý Thuyết \& Thuộc Tính for}
+\subsection{Lý Thuyết \& Thuộc Tính for}
 Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tính toán hoặc hành động người dùng thực hiện trong form.
 
 \begin{itemize}
     \item Thuộc tính \codeinline{for="id1 id2"}: Khai báo danh sách ID các ô input tham gia vào phép tính.
 \end{itemize}
 
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ tự động *@tính toán tổng số *@tiền bằng thẻ@*) output (*@và@*) JS}]
+\subsection{Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ tự động tính toán tổng số tiền bằng thẻ output và JS}]
 <form oninput="result.value = parseInt(a.value) * parseInt(b.value)">
   <input type="number" id="a" value="10"> x
   <input type="number" id="b" value="5"> =
