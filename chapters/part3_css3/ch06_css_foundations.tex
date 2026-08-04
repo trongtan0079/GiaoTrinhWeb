@@ -15,8 +15,8 @@ CSS (\term{Cascading Style Sheets}) giúp bạn thiết kế và định dạng 
 \textbf{CSS (Cascading Style Sheets)} là ngôn ngữ dùng để mô tả cách trình bày của một tài liệu HTML hoặc XML. Nó giúp định dạng màu sắc, kiểu chữ, bố cục và hiệu ứng cho trang web. CSS giúp \textbf{tách biệt phần nội dung (HTML) với phần hiển thị}, giúp trang web dễ quản lý, tăng tính bảo trì và tối ưu hiệu suất tải trang.
 \end{conceptBox}
 
-\paragraph{\textcolor{accentOrange}{\textbf{[Mục Đích Cốt Lõi]}} Mục Đích Của CSS:}
-\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+\subsection{Mục Đích Cốt Lõi Của Ngôn Ngữ CSS}
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
     \item \textbf{Tách biệt nội dung và trình bày}: Thẻ HTML tập trung vào nội dung ngữ nghĩa, CSS lo phần thiết kế giao diện thị giác.
     \item \textbf{Giúp trang web đẹp và chuyên nghiệp}: Mang lại giao diện hiện đại, nâng cao trải nghiệm thị giác.
     \item \textbf{Dễ bảo trì và tái sử dụng}: Một tập tin CSS duy nhất có thể dùng và định kiểu đồng bộ cho nhiều trang web.
@@ -28,7 +28,7 @@ CSS (\term{Cascading Style Sheets}) giúp bạn thiết kế và định dạng 
 % ==============================================================================
 \section{Cú Pháp CSS (CSS Syntax)}
 
-\paragraph{a. Cấu Trúc Cơ Bản Của CSS:}
+\subsection{Cấu Trúc Cơ Bản Của Cú Pháp CSS}
 Một quy tắc CSS bao gồm hai thành phần chính:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Bộ chọn (Selector)} -- Xác định phần tử HTML cần áp dụng CSS.
@@ -44,7 +44,7 @@ selector {
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{b. Ví Dụ Cụ Thể \& Giải Thích:}
+\subsection{Ví Dụ Cụ Thể \& Giải Thích Cú Pháp}
 \begin{codeWindow}[Khai Báo Style Cho Thẻ h1]
 \begin{lstlisting}[language=CSS3]
 h1 {
@@ -91,7 +91,7 @@ CSS có thể được áp dụng vào HTML theo 3 cách:
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{1. Inline CSS (CSS Trong Thẻ HTML):}
+\subsection{Inline CSS (CSS Trong Thẻ HTML)}
 Viết trực tiếp vào thẻ HTML bằng thuộc tính \codeinline{style}.
 \begin{codeWindow}[Mã Nguồn Inline CSS]
 \begin{lstlisting}[language=HTML5]
@@ -105,7 +105,7 @@ Viết trực tiếp vào thẻ HTML bằng thuộc tính \codeinline{style}.
 \end{browserWindow}
 \textcolor{warnBorder}{\textbf{$\rightarrow$ Hạn chế}}: \textcolor{accentOrange}{\textbf{Không khuyến khích}} vì làm code khó bảo trì.
 
-\paragraph{2. Internal CSS (CSS Nội Bộ):}
+\subsection{Internal CSS (CSS Nội Bộ)}
 Viết trong thẻ \codeinline{<style>} trong file HTML (bên trong \codeinline{<head>}). Dùng khi chỉ áp dụng CSS cho một trang web duy nhất.
 \begin{codeWindow}[Mã Nguồn Internal CSS]
 \begin{lstlisting}[language=HTML5]
@@ -125,7 +125,7 @@ Viết trong thẻ \codeinline{<style>} trong file HTML (bên trong \codeinline{
 \textcolor{primaryBlue}{\Large Tiêu Đề Xanh Dương}
 \end{browserWindow}
 
-\paragraph{3. External CSS (CSS Bên Ngoài):}
+\subsection{External CSS (CSS Bên Ngoài)}
 Viết CSS trong file \codeinline{.css} riêng biệt, sau đó liên kết vào HTML bằng thẻ \codeinline{<link>}.
 \begin{codeWindow}[Liên Kết File CSS Qua Thẻ Link]
 \begin{lstlisting}[language=HTML5]
@@ -156,7 +156,7 @@ p {
 % ==============================================================================
 \section{Một Số Thuộc Tính CSS Cơ Bản \& Đơn Vị Đo Kích Thước}
 
-\paragraph{a. Bảng Tra Cứu Một Số Thuộc Tính CSS Cơ Bản:}
+\subsection{Bảng Tra Cứu Một Số Thuộc Tính CSS Cơ Bản}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Các Thuộc Tính CSS Cơ Bản Phổ Biến]
 \rowcolors{2}{white}{primaryBlue!4}
