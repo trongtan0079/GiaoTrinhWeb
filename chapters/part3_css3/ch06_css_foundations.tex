@@ -372,7 +372,50 @@ A & Kênh độ trong suốt (Alpha Channel) kiểm soát mức độ nhìn xuy�
 \end{tabularx}
 \end{prettyTableBox}
 
-\textbf{3. Ví Dụ Cụ Thể \& Kết Quả Hiển Thị Trực Quan:}
+\textbf{3. Quy Tắc Sử Dụng Dấu Phẩy \& Sự Khác Biệt Giữa Cú Pháp Truyền Thống vs CSS Color Level 4:}
+
+\begin{conceptBox}[Phân Tích Quy Tắc Sử Dụng Dấu Phẩy Trong Cú Pháp RGB / RGBA]
+\textbf{a. Cú Pháp Truyền Thống (Phải Có Dấu Phẩy `,`)}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Khi sử dụng cú pháp hàm \codeinline{rgb(R, G, B)} hoặc \codeinline{rgba(R, G, B, A)} tiêu chuẩn truyền thống, \textbf{bắt buộc phải sử dụng dấu phẩy} giữa các tham số.
+    \item \textcolor{red!80!black}{\textbf{Sai cú pháp (Không có dấu phẩy)}}:
+    \codeinline{color: rgba(255 0 0 0.5);} $\rightarrow$ \textcolor{red!80!black}{\textbf{KHÔNG hợp lệ}} trong chuẩn CSS thông thường. Trình duyệt sẽ coi đây là lỗi cú pháp và không áp dụng thuộc tính màu này.
+    \item \textcolor{green!60!black}{\textbf{Đúng cú pháp (Có dấu phẩy chuẩn)}}:
+    \codeinline{color: rgba(255, 0, 0, 0.5);} $\rightarrow$ \textcolor{green!60!black}{\textbf{Đúng chuẩn}}, hiển thị màu đỏ trong suốt 50\%.
+\end{itemize}
+
+\textbf{b. Cú Pháp Hiện Đại CSS Color Module Level 4 (Dùng Khoảng Trắng \& Dấu Gạch Chéo `/`)}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Theo tiêu chuẩn mới (\term{CSS Color Module Level 4}), trình duyệt cho phép dùng khoảng trắng thay dấu phẩy và dùng dấu gạch chéo \codeinline{/} để ngăn kênh Alpha với cú pháp \codeinline{rgb()}:
+    \item \textcolor{green!60!black}{\textbf{Cú pháp hợp lệ trong trình duyệt hiện đại}}:
+    \codeinline{color: rgb(255 0 0 / 0.5);} $\rightarrow$ \textcolor{green!60!black}{\textbf{Hợp lệ chuẩn CSS4}}, tương đương với \codeinline{rgba(255, 0, 0, 0.5)}.
+\end{itemize}
+\end{conceptBox}
+
+\begin{tipBox}[Ghi Nhớ Mẹo Sử Dụng Cú Pháp Khai Báo Màu]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Với cú pháp \codeinline{rgb(...)} hoặc \codeinline{rgba(...)} kiểu truyền thống $\rightarrow$ **Dùng dấu phẩy `,`**.
+    \item Với cú pháp kiểu mới CSS4 $\rightarrow$ **Dùng dấu cách và dấu gạch chéo `/`** để ngăn kênh độ trong suốt Alpha.
+\end{itemize}
+\end{tipBox}
+
+\begin{prettyTableBox}[Bảng Tóm Tắt Tính Hợp Lệ Của Các Cách Viết Cú Pháp RGBA / RGB]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{4.0cm}|>{\centering\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Cách viết cú pháp} & \thd{\sffamily Hợp lệ?} & \thd{\sffamily Ghi chú \& Độ tương thích trình duyệt} \\
+\hline
+rgba(255, 0, 0, 0.5) & \textcolor{green!60!black}{\textbf{Hợp lệ}} & Chuẩn truyền thống, hỗ trợ 100\% trên tất cả mọi trình duyệt. \\
+\hline
+rgb(255 0 0 / 0.5) & \textcolor{green!60!black}{\textbf{Hợp lệ}} & Chuẩn mới CSS4 -- Cần trình duyệt phiên bản hiện đại. \\
+\hline
+rgba(255 0 0 0.5) & \textcolor{red!80!black}{\textbf{Không hợp lệ}} & Sai cú pháp hoàn toàn -- Trình duyệt không chấp nhận. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{4. Ví Dụ Cụ Thể \& Kết Quả Hiển Thị Trực Quan:}
 
 \begin{codeWindow}[Khai Báo Định Dạng RGB Cơ Bản Và RGBA Trong Suốt]
 \begin{lstlisting}[language=CSS3]
