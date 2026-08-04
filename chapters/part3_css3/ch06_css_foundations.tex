@@ -7848,6 +7848,65 @@ div.head h2.title:last-child { color: yellow; }
 \end{tabularx}
 \end{prettyTableBox}
 
+%% ===================================================================
+%% PHẦN 8.9: KINH NGHIỆM THỰC TẾ & BEST PRACTICES
+%% ===================================================================
+\subsection{9. Kinh Nghiệm Thực Tế \& Tối Ưu Kiến Trúc CSS}
+
+\begin{prettyTableBox}[Bảng Quy Tắc "Nên \& Không Nên" Trong Thực Tế Lập Trình Frontend]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{red!80!black}}Z|>{\bfseries\color{green!60!black}}Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily [KHÔNG NÊN] làm trong CSS} & \thd{\sffamily [NÊN] thực hiện (Best Practices)} \\
+\hline
+Dùng ID làm selector chính trong CSS (\codeinline{\#header \{ background: blue; \}}) làm code bị cứng, khó ghi đè. & Sử dụng Class cho tất cả các bộ chọn (\codeinline{.header \{ background: blue; \}}) để linh hoạt và tái sử dụng. \\
+\hline
+Lạm dụng \codeinline{!important} để giải quyết xung đột CSS tạm thời, gây rác mã nguồn. & Chỉ dùng \codeinline{!important} cho các utility class đặc biệt (như \codeinline{.d-none}) hoặc override thư viện ngoài. \\
+\hline
+Lồng selector quá sâu: \codeinline{body div.container section.main article.post p} gây tăng điểm specificity không cần thiết. & Viết selector ngắn gọn, phẳng (\term{Flat Selectors}): \codeinline{.post p} hoặc áp dụng phương pháp luận đặt tên BEM (\codeinline{.post\_\_text}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[Bảng Mẹo Nhớ Nhanh Sức Mạnh Của Các Loại Selector (Memory Tips)]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\raggedright}m{4.5cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Mức độ Selector} & \thd{\sffamily Mẹo ghi nhớ dễ thuộc lòng} \\
+\hline
+\textcolor{red!85!black}{!important} & \textbf{Nói là làm} -- Luôn luôn chiến thắng mọi bộ chọn khác. \\
+\hline
+\textcolor{orange!85!black}{Inline Style \scriptsize(1,0,0,0)} & \textbf{Gần nhất phần tử} -- Viết trực tiếp trong thuộc tính \codeinline{style="..."} trên thẻ HTML. \\
+\hline
+\textcolor{primaryBlue}{ID Selector \scriptsize(0,1,0,0)} & \textbf{Định danh duy nhất} -- Rất mạnh mẽ, định danh duy nhất cho phần tử. \\
+\hline
+\textcolor{green!60!black}{Class / Attr / Pseudo-class \scriptsize(0,0,1,0)} & \textbf{Chung nhóm} -- Ổn định, linh hoạt, được sử dụng phổ biến nhất trong thực tế. \\
+\hline
+\textcolor{gray!80!black}{Element / Pseudo-element \scriptsize(0,0,0,1)} & \textbf{Thẻ HTML} -- Mức độ yếu nhất trong các loại bộ chọn trực tiếp. \\
+\hline
+\textcolor{gray!60}{Inheritance / Kế thừa \scriptsize(0,0,0,0)} & \textbf{Mặc định} -- Dễ bị bất kỳ bộ chọn trực tiếp nào ghi đè. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Tổng Kết Quy Tắc Vàng Về Thứ Tự Ưu Tiên CSS]
+\sffamily
+\textbf{Công thức tổng quát:} \quad \codeinline{Specificity = (A, B, C, D)} \quad \text{hoặc} \quad \codeinline{Specificity = (a, b, c, d)}
+\par\vspace{8pt}
+\textbf{Chuỗi thứ tự ưu tiên tuyệt đối từ cao xuống thấp (1 $\rightarrow$ 6):}
+\par\vspace{6pt}
+\begin{enumerate}[leftmargin=1.8em, itemsep=4pt, parsep=0pt]
+    \item \textcolor{red!85!black}{\textbf{!important trong CSS}} -- Cấp quyền ưu tiên tuyệt đối (ghi đè mọi bộ chọn).
+    \item \textcolor{orange!85!black}{\textbf{Style nội tuyến (Inline style) \codeinline{(1,0,0,0)}}} -- Đặt trực tiếp trong thuộc tính \codeinline{style="..."}.
+    \item \textcolor{primaryBlue}{\textbf{Bộ chọn ID (\#id) \codeinline{(0,1,0,0)}}} -- Mức ưu tiên cao cho định danh duy nhất.
+    \item \textcolor{green!60!black}{\textbf{Class, Attribute, Pseudo-class \codeinline{(0,0,1,0)}}} -- Nhóm bộ chọn phổ biến (\codeinline{.class}, \codeinline{[attr]}, \codeinline{:hover}).
+    \item \textcolor{gray!80!black}{\textbf{Thẻ HTML \& Pseudo-element \codeinline{(0,0,0,1)}}} -- Nhóm thẻ phần tử (\codeinline{div}, \codeinline{p}, \codeinline{::before}).
+    \item \textcolor{gray!50!black}{\textbf{Kế thừa \& Universal Selector \codeinline{(0,0,0,0)}}} -- Kế thừa mặc định và bộ chọn chung (\codeinline{*}) -- \textit{Yếu nhất}.
+\end{enumerate}
+\end{conceptBox}
+
 
 %% ==============================================================================
 %% MỤC 10: THUỘC TÍNH OPACITY (ĐỘ MỜ & ĐỘ TRONG SUỐT TRONG CSS)
@@ -8128,62 +8187,4 @@ Tăng tốc phần cứng GPU? & \textcolor{green!60!black}{\textbf{CÓ}} (Dùng
 \end{enumerate}
 \end{warnBox}
 
-%% ===================================================================
-%% PHẦN 8.9: KINH NGHIỆM THỰC TẾ & BEST PRACTICES
-%% ===================================================================
-\subsection{9. Kinh Nghiệm Thực Tế \& Tối Ưu Kiến Trúc CSS}
-
-\begin{prettyTableBox}[Bảng Quy Tắc "Nên \& Không Nên" Trong Thực Tế Lập Trình Frontend]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{red!80!black}}Z|>{\bfseries\color{green!60!black}}Z|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily [KHÔNG NÊN] làm trong CSS} & \thd{\sffamily [NÊN] thực hiện (Best Practices)} \\
-\hline
-Dùng ID làm selector chính trong CSS (\codeinline{\#header \{ background: blue; \}}) làm code bị cứng, khó ghi đè. & Sử dụng Class cho tất cả các bộ chọn (\codeinline{.header \{ background: blue; \}}) để linh hoạt và tái sử dụng. \\
-\hline
-Lạm dụng \codeinline{!important} để giải quyết xung đột CSS tạm thời, gây rác mã nguồn. & Chỉ dùng \codeinline{!important} cho các utility class đặc biệt (như \codeinline{.d-none}) hoặc override thư viện ngoài. \\
-\hline
-Lồng selector quá sâu: \codeinline{body div.container section.main article.post p} gây tăng điểm specificity không cần thiết. & Viết selector ngắn gọn, phẳng (\term{Flat Selectors}): \codeinline{.post p} hoặc áp dụng phương pháp luận đặt tên BEM (\codeinline{.post\_\_text}). \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\begin{prettyTableBox}[Bảng Mẹo Nhớ Nhanh Sức Mạnh Của Các Loại Selector (Memory Tips)]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\raggedright}m{4.5cm}|Z|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Mức độ Selector} & \thd{\sffamily Mẹo ghi nhớ dễ thuộc lòng} \\
-\hline
-\textcolor{red!85!black}{!important} & \textbf{Nói là làm} -- Luôn luôn chiến thắng mọi bộ chọn khác. \\
-\hline
-\textcolor{orange!85!black}{Inline Style \scriptsize(1,0,0,0)} & \textbf{Gần nhất phần tử} -- Viết trực tiếp trong thuộc tính \codeinline{style="..."} trên thẻ HTML. \\
-\hline
-\textcolor{primaryBlue}{ID Selector \scriptsize(0,1,0,0)} & \textbf{Định danh duy nhất} -- Rất mạnh mẽ, định danh duy nhất cho phần tử. \\
-\hline
-\textcolor{green!60!black}{Class / Attr / Pseudo-class \scriptsize(0,0,1,0)} & \textbf{Chung nhóm} -- Ổn định, linh hoạt, được sử dụng phổ biến nhất trong thực tế. \\
-\hline
-\textcolor{gray!80!black}{Element / Pseudo-element \scriptsize(0,0,0,1)} & \textbf{Thẻ HTML} -- Mức độ yếu nhất trong các loại bộ chọn trực tiếp. \\
-\hline
-\textcolor{gray!60}{Inheritance / Kế thừa \scriptsize(0,0,0,0)} & \textbf{Mặc định} -- Dễ bị bất kỳ bộ chọn trực tiếp nào ghi đè. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\begin{conceptBox}[Tổng Kết Quy Tắc Vàng Về Thứ Tự Ưu Tiên CSS]
-\sffamily
-\textbf{Công thức tổng quát:} \quad \codeinline{Specificity = (A, B, C, D)} \quad \text{hoặc} \quad \codeinline{Specificity = (a, b, c, d)}
-\par\vspace{8pt}
-\textbf{Chuỗi thứ tự ưu tiên tuyệt đối từ cao xuống thấp (1 $\rightarrow$ 6):}
-\par\vspace{6pt}
-\begin{enumerate}[leftmargin=1.8em, itemsep=4pt, parsep=0pt]
-    \item \textcolor{red!85!black}{\textbf{!important trong CSS}} -- Cấp quyền ưu tiên tuyệt đối (ghi đè mọi bộ chọn).
-    \item \textcolor{orange!85!black}{\textbf{Style nội tuyến (Inline style) \codeinline{(1,0,0,0)}}} -- Đặt trực tiếp trong thuộc tính \codeinline{style="..."}.
-    \item \textcolor{primaryBlue}{\textbf{Bộ chọn ID (\#id) \codeinline{(0,1,0,0)}}} -- Mức ưu tiên cao cho định danh duy nhất.
-    \item \textcolor{green!60!black}{\textbf{Class, Attribute, Pseudo-class \codeinline{(0,0,1,0)}}} -- Nhóm bộ chọn phổ biến (\codeinline{.class}, \codeinline{[attr]}, \codeinline{:hover}).
-    \item \textcolor{gray!80!black}{\textbf{Thẻ HTML \& Pseudo-element \codeinline{(0,0,0,1)}}} -- Nhóm thẻ phần tử (\codeinline{div}, \codeinline{p}, \codeinline{::before}).
-    \item \textcolor{gray!50!black}{\textbf{Kế thừa \& Universal Selector \codeinline{(0,0,0,0)}}} -- Kế thừa mặc định và bộ chọn chung (\codeinline{*}) -- \textit{Yếu nhất}.
-\end{enumerate}
-\end{conceptBox}
 
