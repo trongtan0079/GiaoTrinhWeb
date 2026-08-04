@@ -555,7 +555,7 @@ rgba(r, g, b, a) & Hệ RGBA có Alpha & \textcolor{green!60!black}{\textbf{Có}
 /* Cu phap RGB truyen thong (3 tham so kenh mau) */
 color: rgb(R, G, B);
 
-/* Cu phap RGBA bổ sung kenh Alpha (4 tham so) */
+/* Cu phap RGBA bo sung kenh Alpha (4 tham so) */
 color: rgba(R, G, B, A);
 \end{lstlisting}
 \end{codeWindow}
@@ -796,20 +796,20 @@ Cam (Orange) & rgb(255, 165, 0) & Kết hợp Đỏ tối đa + một ít Xanh l
 \begin{codeWindow}[Ví Dụ Thực Tế Thẻ Thông Báo Error Box \& Gradient RGBA]
 \begin{lstlisting}[language=HTML5]
 <!-- Component HTML -->
-<div class="note">Thông báo lỗi hệ thống</div>
-<div class="gradient-banner">Banner chuyển màu RGBA</div>
+<div class="note">Thong bao loi he thong</div>
+<div class="gradient-banner">Banner chuyen mau RGBA</div>
 
-<!-- CSS Định dáng -->
+<!-- CSS Dinh dang -->
 <style>
 .note {
   padding: 15px 20px;
-  background-color: rgba(255, 0, 0, 0.1); /* Đỏ nhạt 10% làm nền */
-  border: 1px solid rgb(255, 0, 0);       /* Viền đỏ đặc 100% */
-  color: rgb(200, 0, 0);                   /* Chữ đỏ sẫm dễ đọc */
+  background-color: rgba(255, 0, 0, 0.1); /* Do nhat 10% lam nen */
+  border: 1px solid rgb(255, 0, 0);       /* Vien do dac 100% */
+  color: rgb(200, 0, 0);                   /* Mau chu do sam de doc */
   border-radius: 6px;
 }
 
-/* Kết hợp RGBA với dải màu chuyển tiếp */
+/* Ket hop RGBA voi dai mau chuyen tiep */
 .gradient-banner {
   padding: 15px 20px;
   background: linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 0, 255, 0.5));
