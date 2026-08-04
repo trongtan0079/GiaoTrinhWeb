@@ -329,12 +329,13 @@ Mã Hex cực kỳ ngắn gọn, chính xác tuyệt đối từng mã màu pixe
 
 \paragraph{3.3. Hệ Màu RGB Và RGBA (Red, Green, Blue, Alpha):}
 
-\textbf{1. Khái Niệm Cơ Bản Về RGB \& RGBA:}
+\begin{conceptBox}[Khái Niệm Cơ Bản Về RGB \& RGBA]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{RGB (Red - Green - Blue)}: Là hệ màu dựa trên \term{Mô hình ánh sáng cộng} (\term{Additive Color Model}). Trong mô hình này, các màu sắc được tạo ra bằng cách kết hợp 3 chùm ánh sáng màu cơ bản: Đỏ (Red), Xanh lá (Green) và Xanh dương (Blue). Đây là tiêu chuẩn mô hình màu được sử dụng phổ biến nhất trên các thiết bị điện tử như màn hình máy tính, TV, điện thoại và giao diện Web.
     \item \textbf{Thang giá trị}: Mỗi kênh màu $R, G, B$ nhận giá trị số nguyên từ \codeinline{0} đến \codeinline{255} ($0 \rightarrow 255$), tương ứng với $256$ mức cường độ phát sáng của từng kênh màu.
     \item \textbf{RGBA (Red - Green - Blue - Alpha)}: Là phiên bản mở rộng của RGB, bổ sung thêm kênh \textbf{Alpha ($A$)} cho phép thiết lập \term{độ trong suốt} (\term{Opacity}) của màu nền, đường viền, chữ hoặc hiệu ứng đổ bóng. Kênh Alpha nhận giá trị số thực từ \codeinline{0.0} (trong suốt tuyệt đối $0\%$) đến \codeinline{1.0} (đặc nguyên bản $100\%$).
 \end{itemize}
+\end{conceptBox}
 
 \textbf{2. Cú Pháp Khai Báo Trong CSS \& Bảng Tham Số Chi Tiết:}
 \begin{codeWindow}[Cú Pháp Định Dạng RGB \& RGBA Trong CSS]
@@ -445,14 +446,14 @@ Cam (Orange) & rgb(255, 165, 0) & Kết hợp Đỏ tối đa + một ít Xanh l
 \end{tabularx}
 \end{prettyTableBox}
 
-\textbf{7. Ứng Dụng Phổ Biến Của RGBA Trong Thiết Kế Giao Diện UI/UX:}
-
+\begin{conceptBox}[Ứng Dụng Phổ Biến Của RGBA Trong Thiết Kế Giao Diện UI/UX]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Overlay (Lớp phủ bán trong suốt)}: Phủ một lớp màu đen/tối mờ che phủ ảnh hoặc video phía dưới khi mở cửa sổ Modal/Popup.
     \item \textbf{Hover nhẹ (Hiệu ứng di chuột)}: Tạo màu nền mờ mịn khi người dùng di chuột qua thẻ, nút bấm.
     \item \textbf{Box Shadow (Bóng đổ mịn)}: Khai báo màu bóng đổ có kênh Alpha giúp phần bóng mềm mại, dịu mắt và chuyên nghiệp hơn so với bóng đặc.
     \item \textbf{Gradient (Dải chuyển màu trong suốt)}: Kết hợp RGBA với dải màu chuyển tiếp để tạo hiệu ứng chuyển mờ dần vào ảnh nền.
 \end{itemize}
+\end{conceptBox}
 
 \begin{codeWindow}[Ví Dụ Ứng Dụng RGBA Làm Lớp Phủ Overlay Modal]
 \begin{lstlisting}[language=CSS3]
