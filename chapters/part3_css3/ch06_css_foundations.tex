@@ -436,50 +436,42 @@ rgba(255 0 0 0.5) & \textcolor{red!80!black}{\textbf{Không hợp lệ}} & Sai c
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Của Mã CSS Trên]
-\sffamily\small
-\begin{center}
-\begin{tikzpicture}[scale=0.92, transform shape]
-  % 1. Thẻ .basic-text: Nền xanh lá đặc, chữ đỏ đặc
-  \node[
-    draw=none,
-    fill=green!70!black,
-    text=red!90!black,
-    font=\sffamily\bfseries\small,
-    inner sep=10pt,
-    rounded corners=5pt,
-    text width=11.5cm,
-    align=center
-  ] (basic) at (0, 1.4) {
-    .basic-text: Chữ màu Đỏ \codeinline{rgb(255,0,0)} trên nền Xanh lá \codeinline{rgb(0,255,0)}
-  };
-  
-  % 2. Lớp văn bản phía dưới (Background Content)
-  \node[
-    text=gray!60,
-    font=\sffamily\small\itshape,
-    text width=11.5cm,
-    align=center
-  ] (bgtext) at (0, -0.3) {
-    Dòng văn bản phía dưới --- Lớp giao diện nền trang web nằm phía đằng sau...
-  };
-  
-  % 3. Thẻ .translucent-box: Nền xanh dương mờ 50% phủ lên lớp văn bản phía dưới
-  \node[
-    draw=none,
-    fill=blue!90!black,
-    fill opacity=0.45,
-    text=white,
-    font=\sffamily\bfseries\small,
-    inner sep=10pt,
-    rounded corners=5pt,
-    text width=11cm,
-    align=center
-  ] at (0, -0.3) {
-    .translucent-box: Nền Xanh dương mờ 50\% \codeinline{rgba(0,0,255,0.5)}\\
-    \footnotesize\normalfont(Vẫn nhìn xuyên qua được nội dung văn bản nền phía sau)
-  };
-\end{tikzpicture}
-\end{center}
+\vspace{2pt}
+% 1. Preview .basic-text
+\begin{tcolorbox}[
+    enhanced,
+    colback=green!80!black,
+    colframe=green!60!black,
+    arc=4pt, boxrule=0.6pt,
+    top=6pt, bottom=6pt, left=10pt, right=10pt,
+    fontupper=\sffamily\bfseries\color{red}
+]
+.basic-text: Chữ màu Đỏ rgb(255, 0, 0) trên nền Xanh lá rgb(0, 255, 0)
+\end{tcolorbox}
+
+\vspace{4pt}
+
+% 2. Preview .translucent-box trên lớp nền phía dưới
+\begin{tcolorbox}[
+    enhanced,
+    colback=primaryBlue!5,
+    colframe=primaryBlue!20,
+    arc=4pt, boxrule=0.6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  {\sffamily\small\color{gray!70}\itshape Dòng văn bản nền phía dưới trang web... (Lớp giao diện nằm ở phía đằng sau)}\\[4pt]
+  \begin{tcolorbox}[
+      enhanced,
+      colback=blue!45!white,
+      colframe=blue!60!black,
+      arc=4pt, boxrule=0.6pt,
+      top=6pt, bottom=6pt, left=10pt, right=10pt,
+      fontupper=\sffamily\bfseries\color{white}
+  ]
+  .translucent-box: Nền Xanh dương mờ 50\% rgba(0, 0, 255, 0.5)\\
+  \normalfont\small(Hiệu ứng độ mờ bán trong suốt giúp nhìn xuyên qua nền)
+  \end{tcolorbox}
+\end{tcolorbox}
 \end{browserWindow}
 
 \textbf{5. Nguyên Lý Phối Màu Tuỳ Chỉnh Bằng RGB:}
@@ -567,41 +559,30 @@ Cam (Orange) & rgb(255, 165, 0) & Kết hợp Đỏ tối đa + một ít Xanh l
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Mô Phỏng Lớp Phủ Trong Suốt RGBA Trên Nền Web]
-\sffamily\small
-\begin{center}
-\begin{tikzpicture}[scale=0.92, transform shape]
-  % 1. Khung nền toàn bộ trang web (Background Web Canvas)
-  \draw[draw=gray!30, fill=primaryBlue!5, rounded corners=6pt, line width=0.8pt] (-6.2, -1.8) rectangle (6.2, 1.8);
-  
-  % Giao diện trang web đằng sau (Navbar & Text)
-  \fill[primaryBlue!20, rounded corners=3pt] (-5.8, 1.1) rectangle (5.8, 1.5);
-  \node[font=\sffamily\bfseries\color{primaryBlue!80!black}] at (0, 1.3) {Giao Diện Trang Web Phía Dưới (Navbar \& Content)};
-  \node[font=\sffamily\color{gray!70}, text width=10.5cm, align=center] at (0, 0.2) {
-    Nội dung danh sách bài viết, banner quảng cáo và nút bấm phía dưới trang web...
-  };
-
-  % 2. Lớp phủ RGBA Overlay (0, 0, 0, 0.6) che phủ toàn bộ trang web
-  \fill[black, fill opacity=0.6, rounded corners=6pt] (-6.2, -1.8) rectangle (6.2, 1.8);
-  
-  % 3. Cửa sổ Modal nổi bật nằm ở trung tâm trên cùng
-  \node[
-    draw=white!40,
-    fill=white,
-    text=darkText,
-    font=\sffamily,
-    inner sep=10pt,
-    rounded corners=8pt,
-    line width=1pt,
-    text width=9cm,
-    align=center
-  ] at (0, 0) {
-    {\color{primaryBlue}\bfseries\large Cửa Sổ Modal / Dialog Popup}\\[5pt]
-    {\small Lớp phủ xung quanh: \codeinline{background-color: rgba(0, 0, 0, 0.6);}}\\[3pt]
-    {\footnotesize\color{gray!90} Lớp mờ RGBA giúp làm nổi bật Modal mà vẫn quan sát được ngữ cảnh phía sau.}
-  };
-\end{tikzpicture}
-\end{center}
+\begin{browserWindow}[Kết Quả Mô Phỏng Lớp Phủ Trong Suốt RGBA (Modal Overlay)]
+\begin{tcolorbox}[
+    enhanced,
+    colback=black!65,
+    colframe=black!80,
+    arc=6pt, boxrule=0.8pt,
+    top=14pt, bottom=14pt, left=14pt, right=14pt
+]
+  \centering
+  \begin{tcolorbox}[
+      enhanced,
+      width=0.88\linewidth,
+      colback=white,
+      colframe=primaryBlue!40,
+      arc=6pt, boxrule=1pt,
+      top=10pt, bottom=10pt, left=12pt, right=12pt,
+      drop shadow=black!40!white
+  ]
+    \centering
+    {\sffamily\bfseries\large\color{primaryBlue} Cửa Sổ Modal / Popup Dialog}\\[6pt]
+    {\sffamily\small\color{darkText} Lớp phủ xung quanh: \codeinline{background-color: rgba(0, 0, 0, 0.5);}}\\[4pt]
+    {\sffamily\small\color{gray} Lớp màu tối bán trong suốt RGBA giúp làm nổi bật Modal trung tâm mà vẫn giữ được bối cảnh trang web đằng sau.}
+  \end{tcolorbox}
+\end{tcolorbox}
 \end{browserWindow}
 
 \textbf{8. Ví Dụ Thực Tế Component UI \& Kết Hợp Nâng Cao Của RGBA:}
@@ -634,39 +615,35 @@ Cam (Orange) & rgb(255, 165, 0) & Kết hợp Đỏ tối đa + một ít Xanh l
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Thực Tế Thẻ Error Box \& Banner Gradient]
-\sffamily\small
-\begin{center}
-\begin{tikzpicture}[scale=0.92, transform shape]
-  % 1. Error Note Box Component
-  \node[
-    draw=red!90!black,
-    line width=0.8pt,
-    fill=red!10,
-    text=red!80!black,
-    font=\sffamily\small,
-    inner sep=10pt,
-    rounded corners=5pt,
-    text width=11.5cm,
-    align=left
-  ] at (0, 1.2) {
-    \textbf{.note}: Thông báo lỗi hệ thống\\
-    \footnotesize\color{red!70!black}\codeinline{background: rgba(255,0,0,0.1);} (Nền đỏ mờ 10\%) \quad|\quad \codeinline{border: 1px solid rgb(255,0,0);}
-  };
+\vspace{2pt}
+% 1. Error Note Box Component
+\begin{tcolorbox}[
+    enhanced,
+    colback=red!8,
+    colframe=red!80!black,
+    arc=5pt, boxrule=0.8pt,
+    top=8pt, bottom=8pt, left=12pt, right=12pt,
+    fontupper=\sffamily\color{red!80!black}
+]
+  \textbf{.note}: Thông báo lỗi hệ thống\\
+  {\small\codeinline{background-color: rgba(255, 0, 0, 0.1);} \quad|\quad \codeinline{border: 1px solid rgb(255, 0, 0);}}
+\end{tcolorbox}
 
-  % 2. Linear Gradient Banner Component - Draw rectangle shading first then text node!
-  \shade[left color=red!60, right color=blue!60, rounded corners=5pt] (-5.75, -1.1) rectangle (5.75, -0.1);
-  \node[
-    draw=none,
-    font=\sffamily\bfseries\small\color{white},
-    inner sep=6pt,
-    text width=11cm,
-    align=center
-  ] at (0, -0.6) {
-    .gradient-banner: Dải Chuyển Màu RGBA (Red 50\% $\rightarrow$ Blue 50\%)\\
-    \footnotesize\normalfont\color{white!95}\codeinline{background: linear-gradient(to right, rgba(255,0,0,0.5), rgba(0,0,255,0.5));}
-  };
-\end{tikzpicture}
-\end{center}
+\vspace{4pt}
+
+% 2. Linear Gradient Banner Component
+\begin{tcolorbox}[
+    enhanced,
+    interior style={left color=red!60, right color=blue!60},
+    colframe=primaryBlue!40,
+    arc=5pt, boxrule=0.6pt,
+    top=8pt, bottom=8pt, left=12pt, right=12pt,
+    fontupper=\sffamily\bfseries\color{white}
+]
+  \centering
+  .gradient-banner: Dải Chuyển Màu RGBA (Red 50\% $\rightarrow$ Blue 50\%)\\
+  {\small\normalfont\color{white!95}\codeinline{background: linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 0, 255, 0.5));}}
+\end{tcolorbox}
 \end{browserWindow}
 
 \textbf{9. So Sánh Chi Tiết Giữa Cú Pháp `rgba()` Và Thuộc Tính `opacity`:}
