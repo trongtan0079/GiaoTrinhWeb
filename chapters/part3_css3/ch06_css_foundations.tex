@@ -329,21 +329,27 @@ Mã Hex cực kỳ ngắn gọn, chính xác tuyệt đối từng mã màu pixe
 
 \paragraph{3.3. Hệ Màu RGB Và RGBA (Red, Green, Blue, Alpha):}
 
-\begin{conceptBox}[Khái Niệm Cơ Bản Về RGB \& RGBA]
+\begin{conceptBox}[Khái Niệm Cơ Bản Về Mô Hình Màu RGB \& Kênh RGBA]
+\textbf{1. Bản Chất Kỹ Thuật Của Hệ Màu RGB}:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{RGB (Red - Green - Blue)}: Là hệ màu dựa trên \term{Mô hình ánh sáng cộng} (\term{Additive Color Model}). Trong mô hình này, các màu sắc được tạo ra bằng cách kết hợp 3 chùm ánh sáng màu cơ bản: Đỏ (Red), Xanh lá (Green) và Xanh dương (Blue). Đây là tiêu chuẩn mô hình màu được sử dụng phổ biến nhất trên các thiết bị điện tử như màn hình máy tính, TV, điện thoại và giao diện Web.
-    \item \textbf{Thang giá trị}: Mỗi kênh màu $R, G, B$ nhận giá trị số nguyên từ \codeinline{0} đến \codeinline{255} ($0 \rightarrow 255$), tương ứng với $256$ mức cường độ phát sáng của từng kênh màu.
-    \item \textbf{RGBA (Red - Green - Blue - Alpha)}: Là phiên bản mở rộng của RGB, bổ sung thêm kênh \textbf{Alpha ($A$)} cho phép thiết lập \term{độ trong suốt} (\term{Opacity}) của màu nền, đường viền, chữ hoặc hiệu ứng đổ bóng. Kênh Alpha nhận giá trị số thực từ \codeinline{0.0} (trong suốt tuyệt đối $0\%$) đến \codeinline{1.0} (đặc nguyên bản $100\%$).
+    \item \textbf{RGB (Red - Green - Blue)}: Là mô hình biểu diễn màu dựa trên \term{Nguyên lý ánh sáng cộng} (\term{Additive Color Model}). Trong mô hình này, các màu sắc trên màn hình được tạo thành từ việc phát chiếu và phối hợp 3 nguồn chùm ánh sáng màu cơ bản: Đỏ (Red), Xanh lá (Green) và Xanh dương (Blue). Đây là tiêu chuẩn mô hình màu được sử dụng phổ biến nhất trên các thiết bị điện tử như màn hình máy tính, TV, điện thoại và giao diện Web.
+    \item \textbf{Thang cường độ phát sáng}: Mỗi kênh màu $R, G, B$ nhận một giá trị số nguyên từ \codeinline{0} đến \codeinline{255} ($0 \rightarrow 255$), đại diện cho $256$ mức cường độ sáng phát ra từ điểm ảnh ($0$ là tắt hoàn toàn, $255$ là phát sáng cực đại). Khi phối hợp cả 3 kênh, hệ màu RGB tạo ra tổng cộng $256 \times 256 \times 256 = 16.777.216$ màu sắc khác nhau (đạt chuẩn màu \term{True Color 24-bit}).
+\end{itemize}
+
+\textbf{2. Sự Mở Rộng Kênh Alpha ($A$) Trong RGBA}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{RGBA (Red - Green - Blue - Alpha)}: Là biến thể mở rộng trực tiếp từ RGB, bổ sung thêm kênh thứ tư là \textbf{Alpha ($A$)} đại diện cho chỉ số \term{Độ trong suốt} (\term{Opacity / Transparency}).
+    \item \textbf{Dải giá trị Alpha}: Kênh Alpha nhận giá trị số thực (\term{Float}) trong khoảng từ \codeinline{0.0} (hoàn toàn trong suốt $0\%$, đè lên nội dung khác nhưng nhìn xuyên thấu hoàn toàn) đến \codeinline{1.0} (đặc nguyên bản $100\%$, không trong suốt).
 \end{itemize}
 \end{conceptBox}
 
-\textbf{2. Cú Pháp Khai Báo Trong CSS \& Bảng Tham Số Chi Tiết:}
-\begin{codeWindow}[Cú Pháp Định Dạng RGB \& RGBA Trong CSS]
+\textbf{2. Cú Pháp Định Dạng Chuẩn Trong CSS \& Bảng Tham Số Chi Tiết:}
+\begin{codeWindow}[Cú Pháp Khai Báo RGB \& RGBA Trong CSS]
 \begin{lstlisting}[language=CSS3]
-/* Cu phap RGB truyen thong (3 tham so) */
+/* Cu phap RGB truyen thong (3 tham so kenh mau) */
 color: rgb(R, G, B);
 
-/* Cu phap RGBA co kenh Alpha (4 tham so) */
+/* Cu phap RGBA bổ sung kenh Alpha (4 tham so) */
 color: rgba(R, G, B, A);
 \end{lstlisting}
 \end{codeWindow}
@@ -366,22 +372,41 @@ A & Kênh độ trong suốt (Alpha Channel) kiểm soát mức độ nhìn xuy�
 \end{tabularx}
 \end{prettyTableBox}
 
-\textbf{3. Ví Dụ Cụ Thể Về Cú Pháp RGB \& RGBA:}
+\textbf{3. Ví Dụ Cụ Thể \& Kết Quả Hiển Thị Trực Quan:}
 
-\begin{codeWindow}[Ví Dụ Sử Dụng RGB Cơ Bản Và RGBA Trong Suốt]
+\begin{codeWindow}[Khai Báo Định Dạng RGB Cơ Bản Và RGBA Trong Suốt]
 \begin{lstlisting}[language=CSS3]
-/* RGB co ban (Mau dac 100%) */
-p {
-  color: rgb(255, 0, 0);          /* Mau do thuan (R=255, G=0, B=0) */
-  background-color: rgb(0, 255, 0); /* Mau nen xanh la (R=0, G=255, B=0) */
+/* RGB co ban: do dac 100% va nen xanh la dac 100% */
+.basic-text {
+  color: rgb(255, 0, 0);          /* Mau do thuan */
+  background-color: rgb(0, 255, 0); /* Mau nen xanh la */
+  padding: 10px;
 }
 
-/* RGBA co do trong suot */
-.box {
-  background-color: rgba(0, 0, 255, 0.5); /* Xanh duong mo 50% (Alpha = 0.5) */
+/* RGBA co do trong suot: xanh duong mo 50% */
+.translucent-box {
+  background-color: rgba(0, 0, 255, 0.5); /* Alpha = 0.5 */
+  color: white;
+  padding: 12px;
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Của Mã CSS Trên]
+\sffamily\small
+\begin{center}
+\begin{tikzpicture}[scale=0.95, transform shape]
+  % Box 1: Text đỏ trên nền xanh lá
+  \fill[green!80!black] (0, 1.2) rectangle (9, 2.2);
+  \node[font=\sffamily\bfseries\color{red}] at (4.5, 1.7) {.basic-text: Chữ màu Đỏ rgb(255,0,0) trên nền Xanh lá rgb(0,255,0)};
+  
+  % Box 2: Translucent box trên nền văn bản bên dưới
+  \node[font=\sffamily\small\color{gray}] at (4.5, 0.4) {Dòng văn bản phía dưới nằm dưới lớp phủ RGBA...};
+  \fill[blue, fill opacity=0.5] (0.5, 0.0) rectangle (8.5, 0.8);
+  \node[font=\sffamily\bfseries\color{white}] at (4.5, 0.4) {.translucent-box: Nền Xanh dương mờ 50\% rgba(0,0,255,0.5)};
+\end{tikzpicture}
+\end{center}
+\end{browserWindow}
 
 \textbf{4. Nguyên Lý Phối Màu Tuỳ Chỉnh Bằng RGB:}
 
@@ -489,24 +514,45 @@ Cam (Orange) & rgb(255, 165, 0) & Kết hợp Đỏ tối đa + một ít Xanh l
 \begin{codeWindow}[Ví Dụ Thực Tế Thẻ Thông Báo Error Box \& Gradient RGBA]
 \begin{lstlisting}[language=HTML5]
 <!-- Component HTML -->
-<div class="note">Thuoc tinh va thong bao loi</div>
+<div class="note">Thông báo lỗi hệ thống</div>
+<div class="gradient-banner">Banner chuyển màu RGBA</div>
 
-<!-- CSS Dinh dang -->
+<!-- CSS Định dáng -->
 <style>
 .note {
-  padding: 20px;
-  background-color: rgba(255, 0, 0, 0.1); /* Do nhieu 10% tao nen nhat diu */
-  border: 1px solid rgb(255, 0, 0);       /* Vien do dac 100% */
-  color: rgb(200, 0, 0);                   /* Mau chu do sdt de doc */
+  padding: 15px 20px;
+  background-color: rgba(255, 0, 0, 0.1); /* Đỏ nhạt 10% làm nền */
+  border: 1px solid rgb(255, 0, 0);       /* Viền đỏ đặc 100% */
+  color: rgb(200, 0, 0);                   /* Chữ đỏ sẫm dễ đọc */
+  border-radius: 6px;
 }
 
-/* Ket hop RGB/RGBA voi linear-gradient */
+/* Kết hợp RGBA với dải màu chuyển tiếp */
 .gradient-banner {
+  padding: 15px 20px;
   background: linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 0, 255, 0.5));
+  color: white;
+  border-radius: 6px;
 }
 </style>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế Thẻ Error Box \& Banner Gradient]
+\sffamily\small
+\begin{center}
+\begin{tikzpicture}[scale=0.9, transform shape]
+  % Error Note Box Preview
+  \fill[red!10] (-0.5, 1.5) rectangle (10.5, 2.7);
+  \draw[red, thick] (-0.5, 1.5) rectangle (10.5, 2.7);
+  \node[font=\sffamily\bfseries\color{red!80!black}] at (5, 2.1) {.note: Thông báo lỗi hệ thống (Nền rgba(255,0,0,0.1), Viền rgb(255,0,0))};
+  
+  % Linear Gradient Preview
+  \shade[left color=red!60, right color=blue!60] (-0.5, -0.2) rectangle (10.5, 1.0);
+  \node[font=\sffamily\bfseries\color{white}] at (5, 0.4) {.gradient-banner: linear-gradient(to right, rgba(255,0,0,0.5), rgba(0,0,255,0.5))};
+\end{tikzpicture}
+\end{center}
+\end{browserWindow}
 
 \textbf{9. So Sánh Chi Tiết Giữa Cú Pháp `rgba()` Và Thuộc Tính `opacity`:}
 
@@ -537,6 +583,14 @@ Tính linh hoạt & \textcolor{green!60!black}{\textbf{Linh hoạt cao}}: Có th
     \codeinline{element.style.backgroundColor = `rgba(255, 100, 0, 0.8)`;}
 \end{itemize}
 \end{tipBox}
+
+\begin{warnBox}[Các Lỗi Thường Gặp Khi Làm Việc Với RGB / RGBA]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nhầm lẫn giữa `rgba()` và `opacity`}: Dùng `opacity` cho container khiến chữ bên trong bị mờ nhạt khó đọc. Giải pháp: Thay thế `background-color: rgba(...)`.
+    \item \textbf{Nhập sai dải giá trị}: Nhập giá trị kênh màu vượt quá 255 (ví dụ: `rgb(300, 0, 0)`) sẽ bị trình duyệt bỏ qua hoặc tự động ép về 255.
+    \item \textbf{Cơ chế thừa kế màu trong DOM}: `rgba()` không bị thừa kế xuống con, nhưng nếu gán `opacity` lên cha thì con bắt buộc bị mờ theo mà không có cách nào bù đắp lại bằng CSS.
+\end{itemize}
+\end{warnBox}
 
 \textbf{11. Tổng Kết Nhanh So Sánh RGB Và RGBA:}
 
@@ -670,6 +724,19 @@ Ví dụ: Chuyển đổi mã Hex \codeinline{\#FF5733} sang cú pháp \codeinli
 \end{enumerate}
 \end{conceptBox}
 
+\begin{conceptBox}[Câu Hỏi Phỏng Vấn Thường Gặp Về Hệ Màu Trong CSS]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Câu hỏi 1}: Sự khác biệt cốt lõi giữa `background: rgba(0,0,0,0.5)` và `background: black; opacity: 0.5` là gì?
+    \begin{itemize}[leftmargin=1.2em]
+        \item \textit{Trả lời}: `rgba()` chỉ áp dụng độ mờ 50\% duy nhất lên màu nền, giữ cho chữ và icon bên trong rõ đặc 100\%. Ngược lại, `opacity: 0.5` làm mờ toàn bộ phần tử và tất cả phần tử con bên trong.
+    \end{itemize}
+    \item \textbf{Câu hỏi 2}: Khi nào nên dùng mã Hex và khi nào nên dùng `rgb()` / `rgba()`?
+    \begin{itemize}[leftmargin=1.2em]
+        \item \textit{Trả lời}: Mã Hex phù hợp nhất cho màu cố định 100\% vì ngắn gọn và chuẩn Figma. `rgba()` bắt buộc phải dùng khi cần màu nền mờ trong suốt, đổ bóng mịn hoặc thao tác đổi màu động bằng JavaScript.
+    \end{itemize}
+\end{itemize}
+\end{conceptBox}
+
 \begin{prettyTableBox}[Đọc Thêm: Mở Rộng Kiến Thức Chuyên Sâu Về RGB / RGBA]
 \textbf{1. Cú Pháp Hiện Đại CSS Color Module Level 4 (Space-separated Syntax):}
 Trong các tiêu chuẩn CSS hiện đại (CSS Color Module Level 4), W3C hỗ trợ cú pháp không sử dụng dấu phẩy và dùng dấu gạch chéo \codeinline{/} cho kênh Alpha:
@@ -683,14 +750,25 @@ Trong các tiêu chuẩn CSS hiện đại (CSS Color Module Level 4), W3C hỗ 
 \end{lstlisting}
 \end{codeWindow}
 
-\textbf{2. Nguyên Lý Xử Lý Alpha Blending Trên Phần Cứng Card Đồ Họa (GPU):}
+\textbf{2. CSS Color Module Level 5 \& Hàm `color-mix()`:}
+CSS Color Level 5 giới thiệu hàm hòa trộn màu mạnh mẽ trực tiếp bằng CSS thuần:
+\begin{codeWindow}[Ví Dụ Hòa Trộn Màu Với color-mix()]
+\begin{lstlisting}[language=CSS3]
+/* Hoa tron 80% mau do voi 20% mau trang */
+.soft-red-mix {
+  background-color: color-mix(in srgb, red 80%, white 20%);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\textbf{3. Nguyên Lý Xử Lý Alpha Blending Trên Phần Cứng Card Đồ Họa (GPU):}
 Khi một phần tử có màu RGBA bán trong suốt đè lên phần tử khác, trình duyệt sẽ thực hiện thuật toán tính toán hòa trộn điểm ảnh (\term{Alpha Blending}):
 \[
 C_{\text{final}} = C_{\text{src}} \times A_{\text{src}} + C_{\text{dst}} \times (1 - A_{\text{src}})
 \]
-Quá trình này được tăng tốc phần cứng (\term{GPU Hardware Acceleration}) thông qua việc tạo ra một lớp tổng hợp (\term{Compositor Layer}) riêng biệt.
+Quá trình này được tăng tốc phần cứng (\term{GPU Hardware Acceleration}) thông qua việc tạo ra một lớp tổng hợp (\term{Compositor Layer}) riêng biệt trên card đồ họa.
 
-\textbf{3. Lưu Ý Khả Năng Truy Cập (Accessibility \& WCAG Contrast):}
+\textbf{4. Lưu Ý Khả Năng Truy Cập (Accessibility \& WCAG Contrast):}
 Khi thiết kế chữ mờ hoặc background bán trong suốt bằng RGBA, cần đảm bảo tỷ lệ độ tương phản (\term{Contrast Ratio}) đạt tối thiểu $4.5:1$ đối với văn bản thường và $3.0:1$ đối với văn bản lớn theo tiêu chuẩn WCAG 2.1 AA.
 \end{prettyTableBox}
 
