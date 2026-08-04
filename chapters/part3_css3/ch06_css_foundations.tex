@@ -227,6 +227,280 @@ vw / vh & Chiều rộng / chiều cao của viewport. \\
 \end{prettyTableBox}
 
 % ==============================================================================
+% MỤC 4.1: HỆ THỐNG MÀU SẮC TRONG CSS (CSS COLORS MASTERCLASS TỪ A-Z)
+% ==============================================================================
+\subsection{Chuyên Đề Hệ Thống Màu Sắc Trong CSS (CSS Colors Masterclass Từ A đến Z)}
+\label{sec:css_colors_masterclass}
+
+Màu sắc là yếu tố sống còn quyết định tính thẩm mỹ, khả năng truyền tải thông điệp, trải nghiệm người dùng (\term{UX}) và khả năng truy cập (\term{Accessibility - a11y}) của mọi trang web. Trong CSS, lập trình viên có thể biểu diễn màu sắc qua nhiều hệ thống biểu diễn khác nhau từ đơn giản đến nâng cao.
+
+\paragraph{1. Mục Đích Và Vai Trò Của Màu Sắc Trong CSS:}
+
+\begin{prettyTableBox}[Bảng Phân Tích Vai Trò Của Màu Sắc Trên Giao Diện Web]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thành phần giao diện} & \thd{\sffamily Vai trò màu sắc đảm nhận} & \thd{\sffamily Mục tiêu trải nghiệm (UX)} \\
+\hline
+Văn bản (Text) & Định kiểu chữ chính, chữ phụ, tiêu đề. & Tăng độ đọc (\term{Readability}), phân cấp thông tin rõ ràng. \\
+\hline
+Nút bấm \& Liên kết & Nhấn mạnh các điểm tương tác chính (CTA). & Hướng người dùng thực hiện hành động chính. \\
+\hline
+Nền (Background) & Phân tách khối nội dung, tạo khoảng không. & Tạo bố cục cân đối, dễ chịu cho mắt. \\
+\hline
+Cảnh báo \& Thông báo & Thể hiện trạng thái hệ thống. & Báo lỗi (Đỏ), Cảnh báo (Vàng), Thành công (Xanh lá). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{2. Phân Loại \& Tổng Quan Các Kiểu Màu Trong CSS:}
+
+\begin{prettyTableBox}[Bảng Tổng Quan Chi Tiết Các Kiểu Biểu Diễn Màu CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{2.6cm}|>{\ttfamily\small}p{3.2cm}|>{\ttfamily\small}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Loại màu} & \thd{\sffamily Cú pháp} & \thd{\sffamily Ví dụ minh họa} & \thd{\sffamily Đặc tính \& Ghi chú} \\
+\hline
+Color Name & tên\_màu & color: red; & Có sẵn 147 tên màu chuẩn HTML/CSS. \\
+\hline
+Hexadecimal & \#RRGGBB & color: \#ff0000; & Mã 6 ký tự Hex, chính xác tuyệt đối. \\
+\hline
+Shorthand Hex & \#RGB & color: \#f00; & Rút gọn 3 ký tự khi từng cặp trùng nhau. \\
+\hline
+RGB & rgb(R, G, B) & rgb(255, 0, 0) & Dải giá trị $0 \rightarrow 255$ cho 3 kênh Red, Green, Blue. \\
+\hline
+RGBA & rgba(R, G, B, A) & rgba(255, 0, 0, 0.5) & Thêm kênh Alpha độ trong suốt ($0 \rightarrow 1$). \\
+\hline
+HSL & hsl(H, S\%, L\%) & hsl(0, 100\%, 50\%) & Hue (góc màu), Saturation (độ bão hòa), Lightness (độ sáng). \\
+\hline
+HSLA & hsla(H, S\%, L\%, A) & hsla(0, 100\%, 50\%, 0.5) & Thêm kênh Alpha độ trong suốt ($0 \rightarrow 1$). \\
+\hline
+Transparent & transparent & background: transparent; & Từ khóa đặc biệt tạo độ trong suốt tuyệt đối ($100\%$). \\
+\hline
+CurrentColor & currentColor & border-color: currentColor; & Từ khóa đặc biệt tự động kế thừa màu chữ (\codeinline{color}) hiện tại. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3. Chi Tiết Từng Hệ Thống Biểu Diễn Màu Sắc:}
+
+\paragraph{3.1. Color Keywords (Tên Màu Định Sẵn):}
+CSS định nghĩa sẵn khoảng \textbf{147 tên màu từ khóa chuẩn} (ví dụ: \codeinline{red}, \codeinline{blue}, \codeinline{green}, \codeinline{lightgray}, \codeinline{darkcyan}, \codeinline{tomato}, \codeinline{transparent}).
+
+\begin{codeWindow}[Ví Dụ Sử Dụng Tên Màu Định Sẵn]
+\begin{lstlisting}[language=CSS3]
+h1 {
+  color: tomato;             /* Mau do ca chua */
+  background-color: lightgray; /* Mau nen xam nhat */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Đánh Giá Tên Màu Từ Khóa]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Ưu điểm}: Dễ nhớ, dễ viết tay cho bài tập nhỏ hoặc thử nghiệm nhanh.
+    \item \textbf{Hạn chế}: Không linh hoạt, bị giới hạn trong 147 màu định sẵn và không hỗ trợ tùy chỉnh tinh tế hay độ mờ trong suốt.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{3.2. Hexadecimal (Mã Thập Lục Phân \#RRGGBB):}
+Mã Hex là hệ thống biểu diễn màu sắc phổ biến nhất trên Web. Cú pháp bắt đầu bằng dấu \codeinline{\#} theo sau bởi 6 ký tự đại diện cho 3 cặp kênh màu: \codeinline{\#RRGGBB} (Red, Green, Blue).
+Mỗi cặp nhận giá trị từ \codeinline{00} ($0$) đến \codeinline{FF} ($255$).
+
+\begin{codeWindow}[Ví Dụ Cú Pháp Mã Hex]
+\begin{lstlisting}[language=CSS3]
+.red-box   { color: #ff0000; } /* Do thuan (R=255, G=0, B=0) */
+.green-box { color: #00ff00; } /* Xanh la thuan (R=0, G=255, B=0) */
+.blue-box  { color: #0000ff; } /* Xanh duong thuan (R=0, G=0, B=255) */
+.white-box { color: #ffffff; } /* Trang tinh */
+.black-box { color: #000000; } /* Den tuyen */
+
+/* Dang rut gon (Shorthand Hex): khi cac cap ky tu trung nhau */
+.short-red { color: #f00; }    /* Tuong duong #ff0000 */
+.short-gray { color: #ccc; }   /* Tuong duong #cccccc */
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Tại Sao Mã Hex Lại Chuẩn Trong Thiết Kế UI/UX?]
+Mã Hex cực kỳ ngắn gọn, chính xác tuyệt đối từng mã màu pixel và là định dạng chuẩn được xuất ra từ mọi công cụ thiết kế chuyên nghiệp như Figma, Photoshop, Adobe XD.
+\end{tipBox}
+
+\paragraph{3.3. Hệ Màu RGB Và RGBA (Red, Green, Blue, Alpha):}
+Hệ màu RGB khai báo giá trị số thập phân từ $0$ đến $255$ cho 3 kênh màu đỏ, xanh lá và xanh dương. Biến thể \textbf{RGBA} bổ sung thêm kênh \textbf{Alpha} đại diện cho độ trong suốt (nhận giá trị từ \codeinline{0.0} -- hoàn toàn trong suốt đến \codeinline{1.0} -- đặc hoàn toàn).
+
+\begin{codeWindow}[Ví Dụ Khai Báo Màu RGB \& RGBA]
+\begin{lstlisting}[language=CSS3]
+/* Mau do dac 100% */
+.header-text {
+  color: rgb(255, 0, 0);
+}
+
+/* Khoi nen den trong suot 70% (Overlay) */
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Nut bam voi hieu ung mờ nhe khi hover */
+.button-primary {
+  background-color: rgba(0, 123, 255, 0.9);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Mô Phỏng Lớp Phủ Trong Suốt RGBA Trên Nền Web]
+\sffamily\small
+\begin{center}
+\begin{tikzpicture}[scale=0.9, transform shape]
+  % Nền trang web (Background Content)
+  \fill[primaryBlue!15] (-0.5,-0.5) rectangle (10.5, 2.5);
+  \node[font=\sffamily\bfseries\Large, color=primaryBlue!80!black] at (5, 1.0) {Nội Dung Nền Trang Web Phía Dưới};
+  
+  % Lớp phủ RGBA (0,0,0,0.7)
+  \fill[black, fill opacity=0.7] (1.0, -0.2) rectangle (9.0, 2.2);
+  \node[font=\sffamily\bfseries\color{white}] at (5, 1.3) {Cửa Sổ Modal (Overlay background: rgba(0,0,0,0.7))};
+  \node[font=\sffamily\small\color{accentOrange}] at (5, 0.6) {Vẫn nhìn xuyên qua được nội dung nền phía sau!};
+\end{tikzpicture}
+\end{center}
+\end{browserWindow}
+
+\paragraph{3.4. Hệ Màu HSL Và HSLA (Hue, Saturation, Lightness, Alpha):}
+HSL là hệ thống biểu diễn màu sắc dựa trên góc màu và cảm nhận tự nhiên của mắt người:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Hue (Góc màu - H)}: Góc trên vòng tròn màu sắc ($0^\circ \rightarrow 360^\circ$). Trong đó: $0^\circ$ là Đỏ, $120^\circ$ là Xanh lá, $240^\circ$ là Xanh dương.
+    \item \textbf{Saturation (Độ bão hòa - S\%)}: Mức độ tươi/xám của màu ($0\%$ là màu xám xịt, $100\%$ là màu tươi nguyên bản).
+    \item \textbf{Lightness (Độ sáng - L\%)}: Mức độ sáng/tối ($0\%$ là đen hoàn toàn, $50\%$ là màu chuẩn, $100\%$ là trắng hoàn toàn).
+    \item \textbf{Alpha (A)}: Kênh độ trong suốt từ $0.0 \rightarrow 1.0$.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Cú Pháp HSL \& HSLA]
+\begin{lstlisting}[language=CSS3]
+.brand-red   { color: hsl(0, 100%, 50%); }     /* Mau do chuan */
+.soft-blue   { color: hsl(200, 80%, 70%); }    /* Mau xanh duong nhat diu */
+.dark-green  { color: hsl(120, 100%, 25%); }    /* Mau xanh la dam */
+.transparent-purple { color: hsla(280, 70%, 50%, 0.5); } /* Mau tim mo 50% */
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Lợi Thế Vượt Trội Của HSL Trong Lập Trình Hệ Màu Động]
+HSL cực kỳ hữu ích khi bạn muốn tạo dải màu đồng bộ (Palette) hoặc các biến thể màu sáng/tối (\term{Lighten / Darken}) cho giao diện, vì bạn chỉ cần giữ nguyên góc Hue và điều chỉnh chỉ số \codeinline{Lightness (L\%)} hoặc \codeinline{Saturation (S\%)}.
+\end{tipBox}
+
+\paragraph{3.5. Từ Khóa Đặc Biệt: transparent Và currentColor:}
+
+\begin{conceptBox}[Ý Nghĩa Của 2 Từ Khóa Đặc Biệt]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{\codeinline{transparent}}: Tạo thuộc tính hoàn toàn trong suốt, thường dùng để ẩn đường viền hoặc làm mờ màu nền ban đầu.
+    \item \textbf{\codeinline{currentColor}}: Tự động lấy giá trị màu chữ (\codeinline{color}) hiện tại của phần tử. Giúp đồng bộ màu viền (\codeinline{border}), màu đổ bóng (\codeinline{box-shadow}) hoặc màu icon biểu tượng SVG với màu chữ mà không cần khai báo lại mã màu.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Ứng Dụng Từ Khóa currentColor]
+\begin{lstlisting}[language=CSS3]
+.card {
+  color: #007bff;                /* Mau chu xanh duong */
+  border: 2px solid currentColor; /* Vien tu dong co mau xanh duong #007bff */
+  box-shadow: 0 4pt 8pt currentColor;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{4. Mẹo Chọn Màu Sắc Chuyên Nghiệp Cho Giao Diện Web (UI/UX Best Practices):}
+
+\begin{prettyTableBox}[Bảng Gợi Ý Phối Màu Thực Tế Chuẩn Chuyên Nghiệp]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{4.2cm}|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Mục đích sử dụng} & \thd{\sffamily Mã màu gợi ý} & \thd{\sffamily Nguyên tắc \& Lý do chọn} \\
+\hline
+Văn bản chính (Primary text) & \#212529, \#333333 & Dùng xám đậm thay vì đen tuyền \codeinline{\#000} để dịu mắt. \\
+\hline
+Văn bản phụ (Secondary text) & \#6c757d, \#888888 & Xám nhạt hơn để tạo tương phản phân cấp thông tin. \\
+\hline
+Nền chính (Main Background) & \#ffffff, \#f8f9fa & Trắng hoặc xám kem rất nhẹ tạo cảm giác sạch sẽ. \\
+\hline
+Nút gọi hành động (CTA Button) & \#007bff, \#ff6347 & Màu xanh/cam tươi nổi bật kích thích hành động nhấp. \\
+\hline
+Cảnh báo lỗi (Danger / Error) & \#dc3545, \#ff4d4f & Đỏ cảnh báo nổi bật đạt chuẩn tương phản W3C. \\
+\hline
+Giao diện tối (Dark Mode) & \#121212, \#1a1a1a & Nền tối kết hợp văn bản xám sáng (\codeinline{\#e0e0e0}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{5. Ứng Dụng Màu Động Với CSS Variables \& JavaScript:}
+
+Trong phát triển ứng dụng Web thực tế, việc quản lý hệ thống màu sắc bằng Biến CSS (\term{CSS Variables}) và điều khiển linh hoạt qua JavaScript giúp hỗ trợ tính năng chuyển đổi giao diện sáng/tối (\term{Dark Mode / Theme Switch}) cực kỳ dễ dàng.
+
+\begin{codeWindow}[Khai Báo Hệ Thống Biến Màu Trong CSS]
+\begin{lstlisting}[language=CSS3]
+:root {
+  --primary-color: #3498db;
+  --text-color: #333333;
+  --bg-color: #ffffff;
+}
+
+/* Ap dung bien mau cho giao dien */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.button-main {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Cập Nhật Màu Động Bằng JavaScript]
+\begin{lstlisting}[language=JavaScript]
+// Thao tac thay doi mau nen bang JavaScript
+const heroElement = document.querySelector('.hero-section');
+heroElement.style.backgroundColor = 'rgba(255, 0, 0, 0.6)';
+
+// Thay doi gia tri bien CSS truc tiep qua JavaScript
+document.documentElement.style.setProperty('--primary-color', '#2ecc71');
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{6. Bảng So Sánh Tổng Quát Các Hệ Màu Trong CSS:}
+
+\begin{prettyTableBox}[Bảng So Sánh Toàn Diện Các Hệ Biểu Diễn Màu]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}\ttfamily}p{2.4cm}|c|c|c|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Hệ màu} & \thd{\sffamily Độ phổ biến} & \thd{\sffamily Dễ viết tay?} & \thd{\sffamily Hỗ trợ Alpha?} & \thd{\sffamily Ứng dụng phù hợp nhất} \\
+\hline
+Color Name & Thấp & \textcolor{green!60!black}{\textbf{Rất dễ}} & \textcolor{red}{\textbf{Không}} & Học tập, ví dụ nhanh, chạy thử nghiệm code. \\
+\hline
+Hexadecimal & \textcolor{green!60!black}{\textbf{Cao nhất}} & \textcolor{orange!90!black}{\textbf{Khá dễ}} & \textcolor{red}{\textbf{Không}} & Dự án web thực tế, sao chép mã từ Figma/Photoshop. \\
+\hline
+RGB / RGBA & \textcolor{green!60!black}{\textbf{Rất cao}} & Dài hơn & \textcolor{green!60!black}{\textbf{Có (RGBA)}} & Hiệu ứng mờ overlay, đổ bóng, di chuột hover. \\
+\hline
+HSL / HSLA & Trung bình & Khó ban đầu & \textcolor{green!60!black}{\textbf{Có (HSLA)}} & Lập trình hệ màu động, theme sáng/tối, dải màu sắc. \\
+\hline
+CSS Variables & \textcolor{green!60!black}{\textbf{Rất cao}} & Chuẩn mực & \textcolor{green!60!black}{\textbf{Tùy thuộc biến}} & Xây dựng hệ thiết kế Design System chuyên nghiệp. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{7. Kết Luận – Khi Nào Nên Dùng Hệ Màu Nào?}
+
+\begin{conceptBox}[Quy Tắc Vàng Lựa Chọn Hệ Màu Cho Dự Án]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Dự án nhỏ, làm bài tập nhanh}: Sử dụng \codeinline{Color Name} hoặc \codeinline{Hex}.
+    \item \textbf{Giao diện trang web thực tế / Sản phẩm nghiệp dư \& chuyên nghiệp}: Ưu tiên kết hợp \textbf{Mã Hex} với \textbf{CSS Variables} để quản lý tập trung.
+    \item \textbf{Cần hiệu ứng trong suốt, lớp phủ overlay, bóng mờ}: Sử dụng \textbf{RGBA} hoặc \textbf{HSLA}.
+    \item \textbf{Xây dựng dải màu chủ đạo, hệ màu động sáng/tối (\term{Dark Mode Switcher})}: Sử dụng \textbf{HSL kết hợp Biến CSS (\term{CSS Variables}) và JavaScript}.
+\end{enumerate}
+\end{conceptBox}
+
+
+% ==============================================================================
 % MỤC 5: PHÂN LOẠI BỘ CHỌN CSS (CSS SELECTORS MASTERCLASS)
 % ==============================================================================
 \section{Các Loại Selectors Trong CSS (CSS Selectors Masterclass)}
