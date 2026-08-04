@@ -328,23 +328,141 @@ Mã Hex cực kỳ ngắn gọn, chính xác tuyệt đối từng mã màu pixe
 \end{tipBox}
 
 \paragraph{3.3. Hệ Màu RGB Và RGBA (Red, Green, Blue, Alpha):}
-Hệ màu RGB khai báo giá trị số thập phân từ $0$ đến $255$ cho 3 kênh màu đỏ, xanh lá và xanh dương. Biến thể \textbf{RGBA} bổ sung thêm kênh \textbf{Alpha} đại diện cho độ trong suốt (nhận giá trị từ \codeinline{0.0} -- hoàn toàn trong suốt đến \codeinline{1.0} -- đặc hoàn toàn).
 
-\begin{codeWindow}[Ví Dụ Khai Báo Màu RGB \& RGBA]
+\textbf{1. Khái Niệm Cơ Bản Về RGB \& RGBA:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{RGB (Red - Green - Blue)}: Là hệ màu dựa trên \term{Mô hình ánh sáng cộng} (\term{Additive Color Model}). Trong mô hình này, các màu sắc được tạo ra bằng cách kết hợp 3 chùm ánh sáng màu cơ bản: Đỏ (Red), Xanh lá (Green) và Xanh dương (Blue). Đây là tiêu chuẩn mô hình màu được sử dụng phổ biến nhất trên các thiết bị điện tử như màn hình máy tính, TV, điện thoại và giao diện Web.
+    \item \textbf{Thang giá trị}: Mỗi kênh màu $R, G, B$ nhận giá trị số nguyên từ \codeinline{0} đến \codeinline{255} ($0 \rightarrow 255$), tương ứng với $256$ mức cường độ phát sáng của từng kênh màu.
+    \item \textbf{RGBA (Red - Green - Blue - Alpha)}: Là phiên bản mở rộng của RGB, bổ sung thêm kênh \textbf{Alpha ($A$)} cho phép thiết lập \term{độ trong suốt} (\term{Opacity}) của màu nền, đường viền, chữ hoặc hiệu ứng đổ bóng. Kênh Alpha nhận giá trị số thực từ \codeinline{0.0} (trong suốt tuyệt đối $0\%$) đến \codeinline{1.0} (đặc nguyên bản $100\%$).
+\end{itemize}
+
+\textbf{2. Cú Pháp Khai Báo Trong CSS \& Bảng Tham Số Chi Tiết:}
+\begin{codeWindow}[Cú Pháp Định Dạng RGB \& RGBA Trong CSS]
 \begin{lstlisting}[language=CSS3]
-/* Mau do dac 100% */
-.header-text {
-  color: rgb(255, 0, 0);
+/* Cu phap RGB truyen thong (3 tham so) */
+color: rgb(R, G, B);
+
+/* Cu phap RGBA co kenh Alpha (4 tham so) */
+color: rgba(R, G, B, A);
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bảng Giải Thích Chi Tiết Các Tham Số RGB / RGBA]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}c|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}}c|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tham số} & \thd{\sffamily Ý nghĩa \& Vai trò chuyên môn} & \thd{\sffamily Dải giá trị chuẩn} \\
+\hline
+R & Cường độ phát sáng của kênh màu Đỏ (Red). & $0 \rightarrow 255$ \\
+\hline
+G & Cường độ phát sáng của kênh màu Xanh lá (Green). & $0 \rightarrow 255$ \\
+\hline
+B & Cường độ phát sáng của kênh màu Xanh dương (Blue). & $0 \rightarrow 255$ \\
+\hline
+A & Kênh độ trong suốt (Alpha Channel) kiểm soát mức độ nhìn xuyên qua. & $0.0 \rightarrow 1.0$ \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{3. Ví Dụ Cụ Thể Về Cú Pháp RGB \& RGBA:}
+
+\begin{codeWindow}[Ví Dụ Sử Dụng RGB Cơ Bản Và RGBA Trong Suốt]
+\begin{lstlisting}[language=CSS3]
+/* RGB co ban (Mau dac 100%) */
+p {
+  color: rgb(255, 0, 0);          /* Mau do thuan (R=255, G=0, B=0) */
+  background-color: rgb(0, 255, 0); /* Mau nen xanh la (R=0, G=255, B=0) */
 }
 
-/* Khoi nen den trong suot 70% (Overlay) */
-.modal-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+/* RGBA co do trong suot */
+.box {
+  background-color: rgba(0, 0, 255, 0.5); /* Xanh duong mo 50% (Alpha = 0.5) */
 }
+\end{lstlisting}
+\end{codeWindow}
 
-/* Nut bam voi hieu ung mờ nhe khi hover */
-.button-primary {
-  background-color: rgba(0, 123, 255, 0.9);
+\textbf{4. Nguyên Lý Phối Màu Tuỳ Chỉnh Bằng RGB:}
+
+\begin{prettyTableBox}[Bảng Nguyên Lý Phối Màu Tuỳ Chỉnh Phổ Biến Bằng RGB]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{2.5cm}|>{\ttfamily\color{accentOrange}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tên màu} & \thd{\sffamily Cú pháp RGB} & \thd{\sffamily Mô tả nguyên lý phối ánh sáng} \\
+\hline
+Đen (Black) & rgb(0, 0, 0) & Không có ánh sáng phát ra ở cả 3 kênh ($R=G=B=0$). \\
+\hline
+Trắng (White) & rgb(255, 255, 255) & Tất cả 3 kênh màu phát sáng ở mức tối đa ($R=G=B=255$). \\
+\hline
+Xám (Gray) & rgb(128, 128, 128) & Cả 3 kênh màu có giá trị bằng nhau ($R=G=B$) tạo ra màu xám trung tính. \\
+\hline
+Vàng (Yellow) & rgb(255, 255, 0) & Kết hợp ánh sáng Đỏ + Xanh lá cực đại ($R=255, G=255, B=0$). \\
+\hline
+Tím (Purple) & rgb(128, 0, 128) & Kết hợp ánh sáng Đỏ + Xanh dương ($R=128, G=0, B=128$). \\
+\hline
+Cam (Orange) & rgb(255, 165, 0) & Kết hợp Đỏ tối đa + một ít Xanh lá ($R=255, G=165, B=0$). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{5. Đánh Giá Ưu Điểm Và Hạn Chế Của Hệ Màu RGB:}
+
+\begin{conceptBox}[Phân Tích Ưu Điểm \& Hạn Chế Của Hệ Màu RGB / RGBA]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Ưu điểm (\textcolor{green!60!black}{\textbf{Nổi bật}})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Hỗ trợ độ trong suốt (\term{Alpha Channel}) linh hoạt với cú pháp \codeinline{rgba()}.
+        \item Cực kỳ dễ dàng điều chỉnh màu sắc động bằng JavaScript (ví dụ: \codeinline{element.style.backgroundColor = `rgba(255, 100, 0, 0.8)`}).
+        \item Hỗ trợ tạo dải màu chuyển tiếp (\codeinline{linear-gradient}) và hiệu ứng lớp phủ (\term{Overlay}) mượt mà.
+    \end{itemize}
+    \item \textbf{Hạn chế (\textcolor{red!80!black}{\textbf{Hạn chế}})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Trực quan không dễ đọc hoặc đoán màu bằng mắt thường so với mã Hex hoặc HSL.
+        \item Cú pháp viết dài hơn so với mã Hex rút gọn hoặc tên từ khóa màu có sẵn.
+        \item Khó ghi nhớ giá trị số chính xác nếu không sử dụng công cụ Color Picker chuyên dụng.
+    \end{itemize}
+\end{itemize}
+\end{conceptBox}
+
+\textbf{6. Hiệu Ứng Khi Thay Đổi Kênh Alpha ($A$) Trong RGBA:}
+
+\begin{prettyTableBox}[Bảng Mức Độ Mờ Quan Sát Được Theo Kênh Alpha]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}c|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị Alpha (A)} & \thd{\sffamily Hiệu ứng quan sát trực quan trên giao diện} \\
+\hline
+1.0 & Màu đậm đặc nguyên bản, rõ ràng 100\%, không xuyên thấu. \\
+\hline
+0.5 & Màu trong mờ 50\%, cho phép nhìn xuyên qua 50\% nội dung lớp nền bên dưới. \\
+\hline
+0.1 & Gần như trong suốt hoàn toàn, chỉ còn một vệt màu cực kỳ nhẹ. \\
+\hline
+0.0 & Hoàn toàn trong suốt 100\% (ẩn màu hoàn toàn trên giao diện). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{7. Ứng Dụng Phổ Biến Của RGBA Trong Thiết Kế Giao Diện UI/UX:}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Overlay (Lớp phủ bán trong suốt)}: Phủ một lớp màu đen/tối mờ che phủ ảnh hoặc video phía dưới khi mở cửa sổ Modal/Popup.
+    \item \textbf{Hover nhẹ (Hiệu ứng di chuột)}: Tạo màu nền mờ mịn khi người dùng di chuột qua thẻ, nút bấm.
+    \item \textbf{Box Shadow (Bóng đổ mịn)}: Khai báo màu bóng đổ có kênh Alpha giúp phần bóng mềm mại, dịu mắt và chuyên nghiệp hơn so với bóng đặc.
+    \item \textbf{Gradient (Dải chuyển màu trong suốt)}: Kết hợp RGBA với dải màu chuyển tiếp để tạo hiệu ứng chuyển mờ dần vào ảnh nền.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Ứng Dụng RGBA Làm Lớp Phủ Overlay Modal]
+\begin{lstlisting}[language=CSS3]
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Nen den mo 50% che phut trang */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -364,6 +482,216 @@ Hệ màu RGB khai báo giá trị số thập phân từ $0$ đến $255$ cho 3
 \end{tikzpicture}
 \end{center}
 \end{browserWindow}
+
+\textbf{8. Ví Dụ Thực Tế Component UI \& Kết Hợp Nâng Cao Của RGBA:}
+
+\begin{codeWindow}[Ví Dụ Thực Tế Thẻ Thông Báo Error Box \& Gradient RGBA]
+\begin{lstlisting}[language=HTML5]
+<!-- Component HTML -->
+<div class="note">Thuoc tinh va thong bao loi</div>
+
+<!-- CSS Dinh dang -->
+<style>
+.note {
+  padding: 20px;
+  background-color: rgba(255, 0, 0, 0.1); /* Do nhieu 10% tao nen nhat diu */
+  border: 1px solid rgb(255, 0, 0);       /* Vien do dac 100% */
+  color: rgb(200, 0, 0);                   /* Mau chu do sdt de doc */
+}
+
+/* Ket hop RGB/RGBA voi linear-gradient */
+.gradient-banner {
+  background: linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 0, 255, 0.5));
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\textbf{9. So Sánh Chi Tiết Giữa Cú Pháp `rgba()` Và Thuộc Tính `opacity`:}
+
+\begin{prettyTableBox}[Bảng So Sánh Toàn Diện Giữa rgba() Và Thuộc Tính opacity]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{2.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily Hàm rgba()} & \thd{\sffamily Thuộc tính opacity} \\
+\hline
+Phạm vi áp dụng & Chỉ ảnh hưởng duy nhất màu được chỉ định (màu nền, màu chữ hoặc đường viền). & Làm mờ toàn bộ phần tử bao gồm cả tất cả phần tử con bên trong. \\
+\hline
+Tính linh hoạt & \textcolor{green!60!black}{\textbf{Linh hoạt cao}}: Có thể làm mờ nền mà chữ vẫn đặc $100\%$. & \textcolor{red!80!black}{\textbf{Không chọn lọc}}: Mờ cả văn bản, hình ảnh, icon bên trong. \\
+\hline
+Ứng dụng Overlay & \textcolor{green!60!black}{\textbf{Hoàn hảo cho Modal/Popup}}: Tạo nền tối mờ nhưng chữ hiển thị sắc nét. & \textcolor{red!80!black}{\textbf{Hạn chế}}: Khiến nội dung trên Modal cũng bị mờ mờ khó đọc. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{10. Các Lưu Ý Quan Trọng Khi Sử Dụng RGB / RGBA:}
+
+\begin{tipBox}[Lưu Ý Best Practices Khi Dùng RGBA Trong Thiết Kế Web]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nên sử dụng \codeinline{rgba()}} khi chỉ muốn màu nền hoặc đường viền mờ nhẹ mà chữ và biểu tượng bên trong vẫn giữ độ rõ $100\%$.
+    \item \textbf{Tránh dùng Alpha quá thấp}: Chỉ số Alpha quá nhỏ ($< 0.1$) khiến màu sắc quá nhạt, khó nhìn và dễ vi phạm tiêu chuẩn độ tương phản khả năng truy cập (WCAG Contrast Ratio).
+    \item \textbf{Chú ý thứ tự đối số}: Cú pháp \codeinline{rgba(R, G, B, A)} luôn bắt buộc thứ tự 3 kênh màu $R, G, B$ trước, kênh $A$ đứng cuối cùng.
+    \item \textbf{Điều chỉnh động bằng JavaScript}: Bạn dễ dàng dùng JS để thay đổi màu sắc bán trong suốt linh hoạt:
+    \codeinline{element.style.backgroundColor = `rgba(255, 100, 0, 0.8)`;}
+\end{itemize}
+\end{tipBox}
+
+\textbf{11. Tổng Kết Nhanh So Sánh RGB Và RGBA:}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Nhanh Phân Biệt RGB Và RGBA]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{2.2cm}|>{\ttfamily\color{accentOrange}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Cú pháp} & \thd{\sffamily Công dụng chính} & \thd{\sffamily Trường hợp sử dụng phổ biến} \\
+\hline
+RGB & rgb(R, G, B) & Màu sắc đặc 100\% cơ bản. & Màu chữ chính, đường viền đặc, màu nền cố định. \\
+\hline
+RGBA & rgba(R, G, B, A) & Màu sắc kết hợp độ mờ trong suốt. & Nền mờ, overlay popup, hiệu ứng hover, bóng đổ mịn. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{12. Tra Cứu Danh Sách Các Mã Màu RGB Phổ Biến Trong Giao Diện Web:}
+
+\paragraph{I. Nhóm Màu Cơ Bản:}
+\begin{prettyTableBox}[Bảng Mã Màu RGB Phổ Biến - Nhóm Màu Cơ Bản]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3cm}|>{\ttfamily\color{accentOrange}}p{3.2cm}|>{\ttfamily}p{2.5cm}|>{\centering\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tên màu} & \thd{\sffamily Cú pháp RGB} & \thd{\sffamily Mã Hex} & \thd{\sffamily Minh họa màu} \\
+\hline
+Red (Đỏ) & rgb(255, 0, 0) & \#FF0000 & \textcolor{red}{\rule{1.2ex}{1.2ex}} Đỏ thuần \\
+\hline
+Green (Xanh lá) & rgb(0, 128, 0) & \#008000 & \textcolor{green!50!black}{\rule{1.2ex}{1.2ex}} Xanh lá chuẩn \\
+\hline
+Blue (Xanh dương) & rgb(0, 0, 255) & \#0000FF & \textcolor{blue}{\rule{1.2ex}{1.2ex}} Xanh dương thuần \\
+\hline
+Yellow (Vàng) & rgb(255, 255, 0) & \#FFFF00 & \textcolor{yellow!80!black}{\rule{1.2ex}{1.2ex}} Vàng rực \\
+\hline
+Cyan / Aqua & rgb(0, 255, 255) & \#00FFFF & \textcolor{cyan}{\rule{1.2ex}{1.2ex}} Xanh lơ \\
+\hline
+Magenta / Fuchsia & rgb(255, 0, 255) & \#FF00FF & \textcolor{magenta}{\rule{1.2ex}{1.2ex}} Hồng tím \\
+\hline
+White (Trắng) & rgb(255, 255, 255) & \#FFFFFF & Trắng tinh \\
+\hline
+Black (Đen) & rgb(0, 0, 0) & \#000000 & Đen tuyền \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{II. Màu Sắc Phổ Biến Dùng Trong Thiết Kế Giao Diện (UI):}
+\begin{prettyTableBox}[Bảng Mã Màu RGB Phổ Biến - Nhóm Màu Giao Diện UI]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{2.8cm}|>{\ttfamily\color{accentOrange}}p{3.2cm}|>{\ttfamily}p{2.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tên màu} & \thd{\sffamily Cú pháp RGB} & \thd{\sffamily Mã Hex} & \thd{\sffamily Gợi ý sử dụng thực tế} \\
+\hline
+Dark Gray & rgb(64, 64, 64) & \#404040 & Văn bản chính trên nền sáng hoặc văn bản phụ nền tối. \\
+\hline
+Light Gray & rgb(211, 211, 211) & \#D3D3D3 & Nền phụ, đường phân cách (divider), viền thẻ nhẹ. \\
+\hline
+Orange & rgb(255, 165, 0) & \#FFA500 & Nút cảnh báo, nút kêu gọi hành động (CTA). \\
+\hline
+Tomato & rgb(255, 99, 71) & \#FF6347 & Nút bấm nổi bật, trạng thái nhấn mạnh. \\
+\hline
+Lime & rgb(0, 255, 0) & \#00FF00 & Màu sáng tươi, điểm nhấn nổi bật trên giao diện tối. \\
+\hline
+Sky Blue & rgb(135, 206, 235) & \#87CEEB & Màu nền dịu nhẹ, banner thông tin mượt mà. \\
+\hline
+Violet & rgb(238, 130, 238) & \#EE82EE & Màu nhấn accent sáng tạo, thương hiệu hiện đại. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{III. Nhóm Màu Pastel (Mềm, Nhẹ, Dễ Nhìn):}
+\begin{prettyTableBox}[Bảng Mã Màu RGB Phổ Biến - Nhóm Màu Pastel Dịu Mắt]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{2.8cm}|>{\ttfamily\color{accentOrange}}p{3.2cm}|>{\ttfamily}p{2.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tên màu} & \thd{\sffamily Cú pháp RGB} & \thd{\sffamily Mã Hex} & \thd{\sffamily Mô tả \& Phong cách} \\
+\hline
+Pastel Red & rgb(255, 179, 186) & \#FFB3BA & Đỏ nhạt mềm mại, dùng cho thẻ cảnh báo nhẹ. \\
+\hline
+Pastel Green & rgb(186, 255, 201) & \#BAFFC9 & Xanh lá nhạt, màu thành công dịu mắt. \\
+\hline
+Pastel Blue & rgb(179, 217, 255) & \#B3D9FF & Xanh dương nhạt, dùng làm nền card hoặc tag. \\
+\hline
+Light Pink & rgb(255, 182, 193) & \#FFB6C1 & Hồng nhẹ dễ chịu cho giao diện thẩm mỹ. \\
+\hline
+Peach & rgb(255, 229, 180) & \#FFE5B4 & Màu đào nhạt, rất hợp làm màu nền section. \\
+\hline
+Mint & rgb(189, 252, 201) & \#BDFCC9 & Màu bạc hà hiện đại, giao diện tươi sáng. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{IV. Nhóm Màu Dành Cho Nền Tối (Dark Theme):}
+\begin{prettyTableBox}[Bảng Mã Màu RGB Phổ Biến - Nhóm Màu Dark Theme]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{2.8cm}|>{\ttfamily\color{accentOrange}}p{3.2cm}|>{\ttfamily}p{2.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tên màu} & \thd{\sffamily Cú pháp RGB} & \thd{\sffamily Mã Hex} & \thd{\sffamily Gợi ý sử dụng Dark Theme} \\
+\hline
+Dark Blue & rgb(18, 32, 47) & \#12202F & Nền chính cho giao diện Dark Mode sang trọng. \\
+\hline
+Gray-900 & rgb(33, 37, 41) & \#212529 & Nền card hoặc thanh điều hướng (Navbar) tối. \\
+\hline
+Slate & rgb(108, 117, 125) & \#6C757D & Văn bản phụ, icon xám trung tính trên nền tối. \\
+\hline
+Teal & rgb(0, 128, 128) & \#008080 & Màu nhấn Accent xanh ngọc hiện đại. \\
+\hline
+Charcoal & rgb(54, 69, 79) & \#36454F & Nền trung tính cao cấp, hạn chế mỏi mắt. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{V. Thuật Toán Tự Chuyển Đổi Mã Hex $\rightarrow$ RGB:}
+\begin{conceptBox}[Quy Trình Chuyển Đổi Từ Mã Hex Sang Cú Pháp RGB]
+Ví dụ: Chuyển đổi mã Hex \codeinline{\#FF5733} sang cú pháp \codeinline{rgb(R, G, B)}.
+
+\textbf{Các bước thực hiện}:
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt]
+    \item Tách mã Hex 6 ký tự thành 3 cặp ký tự đại diện cho 3 kênh:
+    $\text{Red} = \text{FF}_{16}$, $\text{Green} = 57_{16}$, $\text{Blue} = 33_{16}$.
+    \item Chuyển đổi từng cặp số Thập lục phân (Hex - cơ số 16) sang Thập phân (Decimal - cơ số 10):
+    \begin{itemize}[leftmargin=1.2em]
+        \item Kênh Red ($\text{FF}_{16}$): $15 \times 16^1 + 15 \times 16^0 = 240 + 15 = \mathbf{255}$.
+        \item Kênh Green ($57_{16}$): $5 \times 16^1 + 7 \times 16^0 = 80 + 7 = \mathbf{87}$.
+        \item Kênh Blue ($33_{16}$): $3 \times 16^1 + 3 \times 16^0 = 48 + 3 = \mathbf{51}$.
+    \end{itemize}
+    \item Ghép lại vào cú pháp chuẩn CSS: $\rightarrow$ \codeinline{rgb(255, 87, 51)}.
+\end{enumerate}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Đọc Thêm: Mở Rộng Kiến Thức Chuyên Sâu Về RGB / RGBA]
+\textbf{1. Cú Pháp Hiện Đại CSS Color Module Level 4 (Space-separated Syntax):}
+Trong các tiêu chuẩn CSS hiện đại (CSS Color Module Level 4), W3C hỗ trợ cú pháp không sử dụng dấu phẩy và dùng dấu gạch chéo \codeinline{/} cho kênh Alpha:
+\begin{codeWindow}[Cú Pháp CSS Color Level 4 Không Dấu Phẩy]
+\begin{lstlisting}[language=CSS3]
+/* Tuong duong rgba(255, 87, 51, 0.5) */
+.modern-box {
+  color: rgb(255 87 51 / 50%);
+  background: rgb(0 0 0 / 0.7);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\textbf{2. Nguyên Lý Xử Lý Alpha Blending Trên Phần Cứng Card Đồ Họa (GPU):}
+Khi một phần tử có màu RGBA bán trong suốt đè lên phần tử khác, trình duyệt sẽ thực hiện thuật toán tính toán hòa trộn điểm ảnh (\term{Alpha Blending}):
+\[
+C_{\text{final}} = C_{\text{src}} \times A_{\text{src}} + C_{\text{dst}} \times (1 - A_{\text{src}})
+\]
+Quá trình này được tăng tốc phần cứng (\term{GPU Hardware Acceleration}) thông qua việc tạo ra một lớp tổng hợp (\term{Compositor Layer}) riêng biệt.
+
+\textbf{3. Lưu Ý Khả Năng Truy Cập (Accessibility \& WCAG Contrast):}
+Khi thiết kế chữ mờ hoặc background bán trong suốt bằng RGBA, cần đảm bảo tỷ lệ độ tương phản (\term{Contrast Ratio}) đạt tối thiểu $4.5:1$ đối với văn bản thường và $3.0:1$ đối với văn bản lớn theo tiêu chuẩn WCAG 2.1 AA.
+\end{prettyTableBox}
 
 \paragraph{3.4. Hệ Màu HSL Và HSLA (Hue, Saturation, Lightness, Alpha):}
 HSL là hệ thống biểu diễn màu sắc dựa trên góc màu và cảm nhận tự nhiên của mắt người:
