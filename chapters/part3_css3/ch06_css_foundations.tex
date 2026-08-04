@@ -1656,6 +1656,175 @@ Gợi ý sử dụng Best Practice & Tạo nút bấm (Button), biểu tượng 
 \end{tabularx}
 \end{prettyTableBox}
 
+% ==========================================
+% PHẦN 3.6: TÍNH KẾ THỪA CỦA THUỘC TÍNH COLOR
+% ==========================================
+\paragraph{3.6. Tính Kế Thừa Của Thuộc Tính Color (Color Property Inheritance Masterclass):}
+
+\begin{conceptBox}[Khái Niệm Cơ Bản Về Tính Kế Thừa Của color]
+\textbf{1. Tính Kế Thừa Mặc Định (Inherited Property)}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Thuộc tính \codeinline{color} trong CSS là một \term{thuộc tính kế thừa mặc định} (\term{Inherited Property}).
+    \item \textbf{Nguyên lý hoạt động}: Nếu bạn không khai báo thuộc tính \codeinline{color} trực tiếp cho một phần tử con, phần tử đó sẽ tự động kế thừa giá trị \codeinline{color} từ phần tử cha chứa nó trong cây DOM.
+\end{itemize}
+\end{conceptBox}
+
+\textbf{2. Phân Loại Thuộc Tính CSS Theo Tính Kế Thừa:}
+
+\begin{prettyTableBox}[Bảng So Sánh Thuộc Tính CSS Có Kế Thừa Và Không Kế Thừa]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.5cm}|>{\ttfamily\color{accentOrange}}p{4.5cm}|>{\centering\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Phân loại} & \thd{\sffamily Các thuộc tính tiêu biểu} & \thd{\sffamily Có kế thừa?} & \thd{\sffamily Ghi chú đặc tính} \\
+\hline
+Kế thừa (Inherited) & color, font-family, line-height, visibility, text-align & \textcolor{green!60!black}{\textbf{Có}} & Tự động lan truyền xuống các thẻ con trong cây DOM. \\
+\hline
+Không kế thừa (Non-inherited) & margin, padding, border, width, height, background-color & \textcolor{red!80!black}{\textbf{Không}} & Chỉ có tác dụng duy nhất trên phần tử được khai báo. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{3. Các Ví Dụ Mã Nguồn Về Kế Thừa Màu Sắc:}
+
+\begin{codeWindow}[Ví Dụ 1: Kế Thừa Màu Sắc Đơn Giản Từ Thẻ Cha]
+\begin{lstlisting}[language=HTML5]
+<!-- HTML Structure -->
+<div class="parent">
+  <p>Doan van nay tu dong ke thua mau do tu thẻ div.parent.</p>
+</div>
+
+<!-- CSS Styling -->
+<style>
+.parent {
+  color: red; /* Thiet lap mau do cho the cha */
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ 2: Kế Thừa Màu Sắc Lồng Nhau Qua Nhiều Cấp Thẻ DOM]
+\begin{lstlisting}[language=HTML5]
+<!-- Structure DOM long nhau 3 cap -->
+<div style="color: blue;">
+  <section>
+    <p>Color nay la blue do ke thua tu div cha ngoai cung quan section!</p>
+  </section>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Kế Thừa Màu Sắc Đơn Giản \& Lồng Nhau]
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=gray!30,
+    arc=6pt, boxrule=0.8pt,
+    top=10pt, bottom=10pt, left=12pt, right=12pt
+]
+  % Preview Example 1
+  {\sffamily\bfseries\color{red!80!black} Đoạn văn tự động có màu Đỏ do kế thừa từ \codeinline{.parent \{ color: red; \}}}\\[6pt]
+  
+  % Preview Example 2
+  \begin{tcolorbox}[colback=blue!5, colframe=blue!40, arc=4pt, boxrule=0.6pt, top=6pt, bottom=6pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{blue!80!black}]
+    Đoạn văn trong \codeinline{<section>} kế thừa màu Xanh dương (\codeinline{color: blue;}) từ thẻ \codeinline{<div>} ngoài cùng.
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
+
+\textbf{4. Ép Bắt Buộc Kế Thừa Hoặc Reset Màu Với \codeinline{inherit} Và \codeinline{initial}:}
+
+\begin{conceptBox}[Ý Nghĩa Của Hai Giá Trị Từ Khóa inherit Và initial]
+Trong các trường hợp đặc biệt (như thẻ liên kết \codeinline{<a>} hoặc nút bấm \codeinline{<button>} bị trình duyệt gán kiểu mặc định User Agent Style), màu chữ có thể không tự kế thừa. Bạn có thể điều khiển trực tiếp bằng hai từ khóa:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{color: inherit;}}: Ép buộc phần tử phải nhận giá trị màu chữ từ phần tử cha (vượt qua mọi thiết lập mặc định của trình duyệt).
+    \item \textbf{\codeinline{color: initial;}}: Reset giá trị màu chữ về lại giá trị mặc định ban đầu của CSS (thường là màu đen \codeinline{\#000000}).
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ 3: Ép Thẻ Liên Kết <a> Và Button Kế Thừa Màu Bằng color: inherit]
+\begin{lstlisting}[language=CSS3]
+/* Custom Reset cho the a va button de ke thua mau tu the cha */
+.navbar {
+  color: darkblue;
+}
+
+/* Thong thuong the <a> co mau xanh tim va gach chan mac dinh cua trinh duyet */
+.navbar a {
+  color: inherit; /* Ep the <a> ke thua mau darkblue tu .navbar! */
+  text-decoration: none;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\textbf{5. Kết Hợp Tính Kế Thừa Với Từ Khóa \codeinline{currentColor}:}
+
+\begin{codeWindow}[Ví Dụ 4: Phối Hợp Kế Thừa color Và currentColor Đồng Bộ Viền]
+\begin{lstlisting}[language=HTML5]
+<!-- HTML Structure -->
+<div class="parent">
+  <div class="child">
+    <p>Doan van ben trong the child.</p>
+  </div>
+</div>
+
+<!-- CSS Styling -->
+<style>
+.parent {
+  color: darkblue; /* Mau chu darkblue lan truyen xuong child va p */
+}
+
+.child {
+  border: 2px solid currentColor; /* Vien tu dong mang mau darkblue do ke thua tu parent! */
+  padding: 12px;
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Kết Hợp Tính Kế Thừa Và currentColor]
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=blue!5,
+    colframe=blue!80!black,
+    arc=6pt, boxrule=1.5pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    fontupper=\sffamily\bfseries\color{blue!80!black}
+]
+  .child: Đường viền tự động mang màu \codeinline{darkblue} nhờ sự phối hợp giữa tính kế thừa \codeinline{color} từ \codeinline{.parent} và từ khóa \codeinline{border: 2px solid currentColor;}
+\end{tcolorbox}
+\end{browserWindow}
+
+\textbf{6. Các Lưu Ý Kỹ Thuật Quan Trọng Khi Làm Việc Với Tính Kế Thừa:}
+
+\begin{warnBox}[Những Cảnh Báo Cần Nhớ Về Kế Thừa Màu Sắc]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cây DOM quyết định cấp kế thừa}: Phần tử con luôn nhận màu từ phần tử cha trực tiếp gần nhất có khai báo thuộc tính \codeinline{color}.
+    \item \textbf{Bị ghi đè ngay khi con có \codeinline{color} riêng}: Nếu bạn khai báo \codeinline{color} trực tiếp trên phần tử con, thuộc tính kế thừa từ cha sẽ lập tức bị vô hiệu hóa.
+    \item \textbf{Ngoại lệ User Agent Style của trình duyệt}: Các thẻ HTML như \codeinline{<a>}, \codeinline{<button>}, \codeinline{<input>}, \codeinline{<select>} có quy tắc màu mặc định riêng của trình duyệt. Bạn bắt buộc phải khai báo \codeinline{color: inherit;} nếu muốn chúng kế thừa màu từ thẻ cha.
+\end{itemize}
+\end{warnBox}
+
+\textbf{7. Bảng Tổng Kết Đặc Tính Kế Thừa Của Thuộc Tính Color:}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Các Giá Trị Kế Thừa Của color]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.2cm}|>{\centering\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Cú pháp giá trị} & \thd{\sffamily Có kế thừa?} & \thd{\sffamily Ý nghĩa \& Mục đích sử dụng} \\
+\hline
+color: <value> & \textcolor{green!60!black}{\textbf{Có (Mặc định)}} & Mặc định tự động lan truyền màu xuống tất cả thẻ con. \\
+\hline
+color: inherit & \textcolor{green!60!black}{\textbf{Có (Ép buộc)}} & Ép phần tử nhận màu từ cha (khắc phục CSS Reset / User Agent Style). \\
+\hline
+color: initial & \textcolor{red!80!black}{\textbf{Không}} & Reset màu chữ về mặc định của trình duyệt (thường là đen \codeinline{\#000000}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
 \paragraph{4. Mẹo Chọn Màu Sắc Chuyên Nghiệp Cho Giao Diện Web (UI/UX Best Practices):}
 
 \begin{prettyTableBox}[Bảng Gợi Ý Phối Màu Thực Tế Chuẩn Chuyên Nghiệp]
