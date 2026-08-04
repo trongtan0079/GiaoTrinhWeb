@@ -305,27 +305,233 @@ h1 {
 \end{itemize}
 \end{conceptBox}
 
-\paragraph{3.2. Hexadecimal (Mã Thập Lục Phân \#RRGGBB):}
-Mã Hex là hệ thống biểu diễn màu sắc phổ biến nhất trên Web. Cú pháp bắt đầu bằng dấu \codeinline{\#} theo sau bởi 6 ký tự đại diện cho 3 cặp kênh màu: \codeinline{\#RRGGBB} (Red, Green, Blue).
-Mỗi cặp nhận giá trị từ \codeinline{00} ($0$) đến \codeinline{FF} ($255$).
+\paragraph{3.2. Hệ Màu HEX Trong CSS (Hexadecimal Color Model):}
 
-\begin{codeWindow}[Ví Dụ Cú Pháp Mã Hex]
+\begin{conceptBox}[Khái Niệm Cơ Bản Về Hệ Màu HEX (Hexadecimal)]
+\textbf{1. HEX Là Gì?}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{HEX (viết tắt của Hexadecimal)}: Là hệ màu biểu diễn giá trị màu sắc bằng hệ số \term{Thập lục phân} (cơ số 16).
+    \item \textbf{Cấu trúc tổng quát}: Một mã màu HEX chuẩn có dạng: \codeinline{\#RRGGBB}. Trong đó:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \textbf{RR}: Giá trị thuộc về kênh màu Đỏ (\term{Red}).
+        \item \textbf{GG}: Giá trị thuộc về kênh màu Xanh lá (\term{Green}).
+        \item \textbf{BB}: Giá trị thuộc về kênh màu Xanh dương (\term{Blue}).
+    \end{itemize}
+    \item \textbf{Bản chất kênh màu}: Mỗi cặp giá trị ($RR, GG, BB$) gồm 2 chữ số thập lục phân ($00 \rightarrow \text{FF}$), tương đương với giá trị từ $0$ đến $255$ trong hệ thập phân (Decimal).
+\end{itemize}
+
+\textbf{2. Cách Đọc Và Giải Mã Một Mã Màu HEX}:
+Ví dụ phân tích mã màu \codeinline{\#FF5733}:
+\begin{center}
+\small\sffamily
+\begin{tabular}{|c|c|c|L{5.5cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thành phần} & \thd{\sffamily Giá trị HEX} & \thd{\sffamily Giá trị thập phân} & \thd{\sffamily Giải thích mức độ phát sáng} \\
+\hline
+Red ($RR$) & \codeinline{FF} & $15 \times 16^1 + 15 \times 16^0 = \mathbf{255}$ & Cường độ phát sáng màu Đỏ cực đại ($100\%$). \\
+\hline
+Green ($GG$) & \codeinline{57} & $5 \times 16^1 + 7 \times 16^0 = \mathbf{87}$ & Cường độ màu Xanh lá trung bình ($34\%$). \\
+\hline
+Blue ($BB$) & \codeinline{33} & $3 \times 16^1 + 3 \times 16^0 = \mathbf{51}$ & Cường độ màu Xanh dương thấp ($20\%$). \\
+\hline
+\end{tabular}
+\end{center}
+$\rightarrow$ Kết quả phối hợp 3 ánh sáng tạo ra màu \textbf{Cam Đỏ (Orange-Red)} rực rỡ và ấm áp.
+\end{conceptBox}
+
+\textbf{3. Cú Pháp Khai Báo Chuẩn Trong CSS \& Ví Dụ Minh Họa:}
+\begin{codeWindow}[Cú Pháp Định Dạng Mã Màu HEX Trong CSS]
 \begin{lstlisting}[language=CSS3]
-.red-box   { color: #ff0000; } /* Do thuan (R=255, G=0, B=0) */
-.green-box { color: #00ff00; } /* Xanh la thuan (R=0, G=255, B=0) */
-.blue-box  { color: #0000ff; } /* Xanh duong thuan (R=0, G=0, B=255) */
-.white-box { color: #ffffff; } /* Trang tinh */
-.black-box { color: #000000; } /* Den tuyen */
+/* Cu phap chung */
+color: #RRGGBB;
 
-/* Dang rut gon (Shorthand Hex): khi cac cap ky tu trung nhau */
-.short-red { color: #f00; }    /* Tuong duong #ff0000 */
-.short-gray { color: #ccc; }   /* Tuong duong #cccccc */
+/* Cac mau co ban pho bien */
+.black-text { color: #000000; } /* Den tuyen (R=0, G=0, B=0) */
+.white-text { color: #ffffff; } /* Trang tinh (R=255, G=255, B=255) */
+.red-text   { color: #ff0000; } /* Do thuan (R=255, G=0, B=0) */
+.green-text { color: #00ff00; } /* Xanh la thuan (R=0, G=255, B=0) */
+.blue-text  { color: #0000ff; } /* Xanh duong thuan (R=0, G=0, B=255) */
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{tipBox}[Tại Sao Mã Hex Lại Chuẩn Trong Thiết Kế UI/UX?]
-Mã Hex cực kỳ ngắn gọn, chính xác tuyệt đối từng mã màu pixel và là định dạng chuẩn được xuất ra từ mọi công cụ thiết kế chuyên nghiệp như Figma, Photoshop, Adobe XD.
-\end{tipBox}
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Của Các Mã Màu HEX Cơ Bản]
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=gray!30,
+    arc=4pt, boxrule=0.6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  \begin{tcolorbox}[colback=black, colframe=black, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{white}]
+    .black-text (\#000000): Chữ màu Đen tuyền tuyệt đối
+  \end{tcolorbox}
+  \vspace{3pt}
+  \begin{tcolorbox}[colback=white, colframe=gray!40, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{black}]
+    .white-text (\#ffffff): Chữ màu Trắng tinh nét trên nền xám nhẹ
+  \end{tcolorbox}
+  \vspace{3pt}
+  \begin{tcolorbox}[colback=red!10, colframe=red!60, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{red!80!black}]
+    .red-text (\#ff0000): Chữ màu Đỏ thuần tươi tắn
+  \end{tcolorbox}
+  \vspace{3pt}
+  \begin{tcolorbox}[colback=green!10, colframe=green!60!black, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{green!50!black}]
+    .green-text (\#00ff00): Chữ màu Xanh lá thuần chuẩn
+  \end{tcolorbox}
+  \vspace{3pt}
+  \begin{tcolorbox}[colback=blue!10, colframe=blue!60, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{blue!80!black}]
+    .blue-text (\#0000ff): Chữ màu Xanh dương thuần đậm
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
+
+\textbf{4. Cú Pháp Viết Gọn Mã HEX (Shorthand Hex Syntax):}
+
+\begin{conceptBox}[Quy Trình Rút Gọn Mã Màu HEX]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Điều kiện rút gọn}: Nếu mỗi cặp ký tự đại diện cho từng kênh màu hoàn toàn giống nhau (\codeinline{\#AABBCC} trong đó $AA$, $BB$, $CC$), bạn có thể rút gọn mã Hex 6 ký tự thành mã Hex 3 ký tự \codeinline{\#ABC}.
+    \item \textbf{Công thức quy đổi}: \codeinline{\#ABC} $\Leftrightarrow$ \codeinline{\#AABBCC}.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Bảng So Sánh Các Mã HEX Đầy Đủ Và Dạng Viết Gọn]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3cm}|>{\ttfamily\color{accentOrange}\bfseries}p{2.5cm}|>{\centering\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Viết đầy đủ (6 ký tự)} & \thd{\sffamily Viết gọn (3 ký tự)} & \thd{\sffamily Hợp lệ?} & \thd{\sffamily Ghi chú chi tiết} \\
+\hline
+\#FFFFFF & \#FFF & \textcolor{green!60!black}{\textbf{Đúng}} & Cả 3 cặp FF, FF, FF đều trùng ký tự. \\
+\hline
+\#000000 & \#000 & \textcolor{green!60!black}{\textbf{Đúng}} & Cả 3 cặp 00, 00, 00 đều trùng ký tự. \\
+\hline
+\#FF0000 & \#F00 & \textcolor{green!60!black}{\textbf{Đúng}} & Tương ứng FF $\rightarrow$ F, 00 $\rightarrow$ 0, 00 $\rightarrow$ 0. \\
+\hline
+\#112233 & \#123 & \textcolor{green!60!black}{\textbf{Đúng}} & Tương ứng 11 $\rightarrow$ 1, 22 $\rightarrow$ 2, 33 $\rightarrow$ 3. \\
+\hline
+\#123456 & Không thể viết gọn & \textcolor{red!80!black}{\textbf{Không}} & Các cặp 12, 34, 56 không có ký tự trùng lặp trong cặp! \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{warnBox}[Lưu Ý Quan Trọng Khi Viết Gọn Mã HEX]
+Bạn chỉ được phép rút gọn mã Hex khi \textbf{từng cặp ký tự đơn lẻ} trùng nhau (ví dụ: \codeinline{FF}, \codeinline{00}, \codeinline{33}). Tuyệt đối không được rút gọn nếu hai ký tự trong cùng một cặp khác nhau (ví dụ: \codeinline{\#FF5733} không thể viết gọn thành \codeinline{\#F53}).
+\end{warnBox}
+
+\textbf{5. Danh Sách Các Mã Màu HEX Phổ Biến Trong Thiết Kế Web:}
+
+\begin{prettyTableBox}[Bảng Tra Cứu Danh Sách Mã Màu HEX Phổ Biến]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{2.8cm}|>{\ttfamily\color{accentOrange}\bfseries}p{2.5cm}|>{\ttfamily}p{2.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tên màu} & \thd{\sffamily Mã HEX} & \thd{\sffamily Mã RGB tương đương} & \thd{\sffamily Gợi ý ứng dụng thực tế} \\
+\hline
+Đen (Black) & \#000000 & rgb(0, 0, 0) & Màu tối hoàn toàn, màu chữ chính trên nền sáng. \\
+\hline
+Trắng (White) & \#FFFFFF & rgb(255, 255, 255) & Màu sáng hoàn toàn, màu nền trang chính. \\
+\hline
+Đỏ (Red) & \#FF0000 & rgb(255, 0, 0) & RGB Full Red -- Thể hiện trạng thái lỗi khẩn cấp. \\
+\hline
+Xanh lá (Green) & \#00FF00 & rgb(0, 255, 0) & RGB Full Green -- Trạng thái thành công, hoàn thành. \\
+\hline
+Xanh dương (Blue) & \#0000FF & rgb(0, 0, 255) & RGB Full Blue -- Liên kết (Link) và thông tin. \\
+\hline
+Cam (Orange) & \#FFA500 & rgb(255, 165, 0) & Nút cảnh báo nhẹ, nút hành động nhấn mạnh. \\
+\hline
+Vàng (Yellow) & \#FFFF00 & rgb(255, 255, 0) & Kết hợp Red + Green -- Điểm nhấn lưu ý. \\
+\hline
+Tím (Purple) & \#800080 & rgb(128, 0, 128) & Kết hợp Red + Blue -- Thương hiệu sáng tạo. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{6. Thuật Toán Chuyển Đổi Giữa Mã HEX Và Hệ RGB:}
+
+\begin{conceptBox}[Quy Trình Chuyển Đổi Mã HEX Sang RGB]
+Chuyển đổi mã \codeinline{\#FF5733} sang cú pháp \codeinline{rgb(...)}:
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt]
+    \item Tách mã Hex thành 3 cặp byte: $\text{Red} = \text{FF}_{16}$, $\text{Green} = 57_{16}$, $\text{Blue} = 33_{16}$.
+    \item Đổi từ hệ Hex (cơ số 16) sang hệ Thập phân (cơ số 10):
+    \begin{itemize}[leftmargin=1.2em]
+        \item Kênh Red ($\text{FF}_{16}$): $\rightarrow \mathbf{255}$.
+        \item Kênh Green ($57_{16}$): $\rightarrow \mathbf{87}$.
+        \item Kênh Blue ($33_{16}$): $\rightarrow \mathbf{51}$.
+    \end{itemize}
+    \item Kết quả cú pháp tương đương: $\rightarrow$ \codeinline{rgb(255, 87, 51)}.
+\end{enumerate}
+\textit{Mẹo nhỏ}: Bạn có thể tra cứu và chuyển đổi nhanh chóng tại trang web \codeinline{https://www.colorhexa.com}.
+\end{conceptBox}
+
+\textbf{7. So Sánh Chi Tiết Giữa Mã HEX, RGB Và RGBA:}
+
+\begin{prettyTableBox}[Bảng So Sánh Toàn Diện Giữa Mã HEX, RGB Và RGBA]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily Mã HEX (\#RRGGBB)} & \thd{\sffamily Hệ RGB (rgb(r,g,b))} & \thd{\sffamily Hệ RGBA (rgba(r,g,b,a))} \\
+\hline
+Độ dễ nhớ & Khó ghi nhớ bằng mắt thường. & Dễ hiểu trực quan theo giá trị số từ $0 \rightarrow 255$. & Dễ hiểu trực quan theo giá trị số từ $0 \rightarrow 255$. \\
+\hline
+Dạng viết gọn & \textcolor{green!60!black}{\textbf{Có hỗ trợ}} (mã 3 ký tự \codeinline{\#FFF}). & \textcolor{red!80!black}{\textbf{Không}} (phải viết đầy đủ 3 tham số). & \textcolor{red!80!black}{\textbf{Không}} (phải viết đầy đủ 4 tham số). \\
+\hline
+Kênh Alpha (Trong suốt) & \textcolor{red!80!black}{\textbf{Không}} (ở chuẩn truyền thống 6 ký tự). & \textcolor{red!80!black}{\textbf{Không}} (chỉ màu đặc $100\%$). & \textcolor{green!60!black}{\textbf{Có hỗ trợ}} (có kênh Alpha $0.0 \rightarrow 1.0$). \\
+\hline
+Thân thiện thiết kế & Rất phổ biến, xuất chuẩn từ Figma / Adobe. & Dùng nhiều khi tính toán màu động trong JavaScript. & Hoàn hảo cho hiệu ứng Overlay, bóng mờ. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{8. Hướng Dẫn Ra Quyết Định: Khi Nào Nên Và Không Nên Dùng HEX?}
+
+\begin{conceptBox}[Ma Trận Hướng Dẫn Trường Hợp Sử Dụng Mã HEX]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nên dùng HEX khi (\textcolor{green!60!black}{\textbf{Khuyên dùng}})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Cần chọn màu tĩnh nhanh chóng cho các phần tử UI cố định.
+        \item Làm việc trực tiếp với file thiết kế giao diện (Figma, Sketch, Adobe XD).
+        \item Ghi mã màu ngắn gọn để tối ưu dung lượng file CSS nhỏ gọn.
+    \end{itemize}
+    \item \textbf{Không nên dùng HEX khi (\textcolor{red!80!black}{\textbf{Hạn chế}})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Cần tạo màu nền bán trong suốt (\term{Alpha opacity}) cho Modal/Popup.
+        \item Cần thay đổi màu sắc động tăng giảm mượt mà bằng lập trình JavaScript.
+        \item Cần hòa trộn dải màu (\term{Overlay Blend Mode}) dịu mắt với hình ảnh nền bên dưới.
+    \end{itemize}
+\end{itemize}
+\end{conceptBox}
+
+\textbf{9. Cơ Chế Hoạt Động Nội Bộ Của Máy Tính \& Trình Duyệt Khi Xử Lý HEX:}
+
+\begin{conceptBox}[Quy Trình Xử Lý Nội Bội Của Trình Duyệt Khi Gặp Mã HEX]
+\textbf{Các bước xử lý từ mã nguồn đến mắt người xem}:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Người lập trình}: Khai báo mã màu trong CSS (ví dụ: \codeinline{color: \#FF5733;}).
+    \item \textbf{Trình duyệt Web}: Giải mã chuỗi Hex 16 sang hệ RGB 10: $\text{FF} \rightarrow 255, 57 \rightarrow 87, 33 \rightarrow 51$.
+    \item \textbf{Hệ thống phần cứng (Màn hình)}: Truyền tín hiệu điện điều khiển 3 điểm ảnh phụ (\term{Subpixels}) Red, Green, Blue phát sáng theo đúng tỷ lệ cường độ.
+    \item \textbf{Mắt người xem}: Mắt tiếp nhận chùm ánh sáng cộng phát ra từ màn hình và cảm nhận được màu Cam Đỏ.
+\end{enumerate}
+
+\textbf{Mở rộng chuyên sâu -- Mã HEX 8 Ký Tự (CSS Color Module Level 4)}:
+Trong tiêu chuẩn CSS hiện đại, bạn có thể bổ sung kênh Alpha trực tiếp vào mã Hex bằng cú pháp 8 ký tự \codeinline{\#RRGGBBAA} (ví dụ: \codeinline{\#FF573380} tương đương với độ mờ $50\%$).
+\end{conceptBox}
+
+\begin{prettyTableBox}[Tóm Tắt Tổng Kết Nhanh Các Dạng Khai Báo Mã Màu]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3cm}|>{\bfseries\color{accentOrange}}p{2.5cm}|>{\centering\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Mã màu} & \thd{\sffamily Dạng biểu diễn} & \thd{\sffamily Có Alpha?} & \thd{\sffamily Hỗ trợ viết gọn (Shorthand)?} \\
+\hline
+\#RRGGBB & Hệ HEX (6 ký tự) & \textcolor{red!80!black}{\textbf{Không}} & \textcolor{green!60!black}{\textbf{Có}} (rút gọn thành 3 ký tự \#ABC). \\
+\hline
+rgb(r, g, b) & Hệ RGB thập phân & \textcolor{red!80!black}{\textbf{Không}} & \textcolor{red!80!black}{\textbf{Không}} (bắt buộc viết đủ 3 đối số). \\
+\hline
+rgba(r, g, b, a) & Hệ RGBA có Alpha & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{red!80!black}{\textbf{Không}} (bắt buộc viết đủ 4 đối số). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \paragraph{3.3. Hệ Màu RGB Và RGBA (Red, Green, Blue, Alpha):}
 
