@@ -286,24 +286,135 @@ CurrentColor & currentColor & border-color: currentColor; & Từ khóa đặc bi
 
 \paragraph{3. Chi Tiết Từng Hệ Thống Biểu Diễn Màu Sắc:}
 
-\paragraph{3.1. Color Keywords (Tên Màu Định Sẵn):}
-CSS định nghĩa sẵn khoảng \textbf{147 tên màu từ khóa chuẩn} (ví dụ: \codeinline{red}, \codeinline{blue}, \codeinline{green}, \codeinline{lightgray}, \codeinline{darkcyan}, \codeinline{tomato}, \codeinline{transparent}).
+\paragraph{3.1. Color Name (Tên Màu Định Danh Trong CSS):}
 
-\begin{codeWindow}[Ví Dụ Sử Dụng Tên Màu Định Sẵn]
+\begin{conceptBox}[Khái Niệm Cơ Bản Về Tên Màu Định Danh (Color Name)]
+\textbf{1. Color Name Là Gì?}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Color Name}: Là tên màu sắc đã được định nghĩa sẵn trong tiêu chuẩn CSS. Người lập trình chỉ cần gọi trực tiếp tên tiếng Anh của màu sắc đó mà không cần sử dụng mã Hex hay hàm toán học nào (không cần dấu \codeinline{\#}, không cần đối số $RGB$).
+    \item \textbf{Số lượng màu chuẩn}: CSS hỗ trợ tổng cộng \textbf{147 tên màu chuẩn} được quy định chính thức bởi W3C.
+\end{itemize}
+
+\textbf{2. Cú Pháp Sử Dụng Color Name trong CSS}:
+\begin{codeWindow}[Cú Pháp Định Kiểu Bằng Tên Màu Định Danh]
 \begin{lstlisting}[language=CSS3]
-h1 {
-  color: tomato;             /* Mau do ca chua */
-  background-color: lightgray; /* Mau nen xam nhat */
+/* Cu phap tong quat */
+element {
+  color: <color-name>;
+  background-color: <color-name>;
+}
+
+/* Vi du thuc te */
+p {
+  color: tomato;
+  background-color: lightgray;
 }
 \end{lstlisting}
 \end{codeWindow}
-
-\begin{conceptBox}[Đánh Giá Tên Màu Từ Khóa]
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Ưu điểm}: Dễ nhớ, dễ viết tay cho bài tập nhỏ hoặc thử nghiệm nhanh.
-    \item \textbf{Hạn chế}: Không linh hoạt, bị giới hạn trong 147 màu định sẵn và không hỗ trợ tùy chỉnh tinh tế hay độ mờ trong suốt.
-\end{itemize}
 \end{conceptBox}
+
+\textbf{3. Phân Nhóm Các Tên Màu Phổ Biến Trong CSS:}
+
+\begin{prettyTableBox}[Bảng Phân Nhóm Các Tên Màu Từ Khóa Thường Dùng]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\ttfamily\color{accentOrange}}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Nhóm màu} & \thd{\sffamily Ví dụ tên màu định sẵn} & \thd{\sffamily Đặc điểm \& Cảm giác thị giác} \\
+\hline
+Màu Đỏ (Red) & red, crimson, tomato, firebrick & Ấm áp, nổi bật, dùng cho cảnh báo hoặc điểm nhấn. \\
+\hline
+Màu Xanh lá (Green) & green, lime, olive, seagreen & Tươi mát, tự nhiên, trạng thái thành công. \\
+\hline
+Màu Xanh dương (Blue) & blue, navy, skyblue, dodgerblue & Tin cậy, chuyên nghiệp, liên kết và điều hướng. \\
+\hline
+Màu Trung tính & black, white, gray, silver & Màu văn bản chính, màu nền và đường viền phụ. \\
+\hline
+Màu Vàng / Cam & yellow, gold, orange, khaki & Năng động, rực rỡ, điểm nhấn lưu ý nhẹ. \\
+\hline
+Màu Tím (Purple) & purple, violet, indigo, orchid & Sang trọng, sáng tạo, thương hiệu hiện đại. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{4. Ví Dụ Sử Dụng Trong HTML \& Kết Quả Hiển Thị Trực Quan:}
+
+\begin{codeWindow}[Ví Dụ Định Kiểu Trực Tiếp Trong HTML Bằng Color Name]
+\begin{lstlisting}[language=HTML5]
+<h1 style="color: crimson;">Chao ban!</h1>
+<p style="background-color: lightyellow;">Day la doan van demo.</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Của Tên Màu Định Danh]
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=gray!30,
+    arc=4pt, boxrule=0.6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  {\sffamily\bfseries\large\color{red!70!black} Chào bạn! (Chữ màu Crimson - \codeinline{color: crimson;})}\\[6pt]
+  \begin{tcolorbox}[colback=yellow!15, colframe=yellow!60!black, arc=3pt, boxrule=0.4pt, top=6pt, bottom=6pt, left=8pt, right=8pt, fontupper=\sffamily\color{black}]
+    Đây là đoạn văn demo có nền vàng nhạt (\codeinline{background-color: lightyellow;}).
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
+
+\textbf{5. Đánh Giá Ưu Điểm Và Hạn Chế Của Color Name:}
+
+\begin{prettyTableBox}[Bảng So Sánh Ưu Điểm Và Hạn Chế Của Tên Màu Định Danh]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Ưu điểm (Đúng)} & \thd{\sffamily Hạn chế (Không)} \\
+\hline
+\textcolor{green!60!black}{\textbf{Cực kỳ dễ nhớ, dễ viết}}: Đọc tên tiếng Anh là viết được ngay. & \textcolor{red!80!black}{\textbf{Rất ít tùy biến}}: Bị giới hạn cố định trong 147 tên màu. \\
+\hline
+\textcolor{green!60!black}{\textbf{Không cần tính toán}}: Không phải ghi nhớ hay chuyển đổi mã Hex/RGB. & \textcolor{red!80!black}{\textbf{Không có kênh Alpha}}: Không hỗ trợ tạo độ mờ trong suốt. \\
+\hline
+\textcolor{green!60!black}{\textbf{Tương thích tuyệt đối}}: Hỗ trợ $100\%$ trên tất cả trình duyệt web. & \textcolor{red!80!black}{\textbf{Thiếu chính xác}}: Không đáp ứng được các thiết kế UI/UX phức tạp. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{6. Danh Sách Một Số Tên Màu Đẹp \& Phổ Biến NÊN Biết:}
+
+\begin{prettyTableBox}[Bảng Tra Cứu Danh Sách Tên Màu Đẹp \& Mã HEX Tương Đương]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3cm}|>{\ttfamily\color{accentOrange}\bfseries}p{2.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tên màu (Color Name)} & \thd{\sffamily Mã HEX tương đương} & \thd{\sffamily Mô tả sắc thái màu} \\
+\hline
+tomato & \#FF6347 & Màu cam đỏ tươi tắn, năng động. \\
+\hline
+dodgerblue & \#1E90FF & Màu xanh lam sáng rực rỡ, hiện đại. \\
+\hline
+gold & \#FFD700 & Màu vàng ánh kim sang trọng. \\
+\hline
+slategray & \#708090 & Màu xám xanh trung tính dịu mắt. \\
+\hline
+darkorchid & \#9932CC & Màu tím lan đậm sáng tạo. \\
+\hline
+lightcoral & \#F08080 & Màu hồng san hô nhạt nữ tính. \\
+\hline
+indigo & \#4B0082 & Màu tím chàm sâu thẳm. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{7. Hướng Dẫn Ra Quyết Định: Lưu Ý Khi Dùng Color Name:}
+
+\begin{tipBox}[Quy Tắc Sử Dụng Tên Màu Trong Dự Án Web]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Không phân biệt chữ hoa / chữ thường}: CSS không phân biệt hoa thường với tên màu. Các cách viết \codeinline{red}, \codeinline{Red}, \codeinline{RED} đều cho kết quả hoàn toàn giống nhau.
+    \item \textbf{Nên dùng khi}: Dựng khung demo nhanh, tạo ví dụ giảng dạy đơn giản hoặc thử nghiệm ý tưởng giao diện sơ khởi.
+    \item \textbf{Không nên dùng khi}: Thiết kế giao diện sản phẩm chuyên nghiệp (Figma/Adobe), cần độ chính xác cao theo bộ nhận diện thương hiệu, hoặc khi cần độ mờ trong suốt (Alpha) và dải chuyển màu (Gradient).
+\end{itemize}
+\end{tipBox}
 
 \paragraph{3.2. Hệ Màu HEX Trong CSS (Hexadecimal Color Model):}
 
@@ -1092,24 +1203,131 @@ HSL là hệ thống biểu diễn màu sắc dựa trên góc màu và cảm nh
 HSL cực kỳ hữu ích khi bạn muốn tạo dải màu đồng bộ (Palette) hoặc các biến thể màu sáng/tối (\term{Lighten / Darken}) cho giao diện, vì bạn chỉ cần giữ nguyên góc Hue và điều chỉnh chỉ số \codeinline{Lightness (L\%)} hoặc \codeinline{Saturation (S\%)}.
 \end{tipBox}
 
-\paragraph{3.5. Từ Khóa Đặc Biệt: transparent Và currentColor:}
+\paragraph{3.5. Từ Khóa Đặc Biệt: transparent Và currentColor Masterclass:}
 
-\begin{conceptBox}[Ý Nghĩa Của 2 Từ Khóa Đặc Biệt]
-\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
-    \item \textbf{\codeinline{transparent}}: Tạo thuộc tính hoàn toàn trong suốt, thường dùng để ẩn đường viền hoặc làm mờ màu nền ban đầu.
-    \item \textbf{\codeinline{currentColor}}: Tự động lấy giá trị màu chữ (\codeinline{color}) hiện tại của phần tử. Giúp đồng bộ màu viền (\codeinline{border}), màu đổ bóng (\codeinline{box-shadow}) hoặc màu icon biểu tượng SVG với màu chữ mà không cần khai báo lại mã màu.
+\begin{conceptBox}[Bản Chất Kỹ Thuật Của Từ Khóa Đặc Biệt currentColor]
+\textbf{1. currentColor Là Gì?}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{currentColor}}: Là một giá trị từ khóa đặc biệt trong CSS, đại diện cho giá trị màu sắc hiện tại của thuộc tính \codeinline{color} đang áp dụng trực tiếp hoặc kế thừa lên phần tử đó.
+    \item \textbf{Nguyên lý cốt lõi}: $\mathbf{\text{currentColor} \equiv \text{giá trị hiện tại của thuộc tính color}}$.
+    \item \textbf{Công dụng chính}: Được dùng để tự động kế thừa và đồng bộ màu sắc cho các thuộc tính định phong cách khác như: \codeinline{border-color}, \codeinline{background-color}, \codeinline{box-shadow}, \codeinline{outline-color}, và thuộc tính tô màu đồ họa SVG \codeinline{fill} / \codeinline{stroke}.
 \end{itemize}
+
+\textbf{2. Cơ Chế Hoạt Động Nội Bộ Của Trình Duyệt}:
+Trình duyệt sẽ tự động lấy giá trị của thuộc tính \codeinline{color} hiện tại (cho dù được gán trực tiếp hay kế thừa từ thẻ cha trong cây DOM) và gán trực tiếp vào những nơi khai báo từ khóa \codeinline{currentColor}.
 \end{conceptBox}
 
-\begin{codeWindow}[Ví Dụ Ứng Dụng Từ Khóa currentColor]
+\textbf{3. Các Ví Dụ Sử Dụng currentColor Từ Cơ Bản Đến Nâng Cao:}
+
+\begin{codeWindow}[Ví Dụ 1: Đồng Bộ Màu Viền Card Đơn Giản]
 \begin{lstlisting}[language=CSS3]
-.card {
-  color: #007bff;                /* Mau chu xanh duong */
-  border: 2px solid currentColor; /* Vien tu dong co mau xanh duong #007bff */
-  box-shadow: 0 4pt 8pt currentColor;
+.box {
+  color: red;
+  border: 2px solid currentColor; /* Vien tu dong mang mau do sang theo color */
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Đồng Bộ Màu Viền Vẫn Theo Màu Chữ Red]
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=red!5,
+    colframe=red,
+    arc=4pt, boxrule=1.5pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    fontupper=\sffamily\bfseries\color{red}
+]
+  .box: Văn bản màu Đỏ và viền tự động mang màu Đỏ chuẩn nhờ \codeinline{border: 2px solid currentColor;}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{codeWindow}[Ví Dụ 2: Hiệu Ứng Hover Nút Bấm Đổi Màu Toàn Bộ Linh Hoạt]
+\begin{lstlisting}[language=CSS3]
+/* Trang thai binh thuong */
+button.btn-sync {
+  color: #007bff;                /* Mau chu xanh duong */
+  border: 2px solid currentColor; /* Vien tu dong xanh duong */
+  background-color: transparent;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: color 0.3s ease;
+}
+
+/* Khi di chuot (Hover): Chi can doi duy nhat thuoc tinh color */
+button.btn-sync:hover {
+  color: #ff9900;                /* Vien tu dong chuyen sang mau cam! */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ 3: Đồng Bộ Màu Sắc Đồ Họa Vector SVG]
+\begin{lstlisting}[language=HTML5]
+<!-- Thiet lap icon SVG tu dong to mau theo currentColor -->
+<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+  <circle cx="12" cy="12" r="10" />
+</svg>
+
+<!-- CSS dinh kieu -->
+<style>
+svg {
+  color: darkgreen; /* Icon SVG se tu dong duoc to mau darkgreen */
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\textbf{4. Tại Sao currentColor Lại Cực Kỳ Hữu Ích Trong Lập Trình UI/UX?}
+
+\begin{prettyTableBox}[Bảng Phân Tích Lợi Ích Của Từ Khóa currentColor]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Lý do nên dùng} & \thd{\sffamily Ý nghĩa \& Giá trị thực tế} \\
+\hline
+Đồng bộ màu dễ dàng & Dùng $1$ giá trị màu duy nhất cho nhiều thuộc tính (\codeinline{color}, \codeinline{border}, \codeinline{box-shadow}, SVG \codeinline{fill}). \\
+\hline
+Dễ bảo trì mã nguồn & Khi đổi màu giao diện, bạn chỉ cần thay đổi duy nhất $1$ dòng thuộc tính \codeinline{color}, toàn bộ viền và icon liên quan tự động cập nhật theo. \\
+\hline
+Hỗ trợ Pseudo-classes & Phối hợp hoàn hảo với trạng thái \codeinline{:hover}, \codeinline{:focus}, \codeinline{:active} và từ khóa kế thừa \codeinline{inherit}. \\
+\hline
+Hỗ trợ Dark / Light Theme & Cực kỳ linh hoạt khi xây dựng hệ thống chuyển đổi chủ đề sáng/tối (Theme switch) nhờ tính tự động kế thừa màu chữ của phần tử cha. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\textbf{5. Các Lưu Ý Kỹ Thuật Quan Trọng Khi Sử Dụng currentColor:}
+
+\begin{warnBox}[Các Cảnh Báo \& Bẫy Thường Gặp Với currentColor]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Phải có thuộc tính \codeinline{color} xác định}: Nếu phần tử không gán \codeinline{color} và không kế thừa từ cha, trình duyệt sẽ tự động lấy giá trị mặc định của trình duyệt (\codeinline{initial}).
+    \item \textbf{Không dùng thay thế thuộc tính \codeinline{color}}: Tuyệt đối không khai báo \codeinline{color: currentColor;} trên cùng phần tử vì sẽ gây ra vòng lặp tham chiếu vô nghĩa.
+    \item \textbf{Hạn chế trong dải dốc màu (\codeinline{linear-gradient()})}: Một số phiên bản trình duyệt cũ không hỗ trợ tốt việc dùng \codeinline{currentColor} làm điểm mốc màu (\term{Color Stop}) trong gradient.
+\end{itemize}
+\end{warnBox}
+
+\textbf{6. Tóm Tắt Nhanh Bản Chất Của Từ Khóa currentColor:}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Nhanh Đặc Tính Của currentColor]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tính năng} & \thd{\sffamily Giá trị \& Mô tả} \\
+\hline
+Loại giá trị & Giá trị từ khóa đặc biệt trong tiêu chuẩn CSS. \\
+\hline
+Đại diện cho & Giá trị màu chữ (\codeinline{color}) hiện tại của phần tử. \\
+\hline
+Ứng dụng phổ biến & \codeinline{border-color}, \codeinline{outline-color}, \codeinline{box-shadow}, SVG \codeinline{fill}/\codeinline{stroke}, màu hiệu ứng \codeinline{:hover}. \\
+\hline
+Tính kế thừa & Tự động kế thừa theo màu chữ của phần tử cha trong cây DOM. \\
+\hline
+Gợi ý sử dụng Best Practice & Tạo nút bấm (Button), biểu tượng Icon SVG, đường viền nhất quán màu sắc. Khi chuyển đổi theme chỉ cần đổi duy nhất 1 biến \codeinline{color}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \paragraph{4. Mẹo Chọn Màu Sắc Chuyên Nghiệp Cho Giao Diện Web (UI/UX Best Practices):}
 
