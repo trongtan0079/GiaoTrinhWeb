@@ -1427,102 +1427,166 @@ Hợp tác tốt với Biến CSS & Khai báo góc màu trong biến: \codeinlin
 
 \paragraph{3.5. Từ Khóa Đặc Biệt: transparent Và currentColor Masterclass:}
 
-\begin{conceptBox}[Bản Chất Kỹ Thuật Của Từ Khóa Đặc Biệt currentColor]
-\textbf{1. currentColor Là Gì?}:
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{\codeinline{currentColor}}: Là một giá trị từ khóa đặc biệt trong CSS, đại diện cho giá trị màu sắc hiện tại của thuộc tính \codeinline{color} đang áp dụng trực tiếp hoặc kế thừa lên phần tử đó.
-    \item \textbf{Nguyên lý cốt lõi}: $\mathbf{\text{currentColor} \equiv \text{giá trị hiện tại của thuộc tính color}}$.
-    \item \textbf{Công dụng chính}: Được dùng để tự động kế thừa và đồng bộ màu sắc cho các thuộc tính định phong cách khác như: \codeinline{border-color}, \codeinline{background-color}, \codeinline{box-shadow}, \codeinline{outline-color}, và thuộc tính tô màu đồ họa SVG \codeinline{fill} / \codeinline{stroke}.
-\end{itemize}
-
-\textbf{2. Cơ Chế Hoạt Động Nội Bộ Của Trình Duyệt}:
-Trình duyệt sẽ tự động lấy giá trị của thuộc tính \codeinline{color} hiện tại (cho dù được gán trực tiếp hay kế thừa từ thẻ cha trong cây DOM) và gán trực tiếp vào những nơi khai báo từ khóa \codeinline{currentColor}.
+\begin{conceptBox}[Tổng Quan Về Hai Từ Khóa Đặc Biệt Trong CSS]
+Trong hệ thống màu sắc của CSS, ngoài các mô hình mã màu số (HEX, RGB, HSL), W3C cung cấp hai từ khóa đặc biệt cực kỳ linh hoạt và có sức mạnh lớn trong thiết kế giao diện UI/UX hiện đại:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{transparent}}: Từ khóa đại diện cho màu sắc hoàn toàn trong suốt ($100\%$ transparency / $0\%$ opacity).
+    \item \textbf{\codeinline{currentColor}}: Từ khóa động đại diện cho giá trị màu sắc của thuộc tính \codeinline{color} hiện tại.
+\end{enumerate}
 \end{conceptBox}
 
-\textbf{3. Các Ví Dụ Sử Dụng currentColor Từ Cơ Bản Đến Nâng Cao:}
+% ==========================================
+% PHẦN I: TỪ KHÓA TRANSPARENT
+% ==========================================
+\subsubsection*{I. Chuyên Đề Từ Khóa Đặc Biệt \codeinline{transparent}:}
 
-\begin{codeWindow}[Ví Dụ 1: Đồng Bộ Màu Viền Card Đơn Giản]
+\begin{conceptBox}[Bản Chất Kỹ Thuật Của Từ Khóa transparent]
+\textbf{1. transparent Là Gì?}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Từ khóa \codeinline{transparent} tạo ra một màu hoàn toàn nhìn xuyên thấu ($100\%$ trong suốt), cho phép các phần tử nền hoặc nội dung phía dưới hiển thị trọn vẹn.
+    \item \textbf{Bản chất toán học trong hệ màu}: Từ khóa \codeinline{transparent} tương đương hoàn toàn với giá trị \codeinline{rgba(0, 0, 0, 0)} hoặc \codeinline{hsla(0, 0\%, 0\%, 0)}.
+    \item Trong tiêu chuẩn CSS Color Module Level 3 trở đi, \codeinline{transparent} được coi là một tên màu chuẩn hợp lệ và có thể áp dụng cho bất kỳ thuộc tính màu sắc nào (\codeinline{color}, \codeinline{background-color}, \codeinline{border-color}, \codeinline{shadow}, \codeinline{stroke}).
+\end{itemize}
+\end{conceptBox}
+
+\textbf{2. Các Ứng Dụng Kỹ Thuật Kinh Điển Của \codeinline{transparent} Trong Thiết Kế Web:}
+
+\begin{prettyTableBox}[Bảng Tổng Hợp 4 Ứng Dụng Kỹ Thuật Thực Tế Của transparent]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Ứng dụng kỹ thuật} & \thd{\sffamily Mô tả \& Kỹ thuật triển khai trong CSS} \\
+\hline
+Vẽ hình khối tam giác / Tooltip & Kết hợp các đường viền \codeinline{border} với $3$ cạnh mang màu \codeinline{transparent} và $1$ cạnh có màu thực tế để tạo mũi tên Tooltip. \\
+\hline
+Nút bấm viền mỏng (Ghost Button) & Khai báo \codeinline{background-color: transparent;} để lộ nền trang web, chỉ giữ đường viền \codeinline{border} tinh tế. \\
+\hline
+Phủ dải mờ Gradient đè ảnh nền & Sử dụng \codeinline{linear-gradient(to top, \#1e293b, transparent)} giúp văn bản hiển thị rõ ràng trên nền hình ảnh complex. \\
+\hline
+Reset nền mặc định ô nhập liệu & Tháo bỏ màu nền xám mặc định của trình duyệt cho thẻ \codeinline{<input>}, \codeinline{<select>} hoặc đường ray thanh cuộn \codeinline{::-webkit-scrollbar-track}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ 1: Định Kiểu Nút Bấm Ghost Button \& Mũi Tên Tooltip Bằng transparent]
 \begin{lstlisting}[language=CSS3]
-.box {
-  color: red;
-  border: 2px solid currentColor; /* Vien tu dong mang mau do sang theo color */
+/* 1. Nut bam Ghost Button sang trong */
+.btn-ghost {
+  background-color: transparent; /* Nen trong suot nhin xuyên qua */
+  border: 2px solid #3b82f6;
+  color: #3b82f6;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  background-color: #3b82f6;     /* Khi hover moi to mau dac */
+  color: #ffffff;
+}
+
+/* 2. Mui ten tam giac Tooltip (Triangle Arrow) */
+.tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;  /* Vien trai trong suot */
+  border-right: 8px solid transparent; /* Vien phai trong suot */
+  border-bottom: 10px solid #1e293b;   /* Vien duoi tao thanh dinh tam giac */
+}
+
+/* 3. Gradient mo dan vao anh nen (Fading Gradient Overlay) */
+.hero-card {
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Đồng Bộ Màu Viền Vẫn Theo Màu Chữ Red]
+\begin{browserWindow}[Kết Quả Hiển Thị Của Nút Bấm Ghost Button \& Mũi Tên Tooltip]
 \vspace{2pt}
 \begin{tcolorbox}[
     enhanced,
-    colback=red!5,
-    colframe=red,
-    arc=4pt, boxrule=1.5pt,
-    top=8pt, bottom=8pt, left=10pt, right=10pt,
-    fontupper=\sffamily\bfseries\color{red}
+    colback=gray!5,
+    colframe=gray!30,
+    arc=6pt, boxrule=0.8pt,
+    top=10pt, bottom=10pt, left=12pt, right=12pt
 ]
-  .box: Văn bản màu Đỏ và viền tự động mang màu Đỏ chuẩn nhờ \codeinline{border: 2px solid currentColor;}
+  % Ghost Button Preview
+  {\sffamily\bfseries\color{primaryBlue} Nút Bấm Ghost Button (\codeinline{background: transparent;}):}\\[4pt]
+  \begin{tcolorbox}[nobeforeafter, colback=gray!5, colframe=blue!70!black, arc=4pt, boxrule=1.2pt, top=4pt, bottom=4pt, left=10pt, right=10pt, fontupper=\sffamily\bfseries\small\color{blue!70!black}]
+    Khám Phá Khóa Học (Ghost Button)
+  \end{tcolorbox}
+  \vspace{6pt}
+  
+  % Tooltip Triangle Preview
+  {\sffamily\bfseries\color{primaryBlue} Mũi Tên Tooltip Tam Giác (Kết hợp \codeinline{transparent}):}\\[4pt]
+  \begin{tcolorbox}[nobeforeafter, colback=gray!90!black, colframe=gray!90!black, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=10pt, right=10pt, fontupper=\sffamily\bfseries\scriptsize\color{white}]
+    ▲ \quad Thẻ Tooltip Thông Tin (\codeinline{border-left/right: transparent;})
+  \end{tcolorbox}
 \end{tcolorbox}
 \end{browserWindow}
 
-\begin{codeWindow}[Ví Dụ 2: Hiệu Ứng Hover Nút Bấm Đổi Màu Toàn Bộ Linh Hoạt]
+\begin{prettyTableBox}[Bảng So Sánh Chi Tiết: transparent vs opacity: 0 vs visibility: hidden]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily transparent} & \thd{\sffamily opacity: 0} & \thd{\sffamily visibility: hidden} \\
+\hline
+Bản chất tác động & Chỉ làm mờ màu sắc nền/viền được gán. & Làm mờ toàn bộ phần tử và tất cả con bên trong. & Ẩn hiển thị phần tử nhưng vẫn giữ nguyên khoảng trống DOM. \\
+\hline
+Sự tương tác chuột (Click/Hover) & \textcolor{green!60!black}{\textbf{Vẫn tương tác tốt}} (Pointer events hoạt động). & \textcolor{green!60!black}{\textbf{Vẫn nhận click}} (Rất dễ gây bẫy bấm nhầm). & \textcolor{red!80!black}{\textbf{Vô hiệu hóa click}} (Không nhận sự kiện chuột). \\
+\hline
+Khả năng kế thừa phần tử con & Phần tử con giữ màu sắc riêng biệt $100\%$. & Tất cả phần tử con bị mờ theo $100\%$. & Phần tử con có thể hiện lại bằng \codeinline{visibility: visible}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+% ==========================================
+% PHẦN II: TỪ KHÓA CURRENTCOLOR
+% ==========================================
+\subsubsection*{II. Chuyên Đề Từ Khóa Đặc Biệt \codeinline{currentColor}:}
+
+\begin{conceptBox}[Bản Chất Kỹ Thuật Của Từ Khóa Đặc Biệt currentColor]
+\textbf{1. currentColor Là Gì?}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{currentColor}}: Là một giá trị từ khóa động trong CSS, đại diện cho giá trị màu sắc hiện tại của thuộc tính \codeinline{color} đang áp dụng trực tiếp hoặc kế thừa lên phần tử đó.
+    \item \textbf{Nguyên lý cốt lõi}: $\mathbf{\text{currentColor} \equiv \text{giá trị hiện tại của thuộc tính color}}$.
+    \item \textbf{Công dụng chính}: Đồng bộ tự động màu sắc cho \codeinline{border-color}, \codeinline{background-color}, \codeinline{box-shadow}, \codeinline{outline-color}, và đồ họa SVG \codeinline{fill} / \codeinline{stroke}.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ 2: Hiệu Ứng Hover Nút Bấm \& Đồng Bộ Icon SVG Với currentColor]
 \begin{lstlisting}[language=CSS3]
-/* Trang thai binh thuong */
+/* 1. Nut bam dong bo mau vien khi Hover */
 button.btn-sync {
-  color: #007bff;                /* Mau chu xanh duong */
+  color: #2563eb;                /* Mau chu xanh duong */
   border: 2px solid currentColor; /* Vien tu dong xanh duong */
   background-color: transparent;
   padding: 8px 16px;
-  border-radius: 4px;
-  transition: color 0.3s ease;
-}
-
-/* Khi di chuot (Hover): Chi can doi duy nhat thuoc tinh color */
-button.btn-sync:hover {
-  color: #ff9900;                /* Vien tu dong chuyen sang mau cam! */
-}
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{codeWindow}[Ví Dụ 4: Tạo Mũi Tên Tam Giác CSS Bằng Từ Khóa transparent]
-\begin{lstlisting}[language=CSS3]
-/* Tao hinh tam giac huong sang phai */
-.arrow-right {
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;    /* Vien tren trong suot */
-  border-bottom: 10px solid transparent; /* Vien duoi trong suot */
-  border-left: 15px solid #007bff;       /* Vien trai co mau tao thanh mui ten */
-}
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{codeWindow}[Ví Dụ 5: Đồng Bộ Màu Khung Nhập Liệu Input \& Icon SVG Khi Focus-within]
-\begin{lstlisting}[language=HTML5]
-<!-- Form Group Structure -->
-<div class="input-group">
-  <svg class="icon" fill="currentColor" viewBox="0 0 24 24"><path d="..."/></svg>
-  <input type="text" placeholder="Nhap ho ten..." />
-</div>
-
-<!-- CSS Styling -->
-<style>
-.input-group {
-  color: #64748b; /* Mau icon va text phu mac dinh xam */
-  border: 2px solid currentColor; /* Vien tu dong xam theo color */
-  padding: 8px 12px;
   border-radius: 6px;
   transition: color 0.3s ease;
 }
 
-/* Khi nguoi dung Focus vao o input ben trong */
-.input-group:focus-within {
-  color: #2563eb; /* Ca vien va Icon SVG tu dong doi sang xanh duong! */
+button.btn-sync:hover {
+  color: #d97706;                /* Chi can doi color, vien tu dong sang mau cam! */
 }
-</style>
+
+/* 2. Dong bo mau khung nhap lieu va Icon SVG khi Focus */
+.input-group {
+  color: #64748b;                /* Mau icon va text phu xam */
+  border: 2px solid currentColor; /* Vien xam theo color */
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.input-group:focus-within {
+  color: #2563eb;                /* Ca vien va Icon SVG tu dong sang xanh duong! */
+}
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Mũi Tên Tam Giác (transparent) \& Form Input Focus (currentColor)]
+\begin{browserWindow}[Kết Quả Hiển Thị Đồng Bộ Trạng Thái Focus \& Hover Bằng currentColor]
 \vspace{2pt}
 \begin{tcolorbox}[
     enhanced,
@@ -1531,15 +1595,8 @@ button.btn-sync:hover {
     arc=6pt, boxrule=0.8pt,
     top=10pt, bottom=10pt, left=12pt, right=12pt
 ]
-  % CSS Triangle Arrow Preview
-  {\sffamily\bfseries\color{primaryBlue} Mũi Tên Tam Giác Tạo Từ \codeinline{transparent}}:\\[4pt]
-  \begin{tcolorbox}[nobeforeafter, colback=blue!10, colframe=blue!60, arc=2pt, boxrule=0.4pt, top=3pt, bottom=3pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\small\color{blue!80!black}]
-    Mũi tên hướng phải \quad $\rightarrow$ \quad (\codeinline{border-top/bottom: transparent;})
-  \end{tcolorbox}
-  \vspace{6pt}
-  
   % Input Focus Sync Preview
-  {\sffamily\bfseries\color{primaryBlue} Trạng Thái Focus Input Đồng Bộ Icon SVG Với \codeinline{currentColor}}:\\[4pt]
+  {\sffamily\bfseries\color{primaryBlue} Trạng Thái Focus Input Đồng Bộ Icon SVG (\codeinline{currentColor}):}\\[4pt]
   \begin{tcolorbox}[
       enhanced,
       colback=blue!5,
@@ -1548,27 +1605,21 @@ button.btn-sync:hover {
       top=6pt, bottom=6pt, left=10pt, right=10pt,
       fontupper=\sffamily\bfseries\color{blue!80!black}
   ]
-    [Icon SVG xanh] \quad Nhập họ tên... \quad (\codeinline{border} và Icon tự động đổi màu Xanh dương khi Focus)
+    [Icon SVG] \quad Nhập email... \quad (\codeinline{border} và Icon tự động chuyển màu Xanh dương khi Focus)
   \end{tcolorbox}
 \end{tcolorbox}
 \end{browserWindow}
 
-\textbf{4. Tại Sao currentColor Lại Cực Kỳ Hữu Ích Trong Lập Trình UI/UX?}
-
-\begin{prettyTableBox}[Bảng Phân Tích Lợi Ích Của Từ Khóa currentColor]
+\begin{prettyTableBox}[Tóm Tắt Tổng Kết Nhanh So Sánh transparent Và currentColor]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.0cm}|>{\bfseries\color{accentOrange}}p{3.0cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Lý do nên dùng} & \thd{\sffamily Ý nghĩa \& Giá trị thực tế} \\
+\rowcolor{primaryBlue} \thd{\sffamily Từ khóa} & \thd{\sffamily Bản chất biểu diễn} & \thd{\sffamily Trường hợp ứng dụng hàng đầu (Use Cases)} \\
 \hline
-Đồng bộ màu dễ dàng & Dùng $1$ giá trị màu duy nhất cho nhiều thuộc tính (\codeinline{color}, \codeinline{border}, \codeinline{box-shadow}, SVG \codeinline{fill}). \\
+transparent & Màu trong suốt 100\% (Alpha = 0). & Ghost Button, Mũi tên tam giác Tooltip, Gradient mờ dần vào ảnh nền, Reset nền mặc định. \\
 \hline
-Dễ bảo trì mã nguồn & Khi đổi màu giao diện, bạn chỉ cần thay đổi duy nhất $1$ dòng thuộc tính \codeinline{color}, toàn bộ viền và icon liên quan tự động cập nhật theo. \\
-\hline
-Hỗ trợ Pseudo-classes & Phối hợp hoàn hảo với trạng thái \codeinline{:hover}, \codeinline{:focus}, \codeinline{:active} và từ khóa kế thừa \codeinline{inherit}. \\
-\hline
-Hỗ trợ Dark / Light Theme & Cực kỳ linh hoạt khi xây dựng hệ thống chuyển đổi chủ đề sáng/tối (Theme switch) nhờ tính tự động kế thừa màu chữ của phần tử cha. \\
+currentColor & Giá trị màu động đại diện cho \codeinline{color}. & Đồng bộ màu viền/bóng đổ với chữ, icon SVG tự đổi màu theo theme, hiệu ứng Hover/Focus linh hoạt. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
