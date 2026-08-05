@@ -2751,6 +2751,13 @@ fantasy & Kỳ lạ, độc đáo, thu hút mạnh. & Tiêu đề quảng cáo �
 \end{tabularx}
 \end{prettyTableBox}
 
+\subsection{Vấn Đề 1: Phông Chữ Mặc Định (System Fonts \& Web-Safe Fonts)}
+\label{sec:system_font_stack_van_de_1}
+
+\begin{conceptBox}[VẤN ĐỀ 1: PHÔNG CHỮ MẶC ĐỊNH (SYSTEM FONTS \& WEB-SAFE FONTS)]
+\textbf{Khái niệm cốt lõi}: Đối với các phông chữ mặc định (system fonts hoặc web-safe fonts), bạn \textbf{không cần nhúng font} hay dùng \codeinline{@font-face} hoặc Google Fonts -- chỉ cần gọi đúng tên trong \codeinline{font-family} là được. Trình duyệt sẽ tự tìm font có sẵn trên hệ điều hành của người dùng.
+\end{conceptBox}
+
 \paragraph{7. Chuyên Đề System Font Stack Trong CSS (System-UI Masterclass):}
 \label{sec:system_font_stack}
 
@@ -2923,7 +2930,12 @@ Khuyết điểm hạn chế & Không kiểm soát chi tiết 100\% về kiểu 
 
 \subsection{Chi Tiết 7 Thuộc Tính Font Cốt Lõi Trong CSS}
 
-\subsubsection{1. Thuộc Tính font-family (Họ Phông Chữ \& Chuỗi Dự Phòng Fallback List)}
+\subsubsection{1. Thuộc Tính font-family \& Quy Tắc Khai Báo Chuẩn (Vấn Đề 2: Quy Tắc Viết font-family Trong CSS)}
+
+\begin{conceptBox}[VẤN ĐỀ 2: QUY TẮC VIẾT FONT-FAMILY TRONG CSS]
+\textbf{Khái niệm cốt lõi}: Thuộc tính \codeinline{font-family} nhận một danh sách các phông chữ ưu tiên từ trái qua phải, phân tách bằng dấu phẩy và bắt buộc kết thúc bằng nhóm phông chữ tổng quát (\term{generic font family}). Tên font có khoảng trắng phải được bọc trong dấu ngoặc kép.
+\end{conceptBox}
+
 \label{sec:font_family}
 
 Thuộc tính \codeinline{font-family} trong CSS là một trong những thuộc tính quan trọng nhất để kiểm soát giao diện văn bản trên trang web của bạn. Nó cho phép bạn chỉ định một hoặc nhiều họ phông chữ (\term{font family}) mà trình duyệt nên sử dụng để hiển thị văn bản. Việc hiểu rõ cách hoạt động của nó giúp bạn đảm bảo trang web của mình trông nhất quán và chuyên nghiệp trên nhiều thiết bị và trình duyệt khác nhau.
@@ -3729,7 +3741,12 @@ Adobe Fonts là dịch vụ phông chữ cao cấp dành cho người dùng Adob
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsubsection{4. Chuyên Đề Kỹ Thuật Nhúng Nhiều Phông Chữ (Multi-Font Embedding Masterclass)}
+\subsubsection{4. Kỹ Thuật Nhúng Nhiều Phông Chữ Trong CSS (Vấn Đề 3: Nhúng Nhiều Font trong CSS)}
+
+\begin{conceptBox}[VẤN ĐỀ 3: NHÚNG NHIỀU FONT TRONG CSS]
+\textbf{Khái niệm cốt lõi}: Khi nhúng nhiều phông chữ tùy chỉnh, sử dụng tham số \codeinline{\&family=} để gộp URL trong Google Fonts hoặc khai báo riêng từng khối \codeinline{@font-face} cho mỗi biến thể style khi tự host. Bắt buộc cấu hình \codeinline{font-display: swap;} và giới hạn $1 \rightarrow 3$ họ font để đảm bảo hiệu suất.
+\end{conceptBox}
+
 \label{sec:multi_font_embedding}
 
 Khi xây dựng giao diện web phức tạp, nhà thiết kế thường kết hợp nhiều hơn một họ phông chữ tùy chỉnh (ví dụ: dùng 1 font hiện đại cho Tiêu đề và 1 font dễ đọc cho Văn bản thân). Việc nhúng nhiều phông chữ đòi hỏi chiến lược quản lý mã nguồn hợp lý để không làm giảm hiệu suất tải trang.
