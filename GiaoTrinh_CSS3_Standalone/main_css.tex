@@ -2525,84 +2525,53 @@ color: initial & \textcolor{red}{\textbf{Không}} & Reset màu chữ về mặc 
 % ==========================================
 % PHẦN 3.7: TÍNH KẾ THỪA CỦA THUỘC TÍNH COLOR
 % ==========================================
-\subsection{Chuyên Đề Phông Chữ \& Typography Trong CSS (Generic Font Families Masterclass)}
-\label{sec:css_typography_foundations}
+% ==============================================================================
+% CHUYÊN ĐỀ: CÁC THUỘC TÍNH FONT & TYPOGRAPHY CHUYÊN SÂU TRONG CSS
+% ==============================================================================
+\section{Chuyên Đề Các Thuộc Tính Font \& Typography Chuyên Sâu Trong CSS (CSS Font Masterclass)}
+\label{sec:css_font_properties_masterclass}
 
-\begin{conceptBox}[Khái Niệm Cơ Bản Về Generic Font Families]
-\textbf{1. Generic Font Families Là Gì?}:
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{\term{Generic Font Families} (Nhóm phông chữ tổng quát)}: Là các nhóm phông chữ mặc định chuẩn hóa bởi W3C mà tất cả trình duyệt Web trên mọi hệ điều hành (Windows, macOS, Linux, Android, iOS) luôn luôn hiểu và hỗ trợ sẵn.
-    \item \textbf{Vai trò cốt lõi trong cơ chế Fallback Font}: Khi người lập trình khai báo một font chữ cụ thể (ví dụ: \codeinline{"Times New Roman"}), nếu thiết bị người dùng chưa cài đặt font đó, trình duyệt sẽ tự động dự phòng (\term{Fallback}) sang nhóm font tổng quát tương ứng được chỉ định ở cuối danh sách (ví dụ: \codeinline{serif}).
-\end{itemize}
+CSS cung cấp một bộ các thuộc tính để kiểm soát mọi khía cạnh của văn bản, từ loại font đến kích thước, kiểu dáng, độ đậm (trọng lượng) và chiều cao dòng. Việc tùy chỉnh font chữ là một phần quan trọng trong việc tạo ra giao diện người dùng hấp dẫn, hiện đại và dễ đọc. Bằng cách hiểu rõ các thuộc tính và kỹ thuật nhúng font, bạn có thể kiểm soát hoàn toàn typography trên trang web của mình.
+
+\subsection{Chi Tiết 7 Thuộc Tính Font Cốt Lõi Trong CSS}
+
+\subsubsection{1. Thuộc Tính font-family (Họ Phông Chữ \& Chuỗi Dự Phòng Fallback List)}
+\label{sec:font_family}
+
+Thuộc tính \codeinline{font-family} chỉ định loại font chữ sẽ được sử dụng cho văn bản. Bạn có thể chỉ định nhiều font chữ làm danh sách ưu tiên, cách nhau bằng dấu phẩy. Trình duyệt sẽ sử dụng font đầu tiên có sẵn trên hệ thống của người dùng.
+
+\begin{conceptBox}[Cấu Trúc Giá Trị Của Thuộc Tính font-family]
+Giá trị khai báo bao gồm hai loại chính:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Tên font cụ thể} (Ví dụ: \codeinline{"Times New Roman"}, \codeinline{Arial}, \codeinline{Roboto}): Nếu tên font có chứa khoảng trắng, bắt buộc phải đặt trong dấu ngoặc kép (ví dụ: \codeinline{"Times New Roman"}).
+    \item \textbf{Tên font chung} (\term{Generic Font Family}): Đây là các tên nhóm font chung mà trình duyệt sẽ tìm kiếm font tương tự nếu không tìm thấy font cụ thể. \textbf{Luôn kết thúc danh sách \codeinline{font-family} bằng một tên font chung} để đảm bảo văn bản luôn có font dự phòng.
+\end{enumerate}
 \end{conceptBox}
 
-\textbf{2. Sự Khác Biệt Trực Quan Giữa Phông Chữ Có Chân (Serif) Và Không Chân (Sans-Serif):}
+\paragraph{5 Nhóm Generic Font Family Chuẩn W3C:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{serif}: Font có chân (Ví dụ: Times New Roman, Georgia).
+    \item \codeinline{sans-serif}: Font không chân (Ví dụ: Arial, Helvetica, Roboto).
+    \item \codeinline{monospace}: Font có độ rộng ký tự cố định (Ví dụ: Courier New, Consolas).
+    \item \codeinline{cursive}: Font giống chữ viết tay (Ví dụ: Comic Sans MS, Pacifico).
+    \item \codeinline{fantasy}: Font trang trí, mang tính biểu tượng (Ví dụ: Impact, Copperplate).
+\end{itemize}
 
-\begin{browserWindow}[Minh Họa Trực Quan Sự Khác Biệt Giữa Serif Và Sans-serif]
-\vspace{2pt}
-\begin{tcolorbox}[
-    enhanced,
-    colback=white,
-    colframe=gray!30,
-    arc=6pt, boxrule=0.8pt,
-    top=12pt, bottom=12pt, left=14pt, right=14pt
-]
-  \begin{center}
-    {\sffamily\bfseries\Large\color{primaryBlue} Phân Biệt Nét Chân Chữ (Serifs) Trực Quan}\\[10pt]
-    
-    % Top Part: 3 F's comparison
-    \begin{tabular}{c @{\hspace{2.2cm}} c @{\hspace{2.2cm}} c}
-      {\sffamily\fontsize{42}{50}\selectfont\bfseries F} &
-      {\rmfamily\fontsize{42}{50}\selectfont\bfseries F} &
-      {\rmfamily\fontsize{42}{50}\selectfont\bfseries\color{red!80!black} F} \\[4pt]
-      {\sffamily\bfseries Sans-serif} &
-      {\rmfamily\bfseries Serif} &
-      {\rmfamily\bfseries Serif}\\[-2pt]
-      & & {\sffamily\small\bfseries\color{red!80!black}(red serifs)}
-    \end{tabular}
-    
-    \vspace{12pt}
-    
-    % Bottom Part: Outer Rectangular Box matching the image layout
-    \begin{tcolorbox}[
-      colback=white,
-      colframe=black!80,
-      arc=0pt, boxrule=0.8pt,
-      top=10pt, bottom=10pt, left=15pt, right=15pt
-    ]
-      \begin{tabularx}{\linewidth}{@{}l >{\raggedleft\arraybackslash}X@{}}
-        {\sffamily\Huge\bfseries AaBbCc} & {\sffamily\large\color{black!80} Sans-serif font} \\[14pt]
-        {\rmfamily\Huge\bfseries AaBbCc} & {\rmfamily\large\color{black!80} Serif font} \\[14pt]
-        {\rmfamily\Huge\bfseries\color{red!80!black} AaBbCc} & {\rmfamily\large\color{red!80!black} Serif font (red serifs)}
-      \end{tabularx}
-    \end{tcolorbox}
-  \end{center}
-\end{tcolorbox}
-\end{browserWindow}
+\begin{codeWindow}[Ví Dụ Cú Pháp Khai Báo font-family]
+\begin{lstlisting}[language=CSS3]
+/* Uu tien Roboto, neu khong co thi Arial, cuoi cung la bat ky font sans-serif nao */
+p {
+  font-family: "Roboto", Arial, sans-serif;
+}
 
-\begin{prettyTableBox}[Bảng So Sánh Nhanh Giữa Serif Và Sans-serif]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí so sánh} & \thd{\sffamily Phông chữ Serif (Có chân)} & \thd{\sffamily Phông chữ Sans-serif (Không chân)} \\
-\hline
-Nét chữ & Có các nét gạch nhỏ ở đầu và chân ký tự. & Không có chân chữ, nét chữ đơn giản gọn phẳng. \\
-\hline
-Phong cách thiết kế & Cổ điển, sang trọng, nghiêm túc, trang trọng. & Hiện đại, sạch sẽ, gọn gàng, thân thiện. \\
-\hline
-Độ dễ đọc trên giấy in & Dễ đọc hơn nhờ các chân dẫn hướng mắt khi đọc bài dài. & Đọc ổn nhưng có thể thiếu điểm nhấn phân dòng. \\
-\hline
-Độ dễ đọc trên màn hình & Có thể mỏi mắt/khó đọc ở độ phân giải màn hình thấp. & Rất dễ đọc, đặc biệt trên màn hình di động nhỏ. \\
-\hline
-Ứng dụng phổ biến & Sách in, báo chí, luận văn, tài liệu chính thức. & Trang web, ứng dụng di động, giao diện UI/UX. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
+/* Chuoi fallback cho tieu de phong cach co dien Serif */
+h1 {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+\end{lstlisting}
+\end{codeWindow}
 
-\textbf{3. Bảng Phân Tích Chi Tiết 5 Nhóm Generic Font Families Chuẩn W3C:}
-
-\begin{prettyTableBox}[Bảng Phân Tích Chi Tiết 5 Nhóm Phông Chữ Tổng Quát (Generic Font Families)]
+\begin{prettyTableBox}[Bảng So Sánh Chi Tiết 5 Nhóm Generic Font Families]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
 \begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{2.2cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{3.0cm}|>{\ttfamily\color{accentOrange}}p{3.0cm}|>{\raggedright\arraybackslash}X|}
@@ -2622,285 +2591,438 @@ fantasy & Kiểu chữ cách điệu trang trí độc đáo. & Độc lạ, vui
 \end{tabularx}
 \end{prettyTableBox}
 
-\textbf{4. Các Phông Chữ Hay Dùng Nhất Trong Thiết Kế Web Theo Từng Nhóm:}
-
-\begin{prettyTableBox}[Danh Sách Các Phông Chữ Tiêu Chuẩn Phổ Biến Trong Thiết Kế Web]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\ttfamily\color{accentOrange}\bfseries}p{3.8cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Nhóm họ phông} & \thd{\sffamily Tên font cụ thể} & \thd{\sffamily Đặc điểm \& Trường hợp ứng dụng thực tế} \\
-\hline
-\rowcolor{white} \textbf{Serif (Có chân)} & Times New Roman & Cổ điển, trang trọng (dùng nhiều trong báo chí, tài liệu in). \\
-\cline{2-3}
-\rowcolor{primaryBlue!4} & Georgia & Thanh lịch, thiết kế tối ưu dễ đọc trên màn hình máy tính hơn Times. \\
-\cline{2-3}
-\rowcolor{white} & Merriweather & Thân thiện, nét chữ rõ ràng lý tưởng cho blog đọc nội dung dài. \\
-\hline
-\rowcolor{primaryBlue!4} \textbf{Sans-serif (Không chân)} & Arial & Đơn giản, phổ biến nhất thế giới trên mọi hệ điều hành. \\
-\cline{2-3}
-\rowcolor{white} & Roboto & Font mặc định của hệ điều hành Android, hiện đại, sạch sẽ. \\
-\cline{2-3}
-\rowcolor{primaryBlue!4} & Open Sans & Dễ đọc tuyệt vời, phù hợp cho hệ thống Web/App quy mô lớn. \\
-\cline{2-3}
-\rowcolor{white} & Lato & Mềm mại, cân bằng, hợp cho cả tiêu đề lẫn văn bản chính. \\
-\cline{2-3}
-\rowcolor{primaryBlue!4} & Montserrat & Đậm chất thiết kế hiện đại, tạo cảm giác chuyên nghiệp sáng tạo. \\
-\hline
-\rowcolor{white} \textbf{Monospace (Rộng đều)} & Courier New & Phong cách máy đánh chữ cổ điển truyền thống. \\
-\cline{2-3}
-\rowcolor{primaryBlue!4} & Consolas & Font chuẩn mực khi viết mã nguồn code, gọn gàng dễ đọc. \\
-\hline
-\rowcolor{white} \textbf{Cursive (Viết tay)} & Pacifico & Nét chữ viết tay đáng yêu, hợp cho tiêu đề nghệ thuật hoặc Logo. \\
-\cline{2-3}
-\rowcolor{primaryBlue!4} & Dancing Script & Nét chữ uyển chuyển, trang nhã cho thiệp mừng / banner. \\
-\hline
-\rowcolor{white} \textbf{Fantasy (Cách điệu)} & Impact & Nét chữ cực đậm, thu hút sự chú ý ngay lập tức cho tiêu đề. \\
-\cline{2-3}
-\rowcolor{primaryBlue!4} & Playfair Display & Sang trọng, phù hợp cho giao diện thời trang cao cấp. \\
-\cline{2-3}
-\rowcolor{white} & Lobster & Độc đáo, nghệ thuật, tạo điểm nhấn bắt mắt sơ khởi. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\textbf{5. Cú Pháp Sử Dụng Trong CSS \& Cơ Chế Fallback Font List:}
-
-\begin{codeWindow}[Cú Pháp Khai Báo Danh Sách Phông Chữ Dự Phòng (Fallback Chain)]
+\paragraph{Mở Rộng: Chuyên Đề System Font Stack (system-ui Masterclass):}
+System Font (phông chữ hệ thống) là phông chữ mặc định cài sẵn trên hệ điều hành (macOS: San Francisco, Windows: Segoe UI, Android: Roboto, Linux: Ubuntu). 
+\begin{codeWindow}[Chuỗi Khai Báo System Font Stack Hoàn Chỉnh]
 \begin{lstlisting}[language=CSS3]
-/* 1. Dinh kieu van ban chinh voi chuoi Fallback Sans-serif */
+/* Su dung font-family he dieu hanh giup trang web tai cuc nhanh va hoa nhap UI */
 body {
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
-}
-
-/* 2. Dinh kieu ma nguoi va khoi Code voi Monospace */
-code, pre {
-  font-family: Consolas, "Courier New", monospace;
-}
-
-/* 3. Dinh kieu tieu de trang trong voi Serif */
-h1.academic-title {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Của Các Kiểu Phông Chữ Khác Nhau Trên Giao Diện]
-\vspace{2pt}
-\begin{tcolorbox}[
-    enhanced,
-    colback=white,
-    colframe=gray!30,
-    arc=6pt, boxrule=0.8pt,
-    top=10pt, bottom=10pt, left=12pt, right=12pt
-]
-  % Sans-serif preview
-  {\sffamily\bfseries\color{primaryBlue} 1. Sans-serif (Roboto / Arial)}:\\[2pt]
-  {\sffamily Đây là đoạn văn bản không chân hiện đại, gọn gàng và rất dễ đọc trên màn hình kỹ thuật số.}\\[8pt]
-  
-  % Serif preview
-  {\sffamily\bfseries\color{primaryBlue} 2. Serif (Georgia / Times New Roman)}:\\[2pt]
-  {\rmfamily Đây là đoạn văn bản có chân trang trọng, mang phong cách cổ điển báo chí và tài liệu chính thức.}\\[8pt]
-  
-  % Monospace preview
-  {\sffamily\bfseries\color{primaryBlue} 3. Monospace (Consolas / Courier New)}:\\[2pt]
-  {\ttfamily const greeting = "Hello World!"; // Ký tự rộng bằng nhau tuyệt đối}\\[8pt]
-  
-  % Cursive / Decorative text description
-  {\sffamily\bfseries\color{primaryBlue} 4. Cursive \& Fantasy (Chữ nghệ thuật \& Tiêu đề cách điệu)}:\\[2pt]
-  {\sffamily\small\color{purple!80!black}\textit{Chữ viết tay nghệ thuật (Cursive) và chữ cách điệu đậm nét (Fantasy) dùng tạo điểm nhấn Tooltip / Banner.}}
-\end{tcolorbox}
-\end{browserWindow}
+\subsubsection{2. Thuộc Tính font-size (Kích Thước Phông Chữ)}
+\label{sec:font_size}
 
-\textbf{6. Tóm Tắt Nhanh Cheatsheet Lựa Chọn Phông Chữ:}
+Thuộc tính \codeinline{font-size} dùng để đặt kích thước của font chữ. CSS cung cấp 3 nhóm đơn vị/từ khóa để thiết lập kích thước font:
 
-\begin{prettyTableBox}[Bảng Tóm Tắt Cheatsheet Lựa Chọn Loại Font Cho Dự Án]
+\begin{prettyTableBox}[Phân Loại Các Đơn Vị Giá Trị Của font-size]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{2.5cm}|>{\bfseries\color{accentOrange}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\ttfamily\color{accentOrange}\bfseries}p{2.8cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Loại font} & \thd{\sffamily Cảm giác chính thị giác} & \thd{\sffamily Trường hợp ứng dụng hàng đầu} \\
+\rowcolor{primaryBlue} \thd{\sffamily Phân loại đơn vị} & \thd{\sffamily Ký hiệu / Từ khóa} & \thd{\sffamily Mô tả kỹ thuật \& Đặc tính} \\
 \hline
-serif & Trang trọng, cổ điển, trang nhã. & Ấn phẩm in ấn, sách báo, luận văn học thuật. \\
+\multirow{3}{*}{\textbf{Đơn vị tuyệt đối}} & px (pixels) & Kích thước cố định, không thay đổi theo thiết lập của người dùng hoặc kích thước màn hình. \\
+\cline{2-3}
+ & pt (points) & Thường dùng trong in ấn (\codeinline{1pt = 1/72 inch}). \\
+\cline{2-3}
+ & in, cm, mm & Đơn vị độ dài vật lý, ít dùng trong thiết kế web. \\
 \hline
-sans-serif & Gọn gàng, hiện đại, thân thiện. & Trang web, giao diện UI/UX, ứng dụng Mobile. \\
+\multirow{6}{*}{\textbf{Đơn vị tương đối}} & em & Tương đối với kích thước font của phần tử cha trực tiếp. Ví dụ: Nếu thẻ cha có \codeinline{font-size: 16px}, thì \codeinline{1.5em} sẽ là \codeinline{24px}. Có thể bị ảnh hưởng bởi hiệu ứng tầng cascading. \\
+\cline{2-3}
+ & rem (root em) & Tương đối với kích thước font của phần tử gốc (\codeinline{<html>}). Lựa chọn tốt nhất để tạo hệ thống typography nhất quán, dễ quản lý toàn trang. \\
+\cline{2-3}
+ & \% (phần trăm) & Tương đối với kích thước font của phần tử cha. \\
+\cline{2-3}
+ & vw (viewport width) & Tương đối với chiều rộng khung nhìn (\codeinline{1vw = 1\%} chiều rộng viewport). \\
+\cline{2-3}
+ & vh (viewport height) & Tương đối với chiều cao khung nhìn (\codeinline{1vh = 1\%} chiều cao viewport). \\
+\cline{2-3}
+ & vmin, vmax & Tương đối với kích thước nhỏ nhất / lớn nhất của viewport. \\
 \hline
-monospace & Kỹ thuật, rõ ràng, chính xác. & Trình soạn thảo Code, terminal, bảng số liệu. \\
-\hline
-cursive & Nghệ thuật, mềm mại, tinh tế. & Thiệp mừng, chữ ký, banner trang trí nhẹ. \\
-\hline
-fantasy & Kỳ lạ, độc đáo, thu hút mạnh. & Tiêu đề quảng cáo đặc biệt, Poster, Game UI. \\
+\multirow{2}{*}{\textbf{Từ khóa tương đối}} & xx-small đến xx-large & Các mức kích thước tương đối so với font mặc định của trình duyệt. \\
+\cline{2-3}
+ & smaller, larger & Kích thước nhỏ hơn hoặc lớn hơn tương đối so với phần tử cha. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{7. Chuyên Đề System Font Stack Trong CSS (System-UI Masterclass):}
-\label{sec:system_font_stack}
+\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính font-size]
+\begin{lstlisting}[language=CSS3]
+p {
+  font-size: 16px; /* Kich thuoc co dinh pixel */
+}
 
-System Font (phông chữ hệ thống) là phông chữ mặc định được cài đặt sẵn trên hệ điều hành mà người dùng đang sử dụng (như Windows, macOS, iOS, Android, Linux). Khi bạn khai báo system font trong CSS, trình duyệt sẽ hiển thị văn bản bằng đúng phông chữ hệ thống đó, giúp giao diện trang web đồng bộ tuyệt đối với các thành phần của hệ điều hành (menu, tiêu đề cửa sổ, nút bấm hệ thống...).
+h2 {
+  font-size: 2em; /* Gap doi font-size cua phan tu cha */
+}
 
-\begin{conceptBox}[Khái Niệm Cốt Lõi Về System Font]
-\textbf{1. System Font Là Gì?}:
+body {
+  font-size: 18px;
+}
+
+.title {
+  font-size: 2.5rem; /* 2.5 lan font-size cua the html (root) */
+}
+
+.responsive-text {
+  font-size: 3vw; /* Kich thuoc tu dong thay doi theo chieu rong man hinh */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsubsection{3. Thuộc Tính font-weight (Trọng Lượng / Độ Đậm Phông Chữ)}
+\label{sec:font_weight}
+
+Thuộc tính \codeinline{font-weight} dùng để thiết lập độ đậm của chữ.
+
+\begin{conceptBox}[Các Giá Trị Của font-weight]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Khái niệm}: System Font là bộ phông chữ giao diện người dùng mặc định (\term{Native UI Font}) của hệ điều hành.
-    \item \textbf{Cơ chế hiển thị}: Trình duyệt truy xuất trực tiếp font chữ của hệ điều hành mà không cần tải bất kỳ tệp font nào từ máy chủ web hoặc dịch vụ bên ngoài (như Google Fonts).
+    \item \codeinline{normal}: Độ đậm tiêu chuẩn (tương đương với giá trị số \codeinline{400}).
+    \item \codeinline{bold}: Chữ in đậm (tương đương với giá trị số \codeinline{700}).
+    \item \codeinline{bolder}: Độ đậm lớn hơn so với phần tử cha.
+    \item \codeinline{lighter}: Độ đậm nhạt hơn so với phần tử cha.
+    \item \textbf{Giá trị số từ 100 đến 900} (theo bội số 100):
+    \begin{itemize}
+        \item \codeinline{100}: Thin (Cực mỏng)
+        \item \codeinline{200}: Extra Light / Ultra Light
+        \item \codeinline{300}: Light (Mỏng)
+        \item \codeinline{400}: Normal / Regular (Tiêu chuẩn)
+        \item \codeinline{500}: Medium
+        \item \codeinline{600}: Semi Bold / Demi Bold
+        \item \codeinline{700}: Bold (Đậm)
+        \item \codeinline{800}: Extra Bold / Ultra Bold (Cực đậm)
+        \item \codeinline{900}: Black / Heavy (Siêu đậm)
+    \end{itemize}
 \end{itemize}
-\textbf{2. Tài Liệu \& Nguồn Tham Khảo Chuẩn Kỹ Thuật}:
+\textit{Lưu ý: Không phải tất cả phông chữ đều hỗ trợ đủ 9 mức trọng lượng số từ 100 đến 900. Các giá trị phổ biến nhất là 400 (normal) và 700 (bold).}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính font-weight]
+\begin{lstlisting}[language=CSS3]
+p {
+  font-weight: normal; /* Tuong duong 400 */
+}
+
+h3 {
+  font-weight: bold; /* Tuong duong 700 */
+}
+
+.thin-text {
+  font-weight: 300; /* Font mong (Light) */
+}
+
+.extra-bold {
+  font-weight: 800; /* Font cuc dam (Extra Bold) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsubsection{4. Thuộc Tính font-style (Kiểu Phông Chữ Nghiêng)}
+\label{sec:font_style}
+
+Thuộc tính \codeinline{font-style} được sử dụng để thiết lập kiểu chữ nghiêng cho văn bản.
+
+\begin{prettyTableBox}[Các Giá Trị Của font-style]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa \& Cơ chế hoạt động} \\
+\hline
+normal & Văn bản ở dạng bình thường (không nghiêng). Mặc định. \\
+\hline
+italic & Văn bản kiểu nghiêng thực sự (trình duyệt sử dụng phiên bản phông chữ nghiêng dành riêng do nhà thiết kế font vẽ ra). \\
+\hline
+oblique & Văn bản nghiêng mô phỏng (trình duyệt tự động làm nghiêng các ký tự bằng thuật toán nếu font không có phiên bản italic thực sự). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính font-style]
+\begin{lstlisting}[language=CSS3]
+em {
+  font-style: italic; /* Dung phien ban Italic thuc su cua font */
+}
+
+.mock-italic {
+  font-style: oblique; /* Trinh duyet tu lam nghieng ky tu */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsubsection{5. Thuộc Tính font-variant (Biến Thể Phông Chữ Small-Caps)}
+\label{sec:font_variant}
+
+Thuộc tính \codeinline{font-variant} dùng để đặt các biến thể chữ hoa nhỏ (\term{small-caps}).
+
+\begin{conceptBox}[Giá Trị Của font-variant]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item Tham khảo cấu trúc chuỗi System Font Stack tại: \href{https://css-tricks.com/snippets/css/system-font-stack/}{\codeinline{CSS-Tricks System Font Stack}}.
-    \item Kiểm tra mức độ phổ biến của các phông chữ tại: \href{https://www.cssfontstack.com/}{\codeinline{CSS Font Stack}}.
+    \item \codeinline{normal}: Văn bản bình thường.
+    \item \codeinline{small-caps}: Tất cả các chữ cái viết thường sẽ được hiển thị dưới dạng chữ hoa nhưng với kích thước nhỏ hơn so với các chữ hoa ban đầu.
 \end{itemize}
 \end{conceptBox}
 
-\paragraph{Ưu Điểm Và Lý Do Nên Sử Dụng System Font:}
-
-\begin{prettyTableBox}[Bảng Phân Tích Chi Tiết Các Ưu Điểm Của System Font]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\bfseries\color{accentOrange}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Ưu điểm cốt lõi} & \thd{\sffamily Lý do kỹ thuật} & \thd{\sffamily Lợi ích trải nghiệm người dùng (UX)} \\
-\hline
-Tốc độ cực nhanh (Fast) & Không cần tải font từ web (Google Fonts / Custom Web Fonts). & Trang web hiển thị tức thì, loại bỏ hoàn toàn hiện tượng nhấp nháy chữ (\term{FOUT / FOIT}), tối ưu chỉ số Core Web Vitals. \\
-\hline
-Tương thích cao (High Compatibility) & Sử dụng phông chữ hệ thống được tối ưu hóa cho màn hình thiết bị. & Hiển thị chuẩn xác, thân thuộc và thân thiện với người dùng trên mọi hệ điều hành. \\
-\hline
-Thống nhất giao diện (UI Consistency) & Phông chữ giống hệt với giao diện hệ điều hành (OS/UI). & Giao diện trang web hòa nhập tự nhiên như một ứng dụng Native App của thiết bị. \\
-\hline
-Responsive tốt (High Adaptability) & Tự động tối ưu trên nhiều thiết bị và độ phân giải khác nhau. & Hiển thị sắc nét trên cả màn hình Retina / High-DPI và màn hình tiêu chuẩn. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\paragraph{Cách Sử Dụng system-ui Trong CSS (Cú Pháp Đơn Giản vs Fallback Đầy Đủ):}
-
-CSS Fonts Module Level 4 giới thiệu giá trị từ khóa \codeinline{system-ui}, cho phép gọi trực tiếp phông chữ mặc định của hệ điều hành hiện tại chỉ với một dòng mã.
-
-\begin{codeWindow}[1. Cú Pháp Đơn Giản Nhất Với system-ui (CSS Fonts Level 4)]
+\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính font-variant]
 \begin{lstlisting}[language=CSS3]
-/* Tu dong goi font mac dinh cua he dieu hanh hien tai */
-body {
-  font-family: system-ui;
+.small-caps-text {
+  font-variant: small-caps; /* Hien thi chu hoa nho (Small Caps) */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{prettyTableBox}[Danh Sách Phông Chữ Mặc Định (UI Font) Theo Từng Hệ Điều Hành]
+\subsubsection{6. Thuộc Tính line-height (Chiều Cao Dòng \& Khoảng Cách Dòng)}
+\label{sec:line_height}
+
+Thuộc tính \codeinline{line-height} dùng để thiết lập khoảng cách theo chiều đứng giữa các dòng văn bản.
+
+\begin{prettyTableBox}[Các Giá Trị Của line-height]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{4.2cm}|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Hệ điều hành (OS)} & \thd{\sffamily Font mặc định (UI Font)} & \thd{\sffamily Ghi chú đặc tính thị giác} \\
+\rowcolor{primaryBlue} \thd{\sffamily Kiểu giá trị} & \thd{\sffamily Mô tả \& Khuyên dùng} \\
 \hline
-macOS & San Francisco & Phông chữ tối giản, sắc nét trên màn hình Retina của Apple. \\
+normal & Giá trị mặc định của trình duyệt (thường khoảng \codeinline{1.2}). \\
 \hline
-iOS & San Francisco & Font chuẩn mực trên iPhone / iPad. \\
+Số không đơn vị (ví dụ: \codeinline{1.5}, \codeinline{1.6}) & Giá trị này sẽ được nhân với \codeinline{font-size} hiện tại của phần tử. \textbf{Đây là cách được khuyến nghị nhất} vì nó tỷ lệ thuận tuyệt đối với kích thước font và không bị lỗi đè chữ khi con thừa kế. \\
 \hline
-Windows 10+ & Segoe UI & Phông chữ giao diện chuẩn mực của Microsoft Windows. \\
+Đơn vị độ dài (px, em, rem) & Đặt chiều cao dòng cố định (ví dụ: \codeinline{30px}, \codeinline{1.8rem}). \\
 \hline
-Android & Roboto & Phông chữ mặc định hệ sinh thái Google / Android. \\
-\hline
-Ubuntu / Linux & Ubuntu & Phông chữ tự do chuẩn mực của hệ điều hành Ubuntu. \\
-\hline
-Older Windows (7 / XP / Vista) & Tahoma, Arial & Các phông chữ dự phòng cổ điển trên hệ điều hành Windows cũ. \\
+Phần trăm (\%) & Tương đối theo phần trăm của kích thước font-size hiện tại. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{codeWindow}[2. Chuỗi Khai Báo Dự Phòng Đầy Đủ (Full System Font Stack Fallback)]
+\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính line-height]
 \begin{lstlisting}[language=CSS3]
-/* Chuoi Fallback System Font Stack giup tuong thich tuyet doi moi trinh duyet & OS */
-body {
-  font-family:
-    -apple-system,       /* macOS & iOS (Safari / Apple WebKit) */
-    BlinkMacSystemFont,  /* Chrome & Opera tren macOS (Blink Engine) */
-    "Segoe UI",          /* Windows 10 / 11 */
-    Roboto,              /* Android */
-    Ubuntu,              /* Ubuntu Linux */
-    "Helvetica Neue",    /* macOS / iOS phien ban cu */
-    sans-serif;          /* Generic Fallback cuoi cung */
+p {
+  line-height: 1.6; /* Khoang cach dong se bang 1.6 lan kich thuoc font-size */
+}
+
+h4 {
+  line-height: 30px; /* Chieu cao dong co dinh 30px */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{tipBox}[Cơ Chế Hoạt Động Của Chuỗi Fallback Font]
-Trình duyệt sẽ duyệt danh sách từ trên xuống dưới và chọn phông chữ đầu tiên có sẵn trên hệ điều hành của người dùng. Nếu không tìm thấy font nào trong danh sách, trình duyệt sẽ tự động dự phòng xuống nhóm font tổng quát \codeinline{sans-serif}.
-\end{tipBox}
+\subsubsection{7. Thuộc Tính Viết Tắt font (Shorthand Property)}
+\label{sec:font_shorthand}
 
-\paragraph{Ví Dụ Thực Tế \& Kết Quả Hiển Thị System Font:}
+Thuộc tính viết tắt \codeinline{font} cho phép bạn đặt nhiều thuộc tính font trong một khai báo duy nhất. Thứ tự các giá trị là rất quan trọng và một số giá trị là bắt buộc.
 
-\begin{codeWindow}[Ví Dụ Mã Nguồn HTML \& CSS Sử Dụng System Font]
+\begin{warnBox}[Quy Tắc Cú Pháp Bắt Buộc Khi Dùng Shorthand font]
+\textbf{Cú pháp chuẩn}:
+\begin{center}
+\codeinline{font: [font-style] [font-variant] [font-weight] font-size[/line-height] font-family;}
+\end{center}
+\textbf{Các lưu ý kỹ thuật quan trọng}:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{font-size} và \codeinline{font-family} là \textbf{bắt buộc phải có}. Nếu thiếu một trong hai, toàn bộ khai báo \codeinline{font} sẽ bị trình duyệt coi là vô hiệu (invalid).
+    \item Nếu \codeinline{line-height} được chỉ định, nó bắt buộc phải nằm ngay sau \codeinline{font-size} và được phân tách bằng dấu gạch chéo (\codeinline{/}) (ví dụ: \codeinline{16px/1.5}).
+    \item Các giá trị tùy chọn (\codeinline{font-style}, \codeinline{font-variant}, \codeinline{font-weight}) bắt buộc phải đứng trước \codeinline{font-size}. Nếu bỏ qua, chúng sẽ tự động đặt về giá trị mặc định (\codeinline{normal}).
+\end{enumerate}
+\end{warnBox}
+
+\begin{codeWindow}[Ví Dụ Cú Pháp Shorthand font]
+\begin{lstlisting}[language=CSS3]
+.shorthand-text {
+  font: italic small-caps bold 16px/1.5 "Times New Roman", serif;
+  /* Tuong duong vo'i khai bao dai:
+     font-style: italic;
+     font-variant: small-caps;
+     font-weight: bold;
+     font-size: 16px;
+     line-height: 1.5;
+     font-family: "Times New Roman", serif;
+  */
+}
+
+.another-shorthand {
+  font: 24px Arial, sans-serif; /* Chi co font-size va font-family bat buoc */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Kỹ Thuật Nhúng Font Ngoại Vào CSS (External Web Fonts)}
+\label{sec:web_fonts_embedding}
+
+Để sử dụng các phông chữ không phải là font hệ thống phổ biến (Web-Safe Fonts), bạn cần nhúng chúng vào trang web của mình. Có 3 phương pháp chính:
+
+\subsubsection{1. Nhúng Font Qua Google Fonts (Phổ Biến Nhất)}
+Google Fonts là thư viện font miễn phí lớn nhất thế giới do Google phát triển.
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Bước 1}: Truy cập \codeinline{fonts.google.com}.
+    \item \textbf{Bước 2}: Chọn các font và biến thể style cần dùng (Regular 400, Bold 700, Italic, v.v.).
+    \item \textbf{Bước 3}: Google Fonts sẽ cung cấp đoạn mã \codeinline{<link>} chèn vào thẻ \codeinline{<head>} của HTML hoặc đoạn \codeinline{@import} đặt ở đầu file CSS.
+\end{enumerate}
+
+\begin{codeWindow}[Ví Dụ Nhúng Google Fonts Trong HTML \& CSS]
 \begin{lstlisting}[language=HTML5]
+<!-- Cach 1: Nhung qua the <link> trong file HTML -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Vi Du System Font</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      color: #212529;
-      padding: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Fonts Example</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Tiêu đề theo system font</h1>
-  <p>Đây là đoạn văn bản sử dụng font mặc định của hệ điều hành bạn đang dùng.</p>
+    <p>This text uses Roboto font.</p>
 </body>
 </html>
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế Của System Font Trên Trình Duyệt]
-\sffamily\small
-\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=12pt, bottom=12pt, left=14pt, right=14pt]
-  {\fontsize{18}{22}\selectfont\bfseries\color{primaryBlue} Tiêu đề theo system font} \par\vspace{6pt}
-  {\fontsize{12}{16}\selectfont Đây là đoạn văn bản sử dụng font mặc định của hệ điều hành bạn đang dùng. Giao diện tự động hòa nhập với phông chữ hệ thống (San Francisco trên macOS/iOS, Segoe UI trên Windows, Roboto trên Android).}
-\end{tcolorbox}
-\end{browserWindow}
+\begin{codeWindow}[Cách Nhúng Google Fonts Trực Tiếp Trong CSS Với @import]
+\begin{lstlisting}[language=CSS3]
+/* Cach 2: Nhung bang @import o dau file CSS */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-\paragraph{Lưu Ý Quan Trọng Khi Sử Dụng System Font:}
+body {
+  font-family: 'Roboto', sans-serif;
+}
+\end{lstlisting}
+\end{codeWindow}
 
-\begin{prettyTableBox}[Bảng Phân Tích Lưu Ý \& Giải Thích Kỹ Thuật Khi Dùng System Font]
-\rowcolors{2}{white}{primaryBlue!4}
+\subsubsection{2. Sử Dụng Quy Tắc @font-face (Tự Host Font Trên Server)}
+Đây là giải pháp tự host các tệp font trực tiếp trên máy chủ của bạn. Bạn cần cung cấp các định dạng tệp font khác nhau để đảm bảo trình duyệt cũ và mới đều tải được.
+
+\paragraph{Các Định Dạng Tệp Font Web Phổ Biến:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{.woff2} (Web Open Font Format 2): Phiên bản nén thuật toán Brotli tốt hơn WOFF tới 30\%, được khuyên dùng hàng đầu cho web hiện đại.
+    \item \codeinline{.woff} (Web Open Font Format): Đạt chuẩn khuyến nghị cho web.
+    \item \codeinline{.ttf} (TrueType Font): Hỗ trợ tốt trên các hệ điều hành và trình duyệt cũ.
+    \item \codeinline{.otf} (OpenType Font): Tương tự TTF với các tính năng typography nâng cao.
+    \item \codeinline{.svg} (SVG Font): Định dạng font vector cũ cho thiết bị di động iOS cũ.
+    \item \codeinline{.eot} (Embedded OpenType): Định dạng dành riêng cho Internet Explorer (IE6-IE8) cũ.
+\end{itemize}
+
+\begin{codeWindow}[Cú Pháp Khai Báo Quy Tắc @font-face]
+\begin{lstlisting}[language=CSS3]
+@font-face {
+  font-family: 'MyCustomFont'; /* Ten custom font ban tu dat */
+  src: url('fonts/MyCustomFont.woff2') format('woff2'),
+       url('fonts/MyCustomFont.woff') format('woff'),
+       url('fonts/MyCustomFont.ttf') format('truetype');
+  font-weight: normal; /* Dinh nghia rieng cho tung trong luong font */
+  font-style: normal;
+  font-display: swap; /* Khuyen dung: Cach hien thi font trong khi cho tai */
+}
+
+body {
+  font-family: 'MyCustomFont', sans-serif;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Phân Tích Chi Tiết Thuộc Tính font-display: swap]
+Thuộc tính \codeinline{font-display: swap;} cực kỳ quan trọng cho hiệu suất trải nghiệm người dùng (UX). Nó cho phép trình duyệt hiển thị văn bản bằng phông chữ dự phòng (\term{fallback font}) ngay lập tức và sau đó "hoán đổi" (\term{swap}) sang phông chữ tùy chỉnh khi tệp font tải xong.
+Các giá trị khác của \codeinline{font-display}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{auto}: Mặc định của trình duyệt (thường ẩn chữ tạm thời).
+    \item \codeinline{block}: Ẩn chữ tối đa 3 giây chờ font tải xong (hiện tượng FOIT).
+    \item \codeinline{fallback}: Ẩn chữ cực ngắn (100ms), nếu font không tải xong trong 3s sẽ dùng luôn font dự phòng.
+    \item \codeinline{optional}: Trình duyệt tự quyết định dựa trên tốc độ mạng của người dùng.
+\end{itemize}
+\end{tipBox}
+
+\subsubsection{3. Nhúng Font Qua Adobe Fonts (Typekit)}
+Nếu sở hữu tài khoản Adobe Creative Cloud, bạn có thể sử dụng thư viện font cao cấp Adobe Fonts. Quá trình nhúng tương tự như Google Fonts thông qua đoạn mã Script / HTML chèn vào trang.
+
+\subsection{Mẹo \& Best Practices Tối Ưu Typography Trong CSS}
+
+\begin{prettyTableBox}[Tổng Hợp Thực Hành Tốt Nhất (Best Practices) Cho CSS Typography]
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Lưu ý kỹ thuật} & \thd{\sffamily Giải thích chi tiết \& Giải pháp} \\
+\rowcolor{primaryBlue} \thd{\sffamily Mục tiêu tối ưu} & \thd{\sffamily Giải pháp \& Kỹ thuật khuyến nghị} \\
 \hline
-Không đồng nhất giữa các hệ điều hành & Mỗi hệ điều hành (macOS, Windows, Android) sử dụng một phông chữ hệ thống riêng, khiến giao diện văn bản có sự chênh lệch nhẹ về nét chữ giữa các thiết bị khác nhau. \\
+\multirow{4}{*}{\textbf{Hiệu suất (Performance)}} & \textbf{Giảm số lượng font và style}: Chỉ nhúng những font và style (Regular 400, Bold 700, Italic) thực sự cần thiết trong thiết kế. \\
+\cline{2-2}
+ & \textbf{Sử dụng \codeinline{font-display: swap;}}: Tránh hiện tượng nhấp nháy chữ trắng (\term{FOIT}) và cải thiện điểm chỉ số Core Web Vitals (LCP, CLS). \\
+\cline{2-2}
+ & \textbf{Tối ưu hóa tệp font (Subsetting)}: Sử dụng công cụ như Font Squirrel Webfont Generator để nén tệp font WOFF2 và loại bỏ các ký tự không dùng đến. \\
+\cline{2-2}
+ & \textbf{Sử dụng \codeinline{preconnect} / \codeinline{preload}}: \codeinline{<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>} và \codeinline{<link rel="preload" href="..." as="style">}. \codeinline{preconnect} thiết lập kết nối sớm đến máy chủ font, \codeinline{preload} yêu cầu trình duyệt tải tài nguyên sớm hơn. \\
 \hline
-Không thể chọn chính xác từng glyph / font cụ thể & Phụ thuộc hoàn toàn vào hệ điều hành của người dùng, nhà phát triển không thể can thiệp tùy chỉnh chi tiết từng nét glyph cố định. \\
+\multirow{4}{*}{\textbf{Khả năng đọc (Readability)}} & \textbf{Kích thước font phù hợp}: Đảm bảo kích thước chữ đủ lớn trên mọi thiết bị. Kích thước cơ bản tiêu chuẩn trên Desktop thường là \codeinline{16px}. \\
+\cline{2-2}
+ & \textbf{Chiều cao dòng tiêu chuẩn (\codeinline{line-height})}: Đặt \codeinline{line-height} từ \codeinline{1.5} đến \codeinline{1.8} để tạo khoảng cách đọc thoải mái, tránh mỏi mắt. \\
+\cline{2-2}
+ & \textbf{Độ tương phản màu sắc}: Đảm bảo màu chữ có đủ độ tương phản (\term{Contrast Ratio}) với màu nền theo tiêu chuẩn WCAG. \\
+\cline{2-2}
+ & \textbf{Thuộc tính \codeinline{text-rendering}}: Cải thiện hiển thị nét chữ trên một số trình duyệt bằng cách áp dụng \codeinline{text-rendering: optimizeLegibility;} (hoặc \codeinline{geometricPrecision}, \codeinline{optimizeSpeed}). \\
 \hline
-Không hỗ trợ tốt các hệ thống cũ & Từ khóa \codeinline{system-ui} đòi hỏi trình duyệt hiện đại (Chrome 56+, Firefox 43+, Safari 11+). Bắt buộc phải kết hợp chuỗi fallback đầy đủ (\codeinline{-apple-system, "Segoe UI", Roboto...}) để đảm bảo hiển thị ổn định trên thiết bị cũ. \\
+\multirow{2}{*}{\textbf{Đáp ứng (Responsive Design)}} & \textbf{Đơn vị tương đối}: Sử dụng \codeinline{rem}, \codeinline{em}, \codeinline{vw} cho \codeinline{font-size} để font tự động co giãn linh hoạt theo màn hình. \\
+\cline{2-2}
+ & \textbf{Media Queries}: Điều chỉnh \codeinline{font-size} cho từng mốc màn hình cụ thể bằng \codeinline{@media (max-width: 768px) \{ body \{ font-size: 14px; \} h1 \{ font-size: 2rem; \} \}}. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{Tổng Kết Chuyên Đề System Font trong CSS:}
+\subsection{Bảng Cheatsheet Tóm Tắt Nhanh Các Thuộc Tính Font Trong CSS}
 
-\begin{prettyTableBox}[Bảng Tổng Kết Kiến Thức Cốt Lõi Về System Font]
-\rowcolors{2}{white}{primaryBlue!4}
+\begin{prettyTableBox}[Bảng Tra Cứu Cheatsheet Nhanh Các Thuộc Tính Font Trong CSS]
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{2.6cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{4.0cm}|>{\ttfamily\color{accentOrange}}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính / Khái niệm} & \thd{\sffamily Ý nghĩa \& Giá trị sử dụng} \\
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Chức năng chính} & \thd{\sffamily Các giá trị chấp nhận} & \thd{\sffamily Ví dụ minh họa CSS} \\
 \hline
-system-ui & Gọi trực tiếp phông chữ giao diện mặc định của hệ điều hành hiện tại. \\
+font-family & Chọn họ phông chữ cho văn bản. & Danh sách font chữ (ưu tiên từ trái qua phải, kết thúc bằng generic family). & font-family: Arial, sans-serif; \\
 \hline
-font-family fallback & Chuỗi phông chữ dự phòng đảm bảo hiển thị ổn định khi trình duyệt cũ không hỗ trợ \codeinline{system-ui}. \\
+font-size & Đặt kích thước chữ. & px, em, rem, \%, vw, vh, larger, smaller, xx-small...xx-large. & font-size: 16px; \\
 \hline
-Ưu điểm vượt trội & Tốc độ tải cực nhanh (không tốn dung lượng mạng), giao diện thân thuộc với OS, hiệu suất cao. \\
+font-weight & Đặt độ đậm của chữ. & normal, bold, lighter, bolder, hoặc số từ 100 đến 900. & font-weight: bold; \\
 \hline
-Khuyết điểm hạn chế & Không kiểm soát chi tiết 100\% về kiểu dáng chữ cố định trên mọi thiết bị người dùng. \\
+font-style & Đặt kiểu chữ nghiêng. & normal, italic, oblique. & font-style: italic; \\
+\hline
+font-variant & Đặt biến thể chữ hoa nhỏ. & normal, small-caps. & font-variant: small-caps; \\
+\hline
+line-height & Đặt chiều cao dòng văn bản. & normal, số không đơn vị (1.5), px, em, rem, \%. & line-height: 1.6; \\
+\hline
+font & Thuộc tính viết tắt shorthand. & [style] [variant] [weight] size[/line-height] family. & font: 16px/1.5 Arial, sans-serif; \\
+\hline
+@font-face & Quy tắc nhúng font ngoài tự host. & Tệp font với src, url(), format(), font-display. & @font-face \{ font-family: 'Custom'; src: url('font.woff2') format('woff2'); \} \\
+\hline
+font-kerning & Điều chỉnh khoảng cách giữa các cặp ký tự. & auto, normal, none. & font-kerning: normal; \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
+\subsection{Đọc Thêm: Variable Fonts, CSS Font Loading API \& Text Rendering Engine}
+\label{sec:doc_them_css_fonts}
 
-% ==============================================================================
+\begin{conceptBox}[Mở Rộng Kiến Thức Nâng Cao Về Typography Trong CSS]
+\textbf{1. Variable Fonts (Font Biến Thể CSS Fonts Level 4)}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khái niệm}: Variable Font cho phép đóng gói toàn bộ các trọng lượng (\codeinline{wght}), độ rộng (\codeinline{wdth}), độ nghiêng (\codeinline{slnt}) vào trong \textbf{chỉ 1 tệp font duy nhất} (.woff2).
+    \item \textbf{Cú pháp khai báo trong CSS}:
+\begin{lstlisting}[language=CSS3]
+h1 {
+  font-family: 'Roboto Flex', sans-serif;
+  font-variation-settings: 'wght' 650, 'wdth' 115, 'slnt' -5;
+}
+\end{lstlisting}
+    \item \textbf{Lợi ích}: Tiết kiệm tới 80\% dung lượng tải mạng so với việc tải 10 tệp font tĩnh riêng biệt!
+\end{itemize}
+
+\textbf{2. CSS Font Loading API Trong JavaScript}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Giúp lập trình viên chủ động kiểm soát trạng thái tải font bằng JavaScript thông qua đối tượng \codeinline{document.fonts}:
+\begin{lstlisting}[language=JavaScript]
+document.fonts.load('1em Roboto').then(() => {
+  console.log('Font Roboto da san sang hien thi!');
+});
+\end{lstlisting}
+\end{itemize}
+
+\textbf{3. Ngăn Trình Duyệt Tự Sinh Font Giả (\codeinline{font-synthesis})}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Khi font không có bản Bold hoặc Italic thực sự, trình duyệt có thể tự bóp méo ký tự để làm nghiêng/đậm giả. Để ngăn chặn điều này:
+\begin{lstlisting}[language=CSS3]
+body {
+  font-synthesis: none; /* Khong cho trinh duyet tu lam gia chu dam / nghieng */
+}
+\end{lstlisting}
+\end{itemize}
+\end{conceptBox}
 % MỤC 5: PHÂN LOẠI BỘ CHỌN CSS (CSS SELECTORS MASTERCLASS)
 % ==============================================================================
 \section{Các Loại Selectors Trong CSS (CSS Selectors Masterclass)}
