@@ -3387,21 +3387,23 @@ p.black      { font-weight: 900; }     /* Black */
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị: Mô Phỏng Trực Quan Thang Độ Đậm 9 Mức (100 - 900)]
-\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} Minh họa phân cấp độ đậm trực quan 9 mức (Sắc độ \& Nét chữ):}\par\vspace{8pt}
+\begin{browserWindow}[Kết Quả Hiển Thị: Minh Họa Trực Quan Phân Cấp Sắc Độ Đậm Nhạt (font-weight)]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=blue!30, boxrule=1pt, top=12pt, bottom=12pt, left=16pt, right=16pt]
+  {\sffamily\bfseries\color{primaryBlue}\large Kết quả mô phỏng độ đậm nhạt từng dòng văn bản:}\par\vspace{10pt}
   \begin{tabular}{@{}l l@{}}
-    {\sffamily\fontsize{12}{15}\selectfont\color{gray!50} Chữ rất mỏng (Thin 100)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 100;}} \\ [4pt]
-    {\sffamily\fontsize{12}{15}\selectfont\color{gray!70} Chữ cực nhẹ (Extra Light 200)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 200;}} \\ [4pt]
-    {\sffamily\fontsize{12}{15}\selectfont\color{gray!88} Chữ mỏng (Light 300)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 300;}} \\ [4pt]
-    {\sffamily\fontsize{12}{15}\selectfont\color{darkText} Chữ bình thường (Normal 400)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: normal; (400)}} \\ [4pt]
-    {\sffamily\fontsize{12}{15}\selectfont\color{black}\special{pdf:literal q 2 Tr 0.2 w}Chữ trung bình (Medium 500)\special{pdf:literal Q}} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 500;}} \\ [4pt]
-    {\sffamily\fontsize{12}{15}\selectfont\color{black}\special{pdf:literal q 2 Tr 0.4 w}Chữ đậm vừa (Semi Bold 600)\special{pdf:literal Q}} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 600;}} \\ [4pt]
-    {\sffamily\bfseries\fontsize{12}{15}\selectfont\color{black} Chữ đậm (Bold 700)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: bold; (700)}} \\ [4pt]
-    {\sffamily\bfseries\fontsize{12}{15}\selectfont\color{black}\special{pdf:literal q 2 Tr 0.6 w}Chữ rất đậm (Extra Bold 800)\special{pdf:literal Q}} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 800;}} \\ [4pt]
-    {\sffamily\bfseries\fontsize{12}{15}\selectfont\color{black}\special{pdf:literal q 2 Tr 0.9 w}Chữ siêu đậm (Black 900)\special{pdf:literal Q}} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 900;}} \\
-  \end{tabular}\par\vspace{8pt}
-  {\sffamily\small\color{gray!80} \textbf{Mẹo thực hành}: Sử dụng các phông chữ đa trọng lượng như \codeinline{Roboto}, \codeinline{Inter}, \codeinline{Poppins} hoặc \codeinline{Open Sans} từ Google Fonts để trình duyệt hiển thị nét chữ siêu mỏng và siêu đậm chuẩn xác nhất.}
+    {\sffamily\fontsize{13}{17}\selectfont\color{blue!80!black} Chữ bình thường (normal).}  & {\sffamily\small\color{gray!70} \codeinline{font-weight: normal;}} \\ [5pt]
+    {\sffamily\bfseries\fontsize{13}{17}\selectfont\color{blue!90!black} Chữ đậm (bold).}    & {\sffamily\small\color{gray!70} \codeinline{font-weight: bold;}} \\ [5pt]
+    {\sffamily\bfseries\fontsize{13}{17}\selectfont\color{blue!90!black}\special{pdf:literal q 2 Tr 0.3 w}Chữ đậm hơn cha (bolder).\special{pdf:literal Q}}  & {\sffamily\small\color{gray!70} \codeinline{font-weight: bolder;}} \\ [5pt]
+    {\sffamily\fontsize{13}{17}\selectfont\color{blue!25!white} Chữ nhạt hơn cha (lighter).} & {\sffamily\small\color{gray!70} \codeinline{font-weight: lighter;}} \\ [5pt]
+    {\sffamily\fontsize{13}{17}\selectfont\color{blue!30!white} Chữ rất mỏng (100).}     & {\sffamily\small\color{gray!70} \codeinline{font-weight: 100;}} \\ [5pt]
+    {\sffamily\fontsize{13}{17}\selectfont\color{blue!45!white} Chữ cực nhẹ (200).}     & {\sffamily\small\color{gray!70} \codeinline{font-weight: 200;}} \\ [5pt]
+    {\sffamily\fontsize{13}{17}\selectfont\color{blue!65!black} Chữ mỏng (300).}     & {\sffamily\small\color{gray!70} \codeinline{font-weight: 300;}} \\ [5pt]
+    {\sffamily\bfseries\fontsize{13}{17}\selectfont\color{blue!90!black} Chữ trung bình (500).}     & {\sffamily\small\color{gray!70} \codeinline{font-weight: 500;}} \\ [5pt]
+    {\sffamily\bfseries\fontsize{13}{17}\selectfont\color{blue!95!black}\special{pdf:literal q 2 Tr 0.3 w}Chữ đậm vừa (600).\special{pdf:literal Q}}     & {\sffamily\small\color{gray!70} \codeinline{font-weight: 600;}} \\ [5pt]
+    {\sffamily\bfseries\fontsize{13}{17}\selectfont\color{blue!95!black}\special{pdf:literal q 2 Tr 0.6 w}Chữ rất đậm (800).\special{pdf:literal Q}}     & {\sffamily\small\color{gray!70} \codeinline{font-weight: 800;}} \\ [5pt]
+    {\sffamily\bfseries\fontsize{13}{17}\selectfont\color{blue!100!black}\special{pdf:literal q 2 Tr 0.9 w}Chữ siêu đậm (900).\special{pdf:literal Q}}     & {\sffamily\small\color{gray!70} \codeinline{font-weight: 900;}} \\
+  \end{tabular}\par\vspace{10pt}
+  {\sffamily\small\color{gray!80} \textbf{Ghi chú}: Khi áp dụng font chữ đa biến thể như \codeinline{Roboto}, \codeinline{Inter}, hoặc \codeinline{Poppins}, các mức độ đậm nhạt từ siêu mỏng (100) đến siêu đậm (900) sẽ hiển thị có sự phân cấp nét chữ cực kỳ rõ rệt.}
 \end{tcolorbox}
 \end{browserWindow}
 
