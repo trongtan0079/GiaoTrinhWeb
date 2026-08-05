@@ -3278,65 +3278,277 @@ body {
 \end{tcolorbox}
 \end{browserWindow}
 
-\subsubsection{3. Thuộc Tính font-weight (Trọng Lượng / Độ Đậm Phông Chữ)}
+\subsubsection{3. Thuộc Tính font-weight (Trọng Lượng / Độ Đậm Phông Chữ MASTERCLASS)}
 \label{sec:font_weight}
 
-Thuộc tính \codeinline{font-weight} dùng để thiết lập độ đậm của chữ.
+\begin{conceptBox}[Khái Niệm Cốt Lõi Về Thuộc Tính font-weight]
+Thuộc tính \codeinline{font-weight} trong CSS dùng để xác định \textbf{độ đậm (trọng lượng) của chữ}. Nó giúp bạn linh hoạt biến đổi văn bản từ mỏng nhẹ, bình thường, đậm đến siêu đậm tùy thuộc vào mục đích thiết kế giao diện và phân cấp thị giác (\term{Visual Hierarchy}).
 
-\begin{conceptBox}[Các Giá Trị Của font-weight]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{normal}: Độ đậm tiêu chuẩn (tương đương với giá trị số \codeinline{400}).
-    \item \codeinline{bold}: Chữ in đậm (tương đương với giá trị số \codeinline{700}).
-    \item \codeinline{bolder}: Độ đậm lớn hơn so với phần tử cha.
-    \item \codeinline{lighter}: Độ đậm nhạt hơn so với phần tử cha.
-    \item \textbf{Giá trị số từ 100 đến 900} (theo bội số 100):
-    \begin{itemize}
-        \item \codeinline{100}: Thin (Cực mỏng)
-        \item \codeinline{200}: Extra Light / Ultra Light
-        \item \codeinline{300}: Light (Mỏng)
-        \item \codeinline{400}: Normal / Regular (Tiêu chuẩn)
-        \item \codeinline{500}: Medium
-        \item \codeinline{600}: Semi Bold / Demi Bold
-        \item \codeinline{700}: Bold (Đậm)
-        \item \codeinline{800}: Extra Bold / Ultra Bold (Cực đậm)
-        \item \codeinline{900}: Black / Heavy (Siêu đậm)
-    \end{itemize}
-\end{itemize}
-\textit{Lưu ý: Không phải tất cả phông chữ đều hỗ trợ đủ 9 mức trọng lượng số từ 100 đến 900. Các giá trị phổ biến nhất là 400 (normal) và 700 (bold).}
+\paragraph{Cú Pháp Khai Báo Standard:}
+\begin{codeWindow}[Cú Pháp Định Dạng font-weight]
+\begin{lstlisting}[language=CSS3]
+selector {
+  font-weight: value;
+}
+\end{lstlisting}
+\end{codeWindow}
 \end{conceptBox}
 
-\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính font-weight]
+\subsection*{I. Các Nhóm Giá Trị Của font-weight}
+
+Trong CSS, \codeinline{font-weight} nhận hai nhóm giá trị chính: \textbf{Giá trị từ khóa (Keyword Values)} và \textbf{Giá trị số (Numeric Values)}.
+
+\paragraph{1. Giá Trị Từ Khóa (Keyword Values):}
+
+\begin{prettyTableBox}[Bảng Tra Cứu Các Giá Trị Từ Khóa Của font-weight]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\color{primaryBlue}\bfseries}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash\bfseries\color{accentOrange}}p{3.8cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị từ khóa} & \thd{\sffamily Ý nghĩa \& Cảm nhận thị giác} & \thd{\sffamily Giá trị số tương đương} \\
+\hline
+normal & Độ đậm mặc định của font chữ. & 400 \\
+\hline
+bold & Chữ in đậm tiêu chuẩn. & 700 \\
+\hline
+bolder & Làm chữ \textbf{đậm hơn} so với phần tử cha trực tiếp. & Tùy thuộc vào phần tử cha \\
+\hline
+lighter & Làm chữ \textbf{nhẹ (mỏng) hơn} so với phần tử cha trực tiếp. & Tùy thuộc vào phần tử cha \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{2. Giá Trị Số (Numeric Values Từ 100 Đến 900):}
+
+CSS quy định thang độ đậm theo 9 mức số nguyên (bội số của 100 từ $100 \rightarrow 900$):
+
+\begin{prettyTableBox}[Bảng Thang Trọng Lượng Số (100 - 900) \& Ứng Dụng Thực Tế]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\color{primaryBlue}\bfseries}p{1.8cm}|>{\raggedright\arraybackslash\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash\color{secondaryTeal}}p{4.2cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Mức số} & \thd{\sffamily Tên gọi chuẩn (Name)} & \thd{\sffamily Đánh giá mức độ đậm} & \thd{\sffamily Thường dùng cho thành phần} \\
+\hline
+100 & Thin & Mỏng nhất (cực mỏng) & Giao diện nhẹ nhàng, thiết kế sang trọng \\
+\hline
+200 & Extra Light / Ultra Light & Rất mỏng & Thẻ tiêu đề phụ trang nhã \\
+\hline
+300 & Light & Mỏng & Phụ đề, đoạn văn mô tả nhỏ \\
+\hline
+400 & Normal / Regular & Bình thường (mặc định) & Văn bản nội dung chính (Body text) \\
+\hline
+500 & Medium & Trung bình (hơi đậm) & Danh mục thanh điều hướng, tiêu đề nhỏ \\
+\hline
+600 & Semi Bold / Demi Bold & Đậm vừa & Nhấn mạnh văn bản quan trọng nhẹ \\
+\hline
+700 & Bold & Đậm & Tiêu đề chính (\codeinline{<h1>} - \codeinline{<h3>}), in đậm nút bấm \\
+\hline
+800 & Extra Bold & Rất đậm & Tiêu đề nổi bật, bài viết đặc biệt \\
+\hline
+900 & Black / Heavy & Siêu đậm (rất dày) & Logo, Banner, tiêu điểm thị giác mạnh \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{warnBox}[Lưu Ý Quan Trọng Về Sự Hỗ Trợ Phông Chữ]
+\textbf{Không phải phông chữ nào cũng hỗ trợ đầy đủ 9 mức trọng lượng!} Nhiều phông chữ hệ thống mặc định (như Arial, Times New Roman) chỉ có 2 mức: \codeinline{normal} (400) và \codeinline{bold} (700). Để sử dụng mượt mà các độ đậm từ 100 đến 900, bạn bắt buộc phải chọn các font đa trọng lượng (\term{Multi-weight fonts}) như: \codeinline{Roboto}, \codeinline{Poppins}, \codeinline{Inter}, \codeinline{Open Sans}, \codeinline{Montserrat}, \codeinline{Lato}.
+\end{warnBox}
+
+\subsection*{II. Ví Dụ Minh Họa Tất Cả Các Giá Trị font-weight}
+
+\begin{codeWindow}[File style.css -- Định Kiểu Thang Độ Đậm Tất Cả Các Lớp]
 \begin{lstlisting}[language=CSS3]
+p.normal     { font-weight: normal; }   /* 400 */
+p.bold       { font-weight: bold; }     /* 700 */
+p.bolder     { font-weight: bolder; }   /* Dam hon cha */
+p.lighter    { font-weight: lighter; }  /* Nhe hon cha */
+
+p.thin       { font-weight: 100; }     /* Thin */
+p.extra-light{ font-weight: 200; }     /* Extra Light */
+p.light      { font-weight: 300; }     /* Light */
+p.medium     { font-weight: 500; }     /* Medium */
+p.semi-bold  { font-weight: 600; }     /* Semi Bold */
+p.extra-bold { font-weight: 800; }     /* Extra Bold */
+p.black      { font-weight: 900; }     /* Black */
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[File index.html -- Cấu Trúc Khung Thẻ Văn Bản]
+\begin{lstlisting}[language=HTML5]
+<p class="normal">Chuu binh thuong (normal - 400).</p>
+<p class="bold">Chuu dam (bold - 700).</p>
+<p class="bolder">Chuu dam hon cha (bolder).</p>
+<p class="lighter">Chuu nhat hon cha (lighter).</p>
+<p class="thin">Chuu rat mong (100).</p>
+<p class="extra-light">Chuu cuc nhe (200).</p>
+<p class="light">Chuu mong (300).</p>
+<p class="medium">Chuu trung binh (500).</p>
+<p class="semi-bold">Chuu dam vua (600).</p>
+<p class="extra-bold">Chuu rat dam (800).</p>
+<p class="black">Chuu sieu dam (900).</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Thang Độ Đậm Trực Quan Từ 100 Đến 900]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Minh họa độ đậm văn bản trên trình duyệt:}\par\vspace{8pt}
+  \begin{tabular}{@{}l l@{}}
+    {\sffamily\fontsize{12}{15}\selectfont Chữ rất mỏng (Thin 100)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 100;}} \\ [3pt]
+    {\sffamily\fontsize{12}{15}\selectfont Chữ cực nhẹ (Extra Light 200)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 200;}} \\ [3pt]
+    {\sffamily\fontsize{12}{15}\selectfont Chữ mỏng (Light 300)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 300;}} \\ [3pt]
+    {\sffamily\fontsize{12}{15}\selectfont Chữ bình thường (Normal 400)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: normal;}} \\ [3pt]
+    {\sffamily\fontsize{12}{15}\selectfont\textbf{Chữ trung bình (Medium 500)}} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 500;}} \\ [3pt]
+    {\sffamily\fontsize{12}{15}\selectfont\textbf{Chữ đậm vừa (Semi Bold 600)}} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 600;}} \\ [3pt]
+    {\sffamily\bfseries\fontsize{12}{15}\selectfont Chữ đậm (Bold 700)} & {\sffamily\small\color{gray!70} \codeinline{font-weight: bold;}} \\ [3pt]
+    {\sffamily\bfseries\fontsize{12}{15}\selectfont\textbf{Chữ rất đậm (Extra Bold 800)}} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 800;}} \\ [3pt]
+    {\sffamily\bfseries\fontsize{12}{15}\selectfont\textbf{Chữ siêu đậm (Black 900)}} & {\sffamily\small\color{gray!70} \codeinline{font-weight: 900;}} \\
+  \end{tabular}\par\vspace{6pt}
+  {\sffamily\small\color{gray!70} → Áp dụng với phông chữ đa trọng lượng như \codeinline{Roboto} hoặc \codeinline{Inter} để phân biệt rõ từng nấc độ đậm.}
+\end{tcolorbox}
+\end{browserWindow}
+
+\subsection*{III. Kỹ Thuật Kết Hợp font-weight Với Font Ngoại Đa Trọng Lượng}
+
+Nếu bạn muốn sử dụng linh hoạt các độ đậm khác nhau, hãy nhúng đầy đủ biến thể \codeinline{wght} từ Google Fonts.
+
+\begin{codeWindow}[Mã HTML Nhúng Google Fonts Đa Trọng Lượng Đầy Đủ]
+\begin{lstlisting}[language=HTML5]
+<!-- Nhung Google Fonts Roboto voi day du cac muc wght tu 100 den 900 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap">
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[File style.css -- Áp Dụng Trọng Lượng Cho Các Thẻ Văn Bản]
+\begin{lstlisting}[language=CSS3]
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  font-weight: 900; /* Sieu dam cho Tieu de lon */
+}
+
+h2 {
+  font-weight: 700; /* Dam cho Tieu de phu */
+}
+
 p {
-  font-weight: normal; /* Tuong duong 400 */
+  font-weight: 400; /* Binh thuong cho Noi dung van ban */
 }
 
-h3 {
-  font-weight: bold; /* Tuong duong 700 */
-}
-
-.thin-text {
-  font-weight: 300; /* Font mong (Light) */
-}
-
-.extra-bold {
-  font-weight: 800; /* Font cuc dam (Extra Bold) */
+span.light {
+  font-weight: 300; /* Nhe cho Ghi chu nho */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả: Thang Độ Đậm font-weight Trực Quan]
-\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} Minh họa thang độ đậm từ 100 đến 900:}\par\vspace{8pt}
-  \begin{tabular}{@{}l l@{}}
-    {\sffamily\fontsize{13}{16}\selectfont Thin (100)} & {\sffamily\small\color{gray!70} font-weight: 100} \\ [3pt]
-    {\sffamily\fontsize{13}{16}\selectfont Light (300)} & {\sffamily\small\color{gray!70} font-weight: 300} \\ [3pt]
-    {\sffamily\fontsize{13}{16}\selectfont Normal (400)} & {\sffamily\small\color{gray!70} font-weight: normal} \\ [3pt]
-    {\sffamily\bfseries\fontsize{13}{16}\selectfont Bold (700)} & {\sffamily\small\color{gray!70} font-weight: bold} \\ [3pt]
-    {\sffamily\bfseries\fontsize{13}{16}\selectfont\textbf{Extra Bold (800)}} & {\sffamily\small\color{gray!70} font-weight: 800} \\
-  \end{tabular}
-\end{tcolorbox}
-\end{browserWindow}
+\subsection*{IV. Sự Khác Biệt Giữa Giá Trị bolder Và bold trong CSS}
+
+\begin{conceptBox}[So Sánh Cơ Chế Hoạt Động Của bold và bolder]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{bold}}: Chỉ định độ đậm cố định tại mức \textbf{700} (không phụ thuộc vào phần tử cha).
+    \item \textbf{\codeinline{bolder}}: Tính toán độ đậm tương đối dựa trên phần tử cha. Ví dụ:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Nếu thẻ cha có độ đậm \codeinline{400} (Normal) $\rightarrow$ Thẻ con mang \codeinline{bolder} sẽ tăng lên thành \codeinline{700} (Bold).
+        \item Nếu thẻ cha có độ đậm \codeinline{700} (Bold) $\rightarrow$ Thẻ con mang \codeinline{bolder} sẽ tăng lên thành \codeinline{900} (Black).
+    \end{itemize}
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Minh Họa Cơ Chế Kế Thừa Tính Tương Đối Của bolder]
+\begin{lstlisting}[language=CSS3]
+div {
+  font-weight: 400; /* Normal */
+}
+
+span {
+  font-weight: bolder; /* Tu dong tang len 700 (dam hon div) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection*{V. Hướng Dẫn Ra Quyết Định: Khi Nào Nên Dùng Giá Trị font-weight Nào?}
+
+\begin{prettyTableBox}[Bảng Quy Chuẩn Lựa Chọn Trọng Lượng Phông Chữ Trong Thiết Kế UI/UX]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\color{primaryBlue}\bfseries}p{2.8cm}|>{\raggedright\arraybackslash\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị font-weight} & \thd{\sffamily Tên gọi chuẩn} & \thd{\sffamily Tình huống \& Trường hợp sử dụng tối ưu} \\
+\hline
+400 (normal) & Normal & Văn bản nội dung chính (Body text), đọc thông tin dài. \\
+\hline
+700 (bold) & Bold & Tiêu đề bài viết (\codeinline{<h1>} - \codeinline{<h3>}), nút kêu gọi hành động (CTA). \\
+\hline
+300 (light) & Light & Phụ đề trang trí, dòng ghi chú tác giả, khoảng thời gian đăng bài. \\
+\hline
+900 (black) & Black / Heavy & Logo thương hiệu, Banner quảng cáo chính, tiêu điểm gây chú ý mạnh. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Mẹo Thiết Kế Giao Diện Chuyên Nghiệp]
+Sử dụng độ đậm hợp lý giúp tạo ra sự \term{phân cấp thị giác rõ ràng (Visual Hierarchy)}, giúp mắt người đọc dễ dàng quét qua các phần quan trọng mà không bị mỏi mắt.
+\end{tipBox}
+
+\subsection*{VI. Bảng Tổng Kết Các Lưu Ý Quan Trọng Khi Dùng font-weight}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Các Lưu Ý Kỹ Thuật Cần Nhớ]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Nguyên tắc / Lưu ý} & \thd{\sffamily Giải thích kỹ thuật chi tiết} \\
+\hline
+Không phải font nào cũng hỗ trợ nhiều trọng số & Cần kiểm tra kỹ danh sách biến thể font trên Google Fonts trước khi nhúng. \\
+\hline
+Kiểm tra trên nhiều hệ điều hành & Font có thể hiển thị nét chữ dày hơn nhẹ trên macOS so với Windows. \\
+\hline
+Chọn font có phân cấp rõ giữa 400, 500, 700 & Giúp người dùng phân biệt ngay tiêu đề và đoạn văn bản. \\
+\hline
+Kết hợp với font-size, color, letter-spacing & Độ đậm chữ cần đi kèm với kích thước và độ tương phản màu sắc chuẩn. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Tổng Kết 4 Điểm Cốt Lõi Về Thuộc Tính font-weight]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{font-weight} giúp điều chỉnh độ đậm của chữ từ mỏng ($100$) đến siêu đậm ($900$).
+    \item Bạn có thể sử dụng từ khóa (\codeinline{bold}, \codeinline{bolder}) hoặc giá trị số để kiểm soát chính xác.
+    \item Nhúng font đa trọng lượng giúp tận dụng tối đa sức mạnh của thuộc tính này.
+    \item Kết hợp thông minh độ đậm và kiểu chữ giúp nội dung nổi bật, trực quan và dễ đọc.
+\end{enumerate}
+\end{conceptBox}
+
+\subsection*{VII. Chuyên Đề Xử Lý Sự Cố \& Tình Huống Thực Tế Với font-weight}
+
+Trong thực tế phát triển Web, bạn sẽ gặp một số tình huống sự cố liên quan đến \codeinline{font-weight}. Dưới đây là phân tích và giải pháp xử lý triệt để:
+
+\begin{prettyTableBox}[Bảng Phân Tích \& Xử Lý Các Sự Cố Thực Tế Khi Dùng font-weight]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{red!80!black}}p{3.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash\bfseries\color{green!60!black}}p{4.0cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tình huống sự cố} & \thd{\sffamily Nguyên nhân kỹ thuật cốt lõi} & \thd{\sffamily Giải pháp khắc phục triệt để} \\
+\hline
+Font chữ không hỗ trợ nhiều độ đậm & Các font hệ thống cũ (Arial, Times New Roman) chỉ có 2 độ đậm mặc định (400 và 700). Đặt 200 hay 900 đều giống 400/700. & Chuyển sang dùng font đa trọng lượng hiện đại: \codeinline{Roboto}, \codeinline{Inter}, \codeinline{Poppins}, \codeinline{Open Sans}. \\
+\hline
+Trình duyệt tự thay thế font không hỗ trợ & Khi khai báo một mức đậm (VD: 600) mà font không có tệp nhúng, trình duyệt tự động chọn mức gần nhất (700) để thay thế. & Nhúng đầy đủ chuỗi \codeinline{wght} trong URL Google Fonts hoặc tệp \codeinline{@font-face}. \\
+\hline
+Font quá mỏng hoặc quá dày trên màn hình nhỏ & Trên màn hình độ phân giải thấp hoặc máy mobile nhỏ, các nét chữ quá mỏng (100-300) dễ bị mờ, đứt nét. & Tăng kích thước \codeinline{font-size: 20px;}, chọn font tối ưu (\codeinline{Inter}, \codeinline{Verdana}) và tăng độ tương phản màu sắc. \\
+\hline
+Cú pháp bị ghi đè CSS (\term{Specificity}) & Thuộc tính \codeinline{font-weight} khai báo nhưng không có hiệu lực do bị quy tắc CSS khác có độ ưu tiên cao hơn ghi đè. & Kiểm tra DevTools (F12) để xem thuộc tính bị gạch ngang. Dùng Selector cụ thể hơn hoặc \codeinline{!important}. \\
+\hline
+Khoảng cách chữ hoặc line-height làm mờ độ đậm & Khoảng cách ký tự (\codeinline{letter-spacing}) hoặc chiều cao dòng quá lớn/nhỏ khiến mắt khó thấy sự khác biệt độ đậm. & Điều chỉnh chiều cao dòng và khoảng cách chữ chuẩn: \codeinline{letter-spacing: 0.5px; line-height: 1.6;}. \\
+\hline
+Font có nét chữ ít khác biệt & Một số font (như Times New Roman) được thiết kế nét chữ ít thay đổi giữa các mức 500 và 600. & Chuyển sang phông chữ hiện đại có độ tương phản nét chữ rõ nét như \codeinline{Poppins}, \codeinline{Montserrat}, \codeinline{Lato}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Mẹo Nhanh Để Thấy Sự Khác Biệt Độ Đậm Rõ Nhất]
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item luôn chọn phông chữ hỗ trợ nhiều biến thể trọng lượng (\codeinline{Roboto}, \codeinline{Inter}).
+    \item Tăng kích thước chữ lớn hơn (\codeinline{font-size: 24px;}) khi thử nghiệm để dễ quan sát nét chữ.
+    \item Thử nghiệm đối soát trên các trình duyệt khác nhau (Chrome, Firefox, Safari).
+    \item Sử dụng phím \codeinline{F12} (DevTools) để đảm bảo không bị quy tắc CSS khác ghi đè.
+\end{enumerate}
+\end{tipBox}
 
 \subsubsection{4. Thuộc Tính font-style (Kiểu Phông Chữ Nghiêng)}
 \label{sec:font_style}
