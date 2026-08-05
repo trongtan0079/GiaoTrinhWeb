@@ -2952,21 +2952,51 @@ Thuộc tính \codeinline{font-family} trong CSS là một trong những thuộc
 \end{tipBox}
 
 \begin{conceptBox}[Sơ Đồ Luồng Quyết Định (Decision Flowchart) Của Trình Duyệt Khi Render Font]
-\small\sffamily
+\sffamily\small
+\vspace{2pt}
+
+% Start Header
 \begin{center}
-\textbf{[Trình duyệt bắt đầu vẽ ký tự văn bản trên màn hình]}\\[4pt]
-$\downarrow$\\[4pt]
-1. Kiểm tra font đầu tiên trong danh sách (Ví dụ: \codeinline{"Roboto"})\\[2pt]
-$\rightarrow$ \textbf{Có sẵn?} $\rightarrow$ \textcolor{green!60!black}{\textbf{[ĐÚNG]}} $\rightarrow$ Dùng font \codeinline{"Roboto"} hiển thị văn bản.\\[2pt]
-$\rightarrow$ \textbf{Không có?} $\rightarrow$ \textcolor{red!80!black}{\textbf{[SAI]}} $\rightarrow$ Chuyển sang font thứ 2.\\[6pt]
-$\downarrow$\\[4pt]
-2. Kiểm tra font thứ hai trong danh sách (Ví dụ: \codeinline{Arial})\\[2pt]
-$\rightarrow$ \textbf{Có sẵn?} $\rightarrow$ \textcolor{green!60!black}{\textbf{[ĐÚNG]}} $\rightarrow$ Dùng font \codeinline{Arial} hiển thị văn bản.\\[2pt]
-$\rightarrow$ \textbf{Không có?} $\rightarrow$ \textcolor{red!80!black}{\textbf{[SAI]}} $\rightarrow$ Chuyển sang nhóm font tổng quát.\\[6pt]
-$\downarrow$\\[4pt]
-3. Lấy phông chữ mặc định thuộc nhóm tổng quát (Ví dụ: \codeinline{sans-serif}) từ Hệ Điều Hành.\\[2pt]
-$\rightarrow$ \textcolor{primaryBlue}{\textbf{Kết quả}}: Văn bản luôn luôn hiển thị ổn định, không bao giờ bị vỡ hoặc mất chữ!
+\tcbox[on line, arc=4pt, colback=primaryBlue!10, colframe=primaryBlue!50, boxrule=0.8pt, top=4pt, bottom=4pt, left=12pt, right=12pt]{%
+  \bfseries\color{primaryBlue} [ Bắt đầu: Trình duyệt bắt đầu vẽ ký tự văn bản trên màn hình ]%
+}
 \end{center}
+\vspace{-2pt}
+
+% Step 1 Card
+\begin{tcolorbox}[arc=5pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
+  \textbf{\color{primaryBlue}Bước 1}: Kiểm tra phông chữ đầu tiên trong danh sách (Ví dụ: \codeinline{"Roboto"})\\[4pt]
+  \begin{tabular}{@{}l l@{}}
+    \tcbox[on line, arc=3pt, colback=green!10, colframe=green!60!black, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\bfseries\color{green!60!black}\scriptsize ĐÚNG (Có sẵn)} & $\rightarrow$ Dùng font \codeinline{"Roboto"} để hiển thị văn bản ngay lập tức. \\ [3pt]
+    \tcbox[on line, arc=3pt, colback=red!10, colframe=red!70!black, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\bfseries\color{red!70!black}\scriptsize SAI (Không có)} & $\rightarrow$ Bỏ qua, chuyển sang kiểm tra phông chữ thứ 2.
+  \end{tabular}
+\end{tcolorbox}
+
+\begin{center}
+\textcolor{primaryBlue!70}{\textbf{$\downarrow$}}
+\end{center}
+\vspace{-4pt}
+
+% Step 2 Card
+\begin{tcolorbox}[arc=5pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
+  \textbf{\color{primaryBlue}Bước 2}: Kiểm tra phông chữ thứ hai trong danh sách (Ví dụ: \codeinline{Arial})\\[4pt]
+  \begin{tabular}{@{}l l@{}}
+    \tcbox[on line, arc=3pt, colback=green!10, colframe=green!60!black, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\bfseries\color{green!60!black}\scriptsize ĐÚNG (Có sẵn)} & $\rightarrow$ Dùng font \codeinline{Arial} để hiển thị văn bản. \\ [3pt]
+    \tcbox[on line, arc=3pt, colback=red!10, colframe=red!70!black, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\bfseries\color{red!70!black}\scriptsize SAI (Không có)} & $\rightarrow$ Bỏ qua, chuyển sang bước lấy nhóm phông tổng quát.
+  \end{tabular}
+\end{tcolorbox}
+
+\begin{center}
+\textcolor{primaryBlue!70}{\textbf{$\downarrow$}}
+\end{center}
+\vspace{-4pt}
+
+% Step 3 Card
+\begin{tcolorbox}[arc=5pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
+  \textbf{\color{primaryBlue}Bước 3 (Dự phòng cuối)}: Lấy phông chữ mặc định thuộc nhóm tổng quát (Ví dụ: \codeinline{sans-serif}) từ Hệ Điều Hành.\\[4pt]
+  \tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!50, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{\bfseries\color{primaryBlue}\scriptsize Kết Quả Tổng Kết} $\rightarrow$ \textbf{Văn bản luôn luôn hiển thị ổn định, không bao giờ bị vỡ hoặc mất chữ!}
+\end{tcolorbox}
+
 \end{conceptBox}
 \subsection*{I. Cú Pháp và Thứ Tự Ưu Tiên Của Chuỗi Fallback}
 
