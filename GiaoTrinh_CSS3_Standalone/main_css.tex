@@ -3518,37 +3518,128 @@ Kết hợp với font-size, color, letter-spacing & Độ đậm chữ cần đ
 \end{enumerate}
 \end{conceptBox}
 
-\subsection*{VII. Chuyên Đề Xử Lý Sự Cố \& Tình Huống Thực Tế Với font-weight}
+\subsection*{VII. Chuyên Đề Xử Lý Sự Cố \& Tình Huống Thực Tế Khi Dùng font-weight}
 
-Trong thực tế phát triển Web, bạn sẽ gặp một số tình huống sự cố liên quan đến \codeinline{font-weight}. Dưới đây là phân tích và giải pháp xử lý triệt để:
+Trong thực tế phát triển Web, bạn sẽ gặp một số tình huống sự cố làm cho thuộc tính \codeinline{font-weight} hiển thị không như mong muốn. Dưới đây là phân tích chi tiết 6 tình huống thực tế thường gặp và hướng dẫn khắc phục từng bước:
 
-\begin{prettyTableBox}[Bảng Phân Tích \& Xử Lý Các Sự Cố Thực Tế Khi Dùng font-weight]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{red!80!black}}p{3.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash\bfseries\color{green!60!black}}p{4.0cm}|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Tình huống sự cố} & \thd{\sffamily Nguyên nhân kỹ thuật cốt lõi} & \thd{\sffamily Giải pháp khắc phục triệt để} \\
-\hline
-Font chữ không hỗ trợ nhiều độ đậm & Các font hệ thống cũ (Arial, Times New Roman) chỉ có 2 độ đậm mặc định (400 và 700). Đặt 200 hay 900 đều giống 400/700. & Chuyển sang dùng font đa trọng lượng hiện đại: \codeinline{Roboto}, \codeinline{Inter}, \codeinline{Poppins}, \codeinline{Open Sans}. \\
-\hline
-Trình duyệt tự thay thế font không hỗ trợ & Khi khai báo một mức đậm (VD: 600) mà font không có tệp nhúng, trình duyệt tự động chọn mức gần nhất (700) để thay thế. & Nhúng đầy đủ chuỗi \codeinline{wght} trong URL Google Fonts hoặc tệp \codeinline{@font-face}. \\
-\hline
-Font quá mỏng hoặc quá dày trên màn hình nhỏ & Trên màn hình độ phân giải thấp hoặc máy mobile nhỏ, các nét chữ quá mỏng (100-300) dễ bị mờ, đứt nét. & Tăng kích thước \codeinline{font-size: 20px;}, chọn font tối ưu (\codeinline{Inter}, \codeinline{Verdana}) và tăng độ tương phản màu sắc. \\
-\hline
-Cú pháp bị ghi đè CSS (\term{Specificity}) & Thuộc tính \codeinline{font-weight} khai báo nhưng không có hiệu lực do bị quy tắc CSS khác có độ ưu tiên cao hơn ghi đè. & Kiểm tra DevTools (F12) để xem thuộc tính bị gạch ngang. Dùng Selector cụ thể hơn hoặc \codeinline{!important}. \\
-\hline
-Khoảng cách chữ hoặc line-height làm mờ độ đậm & Khoảng cách ký tự (\codeinline{letter-spacing}) hoặc chiều cao dòng quá lớn/nhỏ khiến mắt khó thấy sự khác biệt độ đậm. & Điều chỉnh chiều cao dòng và khoảng cách chữ chuẩn: \codeinline{letter-spacing: 0.5px; line-height: 1.6;}. \\
-\hline
-Font có nét chữ ít khác biệt & Một số font (như Times New Roman) được thiết kế nét chữ ít thay đổi giữa các mức 500 và 600. & Chuyển sang phông chữ hiện đại có độ tương phản nét chữ rõ nét như \codeinline{Poppins}, \codeinline{Montserrat}, \codeinline{Lato}. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
+% ------------------------------------------------------------------------------
+\paragraph{Tình Huống 1: Phông Chữ Không Hỗ Trợ Nhiều Độ Đậm (Limited Weight Support):}
 
+\begin{warnBox}[Nguyên Nhân Kỹ Thuật Tình Huống 1]
+Không phải font nào cũng hỗ trợ đầy đủ tất cả các mức độ đậm từ $100 \rightarrow 900$. Ví dụ, nhiều font hệ thống mặc định (như \codeinline{Arial}, \codeinline{Times New Roman}) chỉ có 2 biến thể:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{Normal (400)}
+    \item \codeinline{Bold (700)}
+\end{itemize}
+Do đó, khi bạn thiết lập \codeinline{font-weight: 200;} hoặc \codeinline{font-weight: 900;} cho font Arial, trình duyệt chỉ có thể hiển thị nó giống như \codeinline{normal} hoặc \codeinline{bold}.
+\end{warnBox}
+
+\begin{tipBox}[$\rightarrow$ Giải Pháp Khắc Phục Tình Huống 1]
+Chuyển sang sử dụng các bộ phông chữ hiện đại hỗ trợ đa trọng lượng (\term{Multi-weight Fonts}) từ Google Fonts như: \codeinline{Roboto}, \codeinline{Poppins}, \codeinline{Inter}, \codeinline{Open Sans}.
+\end{tipBox}
+
+\begin{codeWindow}[Mã HTML Nhúng Google Fonts Đa Trọng Lượng Đầy Đủ]
+\begin{lstlisting}[language=HTML5]
+<!-- Nhung Google Fonts Roboto ho tro day du cac muc wght tu 100 den 900 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap">
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[File style.css -- Áp Dụng Font Đa Trọng Lượng]
+\begin{lstlisting}[language=CSS3]
+body {
+  font-family: 'Roboto', sans-serif;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+\paragraph{Tình Huống 2: Trình Duyệt Tự Thay Thế Phông Chữ Không Hỗ Trợ (Weight Fallback):}
+
+\begin{conceptBox}[Cơ Chế Weight Fallback Của Trình Duyệt]
+Nếu phông chữ bạn chọn không có biến thể độ đậm cụ thể mà bạn khai báo, trình duyệt sẽ tự động chọn độ đậm gần nhất có sẵn trong tệp font để hiển thị thay thế:
+\begin{center}
+\codeinline{font-weight: 600;} $\rightarrow$ Font không có biến thể 600? $\rightarrow$ Trình duyệt tự chọn \codeinline{700} (Bold) thay thế.
+\end{center}
+\end{conceptBox}
+
+\begin{tipBox}[$\rightarrow$ Giải Pháp Khắc Phục Tình Huống 2]
+Đảm bảo kiểm tra kỹ URL nhúng font và tải bổ sung đúng biến thể độ đậm cần dùng (như biến thể \codeinline{600}) hoặc chọn phông chữ khác có hỗ trợ.
+\end{tipBox}
+
+% ------------------------------------------------------------------------------
+\paragraph{Tình Huống 3: Font Quá Mỏng Hoặc Quá Dày Trên Màn Hình Nhỏ (Low Resolution Displays):}
+
+\begin{warnBox}[Ảnh Hưởng Của Màn Hình Đến Nét Chữ]
+Trên một số màn hình có độ phân giải thấp hoặc máy di động kích thước nhỏ, các độ đậm cực nhẹ ($100 \rightarrow 300$) dễ bị đứt nét, mờ nhạt, trong khi các độ đậm siêu dày ($800 \rightarrow 900$) dễ bị dính nét, bết chữ.
+\end{warnBox}
+
+\begin{tipBox}[$\rightarrow$ 3 Giải Pháp Khắc Phục Tình Huống 3]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Tăng kích thước chữ}: Khai báo cỡ chữ lớn hơn để nét mỏng hiển thị rõ hơn (ví dụ: \codeinline{font-size: 20px;}).
+    \item \textbf{Sử dụng font tối ưu cho màn hình}: Chọn các font thiết kế chuyên biệt cho màn hình kỹ thuật số như \codeinline{Inter} hoặc \codeinline{Verdana}.
+    \item \textbf{Tăng độ tương phản màu sắc}: Sử dụng màu chữ đậm tương phản mạnh với màu nền để các nét mỏng không bị chìm.
+\end{enumerate}
+\end{tipBox}
+
+% ------------------------------------------------------------------------------
+\paragraph{Tình Huống 4: Cú Pháp Không Đúng Hoặc Thuộc Tính CSS Bị Ghi Đè (Specificity Conflict):}
+
+\begin{conceptBox}[Hiện Tượng Specificity Trong CSS Cascade]
+Đôi khi bạn đặt thuộc tính \codeinline{font-weight} nhưng giao diện không hề thay đổi do quy tắc CSS bị ghi đè bởi một Selector có độ ưu tiên cao hơn hoặc nằm ở vị trí phía sau trong file CSS.
+\end{conceptBox}
+
+\begin{tipBox}[$\rightarrow$ Giải Pháp Khắc Phục Tình Huống 4]
+Sử dụng phím \codeinline{F12} (DevTools) trên trình duyệt để kiểm tra xem dòng CSS \codeinline{font-weight} có bị gạch ngang hay không. Nếu bị ghi đè, hãy tăng độ ưu tiên của bộ chọn hoặc tạm thời dùng từ khóa \codeinline{!important}:
+\end{tipBox}
+
+\begin{codeWindow}[Sử Dụng Từ Khóa !important Để Ép Ưu Tiên]
+\begin{lstlisting}[language=CSS3]
+p {
+  font-weight: 700 !important; /* Ep buoc uu tien do dam 700 */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+\paragraph{Tình Huống 5: Khoảng Cách Chữ Hoặc Chiều Cao Dòng Làm Mờ Sự Khác Biệt:}
+
+\begin{conceptBox}[Tác Động Của letter-spacing Và line-height]
+Nếu khoảng cách giữa các chữ cái (\codeinline{letter-spacing}) hoặc chiều cao dòng (\codeinline{line-height}) quá lớn hoặc quá nhỏ, thị giác người xem sẽ khó phân biệt được các mức độ đậm nhạt khác nhau.
+\end{conceptBox}
+
+\begin{tipBox}[$\rightarrow$ Giải Pháp Khắc Phục Tình Huống 5]
+Điều chỉnh khoảng cách ký tự và chiều cao dòng cân đối hợp lý:
+\end{tipBox}
+
+\begin{codeWindow}[Thiết Lập Tối Ưu Khoảng Cách Cho Phông Chữ Đậm]
+\begin{lstlisting}[language=CSS3]
+.custom-heading {
+  font-weight: 700;
+  letter-spacing: 0.5px; /* Khoang cach ky tu Vua phai */
+  line-height: 1.6;      /* Chieu cao dong Chuan 1.6 */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+\paragraph{Tình Huống 6: Một Số Phông Chữ Được Tối Ưu Hóa Để Ít Khác Biệt Nét Chữ:}
+
+\begin{warnBox}[Đặc Điểm Thiết Kế Của Font Cổ Điển]
+Có những font chữ được thiết kế với độ dày ít thay đổi giữa các mức trọng lượng, ngay cả khi bạn thay đổi thuộc tính \codeinline{font-weight}. Ví dụ: Font \codeinline{Times New Roman} không có sự chênh lệch nét chữ quá rõ rệt giữa hai mức \codeinline{500} và \codeinline{600}.
+\end{warnBox}
+
+\begin{tipBox}[$\rightarrow$ Giải Pháp Khắc Phục Tình Huống 6]
+Chuyển sang sử dụng các phông chữ thiết kế hiện đại có sự phân cấp độ đậm cực kỳ rõ ràng như: \codeinline{Poppins}, \codeinline{Montserrat}, hoặc \codeinline{Lato}.
+\end{tipBox}
+
+% ------------------------------------------------------------------------------
 \begin{tipBox}[Mẹo Nhanh Để Thấy Sự Khác Biệt Độ Đậm Rõ Nhất]
-\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item luôn chọn phông chữ hỗ trợ nhiều biến thể trọng lượng (\codeinline{Roboto}, \codeinline{Inter}).
-    \item Tăng kích thước chữ lớn hơn (\codeinline{font-size: 24px;}) khi thử nghiệm để dễ quan sát nét chữ.
-    \item Thử nghiệm đối soát trên các trình duyệt khác nhau (Chrome, Firefox, Safari).
-    \item Sử dụng phím \codeinline{F12} (DevTools) để đảm bảo không bị quy tắc CSS khác ghi đè.
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Chọn font đa biến thể}: Luôn chọn phông chữ hỗ trợ nhiều biến thể trọng lượng (ví dụ: \codeinline{Roboto}, \codeinline{Inter}).
+    \item \textbf{Tăng kích thước chữ khi thử nghiệm}: Dùng kích thước chữ lớn hơn (\codeinline{font-size: 24px;}) để dễ quan sát chi tiết nét chữ trên màn hình.
+    \item \textbf{Kiểm thử đa trình duyệt}: Test trên các trình duyệt khác nhau (Chrome, Firefox, Safari) hoặc trên màn hình chất lượng cao.
+    \item \textbf{Đảm bảo không bị ghi đè}: Mở DevTools (\codeinline{F12}) để xác nhận quy tắc \codeinline{font-weight} đang thực sự được áp dụng.
 \end{enumerate}
 \end{tipBox}
 
