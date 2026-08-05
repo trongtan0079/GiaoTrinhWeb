@@ -93,6 +93,7 @@
 \usepackage{setspace}
 \setstretch{1.15}
 \usepackage{needspace}
+\usepackage{seqsplit}
 
 % ==============================================================================
 % 2. ĐỊNH NGHĨA KHUNG HỘP (CALLOUT BOXES) & NÂNG CAO (COMMANDS)
@@ -3804,24 +3805,50 @@ Khi xây dựng giao diện web phức tạp, nhà thiết kế thường kết 
 
 Google Fonts cho phép gộp tất cả các phông chữ và biến thể style đã chọn vào một đường dẫn liên kết \codeinline{<link>} hoặc \codeinline{@import} duy nhất thông qua tham số \codeinline{\&family=}.
 
-\begin{codeWindow}[File index.html -- Mã Nhúng Gộp Nhiều Font Google Fonts]
+\begin{conceptBox}[3 Bước Chọn \& Lấy Mã Nhúng Gộp Nhiều Font Trên Giao Diện Google Fonts]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Bước 1 (Chọn font thứ 1)}: Truy cập \codeinline{fonts.google.com}, tìm font \textbf{Roboto} và chọn các kiểu dáng cần dùng (ví dụ: \codeinline{Regular 400} và \codeinline{Bold 700}).
+    \item \textbf{Bước 2 (Chọn font thứ 2)}: Không cần tắt bảng điều khiển, tiếp tục tìm font \textbf{Open Sans} và chọn thêm các kiểu dáng (\codeinline{Regular 400} và \codeinline{Bold 700}).
+    \item \textbf{Bước 3 (Lấy 1 đoạn mã duy nhất)}: Nhìn sang bảng \term{Selected families} bên phải, Google Fonts tự động tạo cho bạn \textbf{duy nhất 1 thẻ \codeinline{<link>}} gộp cả 2 font.
+\end{enumerate}
+\end{conceptBox}
+
+\begin{noteBox}[Giải Thích Chi Tiết Cấu Trúc Đường Dẫn URL Gộp Nhiều Font]
+Hãy quan sát đoạn đường dẫn \codeinline{href} do Google Fonts tự động tạo ra:
+\begin{codeWindow}[Đường Dẫn URL Gộp Nhúng Nhiều Font Từ Google Fonts]
+\begin{lstlisting}[language=HTML5]
+https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap
+\end{lstlisting}
+\end{codeWindow}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{family=Open+Sans:wght@400;700} $\rightarrow$ Yêu cầu tải font \textbf{Open Sans} với 2 độ đậm $400$ (Regular) và $700$ (Bold).
+    \item Dấu \codeinline{\&} $\rightarrow$ Ký tự kết nối nhiều tham số trong đường dẫn URL.
+    \item \codeinline{family=Roboto:wght@400;700} $\rightarrow$ Yêu cầu tải thêm font thứ 2 là \textbf{Roboto} với 2 độ đậm $400$ và $700$.
+    \item \codeinline{display=swap} $\rightarrow$ Áp dụng cơ chế hoán đổi font dự phòng ngay lập tức để tránh mờ/ẩn chữ.
+\end{itemize}
+\end{noteBox}
+
+\begin{codeWindow}[File index.html -- Mã Nhúng Gộp Nhiều Font Trong Head HTML]
 \begin{lstlisting}[language=HTML5]
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhung Nhieu Font Google Fonts</title>
-    <!-- Thiet lap ket noi som voi may chu Google Fonts -->
+    <title>Vi Du Nhung Nhieu Font Google Fonts</title>
+    
+    <!-- 1. Thiet lap ket noi som (Preconnect) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- URL gop nhieu font Open Sans va Roboto qua ky tu &family= -->
+    
+    <!-- 2. Nhung DUY NHAT 1 link hop nhat ca Roboto va Open Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 class="header-text">Day la tieu de su dung Roboto Bold 700</h1>
-    <p class="body-text">Day la noi dung van ban su dung Open Sans Regular 400.</p>
+    <h1 class="header-text">Tieu De Su Dung Phong Chu Roboto (Bold 700)</h1>
+    <p class="body-text">Doan van ban nay su dung phong chu Open Sans (Regular 400) giup de doc tren man hinh.</p>
 </body>
 </html>
 \end{lstlisting}
