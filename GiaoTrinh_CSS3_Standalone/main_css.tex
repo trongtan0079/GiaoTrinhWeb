@@ -3467,106 +3467,287 @@ Thuộc tính viết tắt \codeinline{font} cho phép bạn đặt nhiều thu�
 \subsection{Kỹ Thuật Nhúng Font Ngoại Vào CSS (External Web Fonts)}
 \label{sec:web_fonts_embedding}
 
-Để sử dụng các phông chữ không phải là font hệ thống phổ biến (Web-Safe Fonts), bạn cần nhúng chúng vào trang web của mình. Có 3 phương pháp chính:
+Trong thiết kế web, việc sử dụng các font chữ độc đáo, không phải là "web-safe fonts" (các font mặc định có sẵn trên hầu hết các hệ điều hành), là rất quan trọng để tạo nên phong cách và thương hiệu riêng cho trang web của bạn. Để làm được điều này, bạn cần \term{nhúng font} (\term{embedding fonts}) vào dự án web của mình. Điều này đảm bảo rằng dù người dùng có font đó trên máy tính của họ hay không, trình duyệt vẫn có thể tải và hiển thị font chữ mà bạn mong muốn.
 
-\subsubsection{1. Nhúng Font Qua Google Fonts (Phổ Biến Nhất)}
-Google Fonts là thư viện font miễn phí lớn nhất thế giới do Google phát triển.
+Có ba phương pháp chính để nhúng font vào CSS:
 \begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Bước 1}: Truy cập \codeinline{fonts.google.com}.
-    \item \textbf{Bước 2}: Chọn các font và biến thể style cần dùng (Regular 400, Bold 700, Italic, v.v.).
-    \item \textbf{Bước 3}: Google Fonts sẽ cung cấp đoạn mã \codeinline{<link>} chèn vào thẻ \codeinline{<head>} của HTML hoặc đoạn \codeinline{@import} đặt ở đầu file CSS.
+    \item \textbf{Sử dụng Google Fonts} (Phương pháp phổ biến và dễ dùng nhất).
+    \item \textbf{Sử dụng Quy tắc \codeinline{@font-face}} (Tự host tệp font trên server).
+    \item \textbf{Sử dụng Adobe Fonts} (Trước đây là Typekit dành cho thiết kế chuyên nghiệp).
 \end{enumerate}
 
-\begin{codeWindow}[Ví Dụ Nhúng Google Fonts Trong HTML \& CSS]
+% ------------------------------------------------------------------------------
+\subsubsection{1. Sử Dụng Google Fonts (Phương Pháp Phổ Biến Và Dễ Dùng Nhất)}
+
+Google Fonts là một thư viện khổng lồ và miễn phí với hàng ngàn font chữ chất lượng cao, được tối ưu hóa cho web. Đây là cách phổ biến nhất để nhúng font vì sự tiện lợi và hiệu quả của nó.
+
+\paragraph{Các Bước Thực Hiện Nhúng Font Từ Google Fonts:}
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Bước 1: Truy cập Google Fonts} $\rightarrow$ Mở trình duyệt và truy cập \codeinline{fonts.google.com}.
+    \item \textbf{Bước 2: Chọn Font và Style} $\rightarrow$ Duyệt qua thư viện, tìm kiếm và chọn (các) font bạn muốn sử dụng. Khi chọn một font, bạn sẽ thấy các style (ví dụ: Regular 400, Bold 700, Italic) có sẵn. \textbf{Hãy chỉ chọn những style thực sự cần thiết} để tránh tải những dữ liệu không cần thiết.
+    \item \textbf{Bước 3: Lấy mã nhúng} $\rightarrow$ Sau khi chọn xong, bảng điều khiển bên phải sẽ cung cấp cho bạn hai tùy chọn để nhúng font:
+    \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+        \item \textbf{Tùy chọn A: Nhúng qua \codeinline{<link>} trong HTML (Khuyến nghị)}: Cho phép trình duyệt bắt đầu tải font sớm hơn, cải thiện hiệu suất tải trang. Bạn sao chép đoạn mã \codeinline{<link>} và dán vào phần \codeinline{<head>} của tài liệu HTML.
+        \item \textbf{Tùy chọn B: Nhúng qua \codeinline{@import} trong CSS}: Sao chép đoạn mã \codeinline{@import} và dán nó vào đầu tệp CSS (trước bất kỳ quy tắc CSS nào khác, ngoại trừ \codeinline{@charset}).
+    \end{itemize}
+    \item \textbf{Bước 4: Sử dụng font trong CSS} $\rightarrow$ Sau khi nhúng font, bạn sử dụng tên font trong thuộc tính \codeinline{font-family} của CSS.
+\end{enumerate}
+
+\paragraph{Ví Dụ Mã Nguồn 1: Nhúng Google Fonts Qua Thẻ <link> Trong HTML}
+
+\begin{codeWindow}[File index.html -- Nhúng Thẻ Link Trong Head]
 \begin{lstlisting}[language=HTML5]
-<!-- Cach 1: Nhung qua the <link> trong file HTML -->
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Fonts Example</title>
+    <title>Vi du Google Fonts</title>
+    <!-- Thiet lap ket noi som bang preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Link nhung font Roboto voi weight 400 va 700 -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p>This text uses Roboto font.</p>
+    <h1>Tieu de su dung Roboto</h1>
+    <p>Doan van ban nay cung su dung Roboto.</p>
 </body>
 </html>
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{codeWindow}[Cách Nhúng Google Fonts Trực Tiếp Trong CSS Với @import]
+\begin{codeWindow}[File style.css -- Áp Dụng Font Cho Thẻ HTML]
 \begin{lstlisting}[language=CSS3]
-/* Cach 2: Nhung bang @import o dau file CSS */
+/* Dua vao file style.css ap dung cho body va cac the */
+body {
+  font-family: 'Roboto', sans-serif; /* 'Roboto' la ten font dinh nghia boi Google Fonts */
+}
+
+h1 {
+  font-weight: 700; /* Ap dung style Bold 700 da chon */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{noteBox}[Ý Nghĩa Của Các Thẻ Preconnect]
+Các thẻ \codeinline{<link rel="preconnect">} giúp trình duyệt thiết lập kết nối sớm (DNS lookup, TCP handshake, TLS negotiation) với máy chủ của Google Fonts (\codeinline{fonts.googleapis.com} và \codeinline{fonts.gstatic.com}), giúp quá trình tải font diễn ra nhanh hơn đáng kể.
+\end{noteBox}
+
+\paragraph{Ví Dụ Mã Nguồn 2: Nhúng Google Fonts Qua Quy Tắc @import Trong CSS}
+
+\begin{codeWindow}[File style.css -- Đặt Quy Tắc @import Ở Đầu File CSS]
+\begin{lstlisting}[language=CSS3]
+/* Nhung qua @import vao dau tep CSS (truoc moi quy tac CSS khac) */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+h1 {
+  font-weight: 700; /* Neu ban da chon style 700 (Bold) */
+}
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả: Hiển Thị Văn Bản Với Google Fonts Roboto]
+\begin{warnBox}[Lưu Ý Về Hạn Chế Của @import]
+Phương pháp \codeinline{@import} có thể làm chậm quá trình tải font một chút so với \codeinline{<link>} vì trình duyệt cần tải tệp CSS chứa \codeinline{@import} trước khi biết rằng cần gửi yêu cầu tải font.
+\end{warnBox}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Văn Bản Với Google Fonts Roboto]
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} Kết quả hiển thị phông chữ Roboto nhúng từ Google Fonts:}\par\vspace{6pt}
-  {\sffamily\fontsize{14}{18}\selectfont Đây là đoạn văn bản sử dụng font Roboto tải từ Google Fonts CDN, hiển thị nét chữ hiện đại và chuẩn xác trên mọi thiết bị.}
+  {\sffamily\bfseries\color{primaryBlue}\Large Tiêu đề sử dụng Roboto (font-weight: 700)}\par\vspace{6pt}
+  {\sffamily\small Đoạn văn bản này cũng sử dụng Roboto (\codeinline{font-family: 'Roboto', sans-serif;}). Văn bản hiển thị sắc nét, hiện đại trên trình duyệt web.}
 \end{tcolorbox}
 \end{browserWindow}
 
-\subsubsection{2. Sử Dụng Quy Tắc @font-face (Tự Host Font Trên Server)}
-Đây là giải pháp tự host các tệp font trực tiếp trên máy chủ của bạn. Bạn cần cung cấp các định dạng tệp font khác nhau để đảm bảo trình duyệt cũ và mới đều tải được.
+\paragraph{Tóm Tắt Sự Khác Biệt Giữa 2 Hướng Nhúng Google Fonts:}
 
-\paragraph{Các Định Dạng Tệp Font Web Phổ Biến:}
+\begin{prettyTableBox}[Bảng So Sánh Chi Tiết Hai Phương Pháp Nhúng Font: <link> vs @import]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí so sánh} & \thd{\sffamily Nhúng qua <link> trong HTML} & \thd{\sffamily Nhúng qua @import trong CSS} \\
+\hline
+\textbf{Vị trí đặt mã} & Đặt thẻ \codeinline{<link>} vào bên trong phần \codeinline{<head>} của file HTML. & Đặt quy tắc \codeinline{@import} ở đầu file CSS (trước mọi quy tắc CSS khác trừ \codeinline{@charset}). \\
+\hline
+\textbf{Cơ chế tác động} & Trình duyệt đọc HTML gặp thẻ \codeinline{<link>} lập tức gửi yêu cầu tải font song song. & Trình duyệt tải và đọc xong file CSS chính mới phát hiện và gửi yêu cầu tải font. \\
+\hline
+\textbf{Độc lập tệp mã} & Cần file CSS riêng để viết các quy tắc \codeinline{font-family} áp dụng. & Quy tắc \codeinline{@import} nằm trực tiếp trong file CSS hiện có, áp dụng ngay tại cùng file. \\
+\hline
+\textbf{Đánh giá hiệu suất} & \textcolor{green!60!black}{\textbf{Ưu điểm: Khuyến nghị hàng đầu}} vì hiệu suất tốt hơn, tải font sớm hơn. & \textcolor{red!80!black}{\textbf{Nhược điểm: Chậm hơn}}, dễ gây ra hiện tượng giật font (\term{FOUT/FOIT}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Ưu Điểm Nổi Bật Của Thư Viện Google Fonts:}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{.woff2} (Web Open Font Format 2): Phiên bản nén thuật toán Brotli tốt hơn WOFF tới 30\%, được khuyên dùng hàng đầu cho web hiện đại.
-    \item \codeinline{.woff} (Web Open Font Format): Đạt chuẩn khuyến nghị cho web.
-    \item \codeinline{.ttf} (TrueType Font): Hỗ trợ tốt trên các hệ điều hành và trình duyệt cũ.
-    \item \codeinline{.otf} (OpenType Font): Tương tự TTF với các tính năng typography nâng cao.
-    \item \codeinline{.svg} (SVG Font): Định dạng font vector cũ cho thiết bị di động iOS cũ.
-    \item \codeinline{.eot} (Embedded OpenType): Định dạng dành riêng cho Internet Explorer (IE6-IE8) cũ.
+    \item \textbf{Miễn phí và dễ sử dụng}: Không cần tải tệp font hay cấu hình máy chủ phức tạp.
+    \item \textbf{Hiệu suất tối ưu}: Google tối ưu hóa các tệp font và phân phối qua CDN (\term{Content Delivery Network}) toàn cầu giúp tải cực nhanh.
+    \item \textbf{Đa dạng phong phú}: Thư viện khổng lồ với vô số lựa chọn font chữ độc đáo.
+    \item \textbf{Hỗ trợ trình duyệt rộng rãi}: Đảm bảo font hoạt động tương thích tốt trên hầu hết các trình duyệt.
 \end{itemize}
 
-\begin{codeWindow}[Cú Pháp Khai Báo Quy Tắc @font-face]
+% ------------------------------------------------------------------------------
+\subsubsection{2. Sử Dụng Quy Tắc @font-face (Tự Host Font Trên Server)}
+
+Phương pháp \codeinline{@font-face} cho phép bạn tự host các tệp font trên máy chủ của mình. Đây là lựa chọn tốt khi bạn sử dụng các font độc quyền, font trả phí, hoặc khi bạn muốn kiểm soát hoàn toàn quá trình tải font mà không phụ thuộc vào bên thứ ba.
+
+\paragraph{Các Bước Thực Hiện Tự Host Font Với @font-face:}
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Bước 1: Sở hữu tệp font ở các định dạng tương thích}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+        \item \codeinline{.woff2} (\term{Web Open Font Format 2.0}): \textbf{Được khuyến nghị nhất cho web hiện đại} do khả năng nén cực tốt và hỗ trợ rộng.
+        \item \codeinline{.woff} (\term{Web Open Font Format}): Được hỗ trợ rộng rãi bởi hầu hết các trình duyệt hiện đại.
+        \item \codeinline{.ttf} (\term{TrueType Font}): Hỗ trợ tốt cho các trình duyệt và hệ điều hành cũ hơn.
+        \item \codeinline{.otf} (\term{OpenType Font}): Tương tự TTF với nhiều tính năng typography nâng cao.
+        \item \codeinline{.eot} (\term{Embedded OpenType}): Dành riêng cho các phiên bản Internet Explorer cũ (IE6--IE11).
+        \item \codeinline{.svg} (\term{SVG Font}): Dành cho một số trình duyệt di động iOS cũ.
+    \end{itemize}
+    \textit{Mẹo}: Bạn có thể sử dụng các công cụ như \term{Font Squirrel's Webfont Generator} để chuyển đổi và tối ưu hóa font của bạn sang các định dạng web chuẩn.
+    
+    \item \textbf{Bước 2: Lưu trữ tệp font}: Đặt các tệp font vào một thư mục trong dự án của bạn (ví dụ: \codeinline{fonts/}).
+    \item \textbf{Bước 3: Khai báo quy tắc @font-face trong CSS}: Định nghĩa tên họ font và liên kết tới các tệp font.
+\end{enumerate}
+
+\begin{codeWindow}[Khai Báo Nhiều Style Với Quy Tắc @font-face Trong CSS]
 \begin{lstlisting}[language=CSS3]
+/* Khai bao cho style Regular (Binh thuong) */
 @font-face {
-  font-family: 'MyCustomFont'; /* Ten custom font ban tu dat */
-  src: url('fonts/MyCustomFont.woff2') format('woff2'),
-       url('fonts/MyCustomFont.woff') format('woff'),
-       url('fonts/MyCustomFont.ttf') format('truetype');
-  font-weight: normal; /* Dinh nghia rieng cho tung trong luong font */
-  font-style: normal;
-  font-display: swap; /* Khuyen dung: Cach hien thi font trong khi cho tai */
+  font-family: 'MyCustomFont'; /* Ten ban tu dat cho font nay */
+  src: url('../fonts/MyCustomFont-Regular.woff2') format('woff2'),
+       url('../fonts/MyCustomFont-Regular.woff') format('woff'),
+       url('../fonts/MyCustomFont-Regular.ttf') format('truetype');
+  font-weight: normal; /* Dinh nghia trong luong thuong */
+  font-style: normal; /* Dinh nghia kieu dang thuong */
+  font-display: swap; /* Quan trong cho hieu suat hien thi */
 }
 
+/* Khai bao cho style Bold (In dam) */
+@font-face {
+  font-family: 'MyCustomFont'; /* Cung ten family, nhung dinh nghia cho style khac */
+  src: url('../fonts/MyCustomFont-Bold.woff2') format('woff2'),
+       url('../fonts/MyCustomFont-Bold.woff') format('woff'),
+       url('../fonts/MyCustomFont-Bold.ttf') format('truetype');
+  font-weight: bold; /* Dinh nghia trong luong dam */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Ap dung trong CSS */
 body {
   font-family: 'MyCustomFont', sans-serif;
 }
+
+h1 {
+  font-weight: bold; /* Se tu dong su dung tep MyCustomFont-Bold */
+}
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả: Tự Host Custom Font Với @font-face]
+\begin{browserWindow}[Kết Quả Hiển Thị Custom Font Tự Host Với @font-face]
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} Kết quả hiển thị Custom Font tự host:}\par\vspace{6pt}
-  {\sffamily\fontsize{13}{17}\selectfont\color{darkgray} Trang web tự tải tệp \codeinline{.woff2} từ thư mục nội bộ server. Nhờ \codeinline{font-display: swap;}, chữ hiển thị tức thì không bị giật trang.}
+  {\sffamily\bfseries\color{primaryBlue}\Large Tiêu đề đậm dùng MyCustomFont-Bold}\par\vspace{6pt}
+  {\sffamily\small Văn bản thân dùng MyCustomFont-Regular. Tệp \codeinline{.woff2} tải trực tiếp từ server nội bộ, hiển thị mượt mà không bị trễ trang.}
 \end{tcolorbox}
 \end{browserWindow}
 
-\begin{tipBox}[Phân Tích Chi Tiết Thuộc Tính font-display: swap]
-Thuộc tính \codeinline{font-display: swap;} cực kỳ quan trọng cho hiệu suất trải nghiệm người dùng (UX). Nó cho phép trình duyệt hiển thị văn bản bằng phông chữ dự phòng (\term{fallback font}) ngay lập tức và sau đó "hoán đổi" (\term{swap}) sang phông chữ tùy chỉnh khi tệp font tải xong.
-Các giá trị khác của \codeinline{font-display}:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \codeinline{auto}: Mặc định của trình duyệt (thường ẩn chữ tạm thời).
-    \item \codeinline{block}: Ẩn chữ tối đa 3 giây chờ font tải xong (hiện tượng FOIT).
-    \item \codeinline{fallback}: Ẩn chữ cực ngắn (100ms), nếu font không tải xong trong 3s sẽ dùng luôn font dự phòng.
-    \item \codeinline{optional}: Trình duyệt tự quyết định dựa trên tốc độ mạng của người dùng.
+\paragraph{Giải Thích Chi Tiết Các Thuộc Tính Trong Quy Tắc @font-face:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{font-family}: Tên mà bạn tự đặt để sử dụng trong các thuộc tính \codeinline{font-family} khác của CSS.
+    \item \codeinline{src}: Chỉ định đường dẫn đến tệp font. Bạn có thể liệt kê nhiều định dạng với hàm \codeinline{format()} để trình duyệt tự chọn định dạng ưu việt nhất mà nó hỗ trợ (ví dụ chọn \codeinline{.woff2} trước).
+    \item \codeinline{font-weight} và \codeinline{font-style}: Rất quan trọng! Bạn cần định nghĩa riêng từng style (ví dụ: Regular, Italic, Bold) của font bằng một khối \codeinline{@font-face} riêng và gán cho nó \codeinline{font-weight} và \codeinline{font-style} tương ứng. Khi bạn viết \codeinline{font-weight: bold;} trong CSS, trình duyệt sẽ tự động tìm đúng tệp font đã được định nghĩa là bold trong \codeinline{@font-face}.
+    \item \codeinline{font-display}: Thuộc tính cực kỳ quan trọng để kiểm soát hành vi hiển thị font của trình duyệt trong khi tệp font đang được tải về từ mạng.
 \end{itemize}
+
+\begin{conceptBox}[Phân Tích Chi Tiết Các Giá Trị Của Thuộc Tính font-display]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{auto}: Trình duyệt tự quyết định hành vi (thường tương tự như \codeinline{block}).
+    \item \codeinline{block}: Trình duyệt sẽ ẩn văn bản cho đến khi font được tải xong (thường ẩn tối đa 3 giây), sau đó mới hiển thị font tùy chỉnh. Nếu không tải được, nó sẽ dùng font dự phòng. Gây hiện tượng \term{FOIT} (\term{Flash of Invisible Text}).
+    \item \codeinline{swap} (\textbf{Được khuyến nghị mạnh mẽ}): Hiển thị văn bản ngay lập tức bằng font dự phòng (\term{fallback font}), sau đó "hoán đổi" (\term{swap}) sang font tùy chỉnh khi nó đã tải xong. Giúp tránh văn bản bị ẩn, nâng cao điểm trải nghiệm người dùng (\term{UX}).
+    \item \codeinline{fallback}: Thời gian ẩn cực ngắn (khoảng 100ms), sau đó hiển thị font dự phòng. Nếu font tải xong trong thời gian ngắn đó, nó sẽ được sử dụng; nếu không, sẽ giữ nguyên font dự phòng mà không hoán đổi nữa.
+    \item \codeinline{optional}: Tương tự \codeinline{fallback}, nhưng trình duyệt có thể quyết định hủy bỏ tải font tùy chỉnh luôn nếu kết nối mạng của người dùng quá chậm.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{Đánh Giá Ưu Điểm Và Nhược Điểm Của Phương Pháp @font-face:}
+
+\begin{prettyTableBox}[Bảng So Sánh Ưu Điểm Và Nhược Điểm Của Tự Host Font (@font-face)]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Ưu điểm} & \thd{\sffamily Nhược điểm} \\
+\hline
+\textcolor{green!60!black}{\textbf{Kiểm soát hoàn toàn}}: Có thể sử dụng bất kỳ font tùy chỉnh hay font bản quyền nào bạn có quyền sở hữu. & \textcolor{red!80!black}{\textbf{Cần tự quản lý tệp font}}: Bạn phải tự lưu trữ, tổ chức thư mục và quản lý các tệp font trên server. \\
+\hline
+\textcolor{green!60!black}{\textbf{Không phụ thuộc bên thứ ba}}: Tránh rủi ro khi dịch vụ bên ngoài (Google Fonts) bị gián đoạn hay bị chặn mạng. & \textcolor{red!80!black}{\textbf{Tương thích trình duyệt}}: Phải khai báo nhiều định dạng tệp font (\codeinline{.woff2}, \codeinline{.woff}, \codeinline{.ttf}) để đảm bảo chạy trên mọi thiết bị. \\
+\hline
+\textcolor{green!60!black}{\textbf{Bảo mật \& Tuân thủ dữ liệu}}: Phù hợp cho các doanh nghiệp có quy định nghiêm ngặt về quyền riêng tư dữ liệu người dùng. & \textcolor{red!80!black}{\textbf{Tối ưu hiệu suất}}: Nếu không dùng \codeinline{font-display: swap} hoặc tệp font quá lớn có thể làm chậm thời gian tải trang. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+% ------------------------------------------------------------------------------
+\subsubsection{3. Sử Dụng Adobe Fonts (Trước Đây Là Typekit)}
+
+Nếu bạn là người dùng Adobe Creative Cloud, bạn có quyền truy cập vào thư viện \term{Adobe Fonts}. Đây là một thư viện font chất lượng cao, thường được các nhà thiết kế chuyên nghiệp và doanh nghiệp lớn sử dụng cho dự án web.
+
+\paragraph{Các Bước Thực Hiện Nhúng Font Từ Adobe Fonts:}
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Bước 1: Kích hoạt font} $\rightarrow$ Đăng nhập vào Adobe Creative Cloud và truy cập Adobe Fonts. Tìm kiếm và chọn kích hoạt các font muốn dùng.
+    \item \textbf{Bước 2: Tạo dự án web} $\rightarrow$ Tạo một Web Project trong Adobe Fonts và thêm các font đã kích hoạt vào dự án đó.
+    \item \textbf{Bước 3: Lấy mã nhúng} $\rightarrow$ Adobe Fonts sẽ cung cấp cho bạn một đoạn mã \codeinline{<link>} (tương tự Google Fonts) để chèn vào phần \codeinline{<head>} của tài liệu HTML.
+    \begin{codeWindow}[Mã Nhúng HTML Từ Adobe Fonts]
+\begin{lstlisting}[language=HTML5]
+<link rel="stylesheet" href="https://use.typekit.net/your-kit-id.css">
+\end{lstlisting}
+    \end{codeWindow}
+    \item \textbf{Bước 4: Sử dụng font trong CSS} $\rightarrow$ Sau khi nhúng, bạn áp dụng tên font Adobe cung cấp vào thuộc tính \codeinline{font-family}.
+\end{enumerate}
+
+\paragraph{Ưu Điểm Và Nhược Điểm Của Adobe Fonts:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Ưu điểm}: Font chất lượng cao độc quyền chuyên nghiệp; nhúng dễ dàng tương tự Google Fonts; tối ưu hiệu suất tốc độ qua hệ thống CDN toàn cầu.
+    \item \textbf{Nhược điểm}: Yêu cầu đăng ký tài khoản trả phí Adobe Creative Cloud (không miễn phí như Google Fonts).
+\end{itemize}
+
+\begin{browserWindow}[Kết Quả: Nhúng Font Cao Cấp Adobe Fonts]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Kết quả hiển thị phông chữ Adobe Fonts (Typekit):}\par\vspace{6pt}
+  {\sffamily\fontsize{13}{17}\selectfont\color{darkgray} Font chữ cao cấp tải nhanh qua mạng phân phối CDN Adobe Typekit, đảm bảo nét chữ chuẩn mực cho các trang web thương mại chuyên nghiệp.}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\paragraph{Lời Khuyên Chung Về Hiệu Suất Khi Nhúng Font (Font Performance Best Practices):}
+
+\begin{tipBox}[Các Quy Tắc Vàng Tối Ưu Hiệu Suất Tải Font Trên Web]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Giảm số lượng font và style}: Mỗi font và từng biến thể style (Regular 400, Bold 700, Italic) đều là một tệp riêng biệt cần tải qua mạng. Chỉ nhúng những style mà bạn thực sự sử dụng trong thiết kế.
+    \item \textbf{Sử dụng \codeinline{font-display: swap;}}: Đây là khuyến nghị mạnh mẽ nhất để loại bỏ hoàn toàn hiện tượng chữ bị ẩn (\term{FOIT}) và cải thiện tốc độ hiển thị nội dung đầu tiên (\term{FCP - First Contentful Paint}) cho người dùng.
+    \item \textbf{Tối ưu hóa tệp font}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Ưu tiên sử dụng định dạng \codeinline{.woff2} bất cứ khi nào có thể vì nén tốt nhất.
+        \item Cân nhắc kỹ thuật \term{"subsetting"} font (chỉ giữ lại các bộ ký tự chữ cái thực sự dùng, loại bỏ các ký tự hiếm hoặc ngôn ngữ khác không dùng đến) để giảm 50\%--80\% dung lượng tệp font.
+    \end{itemize}
+    \item \textbf{Sử dụng kỹ thuật Preconnect và Preload}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \codeinline{rel="preconnect"}: Thông báo cho trình duyệt chủ động thiết lập kết nối sớm tới domain máy chủ font.
+        \item \codeinline{rel="preload"}: Yêu cầu trình duyệt ưu tiên tải tài nguyên stylesheet font càng sớm càng tốt.
+    \end{itemize}
+    \begin{codeWindow}[Cú Pháp Preconnect \& Preload Chuẩn]
+\begin{lstlisting}[language=HTML5]
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" as="style">
+\end{lstlisting}
+    \end{codeWindow}
+    \textit{Lưu ý}: Thuộc tính \codeinline{as="style"} rất quan trọng để chỉ ra rằng tài nguyên đang được ưu tiên tải trước là một tệp stylesheet.
+\end{enumerate}
 \end{tipBox}
 
-\subsubsection{3. Nhúng Font Qua Adobe Fonts (Typekit)}
-Nếu sở hữu tài khoản Adobe Creative Cloud, bạn có thể sử dụng thư viện font cao cấp Adobe Fonts. Quá trình nhúng tương tự như Google Fonts thông qua đoạn mã Script / HTML chèn vào trang.
+Bằng cách lựa chọn phương pháp nhúng font phù hợp và áp dụng các mẹo tối ưu hiệu suất trên, bạn có thể đảm bảo rằng trang web của mình không chỉ đẹp mắt với các phông chữ tùy chỉnh độc đáo mà còn có tốc độ tải nhanh chóng, mang lại trải nghiệm người dùng tuyệt vời!
 
 \subsection{Mẹo \& Best Practices Tối Ưu Typography Trong CSS}
 
