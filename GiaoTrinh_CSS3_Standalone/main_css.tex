@@ -648,6 +648,13 @@ selector {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả: Sơ Đồ Cấu Trúc Khai Báo CSS]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Khái niệm cốt lõi:}\par\vspace{4pt}
+  {\sffamily Trình duyệt sẽ tìm tất cả các phần tử khớp với \codeinline{selector} trên trang HTML và áp dụng lần lượt các thuộc tính định kiểu bên trong khối khai báo \codeinline{\{\}}.}
+\end{tcolorbox}
+\end{browserWindow}
+
 \subsection{Ví Dụ Cụ Thể \& Giải Thích Cú Pháp}
 \begin{codeWindow}[Khai Báo Style Cho Thẻ h1]
 \begin{lstlisting}[language=CSS3]
@@ -3213,7 +3220,7 @@ h4 {
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
   {\sffamily\bfseries\color{primaryBlue} line-height: 1.0 (chật, khó đọc):}\par
   {\setlength{\baselineskip}{12pt}\sffamily\small Dòng đầu của đoạn văn. Dòng này ngay sát dòng trên khiến mắt người đọc phải cố gắng hơn và dễ bị mỏi.}\par\vspace{8pt}
-  {\sffamily\bfseries\color{accentOrange} line-height: 1.6 (thoải mái, chuẩn \checkmark):}\par
+  {\sffamily\bfseries\color{accentOrange} line-height: 1.6 (thoải mái, chuẩn):}\par
   {\setlength{\baselineskip}{19pt}\sffamily\small Dòng đầu của đoạn văn.\par Dòng tiếp theo có khoảng cách thoải mái giúp mắt di chuyển tự nhiên và nội dung dễ tiếp thu hơn.}\par\vspace{4pt}
   {\sffamily\small\color{gray!70} → Khuyến nghị: \codeinline{line-height: 1.5} đến \codeinline{1.8} cho văn bản đọc dài.}
 \end{tcolorbox}
@@ -3312,6 +3319,13 @@ body {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả: Hiển Thị Văn Bản Với Google Fonts Roboto]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Kết quả hiển thị phông chữ Roboto nhúng từ Google Fonts:}\par\vspace{6pt}
+  {\sffamily\fontsize{14}{18}\selectfont Đây là đoạn văn bản sử dụng font Roboto tải từ Google Fonts CDN, hiển thị nét chữ hiện đại và chuẩn xác trên mọi thiết bị.}
+\end{tcolorbox}
+\end{browserWindow}
+
 \subsubsection{2. Sử Dụng Quy Tắc @font-face (Tự Host Font Trên Server)}
 Đây là giải pháp tự host các tệp font trực tiếp trên máy chủ của bạn. Bạn cần cung cấp các định dạng tệp font khác nhau để đảm bảo trình duyệt cũ và mới đều tải được.
 
@@ -3342,6 +3356,13 @@ body {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Tự Host Custom Font Với @font-face]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Kết quả hiển thị Custom Font tự host:}\par\vspace{6pt}
+  {\sffamily\fontsize{13}{17}\selectfont\color{darkgray} Trang web tự tải tệp \codeinline{.woff2} từ thư mục nội bộ server. Nhờ \codeinline{font-display: swap;}, chữ hiển thị tức thì không bị giật trang.}
+\end{tcolorbox}
+\end{browserWindow}
 
 \begin{tipBox}[Phân Tích Chi Tiết Thuộc Tính font-display: swap]
 Thuộc tính \codeinline{font-display: swap;} cực kỳ quan trọng cho hiệu suất trải nghiệm người dùng (UX). Nó cho phép trình duyệt hiển thị văn bản bằng phông chữ dự phòng (\term{fallback font}) ngay lập tức và sau đó "hoán đổi" (\term{swap}) sang phông chữ tùy chỉnh khi tệp font tải xong.
@@ -3458,6 +3479,14 @@ body {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Tối Ưu Font Cao Cấp Với Variable Fonts \& font-synthesis]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Minh họa kết quả Variable Font \& font-synthesis:}\par\vspace{6pt}
+  {\sffamily\fontsize{14}{18}\selectfont\fontseries{b}\selectfont Tiêu đề co giãn độ đậm 650 mượt mà từ 1 tệp .woff2 duy nhất.}\par\vspace{4pt}
+  {\sffamily\small\color{gray!70} → \codeinline{font-synthesis: none;} bảo vệ nét thiết kế chuẩn của phông chữ gốc, loại bỏ hoàn toàn hiện tượng nghiêng/đậm giả lập.}
+\end{tcolorbox}
+\end{browserWindow}
 % MỤC 5: PHÂN LOẠI BỘ CHỌN CSS (CSS SELECTORS MASTERCLASS)
 % ==============================================================================
 \section{Các Loại Selectors Trong CSS (CSS Selectors Masterclass)}
@@ -3879,6 +3908,19 @@ Bộ chọn chung dùng dấu sao \codeinline{*} giúp bạn chọn tất cả c
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Hiệu Ứng Bộ Chọn Chung Universal Selector (*)]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Tác động toàn diện của \codeinline{*}:}\par\vspace{6pt}
+  \begin{tcolorbox}[colback=red!5, colframe=red!50, arc=2pt, boxrule=0.8pt, top=4pt, bottom=4pt, left=6pt, right=6pt]
+    {\sffamily\small\color{red!80!black} Thẻ \codeinline{<div>} có viền đỏ}
+    \begin{tcolorbox}[colback=red!10, colframe=red!60, arc=2pt, boxrule=0.8pt, top=4pt, bottom=4pt, left=6pt, right=6pt]
+      {\sffamily\small\color{red!80!black} Thẻ \codeinline{<p>} bên trong cũng có viền đỏ}
+    \end{tcolorbox}
+  \end{tcolorbox}\par\vspace{4pt}
+  {\sffamily\small\color{gray!70} → Bộ chọn \codeinline{*} nhắm trúng mọi thẻ HTML không ngoại lệ.}
+\end{tcolorbox}
+\end{browserWindow}
 
 \begin{noteBox}[Mẹo Giới Hạn Phạm Vi Của Universal Selector]
 Để tránh ảnh hưởng toàn trang, bạn có thể giới hạn phạm vi bằng cách kết hợp với bộ chọn cha:
@@ -5684,6 +5726,17 @@ h1 ~ p {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Tổng Hợp 4 Bộ Chọn Kết Hợp Trong Cây DOM]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Kết quả tương tác màu sắc của 4 bộ chọn:}\par\vspace{6pt}
+  \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{h1 + p}: Nhắm vào thẻ \codeinline{<p>} ngay sau \codeinline{<h1>} $\rightarrow$ \textbf{\color{green!70!black}Màu Xanh Lá (Green)}.
+    \item \codeinline{.container > p}: Nhắm vào thẻ \codeinline{<p>} con trực tiếp $\rightarrow$ \textbf{\color{red!80!black}Màu Đỏ (Red)} đè lên màu tím.
+    \item \codeinline{.container p}: Nhắm vào thẻ \codeinline{<p>} nằm sâu bên trong \codeinline{<div>} con $\rightarrow$ \textbf{\color{blue}Màu Xanh Dương (Blue)}.
+  \end{itemize}
+\end{tcolorbox}
+\end{browserWindow}
 
 \begin{conceptBox}[Sơ Đồ Phân Cấp Cây DOM Cho Ví Dụ Tổng Hợp]
 \begin{center}
@@ -10244,6 +10297,20 @@ Thuộc tính \codeinline{content} trong \codeinline{::before} và \codeinline{:
 </style>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Tooltip Động Thuần CSS Với content: attr()]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \begin{center}
+    \begin{tcolorbox}[colback=gray!90!black, colframe=gray!90!black, arc=3pt, boxrule=0pt, top=3pt, bottom=3pt, left=6pt, right=6pt, width=5.5cm, halign=center]
+      {\sffamily\small\color{white} Nhấn vào đây để lưu dữ liệu}
+    \end{tcolorbox}\par\vspace{-2pt}
+    \begin{tcolorbox}[colback=primaryBlue, colframe=primaryBlue, arc=4pt, boxrule=0.8pt, top=6pt, bottom=6pt, left=12pt, right=12pt, width=4.5cm, halign=center]
+      {\sffamily\bfseries\color{white} Lưu bài viết}
+    \end{tcolorbox}
+  \end{center}\par\vspace{2pt}
+  {\sffamily\small\color{gray!70} → Khi di chuột vào nút, \codeinline{::after} lấy thuộc tính \codeinline{data-tooltip} hiển thị làm khung chú thích phía trên.}
+\end{tcolorbox}
+\end{browserWindow}
 
 \begin{prettyTableBox}[2. Bảng So Sánh Chi Tiết: Pseudo-class (:) vs Pseudo-element (::)]
 \rowcolors{2}{white}{primaryBlue!4}
