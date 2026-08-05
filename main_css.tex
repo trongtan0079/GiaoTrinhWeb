@@ -1,0 +1,276 @@
+% !TEX program = xelatex
+\documentclass[11pt,oneside]{book}
+
+% ==============================================================================
+% NẠP CÁC FILE CẤU HÌNH DỰ ÁN
+% ==============================================================================
+\input{config/packages.tex}
+\input{config/commands.tex}
+\input{config/code_style.tex}
+
+% ------------------------------------------------------------------------------
+% CẤU HÌNH PHÔNG CHỮ & KIỂU DÁNG (XeLaTeX - Tiếng Việt Unicode)
+% ------------------------------------------------------------------------------
+\setmainfont{Times New Roman}[
+    BoldFont = Times New Roman Bold,
+    ItalicFont = Times New Roman Italic,
+    BoldItalicFont = Times New Roman Bold Italic
+]
+\setsansfont{Arial}[
+    BoldFont = Arial Bold,
+    ItalicFont = Arial Italic,
+    BoldItalicFont = Arial Bold Italic
+]
+\setmonofont{Consolas}[Scale=0.92]
+
+% ------------------------------------------------------------------------------
+% CẤU HÌNH TIÊU ĐỀ CHAPTER, SECTION, SUBSECTION (titlesec)
+% ------------------------------------------------------------------------------
+
+% 1. Định dạng Tiêu Đề Chương (Chapter) Tinh Tế & Gọn Gàng
+\titleformat{\chapter}[display]
+  {\normalfont\sffamily}
+  {
+    \begin{tikzpicture}
+      \node[fill=primaryBlue, text=white, font=\sffamily\bfseries\small, inner xsep=10pt, inner ysep=4pt, rounded corners=3pt] {CHƯƠNG \thechapter};
+    \end{tikzpicture}
+  }
+  {6pt}
+  {\Huge\bfseries\color{darkText}\raggedright}
+  [\vspace{8pt}{\color{primaryBlue}\hrule height 1.5pt}\vspace{15pt}]
+
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+
+% 1b. Định dạng Tiêu Đề Không Đánh Số (Mục Lục) Gọn Gàng & Tinh Tế
+\titleformat{name=\chapter,numberless}[block]
+  {\normalfont\Large\sffamily\bfseries\color{primaryBlue}}
+  {}
+  {0pt}
+  {}
+  [\vspace{4pt}{\color{accentOrange}\rule{5cm}{1.2pt}}\vspace{12pt}]
+
+\titlespacing*{name=\chapter,numberless}{0pt}{0pt}{15pt}
+
+% 2. Định dạng Section Gọn Gàng
+\titleformat{\section}
+  {\normalfont\Large\sffamily\bfseries\color{primaryBlue}}
+  {\thesection}
+  {10pt}
+  {}
+
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+% 3. Định dạng Subsection
+\titleformat{\subsection}
+  {\normalfont\large\sffamily\bfseries\color{secondaryTeal}}
+  {\thesubsection}
+  {8pt}
+  {}
+
+\titlespacing*{\subsection}{0pt}{9pt}{4pt}
+
+% 5. Định dạng Paragraph (Tiêu đề khối nhỏ - Không bị đè chữ)
+\titleformat{\paragraph}[hang]
+  {\normalfont\sffamily\bfseries\color{darkText}}
+  {\theparagraph}
+  {0pt}
+  {}
+
+\titlespacing*{\paragraph}{0pt}{6pt}{3pt}
+
+% 4. Định dạng Phần (Part) Sang Trọng & Cân Đối
+\titleformat{\part}[display]
+  {\normalfont\sffamily\centering}
+  {
+    \begin{tikzpicture}
+      \node[fill=primaryBlue, text=white, font=\sffamily\bfseries\Large, inner xsep=18pt, inner ysep=6pt, rounded corners=4pt] {PHẦN \thepart};
+    \end{tikzpicture}
+  }
+  {12pt}
+  {\Huge\bfseries\color{darkText}}
+  [\vspace{15pt}\centerline{\color{primaryBlue!40}\rule{8cm}{1pt}}]
+
+\titlespacing*{\part}{0pt}{100pt}{0pt}
+
+% ------------------------------------------------------------------------------
+% CẤU HÌNH HEADER & FOOTER (fancyhdr)
+% ------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\sffamily\small\color{darkText}\rightmark}
+\fancyfoot[R]{\sffamily\bfseries\color{primaryBlue}\thepage}
+\fancyfoot[C]{\sffamily\small\color{codeComment}Giáo Trình Chuyên Sâu CSS3 \& Thiết Kế Giao Diện Web}
+
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{{\color{primaryBlue!40}\hrule width\headwidth height\headrulewidth}}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{{\color{codeBorder}\hrule width\headwidth height\footrulewidth}}
+
+% ------------------------------------------------------------------------------
+% CẤU HÌNH TRANG ĐẦU CHAPTER (Plain style)
+% ------------------------------------------------------------------------------
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[R]{\sffamily\bfseries\color{primaryBlue}\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+
+% ==============================================================================
+% BẮT ĐẦU TÀI LIỆU
+% ==============================================================================
+\begin{document}
+\shorthandoff{"}
+
+% ------------------------------------------------------------------------------
+% TRANG BÌA CHÍNH (CSS MASTERCLASS COVER PAGE)
+% ------------------------------------------------------------------------------
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture, overlay]
+        % Khối Nền Xanh Navy Sang Trọng Đỉnh Trang
+        \fill[primaryBlue] (current page.north west) -- (current page.north east) -- ($(current page.north east)+(0,-10.5cm)$) -- ($(current page.north west)+(0,-8.5cm)$) -- cycle;
+        
+        % Dải Cam Điểm Nhấn Sắc Nét
+        \fill[accentOrange] ($(current page.north west)+(0,-8.5cm)$) -- ($(current page.north east)+(0,-10.5cm)$) -- ($(current page.north east)+(0,-10.9cm)$) -- ($(current page.north west)+(0,-8.9cm)$) -- cycle;
+        
+        % Mảng Họa Tiết Trang Trí Nhẹ Ở Góc Trên Bên Phải
+        \fill[white!15] ($(current page.north east)+(-6cm,0)$) -- (current page.north east) -- ($(current page.north east)+(0,-4.5cm)$) -- cycle;
+
+        % Thanh Nền Chân Trang
+        \fill[primaryBlue] ($(current page.south west)+(0,0)$) rectangle ($(current page.south east)+(0,1.3cm)$);
+        \fill[accentOrange] ($(current page.south west)+(0,1.3cm)$) rectangle ($(current page.south east)+(0,1.48cm)$);
+
+        % --- NỘI DUNG NỔI BẬT TRÊN BÌA ---
+        
+        % 1. Header Đơn Vị Phát Hành
+        \node[anchor=north west] at ($(current page.north west)+(2.2cm,-1.5cm)$) {
+            {\sffamily \bfseries \small \color{white!85} GIÁO TRÌNH ĐÀO TẠO KỸ SƯ FRONTEND CHUYÊN SÂU}
+        };
+
+        % 2. Tiêu Đề Chính Trắng & Cam Trên Nền Banner Xanh
+        \node[anchor=north west, text width=16cm] at ($(current page.north west)+(2.2cm,-2.8cm)$) {
+            {\fontsize{34pt}{40pt}\selectfont \sffamily \bfseries \color{white} GIÁO TRÌNH CSS3} \\[0.4cm]
+            {\fontsize{24pt}{30pt}\selectfont \sffamily \bfseries \color{accentOrange} THIẾT KẾ GIAO DIỆN WEB} \\[0.5cm]
+            {\large \sffamily \color{white!95} Từ Nền Tảng Layout đến Flexbox, Grid, CSS Variables \& Animations}
+        };
+
+        % 3. Khối Badge Kỹ Thuật (Nổi bật ở phần giao thoa)
+        \node[anchor=north west] at ($(current page.north west)+(2.2cm,-9.4cm)$) {
+            \begin{tcolorbox}[
+                on line,
+                colback=white,
+                colframe=primaryBlue!40,
+                boxrule=1.2pt,
+                arc=16pt,
+                left=16pt, right=16pt, top=8pt, bottom=8pt,
+                drop shadow=black!12!white
+            ]
+                {\sffamily \bfseries \small \color{primaryBlue}
+                \textcolor{accentOrange}{\rule{5pt}{5pt}}\; CSS Foundations \quad$\bullet$\quad 
+                \textcolor{accentOrange}{\rule{5pt}{5pt}}\; Flexbox \& Grid \quad$\bullet$\quad 
+                \textcolor{accentOrange}{\rule{5pt}{5pt}}\; Responsive \quad$\bullet$\quad 
+                \textcolor{accentOrange}{\rule{5pt}{5pt}}\; BEM \& Variables}
+            \end{tcolorbox}
+        };
+
+        % 4. Khối Giới Thiệu Tóm Tắt (Thân Trang Cân Đối)
+        \node[anchor=center, text width=15.5cm, align=center] at ($(current page.center)+(0,-2.5cm)$) {
+            \begin{tcolorbox}[
+                colback=white,
+                colframe=primaryBlue!25,
+                boxrule=1pt,
+                arc=10pt,
+                top=16pt, bottom=16pt, left=20pt, right=20pt,
+                drop shadow=black!6!white
+            ]
+                \centering
+                {\Large \sffamily \bfseries \color{primaryBlue} TÀI LIỆU CHUYÊN SÂU TẬP TRUNG CSS3} \\[0.3cm]
+                {\color{accentOrange}\rule{6cm}{1.2pt}} \\[0.3cm]
+                {\small \sffamily \color{darkText} 
+                Chuyên đề độc lập phục vụ biên soạn \& tối ưu tốc độ biên dịch XeLaTeX $\bullet$ Đầy đủ 5 chương CSS}
+            \end{tcolorbox}
+        };
+
+        % 5. Thông Tin Tác Giả & Năm ở Đáy Bìa
+        \node[anchor=south west] at ($(current page.south west)+(2.2cm,1.9cm)$) {
+            {\sffamily \bfseries \small \color{primaryBlue} ĐỘI NGŨ BIÊN SOẠN WEB} \\
+            {\sffamily \scriptsize \color{codeComment} Tài liệu lưu hành nội bộ}
+        };
+
+        \node[anchor=south east] at ($(current page.south east)+(-2.2cm,1.9cm)$) {
+            {\sffamily \bfseries \small \color{primaryBlue} NĂM 2026} \\
+            {\sffamily \scriptsize \color{codeComment} Phiên bản Chuyên Đề CSS3}
+        };
+
+        % Thông điệp ở dòng chân trang màu xanh
+        \node[anchor=south, color=white, font=\sffamily\scriptsize\bfseries] at ($(current page.south)+(0,0.5cm)$) {
+            CHINH PHỤC NGHỆ THUẬT THIẾT KẾ GIAO DIỆN WEB HIỆN ĐẠI
+        };
+    \end{tikzpicture}
+\end{titlepage}
+
+% ------------------------------------------------------------------------------
+% TRANG BÌA PHỤ (SECONDARY COVER PAGE)
+% ------------------------------------------------------------------------------
+\clearpage
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+    % 1. Khung viền kép sang trọng chuẩn đối xứng tâm trang
+    \draw[primaryBlue, line width=1.4pt] 
+        ($(current page.north west)+(2.0cm,-2.0cm)$) rectangle ($(current page.south east)+(-2.0cm,2.0cm)$);
+    \draw[accentOrange, line width=0.7pt] 
+        ($(current page.north west)+(2.15cm,-2.15cm)$) rectangle ($(current page.south east)+(-2.15cm,2.15cm)$);
+
+    % 2. Header Đơn vị biên soạn
+    \node[anchor=north, align=center, text width=15cm] at ($(current page.north)+(0,-3.5cm)$) {
+        {\small \sffamily \bfseries \color{primaryBlue} ĐỘI NGŨ BIÊN SOẠN WEB} \\[0.2cm]
+        {\scriptsize \sffamily \color{codeComment} TÀI LIỆU LƯU HÀNH NỘI BỘ -- CHUYÊN ĐỀ CSS3}
+    };
+
+    % 3. Khối Tiêu Đề Chính
+    \node[anchor=center, align=center, text width=15cm] at ($(current page.center)+(0,2.2cm)$) {
+        {\fontsize{28pt}{34pt}\selectfont \sffamily \bfseries \color{primaryBlue} GIÁO TRÌNH CSS3} \\[0.4cm]
+        {\fontsize{20pt}{26pt}\selectfont \sffamily \bfseries \color{accentOrange} THIẾT KẾ GIAO DIỆN WEB} \\[0.6cm]
+        {\large \sffamily \color{darkText} Từ Nền Tảng Layout đến Flexbox, Grid, CSS Variables \& Animations}
+    };
+
+    % 4. Đường kẻ phân cách giữa trang
+    \draw[primaryBlue!35, line width=0.8pt] ($(current page.center)+(-4cm,-1.0cm)$) -- ($(current page.center)+(4cm,-1.0cm)$);
+
+    % 5. Thông tin giáo trình & Mô tả
+    \node[anchor=center, align=center, text width=15cm] at ($(current page.center)+(0,-2.8cm)$) {
+        {\large \sffamily \bfseries \color{primaryBlue} TẬP TRUNG BIÊN SOẠN \& THỰC HÀNH CSS3} \\[0.3cm]
+        {\small \sffamily \color{codeComment} Biên soạn chi tiết $\bullet$ Minh họa trực quan $\bullet$ Tối ưu tốc độ biên dịch}
+    };
+
+    % 6. Footer Chân Trang
+    \node[anchor=south, align=center, text width=15cm] at ($(current page.south)+(0,3.2cm)$) {
+        {\sffamily \bfseries \small \color{primaryBlue} NĂM 2026} \\[0.1cm]
+        {\sffamily \scriptsize \color{darkText} Phiên bản XeLaTeX Unicode}
+    };
+\end{tikzpicture}
+\clearpage
+
+% ==============================================================================
+% MỤC LỤC TÀI LIỆU (TABLE OF CONTENTS)
+% ==============================================================================
+\frontmatter
+\renewcommand{\contentsname}{MỤC LỤC TÀI LIỆU CSS3}
+\setcounter{tocdepth}{2}
+
+\tableofcontents
+\clearpage
+
+% ==============================================================================
+% NỘI DUNG GIÁO TRÌNH CSS3 CHUYÊN SÂU
+% ==============================================================================
+\mainmatter
+
+\part{CSS3 -- Thiết Kế Giao Diện \& Bố Cục Trang Web}
+\input{chapters/part3_css3/ch06_css_foundations.tex}
+\input{chapters/part3_css3/ch07_flexbox_grid.tex}
+\input{chapters/part3_css3/ch08_responsive_design.tex}
+\input{chapters/part3_css3/ch09_css_variables_bem.tex}
+\input{chapters/part3_css3/ch10_animations_transitions.tex}
+
+\end{document}
