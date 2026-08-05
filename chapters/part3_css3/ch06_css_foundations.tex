@@ -2129,13 +2129,178 @@ fantasy & Kỳ lạ, độc đáo, thu hút mạnh. & Tiêu đề quảng cáo �
 \end{tabularx}
 \end{prettyTableBox}
 
+\paragraph{7. Chuyên Đề System Font Stack Trong CSS (System-UI Masterclass):}
+\label{sec:system_font_stack}
 
+System Font (phông chữ hệ thống) là phông chữ mặc định được cài đặt sẵn trên hệ điều hành mà người dùng đang sử dụng (như Windows, macOS, iOS, Android, Linux). Khi bạn khai báo system font trong CSS, trình duyệt sẽ hiển thị văn bản bằng đúng phông chữ hệ thống đó, giúp giao diện trang web đồng bộ tuyệt đối với các thành phần của hệ điều hành (menu, tiêu đề cửa sổ, nút bấm hệ thống...).
+
+\begin{conceptBox}[Khái Niệm Cốt Lõi Về System Font]
+\textbf{1. System Font Là Gì?}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khái niệm}: System Font là bộ phông chữ giao diện người dùng mặc định (\term{Native UI Font}) của hệ điều hành.
+    \item \textbf{Cơ chế hiển thị}: Trình duyệt truy xuất trực tiếp font chữ của hệ điều hành mà không cần tải bất kỳ tệp font nào từ máy chủ web hoặc dịch vụ bên ngoài (như Google Fonts).
+\end{itemize}
+\textbf{2. Tài Liệu \& Nguồn Tham Khảo Chuẩn Kỹ Thuật}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Tham khảo cấu trúc chuỗi System Font Stack tại: \href{https://css-tricks.com/snippets/css/system-font-stack/}{\codeinline{CSS-Tricks System Font Stack}}.
+    \item Kiểm tra mức độ phổ biến của các phông chữ tại: \href{https://www.cssfontstack.com/}{\codeinline{CSS Font Stack}}.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{Ưu Điểm Và Lý Do Nên Sử Dụng System Font:}
+
+\begin{prettyTableBox}[Bảng Phân Tích Chi Tiết Các Ưu Điểm Của System Font]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\bfseries\color{accentOrange}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Ưu điểm cốt lõi} & \thd{\sffamily Lý do kỹ thuật} & \thd{\sffamily Lợi ích trải nghiệm người dùng (UX)} \\
+\hline
+Tốc độ cực nhanh (Fast) & Không cần tải font từ web (Google Fonts / Custom Web Fonts). & Trang web hiển thị tức thì, loại bỏ hoàn toàn hiện tượng nhấp nháy chữ (\term{FOUT / FOIT}), tối ưu chỉ số Core Web Vitals. \\
+\hline
+Tương thích cao (High Compatibility) & Sử dụng phông chữ hệ thống được tối ưu hóa cho màn hình thiết bị. & Hiển thị chuẩn xác, thân thuộc và thân thiện với người dùng trên mọi hệ điều hành. \\
+\hline
+Thống nhất giao diện (UI Consistency) & Phông chữ giống hệt với giao diện hệ điều hành (OS/UI). & Giao diện trang web hòa nhập tự nhiên như một ứng dụng Native App của thiết bị. \\
+\hline
+Responsive tốt (High Adaptability) & Tự động tối ưu trên nhiều thiết bị và độ phân giải khác nhau. & Hiển thị sắc nét trên cả màn hình Retina / High-DPI và màn hình tiêu chuẩn. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Cách Sử Dụng system-ui Trong CSS (Cú Pháp Đơn Giản vs Fallback Đầy Đủ):}
+
+CSS Fonts Module Level 4 giới thiệu giá trị từ khóa \codeinline{system-ui}, cho phép gọi trực tiếp phông chữ mặc định của hệ điều hành hiện tại chỉ với một dòng mã.
+
+\begin{codeWindow}[1. Cú Pháp Đơn Giản Nhất Với system-ui (CSS Fonts Level 4)]
+\begin{lstlisting}[language=CSS3]
+/* Tu dong goi font mac dinh cua he dieu hanh hien tai */
+body {
+  font-family: system-ui;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Danh Sách Phông Chữ Mặc Định (UI Font) Theo Từng Hệ Điều Hành]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{4.2cm}|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Hệ điều hành (OS)} & \thd{\sffamily Font mặc định (UI Font)} & \thd{\sffamily Ghi chú đặc tính thị giác} \\
+\hline
+macOS & San Francisco & Phông chữ tối giản, sắc nét trên màn hình Retina của Apple. \\
+\hline
+iOS & San Francisco & Font chuẩn mực trên iPhone / iPad. \\
+\hline
+Windows 10+ & Segoe UI & Phông chữ giao diện chuẩn mực của Microsoft Windows. \\
+\hline
+Android & Roboto & Phông chữ mặc định hệ sinh thái Google / Android. \\
+\hline
+Ubuntu / Linux & Ubuntu & Phông chữ tự do chuẩn mực của hệ điều hành Ubuntu. \\
+\hline
+Older Windows (7 / XP / Vista) & Tahoma, Arial & Các phông chữ dự phòng cổ điển trên hệ điều hành Windows cũ. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[2. Chuỗi Khai Báo Dự Phòng Đầy Đủ (Full System Font Stack Fallback)]
+\begin{lstlisting}[language=CSS3]
+/* Chuoi Fallback System Font Stack giup tuong thich tuyet doi moi trinh duyet & OS */
+body {
+  font-family:
+    -apple-system,       /* macOS & iOS (Safari / Apple WebKit) */
+    BlinkMacSystemFont,  /* Chrome & Opera tren macOS (Blink Engine) */
+    "Segoe UI",          /* Windows 10 / 11 */
+    Roboto,              /* Android */
+    Ubuntu,              /* Ubuntu Linux */
+    "Helvetica Neue",    /* macOS / iOS phien ban cu */
+    sans-serif;          /* Generic Fallback cuoi cung */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Cơ Chế Hoạt Động Của Chuỗi Fallback Font]
+Trình duyệt sẽ duyệt danh sách từ trên xuống dưới và chọn phông chữ đầu tiên có sẵn trên hệ điều hành của người dùng. Nếu không tìm thấy font nào trong danh sách, trình duyệt sẽ tự động dự phòng xuống nhóm font tổng quát \codeinline{sans-serif}.
+\end{tipBox}
+
+\paragraph{Ví Dụ Thực Tế \& Kết Quả Hiển Thị System Font:}
+
+\begin{codeWindow}[Ví Dụ Mã Nguồn HTML \& CSS Sử Dụng System Font]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Vi Du System Font</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #212529;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tiêu đề theo system font</h1>
+  <p>Đây là đoạn văn bản sử dụng font mặc định của hệ điều hành bạn đang dùng.</p>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế Của System Font Trên Trình Duyệt]
+\sffamily\small
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=12pt, bottom=12pt, left=14pt, right=14pt]
+  {\fontsize{18}{22}\selectfont\bfseries\color{primaryBlue} Tiêu đề theo system font} \par\vspace{6pt}
+  {\fontsize{12}{16}\selectfont Đây là đoạn văn bản sử dụng font mặc định của hệ điều hành bạn đang dùng. Giao diện tự động hòa nhập với phông chữ hệ thống (San Francisco trên macOS/iOS, Segoe UI trên Windows, Roboto trên Android).}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{Lưu Ý Quan Trọng Khi Sử Dụng System Font:}
+
+\begin{prettyTableBox}[Bảng Phân Tích Lưu Ý \& Giải Thích Kỹ Thuật Khi Dùng System Font]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Lưu ý kỹ thuật} & \thd{\sffamily Giải thích chi tiết \& Giải pháp} \\
+\hline
+Không đồng nhất giữa các hệ điều hành & Mỗi hệ điều hành (macOS, Windows, Android) sử dụng một phông chữ hệ thống riêng, khiến giao diện văn bản có sự chênh lệch nhẹ về nét chữ giữa các thiết bị khác nhau. \\
+\hline
+Không thể chọn chính xác từng glyph / font cụ thể & Phụ thuộc hoàn toàn vào hệ điều hành của người dùng, nhà phát triển không thể can thiệp tùy chỉnh chi tiết từng nét glyph cố định. \\
+\hline
+Không hỗ trợ tốt các hệ thống cũ & Từ khóa \codeinline{system-ui} đòi hỏi trình duyệt hiện đại (Chrome 56+, Firefox 43+, Safari 11+). Bắt buộc phải kết hợp chuỗi fallback đầy đủ (\codeinline{-apple-system, "Segoe UI", Roboto...}) để đảm bảo hiển thị ổn định trên thiết bị cũ. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Tổng Kết Chuyên Đề System Font trong CSS:}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Kiến Thức Cốt Lõi Về System Font]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính / Khái niệm} & \thd{\sffamily Ý nghĩa \& Giá trị sử dụng} \\
+\hline
+system-ui & Gọi trực tiếp phông chữ giao diện mặc định của hệ điều hành hiện tại. \\
+\hline
+font-family fallback & Chuỗi phông chữ dự phòng đảm bảo hiển thị ổn định khi trình duyệt cũ không hỗ trợ \codeinline{system-ui}. \\
+\hline
+Ưu điểm vượt trội & Tốc độ tải cực nhanh (không tốn dung lượng mạng), giao diện thân thuộc với OS, hiệu suất cao. \\
+\hline
+Khuyết điểm hạn chế & Không kiểm soát chi tiết 100\% về kiểu dáng chữ cố định trên mọi thiết bị người dùng. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 
 % ==============================================================================
 % MỤC 5: PHÂN LOẠI BỘ CHỌN CSS (CSS SELECTORS MASTERCLASS)
 % ==============================================================================
 \section{Các Loại Selectors Trong CSS (CSS Selectors Masterclass)}
+
 
 Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML mà bạn muốn áp dụng kiểu dáng (\term{CSS styles}). CSS cung cấp nhiều loại selectors để bạn có thể chọn phần tử theo tên thẻ, ID, class, trạng thái, hoặc cấu trúc của chúng.
 
@@ -5185,13 +5350,15 @@ img:hover {
     \tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!50, boxrule=0.8pt, boxsep=4pt]{%
         \small\sffamily\bfseries\color{primaryBlue} [ Menu ] $\rightarrow$ Menu thả xuống hiện ra ngay phía dưới:%
     }
-    \begin{codeWindow}[Nội Dung Dropdown Xuất Hiện]
-    \begin{itemize}[leftmargin=1.2em, itemsep=1pt]
-        \item Mục 1
-        \item Mục 2
-        \item Mục 3
-    \end{itemize}
-    \end{codeWindow}
+    \par\vspace{4pt}
+    \begin{tcolorbox}[arc=4pt, colback=primaryBlue!5, colframe=primaryBlue!30, boxrule=0.8pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
+      \sffamily\small\bfseries\color{primaryBlue} Nội Dung Dropdown Xuất Hiện:
+      \begin{itemize}[leftmargin=1.2em, itemsep=1pt]
+          \item Mục 1
+          \item Mục 2
+          \item Mục 3
+      \end{itemize}
+    \end{tcolorbox}
 \end{itemize}
 \end{browserWindow}
 
@@ -5271,7 +5438,8 @@ selector:active {
 \end{itemize}
 \end{tipBox}
 
-\begin{conceptBox}[4. Ví Dụ Định Kiểu Tương Tác Với Thẻ Liên Kết (Link)]
+\paragraph{4. Ví Dụ Định Kiểu Tương Tác Với Thẻ Liên Kết (Link):}
+
 \begin{codeWindow}[Mã Nguồn CSS Kết Hợp :hover Và :active Cho Thẻ <a>]
 \begin{lstlisting}[language=HTML5]
 <a href="#" class="link">Sample Text</a>
@@ -5290,7 +5458,8 @@ selector:active {
 </style>
 \end{lstlisting}
 \end{codeWindow}
-\textbf{Giải thích chi tiết các trạng thái}:
+
+\begin{conceptBox}[Giải Thích Chi Tiết Các Trạng Thái Tương Tác]
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item Khi di chuột vào link $\rightarrow$ màu xanh lá (\codeinline{green}).
     \item Khi nhấn giữ link $\rightarrow$ màu đỏ (\codeinline{red} -- trạng thái active).
