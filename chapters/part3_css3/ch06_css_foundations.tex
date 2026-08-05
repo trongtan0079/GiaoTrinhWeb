@@ -1656,6 +1656,99 @@ Gợi ý sử dụng Best Practice & Tạo nút bấm (Button), biểu tượng 
 \end{tabularx}
 \end{prettyTableBox}
 
+\paragraph{3.7. Mẹo Chọn Màu Sắc Chuyên Nghiệp Cho Giao Diện Web (UI/UX Best Practices):}
+
+\begin{prettyTableBox}[Bảng Gợi Ý Phối Màu Thực Tế Chuẩn Chuyên Nghiệp]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{4.2cm}|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Mục đích sử dụng} & \thd{\sffamily Mã màu gợi ý} & \thd{\sffamily Nguyên tắc \& Lý do chọn} \\
+\hline
+Văn bản chính (Primary text) & \#212529, \#333333 & Dùng xám đậm thay vì đen tuyền \codeinline{\#000} để dịu mắt. \\
+\hline
+Văn bản phụ (Secondary text) & \#6c757d, \#888888 & Xám nhạt hơn để tạo tương phản phân cấp thông tin. \\
+\hline
+Nền chính (Main Background) & \#ffffff, \#f8f9fa & Trắng hoặc xám kem rất nhẹ tạo cảm giác sạch sẽ. \\
+\hline
+Nút gọi hành động (CTA Button) & \#007bff, \#ff6347 & Màu xanh/cam tươi nổi bật kích thích hành động nhấp. \\
+\hline
+Cảnh báo lỗi (Danger / Error) & \#dc3545, \#ff4d4f & Đỏ cảnh báo nổi bật đạt chuẩn tương phản W3C. \\
+\hline
+Giao diện tối (Dark Mode) & \#121212, \#1a1a1a & Nền tối kết hợp văn bản xám sáng (\codeinline{\#e0e0e0}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3.8. Ứng Dụng Màu Động Với CSS Variables \& JavaScript:}
+
+Trong phát triển ứng dụng Web thực tế, việc quản lý hệ thống màu sắc bằng Biến CSS (\term{CSS Variables}) và điều khiển linh hoạt qua JavaScript giúp hỗ trợ tính năng chuyển đổi giao diện sáng/tối (\term{Dark Mode / Theme Switch}) cực kỳ dễ dàng.
+
+\begin{codeWindow}[Khai Báo Hệ Thống Biến Màu Trong CSS]
+\begin{lstlisting}[language=CSS3]
+:root {
+  --primary-color: #3498db;
+  --text-color: #333333;
+  --bg-color: #ffffff;
+}
+
+/* Ap dung bien mau cho giao dien */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.button-main {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Cập Nhật Màu Động Bằng JavaScript]
+\begin{lstlisting}[language=JavaScript]
+// Thao tac thay doi mau nen bang JavaScript
+const heroElement = document.querySelector('.hero-section');
+heroElement.style.backgroundColor = 'rgba(255, 0, 0, 0.6)';
+
+// Thay doi gia tri bien CSS truc tiep qua JavaScript
+document.documentElement.style.setProperty('--primary-color', '#2ecc71');
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{3.9. Bảng So Sánh Tổng Quát Các Hệ Màu Trong CSS:}
+
+\begin{prettyTableBox}[Bảng So Sánh Toàn Diện Các Hệ Biểu Diễn Màu]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}\ttfamily}p{2.4cm}|c|c|c|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Hệ màu} & \thd{\sffamily Độ phổ biến} & \thd{\sffamily Dễ viết tay?} & \thd{\sffamily Hỗ trợ Alpha?} & \thd{\sffamily Ứng dụng phù hợp nhất} \\
+\hline
+Color Name & Thấp & \textcolor{green!60!black}{\textbf{Rất dễ}} & \textcolor{red}{\textbf{Không}} & Học tập, ví dụ nhanh, chạy thử nghiệm code. \\
+\hline
+Hexadecimal & \textcolor{green!60!black}{\textbf{Cao nhất}} & \textcolor{orange!90!black}{\textbf{Khá dễ}} & \textcolor{red}{\textbf{Không}} & Dự án web thực tế, sao chép mã từ Figma/Photoshop. \\
+\hline
+RGB / RGBA & \textcolor{green!60!black}{\textbf{Rất cao}} & Dài hơn & \textcolor{green!60!black}{\textbf{Có (RGBA)}} & Hiệu ứng mờ overlay, đổ bóng, di chuột hover. \\
+\hline
+HSL / HSLA & Trung bình & Khó ban đầu & \textcolor{green!60!black}{\textbf{Có (HSLA)}} & Lập trình hệ màu động, theme sáng/tối, dải màu sắc. \\
+\hline
+CSS Variables & \textcolor{green!60!black}{\textbf{Rất cao}} & Chuẩn mực & \textcolor{green!60!black}{\textbf{Tùy thuộc biến}} & Xây dựng hệ thiết kế Design System chuyên nghiệp. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3.10. Kết Luận – Khi Nào Nên Dùng Hệ Màu Nào?}
+
+\begin{conceptBox}[Quy Tắc Vàng Lựa Chọn Hệ Màu Cho Dự Án]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Dự án nhỏ, làm bài tập nhanh}: Sử dụng \codeinline{Color Name} hoặc \codeinline{Hex}.
+    \item \textbf{Giao diện trang web thực tế / Sản phẩm nghiệp dư \& chuyên nghiệp}: Ưu tiên kết hợp \textbf{Mã Hex} với \textbf{CSS Variables} để quản lý tập trung.
+    \item \textbf{Cần hiệu ứng trong suốt, lớp phủ overlay, bóng mờ}: Sử dụng \textbf{RGBA} hoặc \textbf{HSLA}.
+    \item \textbf{Xây dựng dải màu chủ đạo, hệ màu động sáng/tối (\term{Dark Mode Switcher})}: Sử dụng \textbf{HSL kết hợp Biến CSS (\term{CSS Variables}) và JavaScript}.
+\end{enumerate}
+\end{conceptBox}
+
 % ==========================================
 % PHẦN 3.6: TÍNH KẾ THỪA CỦA THUỘC TÍNH COLOR
 % ==========================================
@@ -1820,14 +1913,14 @@ color: <value> & \textcolor{green!60!black}{\textbf{Có (Mặc định)}} & Mặ
 \hline
 color: inherit & \textcolor{green!60!black}{\textbf{Có (Ép buộc)}} & Ép phần tử nhận màu từ cha (khắc phục CSS Reset / User Agent Style). \\
 \hline
-color: initial & \textcolor{red!80!black}{\textbf{Không}} & Reset màu chữ về mặc định của trình duyệt (thường là đen \codeinline{\#000000}). \\
+color: initial & \textcolor{red}{\textbf{Không}} & Reset màu chữ về mặc định của trình duyệt (thường là đen \codeinline{\#000000}). \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
 % ==========================================
-% PHẦN 3.7: NHÓM PHÔNG CHỮ TỔNG QUÁT (GENERIC FONT FAMILIES MASTERCLASS)
-% ==============================================================================
+% PHẦN 3.7: TÍNH KẾ THỪA CỦA THUỘC TÍNH COLOR
+% ==========================================
 \subsection{Chuyên Đề Phông Chữ \& Typography Trong CSS (Generic Font Families Masterclass)}
 \label{sec:css_typography_foundations}
 
@@ -2036,98 +2129,7 @@ fantasy & Kỳ lạ, độc đáo, thu hút mạnh. & Tiêu đề quảng cáo �
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{4. Mẹo Chọn Màu Sắc Chuyên Nghiệp Cho Giao Diện Web (UI/UX Best Practices):}
 
-\begin{prettyTableBox}[Bảng Gợi Ý Phối Màu Thực Tế Chuẩn Chuyên Nghiệp]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{4.2cm}|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Mục đích sử dụng} & \thd{\sffamily Mã màu gợi ý} & \thd{\sffamily Nguyên tắc \& Lý do chọn} \\
-\hline
-Văn bản chính (Primary text) & \#212529, \#333333 & Dùng xám đậm thay vì đen tuyền \codeinline{\#000} để dịu mắt. \\
-\hline
-Văn bản phụ (Secondary text) & \#6c757d, \#888888 & Xám nhạt hơn để tạo tương phản phân cấp thông tin. \\
-\hline
-Nền chính (Main Background) & \#ffffff, \#f8f9fa & Trắng hoặc xám kem rất nhẹ tạo cảm giác sạch sẽ. \\
-\hline
-Nút gọi hành động (CTA Button) & \#007bff, \#ff6347 & Màu xanh/cam tươi nổi bật kích thích hành động nhấp. \\
-\hline
-Cảnh báo lỗi (Danger / Error) & \#dc3545, \#ff4d4f & Đỏ cảnh báo nổi bật đạt chuẩn tương phản W3C. \\
-\hline
-Giao diện tối (Dark Mode) & \#121212, \#1a1a1a & Nền tối kết hợp văn bản xám sáng (\codeinline{\#e0e0e0}). \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\paragraph{5. Ứng Dụng Màu Động Với CSS Variables \& JavaScript:}
-
-Trong phát triển ứng dụng Web thực tế, việc quản lý hệ thống màu sắc bằng Biến CSS (\term{CSS Variables}) và điều khiển linh hoạt qua JavaScript giúp hỗ trợ tính năng chuyển đổi giao diện sáng/tối (\term{Dark Mode / Theme Switch}) cực kỳ dễ dàng.
-
-\begin{codeWindow}[Khai Báo Hệ Thống Biến Màu Trong CSS]
-\begin{lstlisting}[language=CSS3]
-:root {
-  --primary-color: #3498db;
-  --text-color: #333333;
-  --bg-color: #ffffff;
-}
-
-/* Ap dung bien mau cho giao dien */
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
-
-.button-main {
-  background-color: var(--primary-color);
-  color: #ffffff;
-}
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{codeWindow}[Cập Nhật Màu Động Bằng JavaScript]
-\begin{lstlisting}[language=JavaScript]
-// Thao tac thay doi mau nen bang JavaScript
-const heroElement = document.querySelector('.hero-section');
-heroElement.style.backgroundColor = 'rgba(255, 0, 0, 0.6)';
-
-// Thay doi gia tri bien CSS truc tiep qua JavaScript
-document.documentElement.style.setProperty('--primary-color', '#2ecc71');
-\end{lstlisting}
-\end{codeWindow}
-
-\paragraph{6. Bảng So Sánh Tổng Quát Các Hệ Màu Trong CSS:}
-
-\begin{prettyTableBox}[Bảng So Sánh Toàn Diện Các Hệ Biểu Diễn Màu]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}\ttfamily}p{2.4cm}|c|c|c|Z|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Hệ màu} & \thd{\sffamily Độ phổ biến} & \thd{\sffamily Dễ viết tay?} & \thd{\sffamily Hỗ trợ Alpha?} & \thd{\sffamily Ứng dụng phù hợp nhất} \\
-\hline
-Color Name & Thấp & \textcolor{green!60!black}{\textbf{Rất dễ}} & \textcolor{red}{\textbf{Không}} & Học tập, ví dụ nhanh, chạy thử nghiệm code. \\
-\hline
-Hexadecimal & \textcolor{green!60!black}{\textbf{Cao nhất}} & \textcolor{orange!90!black}{\textbf{Khá dễ}} & \textcolor{red}{\textbf{Không}} & Dự án web thực tế, sao chép mã từ Figma/Photoshop. \\
-\hline
-RGB / RGBA & \textcolor{green!60!black}{\textbf{Rất cao}} & Dài hơn & \textcolor{green!60!black}{\textbf{Có (RGBA)}} & Hiệu ứng mờ overlay, đổ bóng, di chuột hover. \\
-\hline
-HSL / HSLA & Trung bình & Khó ban đầu & \textcolor{green!60!black}{\textbf{Có (HSLA)}} & Lập trình hệ màu động, theme sáng/tối, dải màu sắc. \\
-\hline
-CSS Variables & \textcolor{green!60!black}{\textbf{Rất cao}} & Chuẩn mực & \textcolor{green!60!black}{\textbf{Tùy thuộc biến}} & Xây dựng hệ thiết kế Design System chuyên nghiệp. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\paragraph{7. Kết Luận – Khi Nào Nên Dùng Hệ Màu Nào?}
-
-\begin{conceptBox}[Quy Tắc Vàng Lựa Chọn Hệ Màu Cho Dự Án]
-\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
-    \item \textbf{Dự án nhỏ, làm bài tập nhanh}: Sử dụng \codeinline{Color Name} hoặc \codeinline{Hex}.
-    \item \textbf{Giao diện trang web thực tế / Sản phẩm nghiệp dư \& chuyên nghiệp}: Ưu tiên kết hợp \textbf{Mã Hex} với \textbf{CSS Variables} để quản lý tập trung.
-    \item \textbf{Cần hiệu ứng trong suốt, lớp phủ overlay, bóng mờ}: Sử dụng \textbf{RGBA} hoặc \textbf{HSLA}.
-    \item \textbf{Xây dựng dải màu chủ đạo, hệ màu động sáng/tối (\term{Dark Mode Switcher})}: Sử dụng \textbf{HSL kết hợp Biến CSS (\term{CSS Variables}) và JavaScript}.
-\end{enumerate}
-\end{conceptBox}
 
 
 % ==============================================================================
