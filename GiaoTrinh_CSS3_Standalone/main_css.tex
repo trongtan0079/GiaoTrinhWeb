@@ -3747,49 +3747,255 @@ Thuộc tính \codeinline{font-variant} dùng để đặt các biến thể ch�
 \end{tcolorbox}
 \end{browserWindow}
 
-\subsubsection{6. Thuộc Tính line-height (Chiều Cao Dòng \& Khoảng Cách Dòng)}
+\subsubsection{6. Thuộc Tính line-height (Chiều Cao Dòng \& Khoảng Cách Dòng MASTERCLASS)}
 \label{sec:line_height}
 
-Thuộc tính \codeinline{line-height} dùng để thiết lập khoảng cách theo chiều đứng giữa các dòng văn bản.
+\subsection*{I. Khái Niệm Cốt Lõi Về line-height}
 
-\begin{prettyTableBox}[Các Giá Trị Của line-height]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Kiểu giá trị} & \thd{\sffamily Mô tả \& Khuyên dùng} \\
-\hline
-normal & Giá trị mặc định của trình duyệt (thường khoảng \codeinline{1.2}). \\
-\hline
-Số không đơn vị (ví dụ: \codeinline{1.5}, \codeinline{1.6}) & Giá trị này sẽ được nhân với \codeinline{font-size} hiện tại của phần tử. \textbf{Đây là cách được khuyến nghị nhất} vì nó tỷ lệ thuận tuyệt đối với kích thước font và không bị lỗi đè chữ khi con thừa kế. \\
-\hline
-Đơn vị độ dài (px, em, rem) & Đặt chiều cao dòng cố định (ví dụ: \codeinline{30px}, \codeinline{1.8rem}). \\
-\hline
-Phần trăm (\%) & Tương đối theo phần trăm của kích thước font-size hiện tại. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
+Trong CSS, thuộc tính \codeinline{line-height} dùng để thiết lập chiều cao của mỗi dòng văn bản, hay nói cách khác là khoảng cách giữa các đường cơ sở (\term{baseline}) của các dòng chữ trong một khối văn bản. Nó \textbf{không làm thay đổi kích thước chữ thực tế}, mà thay đổi chiều cao của ``hộp dòng'' (\term{line box}) chứa văn bản, từ đó ảnh hưởng đến khoảng cách giữa các dòng.
 
-\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính line-height]
+\begin{warnBox}[Lưu Ý Quan Trọng]
+\codeinline{line-height} không chỉ giãn khoảng cách giữa các dòng chữ, mà còn ảnh hưởng đến \textbf{chiều cao tổng thể} của phần tử chứa text.
+\end{warnBox}
+
+\begin{conceptBox}[Tầm Quan Trọng Của line-height Trong Thiết Kế Web]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khả năng đọc (Readability):} \codeinline{line-height} có tác động lớn đến khả năng đọc của văn bản. Khoảng cách dòng quá gần hoặc quá xa đều có thể làm giảm trải nghiệm đọc. Khoảng cách dòng hợp lý giúp mắt dễ dàng theo dõi từ dòng này sang dòng khác, tránh tình trạng các dòng bị dính vào nhau hoặc quá rời rạc.
+    \item \textbf{Thẩm mỹ và thiết kế:} \codeinline{line-height} góp phần tạo nên vẻ ngoài tổng thể của typography trên trang web. Nó giúp tạo ra sự cân bằng và hài hòa giữa các khối văn bản và các yếu tố khác.
+    \item \textbf{Phân cấp trực quan:} Tương tự như \codeinline{font-weight}, bạn có thể sử dụng \codeinline{line-height} để phân biệt các loại nội dung (ví dụ: \codeinline{line-height} lớn hơn cho tiêu đề phụ hoặc \codeinline{line-height} nhỏ hơn cho các chú thích).
+\end{itemize}
+\end{conceptBox}
+
+% ---
+
+\subsection*{II. Cơ Chế Hoạt Động Của line-height (Line Box \& Leading)}
+
+Mỗi dòng văn bản được đặt trong một ``hộp dòng'' (\term{line box}). \codeinline{line-height} xác định chiều cao của hộp dòng này. Chiều cao của chữ (\term{content-area}) nằm ở giữa hộp dòng. Khoảng cách thêm vào phía trên và phía dưới của content-area được gọi là ``leading''. Nửa trên của leading được thêm vào phía trên của content-area, và nửa dưới được thêm vào phía dưới.
+
+\begin{conceptBox}[Công Thức Tính Leading]
+\begin{center}
+\codeinline{Leading = line-height - font-size}\\[4pt]
+\codeinline{Half-leading (trên) = Leading / 2}\\[4pt]
+\codeinline{Half-leading (dưới) = Leading / 2}
+\end{center}
+Điều này có nghĩa là khi bạn tăng \codeinline{line-height}, khoảng cách giữa các dòng sẽ tăng lên \textbf{đều ở cả phía trên và phía dưới} của văn bản, làm cho văn bản ``thông thoáng'' hơn.
+\end{conceptBox}
+
+\begin{tipBox}[Ví Dụ Trực Quan Minh Họa Cơ Chế Leading]
+Nếu \codeinline{font-size: 16px;} và \codeinline{line-height: 1.5;} (tức $16 \times 1.5 = 24\text{px}$):
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Tổng chiều cao dòng = $24\text{px}$
+    \item Leading = $24 - 16 = 8\text{px}$
+    \item Half-leading trên = $4\text{px}$ (thêm vào phía trên chữ)
+    \item Half-leading dưới = $4\text{px}$ (thêm vào phía dưới chữ)
+\end{itemize}
+$\rightarrow$ Phần tử text sẽ được căn giữa theo chiều cao dòng, phần dư chia đều cho trên và dưới.
+\end{tipBox}
+
+% ---
+
+\subsection*{III. Cú Pháp Và Các Giá Trị Của line-height}
+
+\begin{codeWindow}[Cú Pháp Định Dạng Chuẩn]
 \begin{lstlisting}[language=CSS3]
-p {
-  line-height: 1.6; /* Khoang cach dong se bang 1.6 lan kich thuoc font-size */
-}
-
-h4 {
-  line-height: 30px; /* Chieu cao dong co dinh 30px */
+selector {
+  line-height: normal | <number> | <length> | <percentage>;
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả: So Sánh Khoảng Cách Dòng line-height Khác Nhau]
+\begin{prettyTableBox}[Bảng Tra Cứu Chi Tiết Các Giá Trị Của line-height]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\color{primaryBlue}\bfseries}p{3.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Kiểu giá trị} & \thd{\sffamily Mô tả chi tiết \& Khuyên dùng} \\
+\hline
+normal & Trình duyệt tự động tính toán một giá trị hợp lý dựa trên \codeinline{font-size} và họ phông chữ đang sử dụng. Giá trị này thường nằm trong khoảng từ $1.0$ đến $1.2$ hoặc $1.4$. Đây là giá trị an toàn khi bạn không muốn can thiệp quá nhiều vào khoảng cách dòng. \\
+\hline
+number (số không đơn vị) & \textbf{Đây là cách được khuyến khích sử dụng nhất} vì tính linh hoạt và khả năng kế thừa tốt. Giá trị \codeinline{line-height} thực tế sẽ bằng \codeinline{font-size} của phần tử nhân với giá trị số này. Ví dụ: Nếu \codeinline{font-size} là \codeinline{16px} và \codeinline{line-height} là \codeinline{1.5}, thì chiều cao dòng sẽ là $16 \times 1.5 = 24\text{px}$. \textbf{Lợi ích}: Khi bạn thay đổi \codeinline{font-size} của phần tử con kế thừa \codeinline{line-height} dưới dạng số, \codeinline{line-height} của phần tử con đó sẽ tự động điều chỉnh theo \codeinline{font-size} mới. \\
+\hline
+length (px, em, rem) & Bạn có thể chỉ định một giá trị cụ thể bằng các đơn vị CSS như \codeinline{px}, \codeinline{em}, \codeinline{rem}, \codeinline{pt}. Ví dụ: \codeinline{line-height: 20px;} hoặc \codeinline{line-height: 1.2em;}. Khi sử dụng \codeinline{px}, giá trị \codeinline{line-height} là cố định và không thay đổi theo \codeinline{font-size}. \\
+\hline
+percentage (\%) & Giá trị \codeinline{line-height} sẽ được tính bằng phần trăm của \codeinline{font-size} hiện tại. Ví dụ: \codeinline{line-height: 150\%;} tương đương với $1.5$ lần \codeinline{font-size}. Lưu ý: Giá trị phần trăm sẽ tính toán dựa trên \codeinline{font-size} của chính phần tử đó, sau đó giá trị \textit{đã tính toán} này sẽ được kế thừa bởi các phần tử con (có thể gây kết quả không mong muốn). \\
+\hline
+inherit & Phần tử sẽ kế thừa giá trị \codeinline{line-height} đã tính toán từ phần tử cha của nó. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+% ---
+
+\subsection*{IV. Ví Dụ Minh Họa Chi Tiết Từng Kiểu Giá Trị line-height}
+
+\begin{codeWindow}[Ví Dụ 1: Dùng Số Không Đơn Vị (Được Khuyến Nghị Nhất)]
+\begin{lstlisting}[language=CSS3]
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6; /* 16px * 1.6 = 25.6px chieu cao dong */
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 1.2; /* 32px * 1.2 = 38.4px chieu cao dong */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ 2: Dùng Đơn Vị px (Giá Trị Cố Định)]
+\begin{lstlisting}[language=CSS3]
+.fixed-line-height {
+  font-size: 14px;
+  line-height: 24px; /* Dong cao 24px, khong phu thuoc font-size */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ 3: Dùng Phần Trăm]
+\begin{lstlisting}[language=CSS3]
+.percentage-line-height {
+  font-size: 18px;
+  line-height: 180%; /* 18px * 1.8 = 32.4px chieu cao dong */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ 4: Kế Thừa Từ Phần Tử Cha]
+\begin{lstlisting}[language=CSS3]
+.child-element {
+  line-height: inherit;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ---
+
+\subsection*{V. So Sánh Chi Tiết: number vs length vs percentage}
+
+\begin{prettyTableBox}[Bảng So Sánh 3 Kiểu Giá Trị line-height]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{2.8cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily number} & \thd{\sffamily length} & \thd{\sffamily \%} & \thd{\sffamily Ghi chú} \\
+\hline
+Đơn vị? & Không & Có (px, em...) & Có (\%) & number không có đơn vị \\
+\hline
+Tỷ lệ theo font-size & Có (linh hoạt) & Không (cố định) & Có & number linh hoạt nhất \\
+\hline
+Thay đổi theo cha & Có & Không & Không & number kế thừa tốt nhất \\
+\hline
+Dễ tái sử dụng & Có & Có & Ít dùng hơn & number \& length phổ biến \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Khuyến Nghị Sử Dụng]
+Dùng số (\codeinline{line-height: 1.5}) là cách phổ biến nhất và dễ tái sử dụng nhất. Giá trị này không phụ thuộc đơn vị, co giãn tốt khi kế thừa, và luôn giữ tỷ lệ chính xác với \codeinline{font-size} hiện tại.
+\end{tipBox}
+
+% ---
+
+\subsection*{VI. Kết Quả Hiển Thị: So Sánh Trực Quan line-height Khác Nhau}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: So Sánh Khoảng Cách Dòng line-height Khác Nhau]
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} line-height: 1.0 (chật, khó đọc):}\par
-  {\setlength{\baselineskip}{12pt}\sffamily\small Dòng đầu của đoạn văn. Dòng này ngay sát dòng trên khiến mắt người đọc phải cố gắng hơn và dễ bị mỏi.}\par\vspace{8pt}
-  {\sffamily\bfseries\color{accentOrange} line-height: 1.6 (thoải mái, chuẩn):}\par
-  {\setlength{\baselineskip}{19pt}\sffamily\small Dòng đầu của đoạn văn.\par Dòng tiếp theo có khoảng cách thoải mái giúp mắt di chuyển tự nhiên và nội dung dễ tiếp thu hơn.}\par\vspace{4pt}
-  {\sffamily\small\color{gray!70} → Khuyến nghị: \codeinline{line-height: 1.5} đến \codeinline{1.8} cho văn bản đọc dài.}
+  {\sffamily\bfseries\color{red!70!black} line-height: 1.0 (chật, khó đọc):}\par
+  {\setlength{\baselineskip}{12pt}\sffamily\small Dòng đầu của đoạn văn bản. Dòng này ngay sát dòng trên khiến mắt người đọc phải cố gắng hơn và dễ bị mỏi khi đọc lâu. Văn bản trông chật chội và thiếu chuyên nghiệp.}\par\vspace{10pt}
+  {\sffamily\bfseries\color{accentOrange} line-height: 1.4 (vừa đủ):}\par
+  {\setlength{\baselineskip}{16pt}\sffamily\small Dòng đầu của đoạn văn bản. Dòng này có khoảng cách vừa đủ, mắt theo dõi dễ hơn so với 1.0 nhưng vẫn có thể hơi gần khi đoạn văn dài.}\par\vspace{10pt}
+  {\sffamily\bfseries\color{green!60!black} line-height: 1.6 (thoải mái, chuẩn):}\par
+  {\setlength{\baselineskip}{19pt}\sffamily\small Dòng đầu của đoạn văn bản. Dòng tiếp theo có khoảng cách thoải mái giúp mắt di chuyển tự nhiên và nội dung dễ tiếp thu hơn. Đây là giá trị được khuyến nghị cho văn bản dài.}\par\vspace{10pt}
+  {\sffamily\bfseries\color{primaryBlue} line-height: 2.0 (rộng rãi, spacious):}\par
+  {\setlength{\baselineskip}{24pt}\sffamily\small Dòng đầu của đoạn văn bản. Khoảng cách dòng rất lớn, tạo cảm giác thoáng đãng. Phù hợp cho thiết kế hiện đại cần ``khoảng thở'' (spacious design).}\par\vspace{6pt}
+  {\sffamily\small\color{gray!70} $\rightarrow$ \textbf{Khuyến nghị:} \codeinline{line-height: 1.5} đến \codeinline{1.8} cho văn bản đọc dài (body text).}
 \end{tcolorbox}
 \end{browserWindow}
+
+% ---
+
+\subsection*{VII. Khi Nào Nên Điều Chỉnh line-height? (Hướng Dẫn UI/UX)}
+
+\begin{prettyTableBox}[Bảng Hướng Dẫn Chọn line-height Theo Trường Hợp Sử Dụng]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Trường hợp sử dụng} & \thd{\sffamily Giá trị khuyến nghị} & \thd{\sffamily Mục tiêu} \\
+\hline
+Văn bản dài (đoạn văn, blog) & \codeinline{1.5 -- 1.8} & Tăng khả năng đọc, mắt dễ theo dõi dòng dài. \\
+\hline
+Tiêu đề lớn (h1, h2) & \codeinline{1.1 -- 1.3} & Cân đối chữ không bị quá gần, không quá xa. \\
+\hline
+Button hoặc input & \codeinline{1.2 -- 1.4} & Giữa dòng nội dung đẹp hơn, căn giữa text. \\
+\hline
+Thiết kế hiện đại (spacious) & \codeinline{1.8 -- 2.0} & Tạo ``khoảng thở'' (spacious design). \\
+\hline
+Chú thích nhỏ (captions) & \codeinline{1.3 -- 1.5} & Gọn gàng, tiết kiệm không gian. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+% ---
+
+\subsection*{VIII. Lưu Ý Quan Trọng \& Mẹo Thực Hành Khi Dùng line-height}
+
+\begin{tipBox}[Ưu Tiên Giá Trị Số (Unitless Number)]
+Dùng \codeinline{number} (số không đơn vị) là cách tối ưu nhất vì nó không phụ thuộc đơn vị, co giãn tốt. Khi \codeinline{font-size} của phần tử thay đổi (ví dụ, do người dùng phóng to trang), \codeinline{line-height} sẽ tự động điều chỉnh theo tỷ lệ, giúp duy trì khả năng đọc.
+\end{tipBox}
+
+\begin{warnBox}[Tránh Dùng line-height: 0]
+Tránh dùng \codeinline{line-height: 0;} trừ khi xử lý layout đặc biệt. Giá trị $0$ có thể làm mất chữ hoặc chồng lấp nội dung.
+\end{warnBox}
+
+\begin{conceptBox}[Các Đặc Tính Kế Thừa \& Ảnh Hưởng Của line-height]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{line-height} ảnh hưởng đến chiều cao của \codeinline{inline} và \codeinline{inline-block} elements.
+    \item \codeinline{line-height} có thể kế thừa (\codeinline{inherit}) từ phần tử cha.
+    \item \codeinline{line-height} rất quan trọng trong thiết kế responsive UI -- bạn có thể dùng \codeinline{inherit}, \codeinline{initial}, \codeinline{unset} nếu cần kiểm soát rõ ràng.
+    \item Trên mobile: Tăng khoảng cách để văn bản thoáng hơn, cải thiện trải nghiệm người dùng trên màn hình nhỏ.
+\end{itemize}
+\end{conceptBox}
+
+\begin{conceptBox}[Quy Tắc Chung Khi Chọn line-height]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Đối với văn bản chính (body text): Thường nằm trong khoảng \codeinline{1.4} đến \codeinline{1.8}.
+    \item Đối với tiêu đề (headings): Có thể sử dụng \codeinline{line-height} nhỏ hơn, khoảng \codeinline{1.1} đến \codeinline{1.3}, vì tiêu đề thường có kích thước lớn và không cần nhiều khoảng trống giữa các dòng.
+    \item \textbf{Dòng càng dài, \codeinline{line-height} càng cần lớn hơn} để dễ đọc.
+    \item Không có một giá trị \codeinline{line-height} ``hoàn hảo'' cho mọi trường hợp. Nó phụ thuộc vào \codeinline{font-family}, \codeinline{font-size}, chiều dài dòng văn bản (line-length) và mục đích sử dụng. Hãy thử nghiệm và điều chỉnh để tìm ra giá trị phù hợp nhất cho thiết kế của bạn.
+\end{itemize}
+\end{conceptBox}
+
+% ---
+
+\subsection*{IX. Bảng Tổng Kết Nhanh line-height}
+
+\begin{prettyTableBox}[Tổng Kết Nhanh -- Hỏi \& Đáp Về line-height]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries}p{4.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Câu hỏi} & \thd{\sffamily Trả lời} \\
+\hline
+Nên dùng giá trị nào? & Số không đơn vị (\codeinline{1.4} -- \codeinline{1.6}) \\
+\hline
+Có nên gắn đơn vị? & Không cần (nên dùng số không đơn vị) \\
+\hline
+Mặc định là bao nhiêu? & \codeinline{normal} $\approx$ $1.2$ (trình duyệt tự định) \\
+\hline
+Ảnh hưởng đến gì? & Khoảng cách dòng, chiều cao phần tử text \\
+\hline
+Quan trọng khi nào? & Canh chỉnh UI, responsive design, tăng khả năng đọc \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Tổng Kết 4 Điểm Cốt Lõi Về Thuộc Tính line-height]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{line-height} xác định chiều cao hộp dòng (line box), ảnh hưởng trực tiếp đến khoảng cách dòng và khả năng đọc.
+    \item Luôn ưu tiên dùng giá trị \textbf{số không đơn vị} (\codeinline{1.5}, \codeinline{1.6}) vì linh hoạt, kế thừa tốt, và tỷ lệ thuận với \codeinline{font-size}.
+    \item Khoảng cách dư (\term{leading}) được chia đều cho phía trên và phía dưới chữ.
+    \item Kết hợp thông minh \codeinline{line-height} với \codeinline{font-size} và \codeinline{font-weight} giúp tạo ra typography đẹp mắt, dễ đọc và chuyên nghiệp.
+\end{enumerate}
+\end{conceptBox}
+
 
 \subsubsection{7. Thuộc Tính Viết Tắt font (Shorthand Property)}
 \label{sec:font_shorthand}
