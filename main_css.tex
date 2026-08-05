@@ -2,15 +2,385 @@
 \documentclass[11pt,oneside]{book}
 
 % ==============================================================================
-% NẠP CÁC FILE CẤU HÌNH DỰ ÁN
+% 1. CÁC THƯ VIỆN & CẤU HÌNH GÓI (PACKAGES)
 % ==============================================================================
-\input{config/packages.tex}
-\input{config/commands.tex}
-\input{config/code_style.tex}
+\usepackage{silence}
+\WarningFilter{tcolorbox}{Using nobreak failed}
+\WarningFilter{babel}{No hyphenation patterns}
+\WarningFilter{microtype}{Unable to apply patch}
+\WarningFilter{rerunfilecheck}{File `main.out'}
+\WarningFilter{latex}{Overfull}
+\WarningFilter{latex}{Underfull}
 
-% ------------------------------------------------------------------------------
-% CẤU HÌNH PHÔNG CHỮ & KIỂU DÁNG (XeLaTeX - Tiếng Việt Unicode)
-% ------------------------------------------------------------------------------
+\usepackage{fontspec}
+\usepackage[vietnamese]{babel}
+\shorthandoff{"}
+
+\usepackage[
+    paper=a4paper,
+    top=2.6cm,
+    bottom=2.6cm,
+    left=2.5cm,
+    right=2.5cm,
+    headheight=26pt,
+    headsep=20pt,
+    footskip=30pt
+]{geometry}
+
+\usepackage{xcolor}
+\usepackage{colortbl}
+\definecolor{primaryBlue}{HTML}{0F4C81}     % Classic Navy/Royal Blue
+\definecolor{secondaryTeal}{HTML}{008080}   % Teal Accent
+\definecolor{darkText}{HTML}{1A1A1A}        % Màu chữ đen dịu
+\definecolor{accentOrange}{HTML}{E65100}    % Cam điểm nhấn
+\definecolor{accentPurple}{HTML}{5E35B1}    % Tím sang trọng
+\definecolor{codeBg}{HTML}{F8FAFC}          % Nền code Slate nhạt
+\definecolor{codeBorder}{HTML}{CBD5E1}      % Viền code Slate
+\definecolor{codeComment}{HTML}{64748B}     % Màu chú thích Slate
+\definecolor{codeKeyword}{HTML}{D97706}     % Từ khóa Cam/Hổ phách đậm
+\definecolor{codeString}{HTML}{059669}      % Chuỗi ký tự Emerald
+\definecolor{codeKey}{HTML}{0284C7}         % Tên thuộc tính Cyan
+\definecolor{codeNumber}{HTML}{7C3AED}      % Giá trị số Indigo
+
+\definecolor{noteBg}{HTML}{F0F7FF}
+\definecolor{noteBorder}{HTML}{0F4C81}
+\definecolor{tipBg}{HTML}{F0FDF4}
+\definecolor{tipBorder}{HTML}{16A34A}
+\definecolor{warnBg}{HTML}{FFFBEB}
+\definecolor{warnBorder}{HTML}{D97706}
+\definecolor{conceptBg}{HTML}{F5F3FF}
+\definecolor{conceptBorder}{HTML}{7C3AED}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usetikzlibrary{shapes, shadows, arrows.meta, positioning, calc, decorations.pathreplacing, fit}
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{ragged2e}
+
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titletoc}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryBlue,
+    citecolor=secondaryTeal,
+    urlcolor=accentOrange,
+    pdfauthor={Đội Ngũ Lập Trình Web},
+    pdftitle={Giáo Trình CSS3 - Thiết Kế Giao Diện Web},
+    pdfkeywords={CSS3, Flexbox, Grid, Responsive Design, CSS Variables, BEM, Animations, XeLaTeX}
+}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{18pt}
+\setlength{\parskip}{2pt}
+
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+\setlist[itemize]{leftmargin=1.8em, itemsep=2pt, parsep=0pt, topsep=3pt, partopsep=0pt}
+\setlist[enumerate]{leftmargin=1.8em, itemsep=2pt, parsep=0pt, topsep=3pt, partopsep=0pt}
+
+\usepackage{setspace}
+\setstretch{1.15}
+\usepackage{needspace}
+
+% ==============================================================================
+% 2. ĐỊNH NGHĨA KHUNG HỘP (CALLOUT BOXES) & NÂNG CAO (COMMANDS)
+% ==============================================================================
+\hfuzz=500pt
+\vfuzz=500pt
+\hbadness=10000
+\vbadness=10000
+\tcbset{lines before break=1}
+
+\newtcolorbox{noteBox}[1][Ghi Chú Quan Trọng]{
+    enhanced,
+    before=\par\vspace{6pt}\noindent,
+    after=\par\vspace{6pt},
+    width=\linewidth,
+    colback=noteBg,
+    colframe=noteBorder,
+    boxrule=0.5pt,
+    arc=5pt,
+    title={\small\sffamily\bfseries\color{noteBorder} [Ghi Chú]\quad #1},
+    coltitle=noteBorder,
+    fonttitle=\bfseries\sffamily,
+    fontupper=\RaggedRight,
+    attach title to upper,
+    after title={\par\vspace{3pt}{\color{noteBorder!20}\hrule height 0.5pt}\par\vspace{5pt}},
+    top=7pt, bottom=7pt, left=12pt, right=12pt
+}
+
+\newtcolorbox{tipBox}[1][Mẹo Thực Hành]{
+    enhanced,
+    before=\par\vspace{6pt}\noindent,
+    after=\par\vspace{6pt},
+    width=\linewidth,
+    colback=tipBg,
+    colframe=tipBorder,
+    boxrule=0.5pt,
+    arc=5pt,
+    title={\small\sffamily\bfseries\color{tipBorder} [Mẹo]\quad #1},
+    coltitle=tipBorder,
+    fonttitle=\bfseries\sffamily,
+    fontupper=\RaggedRight,
+    attach title to upper,
+    after title={\par\vspace{3pt}{\color{tipBorder!20}\hrule height 0.5pt}\par\vspace{5pt}},
+    top=7pt, bottom=7pt, left=12pt, right=12pt
+}
+
+\newtcolorbox{warnBox}[1][Cảnh Báo \& Lỗi Thường Gặp]{
+    enhanced,
+    before=\par\vspace{6pt}\noindent,
+    after=\par\vspace{6pt},
+    width=\linewidth,
+    colback=warnBg,
+    colframe=warnBorder,
+    boxrule=0.5pt,
+    arc=5pt,
+    title={\small\sffamily\bfseries\color{warnBorder} [Cảnh Báo]\quad #1},
+    coltitle=warnBorder,
+    fonttitle=\bfseries\sffamily,
+    fontupper=\RaggedRight,
+    attach title to upper,
+    after title={\par\vspace{3pt}{\color{warnBorder!20}\hrule height 0.5pt}\par\vspace{5pt}},
+    top=7pt, bottom=7pt, left=12pt, right=12pt
+}
+
+\newtcolorbox{conceptBox}[1][Khái Niệm Cốt Lõi]{
+    enhanced,
+    before=\par\vspace{6pt}\noindent,
+    after=\par\vspace{6pt},
+    width=\linewidth,
+    colback=conceptBg,
+    colframe=conceptBorder,
+    boxrule=0.5pt,
+    arc=5pt,
+    title={\small\sffamily\bfseries\color{conceptBorder} [Khái Niệm]\quad #1},
+    coltitle=conceptBorder,
+    fonttitle=\bfseries\sffamily,
+    fontupper=\RaggedRight,
+    attach title to upper,
+    after title={\par\vspace{3pt}{\color{conceptBorder!20}\hrule height 0.5pt}\par\vspace{5pt}},
+    top=7pt, bottom=7pt, left=12pt, right=12pt
+}
+
+\newcommand{\macDots}{%
+  \tikz[baseline=-0.5ex]{
+    \fill[color=red!75!black] (0,0) circle (3pt);
+    \fill[color=yellow!85!black] (8pt,0) circle (3pt);
+    \fill[color=green!75!black] (16pt,0) circle (3pt);
+  }\hspace{8pt}%
+}
+
+\newtcolorbox{codeWindow}[1][Cửa Sổ Mã Nguồn]{
+    enhanced,
+    before=\par\vspace{8pt}\noindent,
+    after=\par\vspace{8pt},
+    width=\linewidth,
+    colback=codeBg,
+    colframe=primaryBlue!30,
+    colbacktitle=primaryBlue!8,
+    boxrule=0.8pt,
+    arc=7pt,
+    title={\macDots \small\sffamily\bfseries\color{primaryBlue} #1},
+    coltitle=primaryBlue,
+    fonttitle=\bfseries\sffamily,
+    top=6pt, bottom=4pt, left=8pt, right=8pt,
+    toptitle=5pt, bottomtitle=5pt, lefttitle=10pt, righttitle=10pt
+}
+
+\newtcolorbox{codeWindowBreakable}[1][Cửa Sổ Mã Nguồn]{
+    enhanced,
+    breakable,
+    before=\par\vspace{8pt}\noindent,
+    after=\par\vspace{8pt},
+    width=\linewidth,
+    colback=codeBg,
+    colframe=primaryBlue!30,
+    colbacktitle=primaryBlue!8,
+    boxrule=0.8pt,
+    arc=7pt,
+    title={\macDots \small\sffamily\bfseries\color{primaryBlue} #1},
+    coltitle=primaryBlue,
+    fonttitle=\bfseries\sffamily,
+    top=6pt, bottom=2pt, left=8pt, right=8pt,
+    toptitle=5pt, bottomtitle=5pt, lefttitle=10pt, righttitle=10pt
+}
+
+\newtcolorbox{browserWindow}[1][Mô Phỏng Trình Duyệt Web]{
+    enhanced,
+    before=\par\vspace{10pt}\noindent,
+    after=\par\vspace{10pt},
+    width=\linewidth,
+    colback=white,
+    colframe=primaryBlue!35,
+    colbacktitle=gray!10,
+    boxrule=0.8pt,
+    arc=8pt,
+    title={%
+        \macDots \;\; {\small\sffamily\bfseries\color{primaryBlue} BROWSER PREVIEW} \hfill
+        {\normalfont\small\sffamily\bfseries\color{darkText} #1}%
+    },
+    coltitle=darkText,
+    fonttitle=\bfseries\sffamily,
+    top=10pt, bottom=10pt, left=14pt, right=14pt,
+    toptitle=6pt, bottomtitle=6pt, lefttitle=10pt, righttitle=10pt
+}
+
+\newtcolorbox{prettyTableBox}[1][Bảng Thống Kê]{
+    enhanced,
+    before=\par\vspace{8pt}\needspace{4.5\baselineskip}\noindent,
+    after=\par\vspace{8pt},
+    width=\linewidth,
+    colback=white,
+    colframe=primaryBlue!30,
+    colbacktitle=primaryBlue!8,
+    boxrule=0.8pt,
+    arc=7pt,
+    title={\small\sffamily\bfseries\color{primaryBlue} [Bảng]\quad #1},
+    coltitle=primaryBlue,
+    fonttitle=\bfseries\sffamily,
+    top=0pt, bottom=0pt, left=0pt, right=0pt,
+    toptitle=5pt, bottomtitle=5pt, lefttitle=10pt, righttitle=10pt
+}
+
+\renewcommand{\arraystretch}{1.2}
+\arrayrulecolor{primaryBlue!20}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{Z}{>{\raggedright\arraybackslash}X}
+\newcolumntype{K}[1]{>{\ttfamily\color{accentOrange}\bfseries\raggedright\arraybackslash}m{#1}}
+
+\newcommand{\thd}[1]{\textcolor{white}{\textbf{\strut #1}}}
+\newcommand{\codeinline}[1]{\textcolor{accentOrange}{\texttt{#1}}}
+\newcommand{\term}[1]{\textbf{\textcolor{primaryBlue}{#1}}}
+\newcommand{\badge}[1]{\tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\small\sffamily\color{primaryBlue}#1}}
+
+% ==============================================================================
+% 3. CẤU HÌNH MÃ NGUỒN (CODE LISTINGS & UNICODE)
+% ==============================================================================
+\lstdefinelanguage{JavaScript}{
+    keywords={break, case, catch, class, const, continue, debugger, default, delete, do, else, export, extends, false, finally, for, function, if, import, in, instanceof, new, null, return, super, switch, this, throw, true, try, typeof, var, void, while, with, yield, async, await, let},
+    keywordstyle=\color{codeKeyword}\bfseries,
+    ndkeywords={class, export, default, boolean, throw, implements, import, this, fetch, console, log, then},
+    ndkeywordstyle=\color{codeKey}\bfseries,
+    identifierstyle=\color{darkText},
+    sensitive=true,
+    comment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{codeComment}\upshape,
+    stringstyle=\color{codeString},
+    morestring=[b]',
+    morestring=[b]",
+    morestring=[b]`
+}
+
+\lstdefinelanguage{HTML5}{
+    language=html,
+    sensitive=true,
+    alsoletter={<>=-/},
+    morekeywords={
+        <!DOCTYPE, html, head, title, meta, link, script, body,
+        header, nav, main, section, article, aside, footer,
+        h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, div, span,
+        form, input, button, select, option, textarea, label, table, tr, td, th,
+        figure, figcaption, details, summary, dialog, meter, progress, picture, source, video, audio, track, iframe, svg, canvas, math
+    },
+    keywordstyle=\color{primaryBlue}\bfseries,
+    tag=[s]{<}{>},
+    tagstyle=\color{primaryBlue}\bfseries,
+    stringstyle=\color{codeString},
+    morestring=[b]",
+    comment=[s]{<!--}{-->},
+    commentstyle=\color{codeComment}\upshape
+}
+
+\lstdefinelanguage{CSS3}{
+    keywords={color, background, background-color, border, border-radius, padding, margin, margin-bottom, font-weight, font-size, display, flex, grid, width, height, appearance},
+    keywordstyle=\color{primaryBlue}\bfseries,
+    sensitive=false,
+    comment=[s]{/*}{*/},
+    commentstyle=\color{codeComment}\upshape,
+    stringstyle=\color{codeString},
+    morestring=[b]",
+    morestring=[b]'
+}
+\lstdefinelanguage{CSS}{language=CSS3}
+
+\lstdefinelanguage{PHP}{
+    keywords={<?php, ?>, echo, print, date, if, else, foreach, while, return, function, class, array},
+    keywordstyle=\color{codeKeyword}\bfseries,
+    ndkeywords={echo, print, date},
+    ndkeywordstyle=\color{codeKey}\bfseries,
+    stringstyle=\color{codeString},
+    morestring=[b]",
+    morestring=[b]',
+    comment=[l]{//},
+    commentstyle=\color{codeComment}\upshape
+}
+
+\lstdefinelanguage{HTTP}{
+    keywords={GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS, HTTP, HTTPS, OK},
+    keywordstyle=\color{codeKeyword}\bfseries,
+    ndkeywords={Host, Content-Type, Content-Length, Cache-Control, Authorization, User-Agent, Accept, Connection, Server, Date, Status, Bearer, status, data, id, name, role},
+    ndkeywordstyle=\color{codeKey}\bfseries,
+    identifierstyle=\color{darkText},
+    sensitive=false,
+    stringstyle=\color{codeString},
+    morestring=[b]",
+    morestring=[b]',
+    comment=[l]{//},
+    commentstyle=\color{codeComment}\upshape
+}
+
+\lstdefinestyle{webcode}{
+    backgroundcolor=\color{codeBg},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    keepspaces=true,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    deletekeywords={...},
+    escapeinside={(*@}{@*)},
+    extendedchars=false,
+    inputencoding=utf8,
+    firstnumber=1,
+    frame=none,
+    rulecolor=\color{codeBorder},
+    language=JavaScript,
+    numbersep=8pt,
+    numbers=left,
+    numberstyle=\ttfamily\scriptsize\color{codeComment},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stepnumber=1,
+    tabsize=2,
+    aboveskip=3pt,
+    belowskip=1pt,
+    xleftmargin=16pt,
+    xrightmargin=4pt
+}
+
+\lstset{style=webcode}
+
+% ==============================================================================
+% 4. PHÔNG CHỮ & ĐỊNH DẠNG TIÊU ĐỀ (TITLES & FONTS)
+% ==============================================================================
 \setmainfont{Times New Roman}[
     BoldFont = Times New Roman Bold,
     ItalicFont = Times New Roman Italic,
@@ -23,11 +393,6 @@
 ]
 \setmonofont{Consolas}[Scale=0.92]
 
-% ------------------------------------------------------------------------------
-% CẤU HÌNH TIÊU ĐỀ CHAPTER, SECTION, SUBSECTION (titlesec)
-% ------------------------------------------------------------------------------
-
-% 1. Định dạng Tiêu Đề Chương (Chapter) Tinh Tế & Gọn Gàng
 \titleformat{\chapter}[display]
   {\normalfont\sffamily}
   {
@@ -41,7 +406,6 @@
 
 \titlespacing*{\chapter}{0pt}{-10pt}{20pt}
 
-% 1b. Định dạng Tiêu Đề Không Đánh Số (Mục Lục) Gọn Gàng & Tinh Tế
 \titleformat{name=\chapter,numberless}[block]
   {\normalfont\Large\sffamily\bfseries\color{primaryBlue}}
   {}
@@ -51,7 +415,6 @@
 
 \titlespacing*{name=\chapter,numberless}{0pt}{0pt}{15pt}
 
-% 2. Định dạng Section Gọn Gàng
 \titleformat{\section}
   {\normalfont\Large\sffamily\bfseries\color{primaryBlue}}
   {\thesection}
@@ -60,7 +423,6 @@
 
 \titlespacing*{\section}{0pt}{12pt}{6pt}
 
-% 3. Định dạng Subsection
 \titleformat{\subsection}
   {\normalfont\large\sffamily\bfseries\color{secondaryTeal}}
   {\thesubsection}
@@ -69,7 +431,6 @@
 
 \titlespacing*{\subsection}{0pt}{9pt}{4pt}
 
-% 5. Định dạng Paragraph (Tiêu đề khối nhỏ - Không bị đè chữ)
 \titleformat{\paragraph}[hang]
   {\normalfont\sffamily\bfseries\color{darkText}}
   {\theparagraph}
@@ -78,7 +439,6 @@
 
 \titlespacing*{\paragraph}{0pt}{6pt}{3pt}
 
-% 4. Định dạng Phần (Part) Sang Trọng & Cân Đối
 \titleformat{\part}[display]
   {\normalfont\sffamily\centering}
   {
@@ -92,9 +452,6 @@
 
 \titlespacing*{\part}{0pt}{100pt}{0pt}
 
-% ------------------------------------------------------------------------------
-% CẤU HÌNH HEADER & FOOTER (fancyhdr)
-% ------------------------------------------------------------------------------
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\sffamily\small\color{darkText}\rightmark}
@@ -106,9 +463,6 @@
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\footrule}{{\color{codeBorder}\hrule width\headwidth height\footrulewidth}}
 
-% ------------------------------------------------------------------------------
-% CẤU HÌNH TRANG ĐẦU CHAPTER (Plain style)
-% ------------------------------------------------------------------------------
 \fancypagestyle{plain}{
   \fancyhf{}
   \fancyfoot[R]{\sffamily\bfseries\color{primaryBlue}\thepage}
@@ -127,34 +481,23 @@
 % ------------------------------------------------------------------------------
 \begin{titlepage}
     \begin{tikzpicture}[remember picture, overlay]
-        % Khối Nền Xanh Navy Sang Trọng Đỉnh Trang
         \fill[primaryBlue] (current page.north west) -- (current page.north east) -- ($(current page.north east)+(0,-10.5cm)$) -- ($(current page.north west)+(0,-8.5cm)$) -- cycle;
-        
-        % Dải Cam Điểm Nhấn Sắc Nét
         \fill[accentOrange] ($(current page.north west)+(0,-8.5cm)$) -- ($(current page.north east)+(0,-10.5cm)$) -- ($(current page.north east)+(0,-10.9cm)$) -- ($(current page.north west)+(0,-8.9cm)$) -- cycle;
-        
-        % Mảng Họa Tiết Trang Trí Nhẹ Ở Góc Trên Bên Phải
         \fill[white!15] ($(current page.north east)+(-6cm,0)$) -- (current page.north east) -- ($(current page.north east)+(0,-4.5cm)$) -- cycle;
 
-        % Thanh Nền Chân Trang
         \fill[primaryBlue] ($(current page.south west)+(0,0)$) rectangle ($(current page.south east)+(0,1.3cm)$);
         \fill[accentOrange] ($(current page.south west)+(0,1.3cm)$) rectangle ($(current page.south east)+(0,1.48cm)$);
 
-        % --- NỘI DUNG NỔI BẬT TRÊN BÌA ---
-        
-        % 1. Header Đơn Vị Phát Hành
         \node[anchor=north west] at ($(current page.north west)+(2.2cm,-1.5cm)$) {
             {\sffamily \bfseries \small \color{white!85} GIÁO TRÌNH ĐÀO TẠO KỸ SƯ FRONTEND CHUYÊN SÂU}
         };
 
-        % 2. Tiêu Đề Chính Trắng & Cam Trên Nền Banner Xanh
         \node[anchor=north west, text width=16cm] at ($(current page.north west)+(2.2cm,-2.8cm)$) {
             {\fontsize{34pt}{40pt}\selectfont \sffamily \bfseries \color{white} GIÁO TRÌNH CSS3} \\[0.4cm]
             {\fontsize{24pt}{30pt}\selectfont \sffamily \bfseries \color{accentOrange} THIẾT KẾ GIAO DIỆN WEB} \\[0.5cm]
             {\large \sffamily \color{white!95} Từ Nền Tảng Layout đến Flexbox, Grid, CSS Variables \& Animations}
         };
 
-        % 3. Khối Badge Kỹ Thuật (Nổi bật ở phần giao thoa)
         \node[anchor=north west] at ($(current page.north west)+(2.2cm,-9.4cm)$) {
             \begin{tcolorbox}[
                 on line,
@@ -173,7 +516,6 @@
             \end{tcolorbox}
         };
 
-        % 4. Khối Giới Thiệu Tóm Tắt (Thân Trang Cân Đối)
         \node[anchor=center, text width=15.5cm, align=center] at ($(current page.center)+(0,-2.5cm)$) {
             \begin{tcolorbox}[
                 colback=white,
@@ -187,11 +529,10 @@
                 {\Large \sffamily \bfseries \color{primaryBlue} TÀI LIỆU CHUYÊN SÂU TẬP TRUNG CSS3} \\[0.3cm]
                 {\color{accentOrange}\rule{6cm}{1.2pt}} \\[0.3cm]
                 {\small \sffamily \color{darkText} 
-                Chuyên đề độc lập phục vụ biên soạn \& tối ưu tốc độ biên dịch XeLaTeX $\bullet$ Đầy đủ 5 chương CSS}
+                Tệp LaTeX độc lập tích hợp toàn bộ cấu hình \& gói thư viện $\bullet$ Sẵn sàng di chuyển sang mọi trình biên dịch}
             \end{tcolorbox}
         };
 
-        % 5. Thông Tin Tác Giả & Năm ở Đáy Bìa
         \node[anchor=south west] at ($(current page.south west)+(2.2cm,1.9cm)$) {
             {\sffamily \bfseries \small \color{primaryBlue} ĐỘI NGŨ BIÊN SOẠN WEB} \\
             {\sffamily \scriptsize \color{codeComment} Tài liệu lưu hành nội bộ}
@@ -199,10 +540,9 @@
 
         \node[anchor=south east] at ($(current page.south east)+(-2.2cm,1.9cm)$) {
             {\sffamily \bfseries \small \color{primaryBlue} NĂM 2026} \\
-            {\sffamily \scriptsize \color{codeComment} Phiên bản Chuyên Đề CSS3}
+            {\sffamily \scriptsize \color{codeComment} Phiên bản Standalone}
         };
 
-        % Thông điệp ở dòng chân trang màu xanh
         \node[anchor=south, color=white, font=\sffamily\scriptsize\bfseries] at ($(current page.south)+(0,0.5cm)$) {
             CHINH PHỤC NGHỆ THUẬT THIẾT KẾ GIAO DIỆN WEB HIỆN ĐẠI
         };
@@ -215,35 +555,29 @@
 \clearpage
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture, overlay]
-    % 1. Khung viền kép sang trọng chuẩn đối xứng tâm trang
     \draw[primaryBlue, line width=1.4pt] 
         ($(current page.north west)+(2.0cm,-2.0cm)$) rectangle ($(current page.south east)+(-2.0cm,2.0cm)$);
     \draw[accentOrange, line width=0.7pt] 
         ($(current page.north west)+(2.15cm,-2.15cm)$) rectangle ($(current page.south east)+(-2.15cm,2.15cm)$);
 
-    % 2. Header Đơn vị biên soạn
     \node[anchor=north, align=center, text width=15cm] at ($(current page.north)+(0,-3.5cm)$) {
         {\small \sffamily \bfseries \color{primaryBlue} ĐỘI NGŨ BIÊN SOẠN WEB} \\[0.2cm]
         {\scriptsize \sffamily \color{codeComment} TÀI LIỆU LƯU HÀNH NỘI BỘ -- CHUYÊN ĐỀ CSS3}
     };
 
-    % 3. Khối Tiêu Đề Chính
     \node[anchor=center, align=center, text width=15cm] at ($(current page.center)+(0,2.2cm)$) {
         {\fontsize{28pt}{34pt}\selectfont \sffamily \bfseries \color{primaryBlue} GIÁO TRÌNH CSS3} \\[0.4cm]
         {\fontsize{20pt}{26pt}\selectfont \sffamily \bfseries \color{accentOrange} THIẾT KẾ GIAO DIỆN WEB} \\[0.6cm]
         {\large \sffamily \color{darkText} Từ Nền Tảng Layout đến Flexbox, Grid, CSS Variables \& Animations}
     };
 
-    % 4. Đường kẻ phân cách giữa trang
     \draw[primaryBlue!35, line width=0.8pt] ($(current page.center)+(-4cm,-1.0cm)$) -- ($(current page.center)+(4cm,-1.0cm)$);
 
-    % 5. Thông tin giáo trình & Mô tả
     \node[anchor=center, align=center, text width=15cm] at ($(current page.center)+(0,-2.8cm)$) {
         {\large \sffamily \bfseries \color{primaryBlue} TẬP TRUNG BIÊN SOẠN \& THỰC HÀNH CSS3} \\[0.3cm]
         {\small \sffamily \color{codeComment} Biên soạn chi tiết $\bullet$ Minh họa trực quan $\bullet$ Tối ưu tốc độ biên dịch}
     };
 
-    % 6. Footer Chân Trang
     \node[anchor=south, align=center, text width=15cm] at ($(current page.south)+(0,3.2cm)$) {
         {\sffamily \bfseries \small \color{primaryBlue} NĂM 2026} \\[0.1cm]
         {\sffamily \scriptsize \color{darkText} Phiên bản XeLaTeX Unicode}
