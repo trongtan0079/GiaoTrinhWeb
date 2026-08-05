@@ -2610,31 +2610,37 @@ Thuộc tính \codeinline{font-size} dùng để đặt kích thước của fon
 \begin{prettyTableBox}[Phân Loại Các Đơn Vị Giá Trị Của font-size]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\ttfamily\color{accentOrange}\bfseries}p{2.8cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{accentOrange}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Phân loại đơn vị} & \thd{\sffamily Ký hiệu / Từ khóa} & \thd{\sffamily Mô tả kỹ thuật \& Đặc tính} \\
+\rowcolor{primaryBlue} \thd{\sffamily Ký hiệu / Từ khóa} & \thd{\sffamily Mô tả kỹ thuật \& Đặc tính} \\
 \hline
-\multirow{3}{*}{\textbf{Đơn vị tuyệt đối}} & px (pixels) & Kích thước cố định, không thay đổi theo thiết lập của người dùng hoặc kích thước màn hình. \\
-\cline{2-3}
- & pt (points) & Thường dùng trong in ấn (\codeinline{1pt = 1/72 inch}). \\
-\cline{2-3}
- & in, cm, mm & Đơn vị độ dài vật lý, ít dùng trong thiết kế web. \\
+\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 1. Đơn Vị Tuyệt Đối (Absolute Units)} \\
 \hline
-\multirow{6}{*}{\textbf{Đơn vị tương đối}} & em & Tương đối với kích thước font của phần tử cha trực tiếp. Ví dụ: Nếu thẻ cha có \codeinline{font-size: 16px}, thì \codeinline{1.5em} sẽ là \codeinline{24px}. Có thể bị ảnh hưởng bởi hiệu ứng tầng cascading. \\
-\cline{2-3}
- & rem (root em) & Tương đối với kích thước font của phần tử gốc (\codeinline{<html>}). Lựa chọn tốt nhất để tạo hệ thống typography nhất quán, dễ quản lý toàn trang. \\
-\cline{2-3}
- & \% (phần trăm) & Tương đối với kích thước font của phần tử cha. \\
-\cline{2-3}
- & vw (viewport width) & Tương đối với chiều rộng khung nhìn (\codeinline{1vw = 1\%} chiều rộng viewport). \\
-\cline{2-3}
- & vh (viewport height) & Tương đối với chiều cao khung nhìn (\codeinline{1vh = 1\%} chiều cao viewport). \\
-\cline{2-3}
- & vmin, vmax & Tương đối với kích thước nhỏ nhất / lớn nhất của viewport. \\
+px (pixels) & Kích thước cố định, không thay đổi theo thiết lập của người dùng hoặc kích thước màn hình. \\
 \hline
-\multirow{2}{*}{\textbf{Từ khóa tương đối}} & xx-small đến xx-large & Các mức kích thước tương đối so với font mặc định của trình duyệt. \\
-\cline{2-3}
- & smaller, larger & Kích thước nhỏ hơn hoặc lớn hơn tương đối so với phần tử cha. \\
+pt (points) & Thường dùng trong in ấn (\codeinline{1pt = 1/72 inch}). \\
+\hline
+in, cm, mm & Đơn vị độ dài vật lý, ít dùng trong thiết kế web. \\
+\hline
+\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 2. Đơn Vị Tương Đối (Relative Units)} \\
+\hline
+em & Tương đối với kích thước font của phần tử cha trực tiếp. Ví dụ: Nếu thẻ cha có \codeinline{font-size: 16px}, thì \codeinline{1.5em} sẽ là \codeinline{24px}. Có thể bị ảnh hưởng bởi hiệu ứng tầng cascading. \\
+\hline
+rem (root em) & Tương đối với kích thước font của phần tử gốc (\codeinline{<html>}). Lựa chọn tốt nhất để tạo hệ thống typography nhất quán, dễ quản lý toàn trang. \\
+\hline
+\% (phần trăm) & Tương đối với kích thước font của phần tử cha. \\
+\hline
+vw (viewport width) & Tương đối với chiều rộng khung nhìn (\codeinline{1vw = 1\%} chiều rộng viewport). \\
+\hline
+vh (viewport height) & Tương đối với chiều cao khung nhìn (\codeinline{1vh = 1\%} chiều cao viewport). \\
+\hline
+vmin, vmax & Tương đối với kích thước nhỏ nhất / lớn nhất của viewport. \\
+\hline
+\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 3. Từ Khóa Tương Đối (Relative Keywords)} \\
+\hline
+xx-small đến xx-large & Các mức kích thước tương đối so với font mặc định của trình duyệt. \\
+\hline
+smaller, larger & Kích thước nhỏ hơn hoặc lớn hơn tương đối so với phần tử cha. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
@@ -2929,30 +2935,37 @@ Nếu sở hữu tài khoản Adobe Creative Cloud, bạn có thể sử dụng 
 \subsection{Mẹo \& Best Practices Tối Ưu Typography Trong CSS}
 
 \begin{prettyTableBox}[Tổng Hợp Thực Hành Tốt Nhất (Best Practices) Cho CSS Typography]
+\rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Mục tiêu tối ưu} & \thd{\sffamily Giải pháp \& Kỹ thuật khuyến nghị} \\
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí tối ưu} & \thd{\sffamily Giải pháp \& Kỹ thuật khuyến nghị} \\
 \hline
-\multirow{4}{*}{\textbf{Hiệu suất (Performance)}} & \textbf{Giảm số lượng font và style}: Chỉ nhúng những font và style (Regular 400, Bold 700, Italic) thực sự cần thiết trong thiết kế. \\
-\cline{2-2}
- & \textbf{Sử dụng \codeinline{font-display: swap;}}: Tránh hiện tượng nhấp nháy chữ trắng (\term{FOIT}) và cải thiện điểm chỉ số Core Web Vitals (LCP, CLS). \\
-\cline{2-2}
- & \textbf{Tối ưu hóa tệp font (Subsetting)}: Sử dụng công cụ như Font Squirrel Webfont Generator để nén tệp font WOFF2 và loại bỏ các ký tự không dùng đến. \\
-\cline{2-2}
- & \textbf{Sử dụng \codeinline{preconnect} / \codeinline{preload}}: \codeinline{<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>} và \codeinline{<link rel="preload" href="..." as="style">}. \codeinline{preconnect} thiết lập kết nối sớm đến máy chủ font, \codeinline{preload} yêu cầu trình duyệt tải tài nguyên sớm hơn. \\
+\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 1. Tối Ưu Hiệu Suất (Performance Optimization)} \\
 \hline
-\multirow{4}{*}{\textbf{Khả năng đọc (Readability)}} & \textbf{Kích thước font phù hợp}: Đảm bảo kích thước chữ đủ lớn trên mọi thiết bị. Kích thước cơ bản tiêu chuẩn trên Desktop thường là \codeinline{16px}. \\
-\cline{2-2}
- & \textbf{Chiều cao dòng tiêu chuẩn (\codeinline{line-height})}: Đặt \codeinline{line-height} từ \codeinline{1.5} đến \codeinline{1.8} để tạo khoảng cách đọc thoải mái, tránh mỏi mắt. \\
-\cline{2-2}
- & \textbf{Độ tương phản màu sắc}: Đảm bảo màu chữ có đủ độ tương phản (\term{Contrast Ratio}) với màu nền theo tiêu chuẩn WCAG. \\
-\cline{2-2}
- & \textbf{Thuộc tính \codeinline{text-rendering}}: Cải thiện hiển thị nét chữ trên một số trình duyệt bằng cách áp dụng \codeinline{text-rendering: optimizeLegibility;} (hoặc \codeinline{geometricPrecision}, \codeinline{optimizeSpeed}). \\
+Giảm số lượng font & Chỉ nhúng những font và style (Regular 400, Bold 700, Italic) thực sự cần thiết trong thiết kế. \\
 \hline
-\multirow{2}{*}{\textbf{Đáp ứng (Responsive Design)}} & \textbf{Đơn vị tương đối}: Sử dụng \codeinline{rem}, \codeinline{em}, \codeinline{vw} cho \codeinline{font-size} để font tự động co giãn linh hoạt theo màn hình. \\
-\cline{2-2}
- & \textbf{Media Queries}: Điều chỉnh \codeinline{font-size} cho từng mốc màn hình cụ thể bằng \codeinline{@media (max-width: 768px) \{ body \{ font-size: 14px; \} h1 \{ font-size: 2rem; \} \}}. \\
+Dùng font-display: swap & Tránh hiện tượng nhấp nháy chữ trắng (\term{FOIT}) và cải thiện điểm chỉ số Core Web Vitals (LCP, CLS). \\
+\hline
+Nén tệp font (Subsetting) & Sử dụng công cụ như Font Squirrel Webfont Generator để nén tệp font WOFF2 và loại bỏ các ký tự không dùng đến. \\
+\hline
+Kỹ thuật Preconnect / Preload & Thiết lập kết nối sớm bằng \codeinline{<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>} và \codeinline{<link rel="preload" href="..." as="style">}. \\
+\hline
+\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 2. Tối Ưu Khả Năng Đọc (Readability \& Ergonomics)} \\
+\hline
+Kích thước font phù hợp & Đảm bảo kích thước chữ đủ lớn trên mọi thiết bị. Kích thước cơ bản tiêu chuẩn trên Desktop thường là \codeinline{16px}. \\
+\hline
+Chiều cao dòng (line-height) & Đặt \codeinline{line-height} từ \codeinline{1.5} đến \codeinline{1.8} để tạo khoảng cách đọc thoải mái, tránh mỏi mắt. \\
+\hline
+Độ tương phản màu sắc & Đảm bảo màu chữ có đủ độ tương phản (\term{Contrast Ratio}) với màu nền theo tiêu chuẩn WCAG. \\
+\hline
+Text rendering engine & Cải thiện hiển thị nét chữ bằng cách áp dụng \codeinline{text-rendering: optimizeLegibility;}. \\
+\hline
+\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 3. Thiết Kế Đáp Ứng (Responsive Typography)} \\
+\hline
+Đơn vị tương đối linh hoạt & Sử dụng \codeinline{rem}, \codeinline{em}, \codeinline{vw} cho \codeinline{font-size} để font tự động co giãn linh hoạt theo màn hình. \\
+\hline
+Media Queries co giãn & Điều chỉnh \codeinline{font-size} cho từng mốc màn hình cụ thể bằng \codeinline{@media (max-width: 768px) \{ ... \}}. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
@@ -2960,6 +2973,7 @@ Nếu sở hữu tài khoản Adobe Creative Cloud, bạn có thể sử dụng 
 \subsection{Bảng Cheatsheet Tóm Tắt Nhanh Các Thuộc Tính Font Trong CSS}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Cheatsheet Nhanh Các Thuộc Tính Font Trong CSS]
+\rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
 \begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{2.6cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{4.0cm}|>{\ttfamily\color{accentOrange}}X|}
 \hline
@@ -2990,39 +3004,37 @@ font-kerning & Điều chỉnh khoảng cách giữa các cặp ký tự. & auto
 \label{sec:doc_them_css_fonts}
 
 \begin{conceptBox}[Mở Rộng Kiến Thức Nâng Cao Về Typography Trong CSS]
-\textbf{1. Variable Fonts (Font Biến Thể CSS Fonts Level 4)}:
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Khái niệm}: Variable Font cho phép đóng gói toàn bộ các trọng lượng (\codeinline{wght}), độ rộng (\codeinline{wdth}), độ nghiêng (\codeinline{slnt}) vào trong \textbf{chỉ 1 tệp font duy nhất} (.woff2).
-    \item \textbf{Cú pháp khai báo trong CSS}:
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Variable Fonts (Font Biến Thể CSS Fonts Level 4)}: Cho phép đóng gói toàn bộ các trọng lượng (\codeinline{wght}), độ rộng (\codeinline{wdth}), độ nghiêng (\codeinline{slnt}) vào trong \textbf{chỉ 1 tệp font duy nhất} (.woff2), giúp tiết kiệm tới 80\% dung lượng tải mạng!
+    \item \textbf{CSS Font Loading API Trong JavaScript}: Giúp lập trình viên chủ động kiểm soát trạng thái tải font bằng JavaScript thông qua đối tượng \codeinline{document.fonts}.
+    \item \textbf{Ngăn Trình Duyệt Tự Sinh Font Giả (\codeinline{font-synthesis})}: Khi font không có bản Bold hoặc Italic thực sự, trình duyệt có thể tự bóp méo ký tự để làm nghiêng/đậm giả. Dùng \codeinline{font-synthesis: none;} để ngăn chặn.
+\end{enumerate}
+\end{conceptBox}
+
+\begin{codeWindow}[1. Cú Pháp Khai Báo Variable Fonts Trong CSS]
 \begin{lstlisting}[language=CSS3]
 h1 {
   font-family: 'Roboto Flex', sans-serif;
   font-variation-settings: 'wght' 650, 'wdth' 115, 'slnt' -5;
 }
 \end{lstlisting}
-    \item \textbf{Lợi ích}: Tiết kiệm tới 80\% dung lượng tải mạng so với việc tải 10 tệp font tĩnh riêng biệt!
-\end{itemize}
+\end{codeWindow}
 
-\textbf{2. CSS Font Loading API Trong JavaScript}:
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item Giúp lập trình viên chủ động kiểm soát trạng thái tải font bằng JavaScript thông qua đối tượng \codeinline{document.fonts}:
+\begin{codeWindow}[2. Kiểm Soát Trạng Thái Tải Font Bằng JavaScript Font Loading API]
 \begin{lstlisting}[language=JavaScript]
 document.fonts.load('1em Roboto').then(() => {
   console.log('Font Roboto da san sang hien thi!');
 });
 \end{lstlisting}
-\end{itemize}
+\end{codeWindow}
 
-\textbf{3. Ngăn Trình Duyệt Tự Sinh Font Giả (\codeinline{font-synthesis})}:
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item Khi font không có bản Bold hoặc Italic thực sự, trình duyệt có thể tự bóp méo ký tự để làm nghiêng/đậm giả. Để ngăn chặn điều này:
+\begin{codeWindow}[3. Cấu Hình font-synthesis Tránh Sinh Chữ Giả]
 \begin{lstlisting}[language=CSS3]
 body {
   font-synthesis: none; /* Khong cho trinh duyet tu lam gia chu dam / nghieng */
 }
 \end{lstlisting}
-\end{itemize}
-\end{conceptBox}
+\end{codeWindow}
 % MỤC 5: PHÂN LOẠI BỘ CHỌN CSS (CSS SELECTORS MASTERCLASS)
 % ==============================================================================
 \section{Các Loại Selectors Trong CSS (CSS Selectors Masterclass)}
