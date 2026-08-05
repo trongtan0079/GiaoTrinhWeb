@@ -3729,6 +3729,163 @@ Adobe Fonts là dịch vụ phông chữ cao cấp dành cho người dùng Adob
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
+\subsubsection{4. Chuyên Đề Kỹ Thuật Nhúng Nhiều Phông Chữ (Multi-Font Embedding Masterclass)}
+\label{sec:multi_font_embedding}
+
+Khi xây dựng giao diện web phức tạp, nhà thiết kế thường kết hợp nhiều hơn một họ phông chữ tùy chỉnh (ví dụ: dùng 1 font hiện đại cho Tiêu đề và 1 font dễ đọc cho Văn bản thân). Việc nhúng nhiều phông chữ đòi hỏi chiến lược quản lý mã nguồn hợp lý để không làm giảm hiệu suất tải trang.
+
+\paragraph{4.1. Nhúng Nhiều Phông Chữ Từ Google Fonts (Gộp URL Tối Ưu):}
+
+Google Fonts cho phép gộp tất cả các phông chữ và biến thể style đã chọn vào một đường dẫn liên kết \codeinline{<link>} hoặc \codeinline{@import} duy nhất thông qua tham số \codeinline{\&family=}.
+
+\begin{codeWindow}[File index.html -- Mã Nhúng Gộp Nhiều Font Google Fonts]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhung Nhieu Font Google Fonts</title>
+    <!-- Thiet lap ket noi som voi may chu Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- URL gop nhieu font Open Sans va Roboto qua ky tu &family= -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 class="header-text">Day la tieu de su dung Roboto Bold 700</h1>
+    <p class="body-text">Day la noi dung van ban su dung Open Sans Regular 400.</p>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[File style.css -- Áp Dụng Nhiều Font Cho Các Thẻ Giao Diện]
+\begin{lstlisting}[language=CSS3]
+/* Nhung qua @import o dau file style.css (Neu dung trong CSS) */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+/* Ap dung phong chu Roboto 700 cho tieu de */
+.header-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+/* Ap dung phong chu Open Sans 400 va font du phong Arial cho van ban */
+.body-text {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 400;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Kết Hợp Nhiều Phông Chữ Google Fonts]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue}\Large Đây là tiêu đề Roboto Bold (\codeinline{font-family: 'Roboto', sans-serif;})}\par\vspace{6pt}
+  {\sffamily\small\color{darkText} Đây là nội dung văn bản sử dụng Open Sans Regular (\codeinline{font-family: 'Open Sans', Arial, sans-serif;}). Việc kết hợp hai phông chữ mang lại độ tương phản thị giác rõ ràng và hiện đại.}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{prettyTableBox}[Lợi Ích Của Việc Gộp Nhiều Font Trong Google Fonts]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Ưu điểm} & \thd{\sffamily Ý nghĩa \& Giá trị hiệu suất} \\
+\hline
+Giảm số lượng HTTP Request & Gộp nhiều phông chữ vào 1 yêu cầu duy nhất giúp trình duyệt không phải mở nhiều kết nối mạng song song. \\
+\hline
+Dễ dàng quản lý mã nguồn & Chỉ cần một đoạn mã nhúng duy nhất ở phần \codeinline{<head>} cho toàn bộ hệ thống phông chữ của website. \\
+\hline
+Tự động nén tối ưu CDN & Google tự động phát hiện trình duyệt và gửi định dạng font nén tốt nhất (như \codeinline{.woff2}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{4.2. Nhúng Nhiều Phông Chữ Với Quy Tắc @font-face (Tự Host Multi-Font):}
+
+Khi tự host nhiều phông chữ trên máy chủ riêng, bạn phải tạo từng khối \codeinline{@font-face} độc lập tương ứng với từng họ font và từng biến thể trọng lượng (\codeinline{font-weight}) / kiểu dáng (\codeinline{font-style}).
+
+\begin{codeWindow}[File style.css -- Khai Báo Nhiều Khối @font-face Độc Lập]
+\begin{lstlisting}[language=CSS3]
+/* 1. Khai bao cho font MyBrandFont - Bien the Regular (400) */
+@font-face {
+  font-family: 'MyBrandFont'; /* Ten family chung */
+  src: url('../fonts/MyBrandFont-Regular.woff2') format('woff2'),
+       url('../fonts/MyBrandFont-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. Khai bao cho font MyBrandFont - Bien the Bold (700) */
+@font-face {
+  font-family: 'MyBrandFont'; /* Cung ten family, nhung dinh nghia weight 700 */
+  src: url('../fonts/MyBrandFont-Bold.woff2') format('woff2'),
+       url('../fonts/MyBrandFont-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 3. Khai bao cho font MyHeadlineFont - Bien the Regular */
+@font-face {
+  font-family: 'MyHeadlineFont'; /* Ten family khac cho tieu de */
+  src: url('../fonts/MyHeadlineFont.woff2') format('woff2'),
+       url('../fonts/MyHeadlineFont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 4. Ap dung trong CSS */
+h1 {
+  font-family: 'MyHeadlineFont', serif;
+}
+
+p {
+  font-family: 'MyBrandFont', sans-serif;
+  font-weight: 400; /* Trinh duyet tu dong chon tesp MyBrandFont-Regular */
+}
+
+strong {
+  font-family: 'MyBrandFont', sans-serif;
+  font-weight: 700; /* Trinh duyet tu dong chon tesp MyBrandFont-Bold */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Áp Dụng Nhiều Custom Font Tự Host]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue}\Large Tiêu đề h1 dùng MyHeadlineFont (serif)}\par\vspace{6pt}
+  {\sffamily\small Đoạn văn p dùng \codeinline{MyBrandFont} weight 400. Nhấn mạnh \textbf{văn bản bold dùng MyBrandFont weight 700} hoạt động chuẩn xác nhờ phân loại \codeinline{font-weight} trong từng khối \codeinline{@font-face}.}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{warnBox}[Lưu Ý Quan Trọng Khi Nhúng Nhiều Font Qua @font-face]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Đồng bộ tên \codeinline{font-family}}: Đặt tên \codeinline{font-family} giống nhau cho các biến thể cùng một họ phông chữ (ví dụ: \codeinline{'MyBrandFont'}), nhưng phân biệt bằng \codeinline{font-weight} và \codeinline{font-style}.
+    \item \textbf{Khai báo riêng từng khối}: Mỗi sự kết hợp giữa trọng lượng (Thin, Regular, Bold) và kiểu dáng (Normal, Italic) phải có một khối \codeinline{@font-face} riêng biệt.
+    \item \textbf{Cân nhắc tải mạng}: Mỗi tệp font tự host là một yêu cầu HTTP riêng. Nhúng quá 3 phông chữ có thể làm giảm đáng kể tốc độ tải trang.
+\end{itemize}
+\end{warnBox}
+
+\paragraph{4.3. Mẹo \& Thực Hành Tốt Nhất Khi Nhúng Nhiều Phông Chữ (Best Practices):}
+
+\begin{tipBox}[6 Quy Tắc Vàng Khi Nhúng Nhiều Phông Chữ Trên Web]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Chỉ nhúng những gì thực sự cần}: Giới hạn số lượng font family từ $1 \rightarrow 3$ họ phông chữ trên một website. Chỉ chọn các biến thể weight thực sự sử dụng (như 400 và 700).
+    \item \textbf{Ưu tiên Google Fonts hoặc CDN}: Sử dụng hạ tầng CDN toàn cầu giúp tăng tốc độ tải tệp font qua bộ nhớ đệm trình duyệt (\term{browser cache}).
+    \item \textbf{Bắt buộc dùng \codeinline{font-display: swap;}}: Giúp hiển thị văn bản ngay bằng font dự phòng trong khi chờ tải font chính, loại bỏ hoàn toàn hiện tượng chữ bị ẩn (\term{FOIT}).
+    \item \textbf{Sắp xếp thứ tự thẻ \codeinline{<link>} chuẩn}: Đặt thẻ \codeinline{<link>} nhúng font lên đầu phần \codeinline{<head>}, trước tệp CSS chính để trình duyệt gửi yêu cầu tải sớm nhất.
+    \item \textbf{Luôn cung cấp font dự phòng (Fallback Fonts)}: Kết thúc chuỗi \codeinline{font-family} bằng các từ khóa chung (\codeinline{sans-serif}, \codeinline{serif}, \codeinline{monospace}).
+    \item \textbf{Kiểm tra hiệu suất với Google Lighthouse}: Đánh giá chỉ số \term{CLS (Cumulative Layout Shift)} và \term{FCP} sau khi nhúng để đảm bảo không bị giật trang.
+\end{enumerate}
+\end{tipBox}
+
+
+
+% ------------------------------------------------------------------------------
 \paragraph{Lời Khuyên Chung Về Hiệu Suất Khi Nhúng Font (Font Performance Best Practices):}
 
 \begin{tipBox}[Các Quy Tắc Vàng Tối Ưu Hiệu Suất Tải Font Trên Web]
