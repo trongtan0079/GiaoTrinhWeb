@@ -2926,47 +2926,237 @@ Khuyết điểm hạn chế & Không kiểm soát chi tiết 100\% về kiểu 
 \subsubsection{1. Thuộc Tính font-family (Họ Phông Chữ \& Chuỗi Dự Phòng Fallback List)}
 \label{sec:font_family}
 
-Thuộc tính \codeinline{font-family} chỉ định loại font chữ sẽ được sử dụng cho văn bản. Bạn có thể chỉ định nhiều font chữ làm danh sách ưu tiên, cách nhau bằng dấu phẩy. Trình duyệt sẽ sử dụng font đầu tiên có sẵn trên hệ thống của người dùng.
+Thuộc tính \codeinline{font-family} trong CSS là một trong những thuộc tính quan trọng nhất để kiểm soát giao diện văn bản trên trang web của bạn. Nó cho phép bạn chỉ định một hoặc nhiều họ phông chữ (\term{font family}) mà trình duyệt nên sử dụng để hiển thị văn bản. Việc hiểu rõ cách hoạt động của nó giúp bạn đảm bảo trang web của mình trông nhất quán và chuyên nghiệp trên nhiều thiết bị và trình duyệt khác nhau.
 
-\begin{conceptBox}[Cấu Trúc Giá Trị Của Thuộc Tính font-family]
-Giá trị khai báo bao gồm hai loại chính:
-\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Tên font cụ thể} (Ví dụ: \codeinline{"Times New Roman"}, \codeinline{Arial}, \codeinline{Roboto}): Nếu tên font có chứa khoảng trắng, bắt buộc phải đặt trong dấu ngoặc kép (ví dụ: \codeinline{"Times New Roman"}).
-    \item \textbf{Tên font chung} (\term{Generic Font Family}): Đây là các tên nhóm font chung mà trình duyệt sẽ tìm kiếm font tương tự nếu không tìm thấy font cụ thể. \textbf{Luôn kết thúc danh sách \codeinline{font-family} bằng một tên font chung} để đảm bảo văn bản luôn có font dự phòng.
-\end{enumerate}
-\end{conceptBox}
+\subsection*{I. Cú Pháp và Thứ Tự Ưu Tiên Của Chuỗi Fallback}
 
-\paragraph{5 Nhóm Generic Font Family Chuẩn W3C:}
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{serif}: Font có chân (Ví dụ: Times New Roman, Georgia).
-    \item \codeinline{sans-serif}: Font không chân (Ví dụ: Arial, Helvetica, Roboto).
-    \item \codeinline{monospace}: Font có độ rộng ký tự cố định (Ví dụ: Courier New, Consolas).
-    \item \codeinline{cursive}: Font giống chữ viết tay (Ví dụ: Comic Sans MS, Pacifico).
-    \item \codeinline{fantasy}: Font trang trí, mang tính biểu tượng (Ví dụ: Impact, Copperplate).
-\end{itemize}
+Thuộc tính \codeinline{font-family} nhận một danh sách các tên font, được phân tách bằng dấu phẩy. Thứ tự này rất quan trọng vì nó xác định thứ tự ưu tiên mà trình duyệt sẽ sử dụng để tìm và áp dụng font chữ:
 
-\begin{codeWindow}[Ví Dụ Cú Pháp Khai Báo font-family]
+\begin{codeWindow}[Cú Pháp Định Dạng Họ Phông Chữ Chuẩn]
 \begin{lstlisting}[language=CSS3]
-/* Uu tien Roboto, neu khong co thi Arial, cuoi cung la bat ky font sans-serif nao */
 p {
-  font-family: "Roboto", Arial, sans-serif;
-}
-
-/* Chuoi fallback cho tieu de phong cach co dien Serif */
-h1 {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-family: "Ten Font 1", "Ten Font 2", Ten_Font_Chung;
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả: Fallback Font Chain Trên Trình Duyệt]
+\begin{conceptBox}[Cơ Chế Xử Lý Thứ Tự Ưu Tiên Của Trình Duyệt]
+Trình duyệt sẽ duyệt qua danh sách từ trái sang phải. Nó sẽ cố gắng sử dụng:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{"Tên Font 1"}: Nếu font này có sẵn trên hệ thống của người dùng hoặc được nhúng vào trang web.
+    \item \textbf{"Tên Font 2"}: Nếu "Tên Font 1" không có, trình duyệt sẽ chuyển sang tìm font này.
+    \item \textbf{Tên\_Font\_Chung}: Nếu không có font cụ thể nào trong danh sách được tìm thấy, trình duyệt sẽ sử dụng một font chung từ hệ thống của người dùng thuộc loại đó. Đây là một font dự phòng (\term{fallback font}) quan trọng.
+\end{enumerate}
+\end{conceptBox}
+
+\paragraph{Ví Dụ Cụ Thể Phân Tích Chuỗi Dự Phòng:}
+\begin{codeWindow}[Khai Báo Chuỗi Fallback Cho Body]
+\begin{lstlisting}[language=CSS3]
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Phân Tích Hiển Thị Trực Quan]
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} Đoạn văn \codeinline{<p>} sử dụng Roboto} (nếu có) → Arial → sans-serif:\par\vspace{4pt}
-  {\sffamily Giao diện hiển thị phông chữ hiện đại, sạch sẽ phù hợp đọc trên màn hình kỹ thuật số.}\par\vspace{8pt}
-  {\sffamily\bfseries\color{primaryBlue} Tiêu đề \codeinline{<h1>} sử dụng Palatino Linotype → serif:}\par\vspace{4pt}
-  {\rmfamily\large Tiêu đề phong cách cổ điển trang trọng, nét chữ có chân sang trọng rõ nét.}
+  {\sffamily\bfseries\color{primaryBlue} Phân tích luồng ưu tiên trình duyệt:}\par\vspace{4pt}
+  \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+    \item Trình duyệt sẽ ưu tiên sử dụng \codeinline{Helvetica Neue}.
+    \item Nếu \codeinline{Helvetica Neue} không có sẵn, nó sẽ sử dụng \codeinline{Arial}.
+    \item Cuối cùng, nếu cả hai đều không có, nó sẽ chọn một font \codeinline{sans-serif} bất kỳ có sẵn trên hệ thống.
+  \end{itemize}
 \end{tcolorbox}
 \end{browserWindow}
+
+\subsection*{II. Các Loại Tên Font Trong CSS}
+
+Có hai loại tên font bạn có thể sử dụng trong thuộc tính \codeinline{font-family}:
+
+\subsubsection*{1. Tên Font Cụ Thể (Specific Font Names)}
+Đây là tên chính xác của một font chữ cụ thể. Ví dụ như \codeinline{"Roboto"}, \codeinline{"Times New Roman"}, \codeinline{"Arial"}, \codeinline{"Open Sans"}.
+
+\begin{conceptBox}[Quy Tắc Đặt Dấu Ngoặc Kép \& Đánh Giá]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Quy tắc ngoặc kép}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Nếu tên font có chứa khoảng trắng, bạn \textbf{bắt buộc phải đặt nó trong dấu ngoặc kép} (đơn hoặc kép). Ví dụ: \codeinline{"Times New Roman"}, \codeinline{'Courier New'}.
+        \item Nếu tên font không có khoảng trắng (ví dụ: \codeinline{Arial}, \codeinline{Verdana}, \codeinline{Roboto}), việc có hoặc không có dấu ngoặc kép đều được chấp nhận, nhưng khuyến nghị nên dùng dấu ngoặc kép để thống nhất.
+    \end{itemize}
+    \item \textbf{Ưu điểm}: Cho phép bạn sử dụng chính xác font chữ mà bạn mong muốn, mang lại sự độc đáo cho thiết kế.
+    \item \textbf{Nhược điểm}: Font đó cần phải có sẵn trên hệ thống của người dùng hoặc phải được nhúng vào trang web (qua Google Fonts, \codeinline{@font-face}, v.v.). Nếu không, trang web sẽ hiển thị bằng font dự phòng.
+\end{itemize}
+\end{conceptBox}
+
+\subsubsection*{2. Tên Font Chung (Generic Font Families)}
+Đây là các từ khóa đại diện cho một nhóm các font có đặc điểm hình dạng tương tự nhau. Chúng đóng vai trò là font dự phòng cuối cùng, đảm bảo rằng văn bản luôn hiển thị bằng một loại font dễ đọc, ngay cả khi các font cụ thể không tải được.
+
+\begin{warnBox}[Quy Tắc Vàng Với Generic Font Family]
+\textbf{Luôn luôn đặt một tên font chung ở cuối danh sách \codeinline{font-family} của bạn!}
+\end{warnBox}
+
+\paragraph{5 Nhóm Generic Font Family Phổ Biến:}
+\begin{prettyTableBox}[Bảng Tra Cứu 5 Nhóm Generic Font Family]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\color{primaryBlue}\bfseries}p{2.6cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Loại font} & \thd{\sffamily Đặc điểm hình thái} & \thd{\sffamily Ví dụ font cụ thể tiêu biểu} \\
+\hline
+serif & Các font có "chân" hoặc nét trang trí ở cuối nét chữ. Giúp mắt dễ dàng theo dõi dòng chữ dài. & Times New Roman, Georgia, Palatino. \\
+\hline
+sans-serif & Các font không có "chân". Trông hiện đại, sạch sẽ và dễ đọc trên màn hình kỹ thuật số. & Arial, Helvetica, Verdana, Roboto, Open Sans. \\
+\hline
+monospace & Tất cả các ký tự có cùng chiều rộng cố định. Thường dùng cho mã lập trình hoặc căn cột. & Courier New, Consolas, Monaco. \\
+\hline
+cursive & Font trông giống chữ viết tay, có nét nối hoặc trang trí uốn lượn. & Comic Sans MS, Pacifico, Brush Script MT. \\
+\hline
+fantasy & Font mang tính trang trí cao, kiểu dáng độc đáo, không hợp cho văn bản dài. & Impact, Copperplate, Papyrus. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection*{III. Font An Toàn Trên Web (Web-Safe Fonts)}
+
+Đây là các font được cài đặt sẵn trên hầu hết các hệ điều hành và thiết bị. Sử dụng chúng đảm bảo rằng trang web của bạn sẽ hiển thị nhất quán mà không cần phải nhúng thêm font từ bên ngoài.
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Các Nhóm Web-Safe Fonts Phổ Biến]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash\ttfamily\color{accentOrange}}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Phân loại} & \thd{\sffamily Danh sách chuỗi font-family web-safe chuẩn} \\
+\hline
+Sans-serif (Không chân) & Arial, Helvetica, sans-serif \\
+ & Verdana, Geneva, sans-serif \\
+ & Tahoma, Geneva, sans-serif \\
+ & Trebuchet MS, Helvetica, sans-serif \\
+\hline
+Serif (Có chân) & Times New Roman, Times, serif \\
+ & Georgia, serif \\
+ & Palatino Linotype, Book Antiqua, Palatino, serif \\
+\hline
+Monospace (Đơn cách) & Courier New, Courier, monospace \\
+ & Lucida Console, Monaco, monospace \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection*{IV. Kỹ Thuật Nhúng Font Ngoại (Web Fonts)}
+
+Để sử dụng các font chữ không phải là web-safe (như các font từ Google Fonts hoặc font tùy chỉnh của bạn), bạn cần nhúng chúng vào trang web. Điều này đảm bảo rằng font sẽ được tải xuống cho người dùng nếu họ không có font đó trên hệ thống của mình.
+
+\paragraph{1. Nhúng Qua Google Fonts (Phổ Biến Nhất):}
+Dễ dàng nhất. Bạn thêm một thẻ \codeinline{<link>} vào \codeinline{<head>} của HTML hoặc dùng \codeinline{@import} vào CSS.
+
+\begin{codeWindow}[Ví Dụ Nhúng Google Fonts Và Áp Dụng]
+\begin{lstlisting}[language=CSS3]
+/* Sau khi nhung Roboto tu Google Fonts qua <link> hoac @import */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{2. Nhúng Qua Quy Tắc @font-face (Tự Host Font Trên Server):}
+Dùng để tự host font trên máy chủ của bạn. Bạn định nghĩa font và đường dẫn tới các tệp font (\codeinline{.woff2}, \codeinline{.woff}, \codeinline{.ttf}, v.v.).
+
+\begin{codeWindow}[Cú Pháp Khai Báo Quy Tắc @font-face]
+\begin{lstlisting}[language=CSS3]
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('fonts/MyCustomFont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1 {
+  font-family: 'MyCustomFont', serif;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Tự Host Font Ngoại Với @font-face]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Kết quả hiển thị phông chữ tự host trên máy chủ:}\par\vspace{4pt}
+  {\sffamily Trình duyệt chủ động tải file \codeinline{MyCustomFont.woff2} từ máy chủ web và hiển thị nét chữ đúng theo ý đồ thiết kế UI.}
+\end{tcolorbox}
+\end{browserWindow}
+
+\subsection*{V. Các Lưu Ý Kỹ Thuật Quan Trọng}
+
+\begin{prettyTableBox}[Bảng Lưu Ý Quan Trọng Khi Khai Báo font-family]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Lưu ý} & \thd{\sffamily Mô tả chi tiết \& Hướng xử lý} \\
+\hline
+Không bắt buộc dấu ngoặc cho tên font không khoảng trắng & Ví dụ: \codeinline{Arial}, không nhất thiết phải viết \codeinline{"Arial"}. Tuy nhiên khuyến nghị nên dùng dấu ngoặc kép đồng bộ. \\
+\hline
+Nên luôn luôn có fallback font & Tránh văn bản bị lỗi hoặc vỡ giao diện nếu font chính không tồn tại trên máy người dùng. \\
+\hline
+font-family không tự tải font & Khai báo \codeinline{font-family} không tự động tải font về; bạn bắt buộc phải import qua Google Fonts hoặc \codeinline{@font-face}. \\
+\hline
+Trình duyệt render font khác nhau trên các HĐH & Dù cùng một tên font, cách hiển thị trên Windows và macOS có thể hơi khác nhau do engine font rendering. \\
+\hline
+Không dùng quá nhiều font trên 1 trang & Làm tăng thời gian tải trang, gây nặng mạng và giảm tính thống nhất của thiết kế UI. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection*{VI. Bảng Tổng Kết Cú Pháp Cấu Trúc Thuộc Tính font-family}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Các Thành Phần Cấu Thành font-family]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\color{primaryBlue}\bfseries}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thành phần} & \thd{\sffamily Ý nghĩa \& Vai trò} \\
+\hline
+"Font Name" & Font chính bạn muốn dùng (nên để trong dấu ngoặc nếu có khoảng trắng). \\
+\hline
+Fallback fonts & Font dự phòng thứ cấp, nên chọn những font phổ biến có sẵn trên hệ thống. \\
+\hline
+generic-family & Nhóm font tổng quát cuối cùng: \codeinline{serif}, \codeinline{sans-serif}, \codeinline{monospace}, v.v. \\
+\hline
+Cách chọn nhiều font & Khai báo viết cách nhau bằng dấu phẩy \codeinline{,} ghi theo thứ tự ưu tiên từ trái qua phải. \\
+\hline
+Yêu cầu dấu ngoặc kép & Bắt buộc áp dụng nếu tên font có chứa khoảng trắng (ví dụ: \codeinline{"Times New Roman"}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection*{VII. Gợi Ý Các Phông Chữ Đẹp \& Phổ Biến Cho Web}
+
+\begin{prettyTableBox}[Bảng Gợi Ý Font Chữ Theo Mục Đích Thiết Kế Web]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.0cm}|>{\raggedright\arraybackslash\ttfamily\color{accentOrange}}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Mục đích thiết kế} & \thd{\sffamily Font chữ gợi ý hàng đầu} \\
+\hline
+Website hiện đại (Modern UI) & Roboto, Open Sans, Inter, Lato \\
+\hline
+Website cổ điển (Editorial/Classic) & Georgia, Times New Roman \\
+\hline
+Blog cá nhân / Đọc báo dài & Merriweather, Playfair Display \\
+\hline
+Lập trình / Công nghệ (Tech/Code) & Fira Code, Source Code Pro, Menlo \\
+\hline
+Trang trí nhẹ / Tiêu đề nghệ thuật & Pacifico, Lobster, Dancing Script \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection*{VIII. Lời Khuyên \& Best Practices Khi Sử Dụng font-family}
+
+\begin{tipBox}[Thực Hành Tốt Nhất (Best Practices) Cho font-family]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Luôn có font dự phòng}: Đảm bảo danh sách \codeinline{font-family} của bạn kết thúc bằng một tên font chung (\codeinline{serif}, \codeinline{sans-serif}, \codeinline{monospace}, v.v.) để trang web luôn hiển thị văn bản, ngay cả khi các font ưu tiên không tải được.
+    \item \textbf{Cân nhắc hiệu suất}: Nhúng quá nhiều font hoặc các font có kích thước lớn có thể làm chậm thời gian tải trang. Hãy chọn font cẩn thận và chỉ nhúng những style (đậm, nghiêng) mà bạn thực sự cần.
+    \item \textbf{Tính nhất quán}: Sử dụng một số lượng font hạn chế (thường là 1--3 font) trên toàn bộ trang web để tạo sự nhất quán và chuyên nghiệp trong thiết kế.
+    \item \textbf{Kiểm tra trên nhiều trình duyệt và thiết bị}: Đảm bảo font hiển thị đúng như mong đợi trên các môi trường khác nhau (Windows, macOS, iOS, Android).
+    \item \textbf{Ưu tiên khả năng đọc}: Chọn font dễ đọc, đặc biệt cho các khối văn bản dài.
+\end{enumerate}
+\end{tipBox}
+
+Việc làm chủ thuộc tính \codeinline{font-family} không chỉ là về việc chọn font đẹp mà còn là về việc đảm bảo trải nghiệm người dùng tối ưu và hiệu suất trang web tốt.
 
 \subsubsection{2. Thuộc Tính font-size (Kích Thước Phông Chữ)}
 \label{sec:font_size}
