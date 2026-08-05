@@ -1840,32 +1840,43 @@ color: initial & \textcolor{red!80!black}{\textbf{Không}} & Reset màu chữ v�
 
 \textbf{2. Sự Khác Biệt Trực Quan Giữa Phông Chữ Có Chân (Serif) Và Không Chân (Sans-Serif):}
 
-\begin{browserWindow}[Minh Họa Trực Quan Sự Khác Biệt Giữa Serif (Có Chân) Và Sans-serif (Không Chân)]
+\begin{browserWindow}[Minh Họa Trực Quan Sự Khác Biệt Giữa Serif Và Sans-serif]
 \vspace{2pt}
 \begin{tcolorbox}[
     enhanced,
     colback=white,
     colframe=gray!30,
     arc=6pt, boxrule=0.8pt,
-    top=10pt, bottom=10pt, left=12pt, right=12pt
+    top=12pt, bottom=12pt, left=14pt, right=14pt
 ]
   \begin{center}
-    {\sffamily\bfseries\Large\color{primaryBlue} Phân Biệt Nét Chân Chữ (Serifs) Trực Quan}\\[8pt]
+    {\sffamily\bfseries\Large\color{primaryBlue} Phân Biệt Nét Chân Chữ (Serifs) Trực Quan}\\[10pt]
     
-    % Visual Comparison Box
-    \begin{tcolorbox}[nobeforeafter, colback=gray!5, colframe=gray!30, arc=4pt, boxrule=0.6pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
-      \begin{tabular}{c c c}
-        {\sffamily\Huge\bfseries F} & \quad {\rmfamily\Huge\bfseries F} \quad & {\rmfamily\Huge\bfseries\color{red!80!black} F} \\
-        {\sffamily\small\bfseries Sans-serif (Không chân)} & \quad {\rmfamily\small\bfseries Serif (Có chân)} \quad & {\rmfamily\small\bfseries\color{red!80!black} Red Serifs (Chân đỏ)} \\
-      \end{tabular}
-    \end{tcolorbox}
-    \vspace{6pt}
+    % Top Part: 3 F's comparison
+    \begin{tabular}{c @{\hspace{2.2cm}} c @{\hspace{2.2cm}} c}
+      {\sffamily\fontsize{42}{50}\selectfont\bfseries F} &
+      {\rmfamily\fontsize{42}{50}\selectfont\bfseries F} &
+      {\rmfamily\fontsize{42}{50}\selectfont\bfseries\color{red!80!black} F} \\[4pt]
+      {\sffamily\bfseries Sans-serif} &
+      {\rmfamily\bfseries Serif} &
+      {\rmfamily\bfseries Serif}\\[-2pt]
+      & & {\sffamily\small\bfseries\color{red!80!black}(red serifs)}
+    \end{tabular}
     
-    % Sample Letters Box
-    \begin{tcolorbox}[colback=blue!4, colframe=blue!30, arc=4pt, boxrule=0.6pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
-      {\sffamily\Large\bfseries AaBbCc} \quad $\rightarrow$ \quad \textcolor{gray!60!black}{Sans-serif font: Nét phẳng, gọn gàng trên màn hình}\\[4pt]
-      {\rmfamily\Large\bfseries AaBbCc} \quad $\rightarrow$ \quad \textcolor{gray!60!black}{Serif font: Nét gạch chân cổ điển, trang trọng}\\[4pt]
-      {\rmfamily\Large\bfseries\color{red!80!black} AaBbCc} \quad $\rightarrow$ \quad \textcolor{red!80!black}{Serif font (red serifs): Vùng chân chữ (serifs) tô đỏ để nhận diện}
+    \vspace{12pt}
+    
+    % Bottom Part: Outer Rectangular Box matching the image layout
+    \begin{tcolorbox}[
+      colback=white,
+      colframe=black!80,
+      arc=0pt, boxrule=0.8pt,
+      top=10pt, bottom=10pt, left=15pt, right=15pt
+    ]
+      \begin{tabularx}{\linewidth}{@{}l >{\raggedleft\arraybackslash}X@{}}
+        {\sffamily\Huge\bfseries AaBbCc} & {\sffamily\large\color{black!80} Sans-serif font} \\[14pt]
+        {\rmfamily\Huge\bfseries AaBbCc} & {\rmfamily\large\color{black!80} Serif font} \\[14pt]
+        {\rmfamily\Huge\bfseries\color{red!80!black} AaBbCc} & {\rmfamily\large\color{red!80!black} Serif font (red serifs)}
+      \end{tabularx}
     \end{tcolorbox}
   \end{center}
 \end{tcolorbox}
