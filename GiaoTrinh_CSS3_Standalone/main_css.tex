@@ -2940,6 +2940,33 @@ Khuyết điểm hạn chế & Không kiểm soát chi tiết 100\% về kiểu 
 
 Thuộc tính \codeinline{font-family} trong CSS là một trong những thuộc tính quan trọng nhất để kiểm soát giao diện văn bản trên trang web của bạn. Nó cho phép bạn chỉ định một hoặc nhiều họ phông chữ (\term{font family}) mà trình duyệt nên sử dụng để hiển thị văn bản. Việc hiểu rõ cách hoạt động của nó giúp bạn đảm bảo trang web của mình trông nhất quán và chuyên nghiệp trên nhiều thiết bị và trình duyệt khác nhau.
 
+
+\begin{tipBox}[Ẩn Dụ Thực Tế Dễ Nhớ: Chuỗi Fallback Giống Như "Gọi Món Tại Quán Cà Phê"]
+Để dễ hình dung cách trình duyệt xử lý chuỗi \codeinline{font-family: "CustomFont", Arial, sans-serif;}, hãy tưởng tượng bạn đi gọi nước uống:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Món ưu tiên 1 ("CustomFont")}: Bạn gọi món sinh tố đặc biệt của quán. Nếu quán có sẵn tệp font này (được nhúng hoặc có trong máy), trình duyệt sẽ phục vụ ngay.
+    \item \textbf{Món dự phòng 2 ("Arial")}: Nếu quán hết món đặc biệt, bạn bảo nhân viên đổi sang ly nước cam \codeinline{Arial} phổ biến mà quán nào cũng sẵn có.
+    \item \textbf{Món mặc định nhóm ("sans-serif")}: Nếu quán cũng không có sẵn \codeinline{Arial}, bạn bảo: "Lấy cho tôi bất kỳ loại nước không chân (\codeinline{sans-serif}) nào quán đang có!". Trình duyệt sẽ dùng font mặc định của hệ điều hành.
+\end{enumerate}
+\end{tipBox}
+
+\begin{conceptBox}[Sơ Đồ Luồng Quyết Định (Decision Flowchart) Của Trình Duyệt Khi Render Font]
+\small\sffamily
+\begin{center}
+\textbf{[Trình duyệt bắt đầu vẽ ký tự văn bản trên màn hình]}\\[4pt]
+$\downarrow$\\[4pt]
+1. Kiểm tra font đầu tiên trong danh sách (Ví dụ: \codeinline{"Roboto"})\\[2pt]
+$\rightarrow$ \textbf{Có sẵn?} $\rightarrow$ \textcolor{green!60!black}{\textbf{[ĐÚNG]}} $\rightarrow$ Dùng font \codeinline{"Roboto"} hiển thị văn bản.\\[2pt]
+$\rightarrow$ \textbf{Không có?} $\rightarrow$ \textcolor{red!80!black}{\textbf{[SAI]}} $\rightarrow$ Chuyển sang font thứ 2.\\[6pt]
+$\downarrow$\\[4pt]
+2. Kiểm tra font thứ hai trong danh sách (Ví dụ: \codeinline{Arial})\\[2pt]
+$\rightarrow$ \textbf{Có sẵn?} $\rightarrow$ \textcolor{green!60!black}{\textbf{[ĐÚNG]}} $\rightarrow$ Dùng font \codeinline{Arial} hiển thị văn bản.\\[2pt]
+$\rightarrow$ \textbf{Không có?} $\rightarrow$ \textcolor{red!80!black}{\textbf{[SAI]}} $\rightarrow$ Chuyển sang nhóm font tổng quát.\\[6pt]
+$\downarrow$\\[4pt]
+3. Lấy phông chữ mặc định thuộc nhóm tổng quát (Ví dụ: \codeinline{sans-serif}) từ Hệ Điều Hành.\\[2pt]
+$\rightarrow$ \textcolor{primaryBlue}{\textbf{Kết quả}}: Văn bản luôn luôn hiển thị ổn định, không bao giờ bị vỡ hoặc mất chữ!
+\end{center}
+\end{conceptBox}
 \subsection*{I. Cú Pháp và Thứ Tự Ưu Tiên Của Chuỗi Fallback}
 
 Thuộc tính \codeinline{font-family} nhận một danh sách các tên font, được phân tách bằng dấu phẩy. Thứ tự này rất quan trọng vì nó xác định thứ tự ưu tiên mà trình duyệt sẽ sử dụng để tìm và áp dụng font chữ:
@@ -3475,6 +3502,28 @@ Thuộc tính viết tắt \codeinline{font} cho phép bạn đặt nhiều thu�
   {\sffamily\small\color{gray!70} → Một dòng shorthand thay thế 6 dòng khai báo riêng lẻ.}
 \end{tcolorbox}
 \end{browserWindow}
+
+
+\subsection*{IX. Chuyên Đề Bắt Lỗi Thực Chiến (CSS Font Debugging Masterclass)}
+
+Trong thực tế lập trình Web, lập trình viên thường gặp một số lỗi phổ biến liên quan đến phông chữ. Dưới đây là bảng phân tích nguyên nhân và cách khắc phục chi tiết:
+
+\begin{prettyTableBox}[Bảng Phân Tích \& Khắc Phục Các Lỗi Phông Chữ Thường Gặp]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{red!80!black}}p{3.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash\bfseries\color{green!60!black}}p{3.8cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Biểu hiện lỗi} & \thd{\sffamily Nguyên nhân kỹ thuật cốt lõi} & \thd{\sffamily Giải pháp khắc phục chuẩn} \\
+\hline
+Chữ bị vỡ hoặc hiển thị font mặc định xấu & Quên bọc dấu ngoặc kép cho tên font có khoảng trắng (ví dụ viết \codeinline{Times New Roman} thay vì \codeinline{"Times New Roman"}). & Bắt buộc dùng dấu ngoặc kép: \codeinline{"Times New Roman"}. \\
+\hline
+Chữ Bold bị nhòe/mờ (\term{Faux Bold}) & Khai báo \codeinline{font-weight: 700} nhưng tệp nhúng chỉ tải biến thể Regular (400). Trình duyệt tự bôi đậm giả lập. & Nhúng thêm tệp font biến thể Bold 700 từ Google Fonts/Server. \\
+\hline
+Quy tắc \codeinline{@import} bị trình duyệt bỏ qua & Đặt quy tắc \codeinline{@import} phía dưới các khai báo CSS khác thay vì ở dòng đầu tiên của file CSS. & Di chuyển \codeinline{@import} lên ngay dòng 1 ở đầu tệp CSS. \\
+\hline
+Hiện tượng chữ bị ẩn 3s (\term{FOIT}) & Thiếu thuộc tính \codeinline{font-display: swap;} khiến trình duyệt ẩn chữ trong khi chờ tải tệp font qua mạng. & Thêm \codeinline{font-display: swap;} vào khối \codeinline{@font-face} hoặc URL nhúng. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \subsection{Kỹ Thuật Nhúng Font Ngoại Vào CSS (External Web Fonts)}
 \label{sec:web_fonts_embedding}
