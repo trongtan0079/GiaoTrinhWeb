@@ -2952,6 +2952,15 @@ h1 {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả: Fallback Font Chain Trên Trình Duyệt]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Đoạn văn \codeinline{<p>} sử dụng Roboto} (nếu có) → Arial → sans-serif:\par\vspace{4pt}
+  {\sffamily Giao diện hiển thị phông chữ hiện đại, sạch sẽ phù hợp đọc trên màn hình kỹ thuật số.}\par\vspace{8pt}
+  {\sffamily\bfseries\color{primaryBlue} Tiêu đề \codeinline{<h1>} sử dụng Palatino Linotype → serif:}\par\vspace{4pt}
+  {\rmfamily\large Tiêu đề phong cách cổ điển trang trọng, nét chữ có chân sang trọng rõ nét.}
+\end{tcolorbox}
+\end{browserWindow}
+
 \subsubsection{2. Thuộc Tính font-size (Kích Thước Phông Chữ)}
 \label{sec:font_size}
 
@@ -3018,6 +3027,20 @@ body {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả: So Sánh Các Kích Thước font-size Khác Nhau]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Minh họa trực quan các mức kích thước:}\par\vspace{6pt}
+  {\sffamily\fontsize{10}{12}\selectfont\color{gray!80} ← 10px (quá nhỏ)}\hspace{8pt}
+  {\sffamily\fontsize{12}{14}\selectfont 12px (nhỏ)}\hspace{8pt}
+  {\sffamily\fontsize{14}{16}\selectfont 14px}\hspace{8pt}
+  {\sffamily\fontsize{16}{18}\selectfont\bfseries 16px (chuẩn)}\hspace{8pt}
+  {\sffamily\fontsize{18}{22}\selectfont 18px}\hspace{8pt}
+  {\sffamily\fontsize{22}{26}\selectfont 2rem}\hspace{8pt}
+  {\sffamily\fontsize{26}{32}\selectfont 2.5rem}\par\vspace{8pt}
+  {\sffamily\small\color{gray!70} → \codeinline{16px} là kích thước chuẩn khuyến nghị cho văn bản đọc trên Desktop. \codeinline{rem} tự động scale theo font gốc \codeinline{<html>}.}
+\end{tcolorbox}
+\end{browserWindow}
+
 \subsubsection{3. Thuộc Tính font-weight (Trọng Lượng / Độ Đậm Phông Chữ)}
 \label{sec:font_weight}
 
@@ -3065,6 +3088,19 @@ h3 {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả: Thang Độ Đậm font-weight Trực Quan]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Minh họa thang độ đậm từ 100 đến 900:}\par\vspace{8pt}
+  \begin{tabular}{@{}l l@{}}
+    {\sffamily\fontseries{l}\fontsize{13}{16}\selectfont Thin (100)} & {\sffamily\small\color{gray!70} font-weight: 100} \\ [3pt]
+    {\sffamily\fontseries{l}\fontsize{13}{16}\selectfont Light (300)} & {\sffamily\small\color{gray!70} font-weight: 300} \\ [3pt]
+    {\sffamily\fontsize{13}{16}\selectfont Normal (400)} & {\sffamily\small\color{gray!70} font-weight: normal} \\ [3pt]
+    {\sffamily\bfseries\fontsize{13}{16}\selectfont Bold (700)} & {\sffamily\small\color{gray!70} font-weight: bold} \\ [3pt]
+    {\sffamily\bfseries\fontsize{13}{16}\selectfont\textbf{Extra Bold (800)}} & {\sffamily\small\color{gray!70} font-weight: 800} \\
+  \end{tabular}
+\end{tcolorbox}
+\end{browserWindow}
+
 \subsubsection{4. Thuộc Tính font-style (Kiểu Phông Chữ Nghiêng)}
 \label{sec:font_style}
 
@@ -3097,6 +3133,17 @@ em {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả: So Sánh font-style normal / italic / oblique]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Ba kiểu hiển thị font-style:}\par\vspace{6pt}
+  \begin{tabular}{@{}l l@{}}
+    {\sffamily\fontsize{13}{16}\selectfont Đây là văn bản bình thường.} & {\sffamily\small\color{gray!70} font-style: normal} \\ [6pt]
+    {\sffamily\itshape\fontsize{13}{16}\selectfont Đây là văn bản kiểu nghiêng italic.} & {\sffamily\small\color{gray!70} font-style: italic (thực sự)} \\ [6pt]
+    {\sffamily\slshape\fontsize{13}{16}\selectfont Đây là văn bản nghiêng mô phỏng oblique.} & {\sffamily\small\color{gray!70} font-style: oblique (giả lập)} \\
+  \end{tabular}
+\end{tcolorbox}
+\end{browserWindow}
+
 \subsubsection{5. Thuộc Tính font-variant (Biến Thể Phông Chữ Small-Caps)}
 \label{sec:font_variant}
 
@@ -3116,6 +3163,17 @@ Thuộc tính \codeinline{font-variant} dùng để đặt các biến thể ch�
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Hiển Thị font-variant Small-Caps]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} So sánh chữ thường và Small-Caps:}\par\vspace{6pt}
+  \begin{tabular}{@{}l l@{}}
+    {\sffamily\fontsize{14}{18}\selectfont Đây là chữ thường bình thường} & {\sffamily\small\color{gray!70} font-variant: normal} \\ [8pt]
+    {\sffamily\fontsize{14}{18}\selectfont\textsc{Đây là chữ Small-Caps}} & {\sffamily\small\color{gray!70} font-variant: small-caps} \\
+  \end{tabular}\par\vspace{6pt}
+  {\sffamily\small\color{gray!70} → Chữ viết thường được đổi thành dạng CHỮ HOA nhỏ hơn, tạo hiệu ứng trang trọng.}
+\end{tcolorbox}
+\end{browserWindow}
 
 \subsubsection{6. Thuộc Tính line-height (Chiều Cao Dòng \& Khoảng Cách Dòng)}
 \label{sec:line_height}
@@ -3150,6 +3208,16 @@ h4 {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: So Sánh Khoảng Cách Dòng line-height Khác Nhau]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} line-height: 1.0 (chật, khó đọc):}\par
+  {\setlength{\baselineskip}{12pt}\sffamily\small Dòng đầu của đoạn văn. Dòng này ngay sát dòng trên khiến mắt người đọc phải cố gắng hơn và dễ bị mỏi.}\par\vspace{8pt}
+  {\sffamily\bfseries\color{accentOrange} line-height: 1.6 (thoải mái, chuẩn ✅):}\par
+  {\setlength{\baselineskip}{19pt}\sffamily\small Dòng đầu của đoạn văn.\par Dòng tiếp theo có khoảng cách thoải mái giúp mắt di chuyển tự nhiên và nội dung dễ tiếp thu hơn.}\par\vspace{4pt}
+  {\sffamily\small\color{gray!70} → Khuyến nghị: \codeinline{line-height: 1.5} đến \codeinline{1.8} cho văn bản đọc dài.}
+\end{tcolorbox}
+\end{browserWindow}
 
 \subsubsection{7. Thuộc Tính Viết Tắt font (Shorthand Property)}
 \label{sec:font_shorthand}
@@ -3188,6 +3256,16 @@ Thuộc tính viết tắt \codeinline{font} cho phép bạn đặt nhiều thu�
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Áp Dụng font Shorthand Property]
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\sffamily\bfseries\color{primaryBlue} Kết quả \codeinline{.shorthand-text}:}\par\vspace{4pt}
+  {\rmfamily\itshape\bfseries\fontsize{13}{20}\selectfont\textsc{Chữ Này Là Small-Caps Đậm Nghiêng, Kích Thước 16px, Dòng 1.5.}}\par\vspace{8pt}
+  {\sffamily\bfseries\color{primaryBlue} Kết quả \codeinline{.another-shorthand}:}\par\vspace{4pt}
+  {\sffamily\fontsize{16}{20}\selectfont Chữ bình thường 24px dùng Arial, đơn giản và hiện đại.}\par\vspace{4pt}
+  {\sffamily\small\color{gray!70} → Một dòng shorthand thay thế 6 dòng khai báo riêng lẻ.}
+\end{tcolorbox}
+\end{browserWindow}
 
 \subsection{Kỹ Thuật Nhúng Font Ngoại Vào CSS (External Web Fonts)}
 \label{sec:web_fonts_embedding}
