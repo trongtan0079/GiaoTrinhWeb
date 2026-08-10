@@ -4772,25 +4772,52 @@ Trong thiết kế giao diện Web hiện đại, xử lý văn bản dài bị 
 \end{codeWindow}
 
 \begin{browserWindow}[Mô Phỏng Trực Quan 3 Class Rút Gọn \& Bẻ Từ]
-\begin{tcolorbox}[arc=6pt, colback=white, colframe=primaryBlue!30, boxrule=1pt, top=14pt, bottom=14pt, left=10pt, right=10pt]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=primaryBlue!30, boxrule=1pt, top=16pt, bottom=16pt, left=10pt, right=10pt]
   \centering
   \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
-    % Box 1: 1 line clamp
-    \draw[line width=1.2pt, primaryBlue, fill=primaryBlue!5, rounded corners=5pt] (0, 4.4) rectangle (11.2, 6.2);
-    \node[anchor=north west, font=\sffamily\small\bfseries\color{primaryBlue}] at (0.3, 6.1) {1. Class .line-clamp (Ẩn sau 1 dòng):};
-    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 5.0) {Đây là nội dung mô tả sản phẩm rất dài, nó sẽ...};
 
-    % Box 2: 2 lines clamp
-    \draw[line width=1.2pt, accentOrange, fill=accentOrange!5, rounded corners=5pt] (0, 1.8) rectangle (11.2, 4.0);
-    \node[anchor=north west, font=\sffamily\small\bfseries\color{accentOrange!90!black}] at (0.3, 3.9) {2. Class .line-clamp.line-2 (Ẩn sau 2 dòng):};
-    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 3.05) {Dòng 1: Đây là nội dung mô tả sản phẩm rất dài.};
-    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 2.35) {Dòng 2: Nó sẽ bị cắt sau 2 dòng hiển thị...};
+    % === BOX 1: .line-clamp (1 dong) ===
+    % Outer frame
+    \draw[line width=1.4pt, primaryBlue, fill=primaryBlue!4, rounded corners=6pt] (0, 7.0) rectangle (11.4, 9.6);
+    % Title badge
+    \fill[primaryBlue, rounded corners=4pt] (0.3, 8.9) rectangle (7.8, 9.4);
+    \node[anchor=west, font=\sffamily\small\bfseries\color{white}] at (0.5, 9.15) {1. Class .line-clamp (Giới hạn 1 dòng)};
+    % Content area with gray bg
+    \fill[gray!8, rounded corners=4pt] (0.4, 7.2) rectangle (11.0, 8.6);
+    \draw[gray!30, rounded corners=4pt] (0.4, 7.2) rectangle (11.0, 8.6);
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.7, 7.9)
+      {Đây là nội dung mô tả sản phẩm dài, rất dài, có thể dài đến\textcolor{gray!50}{\textbf{...}}};
 
-    % Box 3: word-break break-all
-    \draw[line width=1.2pt, green!60!black, fill=green!5, rounded corners=5pt] (0, -0.8) rectangle (11.2, 1.4);
-    \node[anchor=north west, font=\sffamily\small\bfseries\color{green!70!black}] at (0.3, 1.3) {3. Class .break-all (Ngắt từ tự động chống vỡ khung):};
-    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 0.5) {https://example.com/chuoi-url-sieu-sieu-sieu-dai-khong-co-};
-    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, -0.2) {khoang-trang-123456789};
+    % === BOX 2: .line-clamp.line-2 (2 dong) ===
+    % Outer frame
+    \draw[line width=1.4pt, accentOrange, fill=accentOrange!4, rounded corners=6pt] (0, 3.2) rectangle (11.4, 6.6);
+    % Title badge
+    \fill[accentOrange!90!black, rounded corners=4pt] (0.3, 5.9) rectangle (8.6, 6.4);
+    \node[anchor=west, font=\sffamily\small\bfseries\color{white}] at (0.5, 6.15) {2. Class .line-clamp.line-2 (Giới hạn 2 dòng)};
+    % Content area with gray bg
+    \fill[gray!8, rounded corners=4pt] (0.4, 3.4) rectangle (11.0, 5.6);
+    \draw[gray!30, rounded corners=4pt] (0.4, 3.4) rectangle (11.0, 5.6);
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.7, 5.0)
+      {Dòng 1: Đây là nội dung mô tả sản phẩm dài, rất dài.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.7, 4.1)
+      {Dòng 2: Nó sẽ bị cắt sau 2 dòng hiển thị, phần sau\textcolor{gray!50}{\textbf{...}}};
+
+    % === BOX 3: .break-all ===
+    % Outer frame
+    \draw[line width=1.4pt, green!60!black, fill=green!4, rounded corners=6pt] (0, -1.0) rectangle (11.4, 2.8);
+    % Title badge
+    \fill[green!50!black, rounded corners=4pt] (0.3, 2.1) rectangle (9.6, 2.6);
+    \node[anchor=west, font=\sffamily\small\bfseries\color{white}] at (0.5, 2.35) {3. Class .break-all (Ngắt từ tự động chống vỡ khung)};
+    % Content area with gray bg
+    \fill[gray!8, rounded corners=4pt] (0.4, -0.8) rectangle (11.0, 1.8);
+    \draw[gray!30, rounded corners=4pt] (0.4, -0.8) rectangle (11.0, 1.8);
+    \node[anchor=west, font=\ttfamily\small\color{primaryBlue!80!black}] at (0.7, 1.2)
+      {https://example.com/chuoi-url-sieu-sieu-};
+    \node[anchor=west, font=\ttfamily\small\color{primaryBlue!80!black}] at (0.7, 0.4)
+      {sieu-dai-khong-co-khoang-trang-1234567};
+    \node[anchor=west, font=\ttfamily\small\color{primaryBlue!80!black}] at (0.7, -0.4)
+      {89-mama-mamamamaaaaaaaaaa};
+
   \end{tikzpicture}
 \end{tcolorbox}
 \end{browserWindow}
