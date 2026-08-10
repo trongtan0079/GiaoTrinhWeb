@@ -2083,9 +2083,9 @@ Reset nền mặc định ô nhập liệu & Tháo bỏ màu nền xám mặc đ
 
 \begin{codeWindow}[Ví Dụ 1: Định Kiểu Nút Bấm Ghost Button \& Mũi Tên Tooltip Bằng transparent]
 \begin{lstlisting}[language=CSS3]
-/* 1. Nut bam Ghost Button sang trong */
+/* (*@ 1. Nút bấm Ghost Button sang trọng @*) */
 .btn-ghost {
-  background-color: transparent; /* Nen trong suot nhin xuyên qua */
+  background-color: transparent; /* (*@ Nền trong suốt nhìn xuyên qua @*) */
   border: 2px solid #3b82f6;
   color: #3b82f6;
   padding: 8px 16px;
@@ -3228,85 +3228,258 @@ Trang trí nhẹ / Tiêu đề nghệ thuật & Pacifico, Lobster, Dancing Scrip
 
 Việc làm chủ thuộc tính \codeinline{font-family} không chỉ là về việc chọn font đẹp mà còn là về việc đảm bảo trải nghiệm người dùng tối ưu và hiệu suất trang web tốt.
 
-\subsubsection{2. Thuộc Tính font-size (Kích Thước Phông Chữ)}
+\subsubsection{2. Thuộc Tính font-size (Kích Thước Phông Chữ MASTERCLASS)}
 \label{sec:font_size}
 
-Thuộc tính \codeinline{font-size} dùng để đặt kích thước của font chữ. CSS cung cấp 3 nhóm đơn vị/từ khóa để thiết lập kích thước font:
+Thuộc tính \codeinline{font-size} trong CSS được sử dụng để thiết lập kích thước của phông chữ (văn bản) trong một phần tử HTML. Đây là một trong những thuộc tính cơ bản và quan trọng nhất trong việc kiểm soát typography trên trang web, ảnh hưởng trực tiếp đến khả năng đọc và thẩm mỹ tổng thể.
 
-\begin{prettyTableBox}[Phân Loại Các Đơn Vị Giá Trị Của font-size]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{accentOrange}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Ký hiệu / Từ khóa} & \thd{\sffamily Mô tả kỹ thuật \& Đặc tính} \\
-\hline
-\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 1. Đơn Vị Tuyệt Đối (Absolute Units)} \\
-\hline
-px (pixels) & Kích thước cố định, không thay đổi theo thiết lập của người dùng hoặc kích thước màn hình. \\
-\hline
-pt (points) & Thường dùng trong in ấn (\codeinline{1pt = 1/72 inch}). \\
-\hline
-in, cm, mm & Đơn vị độ dài vật lý, ít dùng trong thiết kế web. \\
-\hline
-\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 2. Đơn Vị Tương Đối (Relative Units)} \\
-\hline
-em & Tương đối với kích thước font của phần tử cha trực tiếp. Ví dụ: Nếu thẻ cha có \codeinline{font-size: 16px}, thì \codeinline{1.5em} sẽ là \codeinline{24px}. Có thể bị ảnh hưởng bởi hiệu ứng tầng cascading. \\
-\hline
-rem (root em) & Tương đối với kích thước font của phần tử gốc (\codeinline{<html>}). Lựa chọn tốt nhất để tạo hệ thống typography nhất quán, dễ quản lý toàn trang. \\
-\hline
-\% (phần trăm) & Tương đối với kích thước font của phần tử cha. \\
-\hline
-vw (viewport width) & Tương đối với chiều rộng khung nhìn (\codeinline{1vw = 1\%} chiều rộng viewport). \\
-\hline
-vh (viewport height) & Tương đối với chiều cao khung nhìn (\codeinline{1vh = 1\%} chiều cao viewport). \\
-\hline
-vmin, vmax & Tương đối với kích thước nhỏ nhất / lớn nhất của viewport. \\
-\hline
-\rowcolor{primaryBlue!10} \multicolumn{2}{|l|}{\sffamily\bfseries\color{primaryBlue} 3. Từ Khóa Tương Đối (Relative Keywords)} \\
-\hline
-xx-small đến xx-large & Các mức kích thước tương đối so với font mặc định của trình duyệt. \\
-\hline
-smaller, larger & Kích thước nhỏ hơn hoặc lớn hơn tương đối so với phần tử cha. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
+\begin{conceptBox}[Ý Nghĩa \& Mục Đích Của Thuộc Tính font-size]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Khả năng đọc (Readability):} Kích thước phông chữ phù hợp là yếu tố then chốt giúp người dùng đọc hiểu nội dung dễ dàng. Phông chữ quá nhỏ có thể gây khó khăn khi đọc, đặc biệt trên các thiết bị di động, trong khi phông chữ quá lớn có thể chiếm quá nhiều không gian và làm giảm mật độ thông tin.
+    \item \textbf{Phân cấp trực quan (Visual Hierarchy):} Bằng cách sử dụng các kích thước phông chữ khác nhau cho tiêu đề, phụ đề, nội dung chính và chú thích, bạn có thể tạo ra một hệ thống phân cấp rõ ràng, giúp người dùng nhanh chóng nhận biết các phần quan trọng của trang.
+    \item \textbf{Thẩm mỹ và Thương hiệu:} Kích thước phông chữ góp phần vào phong cách tổng thể của trang web, phản ánh tính cách và thương hiệu.
+    \item \textbf{Chức năng cốt lõi:} Xác định chính xác kích thước hiển thị của chữ trên màn hình.
+\end{itemize}
+\end{conceptBox}
 
-\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính font-size]
+\paragraph*{I. Cú Pháp Khai Báo Standard}
+\begin{codeWindow}[Cú Pháp Định Dạng font-size]
 \begin{lstlisting}[language=CSS3]
+selector {
+  font-size: value;
+}
+
+/* Vi du khai bao co ban */
 p {
-  font-size: 16px; /* Kich thuoc co dinh pixel */
-}
-
-h2 {
-  font-size: 2em; /* Gap doi font-size cua phan tu cha */
-}
-
-body {
-  font-size: 18px;
-}
-
-.title {
-  font-size: 2.5rem; /* 2.5 lan font-size cua the html (root) */
-}
-
-.responsive-text {
-  font-size: 3vw; /* Kich thuoc tu dong thay doi theo chieu rong man hinh */
+  font-size: 16px;
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả: So Sánh Các Kích Thước font-size Khác Nhau]
+\paragraph*{II. Các Nhóm Giá Trị Của font-size}
+Thuộc tính \codeinline{font-size} có thể nhận nhiều loại giá trị khác nhau, được chia thành 4 nhóm chính với đặc tính và trường hợp sử dụng riêng biệt:
+
+\begin{conceptBox}[1. Nhóm Từ Khóa Tuyệt Đối \& Tương Đối (Absolute \& Relative Keywords)]
+Các từ khóa tham chiếu đến kích thước mặc định của trình duyệt. Không khuyến khích dùng rộng rãi cho văn bản chính thiết kế web hiện đại do thiếu tính linh hoạt:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Từ khóa tuyệt đối (Absolute Keywords)}: 
+    \par\vspace{4pt}
+    \badge{xx-small} \badge{x-small} \badge{small} \badge{medium (mặc định ~16px)} \badge{large} \badge{x-large} \badge{xx-large} \badge{xxx-large}
+    \par\vspace{4pt}
+    \item \textbf{Từ khóa tương đối (Relative Keywords)}: 
+    \par\vspace{4pt}
+    \badge{smaller} (Nhỏ hơn 1 cấp so với cha) \qquad \badge{larger} (Lớn hơn 1 cấp so với cha)
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Sử Dụng Giá Trị Từ Khóa Của font-size]
+\begin{lstlisting}[language=CSS3]
+h1 { font-size: xx-large; } /* Cuc to */
+p  { font-size: medium;   } /* Mac dinh ~16px */
+span { font-size: smaller; } /* Nho hon phan tu cha */
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[2. Nhóm Đơn Vị Độ Dài Tuyệt Đối (Absolute Length Units -- Cố Định)]
+Xác định kích thước phông chữ cố định, không co giãn theo cài đặt người dùng hay kích thước màn hình:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{\codeinline{px} (Pixels)}: Đơn vị phổ biến nhất ($16\text{px}$ là mặc định trình duyệt).
+    \begin{tcolorbox}[arc=3pt, colback=white, colframe=primaryBlue!20, boxrule=0.5pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
+      \textcolor{green!60!black}{\textbf{Ưu điểm}}: Dễ kiểm soát chính xác, ổn định. \\
+      \textcolor{red!80!black}{\textbf{Nhược điểm}}: Không co giãn theo cài đặt zoom chữ trình duyệt (ảnh hưởng accessibility). \\
+      \textbf{Ví dụ}: \codeinline{font-size: 16px;}
+    \end{tcolorbox}
+    \item \textbf{\codeinline{pt} (Points)}: Chủ yếu dùng cho in ấn ($1\text{pt} = 1/72\text{ inch}$).
+    \item \textbf{\codeinline{cm}, \codeinline{mm}, \codeinline{in}}: Đơn vị vật lý, không phù hợp cho màn hình hiển thị.
+\end{itemize}
+\end{conceptBox}
+
+\begin{tipBox}[3. Nhóm Đơn Vị Độ Dài Tương Đối (Relative Length Units -- Khuyên Dùng Hàng Đầu)]
+Các đơn vị được khuyến nghị hàng đầu trong thiết kế Web Responsive hiện đại nhờ tính linh hoạt cao:
+
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=tipBorder!30, boxrule=0.6pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
+  {\sffamily\bfseries\color{tipBorder} a. Đơn vị \codeinline{rem} (Root em -- Lựa chọn Top 1 cho Web Hiện Đại):}\par\vspace{3pt}
+  Tương đối với \codeinline{font-size} của phần tử gốc (\codeinline{<html>}). $1\text{rem} = \text{font-size gốc}$ (thường là $16\text{px}$).
+  \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+      \item \textcolor{green!60!black}{\textbf{Ưu điểm}}: Đồng bộ toàn bộ website, rất dễ dự đoán và tôn trọng cài đặt người dùng.
+      \item \textbf{Công thức}: $\text{Kích thước px} = \text{giá trị rem} \times \text{font-size của <html>}$.
+  \end{itemize}
+\end{tcolorbox}
+
+\par\vspace{4pt}
+
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=secondaryTeal!30, boxrule=0.6pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
+  {\sffamily\bfseries\color{secondaryTeal} b. Đơn vị \codeinline{em} (Element em -- Tương đối theo phần tử cha):}\par\vspace{3pt}
+  Tương đối với \codeinline{font-size} của phần tử cha trực tiếp. Nếu cha có \codeinline{font-size: 16px}, thì \codeinline{1.5em} $= 16 \times 1.5 = 24\text{px}$.
+  \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+      \item \textcolor{green!60!black}{\textbf{Ưu điểm}}: Thích hợp định dạng icon, padding nút bấm linh hoạt theo cỡ chữ của nút.
+      \item \textcolor{red!80!black}{\textbf{Nhược điểm}}: Dễ bị cộng dồn chồng kích thước khi lồng nhiều cấp DOM.
+  \end{itemize}
+\end{tcolorbox}
+
+\par\vspace{4pt}
+
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=accentOrange!30, boxrule=0.6pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
+  {\sffamily\bfseries\color{accentOrange} c. Đơn vị Viewport (\codeinline{vw}, \codeinline{vh}) \& Phần Trăm (\codeinline{\%}):}\par\vspace{3pt}
+  \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+      \item \textbf{\codeinline{vw} / \codeinline{vh}}: $1\text{vw} = 1\%$ chiều rộng Viewport; $1\text{vh} = 1\%$ chiều cao Viewport. Phông chữ co giãn tự động theo màn hình.
+      \item \textbf{\codeinline{\%}}: Tỷ lệ phần trăm so với font-size của phần tử cha (ví dụ: $120\%$ của $20\text{px} = 24\text{px}$).
+  \end{itemize}
+\end{tcolorbox}
+\end{tipBox}
+
+\paragraph*{III. Bảng Tra Cứu Chi Tiết Tất Cả Các Đơn Vị Của font-size}
+\begin{prettyTableBox}[Bảng Tra Cứu Toàn Diện Các Đơn Vị \& Giá Trị Của font-size]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{accentOrange}\bfseries}p{2.2cm}|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{2.8cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{darkText}}p{3.2cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Đơn vị} & \thd{\sffamily Ý nghĩa / Loại} & \thd{\sffamily Đặc điểm \& Cơ chế tính toán} & \thd{\sffamily Ví dụ cú pháp} \\
+\hline
+px & Tuyệt đối (Pixel) & Cố định, chính xác, không thay đổi theo phần tử cha hay zoom trình duyệt. & font-size: 16px; \\
+\hline
+pt, cm, mm, in & Tuyệt đối (Vật lý) & 1pt = 1/72 inch, thích hợp in ấn, không dùng cho web responsive. & font-size: 12pt; \\
+\hline
+em & Tương đối (Parent) & Tỷ lệ với font-size của phần tử cha trực tiếp (1.5em = 150\% cha). & font-size: 1.5em; \\
+\hline
+rem & Tương đối (Root) & Tỷ lệ với font-size của thẻ html gốc (1rem = html font-size = 16px). & font-size: 1.2rem; \\
+\hline
+\% & Tương đối (Percentage) & Tỷ lệ phần trăm so với font-size của cha (120\% của 16px là 19.2px). & font-size: 120\%; \\
+\hline
+vw / vh & Responsive (Viewport) & Tỷ lệ 1\% theo chiều rộng (vw) hoặc chiều cao (vh) màn hình trình duyệt. & font-size: 5vw; \\
+\hline
+keywords & Từ khóa chuẩn & xx-small đến xxx-large, smaller, larger (medium = mặc định trình duyệt ~16px). & font-size: medium; \\
+\hline
+clamp() & Hàm Responsive & Kết hợp min, val, max làm chữ co giãn linh hoạt giới hạn an toàn. & font-size: clamp(1rem, 2vw, 3rem); \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph*{IV. Minh Họa Mã Nguồn \& So Sánh Thực Tế Các Đơn Vị}
+
+\begin{codeWindow}[Mã Nguồn HTML \& CSS Minh Họa font-size Với Các Đơn Vị]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<style>
+  html {
+    font-size: 16px; /* (*@ Kích thước gốc (Root font-size) cho rem @*) */
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 1rem; /* (*@ Kế thừa 16px từ html @*) */
+    line-height: 1.6;
+  }
+
+  /* (*@ Tiêu đề sử dụng rem (Khuyên dùng) @*) */
+  h1 {
+    font-size: 2.5rem; /* 2.5 * 16px = 40px */
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 2rem; /* 2 * 16px = 32px */
+  }
+
+  /* (*@ Ví dụ sử dụng em (Tăng kế thừa theo cha) @*) */
+  .box {
+    font-size: 18px; /* (*@ font-size riêng cho box @*) */
+  }
+  .box p {
+    font-size: 0.9em; /* (*@ 0.9 * 18px = 16.2px @*) */
+  }
+
+  /* (*@ Ví dụ sử dụng px (Cố định) @*) */
+  .fixed-text {
+    font-size: 14px;
+  }
+
+  /* (*@ Ví dụ sử dụng viewport units (Responsive) @*) */
+  .responsive-title {
+    font-size: 4vw; /* (*@ Co giãn theo width màn hình @*) */
+  }
+
+  /* (*@ Ví dụ sử dụng clamp() hiện đại @*) */
+  .fluid-title {
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
+  }
+</style>
+</head>
+<body>
+  <h1>(*@ Tiêu Đề Lớn (2.5rem = 40px) @*)</h1>
+  <p>(*@ Đoạn văn bình thường (1rem = 16px). @*)</p>
+  
+  <div class="box">
+    <p>(*@ Đoạn văn trong .box (0.9em của 18px = 16.2px). @*)</p>
+  </div>
+  
+  <p class="fixed-text">(*@ Chữ cố định px (14px). @*)</p>
+  <h2 class="responsive-title">(*@ Tiêu Đề Responsive (4vw) @*)</h2>
+  <h2 class="fluid-title">(*@ Tiêu Đề Fluid clamp(1.2rem, 3vw, 2.5rem) @*)</h2>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Mô Phỏng Các Loại Đơn Vị font-size]
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} Minh họa trực quan các mức kích thước:}\par\vspace{6pt}
-  {\sffamily\fontsize{10}{12}\selectfont\color{gray!80} ← 10px (quá nhỏ)}\hspace{8pt}
-  {\sffamily\fontsize{12}{14}\selectfont 12px (nhỏ)}\hspace{8pt}
-  {\sffamily\fontsize{14}{16}\selectfont 14px}\hspace{8pt}
-  {\sffamily\fontsize{16}{18}\selectfont\bfseries 16px (chuẩn)}\hspace{8pt}
-  {\sffamily\fontsize{18}{22}\selectfont 18px}\hspace{8pt}
-  {\sffamily\fontsize{22}{26}\selectfont 2rem}\hspace{8pt}
-  {\sffamily\fontsize{26}{32}\selectfont 2.5rem}\par\vspace{8pt}
-  {\sffamily\small\color{gray!70} → \codeinline{16px} là kích thước chuẩn khuyến nghị cho văn bản đọc trên Desktop. \codeinline{rem} tự động scale theo font gốc \codeinline{<html>}.}
+  {\sffamily\bfseries\Huge\color{primaryBlue} 1. Tiêu Đề Lớn (\codeinline{2.5rem} / $40\text{px}$)}\par\vspace{6pt}
+  {\sffamily\large\color{secondaryTeal}\bfseries 2. Tiêu Đề Phụ (\codeinline{2rem} / $32\text{px}$)}\par\vspace{6pt}
+  {\sffamily\small\color{darkText} 3. Đoạn văn tiêu chuẩn (\codeinline{1rem} / $16\text{px}$): Hiển thị rõ ràng, dễ đọc trên mọi màn hình.}\par\vspace{6pt}
+  {\sffamily\fontsize{9}{11}\selectfont\color{gray!80} 4. Đoạn văn nhỏ (\codeinline{0.875rem} / $14\text{px}$): Thích hợp làm chú thích hoặc thông tin phụ.}\par\vspace{6pt}
+  \begin{tcolorbox}[arc=3pt, colback=primaryBlue!5, colframe=primaryBlue!30, boxrule=0.6pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
+    {\sffamily\bfseries\color{accentOrange} 5. Fluid Typography (\codeinline{clamp(1.2rem, 3vw, 2.5rem)}):} \\
+    {\sffamily\small Chữ tự động co giãn từ $1.2\text{rem}$ ($19.2\text{px}$) trên Mobile đến $2.5\text{rem}$ ($40\text{px}$) trên Desktop!}
+  \end{tcolorbox}
 \end{tcolorbox}
 \end{browserWindow}
+
+\paragraph*{V. Mẹo \& Hướng Dẫn Thực Hành Tốt Nhất (Best Practices)}
+\begin{tipBox}[Lời Khuyên Khi Thiết Kế Hệ Thống Typography]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Sử dụng rem làm đơn vị chính cho font-size}: Nó cung cấp sự linh hoạt và khả năng đáp ứng tốt nhất. Bằng cách điều chỉnh \codeinline{font-size} trên thẻ \codeinline{<html>}, bạn có thể dễ dàng thay đổi tỷ lệ của toàn bộ typography trên trang web.
+    \item \textbf{Sử dụng em cho các thành phần con linh hoạt}: Đôi khi, \codeinline{em} vẫn hữu ích cho các thành phần phụ thuộc vào kích thước phông chữ của phần tử cha trực tiếp (ví dụ: kích thước biểu tượng icon, padding/margin bên trong một nút bấm dựa trên kích thước phông chữ của nút đó).
+    \item \textbf{Tránh px cho văn bản chính}: Mặc dù dễ hiểu, nhưng \codeinline{px} kém linh hoạt và có thể gây ra vấn đề về khả năng tiếp cận nếu người dùng phóng to/thu nhỏ văn bản trong trình duyệt.
+    \item \textbf{Sử dụng clamp() cho Responsive Typography}: Kết hợp đơn vị viewport (\codeinline{vw}) với \codeinline{rem} trong hàm \codeinline{clamp(MIN, VAL, MAX)} giúp phông chữ co giãn mượt mà mà không bao giờ bị quá nhỏ hoặc quá to.
+    \item \textbf{Kiểm tra trên nhiều thiết bị}: Luôn kiểm tra giao diện trên các kích thước màn hình và thiết bị khác nhau để đảm bảo phông chữ hiển thị dễ đọc và đẹp mắt.
+\end{itemize}
+\end{tipBox}
+
+\begin{conceptBox}[Quy Tắc Đặt Kích Thước Tiêu Chuẩn Cho Website]
+Để giữ kích thước chữ cân đối và dễ đọc, các chuyên gia khuyến nghị hệ thống kích thước chuẩn:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Root (\codeinline{<html>})}: \codeinline{16px} ($100\%$)
+    \item \textbf{Văn bản thân bài (Body Text)}: \codeinline{1rem} ($16\text{px}$)
+    \item \textbf{Tiêu đề lớn (Heading H1)}: \codeinline{2.5rem} -- \codeinline{3rem} ($40\text{px}$ -- $48\text{px}$)
+    \item \textbf{Tiêu đề phụ (Heading H2)}: \codeinline{2rem} ($32\text{px}$)
+    \item \textbf{Tiêu đề H3}: \codeinline{1.5rem} ($24\text{px}$)
+    \item \textbf{Văn bản chú thích nhỏ (Captions / Small Text)}: \codeinline{0.875rem} ($14\text{px}$)
+\end{itemize}
+\end{conceptBox}
+
+\begin{warnBox}[Cảnh Báo Về Khả Năng Tiếp Cận (Accessibility \& WCAG 2.1)]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Chuẩn WCAG 1.4.4 (Resize Text)}: Đảm bảo giao diện cho phép phóng to chữ tới $200\%$ mà không bị tràn khung hoặc mất nội dung. Sử dụng đơn vị \codeinline{rem} giúp trình duyệt tự động mở rộng theo thiết lập của thị lực người dùng.
+    \item \textbf{Bẫy Tự Động Zoom Trên iOS Safari}: Nếu phần tử nhập liệu \codeinline{<input>}, \codeinline{<select>}, \codeinline{<textarea>} có \codeinline{font-size < 16px}, iOS Safari sẽ tự động phóng to toàn màn hình khi người dùng chạm vào ô nhập. Luôn duy trì tối thiểu $16\text{px}$ cho ô nhập liệu trên di động.
+    \item \textbf{Hạn chế Trick font-size: 62.5\%}: Kỹ thuật gán \codeinline{html \{ font-size: 62.5\%; \}} (để $1\text{rem} = 10\text{px}$) có thể làm sai lệch cỡ chữ mặc định của các widget bên thứ ba. Hãy cân nhắc dùng biến CSS (\codeinline{--step-0: 1rem}) để quản lý hệ thống typography hiện đại.
+\end{itemize}
+\end{warnBox}
+
+\begin{conceptBox}[Đọc Thêm: Thuộc Tính Bổ Trợ font-size-adjust]
+Khi phông chữ chính chưa tải xong hoặc không khả dụng, trình duyệt sử dụng phông chữ dự phòng (\term{fallback font}). Tuy nhiên, nếu hai phông chữ có tỷ lệ chiều cao chữ thường (\term{x-height}) khác nhau, trang web sẽ bị vỡ khung hình hoặc nhảy chữ (\term{Layout Shift}).
+
+Thuộc tính \codeinline{font-size-adjust} giúp duy trì tỷ lệ \term{x-height} nhất quán giữa phông chính và phông dự phòng:
+\begin{codeWindow}[Cú Pháp Định Dạng font-size-adjust]
+\begin{lstlisting}[language=CSS3]
+p {
+  font-family: "Futura", Arial, sans-serif;
+  font-size: 16px;
+  font-size-adjust: 0.5; /* (*@ Giữ nguyên tỉ lệ x-height chuẩn @*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+\end{conceptBox}
 
 \subsubsection{3. Thuộc Tính font-weight (Trọng Lượng / Độ Đậm Phông Chữ MASTERCLASS)}
 \label{sec:font_weight}
@@ -3673,48 +3846,221 @@ Chuyển sang sử dụng các phông chữ thiết kế hiện đại có sự 
 \end{enumerate}
 \end{tipBox}
 
-\subsubsection{4. Thuộc Tính font-style (Kiểu Phông Chữ Nghiêng)}
+\subsubsection{4. Thuộc Tính font-style (Kiểu Phông Chữ Nghiêng MASTERCLASS)}
 \label{sec:font_style}
 
-Thuộc tính \codeinline{font-style} được sử dụng để thiết lập kiểu chữ nghiêng cho văn bản.
+Thuộc tính \codeinline{font-style} trong CSS được sử dụng để xác định kiểu dáng của chữ (văn bản), chủ yếu là chuyển đổi giữa chữ thường (\codeinline{normal}), chữ nghiêng nghệ thuật (\codeinline{italic}) hoặc chữ nghiêng mô phỏng (\codeinline{oblique}). Nó giúp bạn thêm sắc thái và sự nhấn mạnh vào nội dung mà không cần phải thay đổi họ phông chữ (\codeinline{font-family}).
 
-\begin{prettyTableBox}[Các Giá Trị Của font-style]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}p{3.0cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa \& Cơ chế hoạt động} \\
-\hline
-normal & Văn bản ở dạng bình thường (không nghiêng). Mặc định. \\
-\hline
-italic & Văn bản kiểu nghiêng thực sự (trình duyệt sử dụng phiên bản phông chữ nghiêng dành riêng do nhà thiết kế font vẽ ra). \\
-\hline
-oblique & Văn bản nghiêng mô phỏng (trình duyệt tự động làm nghiêng các ký tự bằng thuật toán nếu font không có phiên bản italic thực sự). \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
+\begin{conceptBox}[Ý Nghĩa \& Mục Đích Của Thuộc Tính font-style]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Nhấn mạnh \& Tạo điểm nhấn}: Khai báo \codeinline{font-style: italic;} là cách phổ biến nhất để nhấn mạnh một từ, cụm từ, hoặc đoạn trích ngắn, thường dùng cho tên sách, tên tác phẩm, phim ảnh, thuật ngữ kỹ thuật, hoặc lời trích dẫn.
+    \item \textbf{Phân biệt loại nội dung}: Giúp phân biệt các loại nội dung đặc thù trên trang web như chú thích hình ảnh, lời thoại nhân vật, hoặc đoạn ghi chú nằm ngoài văn bản chính.
+    \item \textbf{Thẩm mỹ Typography}: Góp phần tạo sự đa dạng, hấp dẫn thị giác và tăng nét trang trọng cho thiết kế tổng thể.
+\end{itemize}
+\end{conceptBox}
 
-\begin{codeWindow}[Ví Dụ Sử Dụng Thuộc Tính font-style]
+\paragraph*{I. Cú Pháp Khai Báo Standard}
+\begin{codeWindow}[Cú Pháp Định Dạng font-style]
 \begin{lstlisting}[language=CSS3]
-em {
-  font-style: italic; /* Dung phien ban Italic thuc su cua font */
+selector {
+  font-style: value;
 }
 
-.mock-italic {
-  font-style: oblique; /* Trinh duyet tu lam nghieng ky tu */
+/* Vi du khai bao co ban */
+p {
+  font-style: italic;
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả: So Sánh font-style normal / italic / oblique]
+\paragraph*{II. Các Nhóm Giá Trị Của font-style}
+
+\begin{prettyTableBox}[Bảng Tra Cứu Toàn Diện Các Giá Trị Của font-style \& Độ Hỗ Trợ Trình Duyệt]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{accentOrange}\bfseries}p{2.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash\bfseries\color{green!60!black}}p{3.8cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa \& Cơ chế hiển thị kỹ thuật} & \thd{\sffamily Hỗ trợ trình duyệt} \\
+\hline
+normal & Chữ thẳng đứng bình thường, không có hiệu ứng nghiêng (giá trị mặc định cho hầu hết các font). & \textcolor{green!60!black}{\textbf{Đầy đủ}} (Chrome, Firefox, Safari, Edge) \\
+\hline
+italic & Chữ nghiêng mượt mà (True Italic), trình duyệt sử dụng phiên bản nghiêng do nhà thiết kế font vẽ riêng. & \textcolor{green!60!black}{\textbf{Đầy đủ}} (Chrome, Firefox, Safari, Edge) \\
+\hline
+oblique & Chữ nghiêng cưỡng ép (Synthetic Skewing), trình duyệt tự kéo nghiêng ký tự thẳng bằng thuật toán. Hỗ trợ kèm góc chỉ định (ví dụ: \codeinline{oblique 14deg}). & \textcolor{green!60!black}{\textbf{Đầy đủ}} (Chrome, Firefox, Safari, Edge) \\
+\hline
+inherit & Kế thừa giá trị kiểu chữ nghiêng từ phần tử cha trực tiếp. & \textcolor{green!60!black}{\textbf{Đầy đủ}} (Chrome, Firefox, Safari, Edge) \\
+\hline
+initial & Đặt lại kiểu chữ về giá trị mặc định ban đầu của CSS (\codeinline{normal}). & \textcolor{green!60!black}{\textbf{Đầy đủ}} (Chrome, Firefox, Safari, Edge) \\
+\hline
+unset & Gỡ bỏ kiểu chữ đã đặt, trở về giá trị mặc định hoặc kế thừa tùy theo ngữ cảnh DOM. & \textcolor{green!60!black}{\textbf{Đầy đủ}} (Chrome, Firefox, Safari, Edge) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph*{III. Phân Biệt Chi Tiết Giữa italic Và oblique}
+
+Sự khác biệt quan trọng nhất giữa \codeinline{italic} và \codeinline{oblique} nằm ở \textbf{cách thức ký tự được tạo ra}:
+
+\begin{prettyTableBox}[Bảng So Sánh Chi Tiết Giữa True Italic Và Synthetic Oblique]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily Giá trị italic (True Italic)} & \thd{\sffamily Giá trị oblique (Synthetic Oblique)} \\
+\hline
+Nguồn gốc ký tự & Là một bản thiết kế phông chữ riêng biệt, được nhà tạo phông vẽ tay các đường uốn lượn tinh tế. & Trình duyệt tự nghiêng phông chữ thẳng đứng bằng cách lệch góc ký tự cơ học. \\
+\hline
+Chất lượng thị giác & Chữ rất mượt mà, nghệ thuật, đẹp và cân đối tuyệt đối. & Chữ có thể hơi thô, méo hoặc mất cân bằng nét do kéo nghiêng máy móc. \\
+\hline
+Yêu cầu file font & Phụ thuộc vào việc file phông chữ có chứa biến thể Italic hay không. & Không phụ thuộc, trình duyệt luôn tự tạo được chữ nghiêng cho mọi phông chữ. \\
+\hline
+Tùy chỉnh góc & Không tùy chỉnh được góc nghiêng (theo thiết kế font). & Cho phép tùy chỉnh góc nghiêng cụ thể (ví dụ: \codeinline{oblique 10deg}, \codeinline{oblique 14deg}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Cơ Chế Fallback Tự Động Của Trình Duyệt Khi Khai Báo italic]
+Khi bạn khai báo \codeinline{font-style: italic;}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Nếu phông chữ có phiên bản \codeinline{italic} thực sự, trình duyệt sẽ ưu tiên sử dụng bản \codeinline{italic} mượt mà đó.
+    \item Nếu phông chữ không có phiên bản \codeinline{italic} thực sự, trình duyệt sẽ tự động cố gắng tạo hiệu ứng nghiêng bằng cách "làm xiên" phiên bản \codeinline{normal} (tức là tự chuyển sang cơ chế tương tự \codeinline{oblique}).
+\end{itemize}
+Do đó, các nhà thiết kế Web luôn được khuyến nghị khai báo \codeinline{font-style: italic;} và để trình duyệt tự động đưa ra quyết định tốt nhất!
+\end{conceptBox}
+
+\paragraph*{IV. Minh Họa Mã Nguồn HTML/CSS \& Kết Quả Hiển Thị}
+
+\begin{codeWindow}[File style.css -- Áp Dụng Tất Cả Giá Trị Của font-style]
+\begin{lstlisting}[language=CSS3]
+/* (*@ Văn bản normal @*) */
+p.normal  { font-style: normal; }
+
+/* (*@ Văn bản nghiêng Italic thực sự @*) */
+p.italic  { font-style: italic; }
+
+/* (*@ Văn bản nghiêng Oblique cưỡng ép @*) */
+p.oblique { font-style: oblique; }
+
+/* (*@ Văn bản nghiêng Oblique với góc custom 14 độ @*) */
+p.skewed  { font-style: oblique 14deg; }
+
+/* (*@ Các từ khóa điều khiển DOM @*) */
+p.inherit { font-style: inherit; }
+p.initial { font-style: initial; }
+p.unset   { font-style: unset; }
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[File index.html -- Khung Thẻ HTML Minh Họa]
+\begin{lstlisting}[language=HTML5]
+<p class="normal">(*@ Chữ bình thường (normal). @*)</p>
+<p class="italic">(*@ Chữ nghiêng nhẹ mượt mà (italic). @*)</p>
+<p class="oblique">(*@ Chữ nghiêng cưỡng ép trình duyệt (oblique). @*)</p>
+<p class="skewed">(*@ Chữ nghiêng tùy chỉnh góc (oblique 14deg). @*)</p>
+<p class="inherit">(*@ Chữ kế thừa từ phần tử cha (inherit). @*)</p>
+<p class="initial">(*@ Chữ trở về mặc định (initial). @*)</p>
+<p class="unset">(*@ Chữ về mặc định hoặc kế thừa (unset). @*)</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Các Giá Trị font-style]
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} Ba kiểu hiển thị font-style:}\par\vspace{6pt}
+  {\sffamily\bfseries\color{primaryBlue} Kết quả hiển thị mô phỏng thực tế trên trình duyệt:}\par\vspace{6pt}
   \begin{tabular}{@{}l l@{}}
-    {\sffamily\fontsize{13}{16}\selectfont Đây là văn bản bình thường.} & {\sffamily\small\color{gray!70} font-style: normal} \\ [6pt]
-    {\sffamily\itshape\fontsize{13}{16}\selectfont Đây là văn bản kiểu nghiêng italic.} & {\sffamily\small\color{gray!70} font-style: italic (thực sự)} \\ [6pt]
-    {\sffamily\slshape\fontsize{13}{16}\selectfont Đây là văn bản nghiêng mô phỏng oblique.} & {\sffamily\small\color{gray!70} font-style: oblique (giả lập)} \\
+    {\sffamily\fontsize{12}{15}\selectfont Chữ bình thường (normal).} & {\sffamily\small\color{gray!70} \codeinline{font-style: normal;}} \\ [5pt]
+    {\sffamily\itshape\fontsize{12}{15}\selectfont Chữ nghiêng nhẹ mượt mà (italic).} & {\sffamily\small\color{gray!70} \codeinline{font-style: italic;}} \\ [5pt]
+    {\sffamily\slshape\fontsize{12}{15}\selectfont Chữ nghiêng cưỡng ép (oblique).} & {\sffamily\small\color{gray!70} \codeinline{font-style: oblique;}} \\ [5pt]
+    {\sffamily\slshape\fontsize{12}{15}\selectfont Chữ nghiêng góc $14^\circ$ (oblique 14deg).} & {\sffamily\small\color{gray!70} \codeinline{font-style: oblique 14deg;}} \\ [5pt]
+    {\sffamily\fontsize{12}{15}\selectfont Chữ kế thừa từ cha (inherit).} & {\sffamily\small\color{gray!70} \codeinline{font-style: inherit;}} \\ [5pt]
+    {\sffamily\fontsize{12}{15}\selectfont Chữ trở về mặc định (initial).} & {\sffamily\small\color{gray!70} \codeinline{font-style: initial;}} \\
   \end{tabular}
 \end{tcolorbox}
 \end{browserWindow}
+
+\paragraph*{V. Hướng Dẫn Nhúng Font Có Hỗ Trợ Italic Chuẩn \& Khắc Phục Lỗi}
+
+Để đảm bảo chữ nghiêng hiển thị sắc nét và mượt mà nhất, bạn cần nhúng đầy đủ biến thể \codeinline{italic} từ Google Fonts hoặc file ngoài.
+
+\begin{codeWindow}[Mã HTML Nhúng Google Fonts Chuẩn Biến Thể Italic]
+\begin{lstlisting}[language=HTML5]
+<!-- Nhung font Roboto voi ca bien the normal (400) va italic (ital,wght@1,400) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,400&display=swap">
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Ví Dụ Lỗi Thường Gặp \& Cách Khắc Phục Chuẩn]
+\textbf{\color{red!80!black}Ví dụ lỗi thường gặp}: Bạn dùng phông chữ tùy chỉnh nhưng quên không tải file biến thể nghiêng:
+\begin{codeWindow}[Mã CSS Lỗi -- Không Có File Font Italic]
+\begin{lstlisting}[language=CSS3]
+.custom-text {
+  font-family: 'MyCustomFont';
+  font-style: italic; /* (*@ Nhưng 'MyCustomFont' không có bản Italic! @*) */
+}
+/* (*@ KẾT QUẢ: Trình duyệt tự nghiêng (oblique) làm chữ bị méo và xấu. @*) */
+\end{lstlisting}
+\end{codeWindow}
+
+\textbf{\color{green!60!black}Cách khắc phục chuẩn với @font-face}:
+\begin{codeWindow}[Mã CSS Khắc Phục Chuẩn Qua @font-face]
+\begin{lstlisting}[language=CSS3]
+/* Khai bao file font nghieng rieng */
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('fonts/MyCustomFont-Italic.woff2') format('woff2');
+  font-style: italic; /* Gan kieu nghieng cho file nay */
+}
+
+.custom-text {
+  font-family: 'MyCustomFont';
+  font-style: italic; /* hien thi dep mat tu file WOFF2 nghieng */
+}
+\end{lstlisting}
+\end{codeWindow}
+\end{warnBox}
+
+\paragraph*{VI. Các Thẻ HTML Mặc Định Mang Kiểu font-style: italic}
+
+Trong HTML, có một số thẻ mang ngữ nghĩa chuyên biệt được trình duyệt gán mặc định kiểu chữ nghiêng:
+
+\begin{prettyTableBox}[Danh Sách Thẻ HTML Mặc Định Mang Style Italic]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{2.0cm}|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash\ttfamily\color{accentOrange}}p{3.2cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thẻ HTML} & \thd{\sffamily Ý nghĩa ngữ nghĩa chuẩn (Semantic Meaning)} & \thd{\sffamily Style mặc định} \\
+\hline
+\codeinline{<em>} & Nhấn mạnh văn bản mang tính ngữ nghĩa (\term{Emphasis}). & font-style: italic; \\
+\hline
+\codeinline{<i>} & Thể hiện thuật ngữ, ý nghĩ nhân vật hoặc tên gọi mang tính hình thức. & font-style: italic; \\
+\hline
+\codeinline{<cite>} & Trích dẫn tên tác phẩm nghệ thuật, tên sách, tên bài báo hoặc phim. & font-style: italic; \\
+\hline
+\codeinline{<dfn>} & Định nghĩa thuật ngữ mới xuất hiện lần đầu trong văn bản. & font-style: italic; \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph*{VII. Ứng Dụng Thực Tế \& Lời Khuyên (Best Practices)}
+
+\begin{tipBox}[Ứng Dụng Thực Tế Của font-style]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Nhấn mạnh từ hoặc câu trong đoạn văn}:
+    \par\vspace{2pt}
+    \codeinline{em \{ font-style: italic; \}} $\rightarrow$ Khi dùng thẻ \codeinline{<em>}, văn bản sẽ nghiêng nhẹ để thu hút sự chú ý.
+    \item \textbf{Định dạng khối trích dẫn (Blockquote)}:
+    \par\vspace{2pt}
+    \codeinline{blockquote \{ font-style: italic; \}} $\rightarrow$ Giúp phần trích dẫn nổi bật và phân biệt với nội dung chính.
+    \item \textbf{Giao diện nút bấm sáng tạo}:
+    \par\vspace{2pt}
+    \codeinline{button \{ font-style: oblique 10deg; \}} $\rightarrow$ Nút bấm nghiêng nhẹ tạo nét cá tính độc đáo cho UI.
+\end{itemize}
+\end{tipBox}
+
+\begin{conceptBox}[Tổng Kết Các Điểm Cốt Lõi Về font-style]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{font-style} giúp định dạng kiểu chữ dễ dàng (\codeinline{normal}, \codeinline{italic}, \codeinline{oblique}).
+    \item \codeinline{italic} đẹp và nghệ thuật hơn nhưng cần file phông chữ hỗ trợ; \codeinline{oblique} linh hoạt hơn nhưng có thể kém tinh tế.
+    \item \codeinline{inherit}, \codeinline{initial}, \codeinline{unset} giúp kiểm soát kiểu chữ linh hoạt theo từng ngữ cảnh DOM.
+    \item \textbf{Lưu ý đọc}: Tránh sử dụng \codeinline{italic} cho các đoạn văn bản quá dài vì chữ nghiêng liên tục sẽ làm giảm khả năng đọc và gây mỏi mắt người dùng. Chỉ nên dùng để nhấn mạnh các cụm từ ngắn gọn.
+\end{itemize}
+\end{conceptBox}
 
 \subsubsection{5. Thuộc Tính font-variant (Biến Thể Phông Chữ Small-Caps)}
 \label{sec:font_variant}
@@ -3750,252 +4096,767 @@ Thuộc tính \codeinline{font-variant} dùng để đặt các biến thể ch�
 \subsubsection{6. Thuộc Tính line-height (Chiều Cao Dòng \& Khoảng Cách Dòng MASTERCLASS)}
 \label{sec:line_height}
 
-\subsection*{I. Khái Niệm Cốt Lõi Về line-height}
+\paragraph*{I. Khái Niệm Cốt Lõi Về line-height}
 
-Trong CSS, thuộc tính \codeinline{line-height} dùng để thiết lập chiều cao của mỗi dòng văn bản, hay nói cách khác là khoảng cách giữa các đường cơ sở (\term{baseline}) của các dòng chữ trong một khối văn bản. Nó \textbf{không làm thay đổi kích thước chữ thực tế}, mà thay đổi chiều cao của ``hộp dòng'' (\term{line box}) chứa văn bản, từ đó ảnh hưởng đến khoảng cách giữa các dòng.
-
-\begin{warnBox}[Lưu Ý Quan Trọng]
-\codeinline{line-height} không chỉ giãn khoảng cách giữa các dòng chữ, mà còn ảnh hưởng đến \textbf{chiều cao tổng thể} của phần tử chứa text.
-\end{warnBox}
-
-\begin{conceptBox}[Tầm Quan Trọng Của line-height Trong Thiết Kế Web]
+Thuộc tính \codeinline{line-height} trong CSS xác định \textbf{chiều cao của một dòng văn bản}. Nó quyết định trực tiếp:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Khả năng đọc (Readability):} \codeinline{line-height} có tác động lớn đến khả năng đọc của văn bản. Khoảng cách dòng quá gần hoặc quá xa đều có thể làm giảm trải nghiệm đọc. Khoảng cách dòng hợp lý giúp mắt dễ dàng theo dõi từ dòng này sang dòng khác, tránh tình trạng các dòng bị dính vào nhau hoặc quá rời rạc.
-    \item \textbf{Thẩm mỹ và thiết kế:} \codeinline{line-height} góp phần tạo nên vẻ ngoài tổng thể của typography trên trang web. Nó giúp tạo ra sự cân bằng và hài hòa giữa các khối văn bản và các yếu tố khác.
-    \item \textbf{Phân cấp trực quan:} Tương tự như \codeinline{font-weight}, bạn có thể sử dụng \codeinline{line-height} để phân biệt các loại nội dung (ví dụ: \codeinline{line-height} lớn hơn cho tiêu đề phụ hoặc \codeinline{line-height} nhỏ hơn cho các chú thích).
+    \item Khoảng cách từ dòng trên đến dòng dưới trong cùng một khối văn bản.
+    \item Độ cao mà mỗi dòng chữ chiếm giữ trên giao diện trang web.
+    \item \textbf{Không làm thay đổi kích thước chữ} (\codeinline{font-size}), mà tạo không gian đứng (\term{vertical space}) cho mỗi dòng chữ.
 \end{itemize}
+
+\begin{conceptBox}[Hình Dung Đơn Giản Về Hộp Dòng (Line Box)]
+Hãy tưởng tượng mỗi dòng chữ nằm gọn trong một chiếc hộp vô hình -- \codeinline{line-height} chính là \textbf{chiều cao của chiếc hộp đó}.
+\par\vspace{4pt}
+Ví dụ với khai báo:
+\begin{codeWindow}[Ví Dụ Khai Báo line-height Cơ Bản]
+\begin{lstlisting}[language=CSS3]
+p {
+  font-size: 16px;
+  line-height: 24px;
+}
+\end{lstlisting}
+\end{codeWindow}
+$\rightarrow$ Dòng chữ có kích thước $16\text{px}$, nhưng mỗi dòng sẽ chiếm tổng cộng $24\text{px}$ chiều cao trên màn hình (có $8\text{px}$ khoảng trống được chia đều: $4\text{px}$ phía trên và $4\text{px}$ phía dưới chữ).
 \end{conceptBox}
 
-% ---
+\paragraph*{II. Cơ Chế Hoạt Động Chi Tiết Của line-height (Line Box \& Leading)}
 
-\subsection*{II. Cơ Chế Hoạt Động Của line-height (Line Box \& Leading)}
+Mỗi dòng văn bản được chứa trong một hộp dòng (\term{line box}). Khoảng không gian thừa giữa \codeinline{line-height} và \codeinline{font-size} được gọi là \term{leading}. Trình duyệt sẽ tự động chia đôi lượng leading này để thêm vào phía trên và phía dưới văn bản.
 
-Mỗi dòng văn bản được đặt trong một ``hộp dòng'' (\term{line box}). \codeinline{line-height} xác định chiều cao của hộp dòng này. Chiều cao của chữ (\term{content-area}) nằm ở giữa hộp dòng. Khoảng cách thêm vào phía trên và phía dưới của content-area được gọi là ``leading''. Nửa trên của leading được thêm vào phía trên của content-area, và nửa dưới được thêm vào phía dưới.
+\begin{browserWindow}[Sơ Đồ Minh Họa Trực Quan Cấu Trúc Hộp Dòng (Line Box \& Leading)]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=primaryBlue!30, boxrule=1pt, top=12pt, bottom=12pt, left=8pt, right=8pt]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
+    % Outer Line Box boundary (Width 11.8cm, Height 4.4cm)
+    \draw[line width=1.5pt, primaryBlue, fill=accentOrange!8, rounded corners=8pt] (0,0) rectangle (11.8, 4.4);
+    
+    % Half-leading top region
+    \fill[accentOrange!25, rounded corners=5pt] (0.2, 3.0) rectangle (11.6, 4.1);
+    \node[anchor=west, font=\sffamily\small\bfseries\color{accentOrange!90!black}] at (0.4, 3.55) {Half-leading (Khoảng trống phía trên)};
+    \node[anchor=east, font=\sffamily\small\bfseries\color{gray!80!black}] at (11.4, 3.55) {+4px (Leading / 2)};
 
-\begin{conceptBox}[Công Thức Tính Leading]
+    % Content area (font-size)
+    \fill[primaryBlue!15, rounded corners=5pt] (0.2, 1.4) rectangle (11.6, 2.8);
+    \node[anchor=west, font=\sffamily\fontsize{11}{13}\selectfont\bfseries\color{primaryBlue}] at (0.4, 2.1) {Văn bản hiển thị (Content Area)};
+    \node[anchor=east, font=\sffamily\fontsize{11}{13}\selectfont\bfseries\color{primaryBlue}] at (11.4, 2.1) {font-size = 16px};
+
+    % Half-leading bottom region
+    \fill[accentOrange!25, rounded corners=5pt] (0.2, 0.3) rectangle (11.6, 1.2);
+    \node[anchor=west, font=\sffamily\small\bfseries\color{accentOrange!90!black}] at (0.4, 0.75) {Half-leading (Khoảng trống phía dưới)};
+    \node[anchor=east, font=\sffamily\small\bfseries\color{gray!80!black}] at (11.4, 0.75) {+4px (Leading / 2)};
+
+    % Height Indicator Arrow on the left
+    \draw[<->, line width=1.5pt, primaryBlue] (-0.4, 0) -- (-0.4, 4.4);
+    \node[rotate=90, anchor=center, font=\sffamily\small\bfseries\color{primaryBlue}] at (-0.8, 2.2) {line-height = 24px};
+  \end{tikzpicture}
+  \par\vspace{8pt}
+  {\sffamily\small\color{gray!70} \textbf{Giải thích}: Khi \codeinline{line-height: 24px} và \codeinline{font-size: 16px}, lượng dư $8\text{px}$ được trình duyệt tự động chia đôi ($4\text{px}$ phía trên và $4\text{px}$ phía dưới) giúp chữ luôn nằm chính giữa hộp dòng.}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{conceptBox}[Công Thức Tính Leading Chi Tiết]
 \begin{center}
 \codeinline{Leading = line-height - font-size}\\[4pt]
 \codeinline{Half-leading (trên) = Leading / 2}\\[4pt]
 \codeinline{Half-leading (dưới) = Leading / 2}
 \end{center}
-Điều này có nghĩa là khi bạn tăng \codeinline{line-height}, khoảng cách giữa các dòng sẽ tăng lên \textbf{đều ở cả phía trên và phía dưới} của văn bản, làm cho văn bản ``thông thoáng'' hơn.
 \end{conceptBox}
 
-\begin{tipBox}[Ví Dụ Trực Quan Minh Họa Cơ Chế Leading]
-Nếu \codeinline{font-size: 16px;} và \codeinline{line-height: 1.5;} (tức $16 \times 1.5 = 24\text{px}$):
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item Tổng chiều cao dòng = $24\text{px}$
-    \item Leading = $24 - 16 = 8\text{px}$
-    \item Half-leading trên = $4\text{px}$ (thêm vào phía trên chữ)
-    \item Half-leading dưới = $4\text{px}$ (thêm vào phía dưới chữ)
-\end{itemize}
-$\rightarrow$ Phần tử text sẽ được căn giữa theo chiều cao dòng, phần dư chia đều cho trên và dưới.
+\paragraph*{III. Các Cách Khai Báo \& Bảng So Sánh Các Kiểu Giá Trị}
+
+\begin{prettyTableBox}[Bảng Tổng Quan Các Cách Khai Báo line-height]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.0cm}|>{\ttfamily\color{accentOrange}\bfseries}p{2.6cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Cách viết} & \thd{\sffamily Ví dụ} & \thd{\sffamily Ý nghĩa \& Đặc tính kỹ thuật} \\
+\hline
+Số tuyệt đối (px) & line-height: 24px; & Dòng cao cố định đúng 24px (không tự thay đổi khi đổi font-size). \\
+\hline
+Số tương đối (em) & line-height: 1.5em; & Chiều cao dòng bằng 1.5 lần font-size của chính phần tử đó. \\
+\hline
+Số không đơn vị (tỉ lệ) & line-height: 1.5; & Bằng 1.5 lần font-size. \textbf{Đây là cách được khuyên dùng nhất} vì kế thừa linh hoạt cho các con. \\
+\hline
+Phần trăm (\%) & line-height: 150\%; & Chiều cao dòng bằng 150\% font-size. Giá trị đã tính sẽ được kế thừa bởi phần tử con. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Lời Khuyên Hàng Đầu]
+Khai báo \codeinline{line-height: 1.5;} (số không đơn vị) là cách thông dụng, an toàn và chuyên nghiệp nhất vì nó luôn giữ tỉ lệ chuẩn theo \codeinline{font-size} của mọi phần tử con.
 \end{tipBox}
 
-% ---
+\paragraph*{IV. Kế Thừa Khi Phần Tử KHÔNG Khai Báo font-size}
 
-\subsection*{III. Cú Pháp Và Các Giá Trị Của line-height}
-
-\begin{codeWindow}[Cú Pháp Định Dạng Chuẩn]
-\begin{lstlisting}[language=CSS3]
-selector {
-  line-height: normal | <number> | <length> | <percentage>;
-}
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{prettyTableBox}[Bảng Tra Cứu Chi Tiết Các Giá Trị Của line-height]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\color{primaryBlue}\bfseries}p{3.0cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Kiểu giá trị} & \thd{\sffamily Mô tả chi tiết \& Khuyên dùng} \\
-\hline
-normal & Trình duyệt tự động tính toán một giá trị hợp lý dựa trên \codeinline{font-size} và họ phông chữ đang sử dụng. Giá trị này thường nằm trong khoảng từ $1.0$ đến $1.2$ hoặc $1.4$. Đây là giá trị an toàn khi bạn không muốn can thiệp quá nhiều vào khoảng cách dòng. \\
-\hline
-number (số không đơn vị) & \textbf{Đây là cách được khuyến khích sử dụng nhất} vì tính linh hoạt và khả năng kế thừa tốt. Giá trị \codeinline{line-height} thực tế sẽ bằng \codeinline{font-size} của phần tử nhân với giá trị số này. Ví dụ: Nếu \codeinline{font-size} là \codeinline{16px} và \codeinline{line-height} là \codeinline{1.5}, thì chiều cao dòng sẽ là $16 \times 1.5 = 24\text{px}$. \textbf{Lợi ích}: Khi bạn thay đổi \codeinline{font-size} của phần tử con kế thừa \codeinline{line-height} dưới dạng số, \codeinline{line-height} của phần tử con đó sẽ tự động điều chỉnh theo \codeinline{font-size} mới. \\
-\hline
-length (px, em, rem) & Bạn có thể chỉ định một giá trị cụ thể bằng các đơn vị CSS như \codeinline{px}, \codeinline{em}, \codeinline{rem}, \codeinline{pt}. Ví dụ: \codeinline{line-height: 20px;} hoặc \codeinline{line-height: 1.2em;}. Khi sử dụng \codeinline{px}, giá trị \codeinline{line-height} là cố định và không thay đổi theo \codeinline{font-size}. \\
-\hline
-percentage (\%) & Giá trị \codeinline{line-height} sẽ được tính bằng phần trăm của \codeinline{font-size} hiện tại. Ví dụ: \codeinline{line-height: 150\%;} tương đương với $1.5$ lần \codeinline{font-size}. Lưu ý: Giá trị phần trăm sẽ tính toán dựa trên \codeinline{font-size} của chính phần tử đó, sau đó giá trị \textit{đã tính toán} này sẽ được kế thừa bởi các phần tử con (có thể gây kết quả không mong muốn). \\
-\hline
-inherit & Phần tử sẽ kế thừa giá trị \codeinline{line-height} đã tính toán từ phần tử cha của nó. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-% ---
-
-\subsection*{IV. Ví Dụ Minh Họa Chi Tiết Từng Kiểu Giá Trị line-height}
-
-\begin{codeWindow}[Ví Dụ 1: Dùng Số Không Đơn Vị (Được Khuyến Nghị Nhất)]
-\begin{lstlisting}[language=CSS3]
-body {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.6; /* 16px * 1.6 = 25.6px chieu cao dong */
-}
-
-h1 {
-  font-size: 32px;
-  line-height: 1.2; /* 32px * 1.2 = 38.4px chieu cao dong */
-}
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{codeWindow}[Ví Dụ 2: Dùng Đơn Vị px (Giá Trị Cố Định)]
-\begin{lstlisting}[language=CSS3]
-.fixed-line-height {
-  font-size: 14px;
-  line-height: 24px; /* Dong cao 24px, khong phu thuoc font-size */
-}
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{codeWindow}[Ví Dụ 3: Dùng Phần Trăm]
-\begin{lstlisting}[language=CSS3]
-.percentage-line-height {
-  font-size: 18px;
-  line-height: 180%; /* 18px * 1.8 = 32.4px chieu cao dong */
-}
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{codeWindow}[Ví Dụ 4: Kế Thừa Từ Phần Tử Cha]
-\begin{lstlisting}[language=CSS3]
-.child-element {
-  line-height: inherit;
-}
-\end{lstlisting}
-\end{codeWindow}
-
-% ---
-
-\subsection*{V. So Sánh Chi Tiết: number vs length vs percentage}
-
-\begin{prettyTableBox}[Bảng So Sánh 3 Kiểu Giá Trị line-height]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{2.8cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily number} & \thd{\sffamily length} & \thd{\sffamily \%} & \thd{\sffamily Ghi chú} \\
-\hline
-Đơn vị? & Không & Có (px, em...) & Có (\%) & number không có đơn vị \\
-\hline
-Tỷ lệ theo font-size & Có (linh hoạt) & Không (cố định) & Có & number linh hoạt nhất \\
-\hline
-Thay đổi theo cha & Có & Không & Không & number kế thừa tốt nhất \\
-\hline
-Dễ tái sử dụng & Có & Có & Ít dùng hơn & number \& length phổ biến \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\begin{tipBox}[Khuyến Nghị Sử Dụng]
-Dùng số (\codeinline{line-height: 1.5}) là cách phổ biến nhất và dễ tái sử dụng nhất. Giá trị này không phụ thuộc đơn vị, co giãn tốt khi kế thừa, và luôn giữ tỷ lệ chính xác với \codeinline{font-size} hiện tại.
-\end{tipBox}
-
-% ---
-
-\subsection*{VI. Kết Quả Hiển Thị: So Sánh Trực Quan line-height Khác Nhau}
-
-\begin{browserWindow}[Kết Quả Hiển Thị: So Sánh Khoảng Cách Dòng line-height Khác Nhau]
-\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{red!70!black} line-height: 1.0 (chật, khó đọc):}\par
-  {\setlength{\baselineskip}{12pt}\sffamily\small Dòng đầu của đoạn văn bản. Dòng này ngay sát dòng trên khiến mắt người đọc phải cố gắng hơn và dễ bị mỏi khi đọc lâu. Văn bản trông chật chội và thiếu chuyên nghiệp.}\par\vspace{10pt}
-  {\sffamily\bfseries\color{accentOrange} line-height: 1.4 (vừa đủ):}\par
-  {\setlength{\baselineskip}{16pt}\sffamily\small Dòng đầu của đoạn văn bản. Dòng này có khoảng cách vừa đủ, mắt theo dõi dễ hơn so với 1.0 nhưng vẫn có thể hơi gần khi đoạn văn dài.}\par\vspace{10pt}
-  {\sffamily\bfseries\color{green!60!black} line-height: 1.6 (thoải mái, chuẩn):}\par
-  {\setlength{\baselineskip}{19pt}\sffamily\small Dòng đầu của đoạn văn bản. Dòng tiếp theo có khoảng cách thoải mái giúp mắt di chuyển tự nhiên và nội dung dễ tiếp thu hơn. Đây là giá trị được khuyến nghị cho văn bản dài.}\par\vspace{10pt}
-  {\sffamily\bfseries\color{primaryBlue} line-height: 2.0 (rộng rãi, spacious):}\par
-  {\setlength{\baselineskip}{24pt}\sffamily\small Dòng đầu của đoạn văn bản. Khoảng cách dòng rất lớn, tạo cảm giác thoáng đãng. Phù hợp cho thiết kế hiện đại cần ``khoảng thở'' (spacious design).}\par\vspace{6pt}
-  {\sffamily\small\color{gray!70} $\rightarrow$ \textbf{Khuyến nghị:} \codeinline{line-height: 1.5} đến \codeinline{1.8} cho văn bản đọc dài (body text).}
-\end{tcolorbox}
-\end{browserWindow}
-
-% ---
-
-\subsection*{VII. Khi Nào Nên Điều Chỉnh line-height? (Hướng Dẫn UI/UX)}
-
-\begin{prettyTableBox}[Bảng Hướng Dẫn Chọn line-height Theo Trường Hợp Sử Dụng]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Trường hợp sử dụng} & \thd{\sffamily Giá trị khuyến nghị} & \thd{\sffamily Mục tiêu} \\
-\hline
-Văn bản dài (đoạn văn, blog) & \codeinline{1.5 -- 1.8} & Tăng khả năng đọc, mắt dễ theo dõi dòng dài. \\
-\hline
-Tiêu đề lớn (h1, h2) & \codeinline{1.1 -- 1.3} & Cân đối chữ không bị quá gần, không quá xa. \\
-\hline
-Button hoặc input & \codeinline{1.2 -- 1.4} & Giữa dòng nội dung đẹp hơn, căn giữa text. \\
-\hline
-Thiết kế hiện đại (spacious) & \codeinline{1.8 -- 2.0} & Tạo ``khoảng thở'' (spacious design). \\
-\hline
-Chú thích nhỏ (captions) & \codeinline{1.3 -- 1.5} & Gọn gàng, tiết kiệm không gian. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-% ---
-
-\subsection*{VIII. Lưu Ý Quan Trọng \& Mẹo Thực Hành Khi Dùng line-height}
-
-\begin{tipBox}[Ưu Tiên Giá Trị Số (Unitless Number)]
-Dùng \codeinline{number} (số không đơn vị) là cách tối ưu nhất vì nó không phụ thuộc đơn vị, co giãn tốt. Khi \codeinline{font-size} của phần tử thay đổi (ví dụ, do người dùng phóng to trang), \codeinline{line-height} sẽ tự động điều chỉnh theo tỷ lệ, giúp duy trì khả năng đọc.
-\end{tipBox}
-
-\begin{warnBox}[Tránh Dùng line-height: 0]
-Tránh dùng \codeinline{line-height: 0;} trừ khi xử lý layout đặc biệt. Giá trị $0$ có thể làm mất chữ hoặc chồng lấp nội dung.
-\end{warnBox}
-
-\begin{conceptBox}[Các Đặc Tính Kế Thừa \& Ảnh Hưởng Của line-height]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{line-height} ảnh hưởng đến chiều cao của \codeinline{inline} và \codeinline{inline-block} elements.
-    \item \codeinline{line-height} có thể kế thừa (\codeinline{inherit}) từ phần tử cha.
-    \item \codeinline{line-height} rất quan trọng trong thiết kế responsive UI -- bạn có thể dùng \codeinline{inherit}, \codeinline{initial}, \codeinline{unset} nếu cần kiểm soát rõ ràng.
-    \item Trên mobile: Tăng khoảng cách để văn bản thoáng hơn, cải thiện trải nghiệm người dùng trên màn hình nhỏ.
-\end{itemize}
-\end{conceptBox}
-
-\begin{conceptBox}[Quy Tắc Chung Khi Chọn line-height]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item Đối với văn bản chính (body text): Thường nằm trong khoảng \codeinline{1.4} đến \codeinline{1.8}.
-    \item Đối với tiêu đề (headings): Có thể sử dụng \codeinline{line-height} nhỏ hơn, khoảng \codeinline{1.1} đến \codeinline{1.3}, vì tiêu đề thường có kích thước lớn và không cần nhiều khoảng trống giữa các dòng.
-    \item \textbf{Dòng càng dài, \codeinline{line-height} càng cần lớn hơn} để dễ đọc.
-    \item Không có một giá trị \codeinline{line-height} ``hoàn hảo'' cho mọi trường hợp. Nó phụ thuộc vào \codeinline{font-family}, \codeinline{font-size}, chiều dài dòng văn bản (line-length) và mục đích sử dụng. Hãy thử nghiệm và điều chỉnh để tìm ra giá trị phù hợp nhất cho thiết kế của bạn.
-\end{itemize}
-\end{conceptBox}
-
-% ---
-
-\subsection*{IX. Bảng Tổng Kết Nhanh line-height}
-
-\begin{prettyTableBox}[Tổng Kết Nhanh -- Hỏi \& Đáp Về line-height]
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries}p{4.0cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Câu hỏi} & \thd{\sffamily Trả lời} \\
-\hline
-Nên dùng giá trị nào? & Số không đơn vị (\codeinline{1.4} -- \codeinline{1.6}) \\
-\hline
-Có nên gắn đơn vị? & Không cần (nên dùng số không đơn vị) \\
-\hline
-Mặc định là bao nhiêu? & \codeinline{normal} $\approx$ $1.2$ (trình duyệt tự định) \\
-\hline
-Ảnh hưởng đến gì? & Khoảng cách dòng, chiều cao phần tử text \\
-\hline
-Quan trọng khi nào? & Canh chỉnh UI, responsive design, tăng khả năng đọc \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\begin{conceptBox}[Tổng Kết 4 Điểm Cốt Lõi Về Thuộc Tính line-height]
+\begin{conceptBox}[Phần Tử Không Khai Báo font-size Thì Lấy Giá Trị Ở Đâu?]
+Trong trường hợp phần tử có khai báo \codeinline{line-height: <number>} nhưng \textbf{không có \codeinline{font-size} riêng}, nó sẽ:
 \begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{line-height} xác định chiều cao hộp dòng (line box), ảnh hưởng trực tiếp đến khoảng cách dòng và khả năng đọc.
-    \item Luôn ưu tiên dùng giá trị \textbf{số không đơn vị} (\codeinline{1.5}, \codeinline{1.6}) vì linh hoạt, kế thừa tốt, và tỷ lệ thuận với \codeinline{font-size}.
-    \item Khoảng cách dư (\term{leading}) được chia đều cho phía trên và phía dưới chữ.
-    \item Kết hợp thông minh \codeinline{line-height} với \codeinline{font-size} và \codeinline{font-weight} giúp tạo ra typography đẹp mắt, dễ đọc và chuyên nghiệp.
+    \item Kế thừa \codeinline{font-size} từ phần tử cha gần nhất (hoặc lấy mặc định $16\text{px}$ từ trình duyệt).
+    \item Sau đó, giá trị \codeinline{line-height: <number>} được tính toán dựa trên chính \codeinline{font-size} kế thừa đó.
 \end{enumerate}
 \end{conceptBox}
 
+\begin{codeWindow}[Ví Dụ Thực Tế Kế Thừa line-height Với Số Không Đơn Vị]
+\begin{lstlisting}[language=HTML5]
+<style>
+  body {
+    font-size: 20px; /* Font-size goc tai body */
+  }
+  .box {
+    line-height: 1.5; /* (*@ Khong khai bao font-size o day @*) */
+  }
+</style>
+<div class="box">(*@ Van ban thu nghiem trong .box @*)</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Giải Thích Chi Tiết Ví Dụ Kế Thừa]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Phần tử \codeinline{.box} không khai báo \codeinline{font-size}, nên nó kế thừa \codeinline{font-size: 20px} từ \codeinline{body}.
+    \item Khai báo \codeinline{line-height: 1.5} được tính toán là: $1.5 \times 20\text{px} = 30\text{px}$.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Bảng Tóm Tắt Quy Tắc Tính line-height Theo font-size]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{5.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Ngữ cảnh phần tử} & \thd{\sffamily Căn cứ tính toán của line-height: <number>} \\
+\hline
+Phần tử có \codeinline{font-size} riêng & Dựa vào \codeinline{font-size} của chính phần tử đó. \\
+\hline
+Phần tử không có \codeinline{font-size} & Dựa vào \codeinline{font-size} kế thừa từ phần tử cha gần nhất. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph*{V. Phân Tích Chuyên Sâu Các Ví Dụ Thực Tế Của line-height}
+
+\begin{codeWindow}[Ví Dụ Thực Tế 1: Phân Tích Khai Báo line-height: 100px]
+\begin{lstlisting}[language=HTML5]
+<h1>
+  (*@ Write, edit and run HTML, CSS and JavaScript code online. @*)
+</h1>
+<style>
+  h1 {
+    line-height: 100px;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Tác Dụng Thật Sự Của Khai Báo line-height: 100px]
+Khai báo này tăng chiều cao dòng chữ lên $100\text{px}$ (khoảng cách từ mép trên đến mép dưới của dòng là $100\text{px}$, chứ không làm chữ to lên $100\text{px}$):
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nếu \codeinline{h1} chỉ có 1 dòng chữ}: Chữ sẽ trôi vào giữa khoảng $100\text{px}$ đó, tạo hiệu ứng giống như được căn giữa theo chiều dọc.
+    \item \textbf{Nếu \codeinline{h1} có nhiều dòng chữ} (do màn hình hẹp): Các dòng chữ sẽ cách xa nhau đúng $100\text{px}$.
+    \item \textbf{\codeinline{line-height} không trực tiếp thay đổi \codeinline{height} phần tử} nếu có khai báo chiều cao cố định.
+\end{enumerate}
+\end{conceptBox}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Tác Động Của line-height: 100px]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=primaryBlue!30, boxrule=1pt, top=14pt, bottom=14pt, left=10pt, right=10pt]
+  \centering
+  % CASE 1: Single Line Text
+  {\sffamily\bfseries\color{primaryBlue} Trường Hợp 1: Văn bản 1 dòng (Chữ tự động trôi vào giữa khoảng 100px chiều cao dòng)}\par\vspace{6pt}
+  \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
+    % Line box (height = 100px => 2.8cm)
+    \draw[line width=1.5pt, primaryBlue, fill=primaryBlue!5, rounded corners=6pt] (0,0) rectangle (11.2, 2.8);
+    \node[anchor=center, font=\sffamily\fontsize{11}{11}\selectfont\bfseries\color{darkText}] at (5.6, 1.4) {Write, edit and run HTML, CSS and JavaScript code online.};
+    
+    % Top/Bottom padding markers
+    \node[anchor=center, font=\sffamily\tiny\color{gray!70}] at (5.6, 2.4) {Khoảng trống phía trên (+40px)};
+    \node[anchor=center, font=\sffamily\tiny\color{gray!70}] at (5.6, 0.4) {Khoảng trống phía dưới (+40px)};
+
+    % Height arrow on left
+    \draw[<->, line width=1.3pt, primaryBlue] (-0.3, 0) -- (-0.3, 2.8);
+    \node[rotate=90, anchor=center, font=\sffamily\small\bfseries\color{primaryBlue}] at (-0.7, 1.4) {line-height = 100px};
+  \end{tikzpicture}
+  
+  \par\vspace{14pt}
+  % CASE 2: Multi-line Text
+  {\sffamily\bfseries\color{accentOrange!90!black} Trường Hợp 2: Văn bản nhiều dòng (Các dòng cách xa nhau đúng 100px chiều cao)}\par\vspace{6pt}
+  \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
+    % Line 1 box
+    \draw[line width=1.2pt, accentOrange, fill=accentOrange!8, rounded corners=5pt] (0, 2.2) rectangle (11.2, 4.2);
+    \node[anchor=west, font=\sffamily\small\bfseries\color{darkText}] at (0.4, 3.2) {Dòng 1: Write, edit and run HTML, CSS...};
+
+    % Line 2 box
+    \draw[line width=1.2pt, accentOrange, fill=accentOrange!8, rounded corners=5pt] (0, 0) rectangle (11.2, 2.0);
+    \node[anchor=west, font=\sffamily\small\bfseries\color{darkText}] at (0.4, 1.0) {Dòng 2: ...and JavaScript code online.};
+
+    % Baseline gap indicator on right
+    \draw[<->, line width=1.5pt, accentOrange!90!black] (11.5, 1.0) -- (11.5, 3.2);
+    \node[rotate=-90, anchor=center, font=\sffamily\small\bfseries\color{accentOrange!90!black}] at (11.9, 2.1) {Khoảng cách 2 dòng = 100px};
+  \end{tikzpicture}
+  \par\vspace{10pt}
+  {\sffamily\small\color{gray!70} $\rightarrow$ \textbf{Kết luận}: \codeinline{line-height: 100px} tạo khoảng đứng $100\text{px}$ cho mỗi dòng. Nếu 1 dòng chữ thì trôi vào giữa, nếu nhiều dòng chữ thì các dòng đẩy xa nhau đúng $100\text{px}$.}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{codeWindow}[Kỹ Thuật Căn Giữa Chữ 1 Dòng Với Container Chuẩn]
+\begin{lstlisting}[language=HTML5]
+<div class="box">
+  <h1>(*@ Write, edit and run HTML, CSS and JavaScript code online. @*)</h1>
+</div>
+<style>
+  .box {
+    height: 100px;
+    background: #eee;
+  }
+  h1 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 100px; /* (*@ Bang voi chieu cao height cua .box @*) */
+    text-align: center;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Kỹ Thuật Căn Giữa Chữ 1 Dòng Theo Chiều Dọc]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=primaryBlue!30, boxrule=1pt, top=14pt, bottom=14pt, left=10pt, right=10pt]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
+    % Outer .box Container (height = 100px => 3.2cm, width = 11.2cm)
+    \draw[line width=1.5pt, gray!60, fill=gray!15, rounded corners=6pt] (0,0) rectangle (11.2, 3.2);
+    
+    % Top half-leading space (40px => 1.2cm)
+    \node[anchor=center, font=\sffamily\small\color{gray!70}] at (5.6, 2.6) {Half-leading (Khoảng trống phía trên): 40px};
+    
+    % Centered text line area (20px font => 0.8cm)
+    \fill[primaryBlue!15, rounded corners=4pt] (0.4, 1.2) rectangle (10.8, 2.0);
+    \node[anchor=center, font=\sffamily\fontsize{11}{11}\selectfont\bfseries\color{primaryBlue}] at (5.6, 1.6) {Write, edit and run HTML, CSS and JavaScript code online.};
+
+    % Bottom half-leading space (40px => 1.2cm)
+    \node[anchor=center, font=\sffamily\small\color{gray!70}] at (5.6, 0.6) {Half-leading (Khoảng trống phía dưới): 40px};
+
+    % Left Arrow: Container Height (.box height = 100px)
+    \draw[<->, line width=1.3pt, darkText] (-0.3, 0) -- (-0.3, 3.2);
+    \node[rotate=90, anchor=center, font=\sffamily\small\bfseries\color{darkText}] at (-0.7, 1.6) {.box height = 100px};
+
+    % Right Arrow: Line-height (h1 line-height = 100px)
+    \draw[<->, line width=1.3pt, primaryBlue] (11.5, 0) -- (11.5, 3.2);
+    \node[rotate=-90, anchor=center, font=\sffamily\small\bfseries\color{primaryBlue}] at (11.9, 1.6) {line-height = 100px};
+  \end{tikzpicture}
+  \par\vspace{10pt}
+  {\sffamily\small\color{gray!70} \textbf{Giải thích kỹ thuật}: Khi \codeinline{line-height} của chữ ($100\text{px}$) bằng đúng \codeinline{height} của khung chứa ($100\text{px}$), $40\text{px}$ nửa khoảng trống trên và $40\text{px}$ nửa khoảng trống dưới sẽ đẩy chữ trôi vào chính giữa khung.}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{codeWindow}[Ví Dụ Thực Tế 2: Phân Tích Lỗi Xung Đột height: 50px VÀ line-height: 100px]
+\begin{lstlisting}[language=HTML5]
+<h1>
+  (*@ Write, edit and run HTML, CSS and JavaScript code online. @*)
+</h1>
+<style>
+  h1 {
+    height: 50px;       /* (*@ Gioi han chieu cao khung chua chi 50px @*) */
+    line-height: 100px; /* (*@ Yeu cau dong chu cao toi 100px @*) */
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Lỗi Tràn/Cắt Chữ Khi height: 50px VÀ line-height: 100px]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=red!30, boxrule=1pt, top=14pt, bottom=16pt, left=12pt, right=12pt]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
+    % Outer Container Box (height = 50px => 1.6cm)
+    \draw[line width=1.5pt, red!80!black, fill=red!5, rounded corners=6pt] (0,0) rectangle (11.5, 1.6);
+    \node[anchor=north west, font=\sffamily\small\bfseries\color{red!80!black}] at (0.3, 1.5) {Khung phần tử h1 (giới hạn height: 50px)};
+
+    % Line Box phantom outline (height = 100px => 3.2cm)
+    \draw[dashed, line width=1.2pt, primaryBlue!70] (0.4, -0.9) rectangle (11.1, 2.3);
+    \node[anchor=east, font=\sffamily\footnotesize\bfseries\color{primaryBlue}] at (10.9, 2.05) {Line box (line-height: 100px)};
+
+    % Text overflowing out of the bottom border!
+    \node[anchor=center, font=\sffamily\fontsize{11}{11}\selectfont\bfseries\color{darkText}] at (5.75, 0.0) {Write, edit and run HTML, CSS and JavaScript code online.};
+
+    % Red Warning Arrow pointing to overflow area
+    \draw[<-, line width=1.5pt, red!80!black] (8.2, -0.1) -- (9.2, -0.6);
+    \node[anchor=west, font=\sffamily\small\bfseries\color{red!80!black}] at (9.3, -0.6) {Tràn khỏi đáy khung!};
+  \end{tikzpicture}
+  \par\vspace{10pt}
+  {\sffamily\small\color{red!80!black} \textbf{Giải thích trực quan}: Khung \codeinline{h1} chỉ cao $50\text{px}$ (khung đỏ), nhưng dòng chữ có \codeinline{line-height: 100px} (khung nét đứt xanh) nên tâm dòng bị kéo xuống thấp, khiến toàn bộ văn bản bị trôi rớt ra khỏi mép đáy!}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{warnBox}[Phân Tích Kết Quả Lỗi Không Như Mong Muốn]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Trình duyệt cố gắng hiển thị dòng chữ cao $100\text{px}$.
+    \item Nhưng chiều cao phần tử \codeinline{h1} lại bị giới hạn cứng chỉ $50\text{px}$.
+    \item $\rightarrow$ \textbf{Kết quả}: Văn bản bị tràn ra ngoài (\term{overflow}) hoặc bị cắt mất không hiển thị đủ!
+\end{itemize}
+\end{warnBox}
+
+\begin{prettyTableBox}[Bảng Giải Thích Chi Tiết Xung Đột Giữa height Và line-height]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Tác động thực tế \& Kết quả} \\
+\hline
+height: 50px & Gán cố định chiều cao khung chứa phần tử là $50\text{px}$. \\
+\hline
+line-height: 100px & Dòng chữ chiếm $100\text{px}$ chiều cao $\rightarrow$ Bị tràn/cắt (\term{overflow}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Giải Pháp Sử Dụng Chuẩn Cho Từng Nhu Cầu]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Trường hợp 1: Muốn chữ nằm giữa chiều cao 100px (văn bản 1 dòng)}:
+    \par\vspace{2pt}
+    Đặt \codeinline{height: 100px;} kết hợp với \codeinline{line-height: 100px;} (bằng chiều cao).
+    \item \textbf{Trường hợp 2: Tránh dùng height nhỏ hơn line-height}:
+    \par\vspace{2pt}
+    Không bao giờ đặt \codeinline{height < line-height} trừ khi bạn cố ý cắt xén văn bản.
+\end{itemize}
+\end{tipBox}
+
+\begin{browserWindow}[So Sánh Mô Phỏng Khoảng Cách Dòng line-height]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=primaryBlue!30, boxrule=1pt, top=12pt, bottom=12pt, left=6pt, right=6pt]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
+    % --- CASE 1: line-height 1.0 ---
+    \draw[line width=1.2pt, red!70!black, fill=red!5, rounded corners=5pt] (0, 8.3) rectangle (11.8, 10.7);
+    \node[anchor=north west, font=\sffamily\small\bfseries\color{red!80!black}] at (0.3, 10.55) {line-height: 1.0 (Chật hẹp -- các dòng sát rạt nhau):};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 9.85) {Dòng 1: Thuộc tính line-height quyết định chiều cao mỗi dòng chữ.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 9.38) {Dòng 2: Khi đặt 1.0, khoảng cách giữa các dòng bị ép sát nhau.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 8.90) {Dòng 3: Gây mỏi mắt và khó theo dõi khi đọc văn bản dài.};
+
+    % --- CASE 2: line-height 1.4 ---
+    \draw[line width=1.2pt, accentOrange, fill=accentOrange!5, rounded corners=5pt] (0, 5.5) rectangle (11.8, 8.0);
+    \node[anchor=north west, font=\sffamily\small\bfseries\color{accentOrange!90!black}] at (0.3, 7.85) {line-height: 1.4 (Vừa đủ -- phù hợp bài viết ngắn):};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 7.15) {Dòng 1: Thuộc tính line-height quyết định chiều cao mỗi dòng chữ.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 6.60) {Dòng 2: Khi đặt 1.4, khoảng cách dòng có độ giãn vừa phải.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 6.05) {Dòng 3: Đọc tốt trên giao diện di động hoặc danh sách ngắn.};
+
+    % --- CASE 3: line-height 1.6 ---
+    \draw[line width=1.2pt, green!60!black, fill=green!5, rounded corners=5pt] (0, 2.4) rectangle (11.8, 5.2);
+    \node[anchor=north west, font=\sffamily\small\bfseries\color{green!70!black}] at (0.3, 5.05) {line-height: 1.6 (Thoải mái, chuẩn UI/UX -- Khuyên dùng):};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 4.35) {Dòng 1: Thuộc tính line-height quyết định chiều cao mỗi dòng chữ.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 3.65) {Dòng 2: Đặt 1.6 giúp mắt lướt qua các dòng cực kỳ tự nhiên.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 2.95) {Dòng 3: Đây là tiêu chuẩn vàng được áp dụng phổ biến nhất.};
+
+    % --- CASE 4: line-height 2.0 ---
+    \draw[line width=1.2pt, primaryBlue, fill=primaryBlue!5, rounded corners=5pt] (0, -0.9) rectangle (11.8, 2.1);
+    \node[anchor=north west, font=\sffamily\small\bfseries\color{primaryBlue}] at (0.3, 1.95) {line-height: 2.0 (Rộng rãi -- Tạo khoảng thở thiết kế):};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 1.20) {Dòng 1: Thuộc tính line-height quyết định chiều cao mỗi dòng chữ.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 0.35) {Dòng 2: Đặt 2.0 tạo cảm giác thoáng đãng, tự do tối đa.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, -0.50) {Dòng 3: Phù hợp cho thiết kế hiện đại chú trọng khoảng trắng.};
+  \end{tikzpicture}
+  \par\vspace{8pt}
+  {\sffamily\small\color{gray!70} $\rightarrow$ \textbf{Khuyên dùng}: Đặt \codeinline{line-height: 1.5} đến \codeinline{1.8} cho văn bản bài viết dài (\codeinline{body text}).}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph*{VI. Ứng Dụng Thực Tế \& Những Điều Cần Tránh (Best Practices)}
+
+\begin{prettyTableBox}[Bảng Ứng Dụng Chi Tiết Của Thuộc Tính line-height]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Mục đích thiết kế} & \thd{\sffamily Cách dùng line-height} & \thd{\sffamily Hiệu quả mang lại} \\
+\hline
+Căn giữa chữ theo chiều dọc & \codeinline{line-height = height} & Áp dụng cho văn bản 1 dòng (button, badge, menu item). \\
+\hline
+Tăng khoảng cách các dòng & \codeinline{line-height: 1.5 -- 1.8} & Tăng sự thông thoáng cho văn bản đọc dài (body text). \\
+\hline
+Tối ưu tiêu đề lớn (Heading) & \codeinline{line-height: 1.1 -- 1.3} & Tránh tiêu đề bị xa nhau quá mức do font to. \\
+\hline
+Tạo cảm giác hiện đại (Spacious) & \codeinline{line-height: 1.8 -- 2.0} & Tạo ``khoảng thở'' tinh tế cho giao diện UI/UX. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{warnBox}[Những Điều Cần Tránh Tuyệt Đối Với line-height]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Không đặt \codeinline{line-height} quá nhỏ} (ví dụ $< 1.0$ hoặc $0$): Chữ sẽ dính chặt vào nhau hoặc chồng đè lên nhau gây mất nét.
+    \item \textbf{Hạn chế dùng đơn vị \codeinline{px} cố định}: Khi thay đổi \codeinline{font-size}, \codeinline{line-height} không tự điều chỉnh theo, có thể làm vỡ layout.
+    \item \textbf{Không dùng \codeinline{line-height} để căn giữa đoạn văn nhiều dòng}: Sẽ khiến các dòng bị đẩy xa nhau cực kỳ bất hợp lý. Căn giữa nhiều dòng nên dùng Flexbox (\codeinline{align-items: center}) hoặc CSS Grid.
+\end{enumerate}
+\end{warnBox}
+
+\paragraph*{VII. Kết Luận Tổng Kết Ngắn Gọn}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Ngắn Gọn Về Thuộc Tính line-height]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily Tóm tắt bản chất} \\
+\hline
+Là gì? & Chiều cao của mỗi dòng văn bản (line box). \\
+\hline
+Không phải là gì? & Không phải là kích thước phông chữ (\codeinline{font-size}). \\
+\hline
+Dùng để làm gì? & Căn giữa chữ (1 dòng), tạo khoảng cách dòng thoáng mát, tăng khả năng đọc. \\
+\hline
+Cách dùng khuyên dùng? & \codeinline{line-height: 1.5} (số không đơn vị). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph*{VIII. Tình Huống Thực Tế 1: Xử Lý Căn Giữa Nút Bấm Khi Height Xung Đột line-height}
+
+Hãy cùng phân tích chi tiết từng bước vì sao nút bấm (\codeinline{.btn}) của bạn không căn giữa theo chiều dọc và cách sửa triệt để mà không cần tới Flexbox.
+
+\begin{conceptBox}[Mục Tiêu Thiết Kế Nút Bấm]
+Bạn muốn tạo một nút bấm (\codeinline{See Courses}) nằm chính giữa khung chứa cả theo chiều dọc lẫn chiều ngang.
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn Ban Đầu Gặp Lỗi Căn Giữa]
+\begin{lstlisting}[language=HTML5]
+<div class="hero-cta">
+  <div class="btn">(*@ See Courses @*)</div>
+</div>
+
+<style>
+  .hero-cta {
+    height: 64px; /* Khung cha cao 64px */
+  }
+  .btn {
+    line-height: 50px; /* (*@ LỖI: Dòng chữ chỉ cao 50px @*) */
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Vấn Đề Gì Đang Xảy Ra?]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{.btn} có \codeinline{line-height: 50px} làm cho dòng chữ ``See Courses'' chỉ chiếm $50\text{px}$ chiều cao.
+    \item Nhưng khung chứa \codeinline{.hero-cta} lại cao tới $64\text{px}$.
+    \item $\rightarrow$ \textbf{Kết quả}: Dòng chữ bị lệch lên phía trên vì không chiếm hết chiều cao của khung \codeinline{.hero-cta}.
+\end{itemize}
+\end{warnBox}
+
+\begin{codeWindow}[Cách Sửa Chuẩn Kỹ Thuật (Không Dùng Flexbox)]
+\begin{lstlisting}[language=CSS3]
+.btn {
+  height: 64px;          /* Dat chieu cao bang .hero-cta */
+  line-height: 64px;     /* Dat line-height bang height */
+  text-align: center;    /* Can giua theo chieu ngang */
+  padding: 0 16px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 999px;
+  background: #171100;
+  display: inline-block;
+}
+.hero-cta {
+  width: 180px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Kết Quả Nút Bấm Căn Giữa Hoàn Hảo]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=primaryBlue!30, boxrule=1pt, top=14pt, bottom=14pt, left=10pt, right=10pt]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
+    % Container Label at top
+    \node[anchor=south west, font=\sffamily\small\bfseries\color{gray!80!black}] at (0, 2.9) {.hero-cta (Khung chứa: height = 64px)};
+
+    % Outer .hero-cta container outline (width = 11.4cm, height = 64px => 2.6cm)
+    \draw[dashed, line width=1.5pt, gray!50, fill=gray!6, rounded corners=8pt] (0, 0.1) rectangle (11.4, 2.7);
+
+    % Inner .btn Pill (height = 64px => 2.6cm, centered horizontally between 3.2cm and 8.2cm)
+    \fill[black!90, rounded corners=14pt] (3.2, 0.1) rectangle (8.2, 2.7);
+    \node[anchor=center, font=\sffamily\fontsize{11}{11}\selectfont\bfseries\color{white}] at (5.7, 1.4) {See Courses};
+
+    % Left Arrow: Line-height indicator
+    \draw[<->, line width=1.3pt, primaryBlue] (1.4, 0.1) -- (1.4, 2.7);
+    \node[rotate=90, anchor=center, font=\sffamily\small\bfseries\color{primaryBlue}] at (0.9, 1.4) {line-height = 64px};
+
+    % Right Arrow: Height indicator
+    \draw[<->, line width=1.3pt, darkText] (10.0, 0.1) -- (10.0, 2.7);
+    \node[rotate=-90, anchor=center, font=\sffamily\small\bfseries\color{darkText}] at (10.5, 1.4) {height = 64px};
+  \end{tikzpicture}
+  \par\vspace{10pt}
+  {\sffamily\small\color{gray!70} $\rightarrow$ \textbf{Giải thích}: Khi đặt \codeinline{line-height = height = 64px}, chữ trôi vào chính giữa nút bấm mà không cần Flexbox.}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{conceptBox}[Vì Sao Giải Pháp Này Hoạt Động?]
+Khi bạn đặt \codeinline{line-height = height}, văn bản giống như nằm trong một ô vuông và tự động trôi vào chính giữa ô đó theo chiều dọc. Kết hợp \codeinline{text-align: center} giúp chữ căn giữa theo chiều ngang.
+\end{conceptBox}
+
+\begin{warnBox}[Hạn Chế Của Kỹ Thuật Này]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Chỉ sử dụng được khi văn bản chỉ có \textbf{1 dòng}.
+    \item Nếu chữ quá dài xuống hàng hoặc có thêm Icon, nút bấm sẽ bị tràn vỡ giao diện. Khi đó bắt buộc dùng Flexbox (\codeinline{display: flex; align-items: center;}).
+\end{itemize}
+\end{warnBox}
+
+\begin{prettyTableBox}[Tóm Tắt Phương Pháp Căn Giữa Dòng Văn Bản]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tình huống} & \thd{\sffamily Cách giải quyết tối ưu} \\
+\hline
+Chữ 1 dòng (Button, Badge) & Đặt \codeinline{line-height = height} kết hợp \codeinline{text-align: center}. \\
+\hline
+Chữ nhiều dòng / Có Icon & Dùng Flexbox (\codeinline{display: flex; align-items: center; gap: 8px;}) hoặc \codeinline{display: table-cell}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph*{IX. Chuyên Đề Thuộc Tính Khoảng Cách gap (Flexbox, Grid \& Multi-column)}
+
+Trong CSS hiện đại, \codeinline{gap} (trước đây là \codeinline{grid-gap}) là thuộc tính cực kỳ tiện lợi dùng để tạo khoảng cách giữa các phần tử con bên trong một khối container sử dụng \textbf{Flexbox}, \textbf{Grid}, hoặc \textbf{Multi-column}.
+
+\begin{conceptBox}[Tổng Quan Về Thuộc Tính gap]
+\begin{codeWindow}[Khai Báo gap Cơ Bản]
+\begin{lstlisting}[language=CSS3]
+.container {
+  display: grid; /* Hoac flex */
+  gap: 20px;     /* Khoang cach 20px giua cac item con */
+}
+\end{lstlisting}
+\end{codeWindow}
+$\rightarrow$ \codeinline{gap: 20px;} tạo khoảng cách $20\text{px}$ giữa các phần tử con với nhau, \textbf{không áp dụng ra mép ngoài} của container (giúp loại bỏ hoàn toàn bẫy \codeinline{margin-right} bị thừa ở ô cuối cùng).
+\end{conceptBox}
+
+\begin{prettyTableBox}[Cú Pháp Đầy Đủ Của Thuộc Tính gap]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Cách viết cú pháp} & \thd{\sffamily Ý nghĩa kỹ thuật} \\
+\hline
+gap: 10px; & Hàng và cột đều có khoảng cách đúng $10\text{px}$. \\
+\hline
+gap: 10px 20px; & Cách hàng (\term{row}) $10\text{px}$, cách cột (\term{column}) $20\text{px}$. \\
+\hline
+row-gap: 10px; & Chỉ tạo khoảng cách giữa các hàng. \\
+\hline
+column-gap: 20px; & Chỉ tạo khoảng cách giữa các cột. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[1. Sử Dụng gap Với CSS Grid Layout]
+\begin{lstlisting}[language=CSS3]
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; /* Tao luoi 3 cot, moi o cach nhau 20px ca hang va cot */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[2. Sử Dụng gap Với Flexbox Layout (Modern CSS)]
+\begin{lstlisting}[language=CSS3]
+.container {
+  display: flex;
+  flex-wrap: wrap; /* (*@ Giúp phần tử tự xuống dòng khi thiếu chỗ @*) */
+  gap: 16px;      /* (*@ Tạo khoảng cách 16px giữa các ô flex item @*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Sự Khác Biệt Khi Dùng gap Trong Flexbox So Với Cách Cũ]
+Trước đây khi chưa có \codeinline{gap} cho Flexbox, lập trình viên phải xử lý thủ công bằng cách tạo margin và xóa margin ở phần tử cuối cùng. Giờ đây với \codeinline{gap: 16px;}, bạn không cần viết thêm các bộ chọn phức tạp nữa!
+\end{tipBox}
+
+\begin{codeWindow}[Kỹ Thuật Xử Lý Thủ Công Cũ Khi Chưa Có gap Trong Flexbox]
+\begin{lstlisting}[language=CSS3]
+/* (*@ Cách cũ vất vả: Phải dùng :not(:last-child) để bỏ margin ô cuối @*) */
+.item:not(:last-child) {
+  margin-right: 16px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[3. Sử Dụng gap Với Multi-column Layout]
+\begin{lstlisting}[language=CSS3]
+.columns {
+  column-count: 3;
+  column-gap: 40px; /* (*@ Khoảng cách 40px giữa các cột văn bản @*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bảng Tổng Quan Khả Năng Hỗ Trợ Layout Của gap]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.5cm}|>{\center\arraybackslash}p{2.5cm}|>{\center\arraybackslash}p{2.5cm}|>{\center\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily CSS Grid} & \thd{\sffamily Flexbox} & \thd{\sffamily Multi-column} \\
+\hline
+gap & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{green!60!black}{\textbf{Có}} \\
+\hline
+row-gap & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{green!60!black}{\textbf{Có}} & \color{gray}{\textbf{Không}} \\
+\hline
+column-gap & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{green!60!black}{\textbf{Có}} \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph*{X. Phân Tích Chi Tiết Tình Huống Áp Dụng .line-clamp \& .break-all}
+
+Trong thiết kế giao diện Web hiện đại, xử lý văn bản dài bị tràn khung là một yêu cầu thường xuyên. Ba class dưới đây giải quyết triệt để các bài toán rút gọn văn bản và chống vỡ layout.
+
+\begin{codeWindow}[Khai Báo Class .line-clamp (Rút Gọn Văn Bản 1 Dòng Mặc Định)]
+\begin{lstlisting}[language=CSS3]
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: var(--line-clamp, 1);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Giải Thích Chi Tiết Các Thuộc Tính Trong .line-clamp]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{display: -webkit-box;}: Sử dụng mô hình hộp Flexbox cũ của Webkit để kết hợp tính năng cắt dòng.
+    \item \codeinline{-webkit-line-clamp: var(--line-clamp, 1);}: Giới hạn số dòng hiển thị. Sử dụng biến CSS \codeinline{--line-clamp}, mặc định là 1 dòng.
+    \item \codeinline{-webkit-box-orient: vertical;}: Định hướng hộp theo chiều dọc (bắt buộc phải có để \codeinline{line-clamp} hoạt động).
+    \item \codeinline{overflow: hidden;}: Ẩn phần văn bản vượt quá số dòng quy định và tự động thêm dấu ba chấm (\codeinline{...}).
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Khai Báo Class .line-clamp.line-2 (Rút Gọn Văn Bản 2 Dòng)]
+\begin{lstlisting}[language=CSS3]
+.line-clamp.line-2 {
+  --line-clamp: 2; /* (*@ Gán lại biến --line-clamp thành 2 dòng @*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Khai Báo Class .break-all (Chống Vỡ Layout Khi Chuỗi Không Có Khoảng Trắng)]
+\begin{lstlisting}[language=CSS3]
+.break-all {
+  word-break: break-all; /* (*@ Ép ngắt từ ở bất kỳ ký tự nào khi chạm mép khung @*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ Thực Tế Minh Họa Đầy Đủ 3 Tình Huống]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body { font-family: sans-serif; line-height: 1.5; padding: 20px; }
+    .box { width: 300px; border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; }
+    
+    .line-clamp {
+      display: -webkit-box;
+      -webkit-line-clamp: var(--line-clamp, 1);
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .line-clamp.line-2 { --line-clamp: 2; }
+    .break-all { word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h2>1. Giới hạn 1 dòng (.line-clamp)</h2>
+  <div class="box line-clamp">
+    (*@ Đây là nội dung mô tả sản phẩm rất dài, nó sẽ tự động bị cắt và thêm dấu ba chấm sau 1 dòng. @*)
+  </div>
+
+  <h2>2. Giới hạn 2 dòng (.line-clamp.line-2)</h2>
+  <div class="box line-clamp line-2">
+    (*@ Đây là nội dung mô tả sản phẩm rất dài. Nó sẽ bị cắt sau 2 dòng hiển thị. Nhấn Xem thêm để đọc tiếp. @*)
+  </div>
+
+  <h2>3. Bẻ từ mọi vị trí (.break-all)</h2>
+  <div class="box break-all">
+    https://example.com/chuoi-url-sieu-sieu-sieu-dai-khong-co-khoang-trang-123456789
+  </div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan 3 Class Rút Gọn \& Bẻ Từ]
+\begin{tcolorbox}[arc=6pt, colback=white, colframe=primaryBlue!30, boxrule=1pt, top=14pt, bottom=14pt, left=10pt, right=10pt]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=stealth]
+    % Box 1: 1 line clamp
+    \draw[line width=1.2pt, primaryBlue, fill=primaryBlue!5, rounded corners=5pt] (0, 4.4) rectangle (11.2, 6.2);
+    \node[anchor=north west, font=\sffamily\small\bfseries\color{primaryBlue}] at (0.3, 6.1) {1. Class .line-clamp (Ẩn sau 1 dòng):};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 5.0) {Đây là nội dung mô tả sản phẩm rất dài, nó sẽ...};
+
+    % Box 2: 2 lines clamp
+    \draw[line width=1.2pt, accentOrange, fill=accentOrange!5, rounded corners=5pt] (0, 1.8) rectangle (11.2, 4.0);
+    \node[anchor=north west, font=\sffamily\small\bfseries\color{accentOrange!90!black}] at (0.3, 3.9) {2. Class .line-clamp.line-2 (Ẩn sau 2 dòng):};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 3.05) {Dòng 1: Đây là nội dung mô tả sản phẩm rất dài.};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 2.35) {Dòng 2: Nó sẽ bị cắt sau 2 dòng hiển thị...};
+
+    % Box 3: word-break break-all
+    \draw[line width=1.2pt, green!60!black, fill=green!5, rounded corners=5pt] (0, -0.8) rectangle (11.2, 1.4);
+    \node[anchor=north west, font=\sffamily\small\bfseries\color{green!70!black}] at (0.3, 1.3) {3. Class .break-all (Ngắt từ tự động chống vỡ khung):};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, 0.5) {https://example.com/chuoi-url-sieu-sieu-sieu-dai-khong-co-};
+    \node[anchor=west, font=\sffamily\small\color{darkText}] at (0.4, -0.2) {khoang-trang-123456789};
+  \end{tikzpicture}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{prettyTableBox}[Bảng Tóm Tắt Tình Huống Sử Dụng 3 Class Rút Gọn \& Bẻ Từ]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Class CSS} & \thd{\sffamily Hiệu ứng hiển thị} & \thd{\sffamily Tình huống sử dụng thực tế} \\
+\hline
+.line-clamp & Chỉ hiển thị 1 dòng, phần sau ẩn và có dấu \codeinline{...}. & Rút gọn tựa đề bài viết, tên sản phẩm ngắn gọn. \\
+\hline
+.line-clamp.line-2 & Hiển thị đúng 2 dòng, phần sau ẩn và có dấu \codeinline{...}. & Rút gọn mô tả sản phẩm, trích dẫn bình luận. \\
+\hline
+.break-all & Bẻ từ tại đúng mép khung mà không chờ khoảng trắng. & Chống vỡ khung cho URL dài, email, mã token, tên file. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph*{XI. Đọc Thêm: Mở Rộng Kiến Thức Chuyên Sâu \& Phỏng Vấn (Deep-Dive \& Interview Tips)}
+
+\begin{conceptBox}[1. Cơ Chế Inline Formatting Context (IFC) \& Strut Trong Trình Duyệt]
+Khi trình duyệt xuất một đoạn văn bản, nó khởi tạo một ngữ cảnh định dạng dòng (\term{Inline Formatting Context - IFC}). 
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Mỗi dòng được bắt đầu bằng một phần tử ảo không có chiều rộng gọi là \term{strut}.
+    \item \term{Strut} mang thuộc tính \codeinline{font-size} và \codeinline{line-height} của phần tử cha, đặt ra chiều cao tối thiểu cho toàn bộ hộp dòng (\term{line box}).
+    \item Do đó, dù phần tử con có \codeinline{font-size: 0;}, hộp dòng vẫn giữ chiều cao tối thiểu từ \term{strut} của cha trừ khi cha cũng có \codeinline{line-height: 0;}.
+\end{itemize}
+\end{conceptBox}
+
+\begin{tipBox}[2. Tiêu Chuẩn Khả Năng Truy Cập (Accessibility - WCAG 2.1 SC 1.4.12)]
+Theo tiêu chuẩn quốc tế về khả năng truy cập Web (\term{WCAG 2.1 Success Criterion 1.4.12 - Text Spacing}):
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Khoảng cách dòng (\codeinline{line-height}) cho văn bản bài viết đọc dài (\codeinline{body text}) phải đạt ít nhất \textbf{1.5 lần} kích thước chữ (\codeinline{font-size}).
+    \item Điều này đảm bảo người dùng bị thị lực kém, rối loạn đọc (\term{dyslexia}) hoặc đọc trên thiết bị di động nhỏ có thể theo dõi văn bản mượt mà không bị lộn dòng.
+\end{itemize}
+\end{tipBox}
+
+\begin{warnBox}[3. Mẹo Xử Lý Lỗi Thẻ Ảnh <img> Bị Hở Khoảng Trắng Đáy]
+Mặc định thẻ \codeinline{<img>} là phần tử nội dòng (\term{inline element}), nó nằm trên đường cơ sở (\term{baseline}) của chữ. Khoảng trống phía dưới đường cơ sở (\term{descender space}) do \codeinline{line-height} tạo ra sẽ khiến đáy ảnh bị hở một khe trắng khoảng $3\text{px} - 5\text{px}$.
+\end{warnBox}
+
+\begin{codeWindow}[Giải Pháp Khắc Phục Triệt Để Lỗi Hở Đáy Thẻ Ảnh]
+\begin{lstlisting}[language=CSS3]
+img {
+  display: block;          /* (*@ Chuyển thành khối block @*) */
+  /* (*@ Hoặc dùng: @*) */
+  vertical-align: middle;  /* (*@ Căn giữa theo chiều dọc @*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[4. Bộ Câu Hỏi Phỏng Vấn Thường Gặp Về line-height]
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Câu hỏi phỏng vấn} & \thd{\sffamily Câu trả lời chuẩn Senior/Expert} \\
+\hline
+Phân biệt \codeinline{line-height: 1.5} và \codeinline{line-height: 150\%} khi kế thừa? & \codeinline{150\%} sẽ tính toán giá trị \codeinline{px} cố định ở phần tử cha rồi ép con kế thừa con số đó (gây dính chữ nếu con có font to). Trong khi \codeinline{1.5} ép phần tử con tự nhân lại với chính \codeinline{font-size} của nó (luôn an toàn). \\
+\hline
+Tại sao \codeinline{line-height = height} thất bại với chữ 2 dòng? & Khi chữ xuống 2 dòng, mỗi dòng sẽ chiếm chiều cao bằng đúng \codeinline{height} của khung, làm cho 2 dòng bị đẩy xa nhau cực kỳ bất hợp lý và tràn vỡ khung. \\
+\hline
+Bản chất của \codeinline{-webkit-line-clamp} là gì? & Là thuộc tính CSS Webkit độc quyền kết hợp với \codeinline{display: -webkit-box} để tính toán điểm cắt văn bản dựa trên số dòng và tự động chèn ký tự \codeinline{...} ở cuối. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \subsubsection{7. Thuộc Tính Viết Tắt font (Shorthand Property)}
 \label{sec:font_shorthand}
@@ -12062,7 +12923,7 @@ Nếu một quy tắc có specificity cao hơn, nó sẽ ghi đè lên quy tắc
 /* Specificity: (0,0,0,1) - Viet TRUOC */
 p { color: red; }
 
-/* Specificity: (0,1,0,1) - Viet SAU nhung specificity CAO HƠN -> WINS! */
+/* Specificity: (0,1,0,1) - (*@ Viết SAU nhưng specificity CAO HƠN -> WINS! @*) */
 #content p { color: blue; }
 \end{lstlisting}
 \end{codeWindow}
