@@ -2396,7 +2396,7 @@ Không kế thừa (Non-inherited) & margin, padding, border, width, height, bac
 \begin{lstlisting}[language=HTML5]
 <!-- HTML Structure -->
 <div class="parent">
-  <p>Doan van nay tu dong ke thua mau do tu thẻ div.parent.</p>
+  <p>(*@ Đoạn văn này tự động kế thừa màu đỏ từ thẻ div.parent. @*)</p>
 </div>
 
 <!-- CSS Styling -->
@@ -2872,8 +2872,8 @@ Trình duyệt sẽ duyệt danh sách từ trên xuống dưới và chọn ph�
   </style>
 </head>
 <body>
-  <h1>Tiêu đề theo system font</h1>
-  <p>Đây là đoạn văn bản sử dụng font mặc định của hệ điều hành bạn đang dùng.</p>
+  <h1>(*@ Tiêu đề theo system font @*)</h1>
+  <p>(*@ Đây là đoạn văn bản sử dụng font mặc định của hệ điều hành bạn đang dùng. @*)</p>
 </body>
 </html>
 \end{lstlisting}
@@ -4752,17 +4752,17 @@ Trong thiết kế giao diện Web hiện đại, xử lý văn bản dài bị 
   </style>
 </head>
 <body>
-  <h2>1. Giới hạn 1 dòng (.line-clamp)</h2>
+  <h2>(*@ 1. Giới hạn 1 dòng (.line-clamp) @*)</h2>
   <div class="box line-clamp">
     (*@ Đây là nội dung mô tả sản phẩm rất dài, nó sẽ tự động bị cắt và thêm dấu ba chấm sau 1 dòng. @*)
   </div>
 
-  <h2>2. Giới hạn 2 dòng (.line-clamp.line-2)</h2>
+  <h2>(*@ 2. Giới hạn 2 dòng (.line-clamp.line-2) @*)</h2>
   <div class="box line-clamp line-2">
     (*@ Đây là nội dung mô tả sản phẩm rất dài. Nó sẽ bị cắt sau 2 dòng hiển thị. Nhấn Xem thêm để đọc tiếp. @*)
   </div>
 
-  <h2>3. Bẻ từ mọi vị trí (.break-all)</h2>
+  <h2>(*@ 3. Bẻ từ mọi vị trí (.break-all) @*)</h2>
   <div class="box break-all">
     https://example.com/chuoi-url-sieu-sieu-sieu-dai-khong-co-khoang-trang-123456789
   </div>
@@ -12967,7 +12967,7 @@ Inline styles (\codeinline{style="..."}) có specificity cao nhất $(1,0,0,0)$,
 
 \begin{codeWindow}[Ví Dụ 4: Inline Styles Ghi Đè CSS Bên Ngoài]
 \begin{lstlisting}[language=HTML5]
-<!-- Inline Style có Specificity = (1,0,0,0) -->
+<!-- (*@ Inline Style có Specificity = (1,0,0,0) @*) -->
 <p style="color: green;">Doan van nay co mau gi?</p>
 
 <style>
