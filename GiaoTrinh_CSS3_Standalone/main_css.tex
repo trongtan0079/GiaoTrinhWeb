@@ -13549,6 +13549,207 @@ Tăng tốc phần cứng GPU? & \textcolor{green!60!black}{\textbf{CÓ}} (Dùng
 \end{warnBox}
 
 
+% ==============================================================================
+% MỤC 11: THUỘC TÍNH CURSOR TRONG CSS (CSS CURSOR MASTERCLASS)
+% ==============================================================================
+\section{Thuộc Tính Cursor Trong CSS (CSS Cursor Masterclass)}
+\label{sec:css_cursor_masterclass}
+
+Thuộc tính \codeinline{cursor} trong CSS cho phép bạn thay đổi kiểu con trỏ chuột khi người dùng di chuyển chuột lên phần tử HTML. Nó giúp cải thiện trải nghiệm người dùng bằng cách cho biết hành vi có thể xảy ra (ví dụ: click được, không cho phép, đang chờ...).
+
+\paragraph{1. Cú Pháp Cơ Bản Của Thuộc Tính Cursor:}
+
+\begin{conceptBox}[Khái Niệm \& Cú Pháp Cơ Bản Của Cursor]
+\textbf{Thuộc tính \codeinline{cursor}} trong CSS quy định hình dáng hiển thị của con trỏ chuột khi người dùng di chuyển chuột lên phần tử HTML.
+\par\vspace{4pt}
+\textbf{Cú pháp cơ bản:}
+\begin{lstlisting}[language=CSS3]
+selector {
+  cursor: gia_tri_cursor;
+}
+\end{lstlisting}
+\end{conceptBox}
+
+\paragraph{2. Các Giá Trị Phổ Biến Của Cursor:}
+
+\begin{prettyTableBox}[Các Giá Trị Phổ Biến Của Thuộc Tính Cursor Trong CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}K{3.2cm}|Z|>{\sffamily\small}Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Giá Trị Cursor} & \thd{Ý Nghĩa / Biểu Tượng Con Trỏ Chuột} & \thd{Ví Dụ Tình Huống Áp Dụng} \\
+\hline
+default & Mũi tên bình thường & Mặc định trên văn bản tĩnh \\
+\hline
+pointer & Bàn tay chỉ & Dùng cho nút, liên kết, phần tử có thể click \\
+\hline
+text & Hình chữ I (\term{I-beam}) & Dùng cho vùng nhập liệu như \codeinline{<input>}, \codeinline{<textarea>} \\
+\hline
+move & Mũi tên 4 chiều & Dùng cho phần tử có thể kéo (\term{drag}) \\
+\hline
+not-allowed & Vòng tròn gạch chéo & Khi chức năng bị vô hiệu hóa \\
+\hline
+wait & Đồng hồ cát & Khi đang xử lý, chờ phản hồi \\
+\hline
+help & Dấu chấm hỏi & Dùng cho tooltip hoặc hỗ trợ \\
+\hline
+crosshair & Dấu cộng (+) nhỏ & Dùng trong vẽ, bản đồ, hoặc chọn tọa độ \\
+\hline
+grab / grabbing & Bàn tay nắm hờ / đang nắm & Khi kéo một phần tử (\term{drag \& drop}) \\
+\hline
+none & Không hiển thị con trỏ chuột & Ẩn con trỏ (cẩn thận khi dùng) \\
+\hline
+auto & Trình duyệt tự chọn phù hợp & Giá trị mặc định khi không khai báo cụ thể \\
+\hline
+url(image.png) & Sử dụng ảnh tùy chỉnh làm con trỏ & Game, ứng dụng đặc biệt (phải nhỏ gọn và định dạng \codeinline{.cur}, \codeinline{.png}) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3. Các Ví Dụ Thực Tế Về Khai Báo Cursor:}
+
+\begin{codeWindow}[4 Tình Huống Sử Dụng Cursor Thực Tế]
+\begin{lstlisting}[language=HTML5]
+<!-- 1. Nut co the nhan: -->
+<button style="cursor: pointer;">Click me</button>
+
+<!-- 2. Vung dang xu ly: -->
+<style>
+.loading-area {
+  cursor: wait;
+}
+
+/* 3. Keo tha: */
+.draggable {
+  cursor: grab;
+}
+.draggable:active {
+  cursor: grabbing;
+}
+
+/* 4. An con tro chuot: */
+.hide-cursor {
+  cursor: none;
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{4. Demo Tổ Hợp Các Kiểu Con Trỏ Chuột:}
+
+\begin{codeWindow}[Mã Demo Tổ Hợp Các Kiểu Con Trỏ]
+\begin{lstlisting}[language=HTML5]
+<div style="cursor: pointer;">Click duoc</div>
+<div style="cursor: not-allowed;">Khong cho phep</div>
+<div style="cursor: help;">Can tro giup</div>
+<div style="cursor: text;">Vung nhap lieu</div>
+<div style="cursor: crosshair;">Ve toa do</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Lưu Ý Khi Sử Dụng Thuộc Tính Cursor]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Phản ánh tình trạng logic}: Nên dùng \codeinline{cursor} để phản ánh tình trạng logic: nếu phần tử không thể nhấn, không nên dùng \codeinline{pointer}.
+    \item \textbf{Hỗ trợ trình duyệt}: Một số giá trị \codeinline{cursor} như \codeinline{grab}, \codeinline{grabbing}, \codeinline{not-allowed} cần trình duyệt hiện đại (Edge, Chrome, Firefox, Safari đều hỗ trợ).
+\end{itemize}
+\end{warnBox}
+
+\paragraph{5. Chuyên Sâu: Thuộc Tính cursor: pointer; Là Gì?}
+
+\begin{conceptBox}[Khái Niệm \& Cách Hoạt Động Của cursor: pointer;]
+\textbf{\codeinline{cursor: pointer;}} là một thuộc tính CSS dùng để thay đổi con trỏ chuột thành biểu tượng bàn tay chỉ khi người dùng đưa chuột vào một phần tử -- biểu thị rằng phần tử đó có thể nhấp được (\term{clickable}).
+\par\vspace{4pt}
+\textbf{Cách hoạt động:}
+\begin{lstlisting}[language=CSS3]
+.element {
+  cursor: pointer;
+}
+\end{lstlisting}
+Khi bạn áp dụng cho một phần tử (ví dụ: nút, liên kết, ảnh...), khi rê chuột vào phần tử đó, con trỏ chuột sẽ biến thành bàn tay -- giống như khi rê vào thẻ \codeinline{<a>}.
+\end{conceptBox}
+
+\paragraph{Các Tình Huống Nên Dùng \codeinline{cursor: pointer;}:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nút tùy chỉnh}: Các thẻ không phải \codeinline{<button>} hoặc \codeinline{<a>} nhưng dùng như nút (ví dụ: \codeinline{<div class="btn">}, \codeinline{<span class="clickable">}).
+    \item \textbf{Ảnh có thể nhấn}: \codeinline{<img onclick="..." />}
+    \item \textbf{Các vùng có sự kiện onclick}: \codeinline{<div onclick="...">}, \codeinline{<li>}, \codeinline{<section>} gắn \codeinline{onclick}.
+\end{itemize}
+
+\paragraph{Ví Dụ Thực Tế Với Nút Tùy Chỉnh:}
+
+\begin{codeWindow}[Mã Nguồn Nút Tùy Chỉnh Sử Dụng cursor: pointer;]
+\begin{lstlisting}[language=HTML5]
+<style>
+  .custom-button {
+    background: #007bff;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+  }
+  .custom-button:hover {
+    background: #0056b3;
+  }
+</style>
+<div class="custom-button" onclick="alert('Ban da nhan!')">
+  Nhan vao toi!
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{noteBox}[Trải Nghiệm Người Dùng \& Lưu Ý Quan Trọng]
+Khi rê chuột vào \codeinline{div}, con trỏ sẽ biến thành bàn tay, tạo trải nghiệm giống nút bấm.
+\par\vspace{4pt}
+\textbf{Lưu ý quan trọng:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{cursor: pointer} chỉ thay đổi biểu tượng con trỏ, \textbf{không làm phần tử có hành động click} nếu không có JS hoặc không phải \codeinline{<a>}, \codeinline{<button>}.
+    \item Nên kết hợp \codeinline{cursor: pointer;} với xử lý sự kiện click để người dùng không bị nhầm.
+\end{itemize}
+\end{noteBox}
+
+\subsection{Mục "Đọc Thêm": Mở Rộng Kiến Thức Về Thuộc Tính Cursor}
+
+\begin{conceptBox}[Đọc Thêm: Các Kỹ Thuật Chuyên Sâu Về Cursor Trong Thiết Kế Web]
+Mục này mở rộng các kiến thức chuyên sâu về thuộc tính \codeinline{cursor}, giúp lập trình viên tối ưu trải nghiệm người dùng (UX), tăng khả năng truy cập (Accessibility) và hiểu rõ nguyên lý hoạt động của trình duyệt.
+\end{conceptBox}
+
+\paragraph{1. Tùy Chỉnh Con Trỏ Bằng Hình Ảnh (\codeinline{cursor: url(...)}) Nâng Cao:}
+Trình duyệt cho phép sử dụng hình ảnh tùy chỉnh làm con trỏ chuột bằng hàm \codeinline{url()}:
+\begin{lstlisting}[language=CSS3]
+/* Cu phap chuan bat buoc co Hotspot coordinate va Fallback: */
+.custom-cursor {
+    cursor: url('custom-cursor.png') 10 10, auto;
+}
+\end{lstlisting}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Hotspot Coordinate ($x, y$)}: Hai tham số số thực nằm sau đường dẫn ảnh (ví dụ: \codeinline{10 10}) xác định điểm tác động nhấp chuột chính xác trên hình ảnh con trỏ. Nếu không ghi, điểm mặc định là $(0, 0)$ (góc trên bên trái).
+    \item \textbf{Giá trị dự phòng (\term{Fallback Value})}: Bắt buộc phải có một con trỏ chuẩn (như \codeinline{auto}, \codeinline{pointer}) đứng sau danh sách \codeinline{url()}. Nếu file ảnh không tải được, trình duyệt sẽ dùng giá trị dự phòng này.
+    \item \textbf{Kích thước \& Định dạng ảnh tối ưu}: Nên sử dụng định dạng \codeinline{.cur}, \codeinline{.png} hoặc \codeinline{.svg} có độ phân giải tối ưu $32 \times 32\text{px}$ (hoặc tối đa $64 \times 64\text{px}$). Hầu hết trình duyệt sẽ từ chối hiển thị các file ảnh con trỏ có kích thước quá lớn vì lý do hiệu năng và UX.
+\end{itemize}
+
+\paragraph{2. Tương Tác Trên Thiết Bị Cảm Ứng (Touch Devices):}
+Trên thiết bị di động (Smartphone/Tablet):
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Không có khái niệm con trỏ chuột vật lý di chuyển (\term{hover state}), do đó thuộc tính \codeinline{cursor} bị trình duyệt di động hoàn toàn bỏ qua.
+    \item Không nên xây dựng luồng tương tác quan trọng chỉ dựa vào trạng thái \codeinline{:hover} hoặc sự thay đổi con trỏ chuột.
+    \item Có thể dùng CSS Media Query \codeinline{@media (hover: hover) and (pointer: fine)} để giới hạn các kiểu con trỏ nâng cao chỉ áp dụng cho thiết bị dùng chuột/trackpad.
+\end{itemize}
+
+\paragraph{3. Khả Năng Truy Cập (Accessibility - WCAG) \& Best Practices:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Kết hợp với \codeinline{user-select: none}}: Khi tạo nút tùy chỉnh bằng thẻ \codeinline{<div>} hay \codeinline{<span>}, hãy luôn đặt thuộc tính \codeinline{user-select: none} để ngăn văn bản bên trong bị bôi đen vô ý khi người dùng nhấp đúp liên tục.
+    \item \textbf{Bổ sung thuộc tính ARIA}: Khi sử dụng \codeinline{cursor: not-allowed} cho phần tử bị vô hiệu hóa, nên kết hợp thêm thuộc tính HTML \codeinline{disabled} hoặc \codeinline{aria-disabled="true"} để công cụ màn hình đọc (\term{Screen Reader}) truyền đạt chính xác cho người dùng khiếm thị.
+    \item \textbf{Tránh tạo hiểu nhầm}: Tuyệt đối không dùng \codeinline{cursor: pointer} cho văn bản tĩnh không có khả năng nhấp, hoặc \codeinline{cursor: text} cho các phần tử nút bấm.
+\end{itemize}
+
+\paragraph{4. Tip Phỏng Vấn Senior Frontend:}
+\begin{tipBox}[Câu Hỏi Phỏng Vấn: Dùng div Với cursor: pointer Hay Dùng Thẻ button Bản Địa?]
+\textbf{Câu hỏi:} Có nên dùng \codeinline{<div class="btn" style="cursor: pointer;">} thay thế cho thẻ \codeinline{<button>} bản địa không?
+\par\vspace{4pt}
+\textbf{Trả lời chuẩn phỏng vấn:} \textbf{Không nên.} Mặc dù \codeinline{cursor: pointer} giúp thẻ \codeinline{<div>} hiển thị con trỏ bàn tay giống nút bấm, thẻ \codeinline{<div>} thiếu các tính năng Accessibility \& Keyboard Navigation bản địa như: không kích hoạt được bằng phím \codeinline{Enter}/\codeinline{Space}, không tự động nhận lấy tiêu điểm (\term{focus state}), không submit được form và không thông báo đúng loại phần tử cho trình đọc màn hình (\term{Screen Readers}). Hãy luôn ưu tiên dùng thẻ \codeinline{<button>} cho mọi hành động tương tác nút bấm.
+\end{tipBox}
 
 
 % ==============================================================================
