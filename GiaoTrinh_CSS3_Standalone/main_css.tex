@@ -854,6 +854,171 @@ pc & Pica ($1\text{pc} = 12\text{pt}$) & Hiếm dùng trên web. \\
 \end{tabularx}
 \end{prettyTableBox}
 
+% ==============================================================================
+% CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ PIXEL (PX MASTERCLASS TRONG CSS)
+% ==============================================================================
+\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị Pixel (px Masterclass Trong CSS)}
+\label{sec:css_pixel_masterclass}
+
+Trong CSS, \codeinline{px} (viết tắt của \term{Pixel}) là đơn vị độ dài tuyệt đối vô cùng phổ biến và là một trong những đơn vị cơ bản nhất được sử dụng để xác định kích thước cho các thuộc tính như: \codeinline{width}, \codeinline{height}, \codeinline{margin}, \codeinline{padding}, \codeinline{font-size}, \codeinline{border-width}, \codeinline{border-radius}, \codeinline{box-shadow}, \codeinline{text-shadow}, \codeinline{min-width}, \codeinline{max-width}, \codeinline{min-height}, \codeinline{max-height}...
+
+\subparagraph{1. Pixel (px) Là Gì?}
+
+\begin{conceptBox}[Khái Niệm Pixel Và Pixel Tham Chiếu Trong CSS]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item $1\text{px} = 1$ \textbf{điểm ảnh tham chiếu trên màn hình}.
+    \item Là \textbf{đơn vị cố định}, không thay đổi theo kích thước của phần tử cha hay kích thước màn hình (tương tự như centimet trong thực tế -- độc lập, không phụ thuộc vào ai).
+    \item \textbf{Pixel vật lý (Physical Pixel)}: Trong bối cảnh màn hình kỹ thuật số, một pixel vật lý là điểm ảnh nhỏ nhất trên tấm nền hiển thị có thể được điều khiển riêng lẻ để phát màu sắc. Màn hình được tạo thành từ hàng triệu pixel vật lý xếp cạnh nhau.
+    \item \textbf{Pixel trong CSS (CSS Reference Pixel)}: Trong CSS, \codeinline{px} đại diện cho một \term{Pixel tham chiếu (Reference Pixel)}, không nhất thiết phải tương ứng tỷ lệ $1:1$ với một pixel vật lý trên màn hình.
+\end{itemize}
+\end{conceptBox}
+
+\subparagraph{2. Sự Khác Biệt Giữa Pixel Trong CSS Và Pixel Vật Lý (HiDPI / Retina Display):}
+Ban đầu, $1\text{px}$ trong CSS thường tương đương với $1$ pixel vật lý trên màn hình. Tuy nhiên, với sự ra đời của các màn hình có mật độ điểm ảnh cao (\term{Retina Display} của Apple, màn hình \term{HiDPI}), sự tương quan này đã thay đổi:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Màn hình tiêu chuẩn (Standard DPI)}: $1\text{px}$ CSS thường tương đương với $1$ pixel vật lý.
+    \item \textbf{Màn hình mật độ cao (HiDPI / Retina)}: Để đảm bảo nội dung hiển thị sắc nét, trình duyệt sẽ tự động điều chỉnh. Ví dụ, trên màn hình Retina, $1\text{px}$ CSS có thể tương ứng với $2 \times 2$ (4 pixel vật lý) hoặc $3 \times 3$ (9 pixel vật lý).
+    \item \textbf{Ví dụ minh họa}: Một phần tử có \codeinline{width: 100px;} trong CSS sẽ chiếm $100$ "pixel tham chiếu" trên màn hình, nhưng được trình duyệt render bằng $200$ hoặc $300$ pixel vật lý để đường nét trông mịn màng và sắc nét hơn.
+    \item \textbf{Mục đích cốt lõi}: Đảm bảo kích thước các phần tử trên trang web trông ổn định về mặt vật lý trên các thiết bị khác nhau, bất kể mật độ điểm ảnh. Đoạn văn $16\text{px}$ sẽ có kích thước vật lý tương đương trên màn hình tiêu chuẩn và màn hình Retina.
+\end{itemize}
+
+\subparagraph{3. Đơn Vị Tuyệt Đối Là Gì?}
+Đơn vị \codeinline{px} là một đơn vị tuyệt đối, có nghĩa là giá trị của nó cố định và không thay đổi dựa trên kích thước của phần tử cha hoặc kích thước khung nhìn (\term{Viewport}). Nếu đặt \codeinline{width: 200px;} cho một thẻ \codeinline{<div>}, thẻ đó sẽ luôn có chiều rộng đúng $200$ pixel tham chiếu, bất kể kích thước màn hình hay kích thước phần tử chứa nó.
+
+\subparagraph{4. Ví Dụ Đơn Giản Khai Báo px Trong CSS:}
+
+\begin{codeWindow}[Khai Báo Kích Thước Khối .box Bằng Đơn Vị px]
+\begin{lstlisting}[language=HTML5]
+<style>
+.box {
+  width: 200px;
+  height: 100px;
+  font-size: 16px;
+  padding: 10px;
+  border: 2px solid black;
+}
+</style>
+
+<div class="box">Khoi Box dung px</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Khối .box Đơn Vị px]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!30, width=200pt, height=100pt, arc=4pt, boxrule=1.5pt, boxsep=4pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+  \textcolor{darkText}{\bfseries Khối Box ($200\text{px} \times 100\text{px}$)}\par
+  \textcolor{codeComment}{\scriptsize (Font $16\text{px}$, Padding $10\text{px}$, Border $2\text{px}$ solid).}
+\end{tcolorbox}
+\end{browserWindow}
+
+\subparagraph{5. Đặc Điểm Của Đơn Vị px (Ưu Điểm \& Nhược Điểm):}
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Ưu Điểm Và Nhược Điểm Của Đơn Vị px]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|Z|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Ưu Điểm Của Pixel (px)} & \thd{Nhược Điểm \& Cân Nhắc} \\
+\hline
+Dễ kiểm soát kích thước chính xác tuyệt đối. & Không linh hoạt với màn hình quá lớn hoặc quá nhỏ. \\
+\hline
+Rất trực quan, dễ hình dung con số đại diện. & Khó tạo Responsive Web Design (cần viết nhiều Media Queries). \\
+\hline
+Phù hợp khi thiết kế chuẩn từng Pixel (\term{Pixel-Perfect}). & Không tự động co giãn theo thiết bị hoặc cài đặt Zoom phông chữ của người dùng. \\
+\hline
+Nhất quán trên mọi trình duyệt và hệ điều hành. & Gây cản trở khả năng truy cập (\term{Accessibility}) nếu dùng cho \codeinline{font-size} chính. \\
+\hline
+Tuyệt vời cho phần tử cố định (logo, icon, đường viền). & Có thể bị mờ hình ảnh raster nếu không dùng ảnh HiDPI/$2\times$. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{6. So Sánh px Với Các Đơn Vị Khác (em, rem, \%, vw, vh):}
+
+\begin{prettyTableBox}[Bảng So Sánh Yếu Tố Phụ Thuộc Của Các Đơn Vị CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}K{2.5cm}|Z|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Đơn Vị} & \thd{Ý Nghĩa} & \thd{Phụ Thuộc Vào Ai?} \\
+\hline
+px & Pixel tuyệt đối & Không phụ thuộc ai (Cố định tuyệt đối) \\
+\hline
+em & Tương đối theo phông chữ gần nhất & Dựa vào \codeinline{font-size} của phần tử cha \\
+\hline
+rem & Tương đối theo phông chữ gốc & Dựa vào \codeinline{font-size} của thẻ \codeinline{<html>} \\
+\hline
+\% & Tỷ lệ phần trăm & Dựa vào kích thước của phần tử cha \\
+\hline
+vw / vh & Phần trăm khung hình & Dựa vào kích thước màn hình (\term{Viewport}) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[Bảng Ma Trận Sự Khác Biệt Tính Chất Giữa px Và Các Đơn Vị Tương Đối]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{2.6cm}|Z|Z|Z|Z|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thuộc Tính} & \thd{px} & \thd{em} & \thd{rem} & \thd{\%} & \thd{vw / vh} \\
+\hline
+\textbf{Cố định} & \textcolor{green!60!black}{\textbf{[Có]}} & \textcolor{red!80!black}{\textbf{[Không]}} & \textcolor{red!80!black}{\textbf{[Không]}} & \textcolor{red!80!black}{\textbf{[Không]}} & \textcolor{red!80!black}{\textbf{[Không]}} \\
+\hline
+\textbf{Responsive} & \textcolor{red!80!black}{\textbf{[Không]}} & \textcolor{green!60!black}{\textbf{[Có]}} (tùy cha) & \textcolor{green!60!black}{\textbf{[Có]}} (toàn trang) & \textcolor{green!60!black}{\textbf{[Có]}} (tùy cha) & \textcolor{green!60!black}{\textbf{[Có]}} (theo Viewport) \\
+\hline
+\textbf{Dễ kiểm soát} & \textcolor{green!60!black}{\textbf{[Có]}} (nhỏ lẻ) & \textcolor{red!80!black}{\textbf{[Khó]}} (dễ bị lồng) & \textcolor{green!60!black}{\textbf{[Có]}} (tùy ngữ cảnh) & \textcolor{green!60!black}{\textbf{[Có]}} (layout lớn) & \textcolor{green!60!black}{\textbf{[Có]}} (layout tràn màn) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{7. Các Trường Hợp Sử Dụng Phổ Biến Của Pixel (px):}
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Độ dày đường viền (\codeinline{border-width})}: Thích hợp nhất cho viền cố định.
+\begin{lstlisting}[language=CSS3]
+.element { border: 1px solid #ccc; }
+\end{lstlisting}
+    \item \textbf{\codeinline{padding} và \codeinline{margin} khoảng cách nhỏ/cố định}:
+\begin{lstlisting}[language=CSS3]
+.button { padding: 10px 20px; margin-top: 15px; }
+\end{lstlisting}
+    \item \textbf{Kích thước Icon, Logo và hình ảnh nhỏ}:
+\begin{lstlisting}[language=CSS3]
+.icon { width: 24px; height: 24px; }
+\end{lstlisting}
+    \item \textbf{Giới hạn kích thước (\codeinline{min-width}, \codeinline{max-width}, \codeinline{min-height}, \codeinline{max-height})}:
+\begin{lstlisting}[language=CSS3]
+.content { max-width: 960px; /* Noi dung khong bao gio rong hon 960px */ }
+\end{lstlisting}
+    \item \textbf{Hiệu ứng viền \& bóng đổ}: \codeinline{border-radius}, \codeinline{box-shadow}, \codeinline{text-shadow}.
+    \item \textbf{\codeinline{font-size} cố định}:
+\begin{lstlisting}[language=CSS3]
+h1 { font-size: 32px; }
+button { padding: 10px 20px; }
+\end{lstlisting}
+\end{itemize}
+
+\subparagraph{8. Khi Nào Nên Dùng px Và Khi Nào Nên Dùng Đơn Vị Tương Đối?}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nên sử dụng \codeinline{px} khi}:
+    \begin{enumerate}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Cần độ chính xác cao tuyệt đối và kích thước cố định (đường viền, icon, khoảng cách nhỏ cụ thể).
+        \item Đảm bảo một phần tử không thay đổi kích thước bất kể kích thước màn hình hay phần tử cha.
+        \item Đối với các thuộc tính hiệu ứng kỹ thuật như \codeinline{border-radius}, \codeinline{box-shadow}, \codeinline{text-shadow}.
+        \item Làm thiết kế tĩnh (\term{Fixed Layout}) hoặc UI nội bộ không yêu cầu responsive quá linh hoạt.
+    \end{enumerate}
+    \item \textbf{Nên sử dụng đơn vị tương đối (\%, \codeinline{em}, \codeinline{rem}, \codeinline{vw}, \codeinline{vh}) khi}:
+    \begin{enumerate}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Xây dựng bố cục đáp ứng (\term{Responsive Layout}) tự động co giãn theo kích thước màn hình.
+        \item Đảm bảo khả năng truy cập (\term{Accessibility}), đặc biệt là cho \codeinline{font-size} toàn trang.
+        \item Duy trì tỷ lệ tương quan giữa các phần tử với nhau hoặc với khung hình Viewport.
+    \end{enumerate}
+\end{itemize}
+
+\begin{noteBox}[Kết Luận Thực Tế Về Sử Dụng Đơn Vị Pixel]
+Trong thực tế phát triển web hiện đại, một trang web chuyên nghiệp **luôn kết hợp cả đơn vị tuyệt đối (\codeinline{px}) và đơn vị tương đối (\codeinline{rem}, \codeinline{em}, \codeinline{\%})** để đạt được sự cân bằng hoàn hảo giữa kiểm soát chính xác và tính linh hoạt đáp ứng.
+\end{noteBox}
+
 \begin{warnBox}[Lưu Ý Về Đơn Vị Tuyệt Đối (Absolute Units)]
 Các đơn vị tuyệt đối (\term{Absolute Units}) \textbf{không phản ứng với kích thước màn hình hoặc cài đặt phông chữ của trình duyệt}, do đó chúng \textbf{không có tính responsive}. Hạn chế dùng \codeinline{px} cho bố cục lớn hoặc kích thước phông chữ toàn trang.
 \end{warnBox}
