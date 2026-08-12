@@ -13559,16 +13559,17 @@ Thuộc tính \codeinline{cursor} trong CSS cho phép bạn thay đổi kiểu c
 
 \paragraph{1. Cú Pháp Cơ Bản Của Thuộc Tính Cursor:}
 
-\begin{conceptBox}[Khái Niệm \& Cú Pháp Cơ Bản Của Cursor]
-\textbf{Thuộc tính \codeinline{cursor}} trong CSS quy định hình dáng hiển thị của con trỏ chuột khi người dùng di chuyển chuột lên phần tử HTML.
-\par\vspace{4pt}
-\textbf{Cú pháp cơ bản:}
+\begin{conceptBox}[Khái Niệm Thuộc Tính Cursor Trong CSS]
+\textbf{Thuộc tính \codeinline{cursor}} trong CSS quy định hình dáng hiển thị của con trỏ chuột khi người dùng di chuyển chuột lên phần tử HTML. Nó giúp cải thiện trải nghiệm người dùng bằng cách cho biết hành vi có thể xảy ra (ví dụ: click được, không cho phép, đang chờ...).
+\end{conceptBox}
+
+\begin{codeWindow}[Cú Pháp Cơ Bản Của Thuộc Tính Cursor]
 \begin{lstlisting}[language=CSS3]
 selector {
   cursor: gia_tri_cursor;
 }
 \end{lstlisting}
-\end{conceptBox}
+\end{codeWindow}
 
 \paragraph{2. Các Giá Trị Phổ Biến Của Cursor:}
 
@@ -13657,16 +13658,16 @@ url(image.png) & Sử dụng ảnh tùy chỉnh làm con trỏ & Game, ứng d�
 \paragraph{5. Chuyên Sâu: Thuộc Tính cursor: pointer; Là Gì?}
 
 \begin{conceptBox}[Khái Niệm \& Cách Hoạt Động Của cursor: pointer;]
-\textbf{\codeinline{cursor: pointer;}} là một thuộc tính CSS dùng để thay đổi con trỏ chuột thành biểu tượng bàn tay chỉ khi người dùng đưa chuột vào một phần tử -- biểu thị rằng phần tử đó có thể nhấp được (\term{clickable}).
-\par\vspace{4pt}
-\textbf{Cách hoạt động:}
+\textbf{\codeinline{cursor: pointer;}} là một thuộc tính CSS dùng để thay đổi con trỏ chuột thành biểu tượng bàn tay chỉ khi người dùng đưa chuột vào một phần tử -- biểu thị rằng phần tử đó có thể nhấp được (\term{clickable}). Khi bạn áp dụng cho một phần tử (ví dụ: nút, liên kết, ảnh...), khi rê chuột vào phần tử đó, con trỏ chuột sẽ biến thành bàn tay -- giống như khi rê vào thẻ \codeinline{<a>}.
+\end{conceptBox}
+
+\begin{codeWindow}[Cú Pháp Khai Báo cursor: pointer;]
 \begin{lstlisting}[language=CSS3]
 .element {
   cursor: pointer;
 }
 \end{lstlisting}
-Khi bạn áp dụng cho một phần tử (ví dụ: nút, liên kết, ảnh...), khi rê chuột vào phần tử đó, con trỏ chuột sẽ biến thành bàn tay -- giống như khi rê vào thẻ \codeinline{<a>}.
-\end{conceptBox}
+\end{codeWindow}
 
 \paragraph{Các Tình Huống Nên Dùng \codeinline{cursor: pointer;}:}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -13717,12 +13718,16 @@ Mục này mở rộng các kiến thức chuyên sâu về thuộc tính \codei
 
 \paragraph{1. Tùy Chỉnh Con Trỏ Bằng Hình Ảnh (\codeinline{cursor: url(...)}) Nâng Cao:}
 Trình duyệt cho phép sử dụng hình ảnh tùy chỉnh làm con trỏ chuột bằng hàm \codeinline{url()}:
+
+\begin{codeWindow}[Cú Pháp Tùy Chỉnh Cursor Với Hình Ảnh \& Hotspot]
 \begin{lstlisting}[language=CSS3]
 /* Cu phap chuan bat buoc co Hotspot coordinate va Fallback: */
 .custom-cursor {
     cursor: url('custom-cursor.png') 10 10, auto;
 }
 \end{lstlisting}
+\end{codeWindow}
+
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Hotspot Coordinate ($x, y$)}: Hai tham số số thực nằm sau đường dẫn ảnh (ví dụ: \codeinline{10 10}) xác định điểm tác động nhấp chuột chính xác trên hình ảnh con trỏ. Nếu không ghi, điểm mặc định là $(0, 0)$ (góc trên bên trái).
     \item \textbf{Giá trị dự phòng (\term{Fallback Value})}: Bắt buộc phải có một con trỏ chuẩn (như \codeinline{auto}, \codeinline{pointer}) đứng sau danh sách \codeinline{url()}. Nếu file ảnh không tải được, trình duyệt sẽ dùng giá trị dự phòng này.
