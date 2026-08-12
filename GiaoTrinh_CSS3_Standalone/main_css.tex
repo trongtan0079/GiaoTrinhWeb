@@ -1034,6 +1034,31 @@ h1 {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Mô Phỏng Trực Quan Kết Quả Hiển Thị Các Trường Hợp Sử Dụng px]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \begin{tabularx}{\linewidth}{Y Y}
+    \tcbox[on line, arc=3pt, colback=gray!5, colframe=gray!40, boxsep=4pt]{%
+      \small\textcolor{darkText}{\textbf{Viền cố định 1px solid \#ccc}}%
+    } &
+    \tcbox[on line, arc=4pt, colback=primaryBlue, colframe=primaryBlue, boxsep=4pt, left=10pt, right=10pt]{%
+      \color{white}\bfseries\small Nút bấm (Padding 10px 20px)%
+    } \\
+    \vspace{2pt}\textcolor{primaryBlue}{\scriptsize (1. border: 1px solid \#ccc)} &
+    \vspace{2pt}\textcolor{primaryBlue}{\scriptsize (2. padding: 10px 20px, margin-top: 15px)} \\[8pt]
+
+    \tcbox[on line, arc=2pt, colback=amber!15, colframe=amber!80!black, boxsep=3pt]{%
+      \color{amber!90!black}\bfseries\small Icon 24px $\times$ 24px%
+    } &
+    \tcbox[on line, arc=8pt, colback=white, colframe=gray!30, boxsep=6pt, drop shadow=black!10!white]{%
+      \textcolor{primaryBlue}{\bfseries Thẻ Card (Radius 8px, Shadow)}%
+    } \\
+    \vspace{2pt}\textcolor{primaryBlue}{\scriptsize (3. width: 24px, height: 24px)} &
+    \vspace{2pt}\textcolor{primaryBlue}{\scriptsize (5. border-radius: 8px, box-shadow)} \\
+  \end{tabularx}
+\end{tcolorbox}
+\end{browserWindow}
+
 \paragraph{8. Khi Nào Nên Dùng px Và Khi Nào Nên Dùng Đơn Vị Tương Đối?}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Nên sử dụng \codeinline{px} khi}:
@@ -1223,6 +1248,24 @@ h1 {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Kích Thước Chữ Fluid Typography Theo Độ Rộng Màn Hình]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \begin{tabularx}{\linewidth}{Y Y}
+    \begin{tcolorbox}[colback=orange!8, colframe=orange!60!black, arc=4pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+      \textcolor{orange!90!black}{\bfseries\small Màn Hình Mobile ($375\text{px}$)}\par\vspace{4pt}
+      \textcolor{darkText}{\textbf{\small Tiêu đề H1 ($16\text{px} / 1\text{rem}$)}}
+    \end{tcolorbox} &
+    \begin{tcolorbox}[colback=teal!8, colframe=teal!60!black, arc=4pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+      \textcolor{teal!90!black}{\bfseries\small Màn Hình Desktop ($1440\text{px}$)}\par\vspace{4pt}
+      \textcolor{darkText}{\bfseries\Large Tiêu đề H1 ($32\text{px} / 2\text{rem}$)}
+    \end{tcolorbox} \\
+    \vspace{2pt}\textcolor{codeComment}{\scriptsize (1rem min-bound: Cỡ chữ nhỏ nhất)} &
+    \vspace{2pt}\textcolor{codeComment}{\scriptsize (2rem max-bound: Cỡ chữ lớn nhất)} \\
+  \end{tabularx}
+\end{tcolorbox}
+\end{browserWindow}
 
 \paragraph{4. Tip Phỏng Vấn Senior Frontend: Kỹ Thuật Reset 62.5\% Cho Thẻ Root \codeinline{html}:}
 \begin{tipBox}[Câu Hỏi Phỏng Vấn: Tại Sao Nhiều Dự Án Đặt html \{ font-size: 62.5\%; \}?]
