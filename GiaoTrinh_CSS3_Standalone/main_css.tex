@@ -829,7 +829,8 @@ Trong CSS, các đơn vị đo (\term{CSS Units}) quyết định kích thước
 
 CSS Units được chia làm 2 nhóm chính:
 
-\subparagraph{1. Absolute Units (Đơn Vị Tuyệt Đối -- Không Thay Đổi Theo Bối Cảnh):}
+\paragraph{1. Absolute Units (Đơn Vị Tuyệt Đối -- Không Thay Đổi Theo Bối Cảnh):}
+
 Đơn vị tuyệt đối là các đơn vị cố định, có kích thước không bao giờ thay đổi bất kể kích thước màn hình, độ phân giải thiết bị hay bối cảnh phần tử cha.
 
 \begin{prettyTableBox}[Bảng Chi Tiết Các Đơn Vị Tuyệt Đối (Absolute Units)]
@@ -862,7 +863,7 @@ pc & Pica ($1\text{pc} = 12\text{pt}$) & Hiếm dùng trên web. \\
 
 Trong CSS, \codeinline{px} (viết tắt của \term{Pixel}) là đơn vị độ dài tuyệt đối vô cùng phổ biến và là một trong những đơn vị cơ bản nhất được sử dụng để xác định kích thước cho các thuộc tính như: \codeinline{width}, \codeinline{height}, \codeinline{margin}, \codeinline{padding}, \codeinline{font-size}, \codeinline{border-width}, \codeinline{border-radius}, \codeinline{box-shadow}, \codeinline{text-shadow}, \codeinline{min-width}, \codeinline{max-width}, \codeinline{min-height}, \codeinline{max-height}...
 
-\subparagraph{1. Pixel (px) Là Gì?}
+\paragraph{1. Pixel (px) Là Gì?}
 
 \begin{conceptBox}[Khái Niệm Pixel Và Pixel Tham Chiếu Trong CSS]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -873,7 +874,7 @@ Trong CSS, \codeinline{px} (viết tắt của \term{Pixel}) là đơn vị đ�
 \end{itemize}
 \end{conceptBox}
 
-\subparagraph{2. Sự Khác Biệt Giữa Pixel Trong CSS Và Pixel Vật Lý (HiDPI / Retina Display):}
+\paragraph{2. Sự Khác Biệt Giữa Pixel Trong CSS Và Pixel Vật Lý (HiDPI / Retina Display):}
 Ban đầu, $1\text{px}$ trong CSS thường tương đương với $1$ pixel vật lý trên màn hình. Tuy nhiên, với sự ra đời của các màn hình có mật độ điểm ảnh cao (\term{Retina Display} của Apple, màn hình \term{HiDPI}), sự tương quan này đã thay đổi:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Màn hình tiêu chuẩn (Standard DPI)}: $1\text{px}$ CSS thường tương đương với $1$ pixel vật lý.
@@ -882,10 +883,10 @@ Ban đầu, $1\text{px}$ trong CSS thường tương đương với $1$ pixel v�
     \item \textbf{Mục đích cốt lõi}: Đảm bảo kích thước các phần tử trên trang web trông ổn định về mặt vật lý trên các thiết bị khác nhau, bất kể mật độ điểm ảnh. Đoạn văn $16\text{px}$ sẽ có kích thước vật lý tương đương trên màn hình tiêu chuẩn và màn hình Retina.
 \end{itemize}
 
-\subparagraph{3. Đơn Vị Tuyệt Đối Là Gì?}
+\paragraph{3. Đơn Vị Tuyệt Đối Là Gì?}
 Đơn vị \codeinline{px} là một đơn vị tuyệt đối, có nghĩa là giá trị của nó cố định và không thay đổi dựa trên kích thước của phần tử cha hoặc kích thước khung nhìn (\term{Viewport}). Nếu đặt \codeinline{width: 200px;} cho một thẻ \codeinline{<div>}, thẻ đó sẽ luôn có chiều rộng đúng $200$ pixel tham chiếu, bất kể kích thước màn hình hay kích thước phần tử chứa nó.
 
-\subparagraph{4. Ví Dụ Đơn Giản Khai Báo px Trong CSS:}
+\paragraph{4. Ví Dụ Đơn Giản Khai Báo px Trong CSS:}
 
 \begin{codeWindow}[Khai Báo Kích Thước Khối .box Bằng Đơn Vị px]
 \begin{lstlisting}[language=HTML5]
@@ -912,7 +913,7 @@ Ban đầu, $1\text{px}$ trong CSS thường tương đương với $1$ pixel v�
 \end{tcolorbox}
 \end{browserWindow}
 
-\subparagraph{5. Đặc Điểm Của Đơn Vị px (Ưu Điểm \& Nhược Điểm):}
+\paragraph{5. Đặc Điểm Của Đơn Vị px (Ưu Điểm \& Nhược Điểm):}
 
 \begin{prettyTableBox}[Bảng Tổng Hợp Ưu Điểm Và Nhược Điểm Của Đơn Vị px]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -934,7 +935,7 @@ Tuyệt vời cho phần tử cố định (logo, icon, đường viền). & Có
 \end{tabularx}
 \end{prettyTableBox}
 
-\subparagraph{6. So Sánh px Với Các Đơn Vị Khác (em, rem, \%, vw, vh):}
+\paragraph{6. So Sánh px Với Các Đơn Vị Khác (em, rem, \%, vw, vh):}
 
 \begin{prettyTableBox}[Bảng So Sánh Yếu Tố Phụ Thuộc Của Các Đơn Vị CSS]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -972,7 +973,7 @@ vw / vh & Phần trăm khung hình & Dựa vào kích thước màn hình (\term
 \end{tabularx}
 \end{prettyTableBox}
 
-\subparagraph{7. Các Trường Hợp Sử Dụng Phổ Biến Của Pixel (px):}
+\paragraph{7. Các Trường Hợp Sử Dụng Phổ Biến Của Pixel (px):}
 \begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
     \item \textbf{Độ dày đường viền (\codeinline{border-width})}: Thích hợp nhất cho viền cố định.
 \begin{lstlisting}[language=CSS3]
@@ -998,7 +999,7 @@ button { padding: 10px 20px; }
 \end{lstlisting}
 \end{itemize}
 
-\subparagraph{8. Khi Nào Nên Dùng px Và Khi Nào Nên Dùng Đơn Vị Tương Đối?}
+\paragraph{8. Khi Nào Nên Dùng px Và Khi Nào Nên Dùng Đơn Vị Tương Đối?}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Nên sử dụng \codeinline{px} khi}:
     \begin{enumerate}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
