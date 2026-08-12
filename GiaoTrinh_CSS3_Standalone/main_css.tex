@@ -974,30 +974,65 @@ vw / vh & Phần trăm khung hình & Dựa vào kích thước màn hình (\term
 \end{prettyTableBox}
 
 \paragraph{7. Các Trường Hợp Sử Dụng Phổ Biến Của Pixel (px):}
-\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
-    \item \textbf{Độ dày đường viền (\codeinline{border-width})}: Thích hợp nhất cho viền cố định.
+
+\begin{prettyTableBox}[Bảng Tổng Hợp 6 Trường Hợp Sử Dụng Phổ Biến Của Đơn Vị Pixel]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{3.8cm}|>{\ttfamily\color{accentOrange}\bfseries}K{3.6cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Trường Hợp Sử Dụng} & \thd{Thuộc Tính CSS} & \thd{Giải Thích \& Đánh Giá} \\
+\hline
+Độ dày đường viền & border-width & Thích hợp nhất cho viền cố định $1\text{px}$ -- $3\text{px}$, không bị biến dạng. \\
+\hline
+Khoảng cách lề cố định & padding, margin & Giữ khoảng cách nhỏ chuẩn xác (ví dụ $10\text{px}$, $15\text{px}$, $20\text{px}$). \\
+\hline
+Kích thước Icon / Logo & width, height & Đảm bảo biểu tượng nhỏ không bị lệch tỷ lệ hiển thị. \\
+\hline
+Giới hạn kích thước tối đa & max-width, min-width & Giới hạn chiều rộng khung nội dung (ví dụ $960\text{px}$, $1200\text{px}$). \\
+\hline
+Hiệu ứng viền \& bóng đổ & border-radius, box-shadow & Tạo độ bo góc và độ nhòe bóng đổ chuẩn xác từng pixel. \\
+\hline
+Cỡ chữ cố định (Font Size) & font-size & Kiểm soát cỡ chữ chuẩn tuyệt đối (nhược điểm: khó zoom riêng chữ). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Mã Nguồn Mẫu Tổng Hợp Các Trường Hợp Sử Dụng px Thực Tế]
 \begin{lstlisting}[language=CSS3]
-.element { border: 1px solid #ccc; }
+/* 1. Do day duong vien co dinh: */
+.element { 
+  border: 1px solid #ccc; 
+}
+
+/* 2. Khoang cach padding va margin nho: */
+.button { 
+  padding: 10px 20px; 
+  margin-top: 15px; 
+}
+
+/* 3. Kich thuoc Icon va Logo nho: */
+.icon { 
+  width: 24px; 
+  height: 24px; 
+}
+
+/* 4. Gioi han chieu rong khung noi dung: */
+.content { 
+  max-width: 960px; /* Noi dung khong bao gio rong hon 960px */ 
+}
+
+/* 5. Bo goc va tao bong do: */
+.card {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 6. Co chu co dinh: */
+h1 { 
+  font-size: 32px; 
+}
 \end{lstlisting}
-    \item \textbf{\codeinline{padding} và \codeinline{margin} khoảng cách nhỏ/cố định}:
-\begin{lstlisting}[language=CSS3]
-.button { padding: 10px 20px; margin-top: 15px; }
-\end{lstlisting}
-    \item \textbf{Kích thước Icon, Logo và hình ảnh nhỏ}:
-\begin{lstlisting}[language=CSS3]
-.icon { width: 24px; height: 24px; }
-\end{lstlisting}
-    \item \textbf{Giới hạn kích thước (\codeinline{min-width}, \codeinline{max-width}, \codeinline{min-height}, \codeinline{max-height})}:
-\begin{lstlisting}[language=CSS3]
-.content { max-width: 960px; /* Noi dung khong bao gio rong hon 960px */ }
-\end{lstlisting}
-    \item \textbf{Hiệu ứng viền \& bóng đổ}: \codeinline{border-radius}, \codeinline{box-shadow}, \codeinline{text-shadow}.
-    \item \textbf{\codeinline{font-size} cố định}:
-\begin{lstlisting}[language=CSS3]
-h1 { font-size: 32px; }
-button { padding: 10px 20px; }
-\end{lstlisting}
-\end{itemize}
+\end{codeWindow}
 
 \paragraph{8. Khi Nào Nên Dùng px Và Khi Nào Nên Dùng Đơn Vị Tương Đối?}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
