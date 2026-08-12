@@ -13636,6 +13636,22 @@ url(image.png) & Sử dụng ảnh tùy chỉnh làm con trỏ & Game, ứng d�
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Mô Phỏng Trực Quan Kết Quả Hiển Thị 4 Tình Huống Cursor]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \begin{tabularx}{\linewidth}{Y Y Y Y}
+    \tcbox[on line, arc=4pt, colback=primaryBlue, colframe=primaryBlue, boxsep=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{\color{white}\bfseries Click me} &
+    \tcbox[on line, arc=4pt, colback=gray!15, colframe=gray!40, boxsep=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{\color{gray!80!black}\bfseries Đang xử lý...} &
+    \tcbox[on line, arc=4pt, colback=orange!10!white, colframe=orange!60!black, boxsep=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{\color{orange!90!black}\bfseries Kéo thả tôi} &
+    \tcbox[on line, arc=4pt, colback=red!10, colframe=red!40, boxsep=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{\color{red!80!black}\bfseries Ẩn con trỏ} \\
+    \vspace{2pt}\textcolor{primaryBlue}{\small (cursor: pointer)} &
+    \vspace{2pt}\textcolor{gray!80!black}{\small (cursor: wait)} &
+    \vspace{2pt}\textcolor{orange!90!black}{\small (cursor: grab)} &
+    \vspace{2pt}\textcolor{red!80!black}{\small (cursor: none)} \\
+  \end{tabularx}
+\end{tcolorbox}
+\end{browserWindow}
+
 \paragraph{4. Demo Tổ Hợp Các Kiểu Con Trỏ Chuột:}
 
 \begin{codeWindow}[Mã Demo Tổ Hợp Các Kiểu Con Trỏ]
@@ -13647,6 +13663,27 @@ url(image.png) & Sử dụng ảnh tùy chỉnh làm con trỏ & Game, ứng d�
 <div style="cursor: crosshair;">Ve toa do</div>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Demo Tổ Hợp Các Kiểu Con Trỏ Chuột]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \begin{tabularx}{\linewidth}{|X|c|c|}
+    \hline
+    \rowcolor{primaryBlue!10} \textbf{Phần Tử \& Văn Bản Hiển Thị} & \textbf{Biểu Tượng Con Trỏ} & \textbf{Kiểu Khai Báo CSS} \\
+    \hline
+    \textbf{Click được} & Bàn tay chỉ & \codeinline{cursor: pointer;} \\
+    \hline
+    \textbf{Không cho phép} & Vòng tròn gạch chéo & \codeinline{cursor: not-allowed;} \\
+    \hline
+    \textbf{Cần trợ giúp} & Dấu chấm hỏi & \codeinline{cursor: help;} \\
+    \hline
+    \textbf{Vùng nhập liệu} & Con trỏ chữ I & \codeinline{cursor: text;} \\
+    \hline
+    \textbf{Vẽ tọa độ} & Dấu cộng (+) nhỏ & \codeinline{cursor: crosshair;} \\
+    \hline
+  \end{tabularx}
+\end{tcolorbox}
+\end{browserWindow}
 
 \begin{warnBox}[Lưu Ý Khi Sử Dụng Thuộc Tính Cursor]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -13699,6 +13736,19 @@ url(image.png) & Sử dụng ảnh tùy chỉnh làm con trỏ & Game, ứng d�
 </div>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Giao Diện Nút Tùy Chỉnh (.custom-button)]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=8pt, boxrule=0.8pt, width=0.85\linewidth, top=12pt, bottom=12pt, left=16pt, right=16pt]
+  \centering
+  \tcbox[on line, arc=6pt, colback=primaryBlue, colframe=primaryBlue, boxsep=4pt, left=14pt, right=14pt, top=6pt, bottom=6pt, drop shadow=black!10!white]{%
+    \color{white}\bfseries\sffamily Nhấn vào tôi!%
+  }
+  \par\vspace{8pt}
+  \textcolor{secondaryTeal}{\small ($\rightarrow$ Khi di chuột vào nút trên: Con trỏ biến thành hình bàn tay, người dùng nhận biết ngay có thể click).}
+\end{tcolorbox}
+\end{browserWindow}
 
 \begin{noteBox}[Trải Nghiệm Người Dùng \& Lưu Ý Quan Trọng]
 Khi rê chuột vào \codeinline{div}, con trỏ sẽ biến thành bàn tay, tạo trải nghiệm giống nút bấm.
