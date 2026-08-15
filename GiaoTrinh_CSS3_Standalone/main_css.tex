@@ -1283,40 +1283,164 @@ Trong ví dụ trên với phần tử cha có \codeinline{width: 500px}:
 \end{tcolorbox}
 \end{browserWindow}
 
-\paragraph{c) Với font-size (kích thước chữ):}
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Điểm tham chiếu}: Giá trị \codeinline{font-size} của phần tử cha gần nhất.
-    \item \textbf{Cách hoạt động}: Kích thước chữ của phần tử con sẽ là một tỷ lệ phần trăm của kích thước chữ của phần tử cha.
-\end{itemize}
+\paragraph{c) Chuyên Đề Chi Tiết: Thuộc Tính font-size Với Đơn Vị Phần Trăm (\%):}
 
-\begin{codeWindow}[Ví Dụ Kế Thừa font-size Đa Cấp Theo Tỷ Lệ \%]
-\begin{lstlisting}[language=HTML5]
-<body style="font-size: 16px;">
-    <div style="font-size: 125%;">
-        <p style="font-size: 80%;">Day la doan van ban da cap.</p>
-    </div>
-</body>
-\end{lstlisting}
-\end{codeWindow}
+Tổng hợp chi tiết về việc sử dụng \codeinline{font-size} với đơn vị phần trăm (\codeinline{\%}) trong CSS, đặc biệt phân tích rõ cơ chế hoạt động khi phần tử cha không cài đặt \codeinline{font-size}:
 
-\begin{conceptBox}[Phân Tích Kích Thước Chữ Tính Toán Từng Cấp]
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item Thẻ \codeinline{<body>} có cỡ chữ gốc: $16\text{px}$.
-    \item Thẻ \codeinline{<div>} có \codeinline{font-size: 125\%} $\rightarrow (125 / 100) \times 16\text{px} = \mathbf{20\text{px}}$.
-    \item Thẻ \codeinline{<p>} có \codeinline{font-size: 80\%} (dựa trên thẻ \codeinline{<div>} cha có $20\text{px}$) $\rightarrow (80 / 100) \times 20\text{px} = \mathbf{16\text{px}}$.
+\begin{conceptBox}[1. Cách Hoạt Động Cốt Lõi Của font-size: \%]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Đơn vị \codeinline{\%} trong \codeinline{font-size} là \textbf{tỉ lệ so với font-size của phần tử cha trực tiếp}.
+    \item Nếu phần tử cha không khai báo \codeinline{font-size}, nó sẽ \textbf{tự động kế thừa ngược lên trên}, cho đến khi gặp phần tử có \codeinline{font-size} (thường là thẻ gốc \codeinline{<html>}).
+    \item Nếu xuyên suốt cây DOM không có phần tử nào khai báo, thì mặc định \codeinline{font-size} chuẩn của trình duyệt cho \codeinline{<html>} là $\mathbf{16\text{px}}$.
 \end{itemize}
 \end{conceptBox}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan Kích Thước Chữ Kế Thừa Đa Cấp (16px $\rightarrow$ 20px $\rightarrow$ 16px)]
+\begin{prettyTableBox}[2. Bảng Ma Trận: Khi Nào font-size: \% Hướng Về Thẻ <html>?]
+\rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
-  {\fontsize{13pt}{16pt}\selectfont \textcolor{primaryBlue}{\textbf{1. Thẻ <body>: $16\text{px}$ (Kích thước gốc toàn trang)}}\par}
-  \vspace{4pt}
-  {\fontsize{16pt}{20pt}\selectfont \textcolor{accentPurple}{\textbf{2. Thẻ <div>: $20\text{px}$ ($125\%$ của $16\text{px}$)}}\par}
-  \vspace{4pt}
-  {\fontsize{13pt}{16pt}\selectfont \textcolor{secondaryTeal}{\textbf{3. Thẻ <p>: $16\text{px}$ ($80\%$ của $20\text{px}$ của thẻ div cha)}}\par}
-\end{tcolorbox}
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.8cm}|>{\centering\arraybackslash\bfseries}K{2.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Tình Huống Trong DOM} & \thd{Hướng Về <html>?} & \thd{Giải Thích Cơ Chế Kế Thừa} \\
+\hline
+Không có phần tử cha nào cài đặt \codeinline{font-size} & \textcolor{green!60!black}{\textbf{[CÓ]}} & Tự động kế thừa thẳng lên thẻ gốc và lấy \codeinline{font-size} mặc định của \codeinline{<html>} ($16\text{px}$). \\
+\hline
+Phần tử cha gần nhất có cài đặt \codeinline{font-size} & \textcolor{red!80!black}{\textbf{[KHÔNG]}} & Sẽ lấy trực tiếp giá trị của cha gần nhất làm điểm tựa cơ sở để tính \codeinline{\%}. \\
+\hline
+Nhiều lớp cha lồng nhau, mỗi lớp đều dùng \codeinline{\%} & \textcolor{red!80!black}{\textbf{[KHÔNG]}} & Mỗi lớp sẽ nhân dồn theo từng cấp (Hiệu ứng Cascading Compounding), dễ gây sai lệch kích thước. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3. Ví Dụ Minh Họa \& Đo Lường Trực Quan Trên Chrome DevTools:}
+
+\paragraph{Trường Hợp 1: Không Có Phần Tử Cha Thiết Lập font-size:}
+
+\begin{codeWindow}[Mã Nguồn: Thẻ Con Dùng font-size: 150\% Khi Cha Không Set Cỡ Chữ]
+\begin{lstlisting}[language=HTML5]
+<!-- Khong co phan tu cha nao khai bao font-size -->
+<div class="child" style="font-size: 150%;">Text</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Công Thức Tính Toán Trường Hợp 1]
+Trình duyệt kế thừa cỡ chữ gốc của \codeinline{<html>} ($16\text{px}$):
+\[
+\text{font-size (.child)} = 150\% \times 16\text{px} = \left(\frac{150}{100}\right) \times 16\text{px} = \mathbf{24\text{px}}
+\]
+\end{conceptBox}
+
+\begin{browserWindow}[Mô Phỏng Chrome DevTools: font-size = 24px (Khi Cha Không Cài Đặt)]
+\sffamily\small
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Highlighted DOM element (Text) with DevTools blue overlay
+  \draw[fill=blue!30!cyan!35, draw=blue!40, line width=0.8pt] (0, 1.3) rectangle (7.5, 2.5);
+  \node[anchor=west, font=\fontsize{22pt}{26pt}\selectfont\rmfamily, color=primaryBlue!80!black] at (0.3, 1.9) {Text};
+  
+  % DevTools Tooltip HUD Callout box
+  \draw[fill=gray!90!black, draw=gray!70!black, line width=0.8pt, rounded corners=4pt] (0.2, -0.6) rectangle (5.8, 1.0);
+  
+  % DevTools Header: div.child + dimensions
+  \draw[fill=white, rounded corners=3pt] (0.3, 0.45) rectangle (5.7, 0.95);
+  \node[anchor=west, font=\footnotesize\bfseries, color=purple!80!black] at (0.45, 0.7) {div.child};
+  \node[anchor=east, font=\scriptsize\color{darkText}] at (5.5, 0.7) {420.8 $\times$ 43.2};
+  
+  % DevTools Properties
+  \node[anchor=west, font=\scriptsize\ttfamily, color=cyan!70!white] at (0.45, 0.2) {\textbf{>} display};
+  \node[anchor=east, font=\scriptsize\ttfamily, color=orange!80!white] at (5.5, 0.2) {block};
+  
+  \node[anchor=west, font=\scriptsize\ttfamily, color=cyan!70!white] at (0.45, -0.1) {\textbf{>} font-size};
+  \node[anchor=east, font=\scriptsize\ttfamily\bfseries, color=green!70!white] at (5.5, -0.1) {24px};
+  
+  \node[anchor=west, font=\scriptsize\ttfamily\itshape, color=cyan!40!white] at (0.45, -0.4) {height};
+  \node[anchor=east, font=\scriptsize\ttfamily\itshape, color=gray!40] at (5.5, -0.4) {27.2px};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả DevTools Inspector: Kích thước chữ thực tế đạt chuẩn $\mathbf{24\text{px}}$ do lấy mốc $16\text{px}$ của \codeinline{<html>}).}
 \end{browserWindow}
+
+\paragraph{Trường Hợp 2: Phần Tử Cha Có Thiết Lập font-size: 20px:}
+
+\begin{codeWindow}[Mã Nguồn: Thẻ Con Dùng font-size: 150\% Khi Cha Có font-size: 20px]
+\begin{lstlisting}[language=HTML5]
+<div class="parent" style="font-size: 20px;">
+  <div class="child" style="font-size: 150%;">Text</div>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Công Thức Tính Toán Trường Hợp 2]
+Trình duyệt lấy trực tiếp cỡ chữ của khối cha \codeinline{.parent} ($20\text{px}$) làm điểm tựa:
+\[
+\text{font-size (.child)} = 150\% \times 20\text{px} = \left(\frac{150}{100}\right) \times 20\text{px} = \mathbf{30\text{px}}
+\]
+\end{conceptBox}
+
+\begin{browserWindow}[Mô Phỏng Chrome DevTools: font-size = 30px (Khi Cha Có font-size: 20px)]
+\sffamily\small
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Highlighted DOM element (Text) with DevTools blue overlay
+  \draw[fill=blue!30!cyan!35, draw=blue!40, line width=0.8pt] (0, 1.3) rectangle (7.5, 2.5);
+  \node[anchor=west, font=\fontsize{26pt}{30pt}\selectfont\rmfamily, color=primaryBlue!80!black] at (0.3, 1.9) {Text};
+  
+  % DevTools Tooltip HUD Callout box
+  \draw[fill=gray!90!black, draw=gray!70!black, line width=0.8pt, rounded corners=4pt] (0.2, -0.6) rectangle (5.8, 1.0);
+  
+  % DevTools Header: div.child + dimensions
+  \draw[fill=white, rounded corners=3pt] (0.3, 0.45) rectangle (5.7, 0.95);
+  \node[anchor=west, font=\footnotesize\bfseries, color=purple!80!black] at (0.45, 0.7) {div.child};
+  \node[anchor=east, font=\scriptsize\color{darkText}] at (5.5, 0.7) {404.8 $\times$ 34.4};
+  
+  % DevTools Properties
+  \node[anchor=west, font=\scriptsize\ttfamily, color=cyan!70!white] at (0.45, 0.2) {\textbf{>} display};
+  \node[anchor=east, font=\scriptsize\ttfamily, color=orange!80!white] at (5.5, 0.2) {block};
+  
+  \node[anchor=west, font=\scriptsize\ttfamily, color=cyan!70!white] at (0.45, -0.1) {\textbf{>} font-size};
+  \node[anchor=east, font=\scriptsize\ttfamily\bfseries, color=green!70!white] at (5.5, -0.1) {30px};
+  
+  \node[anchor=west, font=\scriptsize\ttfamily\itshape, color=cyan!40!white] at (0.45, -0.4) {height};
+  \node[anchor=east, font=\scriptsize\ttfamily\itshape, color=gray!40] at (5.5, -0.4) {34.4px};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả DevTools Inspector: Kích thước chữ thực tế đạt chuẩn $\mathbf{30\text{px}}$ do lấy mốc $20\text{px}$ của \codeinline{.parent}).}
+\end{browserWindow}
+
+\paragraph{4. Bảng Khuyến Nghị Lựa Chọn Đơn Vị Typography (Best Practices):}
+
+\begin{prettyTableBox}[Bảng Hướng Dẫn Chọn Đơn Vị Kích Thước Chữ Trong Thực Tế]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{4.8cm}|>{\ttfamily\color{accentOrange}\bfseries}K{2.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Mục Đích Thiết Kế Giao Diện} & \thd{Nên Dùng Đơn Vị} & \thd{Lý Do \& Lợi Ích Kỹ Thuật} \\
+\hline
+Kế thừa linh hoạt theo cha gần nhất & \% & Cỡ chữ tự co giãn theo tỷ lệ của khối bao bọc. \\
+\hline
+Đồng bộ với kích thước gốc toàn trang & rem \textmd{(root em)} & Tránh hoàn toàn lỗi nhân dồn nhiều cấp, dễ quản lý trên toàn bộ hệ thống. \\
+\hline
+Tương đối theo chính phần tử con & em & Rất thích hợp cho \codeinline{padding}, \codeinline{margin}, bo góc của Component co giãn. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{5. Mẹo Cài Đặt Nhất Quán (Consistent Typography Pattern):}
+
+\begin{codeWindow}[Mã Nguồn Mẫu Thiết Lập Typography Nhất Quán]
+\begin{lstlisting}[language=CSS3]
+/* 1. Thiet lap font-size goc toan trang: */
+html {
+  font-size: 16px; /* Goc chung toan bo website */
+}
+
+/* 2. Dinh kieu cac the noi dung: */
+p {
+  font-size: 150%;  /* = 24px neu phan tu cha truc tiep la html */
+  /* Hoac su dung rem de dam bao tuyet doi: */
+  font-size: 1.5rem; /* Luon luon = 24px bat ke phan tu cha la gi */
+}
+\end{lstlisting}
+\end{codeWindow}
 
 \paragraph{d) Với line-height (chiều cao dòng):}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
