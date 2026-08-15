@@ -1486,20 +1486,25 @@ p {
 \begin{browserWindow}[Mô Phỏng Trực Quan transform: translateX(50\%) Dịch Sang Phải 50px]
 \sffamily\small
 \centering
-\begin{tcolorbox}[enhanced, colback=white, colframe=gray!30, width=260pt, height=65pt, arc=6pt, boxrule=1pt, top=6pt, bottom=6pt, left=6pt, right=6pt]
-  \begin{tikzpicture}
-    % Vị trí gốc (nét đứt)
-    \draw[dashed, gray!60, line width=1pt, fill=gray!10, rounded corners=3pt] (0,0) rectangle (2.0, 1.1);
-    \node[gray!70, font=\scriptsize\sffamily] at (1.0, 0.55) {Vị trí gốc};
-    
-    % Mũi tên dịch chuyển
-    \draw[-{Stealth[length=4pt]}, accentOrange, line width=1.3pt] (2.1, 0.55) -- (2.9, 0.55) node[midway, above, font=\tiny\sffamily\bfseries\color{accentOrange}] {+50px};
-    
-    % Vị trí mới sau translateX(50%)
-    \draw[primaryBlue, line width=1.1pt, fill=primaryBlue!15, rounded corners=3pt] (1.0,0) rectangle (3.0, 1.1);
-    \node[primaryBlue, font=\scriptsize\sffamily\bfseries] at (2.0, 0.55) {translateX(50\%)};
-  \end{tikzpicture}
-\end{tcolorbox}
+\begin{tikzpicture}[font=\sffamily]
+  % Vị trí gốc ban đầu (hộp nét đứt xám, rộng 2.5cm ~ 100px)
+  \draw[dashed, gray!60, line width=1pt, fill=gray!8, rounded corners=3pt] (0.5, 0.4) rectangle (3.0, 2.0);
+  \node[font=\scriptsize\bfseries\color{gray!70}, align=center] at (1.1, 1.2) {Vị trí\\gốc\\(0px)};
+  
+  % Vị trí mới sau translateX(50%) (dịch sang phải 1.25cm ~ 50px)
+  \draw[primaryBlue!90!black, line width=1.2pt, fill=primaryBlue!18, rounded corners=3pt] (1.75, 0.4) rectangle (4.25, 2.0);
+  \node[font=\small\bfseries\color{primaryBlue}, align=center] at (3.5, 1.2) {translateX(50\%)\\\scriptsize\bfseries (+50px)};
+
+  % Mũi tên thể hiện độ dịch chuyển ở trên đỉnh
+  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, orange!90!black, line width=1.1pt] (0.5, 2.3) -- (1.75, 2.3)
+    node[midway, above=2pt, font=\scriptsize\bfseries\color{orange!90!black}] {Dịch sang phải +50px (50\%)};
+
+  % Thước đo chiều rộng gốc bên dưới
+  \draw[decorate, decoration={brace, amplitude=4pt}, color=gray!70, line width=0.8pt] (3.0, 0.2) -- (0.5, 0.2)
+    node[midway, below=4pt, font=\tiny\bfseries\color{gray!70}] {Chiều rộng bản thân = 100px};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Phần tử tự dịch sang phải một khoảng bằng đúng $50\%$ chiều rộng của chính nó ($50\text{px}$)).}
 \end{browserWindow}
 
 \paragraph{4. Ưu Điểm Nổi Bật Của Đơn Vị Phần Trăm (\%):}
