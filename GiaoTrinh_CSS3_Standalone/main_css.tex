@@ -1271,6 +1271,18 @@ Trong ví dụ trên với phần tử cha có \codeinline{width: 500px}:
 \end{itemize}
 \end{conceptBox}
 
+\begin{browserWindow}[Mô Phỏng Trực Quan padding-top 10\% và margin-left 5\% Theo Width Cha]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=gray!15, colframe=gray!40, width=280pt, arc=6pt, boxrule=1pt, top=8pt, bottom=8pt, left=8pt, right=8pt]
+  \textcolor{darkText}{\textbf{Khối Cha (.parent): Width $500\text{px}$}}\par\vspace{5pt}
+  \hspace{14pt}\begin{tcolorbox}[colback=orange!10, colframe=orange!80!black, width=220pt, arc=4pt, boxrule=1pt, top=16pt, bottom=8pt, left=8pt, right=8pt]
+    \textcolor{orange!90!black}{\bfseries .child (Padding-top $10\% = 50\text{px}$, Margin-left $5\% = 25\text{px}$)}\par
+    \tiny Khoảng đệm phía trên và khoảng lề trái đều dựa trên chiều rộng $500\text{px}$ của khối cha.
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
+
 \paragraph{c) Với font-size (kích thước chữ):}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Điểm tham chiếu}: Giá trị \codeinline{font-size} của phần tử cha gần nhất.
@@ -1295,6 +1307,17 @@ Trong ví dụ trên với phần tử cha có \codeinline{width: 500px}:
 \end{itemize}
 \end{conceptBox}
 
+\begin{browserWindow}[Mô Phỏng Trực Quan Kích Thước Chữ Kế Thừa Đa Cấp (16px $\rightarrow$ 20px $\rightarrow$ 16px)]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+  {\fontsize{13pt}{16pt}\selectfont \textcolor{primaryBlue}{\textbf{1. Thẻ <body>: $16\text{px}$ (Kích thước gốc toàn trang)}}\par}
+  \vspace{4pt}
+  {\fontsize{16pt}{20pt}\selectfont \textcolor{accentPurple}{\textbf{2. Thẻ <div>: $20\text{px}$ ($125\%$ của $16\text{px}$)}}\par}
+  \vspace{4pt}
+  {\fontsize{13pt}{16pt}\selectfont \textcolor{secondaryTeal}{\textbf{3. Thẻ <p>: $16\text{px}$ ($80\%$ của $20\text{px}$ của thẻ div cha)}}\par}
+\end{tcolorbox}
+\end{browserWindow}
+
 \paragraph{d) Với line-height (chiều cao dòng):}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Điểm tham chiếu}: Giá trị \codeinline{font-size} của chính phần tử đó.
@@ -1309,6 +1332,16 @@ p {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan line-height: 150\% (Chiều Cao Dòng 27px Với Cỡ Chữ 18px)]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=codeBg, colframe=primaryBlue!30, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+  {\fontsize{13pt}{19.5pt}\selectfont \color{darkText}
+  Dòng thứ nhất: Đoạn văn bản có phông chữ $18\text{px}$ và chiều cao dòng $150\%$ ($27\text{px}$).\par
+  Dòng thứ hai: Khoảng cách giữa các dòng được giãn đều đặn, thông thoáng và dễ đọc trên mọi thiết bị.
+  }
+\end{tcolorbox}
+\end{browserWindow}
 
 \paragraph{e) Với transform (biến đổi hình học):}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
@@ -1325,6 +1358,25 @@ p {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan transform: translateX(50\%) Dịch Sang Phải 50px]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=white, colframe=gray!30, width=260pt, height=65pt, arc=6pt, boxrule=1pt, top=6pt, bottom=6pt, left=6pt, right=6pt]
+  \begin{tikzpicture}
+    % Vị trí gốc (nét đứt)
+    \draw[dashed, gray!60, line width=1pt, fill=gray!10, rounded corners=3pt] (0,0) rectangle (2.0, 1.1);
+    \node[gray!70, font=\scriptsize\sffamily] at (1.0, 0.55) {Vị trí gốc};
+    
+    % Mũi tên dịch chuyển
+    \draw[-{Stealth[length=4pt]}, accentOrange, line width=1.3pt] (2.1, 0.55) -- (2.9, 0.55) node[midway, above, font=\tiny\sffamily\bfseries\color{accentOrange}] {+50px};
+    
+    % Vị trí mới sau translateX(50%)
+    \draw[primaryBlue, line width=1.1pt, fill=primaryBlue!15, rounded corners=3pt] (1.0,0) rectangle (3.0, 1.1);
+    \node[primaryBlue, font=\scriptsize\sffamily\bfseries] at (2.0, 0.55) {translateX(50\%)};
+  \end{tikzpicture}
+\end{tcolorbox}
+\end{browserWindow}
 
 \paragraph{4. Ưu Điểm Nổi Bật Của Đơn Vị Phần Trăm (\%):}
 
