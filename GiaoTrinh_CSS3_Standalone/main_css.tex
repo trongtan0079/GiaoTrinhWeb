@@ -2070,54 +2070,247 @@ vmax & Giá trị lớn hơn giữa \codeinline{vw} và \codeinline{vh} & Thiế
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{1. Phân Biệt Cốt Lõi: Đơn Vị Phần Trăm (\%) vs Đơn Vị Viewport (vw/vh):}
+\paragraph{1. Chuyên Đề Sâu Về Đơn Vị vw (Viewport Width Masterclass):}
 
-\begin{codeWindow}[Ví Dụ So Sánh Giữa width: 50\% (Theo Cha) Và width: 50vw (Theo Viewport)]
+\begin{conceptBox}[1.1. Bản Chất Cốt Lõi: Đơn Vị vw Là Gì?]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Định nghĩa}: \codeinline{vw} viết tắt của \term{Viewport Width} (chiều rộng khung nhìn trình duyệt).
+    \item \textbf{Quy đổi chuẩn}: $\mathbf{1\text{vw} = 1\%}$ chiều rộng hiện tại của cửa sổ trình duyệt.
+    \item \textbf{Ví dụ minh họa}: Giả sử độ rộng cửa sổ trình duyệt người dùng là $1000\text{px}$, khi đó:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item $1\text{vw} = 1\% \times 1000\text{px} = \mathbf{10\text{px}}$.
+        \item $50\text{vw} = 50\% \times 1000\text{px} = \mathbf{500\text{px}}$.
+        \item $100\text{vw} = 100\% \times 1000\text{px} = \mathbf{1000\text{px}}$ (chiếm trọn vẹn $100\%$ bề ngang màn hình).
+    \end{itemize}
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{1.2. Khi Nào Nên Sử Dụng Đơn Vị vw?}
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Thiết kế giao diện Responsive}: Tự động co giãn mượt mà theo kích thước màn hình mà không cần viết quá nhiều Media Queries.
+    \item \textbf{Thiết kế kích thước chữ (Typography), hình ảnh, layout linh hoạt}.
+    \item \textbf{Dùng thay cho đơn vị phần trăm (\%)}: Khi bạn \textbf{không muốn phụ thuộc vào kích thước của phần tử cha}, mà muốn bám sát theo độ rộng màn hình thực tế của người dùng.
+\end{enumerate}
+
+\begin{codeWindow}[Ví Dụ Cơ Bản: Khối Luôn Chiếm 50\% Bề Ngang Màn Hình]
 \begin{lstlisting}[language=HTML5]
+<div class="box">Box 50vw</div>
+
 <style>
-/* Khung cha bi gioi han chieu rong o 300px: */
-.narrow-container {
-  width: 300px;
-  background: #e0e0e0;
-  padding: 10px;
-}
-
-/* Khoi A: 50% cua khung cha (50% cua 300px = 150px) */
-.box-percent {
-  width: 50%;
-  background: #4caf50;
+.box {
+  width: 50vw;               /* Luon chiem 50% chieu rong man hinh */
+  height: 100px;
+  background-color: tomato;  /* Mau do cam noi bat */
   color: white;
-}
-
-/* Khoi B: 50vw (50% toan bo man hinh trinh duyet, vi du man hinh 1000px -> 500px) */
-.box-viewport {
-  width: 50vw;
-  background: #2196f3;
-  color: white;
+  text-align: center;
+  line-height: 100px;
+  font-size: 18px;
 }
 </style>
-
-<div class="narrow-container">
-  <div class="box-percent">50% (Phu thuoc cha: 150px)</div>
-  <div class="box-viewport">50vw (Phu thuoc man hinh: tran khoi cha!)</div>
-</div>
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan Sự Khác Biệt Giữa 50\% Và 50vw Khi Nằm Trong Khung Hẹp]
+\begin{browserWindow}[Mô Phỏng Trực Quan: Khối width: 50vw Chiếm Nửa Màn Hình Trình Duyệt]
 \sffamily\small
-\begin{tcolorbox}[enhanced, colback=gray!15, colframe=gray!40, width=240pt, arc=6pt, boxrule=1pt, top=8pt, bottom=8pt, left=8pt, right=8pt]
-  \textcolor{darkText}{\textbf{Khung Hẹp .narrow-container ($240\text{pt}$)}}\par\vspace{5pt}
-  % 50% box
-  \begin{tcolorbox}[colback=green!70!black, colframe=green!90!black, width=110pt, arc=3pt, boxrule=0.8pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
-    \color{white}\bfseries\scriptsize 50\% cha ($110\text{pt}$)
-  \end{tcolorbox}
-  \vspace{4pt}
-  % 50vw box tràn khung
-  \begin{tcolorbox}[colback=blue!70!black, colframe=blue!90!black, width=260pt, arc=3pt, boxrule=0.8pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
-    \color{white}\bfseries\scriptsize 50vw (Tràn ra ngoài khung cha vì lấy toàn màn hình!)
-  \end{tcolorbox}
-\end{tcolorbox}
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Khung màn hình Browser Viewport (rộng 9cm)
+  \draw[fill=white, draw=gray!40, line width=0.9pt, rounded corners=4pt] (0,0) rectangle (9.0, 2.2);
+  \node[anchor=north west, font=\tiny\bfseries\color{gray!70}] at (0.2, 2.05) {Khung nhìn trình duyệt (Viewport: 100vw)};
+  
+  % Khối .box (50vw = 4.5cm)
+  \draw[fill=orange!80!red, draw=red!70!black, line width=1pt, rounded corners=3pt] (0.2, 0.2) rectangle (4.7, 1.6);
+  \node[anchor=center, font=\small\bfseries\color{white}] at (2.45, 0.9) {Box: 50vw};
+  
+  % Khoảng trống 50vw còn lại
+  \draw[dashed, draw=gray!30] (4.9, 0.2) rectangle (8.8, 1.6);
+  \node[anchor=center, font=\tiny\color{gray!50}] at (6.85, 0.9) {Khoảng trống 50vw còn lại};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Phần tử tự co lại khi màn hình thu nhỏ và tự dãn ra khi màn hình mở rộng).}
+\end{browserWindow}
+
+\paragraph{1.3. Ứng Dụng Độc Đáo: Dùng vw Cho font-size (Fluid Typography):}
+
+Khi áp dụng \codeinline{vw} cho phông chữ, chữ sẽ tự động phóng to hoặc thu nhỏ mượt mà theo từng pixel thay đổi của trình duyệt:
+
+\begin{codeWindow}[Mã Nguồn Cỡ Chữ Tự Co Giãn Theo Màn Hình]
+\begin{lstlisting}[language=CSS3]
+h1 {
+  font-size: 5vw; /* Man hinh 1200px -> 60px; Man hinh 400px -> 20px */
+  color: #0f4c81;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{1.4. Bảng Lưu Ý Quan Trọng \& Kỹ Thuật Kết Hợp An Toàn:}
+
+\begin{prettyTableBox}[Bảng 3 Lưu Ý Cốt Lõi Khi Sử Dụng Đơn Vị vw]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Lưu Ý Kỹ Thuật} & \thd{Giải Thích Chi Tiết \& Rủi Ro Cần Tránh} \\
+\hline
+Không phụ thuộc vào phần tử cha & \codeinline{vw} luôn tính theo kích thước trình duyệt, không dựa vào phần tử cha gần nhất. \\
+\hline
+Không nên dùng đơn độc cho mọi layout & Trên màn hình cực nhỏ (Mobile) phần tử có thể bị teo quá nhỏ, trên màn hình cực lớn (4K) lại bị phình to quá mức. \\
+\hline
+Cần kết hợp với \codeinline{min-width} / \codeinline{max-width} & Để thiết lập ngưỡng giới hạn an toàn, tránh vỡ bố cục trên mọi độ phân giải. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Mẫu Kết Hợp Tối Ưu Nhất Trong Thực Tế: vw + max-width + min-width]
+\begin{lstlisting}[language=CSS3]
+.box {
+  width: 80vw;         /* Co gian chiem 80% man hinh */
+  max-width: 600px;    /* Khong bao gio vuot qua 600px tren man hinh lon */
+  min-width: 300px;    /* Khong bao gio bi teo nho hon 300px tren mobile */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{1.5. Ví Dụ Chuyên Sâu 1: Khối Con 50vw Trong Khối Cha 300px (Hiện Tượng Tràn Khung):}
+
+\begin{codeWindow}[Mã Nguồn Thể Hiện Hiện Tượng Tràn Khung Khi Dùng vw Trong Khung Hẹp]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      width: 300px;           /* Phan tu cha co chieu rong chi 300px */
+      padding: 20px;
+      background-color: #e0e0e0;
+    }
+    .box {
+      width: 50vw;            /* 50% cua Viewport (Vi du: 1000px -> 500px) */
+      height: 100px;
+      background-color: crimson;
+      color: white;
+      text-align: center;
+      line-height: 100px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">Box 50vw</div>
+  </div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng: Khối .box (50vw) Vượt Ra Ngoài Khung Cha .container (300px)]
+\sffamily\small
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Khung cha .container (300px ~ 4.2cm)
+  \draw[fill=gray!20, draw=gray!50, line width=1pt, rounded corners=4pt] (0,0) rectangle (4.2, 2.6);
+  \node[anchor=north west, font=\scriptsize\bfseries, color=darkText] at (0.15, 2.45) {.container \textmd{(width: $300\text{px}$)}};
+  
+  % Khối con .box (50vw ~ 7.0cm, tràn ra khỏi 4.2cm)
+  \draw[fill=red!75!black, draw=red!95!black, line width=1pt, rounded corners=3pt] (0.2, 0.3) rectangle (7.2, 1.7);
+  \node[anchor=center, font=\small\bfseries\color{white}] at (2.2, 1.0) {.box (width: 50vw)};
+  \node[anchor=center, font=\tiny\bfseries\color{yellow!90!white}, align=center] at (5.7, 1.0) {\textbf{Tràn ra ngoài cha}\\\textbf{do lấy theo Viewport!}};
+
+  % Thước đo phần tràn bên ngoài
+  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=red!80!black] (7.2, 1.8) -- (4.2, 1.8)
+    node[midway, above=5pt, font=\tiny\bfseries, color=red!80!black] {Phần tràn ($200\text{px}$)};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{red!80!black}{\scriptsize ($\rightarrow$ \textbf{Lưu ý}: .box chiếm $50\%$ màn hình ($500\text{px}$ trên viewport $1000\text{px}$), nên sẽ tràn khỏi khung cha $300\text{px}$).}
+\end{browserWindow}
+
+\paragraph{1.6. Ví Dụ Chuyên Sâu 2: Cả Cha Và Con Đều Sử Dụng Đơn Vị vw:}
+
+\begin{codeWindow}[Mã Nguồn Cả Cha (80vw) Và Con (50vw) Dùng Đơn Vị Viewport]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .parent {
+      width: 80vw;            /* Cha chiem 80% chieu rong man hinh */
+      background-color: #e0e0e0;
+      padding: 15px;
+      margin: 0 auto;         /* Can giua man hinh */
+    }
+    .child {
+      width: 50vw;            /* Con chiem 50% MAN HINH (khong phai 50% cua cha!) */
+      height: 90px;
+      background-color: steelblue;
+      color: white;
+      text-align: center;
+      line-height: 90px;
+    }
+  </style>
+</head>
+<body>
+  <div class="parent">
+    <div class="child">Child: 50vw (50% màn hình)</div>
+  </div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Quy Tắc Đối Chiếu Cốt Lõi: vw vs \%]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khi con dùng \codeinline{width: 50vw}}: Phần tử con chiếm $50\%$ độ rộng của \textbf{toàn bộ màn hình}.
+    \item \textbf{Khi con dùng \codeinline{width: 50\%}}: Phần tử con chỉ chiếm $50\%$ độ rộng của \textbf{phần tử cha} ($50\% \times 80\text{vw} = \mathbf{40\text{vw}}$).
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{1.7. Chuyên Đề Bổ Trợ Thực Chiến: Thuộc Tính \codeinline{margin: 0 auto;} Căn Giữa Phần Tử Trong CSS:}
+
+Trong ví dụ trên, thuộc tính \codeinline{margin: 0 auto;} được dùng để căn giữa phần tử theo chiều ngang:
+
+\begin{conceptBox}[Cơ Chế Hoạt Động Của margin: 0 auto;]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{\codeinline{0}}: Khoảng cách lề trên và lề dưới (\codeinline{margin-top} và \codeinline{margin-bottom}).
+    \item \textbf{\codeinline{auto}}: Trình duyệt tự động tính toán và chia đều khoảng trống còn thừa cho lề trái (\codeinline{margin-left}) và lề phải (\codeinline{margin-right}), giúp phần tử nằm ngay chính giữa.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Điều Kiện Bắt Buộc Để margin: 0 auto; Hoạt Động]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.6cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Tiêu Chuẩn Bắt Buộc} & \thd{Chi Tiết Kỹ Thuật} \\
+\hline
+Phải có chiều rộng rõ ràng & Phần tử bắt buộc phải có \codeinline{width} hoặc \codeinline{max-width} cụ thể (ví dụ: \codeinline{300px}, \codeinline{80vw}). \\
+\hline
+Kiểu hiển thị dạng khối & Phần tử phải là \codeinline{display: block} hoặc \codeinline{display: inline-block} (thẻ \codeinline{<div>}, \codeinline{<section>}, v.v.). \\
+\hline
+Trường hợp KHÔNG hoạt động & Khi \codeinline{width: auto} (vì phần tử khối mặc định chiếm $100\%$ chiều ngang, không còn khoảng trống thừa để căn giữa). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan: margin: 0 auto; Tự Chia Đều Khoảng Trống Hai Bên]
+\sffamily\small
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Khung toàn trang
+  \draw[fill=white, draw=gray!40, line width=0.9pt, rounded corners=4pt] (0,0) rectangle (9.2, 2.0);
+  
+  % Mũi tên margin-left: auto
+  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, primaryBlue, line width=1pt] (0.2, 1.0) -- (2.5, 1.0) node[midway, above, font=\tiny\bfseries\color{primaryBlue}] {margin: auto};
+  
+  % Khối được căn giữa
+  \draw[fill=orange!80!red, draw=red!80!black, line width=1pt, rounded corners=3pt] (2.6, 0.2) rectangle (6.6, 1.8);
+  \node[anchor=center, font=\small\bfseries\color{white}, align=center] at (4.6, 1.0) {Khối Căn Giữa\\\scriptsize (width: 300px)};
+  
+  % Mũi tên margin-right: auto
+  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, primaryBlue, line width=1pt] (6.7, 1.0) -- (9.0, 1.0) node[midway, above, font=\tiny\bfseries\color{primaryBlue}] {margin: auto};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Phần tử nằm chính giữa hoàn hảo nhờ 2 lề trái và phải tự động co giãn bằng nhau).}
 \end{browserWindow}
 
 \paragraph{2. Ứng Dụng Độc Đáo Của vmin: Tạo Khối Vuông Responsive Trên Mọi Thiết Bị:}
