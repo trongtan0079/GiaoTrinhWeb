@@ -1529,17 +1529,24 @@ Một trong những cạm bẫy kinh điển và thường xuyên gây bối r�
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan Trường Hợp 1: height: 50\% Bị Co Theo Nội Dung]
+\begin{browserWindow}[Mô Phỏng: Cha Không Khai Báo height]
 \sffamily\small
 \centering
-\begin{tcolorbox}[enhanced, colback=gray!20, colframe=gray!45, width=260pt, arc=5pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
-  \textcolor{darkText}{\textbf{.parent (Không set height)}}\par\vspace{3pt}
-  \begin{tcolorbox}[colback=pink!60, colframe=pink!90!black, arc=3pt, boxrule=0.8pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
-    \textcolor{purple!90!black}{\bfseries .child (height: 50\% $\rightarrow$ Chỉ ôm khít chữ "Hello")}
-  \end{tcolorbox}
-\end{tcolorbox}
-\vspace{2pt}
-\textcolor{accentOrange}{\scriptsize ($\rightarrow$ Kết quả: .child không đạt $50\%$ chiều cao mong muốn vì .parent không có chiều cao xác định).}
+\begin{tikzpicture}[font=\sffamily]
+  % Khung cha .parent (chiều cao tự co)
+  \draw[fill=gray!20, draw=gray!60, line width=1pt, rounded corners=4pt] (0,0) rectangle (9.5, 1.4);
+  \node[anchor=north west, font=\bfseries\small, color=darkText] at (0.2, 1.3) {.parent \textmd{(Không có thuộc tính height $\rightarrow$ chiều cao co theo nội dung)}};
+  
+  % Khối con .child (bị co theo chữ)
+  \draw[fill=pink!60, draw=pink!90!black, line width=1pt, rounded corners=3pt] (0.3, 0.15) rectangle (9.2, 0.85);
+  \node[anchor=center, font=\bfseries\footnotesize, color=purple!90!black] at (4.75, 0.5) {.child \{ height: 50\%; \} $\rightarrow$ \textcolor{red!80!black}{\textbf{Bị co rút thành 26px (chỉ ôm khít chữ "Hello")}}};
+
+  % Thước đo chiều cao bên trái
+  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=red!80!black] (-0.2, 0) -- (-0.2, 1.4)
+    node[midway, left=6pt, font=\scriptsize\bfseries, color=red!80!black, align=right] {Chiều cao cha\\bằng nội dung\\($\approx 35\text{px}$)};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{red!80!black}{\scriptsize ($\rightarrow$ \textbf{Thất bại}: .child không thể tính ra $50\%$ vì .parent không có kích thước cụ thể để làm mốc).}
 \end{browserWindow}
 
 \begin{codeWindow}[Trường Hợp 2: HOẠT ĐỘNG HOÀN HẢO -- Phần Tử Cha Có height Xác Định]
@@ -1561,17 +1568,32 @@ Một trong những cạm bẫy kinh điển và thường xuyên gây bối r�
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan Trường Hợp 2: height: 50\% Đạt Chuẩn 200px]
+\begin{browserWindow}[Mô Phỏng: Cha Có height: 400px Chuẩn Mực]
 \sffamily\small
 \centering
-\begin{tcolorbox}[enhanced, colback=gray!20, colframe=gray!45, width=260pt, height=90pt, arc=5pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
-  \textcolor{darkText}{\textbf{.parent (height: $400\text{px}$)}}\par\vspace{3pt}
-  \begin{tcolorbox}[colback=pink!60, colframe=pink!90!black, height=45pt, arc=3pt, boxrule=0.8pt, top=4pt, bottom=4pt, left=6pt, right=6pt]
-    \textcolor{purple!90!black}{\bfseries .child (height: 50\% $= 200\text{px}$ chuẩn xác)}
-  \end{tcolorbox}
-\end{tcolorbox}
-\vspace{2pt}
-\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: .child chiếm chính xác một nửa chiều cao của khối cha $400\text{px}$).}
+\begin{tikzpicture}[font=\sffamily]
+  % Khung cha .parent (tổng chiều cao 400px ~ 3.4cm)
+  \draw[fill=gray!15, draw=gray!50, line width=1pt, rounded corners=4pt] (0,0) rectangle (9.5, 3.4);
+  \node[anchor=north west, font=\bfseries\small, color=darkText] at (0.2, 3.3) {.parent \{ height: 400px; background: \#e0e0e0; \}};
+  
+  % Khối con .child (chiếm đúng 50% = 200px ~ 1.5cm trên)
+  \draw[fill=pink!65, draw=purple!80!black, line width=1.1pt, rounded corners=3pt] (0.3, 1.7) rectangle (9.2, 2.9);
+  \node[anchor=center, font=\bfseries\small, color=purple!90!black] at (4.75, 2.3) {\textcolor{green!60!black}{\textbf{[ĐẠT]}} .child \{ height: 50\%; \} $= \mathbf{200\text{px}}$ (Chiếm trọn vẹn $50\%$ nửa trên)};
+  
+  % Vùng trống 50% còn lại của cha
+  \draw[dashed, draw=gray!40, fill=white!60, rounded corners=3pt] (0.3, 0.15) rectangle (9.2, 1.55);
+  \node[anchor=center, font=\scriptsize\color{codeComment}] at (4.75, 0.85) {Vùng trống $50\%$ còn lại của phần tử cha ($200\text{px}$)};
+
+  % Thước đo tổng thể bên trái (400px)
+  \draw[decorate, decoration={brace, amplitude=5pt}, line width=0.9pt, color=primaryBlue] (-0.2, 0) -- (-0.2, 3.4)
+    node[midway, left=7pt, font=\scriptsize\bfseries, color=primaryBlue, align=right] {Chiều cao cha\\$400\text{px}$ ($100\%$)};
+
+  % Thước đo con bên phải (200px)
+  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=purple!80!black] (9.7, 2.9) -- (9.7, 1.7)
+    node[midway, right=6pt, font=\scriptsize\bfseries, color=purple!90!black, align=left] {Chiều cao con\\$200\text{px}$ ($50\%$)};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ \textbf{Thành công}: Trình duyệt lấy $50\% \times 400\text{px} = 200\text{px}$ để gán chính xác cho khối con).}
 \end{browserWindow}
 
 \paragraph{c) Bảng Hướng Dẫn Cách Xử Lý Chiều Cao Linh Hoạt Trong Thực Tế:}
@@ -1655,14 +1677,24 @@ Khối \codeinline{.child} không chiếm $100\%$ chiều cao màn hình vì \co
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan Kết Quả: .child Chiếm Toàn Bộ Chiều Cao Màn Hình]
+\begin{browserWindow}[So Sánh: height: 100\% Khi Chưa vs Đã Khai Báo Cho html]
 \sffamily\small
 \centering
-\begin{tcolorbox}[enhanced, colback=pink!50, colframe=purple!70!black, width=270pt, height=80pt, arc=6pt, boxrule=1.2pt, top=14pt, bottom=14pt, left=12pt, right=12pt]
-  \centering
-  \textcolor{purple!90!black}{\bfseries KHỐI .child PHỦ KÍN $100\%$ CHIỀU CAO MÀN HÌNH}\par\vspace{4pt}
-  \textcolor{darkText}{\footnotesize (Nhờ thẻ \codeinline{html} và \codeinline{body} đều được thiết lập \codeinline{height: 100\%}).}
-\end{tcolorbox}
+\begin{tikzpicture}[font=\sffamily]
+  % Cửa sổ trái (Sai - Chưa set html)
+  \draw[fill=white, draw=red!40, line width=0.9pt, rounded corners=4pt] (0,0) rectangle (4.5, 3.4);
+  \node[anchor=north, font=\scriptsize\bfseries, color=red!80!black] at (2.25, 3.3) {[CHƯA KHAI BÁO] Chưa set <html>};
+  \draw[fill=pink!60, draw=red!70!black, line width=0.8pt, rounded corners=2pt] (0.2, 2.2) rectangle (4.3, 2.9);
+  \node[font=\tiny\bfseries\color{purple!90!black}] at (2.25, 2.55) {.child (Bị co rút $\approx 30\text{px}$)};
+  \draw[dashed, draw=gray!30] (0.2, 0.2) rectangle (4.3, 2.0);
+  \node[font=\tiny\color{gray!60}, align=center] at (2.25, 1.1) {Khoảng trắng thừa\\(body không cao $100\%$)};
+
+  % Cửa sổ phải (Đúng - Đã set html, body 100%)
+  \draw[fill=white, draw=primaryBlue!40, line width=0.9pt, rounded corners=4pt] (5.0,0) rectangle (9.5, 3.4);
+  \node[anchor=north, font=\scriptsize\bfseries, color=primaryBlue] at (7.25, 3.3) {[ĐÃ KHAI BÁO] html, body \{ height: 100\%; \}};
+  \draw[fill=pink!70, draw=purple!80!black, line width=1pt, rounded corners=2pt] (5.2, 0.2) rectangle (9.3, 2.9);
+  \node[font=\scriptsize\bfseries\color{purple!90!black}, align=center] at (7.25, 1.55) {.child \{ height: 100\%; \}\\\textbf{Phủ kín $100\%$ màn hình!}};
+\end{tikzpicture}
 \end{browserWindow}
 
 \paragraph{e) Bảng Ma Trận So Sánh Hành Vi Của Thẻ <html> Và <body> Trong CSS:}
