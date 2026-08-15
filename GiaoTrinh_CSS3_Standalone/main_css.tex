@@ -2348,21 +2348,31 @@ Trường hợp KHÔNG hoạt động & Khi \codeinline{width: auto} (vì phần
 \sffamily\small
 \centering
 \begin{tikzpicture}[font=\sffamily]
-  % Khung màn hình Browser (rộng 9cm, cao 3.2cm)
-  \draw[fill=white, draw=gray!40, line width=0.9pt, rounded corners=4pt] (0,0) rectangle (9.0, 3.2);
-  \node[anchor=north west, font=\tiny\bfseries\color{gray!70}] at (0.2, 3.05) {Cửa sổ trình duyệt (Tổng chiều cao: 100vh)};
+  % Khung màn hình Browser toàn bộ (rộng 9.2cm, cao 3.8cm)
+  \draw[fill=white, draw=gray!30, line width=1pt, rounded corners=5pt] (0,0) rectangle (9.2, 3.8);
   
-  % Khối .box chiếm 50vh nửa trên (cao 1.4cm)
-  \draw[fill=teal!70!black, draw=teal!90!black, line width=1pt, rounded corners=3pt] (0.2, 1.4) rectangle (8.8, 2.8);
-  \node[anchor=center, font=\small\bfseries\color{white}] at (4.5, 2.1) {Tôi cao 50\% màn hình};
+  % Thanh tiêu đề giả lập thanh trình duyệt ở trên cùng (cao 0.5cm)
+  \fill[gray!12, rounded corners=4pt] (0.05, 3.25) rectangle (9.15, 3.75);
+  \fill[red!60!black] (0.3, 3.5) circle (2.2pt);
+  \fill[orange!80!black] (0.55, 3.5) circle (2.2pt);
+  \fill[green!60!black] (0.8, 3.5) circle (2.2pt);
+  \node[anchor=west, font=\scriptsize\bfseries\color{gray!70}] at (1.1, 3.5) {Cửa sổ trình duyệt (Tổng chiều cao Viewport = 100vh)};
   
-  % Khoảng trống 50vh còn lại nửa dưới
-  \draw[dashed, draw=gray!30] (0.2, 0.2) rectangle (8.8, 1.25);
-  \node[anchor=center, font=\tiny\color{gray!50}] at (4.5, 0.72) {Khoảng trống 50vh còn lại phía dưới};
+  % Khối .box chiếm 50vh nửa trên (từ y = 1.75 đến y = 3.15, cao 1.4cm)
+  \draw[fill=teal!75!black, draw=teal!95!black, line width=1pt, rounded corners=3pt] (0.25, 1.75) rectangle (8.95, 3.15);
+  \node[anchor=center, font=\normalsize\bfseries\color{white}] at (4.6, 2.45) {Tôi cao 50\% màn hình};
+  
+  % Khoảng trống 50vh còn lại nửa dưới (từ y = 0.25 đến y = 1.65, cao 1.4cm)
+  \draw[dashed, draw=gray!35, fill=gray!3, rounded corners=3pt] (0.25, 0.25) rectangle (8.95, 1.65);
+  \node[anchor=center, font=\scriptsize\color{gray!55}] at (4.6, 0.95) {Khoảng trống 50vh còn lại phía dưới};
 
   % Thước đo 50vh bên trái
-  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=teal!90!black] (-0.2, 1.4) -- (-0.2, 2.8)
-    node[midway, left=5pt, font=\scriptsize\bfseries, color=teal!90!black] {$50\text{vh}$};
+  \draw[decorate, decoration={brace, amplitude=5pt}, line width=0.9pt, color=teal!90!black] (-0.25, 1.75) -- (-0.25, 3.15)
+    node[midway, left=6pt, font=\scriptsize\bfseries, color=teal!90!black] {$50\text{vh}$};
+
+  % Thước đo 100vh bên phải
+  \draw[decorate, decoration={brace, amplitude=5pt}, line width=0.9pt, color=primaryBlue] (9.45, 3.15) -- (9.45, 0.25)
+    node[midway, right=6pt, font=\scriptsize\bfseries, color=primaryBlue, align=left] {$100\text{vh}$\\(Toàn màn)};
 \end{tikzpicture}
 \par\vspace{4pt}
 \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Khối \codeinline{.box} có chiều cao chuẩn $50\%$ màn hình và chữ được căn giữa dọc hoàn hảo bằng \codeinline{line-height: 50vh}).}
