@@ -1126,174 +1126,293 @@ lh & Line height hiện tại & Tương đối với thuộc tính \codeinline{l
 
 Đơn vị phần trăm (\codeinline{\%}) trong CSS là một đơn vị tương đối cực kỳ mạnh mẽ và linh hoạt, thường được sử dụng làm nòng cốt để tạo ra các bố cục trang web tự động co giãn và đáp ứng (\term{Responsive Web Design}).
 
-\paragraph{1. Đơn Vị Phần Trăm (\%) Là Gì?}
+\paragraph{1. Đơn Vị Tương Đối (\%) Là Gì?}
 
 \begin{conceptBox}[Khái Niệm Đơn Vị Tương Đối Phần Trăm (\%)]
-\textbf{Đơn vị phần trăm (\codeinline{\%})} là một đơn vị tương đối trong CSS -- giá trị của nó không cố định mà được tính toán dựa trên một thuộc tính tương ứng của phần tử cha (\term{Parent Element}) hoặc một thuộc tính cụ thể của chính phần tử đó.
+Trước hết, cần hiểu \codeinline{\%} là một \textbf{đơn vị tương đối (\term{Relative Unit})}. Điều này có nghĩa là giá trị thực tế của nó không cố định mà sẽ thay đổi tùy thuộc vào một \textbf{yếu tố tham chiếu} khác. Yếu tố tham chiếu này thường là kích thước của phần tử cha (\term{Parent Element}) hoặc một thuộc tính cụ thể của chính phần tử đó.
 \par\vspace{4pt}
 Đơn vị \codeinline{\%} được áp dụng rộng rãi cho nhiều thuộc tính CSS quan trọng như: \codeinline{width}, \codeinline{height}, \codeinline{margin}, \codeinline{padding}, \codeinline{font-size}, \codeinline{line-height}, \codeinline{transform}, \codeinline{background-size}, \codeinline{top}, \codeinline{left}, \codeinline{right}, \codeinline{bottom}...
 \end{conceptBox}
 
-\paragraph{2. Đơn Vị \% Hoạt Động Như Thế Nào? (Quy Tắc Điểm Tham Chiếu):}
-Điểm tham chiếu để tính toán giá trị \codeinline{\%} thay đổi tùy thuộc vào thuộc tính CSS mà nó được áp dụng:
+\paragraph{2. Nguyên Tắc Hoạt Động Chung \& Công Thức Tính Đơn Vị \%:}
+
+Khi bạn gán một giá trị \codeinline{\%} cho một thuộc tính CSS, trình duyệt sẽ tính toán giá trị độ dài thực tế (\term{Computed Value} tính bằng pixel) bằng cách lấy tỷ lệ phần trăm đó nhân với giá trị cơ sở (\term{Base Value}):
+
+\begin{conceptBox}[Công Thức Chuyển Đổi Đơn Vị Phần Trăm Sang Pixel Thực Tế]
+\[
+\text{Giá Trị Thực Tế (px)} = \left( \frac{\text{Giá Trị Phần Trăm}}{100} \right) \times \text{Giá Trị Cơ Sở (px)}
+\]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Giá trị phần trăm}: Là con số bạn chỉ định trong CSS (ví dụ: \codeinline{50\%}, \codeinline{20\%}, \codeinline{150\%}...).
+    \item \textbf{Giá trị cơ sở}: Là giá trị tham chiếu mà phần trăm dựa vào (ví dụ: \codeinline{width} của phần tử cha, \codeinline{font-size} của phần tử cha...).
+    \item \textbf{Giá trị thực tế}: Là số pixel thực tế được trình duyệt tính ra và áp dụng lên màn hình.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Bảng Minh Họa Các Phép Tính Chuyển Đổi \% Cơ Bản Trong CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{2.8cm}|Z|>{\raggedright\arraybackslash \ttfamily\color{codeNumber}\bfseries}K{4.2cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thuộc Tính} & \thd{Khai Báo CSS} & \thd{Công Thức Tính Toán} & \thd{Giá Trị Thực Tế} \\
+\hline
+width & Cha $500\text{px}$, con \codeinline{width: 60\%} & (60 / 100) * 500\text{px} & $300\text{px}$ \\
+\hline
+font-size & \codeinline{body} $20\text{px}$, \codeinline{p} \codeinline{font-size: 150\%} & (150 / 100) * 20\text{px} & $30\text{px}$ \\
+\hline
+padding & Khung $400\text{px}$, \codeinline{padding: 10\%} & (10 / 100) * 400\text{px} & $40\text{px}$ (cả 4 phía) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[Bảng Tóm Tắt Nguyên Lý Hoạt Động Của Đơn Vị \%]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.2cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thành Phần} & \thd{Ý Nghĩa / Quy Tắc} \\
+\hline
+\textbf{Bản chất đơn vị} & Đơn vị tương đối (\term{Relative Unit}). \\
+\hline
+\textbf{Điểm tựa tính toán} & Phụ thuộc vào thuộc tính tương ứng của phần tử cha hoặc chính nó. \\
+\hline
+\textbf{Công thức cốt lõi} & $\text{Giá trị thực tế} = (\text{Phần trăm} / 100) \times \text{Giá trị cơ sở}$. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3. Điểm Tham Chiếu Của Đơn Vị \% Theo Từng Thuộc Tính CSS:}
+
+Đây là điểm quan trọng nhất cần nắm rõ khi sử dụng \codeinline{\%}, vì điểm tham chiếu thay đổi tùy thuộc vào thuộc tính mà bạn áp dụng nó:
 
 \begin{prettyTableBox}[Bảng Tra Cứu Điểm Tham Chiếu Của Đơn Vị \% Theo Thuộc Tính CSS]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
 \begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{3.2cm}|>{\bfseries\color{darkText}}K{3.8cm}|Z|}
 \hline
-\rowcolor{primaryBlue} \thd{Thuộc Tính CSS} & \thd{Phụ Thuộc Vào...} & \thd{Giải Thích Chi Tiết \& Ví Dụ Tính Toán} \\
+\rowcolor{primaryBlue} \thd{Thuộc Tính CSS} & \thd{Phụ Thuộc Vào...} & \thd{Giải Thích Chi Tiết \& Điểm Tham Chiếu} \\
 \hline
-width & \codeinline{width} của phần tử cha & Nếu cha rộng $500\text{px}$, con có \codeinline{width: 50\%} $\rightarrow$ con rộng $250\text{px}$. \\
+width \& height & \codeinline{width} hoặc \codeinline{height} của phần tử cha & Phần tử con có kích thước bằng tỷ lệ phần trăm của phần tử cha. \\
 \hline
-height & \codeinline{height} của phần tử cha & Cần phần tử cha có chiều cao xác định (nếu cha không set \codeinline{height}, \codeinline{height: \%} không hoạt động). \\
+padding \& margin & \textbf{\codeinline{width} của phần tử cha} & \textbf{Lưu ý cốt lõi}: Cả 4 hướng (\codeinline{top}, \codeinline{bottom}, \codeinline{left}, \codeinline{right}) đều tính theo \codeinline{width} phần tử cha! \\
 \hline
-margin / padding & \textbf{\codeinline{width} của phần tử cha} & \textbf{Lưu ý quan trọng}: Cả chiều ngang (\codeinline{left}/\codeinline{right}) và chiều dọc (\codeinline{top}/\codeinline{bottom}) của \codeinline{padding} và \codeinline{margin} \textbf{đều dựa trên chiều rộng của phần tử cha}. \\
-\hline
-font-size & \codeinline{font-size} của phần tử cha gần nhất & Nếu cha có \codeinline{font-size: 16px}, con có \codeinline{font-size: 150\%} $\rightarrow$ con đạt $24\text{px}$. \\
+font-size & \codeinline{font-size} của phần tử cha & Kích thước chữ con tính theo tỷ lệ phần trăm cỡ chữ phần tử cha gần nhất. \\
 \hline
 line-height & \codeinline{font-size} của chính phần tử đó & Tính dựa trên kích thước phông chữ thực tế của phần tử hiện tại. \\
 \hline
-transform & Kích thước của chính phần tử đó & \codeinline{transform: translateX(50\%)} sẽ dịch chuyển phần tử sang phải $50\%$ chiều rộng của chính nó. \\
+transform & Kích thước của chính phần tử đó & Tính dựa trên chiều rộng hoặc chiều cao của chính phần tử đang biến đổi. \\
 \hline
 background-size & Khung chứa ảnh nền phần tử & Tính dựa trên kích thước vùng bao chứa ảnh nền. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{3. Ví Dụ Trực Quan Khai Báo Đơn Vị \% (Khối .parent \& .child):}
+\paragraph{a) Với width (chiều rộng) và height (chiều cao):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Điểm tham chiếu}: Giá trị \codeinline{width} hoặc \codeinline{height} của phần tử cha (\term{Parent Element}).
+    \item \textbf{Cách hoạt động}: Phần tử con sẽ có chiều rộng/chiều cao bằng một tỷ lệ phần trăm nhất định của phần tử cha.
+\end{itemize}
 
-\begin{codeWindow}[Ví Dụ Tính Kích Thước Khối Con Theo \% Của Khối Cha]
+\begin{codeWindow}[Ví Dụ Tính width và height Của Khối Con Theo \% Khối Cha]
 \begin{lstlisting}[language=HTML5]
-<style>
-.parent {
-  width: 400px;
-  height: 200px;
-  background: #e0e0e0;
-}
-.child {
-  width: 50%;     /* 50% cua 400px = 200px */
-  height: 50%;    /* 50% cua 200px = 100px */
-  background: #00bcd4;
-  color: white;
-}
-</style>
-
-<div class="parent">
-  <div class="child">Child Block</div>
+<div class="parent" style="width: 400px; height: 200px; background: #e0e0e0;">
+    <div class="child" style="width: 50%; height: 75%; background: #00bcd4; color: white;">
+        Child Block
+    </div>
 </div>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{conceptBox}[Giải Thích Chi Tiết Phép Tính Kích Thước Khối Con]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Chiều rộng thực tế}: \codeinline{width: 50\%} $\rightarrow (50 / 100) \times 400\text{px} = \mathbf{200\text{px}}$.
+    \item \textbf{Chiều cao thực tế}: \codeinline{height: 75\%} $\rightarrow (75 / 100) \times 200\text{px} = \mathbf{150\text{px}}$.
+\end{itemize}
+\end{conceptBox}
 
 \begin{browserWindow}[Mô Phỏng Trực Quan Kết Quả Hiển Thị Của Khối .child (\%)]
 \sffamily\small
 \centering
 \begin{tcolorbox}[enhanced, colback=gray!20, colframe=gray!50, width=240pt, height=120pt, arc=6pt, boxrule=1pt, top=8pt, bottom=8pt, left=8pt, right=8pt]
   \textcolor{darkText}{\textbf{Khối Cha (.parent): $400\text{px} \times 200\text{px}$}}\par\vspace{4pt}
-  \begin{tcolorbox}[colback=cyan!80!black, colframe=cyan!90!black, width=120pt, height=60pt, arc=4pt, boxrule=1pt, top=4pt, bottom=4pt, left=6pt, right=6pt]
-    \color{white}\bfseries\small .child ($200\text{px} \times 100\text{px}$)\par
-    \tiny (Width 50\% cha, Height 50\% cha)
+  \begin{tcolorbox}[colback=cyan!80!black, colframe=cyan!90!black, width=120pt, height=75pt, arc=4pt, boxrule=1pt, top=4pt, bottom=4pt, left=6pt, right=6pt]
+    \color{white}\bfseries\small .child ($200\text{px} \times 150\text{px}$)\par
+    \tiny (Width 50\% cha = 200px, Height 75\% cha = 150px)
   \end{tcolorbox}
 \end{tcolorbox}
 \end{browserWindow}
 
-\paragraph{4. Điểm Đặt Biệt: padding Và margin Theo Đơn Vị \%:}
+\paragraph{b) Với padding (khoảng đệm) và margin (khoảng lề):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Điểm tham chiếu}: Giá trị \textbf{\codeinline{width} (chiều rộng) của phần tử cha}.
+    \item \textbf{Cách hoạt động (Điểm thường gây nhầm lẫn nhất)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Cả \codeinline{padding-top}, \codeinline{padding-bottom}, \codeinline{margin-top}, \codeinline{margin-bottom} (\textbf{chiều dọc}) \textbf{đều được tính dựa trên chiều rộng của phần tử cha}, chứ KHÔNG phải chiều cao.
+        \item \codeinline{padding-left}, \codeinline{padding-right}, \codeinline{margin-left}, \codeinline{margin-right} (\textbf{chiều ngang}) cũng dựa trên chiều rộng của phần tử cha.
+    \end{itemize}
+    \item \textbf{Lý do thiết kế}: Nhằm duy trì tỷ lệ khung hình (\term{Aspect Ratio}) và tính linh hoạt trong bố cục, đặc biệt là khi tạo các khối nội dung co giãn có tỷ lệ cố định.
+\end{itemize}
 
-\begin{codeWindow}[Mã Nguồn Minh Hòa padding: 10\% Theo Chiều Rộng Phủ Khối]
+\begin{codeWindow}[Mã Nguồn Minh Họa padding và margin Theo Chiều Rộng Phần Tử Cha]
 \begin{lstlisting}[language=HTML5]
-<style>
-.box {
-  width: 300px;
-  padding: 10%; /* 10% cua 300px (chieu rong cha) = 30px */
-  background: #fff3e0;
-  border: 2px solid #ff9800;
-}
-</style>
-
-<div class="box">
-  Padding-top, bottom, left, right deu la 30px vi tinh theo width (300px)!
+<div class="parent" style="width: 500px;">
+    <div class="child" style="padding-top: 10%; margin-left: 5%; background: #fff3e0; border: 1px solid #ff9800;">
+        Noi dung khoi con
+    </div>
 </div>
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan padding: 10\% Tính Theo Width Khối Cha]
-\sffamily\small
-\centering
-\begin{tcolorbox}[enhanced, colback=orange!8, colframe=orange!80!black, width=220pt, arc=6pt, boxrule=1.5pt, top=14pt, bottom=14pt, left=14pt, right=14pt]
-  \centering
-  \textcolor{darkText}{\bfseries Khối .box ($300\text{px}$ Width)}\par\vspace{4pt}
-  \textcolor{orange!90!black}{\small (Tất cả 4 hướng Padding top/bottom/left/right đều bằng $30\text{px} = 10\%$ của Width $300\text{px}$).}
-\end{tcolorbox}
-\end{browserWindow}
+\begin{conceptBox}[Giải Thích Phép Tính padding \& margin Theo \%]
+Trong ví dụ trên với phần tử cha có \codeinline{width: 500px}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{\codeinline{padding-top: 10\%}}: Khoảng đệm trên thực tế là $(10 / 100) \times 500\text{px} = \mathbf{50\text{px}}$.
+    \item \textbf{\codeinline{margin-left: 5\%}}: Khoảng lề trái thực tế là $(5 / 100) \times 500\text{px} = \mathbf{25\text{px}}$.
+\end{itemize}
+\end{conceptBox}
 
-\paragraph{5. Ưu Điểm Và Nhược Điểm Của Đơn Vị phần trăm (\%):}
+\paragraph{c) Với font-size (kích thước chữ):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Điểm tham chiếu}: Giá trị \codeinline{font-size} của phần tử cha gần nhất.
+    \item \textbf{Cách hoạt động}: Kích thước chữ của phần tử con sẽ là một tỷ lệ phần trăm của kích thước chữ của phần tử cha.
+\end{itemize}
 
-\begin{prettyTableBox}[Bảng Tổng Hợp Ưu Điểm Và Nhược Điểm Của Đơn Vị \%]
+\begin{codeWindow}[Ví Dụ Kế Thừa font-size Đa Cấp Theo Tỷ Lệ \%]
+\begin{lstlisting}[language=HTML5]
+<body style="font-size: 16px;">
+    <div style="font-size: 125%;">
+        <p style="font-size: 80%;">Day la doan van ban da cap.</p>
+    </div>
+</body>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Phân Tích Kích Thước Chữ Tính Toán Từng Cấp]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Thẻ \codeinline{<body>} có cỡ chữ gốc: $16\text{px}$.
+    \item Thẻ \codeinline{<div>} có \codeinline{font-size: 125\%} $\rightarrow (125 / 100) \times 16\text{px} = \mathbf{20\text{px}}$.
+    \item Thẻ \codeinline{<p>} có \codeinline{font-size: 80\%} (dựa trên thẻ \codeinline{<div>} cha có $20\text{px}$) $\rightarrow (80 / 100) \times 20\text{px} = \mathbf{16\text{px}}$.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{d) Với line-height (chiều cao dòng):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Điểm tham chiếu}: Giá trị \codeinline{font-size} của chính phần tử đó.
+    \item \textbf{Cách hoạt động}: Chiều cao dòng bằng tỷ lệ phần trăm của kích thước chữ của chính nó.
+\end{itemize}
+
+\begin{codeWindow}[Khai Báo line-height Theo \%]
+\begin{lstlisting}[language=CSS3]
+p {
+    font-size: 18px;
+    line-height: 150%; /* 150% cua 18px = (150 / 100) * 18px = 27px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{e) Với transform (biến đổi hình học):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Điểm tham chiếu}: Kích thước của chính phần tử đang được biến đổi.
+    \item \textbf{Cách hoạt động}: Giá trị dịch chuyển (\codeinline{translateX()}, \codeinline{translateY()}), phóng to... sẽ dựa trên kích thước của bản thân phần tử đó.
+\end{itemize}
+
+\begin{codeWindow}[Khai Báo transform: translateX(50\%) Dựa Trên Kích Thước Bản Thân]
+\begin{lstlisting}[language=CSS3]
+.box {
+    width: 100px;
+    height: 100px;
+    transform: translateX(50%); /* Dich sang phai 50% cua width (100px) = 50px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{4. Ưu Điểm Nổi Bật Của Đơn Vị Phần Trăm (\%):}
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Ưu Điểm Của Đơn Vị \% Trong Thiết Kế Web]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|Z|Z|}
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.8cm}|Z|}
 \hline
-\rowcolor{primaryBlue} \thd{Ưu Điểm Của Đơn Vị \%} & \thd{Nhược Điểm \& Cân Nhắc} \\
+\rowcolor{primaryBlue} \thd{Ưu Điểm Nổi Bật} & \thd{Phân Tích Chi Tiết \& Lợi Ích Thực Tế} \\
 \hline
-\textbf{Responsive Design (Thiết kế đáp ứng)}: Tự động co giãn theo kích thước màn hình và khung cha. & \textbf{Tính kế thừa lồng ghép phức tạp}: Việc lồng nhiều cấp phần tử con dùng \codeinline{\%} dễ gây nhầm lẫn kích thước. \\
+\textbf{Responsive Design (Thiết kế đáp ứng)} & Ưu điểm lớn nhất. Khi kích thước trình duyệt hoặc phần tử cha thay đổi, phần tử tự động co giãn theo, thích ứng mượt mà trên desktop, tablet và mobile. \\
 \hline
-\textbf{Fluid Layouts (Bố cục linh hoạt)}: Tạo giao diện ``dòng chảy'' mềm mại, tự lấp đầy không gian có sẵn. & \textbf{Khó kiểm soát kích thước nhỏ}: Không phù hợp cho các chi tiết tuyệt đối như đường viền, icon nhỏ (nên dùng \codeinline{px}). \\
+\textbf{Fluid Layouts (Bố cục linh hoạt)} & Tạo ra các bố cục dạng ``dòng chảy'' mềm mại, tự lấp đầy không gian có sẵn, tận dụng tối đa không gian màn hình. \\
 \hline
-\textbf{Dễ bảo trì mã nguồn}: Giảm thiểu số lượng đọan \codeinline{@media} query phải viết cho từng màn hình. & \textbf{Phức tạp cho typography}: Sử dụng \codeinline{\%} cho \codeinline{font-size} khó kiểm soát hơn so với \codeinline{rem} hay \codeinline{em}. \\
+\textbf{Giảm thiểu Media Queries} & Giảm đáng kể số lượng câu lệnh \codeinline{@media} phải viết, giúp mã nguồn CSS gọn gàng và dễ bảo trì hơn. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{6. Các Trường Hợp Sử Dụng Phổ Biến Của Đơn Vị \% trong Thực Tế:}
+\paragraph{5. Nhược Điểm Và Những Điều Cần Lưu Ý Khi Sử Dụng \%:}
 
-\begin{prettyTableBox}[Bảng Tổng Hợp 4 Ứng Dụng Thực Tế Phổ Biến Của Đơn Vị \%]
+\begin{prettyTableBox}[Bảng Nhược Điểm Và Cân Nhắc Kỹ Thuật Khi Dùng Đơn Vị \%]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{3.8cm}|>{\ttfamily\color{accentOrange}\bfseries}K{3.6cm}|Z|}
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{accentOrange}}K{3.8cm}|Z|}
 \hline
-\rowcolor{primaryBlue} \thd{Trường Hợp Sử Dụng} & \thd{Thuộc Tính CSS} & \thd{Mục Đích \& Hiệu Quả Giao Diện} \\
+\rowcolor{primaryBlue} \thd{Nhược Điểm / Cân Nhắc} & \thd{Phân Tích Chi Tiết \& Rủi Ro Cần Tránh} \\
 \hline
-Bố cục khung Layout \& Cột & width, margin & Tạo khung container chiếm $80\%$ -- $90\%$ màn hình và chia cột $48\%$ co giãn. \\
+\textbf{Tính kế thừa phức tạp (Cascade)} & Việc lồng ghép nhiều phần tử con liên tiếp dùng \codeinline{\%} dễ gây hiện tượng ``phình to'' hoặc ``teo nhỏ'' không mong muốn nếu không tính toán kỹ. \\
 \hline
-Tỷ lệ khoảng đệm Card & padding & Giữ khoảng đệm \codeinline{padding: 5\%} co giãn hài hòa theo độ rộng khung. \\
+\textbf{Khó kiểm soát chính xác} & Khi cần kích thước cố định tuyệt đối (như đường viền, icon nhỏ), \codeinline{\%} không phải là lựa chọn tốt (nên dùng \codeinline{px}). \\
 \hline
-Hình ảnh Responsive & max-width: 100\% & Đảm bảo ảnh không bao giờ tràn ra ngoài khung chứa, tự giữ tỷ lệ hình ảnh. \\
+\textbf{Sự phụ thuộc vào phần tử cha} & Phần tử cha phải có kích thước xác định. Nếu cha không set \codeinline{height} rõ ràng, \codeinline{height: 100\%} ở con sẽ \textbf{hoàn toàn không có tác dụng}. \\
 \hline
-Tăng giảm cỡ chữ tương quan & font-size: 110\% & Tăng kích thước chữ lớn hơn $10\%$ so với phông chữ của phần tử cha. \\
+\textbf{Vấn đề với typography} & \codeinline{rem} và \codeinline{em} thường được ưu tiên hơn \codeinline{\%} cho kích thước chữ vì mang lại khả năng quản lý tỷ lệ phông chữ nhất quán hơn. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{codeWindow}[Mã Nguồn Mẫu Ứng Dụng Thực Tế Đơn Vị \% Tạo Layout \& Ảnh Responsive]
+\paragraph{6. Khi Nào Nên Sử Dụng Đơn Vị \% Trong Thực Tế?}
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Các Trường Hợp Ứng Dụng Thực Tế Của Đơn Vị \%]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{3.8cm}|>{\ttfamily\color{accentOrange}\bfseries}K{3.4cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Trường Hợp Thực Tế} & \thd{Thuộc Tính CSS} & \thd{Mục Đích Áp Dụng} \\
+\hline
+Chia cột trong hệ thống lưới & width: 33.33\%, width: 49\% & Chia $3$ cột đều nhau ($33.33\%$) hoặc chia $2$ cột ($49\%$) kèm khoảng cách lề. \\
+\hline
+Khung bố cục chính (Container) & width: 80\%, margin: 0 auto & Tạo khung trung tâm chiếm $80\%$ độ rộng màn hình và tự động căn giữa. \\
+\hline
+Hình ảnh đáp ứng (Responsive Img) & max-width: 100\%, height: auto & Đảm bảo ảnh không bao giờ tràn ra ngoài khung chứa và giữ đúng tỷ lệ khung hình. \\
+\hline
+Duy trì tỷ lệ khoảng cách & padding: 5\% & Khoảng đệm tự co giãn tỷ lệ thuận với kích thước tổng thể của giao diện. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Mã Nguồn Mẫu Tổng Hợp Các Tình Huống Dùng Đơn Vị \% Chuẩn Mực]
 \begin{lstlisting}[language=HTML5]
 <style>
-/* 1. Thiet lap khung layout trung tam: */
+/* 1. Thiet lap khung container trung tam: */
 .container {
     width: 80%;       /* Chiem 80% chieu rong cua phan tu cha */
     margin: 0 auto;   /* Can giua khung */
 }
 
-/* 2. Chia cot co gian: */
-.column {
-    width: 48%;       /* Chiem 48% chieu rong cha */
+/* 2. Chia cot co gian trong Grid/Layout: */
+.column-3 {
+    width: 33.33%;    /* 3 cot deu nhau */
     float: left;
-    margin-right: 2%; /* Khoang cach 2% giua cac cot */
+}
+.column-2 {
+    width: 49%;       /* 2 cot co khoang cach */
+    float: left;
+    margin-right: 2%;
 }
 
-/* 3. Padding co gian theo ty le: */
+/* 3. Padding duy tri ty le: */
 .card {
-    padding: 5%;      /* Padding 5% dua tren width cua cha */
+    padding: 5%;      /* Padding 5% dua tren width phan tu cha */
 }
 
 /* 4. Hinh anh Responsive linh hoat: */
 img.responsive-img {
     max-width: 100%;  /* Anh khong bao gio vuot qua chieu rong khung cha */
     height: auto;     /* Tu dong giu dung ty le khung hinh */
-}
-
-/* 5. Font size tuong quan: */
-p.highlight {
-    font-size: 110%;  /* Lon hon 10% so voi font-size phan tu cha */
 }
 </style>
 \end{lstlisting}
@@ -1305,19 +1424,19 @@ p.highlight {
   \textcolor{primaryBlue}{\bfseries Khung Container (Width 80\% màn hình, căn giữa margin: 0 auto)}
   \par\vspace{6pt}
   \begin{tcolorbox}[colback=blue!8, colframe=blue!60!black, arc=4pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
-    \textcolor{primaryBlue}{\bfseries Cột 1 (Width 48\%)}\par
-    \textcolor{darkText}{\small Thẻ Card Padding 5\% co giãn.}
+    \textcolor{primaryBlue}{\bfseries Cột 1 (Width 49\%)}\par
+    \textcolor{darkText}{\small Thẻ Card Padding 5\% co giãn theo độ rộng cha.}
   \end{tcolorbox}
   \vspace{4pt}
   \begin{tcolorbox}[colback=blue!8, colframe=blue!60!black, arc=4pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
-    \textcolor{primaryBlue}{\bfseries Cột 2 (Width 48\%)}\par
+    \textcolor{primaryBlue}{\bfseries Cột 2 (Width 49\%)}\par
     \textcolor{darkText}{\small Ảnh \codeinline{max-width: 100\%} không tràn khung.}
   \end{tcolorbox}
 \end{tcolorbox}
 \end{browserWindow}
 
-\begin{noteBox}[Kết Luận Thực Tế Về Đơn Vị Phần Trăm (\%)]
-Đơn vị \codeinline{\%} trong CSS là một công cụ thiết yếu để xây dựng các giao diện web linh hoạt và đáp ứng. Hiểu rõ cách nó tính toán dựa trên các thuộc tính khác nhau của phần tử cha hoặc chính nó là chìa khóa để thiết kế bố cục web chuyên nghiệp.
+\begin{noteBox}[Tóm Tắt Cốt Lõi Về Đơn Vị Phần Trăm (\%)]
+Tóm lại, đơn vị \codeinline{\%} là một công cụ không thể thiếu trong CSS hiện đại, giúp bạn tạo ra các thiết kế linh hoạt và đáp ứng. Hiểu rõ \textbf{điểm tham chiếu của nó cho từng thuộc tính CSS} là chìa khóa để sử dụng nó một cách hiệu quả và tránh những lỗi bố cục không mong muốn.
 \end{noteBox}
 
 \paragraph{II. Khi Nào Dùng Đơn Vị Nào? (Best Practices Guidance)}
