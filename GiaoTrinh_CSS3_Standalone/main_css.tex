@@ -2313,14 +2313,92 @@ Trường hợp KHÔNG hoạt động & Khi \codeinline{width: auto} (vì phần
 \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Phần tử nằm chính giữa hoàn hảo nhờ 2 lề trái và phải tự động co giãn bằng nhau).}
 \end{browserWindow}
 
-\paragraph{2. Ứng Dụng Độc Đáo Của vmin: Tạo Khối Vuông Responsive Trên Mọi Thiết Bị:}
+\paragraph{2. Chuyên Đề Sâu Về Đơn Vị vh (Viewport Height Masterclass):}
 
-Khi sử dụng \codeinline{vmin}, một khối vuông có kích thước \codeinline{width: 40vmin; height: 40vmin;} sẽ luôn luôn vừa vặn hoàn hảo trong màn hình mà không bao giờ bị tràn cạnh, bất kể người dùng xoay ngang hay xoay dọc điện thoại.
+\begin{conceptBox}[2.1. Bản Chất Toán Học Của Đơn Vị vh]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Định nghĩa}: \codeinline{vh} viết tắt của \term{Viewport Height} (chiều cao khung nhìn trình duyệt).
+    \item \textbf{Quy đổi chuẩn}: $\mathbf{1\text{vh} = 1\%}$ chiều cao của cửa sổ trình duyệt hiện tại.
+    \item \textbf{Ví dụ}: Nếu trình duyệt cao $800\text{px}$ thì $1\text{vh} = 8\text{px}$, $50\text{vh} = 400\text{px}$, $100\text{vh} = 800\text{px}$.
+\end{itemize}
+\end{conceptBox}
 
-\begin{codeWindow}[Tạo Khối Vuông Tự Co Giãn Thông Minh Bằng vmin]
+\begin{codeWindow}[Ứng Dụng Thực Chiến: Tạo Hero Banner Phủ Kín 100\% Chiều Cao Màn Hình]
+\begin{lstlisting}[language=HTML5]
+<style>
+.hero-fullscreen {
+  width: 100%;
+  height: 100vh;                  /* Phu kin tron ven 100% chieu cao man hinh */
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  box-sizing: border-box;         /* Tranh sinh thanh cuon doc khi co padding */
+}
+</style>
+
+<div class="hero-fullscreen">
+  <h1>Chào Mừng Đến Với Khóa Học CSS Masterclass</h1>
+  <button class="cta-btn">Bắt Đầu Học Ngay</button>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan: Hero Section 100vh Phủ Toàn Màn Hình]
+\sffamily\small
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Khung trình duyệt Viewport (rộng 9cm, cao 3.2cm)
+  \draw[fill=blue!85!black, draw=primaryBlue!80!black, line width=1pt, rounded corners=4pt] (0,0) rectangle (9.2, 3.2);
+  
+  % Nội dung Hero căn giữa
+  \node[anchor=center, font=\bfseries\normalsize, color=white] at (4.6, 2.0) {Chào Mừng Đến Với Khóa Học CSS Masterclass};
+  \node[anchor=center, font=\scriptsize, color=white!80] at (4.6, 1.45) {Giao diện tự động căn giữa toàn màn hình với height: 100vh};
+  \draw[fill=orange!90!black, draw=orange, rounded corners=3pt] (3.3, 0.45) rectangle (5.9, 0.95);
+  \node[anchor=center, font=\scriptsize\bfseries\color{white}] at (4.6, 0.7) {Bắt Đầu Học Ngay};
+
+  % Thước đo chiều cao 100vh bên trái
+  \draw[decorate, decoration={brace, amplitude=5pt}, line width=0.9pt, color=cyan!80!white] (-0.3, 0) -- (-0.3, 3.2)
+    node[midway, left=7pt, font=\scriptsize\bfseries, color=primaryBlue, align=right] {Chiều cao\\$100\text{vh}$ ($100\%$)};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Phần tử luôn lấp đầy đúng $100\%$ chiều cao của cửa sổ trình duyệt trên mọi thiết bị).}
+\end{browserWindow}
+
+\begin{warnBox}[Cạm Bẫy Kinh Điển: Lỗi Xuất Hiện Thanh Cuộn Dọc Khi Dùng 100vh]
+Khi bạn thiết lập \codeinline{height: 100vh;} nhưng phần tử lại có thêm \codeinline{padding} hoặc \codeinline{border} mà quên khai báo \codeinline{box-sizing: border-box;}, tổng chiều cao thực tế sẽ bị cộng dồn: $\text{Tổng Chiều Cao} = 100\text{vh} + 2 \times \text{Padding}$. Việc này làm trang web dài hơn màn hình và xuất hiện thanh cuộn dọc không mong muốn!
+\end{warnBox}
+
+\paragraph{3. Chuyên Đề Sâu Về Đơn Vị vmin Và vmax:}
+
+\begin{conceptBox}[3.1. Bản Chất Toán Học Của vmin Và vmax]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item $\mathbf{1\text{vmin}} = 1\%$ của \textbf{chiều nhỏ hơn} giữa chiều rộng (\codeinline{vw}) và chiều cao (\codeinline{vh}) của khung nhìn.
+    \item $\mathbf{1\text{vmax}} = 1\%$ của \textbf{chiều lớn hơn} giữa chiều rộng (\codeinline{vw}) và chiều cao (\codeinline{vh}) của khung nhìn.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Bảng So Sánh Giá Trị vmin Và vmax Theo Hướng Màn Hình]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.8cm}|>{\centering\arraybackslash\bfseries}K{2.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Màn Hình Thiết Bị} & \thd{1vmin Bằng} & \thd{1vmax Bằng} \\
+\hline
+Màn hình dọc Mobile ($375\text{px} \times 812\text{px}$) & $1\% \text{ chiều rộng} = \mathbf{3.75\text{px}}$ & $1\% \text{ chiều cao} = \mathbf{8.12\text{px}}$ \\
+\hline
+Màn hình ngang Desktop ($1440\text{px} \times 900\text{px}$) & $1\% \text{ chiều cao} = \mathbf{9\text{px}}$ & $1\% \text{ chiều rộng} = \mathbf{14.4\text{px}}$ \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ứng Dụng vmin Tạo Khối Vuông Responsive Hoàn Hảo 1:1]
 \begin{lstlisting}[language=CSS3]
+/* Khoi vuong khong bao gio bi tran khoi man hinh tren ca Desktop va Mobile: */
 .responsive-square {
-  width: 40vmin;   /* Tu dong lay 40% cua chieu nho nhat tren man hinh */
+  width: 40vmin;   /* Lay 40% cua chieu nho nhat */
   height: 40vmin;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 12px;
@@ -2333,16 +2411,16 @@ Khi sử dụng \codeinline{vmin}, một khối vuông có kích thước \codei
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan Khối Vuông 40vmin Co Giãn Theo Chiều Nhỏ Nhất Của Màn Hình]
+\begin{browserWindow}[Mô Phỏng Trực Quan: Khối Vuông 40vmin x 40vmin Co Giãn An Toàn]
 \sffamily\small
 \centering
-\begin{tcolorbox}[enhanced, colback=purple!80!black, colframe=purple!95!black, width=90pt, height=90pt, arc=8pt, boxrule=1pt, top=16pt, bottom=16pt, left=6pt, right=6pt]
+\begin{tcolorbox}[enhanced, colback=purple!80!black, colframe=purple!95!black, width=80pt, height=80pt, arc=8pt, boxrule=1pt, top=14pt, bottom=14pt, left=6pt, right=6pt]
   \centering
   \color{white}\bfseries\small Khối Vuông\par
   \scriptsize 40vmin $\times$ 40vmin
 \end{tcolorbox}
-\vspace{2pt}
-\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Luôn giữ đúng tỷ lệ hình vuông $1:1$ hoàn mỹ trên cả màn hình dọc Portrait và ngang Landscape).}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Luôn giữ đúng tỷ lệ hình vuông $1:1$ hoàn mỹ, không bao giờ vượt quá tầm nhìn của màn hình).}
 \end{browserWindow}
 
 \paragraph{II. Khi Nào Dùng Đơn Vị Nào? (Best Practices Guidance)}
@@ -2430,15 +2508,76 @@ dvh (Dynamic) & \textbf{Co giãn tự động theo thời gian thực} & Tự đ
 \end{tcolorbox}
 \end{browserWindow}
 
-\paragraph{2. Đơn Vị Container Query Units (\codeinline{cqw}, \codeinline{cqh}, \codeinline{cqi}):}
-Khi sử dụng tính năng Modern CSS Container Queries, thay vì phụ thuộc vào kích thước toàn màn hình (Viewport), bạn có thể định cỡ các thành phần con dựa trên kích thước của chính khung chứa (\term{Container}) bao ngoài nó:
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{\codeinline{cqw} / \codeinline{cqh}}: $1\%$ chiều rộng / chiều cao của Container bao ngoài.
-    \item \textbf{\codeinline{cqi} / \codeinline{cqb}}: $1\%$ kích thước theo hướng dòng (\term{Inline}) / hướng khối (\term{Block}) của Container.
-\end{itemize}
+\paragraph{2. Đơn Vị Container Query Units (\codeinline{cqw}, \codeinline{cqh}, \codeinline{cqi}, \codeinline{cqb}):}
+
+Trong thiết kế giao diện dạng thành phần (Component-Driven Design), một thẻ Card khi đặt vào Sidebar hẹp sẽ cần giao diện nhỏ gọn, nhưng khi đặt vào khu vực Nội dung chính (Main Content) rộng sẽ cần tự động nở lớn. Container Queries giải quyết điều này bằng cách định cỡ dựa trên \textbf{kích thước của chính khung chứa bao bọc trực tiếp}:
+
+\begin{prettyTableBox}[Bảng Tra Cứu Đơn Vị Container Queries]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{2.4cm}|>{\bfseries\color{darkText}}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Đơn Vị} & \thd{Ý Nghĩa Kỹ Thuật} & \thd{Ứng Dụng Thực Tế} \\
+\hline
+cqw & $1\%$ chiều rộng Container & Định cỡ các khối con theo độ rộng khung cha. \\
+\hline
+cqh & $1\%$ chiều cao Container & Định cỡ theo chiều dọc của khung cha. \\
+\hline
+cqi & $1\%$ kích thước hướng dòng (\term{Inline}) & Tự động thích ứng theo hướng đọc (trái qua phải). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Mã Nguồn Khai Báo Container Query Units Với container-type]
+\begin{lstlisting}[language=CSS3]
+/* 1. Khai bao phan tu cha la mot Container doc lap: */
+.card-wrapper {
+  container-type: inline-size; /* Lang nghe chieu rong cua khung chua nay */
+}
+
+/* 2. Phan tu con ben trong tu dinh co theo chieu rong cua Card: */
+.card-title {
+  font-size: 5cqi; /* 5% do rong cua chinh khung card-wrapper */
+  padding: 2cqi;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng: Cùng Một Card Tự Thích Ứng Khi Nằm Trong Sidebar vs Main Content]
+\sffamily\small
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Cột Sidebar hẹp (rộng 3.2cm)
+  \draw[fill=gray!15, draw=gray!40, line width=0.8pt, rounded corners=3pt] (0,0) rectangle (3.2, 2.6);
+  \node[anchor=north, font=\tiny\bfseries\color{gray!70}] at (1.6, 2.45) {Cột Sidebar Hẹp ($200\text{px}$)};
+  \draw[fill=white, draw=primaryBlue!40, rounded corners=2pt] (0.2, 0.3) rectangle (3.0, 2.0);
+  \node[anchor=center, font=\tiny\bfseries\color{primaryBlue}] at (1.6, 1.4) {Tiêu Đề Card ($10\text{px}$)};
+  \node[anchor=center, font=\tiny\color{darkText}] at (1.6, 0.8) {font-size: 5cqi};
+
+  % Cột Main Content rộng (rộng 5.8cm)
+  \draw[fill=gray!15, draw=gray!40, line width=0.8pt, rounded corners=3pt] (3.8,0) rectangle (9.6, 2.6);
+  \node[anchor=north, font=\tiny\bfseries\color{gray!70}] at (6.7, 2.45) {Cột Main Content Rộng ($600\text{px}$)};
+  \draw[fill=white, draw=primaryBlue!40, rounded corners=2pt] (4.0, 0.3) rectangle (9.4, 2.0);
+  \node[anchor=center, font=\small\bfseries\color{primaryBlue}] at (6.7, 1.4) {Tiêu Đề Card Tự Nở Lớn ($30\text{px}$)};
+  \node[anchor=center, font=\scriptsize\color{darkText}] at (6.7, 0.8) {font-size: 5cqi};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Cùng chung một dòng CSS \codeinline{font-size: 5cqi;}, Card tự động hiển thị nhỏ trong Sidebar và nở lớn trong Main Content).}
+\end{browserWindow}
 
 \paragraph{3. Kỹ Thuật Fluid Typography Không Cần Media Query Với Hàm \codeinline{clamp()}:}
 Kết hợp đơn vị \codeinline{rem} và \codeinline{vw} với hàm \codeinline{clamp(min, val, max)} tạo ra cỡ chữ co giãn mượt mà theo độ rộng màn hình mà không cần viết hàng loạt đoạn \codeinline{@media}:
+
+\begin{conceptBox}[Cấu Trúc 3 Tham Số Của Hàm clamp()]
+\[
+\text{font-size: } \mathbf{\text{clamp}}(\text{Cỡ Nhỏ Nhất (Min)}, \ \text{Giá Trị Tuyến Tính (vw + rem)}, \ \text{Cỡ Lớn Nhất (Max)});
+\]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Min}: Ngưỡng chặn dưới, cỡ chữ không bao giờ nhỏ hơn giá trị này (ví dụ: $1\text{rem} = 16\text{px}$).
+    \item \textbf{Val}: Giá trị co giãn động theo Viewport ($2.5\text{vw} + 0.5\text{rem}$).
+    \item \textbf{Max}: Ngưỡng chặn trên, cỡ chữ không bao giờ vượt quá giá trị này (ví dụ: $2\text{rem} = 32\text{px}$).
+\end{itemize}
+\end{conceptBox}
 
 \begin{codeWindow}[Kỹ Thuật Fluid Typography Với clamp()]
 \begin{lstlisting}[language=CSS3]
