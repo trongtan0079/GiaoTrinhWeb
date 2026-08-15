@@ -1491,6 +1491,212 @@ img.responsive-img {
 Tóm lại, đơn vị \codeinline{\%} là một công cụ không thể thiếu trong CSS hiện đại, giúp bạn tạo ra các thiết kế linh hoạt và đáp ứng. Hiểu rõ \textbf{điểm tham chiếu của nó cho từng thuộc tính CSS} là chìa khóa để sử dụng nó một cách hiệu quả và tránh những lỗi bố cục không mong muốn.
 \end{noteBox}
 
+% ==============================================================================
+% CHUYÊN ĐỀ LƯU Ý THỰC TẾ VỀ THUỘC TÍNH HEIGHT (%) TRONG CSS
+% ==============================================================================
+\paragraph{7. Chuyên Đề Lưu Ý Thực Tế: Cơ Chế Hoạt Động Của height Khi Dùng Đơn Vị \% (Vấn Đề HTML, Body \& Khối Con)}
+\label{sec:css_percentage_height_masterclass}
+
+Một trong những cạm bẫy kinh điển và thường xuyên gây bối rối nhất cho các lập trình viên Frontend là: \textbf{Nếu không cài đặt chiều cao (\codeinline{height}) cho phần tử cha, nhưng lại khai báo \codeinline{height: \%} cho phần tử con, thì chiều cao phần trăm sẽ KHÔNG HOẠT ĐỘNG như kỳ vọng.}
+
+\paragraph{a) Vì Sao height: \% Không Hoạt Động Khi Cha Không Có Chiều Cao?}
+
+\begin{warnBox}[Nguyên Nhân Cốt Lõi Khiến height: \% Bị Vô Hiệu Hóa]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Trong CSS, giá trị \codeinline{height: \%} của phần tử con bắt buộc phải dựa vào \textbf{chiều cao đã được xác định rõ ràng (\term{Explicit Height})} của phần tử cha.
+    \item Nếu phần tử cha không có \codeinline{height} cụ thể, trình duyệt sẽ không có cơ sở toán học để tính toán tỷ lệ phần trăm. Kết quả là phần tử con sẽ \textbf{co lại thành $0$ hoặc chỉ vừa khít với nội dung bên trong nó}.
+\end{itemize}
+\end{warnBox}
+
+\paragraph{b) Ví Dụ Đối Chiếu Trực Quan: Không Hiệu Quả vs Hiệu Quả}
+
+\begin{codeWindow}[Trường Hợp 1: KHÔNG HIỆU QUẢ -- Phần Tử Cha Không Khai Báo height]
+\begin{lstlisting}[language=HTML5]
+<style>
+.parent {
+  background: #e0e0e0;
+  /* KHONG co height xac dinh */
+}
+.child {
+  height: 50%;   /* KHONG hoat dong dung! */
+  background: #f48fb1;
+}
+</style>
+
+<div class="parent">
+  <div class="child">Noi dung Hello</div>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Trường Hợp 1: height: 50\% Bị Co Theo Nội Dung]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=gray!20, colframe=gray!45, width=260pt, arc=5pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+  \textcolor{darkText}{\textbf{.parent (Không set height)}}\par\vspace{3pt}
+  \begin{tcolorbox}[colback=pink!60, colframe=pink!90!black, arc=3pt, boxrule=0.8pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
+    \textcolor{purple!90!black}{\bfseries .child (height: 50\% $\rightarrow$ Chỉ ôm khít chữ "Hello")}
+  \end{tcolorbox}
+\end{tcolorbox}
+\vspace{2pt}
+\textcolor{accentOrange}{\scriptsize ($\rightarrow$ Kết quả: .child không đạt $50\%$ chiều cao mong muốn vì .parent không có chiều cao xác định).}
+\end{browserWindow}
+
+\begin{codeWindow}[Trường Hợp 2: HOẠT ĐỘNG HOÀN HẢO -- Phần Tử Cha Có height Xác Định]
+\begin{lstlisting}[language=HTML5]
+<style>
+.parent {
+  height: 400px; /* Cha co chieu cao ro rang: 400px */
+  background: #e0e0e0;
+}
+.child {
+  height: 50%;   /* Hoat dong hoan hao: 50% cua 400px = 200px */
+  background: #f48fb1;
+}
+</style>
+
+<div class="parent">
+  <div class="child">Noi dung Hello</div>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Trường Hợp 2: height: 50\% Đạt Chuẩn 200px]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=gray!20, colframe=gray!45, width=260pt, height=90pt, arc=5pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+  \textcolor{darkText}{\textbf{.parent (height: $400\text{px}$)}}\par\vspace{3pt}
+  \begin{tcolorbox}[colback=pink!60, colframe=pink!90!black, height=45pt, arc=3pt, boxrule=0.8pt, top=4pt, bottom=4pt, left=6pt, right=6pt]
+    \textcolor{purple!90!black}{\bfseries .child (height: 50\% $= 200\text{px}$ chuẩn xác)}
+  \end{tcolorbox}
+\end{tcolorbox}
+\vspace{2pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: .child chiếm chính xác một nửa chiều cao của khối cha $400\text{px}$).}
+\end{browserWindow}
+
+\paragraph{c) Bảng Hướng Dẫn Cách Xử Lý Chiều Cao Linh Hoạt Trong Thực Tế:}
+
+\begin{prettyTableBox}[Bảng Giải Pháp Xử Lý Khi Cần Chiều Cao Tương Đối]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Tình Huống Giao Diện} & \thd{Cách Xử Lý Chuẩn Mực} \\
+\hline
+Cần dùng \codeinline{\%} cho \codeinline{height} & Đặt chiều cao rõ ràng cho phần tử cha (bằng \codeinline{px}, \codeinline{vh}, v.v.). \\
+\hline
+Không muốn dùng \codeinline{px} cố định & Dùng \codeinline{min-height}, mô hình \textbf{Flexbox}, \textbf{CSS Grid}, hoặc đơn vị Viewport (\codeinline{vh}, ví dụ: \codeinline{height: 50vh}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Tóm Tắt 3 Phương Án Thay Thế Khi Không Thể Dùng height: \%]
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Sử dụng Flexbox hoặc Grid}: Tự động kéo dãn phần tử con theo chiều cao cột cha bằng thuộc tính \codeinline{align-items: stretch}.
+    \item \textbf{Sử dụng đơn vị Viewport (\codeinline{vh})}: Ví dụ \codeinline{height: 50vh;} (bằng đúng $50\%$ chiều cao màn hình hiển thị), hoàn toàn độc lập với phần tử cha.
+    \item \textbf{Sử dụng \codeinline{min-height}}: Kết hợp co giãn tự nhiên theo nội dung mà vẫn đảm bảo độ cao tối thiểu cho khung giao diện.
+\end{enumerate}
+\end{tipBox}
+
+\paragraph{d) Vấn Đề Kinh Điển: Dùng height: 100\% Với Thẻ <body> Và <html>}
+
+Khi bạn muốn một khối con chiếm trọn vẹn $100\%$ chiều cao màn hình trình duyệt bằng đơn vị phần trăm, việc chỉ thiết lập \codeinline{height: 100\%;} cho thẻ \codeinline{<body>} hoặc khối con là \textbf{hoàn toàn không đủ}:
+
+\begin{codeWindow}[Lỗi Thường Gặp: Chỉ Đặt height: 100\% Cho Khối Con Hoặc Body]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      /* KHONG co height ro rang cho html -> body khong co co so chieu cao */
+      background: #e0e0e0;
+    }
+    .child {
+      height: 100%;  /* KHONG co tac dung chiem tron man hinh! */
+      background: #f48fb1;
+    }
+  </style>
+</head>
+<body>
+  <div class="child">Child khong the chiem 100% chieu cao man hinh</div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Giải Thích Cơ Chế Chuỗi Kế Thừa (Chain of Inheritance)]
+Khối \codeinline{.child} không chiếm $100\%$ chiều cao màn hình vì \codeinline{<body>} chưa có chiều cao xác định, mà bản thân \codeinline{<body>} lại phụ thuộc vào thẻ gốc \codeinline{<html>}.
+\end{conceptBox}
+
+\begin{codeWindow}[Cách Làm Đúng Chuẩn: Thiết Lập height: 100\% Đồng Thời Cho Cả html Và body]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* 1. Dat height: 100% cho ca html va body: */
+    html, body {
+      height: 100%;   /* Bat buoc phai dat cho ca hai the */
+      margin: 0;      /* Xoa margin mac dinh 8px cua trinh duyet */
+    }
+
+    /* 2. Bay gio khoi con co the dung height: 100% hoan hao: */
+    .child {
+      height: 100%;   /* Chiem dung 100% chieu cao body (toan bo viewport) */
+      background: #f48fb1;
+    }
+  </style>
+</head>
+<body>
+  <div class="child">Chiem toan bo chieu cao man hinh</div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Kết Quả: .child Chiếm Toàn Bộ Chiều Cao Màn Hình]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=pink!50, colframe=purple!70!black, width=270pt, height=80pt, arc=6pt, boxrule=1.2pt, top=14pt, bottom=14pt, left=12pt, right=12pt]
+  \centering
+  \textcolor{purple!90!black}{\bfseries KHỐI .child PHỦ KÍN $100\%$ CHIỀU CAO MÀN HÌNH}\par\vspace{4pt}
+  \textcolor{darkText}{\footnotesize (Nhờ thẻ \codeinline{html} và \codeinline{body} đều được thiết lập \codeinline{height: 100\%}).}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{e) Bảng Ma Trận So Sánh Hành Vi Của Thẻ <html> Và <body> Trong CSS:}
+
+\begin{prettyTableBox}[Bảng Đối Chiếu Quy Tắc Chiều Cao Của Thẻ html Và body]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{2.4cm}|Z|>{\sffamily\small}Z|>{\sffamily\small}Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thẻ} & \thd{Hành Vi Mặc Định} & \thd{Khi Dùng height: 100\%} & \thd{Khi Dùng height: 100vh} \\
+\hline
+html & Chiều cao tự giãn theo nội dung bên trong, không có giới hạn cứng. & Cần thiết để thẻ \codeinline{body} có thể sử dụng \codeinline{height: 100\%}. & Không bắt buộc áp dụng, vì \codeinline{vh} dựa trực tiếp trên Viewport. \\
+\hline
+body & Tự giãn theo nội dung, không tự động cao bằng toàn bộ màn hình. & Chiều cao bằng chiều cao của \codeinline{<html>} (chỉ khi \codeinline{<html>} có \codeinline{height: 100\%}). & Chiều cao bằng đúng chiều cao Viewport, hoàn toàn độc lập với thẻ \codeinline{<html>}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[Bảng Tóm Tắt Quy Trình 3 Bước Khi Dùng \% Chiều Cao Với Thẻ body]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.2cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thành Phần} & \thd{Hành Động Bắt Buộc} \\
+\hline
+Thẻ \codeinline{<html>} & Khai báo \codeinline{height: 100\%;} \\
+\hline
+Thẻ \codeinline{<body>} & Khai báo \codeinline{height: 100\%; margin: 0;} \\
+\hline
+Khối con (\codeinline{.child}) & Bây giờ có thể sử dụng \codeinline{height: \%} hoặc \codeinline{height: 100\%;} một cách chuẩn xác. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
 \paragraph{II. Khi Nào Dùng Đơn Vị Nào? (Best Practices Guidance)}
 
 \begin{prettyTableBox}[Bảng Hướng Dẫn Lựa Lựa Chọn Đơn Vị CSS Theo Tình Huống]
