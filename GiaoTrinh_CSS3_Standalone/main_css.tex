@@ -1697,118 +1697,389 @@ Khối con (\codeinline{.child}) & Bây giờ có thể sử dụng \codeinline{
 \end{tabularx}
 \end{prettyTableBox}
 
+% ==============================================================================
+% CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ EM & REM (TYPOGRAPHY & SCALABLE UI MASTERCLASS)
+% ==============================================================================
+\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị em (Em Masterclass Trong CSS)}
+\label{sec:css_em_masterclass}
+
+Đơn vị \codeinline{em} là một trong những đơn vị tương đối lâu đời và quan trọng nhất trong CSS, bắt nguồn từ thuật ngữ ngành in ấn (chiều rộng của ký tự chữ ``M'' hoa). Trong CSS hiện đại, \codeinline{em} hoạt động linh hoạt theo cơ chế kế thừa ngữ cảnh phông chữ.
+
+\paragraph{1. Quy Tắc Hoạt Động Cốt Lõi Của Đơn Vị em:}
+Điểm tham chiếu của đơn vị \codeinline{em} phụ thuộc trực tiếp vào thuộc tính CSS mà nó được áp dụng:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Khi áp dụng cho thuộc tính \codeinline{font-size}}: $1\text{em}$ bằng đúng kích thước \codeinline{font-size} của \textbf{phần tử cha trực tiếp}.
+    \item \textbf{Khi áp dụng cho các thuộc tính kích thước khác} (\codeinline{padding}, \codeinline{margin}, \codeinline{width}, \codeinline{border-radius}...): $1\text{em}$ bằng đúng kích thước \codeinline{font-size} của \textbf{chính phần tử đó}.
+\end{itemize}
+
+\begin{prettyTableBox}[Bảng Điểm Tham Chiếu Của Đơn Vị em]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{3.6cm}|>{\bfseries\color{darkText}}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thuộc Tính Áp Dụng} & \thd{Điểm Tựa Tham Chiếu} & \thd{Công Thức Tính Toán Độ Dài Thực Tế} \\
+\hline
+font-size & \codeinline{font-size} của phần tử cha & $\text{Cỡ chữ thực tế} = \text{Giá trị em} \times \text{font-size của cha}$. \\
+\hline
+padding, margin, width, border-radius & \textbf{\codeinline{font-size} của chính nó} & $\text{Kích thước thực tế} = \text{Giá trị em} \times \text{font-size của chính phần tử}$. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{2. Cạm Bẫy Cần Tránh: Hiệu Ứng Nhân Dồn Kích Thước (Em Compounding Effect):}
+
+Khi bạn lồng ghép nhiều cấp phần tử con liên tiếp và mỗi cấp đều sử dụng \codeinline{font-size} bằng đơn vị \codeinline{em}, kích thước chữ sẽ bị \textbf{nhân dồn qua từng tầng}, dẫn đến việc phần tử càng lồng sâu thì chữ càng phình to hoặc teo nhỏ một cách khó kiểm soát.
+
+\begin{codeWindow}[Minh Họa Hiện Tượng Nhân Dồn Kích Thước Với Danh Sách Menu Lồng Nhau]
+\begin{lstlisting}[language=HTML5]
+<style>
+/* Co chu goc cua danh sach: 16px */
+ul.compounding-menu {
+  font-size: 16px;
+}
+
+/* Moi cap danh sach con deu tang kich thuoc them 1.2em */
+ul.compounding-menu li {
+  font-size: 1.2em; /* 1.2 * font-size cua ul cha truc tiep */
+}
+</style>
+
+<ul class="compounding-menu">
+  <li>Cap 1 (16px * 1.2 = 19.2px)
+    <ul>
+      <li>Cap 2 (19.2px * 1.2 = 23.04px)
+        <ul>
+          <li>Cap 3 (23.04px * 1.2 = 27.65px - Bi phinh to qua muc!)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Phân Tích Toán Học Phép Nhân Dồn Đơn Vị em]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Cấp 1}: $1.2\text{em} \times 16\text{px} = \mathbf{19.2\text{px}}$.
+    \item \textbf{Cấp 2}: $1.2\text{em} \times 19.2\text{px} = \mathbf{23.04\text{px}}$.
+    \item \textbf{Cấp 3}: $1.2\text{em} \times 23.04\text{px} = \mathbf{27.65\text{px}}$ (gần gấp đôi kích thước phông chữ gốc ban đầu).
+\end{itemize}
+\end{conceptBox}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Hiệu Ứng Nhân Dồn Khi Dùng em Cho Danh Sách Lồng]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+  {\fontsize{13pt}{16pt}\selectfont \textcolor{primaryBlue}{\textbf{$\bullet$ Cấp 1 ($19.2\text{px}$): Menu cha tiêu chuẩn}}\par}
+  \vspace{3pt}
+  \hspace{16pt}{\fontsize{15pt}{19pt}\selectfont \textcolor{accentPurple}{\textbf{$\circ$ Cấp 2 ($23.04\text{px}$): Chữ bắt đầu to hơn rõ rệt}}\par}
+  \vspace{3pt}
+  \hspace{32pt}{\fontsize{18pt}{22pt}\selectfont \textcolor{red!80!black}{\textbf{-- Cấp 3 ($27.65\text{px}$): Chữ bị phình to ngoài ý muốn!}}\par}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{3. Ứng Dụng Thực Tế Tuyệt Vời Của em: Nút Bấm Co Giãn Tự Động (Scalable Buttons):}
+
+Mặc dù \codeinline{em} phức tạp cho \codeinline{font-size}, nhưng nó lại là \textbf{vũ khí tối thượng để thiết kế các thành phần UI có khả năng tự động co giãn tỷ lệ} (\term{Scalable Components}). Khi sử dụng \codeinline{em} cho \codeinline{padding} và \codeinline{border-radius} của nút bấm, khoảng đệm sẽ tự động mở rộng hài hòa khi bạn thay đổi cỡ chữ mà không cần viết thêm bất kỳ dòng CSS nào!
+
+\begin{codeWindow}[Mã Nguồn Nút Bấm Co Giãn Tỷ Lệ Hoàn Hảo Với Đơn Vị em]
+\begin{lstlisting}[language=HTML5]
+<style>
+/* Khung nut bam co ban: Padding va Radius dua theo font-size cua chinh no */
+.btn {
+  font-family: inherit;
+  font-weight: bold;
+  padding: 0.5em 1.2em;      /* 0.5em tren/duoi, 1.2em trai/phai */
+  border-radius: 0.35em;     /* Bo goc ty le theo co chu */
+  background: #0f4c81;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Nut nho (Small): */
+.btn-sm { font-size: 12px; }  /* Padding tu tinh: 6px 14.4px, Radius: 4.2px */
+
+/* Nut tieu chuan (Medium): */
+.btn-md { font-size: 16px; }  /* Padding tu tinh: 8px 19.2px, Radius: 5.6px */
+
+/* Nut lon (Large): */
+.btn-lg { font-size: 22px; }  /* Padding tu tinh: 11px 26.4px, Radius: 7.7px */
+</style>
+
+<button class="btn btn-sm">Small Button</button>
+<button class="btn btn-md">Medium Button</button>
+<button class="btn btn-lg">Large Button</button>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Bộ Nút Bấm Tự Co Giãn Tỷ Lệ Theo Cỡ Chữ (Scalable Buttons)]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=7pt, right=7pt, top=3pt, bottom=3pt]{%
+    \color{white}\bfseries\scriptsize Small Button ($12\text{px}$)
+  } \hspace{10pt}
+  \tcbox[on line, arc=4pt, colback=primaryBlue, colframe=primaryBlue, boxsep=3pt, left=10pt, right=10pt, top=4pt, bottom=4pt]{%
+    \color{white}\bfseries\small Medium Button ($16\text{px}$)
+  } \hspace{10pt}
+  \tcbox[on line, arc=6pt, colback=primaryBlue, colframe=primaryBlue, boxsep=4pt, left=14pt, right=14pt, top=6pt, bottom=6pt]{%
+    \color{white}\bfseries\large Large Button ($22\text{px}$)
+  }
+  \par\vspace{6pt}
+  \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Khoảng cách Padding và Bo góc tự động nở rộng tỷ lệ thuận theo cỡ chữ mà không cần viết lại thuộc tính padding).}
+\end{tcolorbox}
+\end{browserWindow}
+
+% ==============================================================================
+% CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ REM (ROOT EM MASTERCLASS)
+% ==============================================================================
+\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị rem (Rem Masterclass Trong CSS)}
+\label{sec:css_rem_masterclass}
+
+Đơn vị \codeinline{rem} (viết tắt của \term{Root EM}) ra đời để khắc phục triệt để nhược điểm nhân dồn phức tạp của \codeinline{em}. Giá trị của \codeinline{rem} luôn luôn cố định dựa trên \codeinline{font-size} của \textbf{phần tử gốc duy nhất của trang web là thẻ \codeinline{<html>}}.
+
+\begin{conceptBox}[Công Thức Chuyển Đổi Đơn Vị rem Sang Pixel]
+\[
+\text{Giá Trị Thực Tế (px)} = \text{Giá Trị rem} \times \text{font-size của thẻ gốc \codeinline{<html>} (Mặc định: } 16\text{px)}
+\]
+\end{conceptBox}
+
+\begin{prettyTableBox}[Bảng Tra Cứu Quy Đổi Nhanh Từ Pixel Sang rem (Chuẩn Gốc 16px)]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{2.8cm}|>{\ttfamily\color{codeNumber}\bfseries}K{2.4cm}|>{\ttfamily\color{secondaryTeal}\bfseries}K{2.4cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Mục Đích Dùng} & \thd{Pixel (px)} & \thd{Giá Trị rem} & \thd{Giải Thích Quy Đổi} \\
+\hline
+Chú thích nhỏ (Small Text) & $12\text{px}$ & 0.75rem & $12 / 16 = 0.75\text{rem}$. \\
+\hline
+Chữ phụ (Secondary Text) & $14\text{px}$ & 0.875rem & $14 / 16 = 0.875\text{rem}$. \\
+\hline
+Văn bản chuẩn (Body Text) & $16\text{px}$ & 1rem & $16 / 16 = 1\text{rem}$ (Chuẩn mặc định trình duyệt). \\
+\hline
+Tiêu đề phụ (Subheading) & $20\text{px}$ & 1.25rem & $20 / 16 = 1.25\text{rem}$. \\
+\hline
+Tiêu đề H2 (Heading 2) & $24\text{px}$ & 1.5rem & $24 / 16 = 1.5\text{rem}$. \\
+\hline
+Tiêu đề H1 (Heading 1) & $32\text{px}$ & 2rem & $32 / 16 = 2\text{rem}$. \\
+\hline
+Tiêu đề Hero Banner & $48\text{px}$ & 3rem & $48 / 16 = 3\text{rem}$. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{4. Ma Trận So Sánh Toàn Diện: em vs rem}
+
+\begin{prettyTableBox}[Bảng So Sánh Đối Chiếu Chi Tiết Giữa em Và rem]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{3.2cm}|Z|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Tiêu Chí So Sánh} & \thd{Đơn Vị em} & \thd{Đơn Vị rem} \\
+\hline
+\textbf{Điểm tham chiếu} & Phần tử cha gần nhất (với \codeinline{font-size}) hoặc chính nó (với padding/margin). & Thẻ gốc \codeinline{<html>} duy nhất trên toàn bộ trang. \\
+\hline
+\textbf{Độ phức tạp kiểm soát} & \textcolor{red!80!black}{\textbf{[Phức tạp]}} Dễ bị nhân dồn kích thước khi lồng nhau nhiều cấp. & \textcolor{green!60!black}{\textbf{[Rất dễ]}} Đồng nhất, dự đoán chính xác kích thước ở mọi nơi trong DOM. \\
+\hline
+\textbf{Khả năng mở rộng (Scaling)} & Cục bộ theo từng thành phần (Component-level). & Toàn cục trên quy mô cả trang web (Global-level). \\
+\hline
+\textbf{Trường hợp tối ưu nhất} & Tạo khoảng đệm (\codeinline{padding}), bo góc (\codeinline{border-radius}) cho nút bấm co giãn. & Định cỡ phông chữ (\codeinline{font-size}), khoảng cách bố cục (\codeinline{margin}, \codeinline{gap}) chuẩn Responsive. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+% ==============================================================================
+% CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ VIEWPORT (VIEWPORT UNITS MASTERCLASS)
+% ==============================================================================
+\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị Viewport (vw, vh, vmin, vmax Masterclass)}
+\label{sec:css_viewport_masterclass}
+
+Đơn vị Viewport trong CSS lấy \textbf{kích thước khung nhìn của cửa sổ trình duyệt (\term{Viewport})} làm thước đo tham chiếu. Điều tuyệt vời nhất của đơn vị Viewport là: \textbf{Nó hoàn toàn độc lập với phần tử cha}, bất kể phần tử nằm sâu bao nhiêu cấp trong cây DOM.
+
+\begin{prettyTableBox}[Bảng Tra Cứu 4 Đơn Vị Viewport Chuẩn Trong CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{2.4cm}|>{\bfseries\color{darkText}}K{3.6cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Đơn Vị} & \thd{Ý Nghĩa Toán Học} & \thd{Ứng Dụng Thực Chiến Phổ Biến} \\
+\hline
+vw & $1\text{vw} = 1\%$ chiều rộng Viewport & Banner toàn màn hình, co giãn bố cục ngang không phụ thuộc cha. \\
+\hline
+vh & $1\text{vh} = 1\%$ chiều cao Viewport & Khối Hero Section phủ kín $100\%$ chiều cao màn hình (\codeinline{height: 100vh}). \\
+\hline
+vmin & Giá trị nhỏ hơn giữa \codeinline{vw} và \codeinline{vh} & Tạo hình vuông Responsive hoàn hảo trên cả màn hình dọc và ngang. \\
+\hline
+vmax & Giá trị lớn hơn giữa \codeinline{vw} và \codeinline{vh} & Thiết kế phông chữ cho màn hình cực lớn hoặc chữ nền trang trí. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{1. Phân Biệt Cốt Lõi: Đơn Vị Phần Trăm (\%) vs Đơn Vị Viewport (vw/vh):}
+
+\begin{codeWindow}[Ví Dụ So Sánh Giữa width: 50\% (Theo Cha) Và width: 50vw (Theo Viewport)]
+\begin{lstlisting}[language=HTML5]
+<style>
+/* Khung cha bi gioi han chieu rong o 300px: */
+.narrow-container {
+  width: 300px;
+  background: #e0e0e0;
+  padding: 10px;
+}
+
+/* Khoi A: 50% cua khung cha (50% cua 300px = 150px) */
+.box-percent {
+  width: 50%;
+  background: #4caf50;
+  color: white;
+}
+
+/* Khoi B: 50vw (50% toan bo man hinh trinh duyet, vi du man hinh 1000px -> 500px) */
+.box-viewport {
+  width: 50vw;
+  background: #2196f3;
+  color: white;
+}
+</style>
+
+<div class="narrow-container">
+  <div class="box-percent">50% (Phu thuoc cha: 150px)</div>
+  <div class="box-viewport">50vw (Phu thuoc man hinh: tran khoi cha!)</div>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Sự Khác Biệt Giữa 50\% Và 50vw Khi Nằm Trong Khung Hẹp]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=gray!15, colframe=gray!40, width=240pt, arc=6pt, boxrule=1pt, top=8pt, bottom=8pt, left=8pt, right=8pt]
+  \textcolor{darkText}{\textbf{Khung Hẹp .narrow-container ($240\text{pt}$)}}\par\vspace{5pt}
+  % 50% box
+  \begin{tcolorbox}[colback=green!70!black, colframe=green!90!black, width=110pt, arc=3pt, boxrule=0.8pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
+    \color{white}\bfseries\scriptsize 50\% cha ($110\text{pt}$)
+  \end{tcolorbox}
+  \vspace{4pt}
+  % 50vw box tràn khung
+  \begin{tcolorbox}[colback=blue!70!black, colframe=blue!90!black, width=260pt, arc=3pt, boxrule=0.8pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
+    \color{white}\bfseries\scriptsize 50vw (Tràn ra ngoài khung cha vì lấy toàn màn hình!)
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{2. Ứng Dụng Độc Đáo Của vmin: Tạo Khối Vuông Responsive Trên Mọi Thiết Bị:}
+
+Khi sử dụng \codeinline{vmin}, một khối vuông có kích thước \codeinline{width: 40vmin; height: 40vmin;} sẽ luôn luôn vừa vặn hoàn hảo trong màn hình mà không bao giờ bị tràn cạnh, bất kể người dùng xoay ngang hay xoay dọc điện thoại.
+
+\begin{codeWindow}[Tạo Khối Vuông Tự Co Giãn Thông Minh Bằng vmin]
+\begin{lstlisting}[language=CSS3]
+.responsive-square {
+  width: 40vmin;   /* Tu dong lay 40% cua chieu nho nhat tren man hinh */
+  height: 40vmin;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Khối Vuông 40vmin Co Giãn Theo Chiều Nhỏ Nhất Của Màn Hình]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=purple!80!black, colframe=purple!95!black, width=90pt, height=90pt, arc=8pt, boxrule=1pt, top=16pt, bottom=16pt, left=6pt, right=6pt]
+  \centering
+  \color{white}\bfseries\small Khối Vuông\par
+  \scriptsize 40vmin $\times$ 40vmin
+\end{tcolorbox}
+\vspace{2pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Luôn giữ đúng tỷ lệ hình vuông $1:1$ hoàn mỹ trên cả màn hình dọc Portrait và ngang Landscape).}
+\end{browserWindow}
+
 \paragraph{II. Khi Nào Dùng Đơn Vị Nào? (Best Practices Guidance)}
 
-\begin{prettyTableBox}[Bảng Hướng Dẫn Lựa Lựa Chọn Đơn Vị CSS Theo Tình Huống]
+\begin{prettyTableBox}[Bảng Hướng Dẫn Lựa Chọn Đơn Vị CSS Theo Tình Huống]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
 \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{3.5cm}|>{\ttfamily\color{accentOrange}\bfseries}K{3.0cm}|Z|}
 \hline
 \rowcolor{primaryBlue} \thd{Tình Huống Sử Dụng} & \thd{Nên Dùng Đơn Vị Gì?} & \thd{Vì Sao? (Lý Do Kỹ Thuật)} \\
 \hline
-Thiết kế Responsive Layout & \%, vw, vh, rem & Thích nghi tốt với mọi kích thước màn hình. \\
+Cỡ chữ toàn trang (\codeinline{font-size}) & rem & Giúp điều chỉnh quy mô tập trung từ thẻ gốc \codeinline{<html>} và bảo toàn Accessibility. \\
 \hline
-Phông chữ dễ kiểm soát & rem & Dễ điều chỉnh tập trung từ thẻ gốc (\codeinline{<html>}). \\
+Khoảng đệm nút bấm (\codeinline{padding}) & em & Tự động phóng to/thu nhỏ tỷ lệ thuận theo cỡ chữ của từng nút bấm. \\
 \hline
-Khoảng cách Padding / Margin & em, rem, \% & Tùy thuộc vào tính kế thừa và ngữ cảnh thành phần. \\
+Chia cột bố cục (\codeinline{width}) & \%, CSS Grid, Flexbox & Co giãn mượt mà theo kích thước khung chứa cha. \\
 \hline
-Kích thước ảnh, khung cố định & px & Chính xác tuyệt đối, dễ canh chỉnh các chi tiết nhỏ. \\
+Hero Section, Banner toàn màn hình & vh, vw, dvh & Phủ kín $100\%$ kích thước màn hình mà không cần phụ thuộc vào cây DOM cha. \\
 \hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\paragraph{III. So Sánh Nhanh: em vs rem (Comparative Matrix)}
-
-\begin{prettyTableBox}[Bảng So Sánh Chi Tiết Giữa Hai Đơn Vị em Và rem]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{3.2cm}|Z|Z|}
-\hline
-\rowcolor{primaryBlue} \thd{Thuộc Tính So Sánh} & \thd{Đơn Vị em} & \thd{Đơn Vị rem} \\
-\hline
-\textbf{Dựa vào đâu?} & \codeinline{font-size} của phần tử cha gần nhất & \codeinline{font-size} của thẻ gốc \codeinline{<html>} \\
-\hline
-\textbf{Dễ kiểm soát?} & \textcolor{red!80!black}{\textbf{[Khó]}} Có thể bị lồng nhau quá mức (phóng đại kích thước) & \textcolor{green!60!black}{\textbf{[Dễ]}} Dễ kiểm soát, đồng nhất toàn bộ trang web \\
-\hline
-\textbf{Dùng khi nào?} & Muốn kích thước co giãn theo bối cảnh phần tử gần nhất & Muốn toàn trang đồng bộ và dễ điều chỉnh tỷ lệ \\
+Chi tiết nhỏ cố định (Border, Icon, Shadow) & px & Kiểm soát chính xác tuyệt đối từng điểm ảnh (\term{Pixel-Perfect}). \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{IV. Ví Dụ Minh Họa Khai Báo Các Đơn Vị CSS}
-
-\begin{codeWindow}[Ví Dụ Sử Dụng rem, em, \%, vw và vh Trong CSS]
-\begin{lstlisting}[language=HTML5]
-<style>
-/* 1. Dat font-size goc cho toan trang: 1rem = 16px */
-html {
-  font-size: 16px; 
-}
-
-/* 2. Su dung phan tram, em va rem: */
-.box1 {
-  width: 50%;        /* 50% chieu rong cua phan tu cha */
-  padding: 2em;      /* 2 * font-size cua chinh no (32px neu font 16px) */
-  font-size: 1.2rem; /* 1.2 * font-size html = 19.2px */
-  background: #e3f2fd;
-  border: 2px solid #2196f3;
-}
-
-/* 3. Su dung don vi Viewport (vw, vh): */
-.box2 {
-  width: 80vw;       /* 80% chieu ngang khung hinh trinh duyet */
-  height: 30vh;      /* 30% chieu cao khung hinh trinh duyet */
-  background: #f1f8e9;
-  border: 2px solid #8bc34a;
-}
-</style>
-
-<div class="box1">Box 1: Dung phan tram, em va rem</div>
-<div class="box2">Box 2: Dung 80vw x 30vh Viewport</div>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Mô Phỏng Trực Quan Kết Quả Hiển Thị Của Đơn Vị CSS (.box1 \& .box2)]
-\sffamily\small
-\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  % Box 1 simulation
-  \begin{tcolorbox}[colback=blue!8, colframe=blue!60!black, arc=4pt, boxrule=1pt, width=0.6\linewidth, top=8pt, bottom=8pt, left=10pt, right=10pt]
-    \textcolor{primaryBlue}{\bfseries\large Box 1: Width 50\%, Padding 2em, Font 1.2rem}\par
-    \textcolor{darkText}{\small (Kích thước chữ $19.2\text{px}$, Padding $38.4\text{px}$ co giãn theo ngữ cảnh thẻ gốc \& thẻ cha).}
-  \end{tcolorbox}
-  \vspace{8pt}
-  % Box 2 simulation
-  \begin{tcolorbox}[colback=green!8, colframe=green!60!black, arc=4pt, boxrule=1pt, width=0.9\linewidth, top=8pt, bottom=8pt, left=10pt, right=10pt]
-    \textcolor{green!40!black}{\bfseries\large Box 2: Width 80vw, Height 30vh Viewport}\par
-    \textcolor{darkText}{\small (Kích thước luôn chiếm đúng $80\%$ chiều rộng màn hình trình duyệt hiện tại).}
-  \end{tcolorbox}
-\end{tcolorbox}
-\end{browserWindow}
-
-\paragraph{V. Mẹo \& Lưu Ý Quan Trọng (Tips \& Best Practices)}
+\paragraph{III. Mẹo \& Lưu Ý Quan Trọng (Tips \& Best Practices)}
 
 \begin{tipBox}[Mẹo Thực Chiến \& Lưu Ý Cốt Lõi Khi Dùng Đơn Vị CSS]
 \begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
-    \item $\rightarrow$ \textbf{\codeinline{rem} nên dùng cho kích thước chữ (\codeinline{font-size})}: Giúp thay đổi quy mô chữ toàn bộ trang dễ dàng chỉ qua 1 dòng CSS thay đổi trên thẻ gốc \codeinline{html}.
-    \item $\rightarrow$ \textbf{\codeinline{px} hạn chế dùng trong layout}: \codeinline{px} rất chính xác nhưng không responsive, nên hạn chế dùng cho độ rộng khung hoặc phông chữ chính.
-    \item $\rightarrow$ \textbf{\codeinline{em} chú ý hiệu ứng nhân dồn (\term{Em Compounding Effect})}: \codeinline{em} có thể bị lồng nhau gây phóng đại kích thước chữ ngoài ý muốn -- cần sử dụng cẩn thận.
-    \item $\rightarrow$ \textbf{\codeinline{vw} / \codeinline{vh} tối ưu cho Fullscreen Layout}: Phù hợp nhất khi thiết kế các khối Hero Section, Banner tràn màn hình hoặc giao diện App $100\%$ chiều cao khung hình.
+    \item $\rightarrow$ \textbf{\codeinline{rem} là tiêu chuẩn vàng cho Typography}: Luôn dùng \codeinline{rem} cho \codeinline{font-size} của toàn bộ website để tôn trọng cài đặt trợ năng phóng to của người dùng.
+    \item $\rightarrow$ \textbf{Kết hợp linh hoạt \codeinline{em} và \codeinline{rem}}: Dùng \codeinline{rem} cho khoảng cách toàn cục (\codeinline{margin}, \codeinline{gap}) và dùng \codeinline{em} cho khoảng cách cục bộ bên trong Component (\codeinline{padding} của button/badge).
+    \item $\rightarrow$ \textbf{Tránh dùng \codeinline{px} cho phông chữ chính}: Cỡ chữ \codeinline{px} sẽ vô hiệu hóa tính năng Zoom mặc định trên trình duyệt của người khiếm thị.
+    \item $\rightarrow$ \textbf{\codeinline{100vh} trên mobile}: Hãy ưu tiên dùng \codeinline{100dvh} thay vì \codeinline{100vh} để tránh lỗi giao diện bị che khuất bởi thanh công cụ trình duyệt di động.
 \end{itemize}
 \end{tipBox}
 
 \subsection{Mục "Đọc Thêm": Mở Rộng Kiến Thức Về Các Đơn Vị Trong CSS}
 
 \begin{conceptBox}[Đọc Thêm: Các Kỹ Thuật Đơn Vị Hiện Đại Trong CSS Modern]
-Mục này giới thiệu các đơn vị Viewport thế hệ mới, Container Query Units và kỹ thuật Fluid Typography giúp tối ưu Responsive Web Design chuẩn hiện đại.
+Mục này giới thiệu các đơn vị Viewport thế hệ mới (\codeinline{dvh}, \codeinline{svh}, \codeinline{lvh}), Container Query Units, kỹ thuật Fluid Typography và kỹ thuật Root Reset $62.5\%$.
 \end{conceptBox}
 
 \paragraph{1. Các Đơn Vị Viewport Thế Hệ Mới (\codeinline{dvh}, \codeinline{svh}, \codeinline{lvh}):}
 Trên các trình duyệt di động (như Safari trên iOS hay Chrome trên Android), thanh địa chỉ (\term{Address Bar}) có thể tự động ẩn hoặc hiện khi người dùng cuộn trang. Việc này làm giá trị \codeinline{100vh} truyền thống bị co giật giao diện. CSS Viewport Level 4 đã bổ sung các đơn vị giải quyết triệt để vấn đề này:
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{\codeinline{svh} (Small Viewport Height)}: Chiều cao Viewport khi thanh địa chỉ \textbf{hiển thị đầy đủ} (kích thước nhỏ nhất).
-    \item \textbf{\codeinline{lvh} (Large Viewport Height)}: Chiều cao Viewport khi thanh địa chỉ \textbf{thu gọn hoàn toàn} (kích thước lớn nhất).
-    \item \textbf{\codeinline{dvh} (Dynamic Viewport Height)}: Chiều cao Viewport \textbf{tự động cập nhật linh hoạt} theo trạng thái ẩn/hiện của thanh địa chỉ trình duyệt thực tế.
-\end{itemize}
+
+\begin{prettyTableBox}[Bảng Đối Chiếu 3 Đơn Vị Viewport Di Động Hiện Đại]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{2.4cm}|>{\bfseries\color{darkText}}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Đơn Vị} & \thd{Trạng Thái Thanh Địa Chỉ} & \thd{Đặc Điểm \& Ứng Dụng} \\
+\hline
+svh (Small) & Đang \textbf{hiển thị đầy đủ} & Chiều cao nhỏ nhất của màn hình, đảm bảo không bao giờ bị thanh URL che khuất. \\
+\hline
+lvh (Large) & Đang \textbf{thu gọn / ẩn hoàn toàn} & Chiều cao lớn nhất của màn hình khi người dùng cuộn trang xuống. \\
+\hline
+dvh (Dynamic) & \textbf{Co giãn tự động theo thời gian thực} & Tự động thích ứng mượt mà khi thanh địa chỉ ẩn/hiện, tối ưu cho Hero Section mobile. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan 3 Trạng Thái svh, dvh và lvh Trên Màn Hình Di Động]
+\sffamily\small
+\centering
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, width=300pt, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=8pt, right=8pt]
+  \begin{tabularx}{\linewidth}{Y Y Y}
+    \begin{tcolorbox}[colback=red!10, colframe=red!60!black, arc=4pt, boxrule=0.8pt, top=4pt, bottom=4pt, left=4pt, right=4pt]
+      \centering
+      \textcolor{red!90!black}{\bfseries\scriptsize 100svh}\par
+      \tiny Thanh URL hiện diện\par
+      \textcolor{darkText}{\tiny (Vừa khít màn hình nhỏ)}
+    \end{tcolorbox} &
+    \begin{tcolorbox}[colback=green!10, colframe=green!60!black, arc=4pt, boxrule=0.8pt, top=4pt, bottom=4pt, left=4pt, right=4pt]
+      \centering
+      \textcolor{green!90!black}{\bfseries\scriptsize 100dvh}\par
+      \tiny Động theo cuộn trang\par
+      \textcolor{darkText}{\tiny (Tự co giãn mượt mà)}
+    \end{tcolorbox} &
+    \begin{tcolorbox}[colback=blue!10, colframe=blue!60!black, arc=4pt, boxrule=0.8pt, top=4pt, bottom=4pt, left=4pt, right=4pt]
+      \centering
+      \textcolor{blue!90!black}{\bfseries\scriptsize 100lvh}\par
+      \tiny Thanh URL ẩn đi\par
+      \textcolor{darkText}{\tiny (Toàn bộ chiều cao lớn)}
+    \end{tcolorbox}
+  \end{tabularx}
+\end{tcolorbox}
+\end{browserWindow}
 
 \paragraph{2. Đơn Vị Container Query Units (\codeinline{cqw}, \codeinline{cqh}, \codeinline{cqi}):}
 Khi sử dụng tính năng Modern CSS Container Queries, thay vì phụ thuộc vào kích thước toàn màn hình (Viewport), bạn có thể định cỡ các thành phần con dựa trên kích thước của chính khung chứa (\term{Container}) bao ngoài nó:
@@ -1848,11 +2119,44 @@ h1 {
 \end{browserWindow}
 
 \paragraph{4. Tip Phỏng Vấn Senior Frontend: Kỹ Thuật Reset 62.5\% Cho Thẻ Root \codeinline{html}:}
-\begin{tipBox}[Câu Hỏi Phỏng Vấn: Tại Sao Nhiều Dự Án Đặt html \{ font-size: 62.5\%; \}?]
-\textbf{Câu hỏi:} Tại sao trong một số thư viện CSS Reset người ta thường viết \codeinline{html \{ font-size: 62.5\%; \}}?
-\par\vspace{4pt}
-\textbf{Trả lời chuẩn phỏng vấn:} Trình duyệt mặc định có phông chữ gốc là $16\text{px}$. Nếu đặt \codeinline{font-size: 62.5\%} trên thẻ \codeinline{<html>}, kích thước gốc sẽ trở thành $16\text{px} \times 62.5\% = 10\text{px}$. Việc này giúp lập trình viên cực kỳ dễ nhẩm tính chuyển đổi từ \codeinline{px} sang \codeinline{rem}: $1.4\text{rem} = 14\text{px}$, $1.6\text{rem} = 16\text{px}$, $2.4\text{rem} = 24\text{px}$, trong khi vẫn bảo toàn tính năng hỗ trợ truy cập Zoom phông chữ của người dùng.
-\end{tipBox}
+
+\begin{conceptBox}[Bản Chất Toán Học Của Kỹ Thuật Root Reset 62.5\%]
+Trình duyệt mặc định có phông chữ gốc là $16\text{px}$. Khi ta thiết lập:
+\[
+\text{html} \{ \text{font-size: } 62.5\%; \} \implies \text{Cỡ chữ gốc mới} = 16\text{px} \times 62.5\% = \mathbf{10\text{px}}
+\]
+Quy tắc nhẩm siêu tốc: \textbf{Bao nhiêu pixel thì chỉ cần chia cho 10 để ra số rem!}
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn Áp Dụng Kỹ Thuật html \{ font-size: 62.5\%; \}]
+\begin{lstlisting}[language=CSS3]
+/* 1. Reset font-size goc ve 10px: */
+html {
+  font-size: 62.5%; /* 1rem bay gio bang dung 10px! */
+}
+
+/* 2. Tra lai co chu 16px tieu chuan cho body: */
+body {
+  font-size: 1.6rem; /* 1.6 * 10px = 16px */
+}
+
+/* 3. Nham tinh cac co chu khac cuc ky de dang: */
+h1 { font-size: 3.2rem; } /* 3.2 * 10px = 32px */
+h2 { font-size: 2.4rem; } /* 2.4 * 10px = 24px */
+p  { font-size: 1.4rem; } /* 1.4 * 10px = 14px */
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Quy Đổi Siêu Tốc Với Kỹ Thuật 62.5\% Reset]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+  {\fontsize{20pt}{24pt}\selectfont \textcolor{primaryBlue}{\textbf{Tiêu đề H1: 3.2rem ($32\text{px}$)}}\par}
+  \vspace{3pt}
+  {\fontsize{16pt}{20pt}\selectfont \textcolor{accentPurple}{\textbf{Tiêu đề H2: 2.4rem ($24\text{px}$)}}\par}
+  \vspace{3pt}
+  {\fontsize{11pt}{15pt}\selectfont \color{darkText} Đoạn văn p: 1.4rem ($14\text{px}$) -- Nhẩm tính chuyển đổi cực kỳ trực quan và chuẩn xác.\par}
+\end{tcolorbox}
+\end{browserWindow}
 
 % ==============================================================================
 % MỤC 4.1: HỆ THỐNG MÀU SẮC TRONG CSS (CSS COLORS MASTERCLASS TỪ A-Z)
