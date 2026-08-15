@@ -2315,15 +2315,80 @@ Trường hợp KHÔNG hoạt động & Khi \codeinline{width: auto} (vì phần
 
 \paragraph{2. Chuyên Đề Sâu Về Đơn Vị vh (Viewport Height Masterclass):}
 
-\begin{conceptBox}[2.1. Bản Chất Toán Học Của Đơn Vị vh]
+\begin{conceptBox}[2.1. Khái Niệm \& Bản Chất Toán Học Của Đơn Vị vh]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Định nghĩa}: \codeinline{vh} viết tắt của \term{Viewport Height} (chiều cao khung nhìn trình duyệt).
-    \item \textbf{Quy đổi chuẩn}: $\mathbf{1\text{vh} = 1\%}$ chiều cao của cửa sổ trình duyệt hiện tại.
-    \item \textbf{Ví dụ}: Nếu trình duyệt cao $800\text{px}$ thì $1\text{vh} = 8\text{px}$, $50\text{vh} = 400\text{px}$, $100\text{vh} = 800\text{px}$.
+    \item \textbf{Định nghĩa}: \codeinline{vh} viết tắt của \term{Viewport Height} -- tức là chiều cao của khung nhìn trình duyệt.
+    \item \textbf{Quy đổi chuẩn}: $\mathbf{1\text{vh} = 1\%}$ chiều cao của trình duyệt (Viewport).
+    \item \textbf{Các mốc quy đổi tương tự}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item $\mathbf{100\text{vh}} = 100\%$ toàn bộ chiều cao màn hình.
+        \item $\mathbf{50\text{vh}} =$ chính xác một nửa chiều cao màn hình trình duyệt.
+    \end{itemize}
 \end{itemize}
 \end{conceptBox}
 
-\begin{codeWindow}[Ứng Dụng Thực Chiến: Tạo Hero Banner Phủ Kín 100\% Chiều Cao Màn Hình]
+\begin{codeWindow}[Ví Dụ Cơ Bản: Khối Cao 50\% Màn Hình \& Canh Giữa Dọc Bằng line-height]
+\begin{lstlisting}[language=HTML5]
+<div class="box">Tôi cao 50% màn hình</div>
+
+<style>
+  .box {
+    height: 50vh;                  /* Chieu cao bang 50% trinh duyet */
+    background-color: lightseagreen;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    line-height: 50vh;             /* Canh giua van ban theo chieu doc */
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan: Khối height: 50vh Chiếm Nửa Chiều Cao Trình Duyệt]
+\sffamily\small
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Khung màn hình Browser (rộng 9cm, cao 3.2cm)
+  \draw[fill=white, draw=gray!40, line width=0.9pt, rounded corners=4pt] (0,0) rectangle (9.0, 3.2);
+  \node[anchor=north west, font=\tiny\bfseries\color{gray!70}] at (0.2, 3.05) {Cửa sổ trình duyệt (Tổng chiều cao: 100vh)};
+  
+  % Khối .box chiếm 50vh nửa trên (cao 1.4cm)
+  \draw[fill=teal!70!black, draw=teal!90!black, line width=1pt, rounded corners=3pt] (0.2, 1.4) rectangle (8.8, 2.8);
+  \node[anchor=center, font=\small\bfseries\color{white}] at (4.5, 2.1) {Tôi cao 50\% màn hình};
+  
+  % Khoảng trống 50vh còn lại nửa dưới
+  \draw[dashed, draw=gray!30] (0.2, 0.2) rectangle (8.8, 1.25);
+  \node[anchor=center, font=\tiny\color{gray!50}] at (4.5, 0.72) {Khoảng trống 50vh còn lại phía dưới};
+
+  % Thước đo 50vh bên trái
+  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=teal!90!black] (-0.2, 1.4) -- (-0.2, 2.8)
+    node[midway, left=5pt, font=\scriptsize\bfseries, color=teal!90!black] {$50\text{vh}$};
+\end{tikzpicture}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Khối \codeinline{.box} có chiều cao chuẩn $50\%$ màn hình và chữ được căn giữa dọc hoàn hảo bằng \codeinline{line-height: 50vh}).}
+\end{browserWindow}
+
+\paragraph{2.2. Bảng Tổng Hợp Ứng Dụng Thực Tế Của Đơn Vị vh:}
+
+\begin{prettyTableBox}[Bảng Các Trường Hợp Thực Chiến Phổ Biến Của vh]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{4.8cm}|>{\ttfamily\color{accentOrange}\bfseries}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Mục Đích Thiết Kế} & \thd{Cách Khai Báo CSS} & \thd{Hiệu Quả Giao Diện} \\
+\hline
+Làm Header / Hero chiếm trọn màn hình & height: 100vh; & Tạo ấn tượng thị giác mạnh mẽ ngay khi người dùng vừa truy cập website. \\
+\hline
+Tạo màn hình chờ (Splash Screen) & min-height: 100vh; & Đảm bảo luôn lấp đầy màn hình dù nội dung bên trong ngắn hay dài. \\
+\hline
+Căn giữa dọc dễ dàng & display: flex; \newline align-items: center; & Kết hợp \codeinline{100vh} với Flexbox/Grid để căn giữa nội dung vào chính tâm màn hình. \\
+\hline
+Hiệu ứng cuộn từng phần (Fullpage Scroll) & section \{ height: 100vh; \} & Mỗi Section chiếm trọn vẹn đúng 1 khung nhìn màn hình khi cuộn trang. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ứng Dụng Thực Chiến: Tạo Hero Banner Toàn Màn Hình Căn Giữa Hoàn Hảo]
 \begin{lstlisting}[language=HTML5]
 <style>
 .hero-fullscreen {
@@ -2346,29 +2411,12 @@ Trường hợp KHÔNG hoạt động & Khi \codeinline{width: auto} (vì phần
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan: Hero Section 100vh Phủ Toàn Màn Hình]
-\sffamily\small
-\centering
-\begin{tikzpicture}[font=\sffamily]
-  % Khung trình duyệt Viewport (rộng 9cm, cao 3.2cm)
-  \draw[fill=blue!85!black, draw=primaryBlue!80!black, line width=1pt, rounded corners=4pt] (0,0) rectangle (9.2, 3.2);
-  
-  % Nội dung Hero căn giữa
-  \node[anchor=center, font=\bfseries\normalsize, color=white] at (4.6, 2.0) {Chào Mừng Đến Với Khóa Học CSS Masterclass};
-  \node[anchor=center, font=\scriptsize, color=white!80] at (4.6, 1.45) {Giao diện tự động căn giữa toàn màn hình với height: 100vh};
-  \draw[fill=orange!90!black, draw=orange, rounded corners=3pt] (3.3, 0.45) rectangle (5.9, 0.95);
-  \node[anchor=center, font=\scriptsize\bfseries\color{white}] at (4.6, 0.7) {Bắt Đầu Học Ngay};
-
-  % Thước đo chiều cao 100vh bên trái
-  \draw[decorate, decoration={brace, amplitude=5pt}, line width=0.9pt, color=cyan!80!white] (-0.3, 0) -- (-0.3, 3.2)
-    node[midway, left=7pt, font=\scriptsize\bfseries, color=primaryBlue, align=right] {Chiều cao\\$100\text{vh}$ ($100\%$)};
-\end{tikzpicture}
-\par\vspace{4pt}
-\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Phần tử luôn lấp đầy đúng $100\%$ chiều cao của cửa sổ trình duyệt trên mọi thiết bị).}
-\end{browserWindow}
-
-\begin{warnBox}[Cạm Bẫy Kinh Điển: Lỗi Xuất Hiện Thanh Cuộn Dọc Khi Dùng 100vh]
-Khi bạn thiết lập \codeinline{height: 100vh;} nhưng phần tử lại có thêm \codeinline{padding} hoặc \codeinline{border} mà quên khai báo \codeinline{box-sizing: border-box;}, tổng chiều cao thực tế sẽ bị cộng dồn: $\text{Tổng Chiều Cao} = 100\text{vh} + 2 \times \text{Padding}$. Việc này làm trang web dài hơn màn hình và xuất hiện thanh cuộn dọc không mong muốn!
+\begin{warnBox}[Lưu Ý Quan Trọng Trên Thiết Bị Di Động \& Cạm Bẫy Cần Tránh]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Ảnh hưởng của thanh điều hướng (URL Bar)}: Trên thiết bị di động (Safari iOS, Chrome Android), thanh điều hướng có thể tự ẩn/hiện khi cuộn trang, làm giá trị \codeinline{100vh} bị che mất một phần dưới đáy.
+    \item \textbf{Giải pháp thế hệ mới}: Có thể sử dụng \codeinline{100svh} (Small Viewport Height) hoặc \codeinline{100dvh} (Dynamic Viewport Height) để khắc phục triệt để độ lệch chiều cao trên mobile.
+    \item \textbf{Cạm bẫy thanh cuộn dọc}: Khi dùng \codeinline{height: 100vh;}, nếu có thêm \codeinline{padding} hoặc \codeinline{border} bắt buộc phải có \codeinline{box-sizing: border-box;} để tránh phát sinh thanh cuộn ngoài ý muốn.
+\end{enumerate}
 \end{warnBox}
 
 \paragraph{3. Chuyên Đề Sâu Về Đơn Vị vmin Và vmax:}
