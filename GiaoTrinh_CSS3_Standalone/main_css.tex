@@ -828,16 +828,14 @@ p {
 % ==============================================================================
 % MỤC 4.1: CÁC ĐƠN VỊ TRONG CSS (CSS UNITS MASTERCLASS TỪ A ĐẾN Z)
 % ==============================================================================
-\subsection{Chuyên Đề Các Đơn Vị Trong CSS (CSS Units Masterclass Từ A đến Z)}
-\label{sec:css_units_masterclass}
+\subsection{Tổng Quan \& Phân Loại Các Đơn Vị Trong CSS (CSS Units Classification)}
+\label{sec:css_units_classification}
 
 Trong CSS, các đơn vị đo (\term{CSS Units}) quyết định kích thước của văn bản, khoảng cách cách lề (\codeinline{margin}, \codeinline{padding}), chiều rộng (\codeinline{width}), chiều cao (\codeinline{height}) và toàn bộ bố cục của trang web. Việc lựa chọn đúng loại đơn vị đo là yếu tố cốt lõi giúp giao diện web hiển thị chuẩn xác, đáp ứng linh hoạt trên mọi kích thước màn hình (\term{Responsive Web Design}).
 
-\paragraph{I. Phân Loại Các Đơn Vị Trong CSS (CSS Units Classification)}
+CSS Units được chia làm 2 nhóm chính: \textbf{Đơn vị Tuyệt đối (Absolute Units)} và \textbf{Đơn vị Tương đối (Relative Units)}.
 
-CSS Units được chia làm 2 nhóm chính:
-
-\paragraph{1. Absolute Units (Đơn Vị Tuyệt Đối -- Không Thay Đổi Theo Bối Cảnh):}
+\subsubsection{1. Nhóm Đơn Vị Tuyệt Đối (Absolute Units)}
 
 Đơn vị tuyệt đối là các đơn vị cố định, có kích thước không bao giờ thay đổi bất kể kích thước màn hình, độ phân giải thiết bị hay bối cảnh phần tử cha.
 
@@ -866,7 +864,7 @@ pc & Pica ($1\text{pc} = 12\text{pt}$) & Hiếm dùng trên web. \\
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ PIXEL (PX MASTERCLASS TRONG CSS)
 % ==============================================================================
-\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị Pixel (px Masterclass Trong CSS)}
+\subsection{Chuyên Đề Đơn Vị Pixel (px Masterclass Trong CSS)}
 \label{sec:css_pixel_masterclass}
 
 Trong CSS, \codeinline{px} (viết tắt của \term{Pixel}) là đơn vị độ dài tuyệt đối vô cùng phổ biến và là một trong những đơn vị cơ bản nhất được sử dụng để xác định kích thước cho các thuộc tính như: \codeinline{width}, \codeinline{height}, \codeinline{margin}, \codeinline{padding}, \codeinline{font-size}, \codeinline{border-width}, \codeinline{border-radius}, \codeinline{box-shadow}, \codeinline{text-shadow}, \codeinline{min-width}, \codeinline{max-width}, \codeinline{min-height}, \codeinline{max-height}...
@@ -1129,7 +1127,7 @@ lh & Line height hiện tại & Tương đối với thuộc tính \codeinline{l
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ PHẦN TRĂM (%) - PERCENTAGE MASTERCLASS TRONG CSS
 % ==============================================================================
-\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị Phần Trăm (\%) -- Percentage Masterclass Trong CSS}
+\subsection{Chuyên Đề Đơn Vị Phần Trăm (\% Masterclass Trong CSS)}
 \label{sec:css_percentage_masterclass}
 
 Đơn vị phần trăm (\codeinline{\%}) trong CSS là một đơn vị tương đối cực kỳ mạnh mẽ và linh hoạt, thường được sử dụng làm nòng cốt để tạo ra các bố cục trang web tự động co giãn và đáp ứng (\term{Responsive Web Design}).
@@ -1869,7 +1867,7 @@ Khối con (\codeinline{.child}) & Bây giờ có thể sử dụng \codeinline{
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ EM & REM (TYPOGRAPHY & SCALABLE UI MASTERCLASS)
 % ==============================================================================
-\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị em (Em Masterclass Trong CSS)}
+\subsection{Chuyên Đề Đơn Vị em (em Masterclass Trong CSS)}
 \label{sec:css_em_masterclass}
 
 Đơn vị \codeinline{em} là một trong những đơn vị tương đối lâu đời và quan trọng nhất trong CSS, bắt nguồn từ thuật ngữ ngành in ấn (chiều rộng của ký tự chữ ``M'' hoa). Trong CSS hiện đại, \codeinline{em} hoạt động linh hoạt theo cơ chế kế thừa ngữ cảnh phông chữ.
@@ -2002,7 +2000,7 @@ Mặc dù \codeinline{em} phức tạp cho \codeinline{font-size}, nhưng nó l�
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ REM (ROOT EM MASTERCLASS)
 % ==============================================================================
-\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị rem (Rem Masterclass Trong CSS)}
+\subsection{Chuyên Đề Đơn Vị rem (rem Masterclass Trong CSS)}
 \label{sec:css_rem_masterclass}
 
 Đơn vị \codeinline{rem} (viết tắt của \term{Root EM}) ra đời để khắc phục triệt để nhược điểm nhân dồn phức tạp của \codeinline{em}. Giá trị của \codeinline{rem} luôn luôn cố định dựa trên \codeinline{font-size} của \textbf{phần tử gốc duy nhất của trang web là thẻ \codeinline{<html>}}.
@@ -2060,7 +2058,7 @@ Tiêu đề Hero Banner & $48\text{px}$ & 3rem & $48 / 16 = 3\text{rem}$. \\
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ VIEWPORT (VIEWPORT UNITS MASTERCLASS)
 % ==============================================================================
-\paragraph{Chuyên Đề Chi Tiết Về Đơn Vị Viewport (vw, vh, vmin, vmax Masterclass)}
+\subsection{Chuyên Đề Đơn Vị Viewport (vw, vh, vmin, vmax Masterclass)}
 \label{sec:css_viewport_masterclass}
 
 Đơn vị Viewport trong CSS lấy \textbf{kích thước khung nhìn của cửa sổ trình duyệt (\term{Viewport})} làm thước đo tham chiếu. Điều tuyệt vời nhất của đơn vị Viewport là: \textbf{Nó hoàn toàn độc lập với phần tử cha}, bất kể phần tử nằm sâu bao nhiêu cấp trong cây DOM.
@@ -2494,7 +2492,8 @@ Màn hình ngang Desktop ($1440\text{px} \times 900\text{px}$) & $1\% \text{ chi
 \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Luôn giữ đúng tỷ lệ hình vuông $1:1$ hoàn mỹ, không bao giờ vượt quá tầm nhìn của màn hình).}
 \end{browserWindow}
 
-\paragraph{II. Khi Nào Dùng Đơn Vị Nào? (Best Practices Guidance)}
+\subsection{Hướng Dẫn Lựa Chọn Đơn Vị \& Best Practices Thực Chiến}
+\label{sec:css_units_best_practices}
 
 \begin{prettyTableBox}[Bảng Hướng Dẫn Lựa Chọn Đơn Vị CSS Theo Tình Huống]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -2516,7 +2515,7 @@ Chi tiết nhỏ cố định (Border, Icon, Shadow) & px & Kiểm soát chính 
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{III. Mẹo \& Lưu Ý Quan Trọng (Tips \& Best Practices)}
+\paragraph{Mẹo Thực Chiến \& Lưu Ý Cốt Lõi Khi Dùng Đơn Vị CSS:}
 
 \begin{tipBox}[Mẹo Thực Chiến \& Lưu Ý Cốt Lõi Khi Dùng Đơn Vị CSS]
 \begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
@@ -2527,7 +2526,8 @@ Chi tiết nhỏ cố định (Border, Icon, Shadow) & px & Kiểm soát chính 
 \end{itemize}
 \end{tipBox}
 
-\subsection{Mục "Đọc Thêm": Mở Rộng Kiến Thức Về Các Đơn Vị Trong CSS}
+\subsection{Mục "Đọc Thêm": Các Kỹ Thuật Đơn Vị Hiện Đại Trong CSS}
+\label{sec:css_modern_units_deepdive}
 
 \begin{conceptBox}[Đọc Thêm: Các Kỹ Thuật Đơn Vị Hiện Đại Trong CSS Modern]
 Mục này giới thiệu các đơn vị Viewport thế hệ mới (\codeinline{dvh}, \codeinline{svh}, \codeinline{lvh}), Container Query Units, kỹ thuật Fluid Typography và kỹ thuật Root Reset $62.5\%$.
