@@ -2668,6 +2668,138 @@ Khi dùng chung một class như \codeinline{.box} cho nhiều cấp lồng nhau
 \end{enumerate}
 \end{warnBox}
 
+% ------------------------------------------------------------------------------
+% MỤC ĐỌC THÊM & KIẾN THỨC MỞ RỘNG CHUYÊN SÂU (UNDER THE HOOD, A11Y & INTERVIEW)
+% ------------------------------------------------------------------------------
+\subsubsection{Đọc Thêm \& Mở Rộng: Góc Chuyên Sâu Về Đơn Vị em (Under The Hood, a11y \& Phỏng Vấn)}
+
+Để hoàn thiện kiến thức của một kỹ sư Frontend chuyên nghiệp và sẵn sàng cho các buổi phỏng vấn kỹ thuật cấp cao, mục này tổng hợp các nguyên lý vận hành tầng sâu, các bẫy mã nguồn tinh vi và tiêu chuẩn tiếp cận chuẩn quốc tế liên quan đến đơn vị \codeinline{em}.
+
+\paragraph{1. Góc Phỏng Vấn Tuyển Dụng: Bẫy Kinh Điển line-height: 1.5 vs line-height: 1.5em:}
+Một trong những câu hỏi phỏng vấn phổ biến nhất nhưng lại khiến rất nhiều lập trình viên mất điểm chính là sự khác biệt giữa việc đặt \codeinline{line-height} bằng số không đơn vị (\term{unitless}) và đặt bằng đơn vị \codeinline{em}.
+
+\begin{conceptBox}[Bản Chất Toán Học Của Bẫy line-height]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khi dùng \codeinline{line-height: 1.5em}}: Kích thước chiều cao dòng được trình duyệt \textbf{tính toán thành pixel cố định ngay tại phần tử cha}, sau đó truyền giá trị pixel cố định này xuống cho tất cả các phần tử con kế thừa.
+    \item \textbf{Khi dùng \codeinline{line-height: 1.5} (không đơn vị)}: Phần tử cha \textbf{chỉ truyền tỷ lệ thuần túy $1.5$} xuống cho các phần tử con. Mỗi phần tử con sẽ tự nhân tỷ lệ $1.5$ này với chính cỡ chữ riêng của nó.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn Minh Họa Lỗi Đè Chữ Nghiêm Trọng Với line-height: 1.5em]
+\begin{lstlisting}[language=HTML5]
+<!-- TRUONG HOP NGUY HIEM: Dung 1.5em -->
+<div class="parent-bad">
+  Cha (20px, line-height: 1.5em -> tinh ra 30px)
+  <h1 class="child-bad">Tieu De Con Co Co Chu 40px</h1>
+</div>
+
+<style>
+.parent-bad {
+  font-size: 20px;
+  line-height: 1.5em; /* Cha tinh: 1.5 x 20px = 30px co dinh truyen xuong! */
+}
+.child-bad {
+  font-size: 40px;    /* Co chu lon 40px nhung line-height chi co 30px! */
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Thực Tế: Thảm Họa Chữ Đè Lên Nhau Khi Dùng line-height: 1.5em]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=red!35, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  {\fontsize{13pt}{16pt}\selectfont \textcolor{darkText}{Đoạn văn cha (\codeinline{font-size: 20px}, \codeinline{line-height} tính ra cố định: $30\text{px}$)}\par}
+  \vspace{6pt}
+  \begin{tcolorbox}[enhanced, colback=red!10, colframe=red!40, arc=4pt, boxrule=0.8pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
+    {\fontsize{24pt}{18pt}\selectfont \textcolor{red!80!black}{\textbf{DÒNG TIÊU ĐỀ THỨ NHẤT CÓ FONT 40PX}}\par}
+    {\fontsize{24pt}{18pt}\selectfont \textcolor{red!80!black}{\textbf{DÒNG THỨ HAI BỊ ĐÈ LÊN DÒNG THỨ NHẤT DO LINE-HEIGHT QUÁ NHỎ (30PX)!}}\par}
+  \end{tcolorbox}
+  \vspace{3pt}
+  \textcolor{red!80!black}{\scriptsize (\textbf{Cảnh báo}: Vì line-height chỉ có $30\text{px}$ trong khi cỡ chữ lên tới $40\text{px}$, các dòng chữ của tiêu đề con sẽ đè bẹp lên nhau!)}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{tipBox}[Quy Tắc Vàng Tuyệt Đối Cho line-height]
+\textbf{Luôn luôn sử dụng số không đơn vị (unitless) cho thuộc tính \codeinline{line-height}}:
+\begin{lstlisting}[language=CSS3]
+/* Chuan muc ky thuat dung: */
+body {
+  line-height: 1.5; /* Khong co chu 'em' phia sau! */
+}
+\end{lstlisting}
+Khi đó, tiêu đề con $40\text{px}$ sẽ nhận \codeinline{line-height} là $1.5 \times 40\text{px} = 60\text{px}$ $\rightarrow$ văn bản giãn cách hoàn hảo, không bao giờ bị đè chữ.
+\end{tipBox}
+
+\paragraph{2. Câu Hỏi Phỏng Vấn Senior: Khi Nào Bắt Buộc NÊN Dùng em Thay Vì rem?}
+Trong kỷ nguyên CSS hiện đại, mặc dù \codeinline{rem} là đơn vị thống trị cho Typography và Layout toàn trang, nhưng \codeinline{em} vẫn là \textbf{vũ khí không thể thay thế} trong các kịch bản sau:
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Tính đóng gói thành phần (\term{Component Encapsulation})}:
+    Khi bạn xây dựng một thành phần UI dùng chung (Design System Component như Button, Badge, Chip, Avatar, Tooltip), thành phần này có thể được gắn vào Sidebar (chữ nhỏ $12\text{px}$), vào Body (chữ $16\text{px}$) hoặc vào Hero Banner (chữ lớn $28\text{px}$).
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Nếu dùng \codeinline{rem}: Khoảng đệm \codeinline{padding} và góc bo \codeinline{border-radius} sẽ cố định toàn cục, nút bấm ở Hero banner sẽ trông rất mất cân đối (chữ khổng lồ nhưng viền và đệm lại nhỏ xíu).
+        \item Nếu dùng \codeinline{em}: Nút bấm tự động co giãn toàn bộ khoảng đệm, khoảng cách icon và góc bo tỷ lệ thuận tuyệt đối theo cỡ chữ của ngữ cảnh chứa nó.
+    \end{itemize}
+    \item \textbf{Đồng bộ kích thước biểu tượng đi kèm văn bản (Inline Icons)}:
+    Khi đặt kích thước cho icon SVG nằm cạnh chữ (\codeinline{width: 1em; height: 1em;}), icon sẽ luôn luôn có kích thước bằng đúng cỡ chữ hiện tại của thẻ cha, không cần viết thêm code điều chỉnh khi thay đổi phông chữ.
+\end{enumerate}
+
+\paragraph{3. Tiêu Chuẩn Tiếp Cận Người Dùng (Accessibility -- a11y \& WCAG 2.1):}
+Tiêu chuẩn tiếp cận nội dung Web quốc tế (\term{WCAG 2.1}) tại tiêu chí \textbf{1.4.4 (Resize Text)} quy định: Văn bản trên trang web phải có khả năng phóng to lên ít nhất $\mathbf{200\%}$ mà không bị vỡ giao diện hoặc mất nội dung.
+
+\begin{prettyTableBox}[So Sánh Khả Năng Đáp Ứng Chuẩn Trợ Năng (a11y) Giữa px Và em / rem]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.4cm}|>{\raggedright\arraybackslash}K{4.6cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Hành Động Của Người Dùng} & \thd{Hành Vi Khi Dùng px Cố Định} & \thd{Hành Vi Khi Dùng em / rem} \\
+\hline
+Thay đổi cỡ chữ mặc định trong Cài đặt trình duyệt (từ $16\text{px}$ lên $24\text{px}$ hoặc $32\text{px}$) & \textcolor{red!80!black}{\textbf{[Thất Bại]}} Trang web giữ nguyên cỡ chữ cứng, người thị lực kém không thể đọc được. & \textcolor{green!60!black}{\textbf{[Thành Công Tuyệt Đối]}} Toàn bộ chữ và thành phần dùng \codeinline{em}/\codeinline{rem} tự động phóng to đồng bộ theo thị lực người dùng. \\
+\hline
+Zoom trình duyệt (Phím tắt Ctrl + / -) & Phóng to toàn bộ pixel theo tỷ lệ Viewport. & Phóng to mượt mà, hài hòa với cấu trúc bố cục tự thích ứng. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{4. Cơ Chế Bên Trong Cỗ Máy Trình Duyệt (Browser Engine \& Under The Hood):}
+Trong quá trình xử lý mã nguồn của trình duyệt (Blink trên Chrome, Gecko trên Firefox, WebKit trên Safari), đơn vị \codeinline{em} trải qua vòng đời tính toán nghiêm ngặt:
+
+\begin{conceptBox}[Vòng Đời Chuyển Hóa Của Giá Trị em Trong Trình Duyệt]
+\[
+\text{Declared Value (2em)} \;\longrightarrow\; \text{Cascaded Value} \;\longrightarrow\; \text{Specified Value} \;\longrightarrow\; \mathbf{Computed Value (32px)}
+\]
+\vspace{-4pt}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Giai đoạn Computed Style (Tái tính toán kiểu dáng)}: Trình duyệt xây dựng cây \term{CSSOM}. Tại đây, mọi đơn vị tương đối (\codeinline{em}, \codeinline{\%}) đều được nhân với giá trị phông chữ của cha để quy đổi thành giá trị số thực tuyệt đối (\codeinline{px}) gọi là \textbf{Computed Value}.
+    \item \textbf{Giai đoạn Layout (Reflow)}: Khi bước vào cây hiển thị (\term{Render Tree}) và tính toán tọa độ khung hình, cỗ máy dựng hình của trình duyệt \textbf{hoàn toàn chỉ làm việc với số pixel thực tế}, không còn bất kỳ đơn vị \codeinline{em} nào tồn tại trong quá trình vẽ màn hình.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{5. Bản Đồ Phân Vai Đơn Vị Chuẩn Doanh Nghiệp (Enterprise Architecture Cheat Sheet):}
+Để xây dựng một hệ thống giao diện web bền vững, dễ bảo trì và có khả năng mở rộng không giới hạn, các kỹ sư phần mềm chuyên nghiệp luôn tuân theo ma trận phân vai sau:
+
+\begin{prettyTableBox}[Ma Trận Phân Vai Các Đơn Vị Đo Lường Trong Dự Án Chuyên Nghiệp]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.2cm}|>{\centering\arraybackslash\ttfamily\bfseries\color{codeNumber}}K{2.6cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thành Phần Giao Diện} & \thd{Đơn Vị Tối Ưu} & \thd{Lý Do Kỹ Thuật \& Trải Nghiệm Người Dùng (UX)} \\
+\hline
+Cỡ chữ toàn trang (\codeinline{h1-h6}, \codeinline{p}, \codeinline{span}) & rem & Giữ cho toàn bộ trang web đồng bộ theo một nguồn chân lý gốc (\term{Single Source of Truth}) từ thẻ \codeinline{<html>}. \\
+\hline
+Bố cục vĩ mô (Grid columns, Flexbox layout, Margin lớn) & rem / \% / vw & Giúp khung bố cục ổn định, tránh bị xô lệch khi các thành phần con thay đổi cỡ chữ. \\
+\hline
+Micro-components (Button, Badge, Chip, Avatar, Tooltip) & em & Cho phép toàn bộ khoảng đệm (\codeinline{padding}), bo góc (\codeinline{border-radius}) tự co giãn hài hòa theo kích thước chữ của component. \\
+\hline
+Biểu tượng đi kèm chữ (Inline SVG Icons) & em & Icon tự động bằng đúng chiều cao chữ (\codeinline{width: 1em; height: 1em;}), luôn thẳng hàng tuyệt đối. \\
+\hline
+Khoảng cách dòng (\codeinline{line-height}) & Unitless (1.5) & Ngăn ngừa triệt để bẫy đè chữ khi phần tử con kế thừa từ cha. \\
+\hline
+Đường viền mỏng (\codeinline{border}) & px (1px, 2px) & Đảm bảo nét vẽ siêu mảnh, không bị mờ nhòe do làm tròn số thập phân trên màn hình độ phân giải cao. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ REM (ROOT EM MASTERCLASS)
 % ==============================================================================
