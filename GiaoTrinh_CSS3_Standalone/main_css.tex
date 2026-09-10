@@ -3203,11 +3203,21 @@ h1 {
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{c. Câu Hỏi Phỏng Vấn: rem Có Thể Hoạt Động Bất Thường Khi Nào?}
+\paragraph{c. Câu Hỏi Phỏng Vấn Chuyên Sâu: rem Hoạt Động Bất Thường Khi Nào?}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Trong thẻ \codeinline{<iframe>}}: Một trang nhúng trong \codeinline{<iframe>} có phần tử \codeinline{<html>} riêng của nó, do đó \codeinline{rem} bên trong \codeinline{<iframe>} sẽ tính theo gốc của iframe chứ không theo trang cha bên ngoài.
-    \item \textbf{Khi ghi đè font-size ở \codeinline{body} thay vì \codeinline{html}}: Rất nhiều người mới nhầm lẫn giữa thẻ \codeinline{<body>} và thẻ \codeinline{<html>}. \codeinline{rem} \textbf{chỉ lắng nghe \codeinline{<html>}}, hoàn toàn bỏ qua mọi khai báo \codeinline{font-size} trên thẻ \codeinline{<body>}.
+    \item \textbf{Trong thẻ \codeinline{<iframe>}}: Một trang web nhúng trong \codeinline{<iframe>} sở hữu phần tử gốc \codeinline{<html>} độc lập của riêng nó. Do đó, mọi đơn vị \codeinline{rem} bên trong khung nhúng sẽ tính toán theo gốc của trang iframe, hoàn toàn cô lập và không chịu ảnh hưởng từ cỡ chữ của trang cha bên ngoài.
+    \item \textbf{Khi ghi đè font-size ở \codeinline{body} thay vì \codeinline{html}}: Rất nhiều lập trình viên mới nhầm lẫn giữa thẻ \codeinline{<body>} và thẻ \codeinline{<html>}. \codeinline{rem} \textbf{chỉ lắng nghe thẻ gốc \codeinline{<html>}}, hoàn toàn bỏ qua mọi khai báo \codeinline{font-size} trên thẻ \codeinline{<body>}.
+    \item \textbf{Bẫy tính toán rem trong Media Queries (\codeinline{@media})}: Theo đặc tả chuẩn của W3C (CSS Media Queries Level 4), các đơn vị tương đối như \codeinline{rem} hoặc \codeinline{em} khi nằm trong biểu thức Media Query (ví dụ: \codeinline{@media (min-width: 48rem)}) \textbf{luôn luôn lấy giá trị mặc định ban đầu của trình duyệt ($16\text{px}$)}, hoàn toàn KHÔNG bị ảnh hưởng nếu bạn ghi đè \codeinline{html \{ font-size: 62.5\%; \}} hay bất kỳ giá trị nào khác trong CSS! Ví dụ: biểu thức \codeinline{@media (min-width: 48rem)} sẽ luôn kích hoạt tại đúng $48 \times 16\text{px} = 768\text{px}$, chứ không phải $480\text{px}$.
 \end{itemize}
+
+\begin{tipBox}[Quy Tắc Ngón Tay Cái (Rule of Thumb) Cho Kỹ Sư Frontend]
+Khi phân vân giữa các đơn vị đo lường trong dự án thực tế:
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+    \item Hãy ưu tiên dùng \codeinline{rem} cho \textbf{$90\%$ các trường hợp}: toàn bộ hệ thống cỡ chữ (\codeinline{font-size}), khoảng cách bố cục vĩ mô (\codeinline{gap}, \codeinline{margin}, \codeinline{padding} của section, card, container).
+    \item Chỉ sử dụng \codeinline{em} cho các thành phần vi mô (\term{micro-components}) cần khả năng tự co giãn tỷ lệ đồng bộ theo chính phông chữ của nó (như nút bấm, icon đi kèm chữ, badge, tooltip).
+    \item Sử dụng \codeinline{px} cho các đường viền siêu mảnh ($1\text{px}, 2\text{px}$) hoặc các bóng đổ (\codeinline{box-shadow}) cố định.
+\end{itemize}
+\end{tipBox}
 
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ VIEWPORT (VIEWPORT UNITS MASTERCLASS)
