@@ -1870,9 +1870,126 @@ Khối con (\codeinline{.child}) & Bây giờ có thể sử dụng \codeinline{
 \subsection{Chuyên Đề Đơn Vị em (em Masterclass Trong CSS)}
 \label{sec:css_em_masterclass}
 
-Đơn vị \codeinline{em} là một trong những đơn vị tương đối lâu đời và quan trọng nhất trong CSS, bắt nguồn từ thuật ngữ ngành in ấn (chiều rộng của ký tự chữ ``M'' hoa). Trong CSS hiện đại, \codeinline{em} hoạt động linh hoạt theo cơ chế kế thừa ngữ cảnh phông chữ.
+Đơn vị \codeinline{em} là một trong những đơn vị đo lường tương đối lâu đời và quan trọng bậc nhất trong CSS, bắt nguồn từ thuật ngữ ngành in ấn (chiều rộng của ký tự chữ ``M'' hoa). Trong CSS hiện đại, \codeinline{em} hoạt động linh hoạt theo cơ chế kế thừa ngữ cảnh phông chữ.
 
-\paragraph{1. Quy Tắc Hoạt Động Cốt Lõi Của Đơn Vị em:}
+\paragraph{1. Khái Niệm Cốt Lõi \& Bản Chất Đơn Vị em:}
+Đơn vị \codeinline{em} là đơn vị tương đối, phụ thuộc trực tiếp vào \codeinline{font-size} của phần tử cha gần nhất (hoặc kích thước phông chữ của chính nó nếu khai báo trực tiếp cho các thuộc tính kích thước khác).
+
+\begin{conceptBox}[Bản Chất Quy Đổi Của Đơn Vị em]
+\[
+\mathbf{1\text{em} = 100\% \text{ font-size của phần tử hiện tại hoặc cha trực tiếp}}
+\]
+\vspace{-4pt}
+\textbf{Công thức quy đổi giá trị thực tế:}
+\[
+\text{Giá Trị Thực Tế (px)} = \text{Giá Trị em} \times \text{font-size của phần tử cha}
+\]
+\end{conceptBox}
+
+\paragraph{2. Ví Dụ Đơn Giản: Kích Thước Chữ (font-size) Với Đơn Vị em:}
+Xét ví dụ phần tử cha chứa cỡ chữ $20\text{px}$ và thẻ con được gán kích thước $2\text{em}$:
+
+\begin{codeWindow}[Ví Dụ Đơn Giản: Xác Định font-size Bằng Đơn Vị em]
+\begin{lstlisting}[language=HTML5]
+<div class="parent">
+  <p class="child">Chữ này 2em</p>
+</div>
+
+<style>
+  .parent {
+    font-size: 20px;
+  }
+  .child {
+    font-size: 2em; /* = 2 x 20px = 40px */
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Kết Quả Render: .child Có font-size Là 40px]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+  {\fontsize{13pt}{16pt}\selectfont \textcolor{darkText}{Phần tử cha (\codeinline{.parent}): Cỡ chữ chuẩn $20\text{px}$}\par}
+  \vspace{6pt}
+  {\fontsize{20pt}{24pt}\selectfont \textcolor{primaryBlue}{\textbf{Chữ này 2em (\codeinline{.child}): Cỡ chữ hiển thị thực tế là $40\text{px}$ ($2 \times 20\text{px}$)}}\par}
+  \vspace{4pt}
+  \textcolor{green!60!black}{\textbf{[Kết quả]:}} Phần tử \codeinline{.child} nhận kích thước \codeinline{font-size} là $40\text{px}$.
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{3. Ví Dụ Rõ Ràng Hơn: Áp Dụng em Cho padding Của Phần Tử:}
+Đơn vị \codeinline{em} không chỉ áp dụng cho phông chữ mà còn được sử dụng rộng rãi cho các thuộc tính Box Model như \codeinline{padding}, \codeinline{margin}, \codeinline{width}\dots Trong trường hợp này, $1\text{em}$ được tính dựa theo cỡ chữ của chính nó (hoặc kế thừa từ phần tử cha nếu phần tử con không khai báo \codeinline{font-size}).
+
+\begin{codeWindow}[Ví Dụ Rõ Ràng Hơn: Áp Dụng em Cho Khoảng Đệm padding]
+\begin{lstlisting}[language=HTML5]
+<div class="outer">
+  <div class="inner">Tôi có padding 2em</div>
+</div>
+
+<style>
+  .outer {
+    font-size: 20px;
+  }
+  .inner {
+    padding: 2em; /* = 2 x 20px = 40px padding */
+    background-color: lightcoral;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan: Khối .inner Nhận Khoảng Đệm padding: 2em = 40px]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \begin{tcolorbox}[enhanced, colback=red!15, colframe=red!45, arc=5pt, boxrule=0.9pt, top=18pt, bottom=18pt, left=18pt, right=18pt]
+    \centering \textcolor{red!75!black}{\textbf{Tôi có padding 2em ($40\text{px}$ mọi phía xung quanh)}}
+  \end{tcolorbox}
+  \vspace{4pt}
+  \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Phần tử \codeinline{.inner} có khoảng đệm xung quanh là $40\text{px}$ nhờ phép nhân $2 \times 20\text{px}$ từ cỡ chữ cha kế thừa).}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{4. Lưu Ý Quan Trọng: 3 Tình Huống \& Hành Vi Khi Sử Dụng em:}
+Khi làm việc với đơn vị \codeinline{em}, các lập trình viên bắt buộc phải nắm rõ 3 tình huống hành vi đặc thù sau đây:
+
+\begin{prettyTableBox}[Bảng 3 Tình Huống \& Hành Vi Đặc Thù Của Đơn Vị em]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{4.2cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Tình Huống} & \thd{Hành Vi Cụ Thể} \\
+\hline
+\textbf{Lồng nhiều cấp} & \codeinline{em} sẽ \textbf{nhân chồng (compounding)} qua từng tầng $\rightarrow$ có thể khiến kích thước phông chữ bị phóng đại hoặc teo nhỏ một cách khó kiểm soát. \\
+\hline
+\textbf{Áp dụng cho padding, margin, width\dots} & Cũng hoạt động tương tự: Độ dài được tính tỷ lệ theo \codeinline{font-size} của chính phần tử đó. \\
+\hline
+\textbf{Không đặt font-size cụ thể cho cha} & \codeinline{em} mặc định sẽ dựa vào kích thước phông chữ thiết lập của trình duyệt (thông thường tiêu chuẩn là $16\text{px}$). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{5. So Sánh Nhanh Yếu Tố Tham Chiếu Của 4 Đơn Vị Cốt Lõi:}
+Dưới đây là bảng tổng hợp nhanh điểm tựa tham chiếu của 4 đơn vị phổ biến nhất trong CSS:
+
+\begin{prettyTableBox}[Bảng So Sánh Nhanh Điểm Tựa Tham Chiếu: em, rem, \%, px]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}K{2.5cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Đơn Vị} & \thd{Dựa Vào (Điểm Tựa Tham Chiếu)} \\
+\hline
+em & \codeinline{font-size} của phần tử cha gần nhất (hoặc chính nó đối với thuộc tính Box Model). \\
+\hline
+rem & \codeinline{font-size} của thẻ gốc \codeinline{<html>} duy nhất trên toàn bộ trang. \\
+\hline
+\% & Phụ thuộc vào thuộc tính cụ thể (ví dụ: \codeinline{width} theo chiều rộng cha, \codeinline{font-size} theo cỡ chữ cha). \\
+\hline
+px & Cố định, không bị ảnh hưởng bởi bất kỳ phần tử nào khác. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{6. Quy Tắc Hoạt Động Cốt Lõi Của Đơn Vị em:}
 Điểm tham chiếu của đơn vị \codeinline{em} phụ thuộc trực tiếp vào thuộc tính CSS mà nó được áp dụng:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Khi áp dụng cho thuộc tính \codeinline{font-size}}: $1\text{em}$ bằng đúng kích thước \codeinline{font-size} của \textbf{phần tử cha trực tiếp}.
@@ -1893,7 +2010,7 @@ padding, margin, width, border-radius & \textbf{\codeinline{font-size} của ch�
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{2. Cạm Bẫy Cần Tránh: Hiệu Ứng Nhân Dồn Kích Thước (Em Compounding Effect):}
+\paragraph{7. Cạm Bẫy Cần Tránh: Hiệu Ứng Nhân Dồn Kích Thước (Em Compounding Effect):}
 
 Khi bạn lồng ghép nhiều cấp phần tử con liên tiếp và mỗi cấp đều sử dụng \codeinline{font-size} bằng đơn vị \codeinline{em}, kích thước chữ sẽ bị \textbf{nhân dồn qua từng tầng}, dẫn đến việc phần tử càng lồng sâu thì chữ càng phình to hoặc teo nhỏ một cách khó kiểm soát.
 
@@ -1944,7 +2061,7 @@ ul.compounding-menu li {
 \end{tcolorbox}
 \end{browserWindow}
 
-\paragraph{3. Ứng Dụng Thực Tế Tuyệt Vời Của em: Nút Bấm Co Giãn Tự Động (Scalable Buttons):}
+\paragraph{8. Ứng Dụng Thực Tế Tuyệt Vời Của em: Nút Bấm Co Giãn Tự Động (Scalable Buttons):}
 
 Mặc dù \codeinline{em} phức tạp cho \codeinline{font-size}, nhưng nó lại là \textbf{vũ khí tối thượng để thiết kế các thành phần UI có khả năng tự động co giãn tỷ lệ} (\term{Scalable Components}). Khi sử dụng \codeinline{em} cho \codeinline{padding} và \codeinline{border-radius} của nút bấm, khoảng đệm sẽ tự động mở rộng hài hòa khi bạn thay đổi cỡ chữ mà không cần viết thêm bất kỳ dòng CSS nào!
 
