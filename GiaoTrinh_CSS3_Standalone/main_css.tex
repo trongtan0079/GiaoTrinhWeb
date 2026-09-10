@@ -2821,31 +2821,92 @@ Khoảng cách dòng (\codeinline{line-height}) & Unitless (1.5) & Ngăn ngừa 
 \end{enumerate}
 \end{conceptBox}
 
-\paragraph{2. Công Thức Quy Đổi Toán Học:}
-Điểm tựa toán học cốt lõi của \codeinline{rem}:
-\[
-\mathbf{1\text{rem} = \text{font-size của thẻ gốc \codeinline{<html>}}}
-\]
+\paragraph{2. Cơ Chế Hoạt Động \& Công Thức Quy Đổi Toán Học:}
+Đơn vị \codeinline{rem} hoạt động dựa trên nguyên tắc tương đối với kích thước phông chữ của phần tử gốc duy nhất của tài liệu là thẻ \codeinline{<html>}.
 
-Theo mặc định tiêu chuẩn của hầu hết mọi trình duyệt web:
+\begin{conceptBox}[Quy Trình 3 Bước Vận Hành Của Đơn Vị rem]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Bước 1 -- Trình duyệt đọc \codeinline{font-size} của thẻ \codeinline{<html>}}: Mặc định là $16\text{px}$ nếu không bị ghi đè trong CSS.
+    \item \textbf{Bước 2 -- Xác lập quy chuẩn cơ sở}: Mỗi $1\text{rem} = \text{giá trị font-size của } \codeinline{<html>}$.
+    \item \textbf{Bước 3 -- Áp dụng đồng bộ}: Mọi phần tử sử dụng đơn vị \codeinline{rem} trên toàn trang sẽ luôn tính toán dựa trên thẻ gốc \codeinline{<html>}, \textbf{hoàn toàn KHÔNG bị ảnh hưởng bởi bất kỳ thẻ cha trung gian nào}.
+\end{enumerate}
+\end{conceptBox}
+
+\subparagraph{a. Điểm khởi đầu -- Kích thước phông chữ của thẻ gốc \codeinline{<html>}:}
+Mọi tính toán với \codeinline{rem} đều bắt đầu từ việc xác định giá trị \codeinline{font-size} của thẻ \codeinline{<html>}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Mặc định trình duyệt}: Nếu bạn không thiết lập \codeinline{font-size} cho thẻ \codeinline{<html>}, hầu hết mọi trình duyệt (Chrome, Firefox, Edge, Safari,...) sẽ mặc định dùng $16\text{px}$ làm kích thước cơ sở. Khi đó: $\mathbf{1\text{rem} = 16\text{px}}$.
+    \item \textbf{Thiết lập thủ công}: Bạn có thể tự định nghĩa \codeinline{font-size} cho thẻ \codeinline{<html>} trong file CSS để kiểm soát kích thước cơ sở:
 \begin{lstlisting}[language=CSS3]
 html {
-  font-size: 16px; /* Mac dinh cua moi trinh duyet */
+  font-size: 16px; /* 1rem = 16px */
+}
+\end{lstlisting}
+    Hoặc để thuận tiện trong việc nhẩm toán, nhiều lập trình viên áp dụng tỷ lệ:
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 62.5%; /* Tuong duong 10px neu mac dinh trinh duyet la 16px */
+  /* Cach tinh: 16px * 0.625 = 10px */
+  /* Khi do: 1rem = 10px. Tinh toan tro nen sieu de dang (vi du: 1.5rem = 15px) */
+}
+\end{lstlisting}
+\end{itemize}
+Dù bạn thiết lập giá trị nào, \codeinline{font-size} của thẻ \codeinline{<html>} sẽ trở thành \textbf{``hệ số nhân''} cho tất cả các giá trị \codeinline{rem} xuất hiện trên toàn bộ trang web.
+
+\subparagraph{b. Tính toán giá trị thực tế (Pixel) trên đa dạng thuộc tính:}
+Khi bạn sử dụng \codeinline{rem} cho \textbf{bất kỳ thuộc tính CSS nào} (như \codeinline{font-size}, \codeinline{padding}, \codeinline{margin}, \codeinline{width}, \codeinline{height}, \codeinline{border-radius},...), trình duyệt sẽ thực hiện phép nhân đơn giản để chuyển đổi giá trị \codeinline{rem} thành giá trị pixel thực tế mà nó render lên màn hình.
+
+\begin{conceptBox}[Công Thức Chuyển Đổi Đơn Vị rem Sang Pixel Thực Tế]
+\[
+\mathbf{\text{Giá Trị Thực Tế (px)} = \text{Giá Trị rem} \times \text{font-size của thẻ gốc \codeinline{<html>}}}
+\]
+Theo chuẩn mặc định:
+\[
+1\text{rem} = 16\text{px}, \quad 2\text{rem} = 32\text{px}, \quad 0.5\text{rem} = 8\text{px}
+\]
+\end{conceptBox}
+
+Xét ví dụ minh họa tính toán trên nhiều thuộc tính thuộc Box Model và Typography:
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 16px;    /* Gia tri goc tham chieu */
+}
+
+h1 {
+  font-size: 2.5rem;  /* Co chu tieu de */
+  margin-top: 1.25rem;/* Khoang cach le tren */
+}
+
+p {
+  font-size: 1rem;    /* Co chu doan van */
+  padding: 0.5rem;    /* Khoang dem noi bo */
+}
+
+.box {
+  width: 10rem;       /* Chieu rong */
+  height: 5rem;       /* Chieu cao */
 }
 \end{lstlisting}
 
-Từ đó, ta có các giá trị quy đổi tức thời:
+Cách trình duyệt tính toán giá trị pixel thực tế kết xuất ra màn hình:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item $1\text{rem} = 1 \times 16\text{px} = \mathbf{16\text{px}}$
-    \item $2\text{rem} = 2 \times 16\text{px} = \mathbf{32\text{px}}$
-    \item $0.5\text{rem} = 0.5 \times 16\text{px} = \mathbf{8\text{px}}$
+    \item \textbf{Phần tử \codeinline{<h1>}}:
+    \begin{itemize}[leftmargin=1.2em]
+        \item \codeinline{font-size: 2.5rem} $\rightarrow 2.5 \times 16\text{px} = \mathbf{40\text{px}}$.
+        \item \codeinline{margin-top: 1.25rem} $\rightarrow 1.25 \times 16\text{px} = \mathbf{20\text{px}}$.
+    \end{itemize}
+    \item \textbf{Phần tử \codeinline{<p>}}:
+    \begin{itemize}[leftmargin=1.2em]
+        \item \codeinline{font-size: 1rem} $\rightarrow 1 \times 16\text{px} = \mathbf{16\text{px}}$.
+        \item \codeinline{padding: 0.5rem} $\rightarrow 0.5 \times 16\text{px} = \mathbf{8\text{px}}$.
+    \end{itemize}
+    \item \textbf{Phần tử \codeinline{.box}}:
+    \begin{itemize}[leftmargin=1.2em]
+        \item \codeinline{width: 10rem} $\rightarrow 10 \times 16\text{px} = \mathbf{160\text{px}}$.
+        \item \codeinline{height: 5rem} $\rightarrow 5 \times 16\text{px} = \mathbf{80\text{px}}$.
+    \end{itemize}
 \end{itemize}
 
-\begin{conceptBox}[Công Thức Chuyển Đổi Đơn Vị rem Sang Pixel]
-\[
-\text{Giá Trị Thực Tế (px)} = \text{Giá Trị rem} \times \text{font-size của thẻ gốc \codeinline{<html>} (Mặc định: } 16\text{px)}
-\]
-\end{conceptBox}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Quy Đổi Nhanh Từ Pixel Sang rem (Chuẩn Gốc 16px)]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -2921,6 +2982,55 @@ html {
 Khi bạn thay đổi \codeinline{font-size} của thẻ gốc \codeinline{html}, toàn bộ các kích thước xây dựng dựa trên đơn vị \codeinline{rem} trên khắp trang web sẽ tự động co giãn theo tỷ lệ mới một cách đồng nhất, giúp việc scale giao diện trở nên vô cùng nhẹ nhàng.
 \end{noteBox}
 
+\begin{codeWindow}[Ví Dụ 3.3: Sự ``Ma Thuật'' Của rem Trong Thiết Kế Đáp Ứng (Responsive Design)]
+\begin{lstlisting}[language=CSS3]
+/* 1. Gia tri mac dinh danh cho man hinh Desktop lon (> 768px) */
+html {
+  font-size: 16px;    /* 1rem = 16px */
+}
+h1 {
+  font-size: 2.5rem;  /* 2.5 x 16px = 40px */
+}
+p {
+  font-size: 1rem;    /* 1 x 16px = 16px */
+}
+
+/* 2. Khi man hinh Tablet co chieu rong toi da 768px */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;  /* Giam font-size goc xuong 14px */
+  }
+}
+
+/* 3. Khi man hinh Mobile co chieu rong toi da 480px */
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;  /* Giam font-size goc xuong 12px */
+  }
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Ma Trận Co Giãn Kích Thước Tự Động Theo Thiết Bị Nhờ rem]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.2cm}|>{\centering\arraybackslash}K{2.4cm}|>{\raggedright\arraybackslash}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Ngưỡng Màn Hình} & \thd{font-size Thẻ html} & \thd{Tiêu Đề h1 (2.5rem)} & \thd{Đoạn Văn p (1rem)} \\
+\hline
+\textbf{Màn hình lớn ($> 768\text{px}$)} & $16\text{px}$ (Chuẩn) & $2.5 \times 16\text{px} = \mathbf{40\text{px}}$ & $1 \times 16\text{px} = \mathbf{16\text{px}}$ \\
+\hline
+\textbf{Màn hình vừa ($481\text{px} - 768\text{px}$)} & $14\text{px}$ & $2.5 \times 14\text{px} = \mathbf{35\text{px}}$ & $1 \times 14\text{px} = \mathbf{14\text{px}}$ \\
+\hline
+\textbf{Màn hình nhỏ ($\le 480\text{px}$)} & $12\text{px}$ & $2.5 \times 12\text{px} = \mathbf{30\text{px}}$ & $1 \times 12\text{px} = \mathbf{12\text{px}}$ \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Lợi Ích Vượt Trội Của rem Trong Kiến Trúc Giao Diện]
+Bạn không cần phải viết lại CSS cho từng phần tử (\codeinline{h1}, \codeinline{p}, \codeinline{.box},...) trong mỗi Media Query. Chỉ cần điều chỉnh duy nhất \codeinline{font-size} của \codeinline{<html>}, toàn bộ hệ thống giao diện từ phông chữ đến khoảng cách bố cục sẽ tự động co giãn đồng bộ theo tỷ lệ hoàn hảo. Điều này giúp mã nguồn tinh gọn, sạch sẽ, dễ bảo trì và giảm thiểu tối đa sai sót.
+\end{tipBox}
+
 \paragraph{4. Ma Trận So Sánh Toàn Diện: rem vs em:}
 Dưới đây là bảng tổng hợp đối chiếu sự khác biệt bản chất giữa hai đơn vị tương đối quan trọng nhất:
 
@@ -2958,12 +3068,79 @@ Dưới đây là bảng tổng hợp đối chiếu sự khác biệt bản ch�
 \end{tabularx}
 \end{prettyTableBox}
 
+\subparagraph{Thực nghiệm đối chứng: Hành vi của em vs rem trên cùng một cấu trúc DOM lồng nhau:}
+Để hiểu sâu sắc sự khác biệt cốt lõi, hãy quan sát cùng một cây DOM lồng nhau $3$ cấp:
+
+\begin{codeWindow}[Cấu Trúc HTML Cây DOM Lồng Nhau 3 Cấp: .parent > .child > .grandchild]
+\begin{lstlisting}[language=HTML5]
+<div class="parent">
+  Parent Text
+  <div class="child">
+    Child Text
+    <div class="grandchild">
+      Grandchild Text
+    </div>
+  </div>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Thử Nghiệm 1: Định Cỡ Bằng Đơn Vị em (Gây Hiệu Ứng Tầng Compounding)]
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 16px;
+}
+.parent {
+  font-size: 1em;   /* 1 x 16px = 16px */
+}
+.child {
+  font-size: 1.2em; /* 1.2 x font-size cua .parent (1.2 x 16px = 19.2px) */
+}
+.grandchild {
+  font-size: 1.2em; /* 1.2 x font-size cua .child (1.2 x 19.2px = 23.04px) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Hệ Quả Của Hiệu Ứng Tầng (Compounding Effect) Khi Dùng em]
+Với \codeinline{em}, kích thước phông chữ của \codeinline{.grandchild} bị ảnh hưởng bởi \codeinline{.child}, và \codeinline{.child} lại bị ảnh hưởng bởi \codeinline{.parent}. Kích thước bị nhân dồn lên thành $23.04\text{px}$, trở nên rất khó kiểm soát khi cấu trúc DOM lồng nhau phức tạp.
+\end{warnBox}
+
+\begin{codeWindow}[Thử Nghiệm 2: Định Cỡ Bằng Đơn Vị rem (Hoàn Toàn Độc Lập Khỏi Thẻ Cha)]
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 16px;
+}
+.parent {
+  font-size: 1rem;   /* 1 x 16px = 16px */
+}
+.child {
+  font-size: 1.2rem; /* 1.2 x 16px = 19.2px */
+}
+.grandchild {
+  font-size: 1.4rem; /* 1.4 x 16px = 22.4px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Điểm Tựa Độc Lập Tuyệt Đối Của rem]
+Với \codeinline{rem}, kích thước của \codeinline{.child} ($19.2\text{px}$) và \codeinline{.grandchild} ($22.4\text{px}$) \textbf{hoàn toàn độc lập} với phần tử cha của chúng. Mọi phép tính đều neo chặt vào mỏ neo duy nhất là thẻ \codeinline{<html>}, giúp kích thước luôn dễ dự đoán và ổn định tuyệt đối trong mọi tình huống.
+\end{conceptBox}
+
 \paragraph{5. Những Lưu Ý Quan Trọng Khi Sử Dụng rem:}
 \begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \codeinline{rem} \textbf{luôn luôn tính theo} \codeinline{html \{ font-size \}}.
     \item \textbf{Cực kỳ dễ kiểm soát trong thiết kế Responsive}: Chỉ cần điều chỉnh \codeinline{font-size} của thẻ \codeinline{<html>} tại các Breakpoint, toàn bộ trang web sẽ tự động co giãn tỷ lệ hoàn hảo.
     \item \textbf{Tránh hiện tượng lồng nhau gây tăng giảm kích thước không kiểm soát}: Thay vì đau đầu tính toán cấp số nhân của \codeinline{em}, sử dụng \codeinline{rem} giúp cấu trúc mã nguồn trong sáng, dễ bảo trì và dễ hiểu hơn rất nhiều.
 \end{enumerate}
+
+\begin{conceptBox}[Tóm Lược 3 Chìa Khóa Vàng Về Cơ Chế Hoạt Động Của rem]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Thiết lập \codeinline{font-size} cho \codeinline{<html>}}: Đây là nền tảng khởi nguồn duy nhất (\term{Single Source of Truth}).
+    \item \textbf{Mọi giá trị \codeinline{rem}}: Trình duyệt lấy giá trị \codeinline{rem} đã khai báo nhân với \codeinline{font-size} của \codeinline{<html>} để kết xuất ra giá trị pixel thực tế.
+    \item \textbf{Thay đổi \codeinline{font-size} của \codeinline{<html>}}: Tự động kéo theo sự thay đổi tỷ lệ đồng bộ của tất cả các phần tử dùng \codeinline{rem} trên khắp trang web -- Đây chính là chìa khóa vàng cho Responsive Design và Trợ năng (Accessibility).
+\end{enumerate}
+\end{conceptBox}
 
 \paragraph{6. Ứng Dụng Thực Tế Trong Kiến Trúc Giao Diện CSS:}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
