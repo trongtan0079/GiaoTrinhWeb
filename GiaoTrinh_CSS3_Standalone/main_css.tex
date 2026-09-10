@@ -2114,6 +2114,560 @@ Mặc dù \codeinline{em} phức tạp cho \codeinline{font-size}, nhưng nó l�
 \end{tcolorbox}
 \end{browserWindow}
 
+% ------------------------------------------------------------------------------
+% PHÂN TÍCH CHUYÊN SÂU 9 TRƯỜNG HỢP HOẠT ĐỘNG CỦA ĐƠN VỊ EM TRONG THỰC TẾ
+% ------------------------------------------------------------------------------
+\subsubsection{Cách Hoạt Động Của Đơn Vị em Qua 9 Trường Hợp Thực Chiến}
+
+Để làm chủ hoàn toàn đơn vị \codeinline{em} và loại bỏ mọi bối rối khi thiết kế giao diện, chúng ta cùng phân tích chi tiết cách vận hành toán học của \codeinline{em} qua 9 kịch bản điển hình từ cơ bản đến phức tạp:
+
+\paragraph{Trường Hợp 1: Khi Cả Cha Và Con Đều Không Khai Báo font-size:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Ngữ cảnh}: Khi không khai báo \codeinline{font-size} cho cả phần tử cha và phần tử con, trình duyệt sẽ sử dụng giá trị mặc định của thẻ gốc \codeinline{<html>} (thường là $16\text{px}$).
+    \item \textbf{Mặc định trình duyệt}:
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 16px;
+}
+\end{lstlisting}
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 1.1: Không Khai Báo font-size Cho Bất Kỳ Phần Tử Nào]
+\begin{lstlisting}[language=HTML5]
+<div class="box">Text</div>
+
+<style>
+  .box {
+    font-size: 2em; /* 2 x 16px (mac dinh html) = 32px */
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: .box Nhận font-size Là 32px]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+  {\fontsize{20pt}{24pt}\selectfont \textcolor{primaryBlue}{\textbf{Text}}\par}
+  \vspace{3pt}
+  \textcolor{green!60!black}{\textbf{[Kết quả]:}} Phần tử \codeinline{.box} có \codeinline{font-size} hiển thị thực tế là $\mathbf{32\text{px}}$ ($2 \times 16\text{px}$).
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{codeWindow}[Ví Dụ 1.2: Dùng em Trong padding Khi Không Có font-size Khai Báo]
+\begin{lstlisting}[language=HTML5]
+<div class="box">Noi dung</div>
+
+<style>
+  .box {
+    padding: 1.5em; /* 1.5 x 16px = 24px padding moi phia */
+    background-color: yellow;
+    border: 1px solid black;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: .box Có padding 24px Xung Quanh]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+  \begin{tcolorbox}[enhanced, colback=yellow!40, colframe=black, arc=3pt, boxrule=1pt, top=16pt, bottom=16pt, left=16pt, right=16pt]
+    \centering\textbf{\color{black}Nội dung}
+  \end{tcolorbox}
+  \vspace{3pt}
+  \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: \codeinline{.box} có khoảng đệm $24\text{px}$ xung quanh, dựa vào \codeinline{font-size} mặc định của trình duyệt là $16\text{px}$).}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Điểm Tham Chiếu Của em Trong Trường Hợp 1]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{4.6cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Tình Huống} & \thd{em Tham Chiếu Đến Đâu?} \\
+\hline
+Không có \codeinline{font-size} cho cha và con & Sẽ dùng \codeinline{font-size} mặc định của thẻ \codeinline{<html>} là $16\text{px}$. \\
+\hline
+Có \codeinline{font-size} ở cha & \codeinline{em} sẽ nhân trực tiếp với giá trị đó. \\
+\hline
+Có nhiều cấp \codeinline{em} lồng nhau & Có thể gây nhân chồng, dẫn đến kích thước phóng đại không kiểm soát. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Gợi Ý Kiểm Soát em \& Kỹ Thuật 62.5\% Kinh Điển]
+Nếu muốn \codeinline{em} ổn định, bạn có thể đặt \codeinline{font-size} rõ ràng cho phần tử cha hoặc dùng \codeinline{rem} để tham chiếu về gốc. Để đảm bảo tính nhất quán và dễ nhẩm toán, nhiều lập trình viên CSS thường áp dụng:
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 62.5%; /* 62.5% x 16px = 10px -> 1em = 10px rat de tinh toan! */
+}
+\end{lstlisting}
+\end{tipBox}
+
+\paragraph{Trường Hợp 2: Phần Tử Con Có font-size Là px Và Dùng em Cho Thuộc Tính Box Model (width, height, padding, margin):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Quy tắc cơ bản}: Nếu \codeinline{font-size} của phần tử được đặt bằng \codeinline{px}, thì các thuộc tính khác (\codeinline{width}, \codeinline{height}, \codeinline{padding}, \codeinline{margin}\dots) viết bằng \codeinline{em} sẽ \textbf{dựa trên chính font-size của phần tử đó} (hoàn toàn độc lập với phần tử cha).
+    \item \textbf{Cách tính}:
+    \[
+    \text{Giá trị tính bằng px} = \text{Giá trị em} \times \text{font-size của chính phần tử}
+    \]
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 2: Xác Định Box Model Bằng em Theo font-size Của Chính Nó]
+\begin{lstlisting}[language=HTML5]
+<div class="box">Noi dung</div>
+
+<style>
+  .box {
+    font-size: 20px;      /* Co so: 1em = 20px */
+    width: 10em;          /* 10 x 20px = 200px */
+    height: 5em;          /* 5 x 20px = 100px */
+    padding: 1em;         /* 1 x 20px = 20px */
+    background-color: lightblue;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bảng Tính Toán Chi Tiết Thuộc Tính Box Model Theo em]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{2.4cm}|>{\bfseries\color{codeNumber}}K{2.4cm}|>{\raggedright\arraybackslash}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thuộc Tính} & \thd{Giá Trị em} & \thd{Tính Theo font-size: 20px} & \thd{Kết Quả px Thực Tế} \\
+\hline
+width & 10em & $10 \times 20\text{px}$ & $\mathbf{200\text{px}}$ \\
+\hline
+height & 5em & $5 \times 20\text{px}$ & $\mathbf{100\text{px}}$ \\
+\hline
+padding & 1em & $1 \times 20\text{px}$ & $\mathbf{20\text{px}}$ (mỗi phía) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{noteBox}[3 Lưu Ý Cốt Lõi Khi Dùng Box Model Với em]
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Nếu \codeinline{font-size} được đặt bằng \codeinline{px} $\rightarrow$ \codeinline{em} dựa trên chính giá trị đó, \textbf{không liên quan đến phần tử cha}.
+    \item Đây là điểm khác biệt rõ ràng với \codeinline{em} khi dùng cho \codeinline{font-size}, vốn dựa theo cha.
+    \item Nếu bạn thay đổi \codeinline{font-size}, tất cả giá trị \codeinline{em} liên quan sẽ tự động co giãn theo $\rightarrow$ cực kỳ thuận tiện cho thiết kế Responsive.
+\end{enumerate}
+\end{noteBox}
+
+\begin{prettyTableBox}[So Sánh Nhanh Điểm Tựa Tham Chiếu Của 1em Trong Trường Hợp 2]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}K{4.5cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Trường Hợp Khai Báo} & \thd{1em Dựa Trên Cơ Sở Nào?} \\
+\hline
+font-size: 20px & $20\text{px}$ (của chính phần tử đó). \\
+\hline
+font-size: 2em & Nhân với \codeinline{font-size} của phần tử CHA. \\
+\hline
+Không khai báo font-size & Mặc định $16\text{px}$ (kế thừa từ thẻ gốc \codeinline{<html>}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Trường Hợp 3: Phần Tử Cha Có font-size, Phần Tử Con Không Khai Báo:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Cách hoạt động}: Nếu phần tử con không có \codeinline{font-size}, nó sẽ tự động kế thừa giá trị \codeinline{font-size} từ phần tử cha gần nhất có khai báo.
+    \item \textbf{Bản chất}: Đây là tính kế thừa tự động (\term{CSS Inheritance}) — vì \codeinline{font-size} là một thuộc tính có khả năng kế thừa theo phân cấp DOM.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 3: Phần Tử Con Kế Thừa Tự Động font-size Từ Phần Tử Cha]
+\begin{lstlisting}[language=HTML5]
+<div class="parent">
+  <p class="child">Noi dung cua con</p>
+</div>
+
+<style>
+  .parent {
+    font-size: 24px; /* Cha co font-size */
+  }
+  .child {
+    /* KHONG khai bao font-size */
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: .child Tự Động Nhận font-size Là 24px Từ .parent]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+  {\fontsize{16pt}{20pt}\selectfont \textcolor{darkText}{Nội dung của con (thừa hưởng chính xác cỡ chữ $24\text{px}$ từ phần tử cha)}\par}
+  \vspace{3pt}
+  \textcolor{green!60!black}{\textbf{[Kết luận]:}} Phần tử \codeinline{.child} sẽ tự động nhận \codeinline{font-size: 24px} từ \codeinline{.parent} vì \codeinline{.child} không có \codeinline{font-size}, nó kế thừa từ \codeinline{.parent}.
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{prettyTableBox}[Bảng Tổng Quát Cơ Chế Kế Thừa font-size Giữa Cha Và Con]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.4cm}|>{\bfseries\color{darkText}}K{3.4cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Phần Tử Cha} & \thd{Phần Tử Con} & \thd{Kết Quả Thực Tế Ở Phần Tử Con} \\
+\hline
+font-size: 24px & (không có) & Con = $\mathbf{24\text{px}}$ \\
+\hline
+font-size: 20px & (không có) & Con = $\mathbf{20\text{px}}$ \\
+\hline
+(không có) & (không có) & Con = $\mathbf{16\text{px}}$ (lấy mặc định từ thẻ gốc \codeinline{<html>}) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Ứng Dụng Thực Tế Của Tính Kế Thừa font-size]
+Thuộc tính \codeinline{font-size} luôn kế thừa theo mặc định nếu không khai báo cụ thể. Đây là cách dễ kiểm soát toàn bộ hệ thống chữ trong một layout: Chỉ cần đặt \codeinline{font-size} ở phần tử bao bọc lớn (ví dụ: \codeinline{body}, \codeinline{.container}, \codeinline{section}), và để tất cả các phần tử con tự động thừa kế.
+\end{tipBox}
+
+\paragraph{Trường Hợp 4: Phần Tử Cha Có font-size, Phần Tử Con Dùng Đơn Vị em:}
+Nếu phần tử con sử dụng \codeinline{em} cho cả \codeinline{font-size} lẫn các thuộc tính kích thước khác (\codeinline{width}, \codeinline{padding}\dots):
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{font-size: x em} $\rightarrow$ dựa vào \codeinline{font-size} của \textbf{phần tử cha}.
+    \item Các thuộc tính khác (\codeinline{width}, \codeinline{height}, \codeinline{padding}, \codeinline{margin}) dùng \codeinline{em} $\rightarrow$ dựa trên \codeinline{font-size} của \textbf{chính phần tử con đó} (giá trị đã được tính toán xong từ cha).
+\end{enumerate}
+
+\begin{codeWindow}[Ví Dụ 4: Cha Có font-size, Con Dùng em Cho Cả Chữ Lẫn Box Model]
+\begin{lstlisting}[language=HTML5]
+<div class="parent">
+  <div class="child">Noi dung</div>
+</div>
+
+<style>
+  .parent {
+    font-size: 20px;   /* 1em = 20px */
+  }
+  .child {
+    font-size: 1.5em;  /* 1.5 x 20px = 30px */
+    padding: 1em;      /* 1 x 30px = 30px (vi font-size cua .child la 30px) */
+    width: 10em;       /* 10 x 30px = 300px */
+    background-color: lightgreen;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bảng Phân Tích Tính Toán Chi Tiết Thuộc Tính Trong Ví Dụ 4]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{3.8cm}|>{\raggedright\arraybackslash}K{4.2cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thuộc Tính} & \thd{Điểm Tựa Dựa Trên} & \thd{Tính Ra Độ Dài Thực Tế (px)} \\
+\hline
+font-size: 1.5em & $1.5 \times 20\text{px}$ (của \codeinline{.parent}) & $\mathbf{= 30\text{px}}$ \\
+\hline
+padding: 1em & $1 \times 30\text{px}$ (của chính nó) & $\mathbf{= 30\text{px}}$ \\
+\hline
+width: 10em & $10 \times 30\text{px}$ (của chính nó) & $\mathbf{= 300\text{px}}$ \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Quy Tắc em Khi Cả Chữ Và Box Model Cùng Dùng em]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{4.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thuộc Tính Dùng em} & \thd{Dựa Theo font-size Của Ai?} \\
+\hline
+font-size: em & Phần tử cha gần nhất. \\
+\hline
+padding, margin, width, height & Phần tử chính nó (sau khi đã tính toán xong \codeinline{font-size}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{warnBox}[Lưu Ý Về Tính Kế Thừa Nhân Dồn]
+Đơn vị \codeinline{em} có tính kế thừa theo cấp, nên nếu lồng nhiều cấp \codeinline{font-size: 1.2em}, kích thước sẽ bị phóng đại dần. Để tránh sự phức tạp không mong muốn, bạn có thể chuyển sang dùng đơn vị \codeinline{rem} để luôn luôn bám vào thẻ gốc \codeinline{<html>}.
+\end{warnBox}
+
+\paragraph{Trường Hợp 5: Cả Cha Và Con Đều Đặt font-size Bằng px, Thuộc Tính Khác Dùng em:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Nguyên tắc hoạt động}: Các thuộc tính như \codeinline{width}, \codeinline{height}, \codeinline{padding}, \codeinline{margin} khi dùng \codeinline{em} sẽ \textbf{luôn luôn dựa trên font-size của chính phần tử đó} (hoàn toàn không quan tâm đến \codeinline{font-size} của phần tử cha).
+    \item \textbf{Điểm then chốt}: Không quan trọng \codeinline{font-size} đó được khai báo bằng \codeinline{px}, \codeinline{em} hay \codeinline{rem}\dots miễn là đã được xác định cụ thể trên phần tử đó.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 5: Cả Cha Và Con Đều Đặt font-size px, Box Model Dùng em]
+\begin{lstlisting}[language=HTML5]
+<div class="parent">
+  <div class="child">Noi dung con</div>
+</div>
+
+<style>
+  .parent {
+    font-size: 20px;
+  }
+  .child {
+    font-size: 30px;       /* font-size rieng cua con */
+    width: 10em;           /* = 10 x 30px = 300px */
+    padding: 1em;          /* = 1 x 30px = 30px */
+    margin: 0.5em;         /* = 0.5 x 30px = 15px */
+    background: lightcoral;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bảng Phân Tích Tính Toán Cho Phần Tử .child Trong Ví Dụ 5]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{3.4cm}|>{\raggedright\arraybackslash}K{4.4cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thuộc Tính .child} & \thd{Đơn Vị em Tính Theo Gì?} & \thd{Tính Ra Độ Dài Thực Tế (px)} \\
+\hline
+font-size: 30px & Do bạn trực tiếp thiết lập & $\mathbf{30\text{px}}$ \\
+\hline
+width: 10em & $10 \times \text{font-size}$ của chính nó & $10 \times 30\text{px} = \mathbf{300\text{px}}$ \\
+\hline
+padding: 1em & $1 \times \text{font-size}$ của chính nó & $1 \times 30\text{px} = \mathbf{30\text{px}}$ \\
+\hline
+margin: 0.5em & $0.5 \times \text{font-size}$ của chính nó & $0.5 \times 30\text{px} = \mathbf{15\text{px}}$ \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Nguyên Tắc Phân Định Điểm Tham Chiếu]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{4.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Thuộc Tính Dùng em} & \thd{Dựa Vào font-size Của Ai?} \\
+\hline
+font-size & Phần tử cha gần nhất. \\
+\hline
+width, height, padding, margin & Phần tử chính nó (sau khi đã tính xong \codeinline{font-size}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{noteBox}[Lưu Ý Thiết Lập Cơ Sở Đo Lường]
+Khi bạn gán \codeinline{font-size} cụ thể (dù bằng \codeinline{px}, \codeinline{em} hay \codeinline{rem}) $\rightarrow$ các thuộc tính khác dùng \codeinline{em} sẽ lấy đúng giá trị đó làm cơ sở. Để việc tính toán luôn chuẩn xác, hãy luôn đặt rõ ràng \codeinline{font-size} cho phần tử nếu bạn dự định dùng \codeinline{em} để thiết lập kích thước khác cho nó.
+\end{noteBox}
+
+\paragraph{Trường Hợp 6: Thẻ Cha Có font-size Tương Đối (\%, em) Và Cơ Chế Kế Thừa:}
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{font-size tương đối là gì?} Là khi bạn dùng các đơn vị tương đối như \codeinline{em}, \codeinline{\%}, \codeinline{rem} thay vì \codeinline{px}. Ví dụ: \codeinline{.parent \{ font-size: 120\%; \}} (tương đối theo phần tử cha của nó).
+    \item \textbf{Khi thẻ cha dùng đơn vị tương đối nhưng không có phần tử cấp trên đặt font-size}: Trình duyệt sẽ lấy kích thước mặc định của thẻ gốc \codeinline{<html>} làm điểm tựa (thường là $16\text{px}$). Tức là:
+    \[
+    \text{font-size: 120\%} \quad \rightarrow \quad 120\% \times 16\text{px} = \mathbf{19.2\text{px}}
+    \]
+    \item \textbf{Thẻ con kế thừa như thế nào?} Thẻ con dùng đơn vị \codeinline{\%} hoặc \codeinline{em} sẽ kế thừa dựa trên giá trị \codeinline{font-size} đã tính toán xong của thẻ cha.
+\end{enumerate}
+
+\begin{codeWindow}[Ví Dụ 6: Cha Dùng Tỷ Lệ Phần Trăm, Con Dùng Đơn Vị em]
+\begin{lstlisting}[language=HTML5]
+<div class="parent">
+  <p class="child">Noi dung</p>
+</div>
+
+<style>
+  .parent {
+    font-size: 125%;     /* = 1.25 x 16px = 20px */
+  }
+  .child {
+    font-size: 1.5em;    /* = 1.5 x 20px = 30px */
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Quy Đổi font-size Qua 3 Cấp Trong Ví Dụ 6]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{2.4cm}|>{\bfseries\color{codeNumber}}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Cấp Độ} & \thd{font-size Tính Được} & \thd{Ghi Chú \& Điểm Tựa} \\
+\hline
+html & $16\text{px}$ (mặc định) & Cơ sở gốc chuẩn của trình duyệt. \\
+\hline
+.parent & $125\% = \mathbf{20\text{px}}$ & So với giá trị mặc định của \codeinline{html} ($1.25 \times 16\text{px}$). \\
+\hline
+.child & $1.5\text{em} = \mathbf{30\text{px}}$ & So với giá trị đã tính của \codeinline{.parent} ($1.5 \times 20\text{px}$). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Trường Hợp 7: Thứ Tự Ưu Tiên Kế Thừa font-size Khi Dùng em (3 Cấp Ưu Tiên):}
+Khi một phần tử sử dụng đơn vị \codeinline{em}, trình duyệt sẽ duyệt qua quy tắc thứ tự ưu tiên 3 cấp sau đây để xác định kích thước:
+
+\begin{prettyTableBox}[Bảng Thứ Tự Ưu Tiên Kế Thừa font-size Khi Dùng em]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\bfseries\color{primaryBlue}}K{1.8cm}|>{\bfseries\color{darkText}}K{3.6cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Ưu Tiên} & \thd{Mức Kế Thừa} & \thd{Giải Thích Cơ Chế} \\
+\hline
+\textbf{1} & Chính phần tử đó & Nếu phần tử có khai báo \codeinline{font-size}, thì các thuộc tính \codeinline{em} khác sẽ tính dựa trên chính phần tử đó. \\
+\hline
+\textbf{2} & Thẻ cha trực tiếp & Nếu phần tử không có \codeinline{font-size}, nó sẽ kế thừa từ thẻ cha gần nhất. \\
+\hline
+\textbf{3} & Gốc (thẻ \codeinline{<html>}) & Nếu cả phần tử và phần tử cha đều không có \codeinline{font-size}, trình duyệt sẽ dùng giá trị mặc định từ \codeinline{<html>} (thường là $16\text{px}$). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ 7: Minh Họa 3 Cấp Lồng Nhau Tăng Lũy Tiến Kích Thước]
+\begin{lstlisting}[language=HTML5]
+<div class="grandparent">
+  <div class="parent">
+    <p class="child">Text</p>
+  </div>
+</div>
+
+<style>
+  .grandparent { font-size: 16px; }
+  .parent      { font-size: 1.5em; }   /* = 1.5 x 16px = 24px */
+  .child       { font-size: 1.5em; }   /* = 1.5 x 24px = 36px */
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Tóm Tắt Bản Chất Cốt Lõi Về Đơn Vị em]
+\codeinline{em} là đơn vị tương đối thông minh nhưng rất dễ gây lỗi kế thừa chồng lớp. Khi sử dụng \codeinline{font-size: 1.5em} trong nhiều cấp, bạn cần hiểu rõ nó sẽ cộng dồn theo cha; nếu cha không xác định thì sẽ kế thừa từ gốc (\codeinline{html}, thường là $16\text{px}$). Nếu bạn muốn lấy kích thước chuẩn theo gốc mà không bị phụ thuộc vào thẻ cha, giải pháp lý tưởng là sử dụng đơn vị \codeinline{rem} (\term{Root EM}), ví dụ: \codeinline{font-size: 1.2rem;} (luôn tính trực tiếp từ thẻ \codeinline{<html>}).
+\end{conceptBox}
+
+\paragraph{Trường Hợp 8: Mô Hình Thực Nghiệm 4 Cấp div Lồng Nhau (Ông -- Bố -- Con -- Cháu):}
+Dưới đây là một ví dụ thực tế với 4 cấp \codeinline{div} lồng nhau: Ông $\rightarrow$ Bố $\rightarrow$ Con $\rightarrow$ Cháu, tất cả đều dùng \codeinline{font-size: 1.5em} để thấy rõ hiệu ứng kích thước bị phóng đại lũy tiến:
+
+\begin{codeWindow}[Ví Dụ 8: 4 Cấp div Lồng Nhau Với font-size Dùng em]
+\begin{lstlisting}[language=HTML5]
+<div class="grandparent">
+  Ong (grandparent)
+  <div class="parent">
+    Bo (parent)
+    <div class="child">
+      Con (child)
+      <div class="grandchild">
+        Chau (grandchild)
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .grandparent {
+    font-size: 16px;
+    color: white;
+    background: #333;
+    padding: 10px;
+  }
+  .parent {
+    font-size: 1.5em; /* = 1.5 * 16px = 24px */
+    background: #444;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  .child {
+    font-size: 1.5em; /* = 1.5 * 24px = 36px */
+    background: #555;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  .grandchild {
+    font-size: 1.5em; /* = 1.5 * 36px = 54px */
+    background: #666;
+    padding: 10px;
+    margin-top: 10px;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bảng Tính Toán Phóng Đại Lũy Tiến Qua 4 Cấp Lồng Nhau]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{3.5cm}|>{\raggedright\arraybackslash}K{4.5cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Phần Tử} & \thd{Công Thức Tính Toán} & \thd{font-size Thực Tế (px)} \\
+\hline
+.grandparent & Cố định trực tiếp & $\mathbf{16\text{px}}$ \\
+\hline
+.parent & $1.5\text{em} \times 16\text{px}$ & $\mathbf{24\text{px}}$ \\
+\hline
+.child & $1.5\text{em} \times 24\text{px}$ & $\mathbf{36\text{px}}$ \\
+\hline
+.grandchild & $1.5\text{em} \times 36\text{px}$ & $\mathbf{54\text{px}}$ (gấp hơn 3.3 lần kích thước ban đầu!) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Cách Khắc Phục Nếu Không Muốn Chữ Bị Phình To]
+Để kiểm soát kích thước cho các phần tử lồng sâu mà không bị phóng đại theo cha, bạn có thể thiết lập kích thước cố định bằng \codeinline{px} hoặc dùng \codeinline{rem}:
+\begin{lstlisting}[language=CSS3]
+.grandchild {
+  font-size: 1.5rem; /* 1.5 * 16px = 24px -- hoan toan khong bi ke thua tu cha! */
+}
+\end{lstlisting}
+\end{tipBox}
+
+\paragraph{Trường Hợp 9: Hiểm Họa Khi Dùng Cùng Một Class .box Với font-size: 1.5em Cho Nhiều Cấp:}
+Nếu các phần tử con -- cháu -- chắt đều sử dụng chung một class tái sử dụng (ví dụ \codeinline{.box}), thì khi gán \codeinline{font-size} bằng đơn vị \codeinline{em}, hiện tượng phóng đại kế thừa vẫn xảy ra dữ dội vì \codeinline{em} phụ thuộc vào \codeinline{font-size} của phần tử cha trực tiếp:
+
+\begin{codeWindow}[Ví Dụ 9: Dùng Chung Một Class .box Và font-size: 1.5em Cho Các Cấp Lồng Nhau]
+\begin{lstlisting}[language=HTML5]
+<div class="box">
+  Ong (1)
+  <div class="box">
+    Bo (2)
+    <div class="box">
+      Con (3)
+      <div class="box">
+        Chau (4)
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .box {
+    font-size: 1.5em;
+    background-color: #0074D9;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bảng Phân Tích Phóng Đại Cấp Số Nhân Khi Dùng Cùng Class .box]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}K{2.8cm}|>{\raggedright\arraybackslash}K{4.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Phân Cấp} & \thd{Điểm Tựa Kế Thừa} & \thd{font-size Tính Ra (px)} \\
+\hline
+.box cấp 1 & Không có cha nào $\Rightarrow$ Kế thừa từ \codeinline{html} ($1\text{em} = 16\text{px}$) & $1.5 \times 16\text{px} = \mathbf{24\text{px}}$ \\
+\hline
+.box cấp 2 & Kế thừa từ cấp 1 ($24\text{px}$) & $1.5\text{em} \times 24\text{px} = \mathbf{36\text{px}}$ \\
+\hline
+.box cấp 3 & Kế thừa từ cấp 2 ($36\text{px}$) & $1.5\text{em} \times 36\text{px} = \mathbf{54\text{px}}$ \\
+\hline
+.box cấp 4 & Kế thừa từ cấp 3 ($54\text{px}$) & $1.5\text{em} \times 54\text{px} = \mathbf{81\text{px}}$ (chữ khổng lồ!) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{warnBox}[Lưu Ý Sống Còn \& 2 Cách Phòng Tránh Khi Tái Sử Dụng Class]
+Khi dùng chung một class như \codeinline{.box} cho nhiều cấp lồng nhau với đơn vị \codeinline{em}, hãy luôn ghi nhớ rằng \codeinline{em} kế thừa từ cha trực tiếp, do đó rất dễ gây ra hiện tượng kích thước chữ bị phóng đại mất kiểm soát.
+
+\textbf{Hai giải pháp kiến trúc được khuyến nghị}:
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Dùng \codeinline{rem} thay cho \codeinline{em}}: Giúp kích thước luôn bất biến độc lập với cấu trúc lồng nhau:
+\begin{lstlisting}[language=CSS3]
+.box {
+  font-size: 1.5rem; /* Luon luon co dinh bang 1.5 * 16px = 24px o moi cap! */
+}
+\end{lstlisting}
+    \item \textbf{Chỉ định rõ cỡ chữ cho từng cấp bậc}: Tái sử dụng class \codeinline{.box} cho giao diện chung, nhưng bổ sung modifier class để kiểm soát cỡ chữ:
+\begin{lstlisting}[language=CSS3]
+.box.level-1 { font-size: 16px; }
+.box.level-2 { font-size: 24px; }
+.box.level-3 { font-size: 20px; }
+\end{lstlisting}
+\end{enumerate}
+\end{warnBox}
+
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ REM (ROOT EM MASTERCLASS)
 % ==============================================================================
