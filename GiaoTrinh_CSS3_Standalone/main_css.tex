@@ -2124,13 +2124,16 @@ Mặc dù \codeinline{em} phức tạp cho \codeinline{font-size}, nhưng nó l�
 \paragraph{Trường Hợp 1: Khi Cả Cha Và Con Đều Không Khai Báo font-size:}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Ngữ cảnh}: Khi không khai báo \codeinline{font-size} cho cả phần tử cha và phần tử con, trình duyệt sẽ sử dụng giá trị mặc định của thẻ gốc \codeinline{<html>} (thường là $16\text{px}$).
-    \item \textbf{Mặc định trình duyệt}:
+    \item \textbf{Mặc định trình duyệt}: Thiết lập mặc định của thẻ \codeinline{<html>} là $16\text{px}$.
+\end{itemize}
+
+\begin{codeWindow}[Mặc Định Của Trình Duyệt Cho Thẻ Gốc html]
 \begin{lstlisting}[language=CSS3]
 html {
   font-size: 16px;
 }
 \end{lstlisting}
-\end{itemize}
+\end{codeWindow}
 
 \begin{codeWindow}[Ví Dụ 1.1: Không Khai Báo font-size Cho Bất Kỳ Phần Tử Nào]
 \begin{lstlisting}[language=HTML5]
@@ -2837,12 +2840,19 @@ Mọi tính toán với \codeinline{rem} đều bắt đầu từ việc xác đ
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Mặc định trình duyệt}: Nếu bạn không thiết lập \codeinline{font-size} cho thẻ \codeinline{<html>}, hầu hết mọi trình duyệt (Chrome, Firefox, Edge, Safari,...) sẽ mặc định dùng $16\text{px}$ làm kích thước cơ sở. Khi đó: $\mathbf{1\text{rem} = 16\text{px}}$.
     \item \textbf{Thiết lập thủ công}: Bạn có thể tự định nghĩa \codeinline{font-size} cho thẻ \codeinline{<html>} trong file CSS để kiểm soát kích thước cơ sở:
+\end{itemize}
+
+\begin{codeWindow}[Thiết Lập Mặc Định: font-size Cơ Sở Cho Thẻ html]
 \begin{lstlisting}[language=CSS3]
 html {
   font-size: 16px; /* 1rem = 16px */
 }
 \end{lstlisting}
-    Hoặc để thuận tiện trong việc nhẩm toán, nhiều lập trình viên áp dụng tỷ lệ:
+\end{codeWindow}
+
+Hoặc để thuận tiện trong việc nhẩm toán, nhiều lập trình viên áp dụng tỷ lệ $62.5\%$:
+
+\begin{codeWindow}[Kỹ Thuật 62.5\%: Chuyển Đổi Hệ Quy Chiếu Về Cơ Số 10 Dễ Nhẩm]
 \begin{lstlisting}[language=CSS3]
 html {
   font-size: 62.5%; /* Tuong duong 10px neu mac dinh trinh duyet la 16px */
@@ -2850,7 +2860,8 @@ html {
   /* Khi do: 1rem = 10px. Tinh toan tro nen sieu de dang (vi du: 1.5rem = 15px) */
 }
 \end{lstlisting}
-\end{itemize}
+\end{codeWindow}
+
 Dù bạn thiết lập giá trị nào, \codeinline{font-size} của thẻ \codeinline{<html>} sẽ trở thành \textbf{``hệ số nhân''} cho tất cả các giá trị \codeinline{rem} xuất hiện trên toàn bộ trang web.
 
 \subparagraph{b. Tính toán giá trị thực tế (Pixel) trên đa dạng thuộc tính:}
@@ -2867,6 +2878,8 @@ Theo chuẩn mặc định:
 \end{conceptBox}
 
 Xét ví dụ minh họa tính toán trên nhiều thuộc tính thuộc Box Model và Typography:
+
+\begin{codeWindow}[Khai Báo Nhiều Thuộc Tính Box Model \& Typography Bằng Đơn Vị rem]
 \begin{lstlisting}[language=CSS3]
 html {
   font-size: 16px;    /* Gia tri goc tham chieu */
@@ -2887,6 +2900,7 @@ p {
   height: 5rem;       /* Chieu cao */
 }
 \end{lstlisting}
+\end{codeWindow}
 
 Cách trình duyệt tính toán giá trị pixel thực tế kết xuất ra màn hình:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
@@ -3145,6 +3159,9 @@ Với \codeinline{rem}, kích thước của \codeinline{.child} ($19.2\text{px}
 \paragraph{6. Ứng Dụng Thực Tế Trong Kiến Trúc Giao Diện CSS:}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Xây dựng hệ thống kích thước nhất quán (\term{Design Tokens})}: Kết hợp \codeinline{rem} với CSS Custom Properties (biến CSS):
+\end{itemize}
+
+\begin{codeWindow}[Hệ Thống Design Tokens Với rem \& CSS Custom Properties]
 \begin{lstlisting}[language=CSS3]
 :root {
   --space: 1rem; /* 16px mac dinh */
@@ -3154,7 +3171,10 @@ Với \codeinline{rem}, kích thước của \codeinline{.child} ($19.2\text{px}
   padding: var(--space);
 }
 \end{lstlisting}
-    \item \textbf{Thiết kế dễ dàng scale toàn bộ website}: Thay đổi kích thước toàn trang linh hoạt chỉ bằng một dòng CSS điều chỉnh phông chữ của thẻ \codeinline{<html>}.
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Thiết lập dễ dàng scale toàn bộ website}: Thay đổi kích thước toàn trang linh hoạt chỉ bằng một dòng CSS điều chỉnh phông chữ của thẻ \codeinline{<html>}.
 \end{itemize}
 
 % ------------------------------------------------------------------------------
@@ -3173,12 +3193,15 @@ Theo đúng chuẩn mực biên soạn giáo trình nâng cao, mục này mở r
 
 \paragraph{b. Kỹ Thuật Hiện Đại: Phối Hợp rem Với clamp() Để Tạo Fluid Typography:}
 Thay vì phải viết nhiều Media Queries để đổi cỡ chữ thẻ \codeinline{<html>}, CSS hiện đại cho phép kết hợp \codeinline{rem} với \codeinline{vw} thông qua hàm \codeinline{clamp()}:
+
+\begin{codeWindow}[Fluid Typography Hiện Đại: Kết Hợp rem Và clamp()]
 \begin{lstlisting}[language=CSS3]
 /* Co chu tu dong co gian muot ma: toi thieu 1.5rem, ly tuong 2.5vw + 1rem, toi da 3rem */
 h1 {
   font-size: clamp(1.5rem, 2.5vw + 1rem, 3rem);
 }
 \end{lstlisting}
+\end{codeWindow}
 
 \paragraph{c. Câu Hỏi Phỏng Vấn: rem Có Thể Hoạt Động Bất Thường Khi Nào?}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
