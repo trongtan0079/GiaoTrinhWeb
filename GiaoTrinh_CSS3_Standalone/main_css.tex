@@ -2806,7 +2806,40 @@ Khoảng cách dòng (\codeinline{line-height}) & Unitless (1.5) & Ngăn ngừa 
 \subsection{Chuyên Đề Đơn Vị rem (rem Masterclass Trong CSS)}
 \label{sec:css_rem_masterclass}
 
-Đơn vị \codeinline{rem} (viết tắt của \term{Root EM}) ra đời để khắc phục triệt để nhược điểm nhân dồn phức tạp của \codeinline{em}. Giá trị của \codeinline{rem} luôn luôn cố định dựa trên \codeinline{font-size} của \textbf{phần tử gốc duy nhất của trang web là thẻ \codeinline{<html>}}.
+\paragraph{1. Bản Chất Đơn Vị rem \& 3 Đặc Điểm Cốt Lõi:}
+\codeinline{rem} là viết tắt của thuật ngữ \term{``Root EM''}. Đây là đơn vị đo lường tương đối được tính toán dựa trên kích thước phông chữ (\codeinline{font-size}) của \textbf{phần tử gốc duy nhất của trang web là thẻ \codeinline{<html>}}. Khác biệt hoàn toàn với \codeinline{em}, \codeinline{rem} không bị ảnh hưởng bởi thẻ cha gần nhất, mà luôn luôn tính từ thẻ gốc \codeinline{html}.
+
+\begin{conceptBox}[3 Đặc Điểm Nền Tảng Của Đơn Vị rem]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Tương đối với phần tử gốc (\codeinline{<html>})}: Đây là điểm khác biệt lớn nhất so với đơn vị \codeinline{em}. Trong khi \codeinline{em} tương đối với \codeinline{font-size} của phần tử cha trực tiếp, \codeinline{rem} luôn tương đối với \codeinline{font-size} của thẻ \codeinline{<html>}. Điều này giúp triệt tiêu hoàn toàn ``hiệu ứng tầng'' (\term{Cascading / Compounding Effect}) mà \codeinline{em} có thể gây ra khi các phần tử lồng nhau.
+    \item \textbf{Kiểm soát kích thước đồng bộ}: Khi bạn thay đổi \codeinline{font-size} của thẻ \codeinline{<html>}, tất cả các phần tử sử dụng đơn vị \codeinline{rem} trên trang sẽ tự động điều chỉnh kích thước theo tỷ lệ. Điều này cực kỳ hữu ích cho việc thiết kế giao diện có khả năng co giãn tỷ lệ thống nhất (\term{Scalable Design}) và dễ dàng thay đổi kích thước toàn trang.
+    \item \textbf{Thân thiện với Responsive và Accessibility (Trợ năng)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \textbf{Responsive}: Bạn có thể sử dụng \codeinline{rem} để định nghĩa kích thước các thành phần (như \codeinline{padding}, \codeinline{margin}, \codeinline{width}, \codeinline{height}, \codeinline{font-size}) sao cho chúng tự động thay đổi theo kích thước màn hình bằng cách điều chỉnh \codeinline{font-size} của \codeinline{<html>} trong các Media Queries.
+        \item \textbf{Accessibility}: Người dùng có thể dễ dàng điều chỉnh kích thước văn bản của trang web thông qua cài đặt trình duyệt (ví dụ: phóng to / thu nhỏ văn bản). Khi sử dụng \codeinline{rem}, văn bản và các thành phần khác sẽ tự động thích ứng với cài đặt của người dùng, cải thiện trải nghiệm vượt bậc cho những người có thị lực kém.
+    \end{itemize}
+\end{enumerate}
+\end{conceptBox}
+
+\paragraph{2. Công Thức Quy Đổi Toán Học:}
+Điểm tựa toán học cốt lõi của \codeinline{rem}:
+\[
+\mathbf{1\text{rem} = \text{font-size của thẻ gốc \codeinline{<html>}}}
+\]
+
+Theo mặc định tiêu chuẩn của hầu hết mọi trình duyệt web:
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 16px; /* Mac dinh cua moi trinh duyet */
+}
+\end{lstlisting}
+
+Từ đó, ta có các giá trị quy đổi tức thời:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item $1\text{rem} = 1 \times 16\text{px} = \mathbf{16\text{px}}$
+    \item $2\text{rem} = 2 \times 16\text{px} = \mathbf{32\text{px}}$
+    \item $0.5\text{rem} = 0.5 \times 16\text{px} = \mathbf{8\text{px}}$
+\end{itemize}
 
 \begin{conceptBox}[Công Thức Chuyển Đổi Đơn Vị rem Sang Pixel]
 \[
@@ -2838,7 +2871,74 @@ Tiêu đề Hero Banner & $48\text{px}$ & 3rem & $48 / 16 = 3\text{rem}$. \\
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{4. Ma Trận So Sánh Toàn Diện: em vs rem}
+\paragraph{3. Các Ví Dụ Trực Quan Minh Họa Đơn Vị rem:}
+
+\begin{codeWindow}[Ví Dụ 3.1: Sử Dụng rem Cho Kích Thước Bố Cục Và Phông Chữ]
+\begin{lstlisting}[language=HTML5]
+<div class="box">Box</div>
+
+<style>
+html {
+  font-size: 16px;
+}
+.box {
+  width: 20rem;       /* = 20 x 16px = 320px */
+  height: 10rem;      /* = 10 x 16px = 160px */
+  font-size: 1.5rem;  /* = 1.5 x 16px = 24px */
+  background: lightblue;
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan: Khối .box Thiết Lập Toàn Bộ Bằng rem]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \begin{tcolorbox}[enhanced, colback=cyan!15, colframe=cyan!50, arc=4pt, boxrule=0.8pt, width=7.5cm, height=2.8cm, valign=center]
+    \centering {\fontsize{16pt}{20pt}\selectfont \textbf{\color{primaryBlue}Box ($1.5\text{rem} = 24\text{px}$)}}\par
+    \vspace{2pt}
+    {\scriptsize\color{darkText} $20\text{rem} \times 10\text{rem}$ ($320\text{px} \times 160\text{px}$)}
+  \end{tcolorbox}
+  \vspace{3pt}
+  \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Kết quả: Chiều rộng $320\text{px}$, chiều cao $160\text{px}$ và cỡ chữ $24\text{px}$ đều tính chuẩn mực theo gốc thẻ \codeinline{html}).}
+\end{tcolorbox}
+\end{browserWindow}
+
+\begin{codeWindow}[Ví Dụ 3.2: Thay Đổi Cỡ Chữ Root Thẻ html Ảnh Hưởng Đồng Bộ Toàn Bộ Trang]
+\begin{lstlisting}[language=HTML5]
+<style>
+html {
+  font-size: 10px;    /* Thay doi co chu goc thanh 10px */
+}
+.box {
+  font-size: 2rem;    /* = 2 x 10px = 20px */
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{noteBox}[Nguyên Lý Vận Hành Đồng Bộ Của rem]
+Khi bạn thay đổi \codeinline{font-size} của thẻ gốc \codeinline{html}, toàn bộ các kích thước xây dựng dựa trên đơn vị \codeinline{rem} trên khắp trang web sẽ tự động co giãn theo tỷ lệ mới một cách đồng nhất, giúp việc scale giao diện trở nên vô cùng nhẹ nhàng.
+\end{noteBox}
+
+\paragraph{4. Ma Trận So Sánh Toàn Diện: rem vs em:}
+Dưới đây là bảng tổng hợp đối chiếu sự khác biệt bản chất giữa hai đơn vị tương đối quan trọng nhất:
+
+\begin{prettyTableBox}[Bảng So Sánh Nhanh Đặc Điểm Vận Hành: rem vs em]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}K{3.4cm}|>{\raggedright\arraybackslash}K{4.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{Đặc Điểm So Sánh} & \thd{Đơn Vị em} & \thd{Đơn Vị rem} \\
+\hline
+\textbf{Phụ thuộc vào} & Phần tử cha gần nhất (với \codeinline{font-size}) hoặc chính nó (với box model). & \textbf{Phần tử gốc duy nhất thẻ \codeinline{<html>}}. \\
+\hline
+\textbf{Dễ dự đoán} & \textcolor{red!80!black}{\textbf{[Không]}} Khó dự đoán nếu các cấp cha lồng nhau cũng dùng \codeinline{em}. & \textcolor{green!60!black}{\textbf{[Có]}} Rất dễ dự đoán vì luôn bám theo chuẩn thẻ \codeinline{<html>}. \\
+\hline
+\textbf{Trường hợp thường dùng} & Dùng trong \codeinline{padding}, khoảng cách (\term{spacing}) nội bộ của component. & Dùng trong thiết lập bố cục (\term{Layout}) và hệ thống cỡ chữ (\term{Typography}) toàn trang. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \begin{prettyTableBox}[Bảng So Sánh Đối Chiếu Chi Tiết Giữa em Và rem]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -2857,6 +2957,57 @@ Tiêu đề Hero Banner & $48\text{px}$ & 3rem & $48 / 16 = 3\text{rem}$. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\paragraph{5. Những Lưu Ý Quan Trọng Khi Sử Dụng rem:}
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{rem} \textbf{luôn luôn tính theo} \codeinline{html \{ font-size \}}.
+    \item \textbf{Cực kỳ dễ kiểm soát trong thiết kế Responsive}: Chỉ cần điều chỉnh \codeinline{font-size} của thẻ \codeinline{<html>} tại các Breakpoint, toàn bộ trang web sẽ tự động co giãn tỷ lệ hoàn hảo.
+    \item \textbf{Tránh hiện tượng lồng nhau gây tăng giảm kích thước không kiểm soát}: Thay vì đau đầu tính toán cấp số nhân của \codeinline{em}, sử dụng \codeinline{rem} giúp cấu trúc mã nguồn trong sáng, dễ bảo trì và dễ hiểu hơn rất nhiều.
+\end{enumerate}
+
+\paragraph{6. Ứng Dụng Thực Tế Trong Kiến Trúc Giao Diện CSS:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Xây dựng hệ thống kích thước nhất quán (\term{Design Tokens})}: Kết hợp \codeinline{rem} với CSS Custom Properties (biến CSS):
+\begin{lstlisting}[language=CSS3]
+:root {
+  --space: 1rem; /* 16px mac dinh */
+}
+
+.container {
+  padding: var(--space);
+}
+\end{lstlisting}
+    \item \textbf{Thiết kế dễ dàng scale toàn bộ website}: Thay đổi kích thước toàn trang linh hoạt chỉ bằng một dòng CSS điều chỉnh phông chữ của thẻ \codeinline{<html>}.
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+% MỤC ĐỌC THÊM & MỞ RỘNG KIẾN THỨC VỀ REM
+% ------------------------------------------------------------------------------
+\subsubsection{Đọc Thêm \& Mở Rộng: Kỹ Thuật rem Chuyên Sâu \& Best Practices}
+
+Theo đúng chuẩn mực biên soạn giáo trình nâng cao, mục này mở rộng các khía cạnh chuyên sâu giúp bạn áp dụng \codeinline{rem} hiệu quả và an toàn nhất trong môi trường dự án doanh nghiệp:
+
+\paragraph{a. Kỹ Thuật 62.5\% (The 62.5\% Trick) -- Lợi Ích \& Cảnh Báo Sống Còn:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Lý do ra đời}: Tính nhẩm với cơ số $16\text{px}$ thường sinh ra các số lẻ khó chịu (ví dụ: $14\text{px} = 0.875\text{rem}$, $18\text{px} = 1.125\text{rem}$, $22\text{px} = 1.375\text{rem}$).
+    \item \textbf{Cách thực hiện}: Thiết lập \codeinline{html \{ font-size: 62.5\%; \}} ($62.5\% \times 16\text{px} = 10\text{px}$). Khi đó, hệ quy chiếu chuyển thành cơ số $10$: $1\text{rem} = 10\text{px}$, $1.4\text{rem} = 14\text{px}$, $2.4\text{rem} = 24\text{px}$.
+    \item \textbf{Cảnh báo sống còn về Accessibility}: \textcolor{red!80!black}{\textbf{Tuyệt đối KHÔNG viết \codeinline{html \{ font-size: 10px; \}}!}} Nếu bạn viết $10\text{px}$ cứng, bạn sẽ vô hiệu hóa hoàn toàn tính năng thay đổi cỡ chữ trợ năng của trình duyệt. Dùng tỷ lệ $62.5\%$ đảm bảo vừa dễ nhẩm toán, vừa tôn trọng người khiếm thị khi họ tăng kích thước chữ mặc định.
+\end{itemize}
+
+\paragraph{b. Kỹ Thuật Hiện Đại: Phối Hợp rem Với clamp() Để Tạo Fluid Typography:}
+Thay vì phải viết nhiều Media Queries để đổi cỡ chữ thẻ \codeinline{<html>}, CSS hiện đại cho phép kết hợp \codeinline{rem} với \codeinline{vw} thông qua hàm \codeinline{clamp()}:
+\begin{lstlisting}[language=CSS3]
+/* Co chu tu dong co gian muot ma: toi thieu 1.5rem, ly tuong 2.5vw + 1rem, toi da 3rem */
+h1 {
+  font-size: clamp(1.5rem, 2.5vw + 1rem, 3rem);
+}
+\end{lstlisting}
+
+\paragraph{c. Câu Hỏi Phỏng Vấn: rem Có Thể Hoạt Động Bất Thường Khi Nào?}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Trong thẻ \codeinline{<iframe>}}: Một trang nhúng trong \codeinline{<iframe>} có phần tử \codeinline{<html>} riêng của nó, do đó \codeinline{rem} bên trong \codeinline{<iframe>} sẽ tính theo gốc của iframe chứ không theo trang cha bên ngoài.
+    \item \textbf{Khi ghi đè font-size ở \codeinline{body} thay vì \codeinline{html}}: Rất nhiều người mới nhầm lẫn giữa thẻ \codeinline{<body>} và thẻ \codeinline{<html>}. \codeinline{rem} \textbf{chỉ lắng nghe \codeinline{<html>}}, hoàn toàn bỏ qua mọi khai báo \codeinline{font-size} trên thẻ \codeinline{<body>}.
+\end{itemize}
 
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ VIEWPORT (VIEWPORT UNITS MASTERCLASS)
