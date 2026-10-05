@@ -4105,7 +4105,11 @@ Chuẩn W3C HTML5 & \begin{tikzpicture}[baseline=-0.4ex]\node[fill=tipBorder, ro
 \end{noteBox}
 
 \subsection{4. Chuyên Sâu Thuộc Tính value \& name Trong HTML Forms}
+\label{sec:form_attributes_value_name}
 
+Trong kiến trúc của biểu mẫu web, \codeinline{name} và \codeinline{value} là hai thuộc tính có mối liên kết mật thiết nhất, đóng vai trò tạo nên nền tảng của giao thức truyền thông điệp Client -- Server. Mọi cơ chế đóng gói dữ liệu của trình duyệt từ thời sơ khai của HTML cho đến các tiêu chuẩn HTML5 hiện đại đều vận hành dựa trên nguyên lý bắt cặp \term{Key = Value} này.
+
+% ------------------------------------------------------------------------------
 \subsubsection{1. Phân Tích Chi Tiết Thuộc Tính value (Giá Trị Gửi Dữ Liệu)}
 
 \begin{conceptBox}[Định Nghĩa \& Vai Trò Của Thuộc Tính value]
@@ -4131,19 +4135,19 @@ Thuộc tính \codeinline{value} định nghĩa \textbf{giá trị đại diện
 
 <input type="checkbox"> & Nếu được tick $\rightarrow$ gửi value. Nếu không tick $\rightarrow$ không gửi. & <input type="checkbox" name="agree" value="yes"> \\
 
-<input type="hidden"> & Luôn gửi value nhưng không hiển thị. & <input type="hidden" name="userid" value="123"> \\
+<input type="hidden"> & Luôn gửi value nhưng không hiển thị trên giao diện. & <input type="hidden" name="userid" value="123"> \\
 
-<input type="submit/reset/button"> & value chính là chữ trên nút. & <input type="submit" value="Gửi form"> \\
+<input type="submit/reset/button"> & value chính là nhãn chữ hiển thị trên nút bấm. & <input type="submit" value="Gửi form"> \\
 
-<input type="file"> & value chứa đường dẫn file (chỉ đọc, không set trước được vì bảo mật). & \textcolor{accentOrange}{\textbf{[x] Không gán sẵn được.}} \\
+<input type="file"> & value chứa đường dẫn file (chỉ đọc, không gán trước được vì bảo mật). & \textcolor{accentOrange}{\textbf{[x] Không gán sẵn được.}} \\
 
 <option> \newline (trong <select>) & value được gửi khi option được chọn. Nếu không có value, text hiển thị sẽ được dùng. & <option value="vn">Việt Nam</option> \\
 
-<button> & value chỉ được gửi nếu button có name. & <button type="submit" name="action" value="save">Lưu</button> \\
+<button> & value chỉ được gửi nếu button có thuộc tính name. & <button type="submit" name="action" value="save">Lưu</button> \\
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{warnBox}[4 Lưu Ý Vàng Bắt Bắt Bắt Buộc Nhớ Về Thuộc Tính value]
+\begin{warnBox}[4 Lưu Ý Vàng Bắt Buộc Phải Nhớ Về Thuộc Tính value]
 \begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
     \item \textbf{Nếu không khai báo value}:
     \begin{itemize}[leftmargin=1.2em]
@@ -4156,14 +4160,105 @@ Thuộc tính \codeinline{value} định nghĩa \textbf{giá trị đại diện
 \end{enumerate}
 \end{warnBox}
 
+% ------------------------------------------------------------------------------
 \subsubsection{2. Phân Tích Chi Tiết Thuộc Tính name (Khóa Nhận Diện Key-Value)}
 
 \begin{conceptBox}[Định Nghĩa \& Cơ Chế Cặp Key = Value]
-Thuộc tính \codeinline{name} dùng để \textbf{đặt tên định danh} cho phần tử Form. Khi biểu mẫu Submit, dữ liệu sẽ được đóng gói dưới dạng cặp \textbf{Key = Value}:
+Thuộc tính \codeinline{name} dùng để \textbf{đặt tên định danh} cho phần tử Form. Khi biểu mẫu Submit, trình duyệt sẽ rà soát toàn bộ cây DOM bên trong thẻ \codeinline{<form>}, trích xuất các điều khiển thành công (\term{Successful Controls}) và đóng gói dữ liệu dưới dạng cặp \textbf{Key = Value}:
 \begin{center}
-\textbf{\textcolor{primaryBlue}{Key} = \textcolor{accentOrange}{name}} \quad \& \quad \textbf{\textcolor{primaryBlue}{Value} = \textcolor{accentOrange}{Nội dung người dùng nhập / Thuộc tính value}}
+\textbf{\textcolor{primaryBlue}{Key (Tên tham số)} = \textcolor{accentOrange}{Giá trị của name}} \quad \& \quad \textbf{\textcolor{primaryBlue}{Value (Dữ liệu)} = \textcolor{accentOrange}{Nội dung nhập / Thuộc tính value}}
 \end{center}
 \end{conceptBox}
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=primaryBlue!40,
+    boxrule=0.8pt,
+    arc=6pt,
+    colbacktitle=primaryBlue!8,
+    coltitle=primaryBlue,
+    fonttitle=\bfseries\sffamily,
+    title={Sơ Đồ Cơ Chế Đóng Gói Dữ Liệu Form (Cặp Khóa name -- Giá Trị value)},
+    top=10pt, bottom=10pt, left=8pt, right=8pt,
+    toptitle=6pt, bottomtitle=6pt, lefttitle=10pt, righttitle=10pt
+]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth, font=\sffamily]
+
+  % ==========================================
+  % CỘT 1: CÁC PHẦN TỬ FORM TRONG DOM
+  % ==========================================
+  \node[font=\bfseries\small\color{primaryBlue}, align=center] at (1.8, 3.8) {
+    (1) Khai Báo Điều Khiển Form
+  };
+
+  \node[draw=primaryBlue!70, fill=primaryBlue!5, rounded corners=4pt, line width=0.9pt, minimum width=3.6cm, align=left, inner sep=4pt] (inp1) at (1.8, 2.7) {
+    \ttfamily\scriptsize <input \textbf{\color{accentOrange}name="user"}\\
+    \ttfamily\scriptsize \phantom{<input }\textbf{\color{primaryBlue}value="Alice"}>
+  };
+
+  \node[draw=primaryBlue!70, fill=primaryBlue!5, rounded corners=4pt, line width=0.9pt, minimum width=3.6cm, align=left, inner sep=4pt] (inp2) at (1.8, 1.4) {
+    \ttfamily\scriptsize <input \textbf{\color{accentOrange}name="role"}\\
+    \ttfamily\scriptsize \phantom{<input }\textbf{\color{primaryBlue}value="admin"}>
+  };
+
+  \node[draw=gray!50, fill=gray!8, rounded corners=4pt, line width=0.8pt, minimum width=3.6cm, align=left, inner sep=4pt] (inp3) at (1.8, 0.1) {
+    \ttfamily\scriptsize <input \textbf{\color{red!70}KHÔNG CÓ name}\\
+    \ttfamily\scriptsize \phantom{<input }\textbf{\color{gray}value="123"}>
+  };
+
+  % ==========================================
+  % CỘT 2: TRÌNH DUYỆT ĐÓNG GÓI KEY-VALUE
+  % ==========================================
+  \node[font=\bfseries\small\color{accentOrange}, align=center] at (7.2, 3.8) {
+    (2) Trình Duyệt Ghép Cặp Khóa -- Trị
+  };
+
+  \node[draw=accentOrange!80, fill=accentOrange!5, rounded corners=4pt, line width=0.9pt, minimum width=4.0cm, align=center, inner sep=4pt] (pair1) at (7.2, 2.7) {
+    \scriptsize\textsf{Key:} \textbf{\color{accentOrange}user} $\rightarrow$ \textsf{Value:} \textbf{\color{primaryBlue}Alice}
+  };
+
+  \node[draw=accentOrange!80, fill=accentOrange!5, rounded corners=4pt, line width=0.9pt, minimum width=4.0cm, align=center, inner sep=4pt] (pair2) at (7.2, 1.4) {
+    \scriptsize\textsf{Key:} \textbf{\color{accentOrange}role} $\rightarrow$ \textsf{Value:} \textbf{\color{primaryBlue}admin}
+  };
+
+  \node[draw=red!60, fill=red!6, rounded corners=4pt, line width=0.8pt, minimum width=4.0cm, align=center, inner sep=4pt] (pair3) at (7.2, 0.1) {
+    \scriptsize\color{red!80!black}\textbf{[BỊ LOẠI BỎ -- KHÔNG GỬI]}
+  };
+
+  % ==========================================
+  % CỘT 3: DỮ LIỆU ĐÍNH GỬI LÊN SERVER
+  % ==========================================
+  \node[font=\bfseries\small\color{secondaryTeal}, align=center] at (12.6, 3.8) {
+    (3) Gói Dữ Liệu HTTP Payload
+  };
+
+  \node[draw=secondaryTeal!80, fill=secondaryTeal!6, rounded corners=5pt, line width=1pt, minimum width=3.4cm, minimum height=3.2cm, align=center, inner sep=5pt] (serverBox) at (12.6, 1.4) {
+    \textbf{\color{secondaryTeal}HTTP DATA STREAM}\\[4pt]
+    \tcbox[on line, arc=3pt, colback=white, colframe=secondaryTeal!40, boxsep=2pt, left=4pt, right=4pt]{%
+      \ttfamily\scriptsize\textbf{\color{accentOrange}user}\textbf{=}\textbf{\color{primaryBlue}Alice}%
+    }\\[3pt]
+    \textbf{\color{secondaryTeal}\&}\\[3pt]
+    \tcbox[on line, arc=3pt, colback=white, colframe=secondaryTeal!40, boxsep=2pt, left=4pt, right=4pt]{%
+      \ttfamily\scriptsize\textbf{\color{accentOrange}role}\textbf{=}\textbf{\color{primaryBlue}admin}%
+    }\\[6pt]
+    \tiny\color{darkText!75}Backend nhận qua \$\_GET / \$\_POST
+  };
+
+  % Mũi tên kết nối
+  \draw[->, line width=1.2pt, accentOrange] (inp1.east) -- (pair1.west);
+  \draw[->, line width=1.2pt, accentOrange] (inp2.east) -- (pair2.west);
+  \draw[->, line width=1.1pt, red!60, dashed] (inp3.east) -- (pair3.west);
+
+  \draw[->, line width=1.2pt, secondaryTeal] (pair1.east) -- ([yshift=0.9cm]serverBox.west);
+  \draw[->, line width=1.2pt, secondaryTeal] (pair2.east) -- (serverBox.west);
+  \draw[->, line width=1pt, red!50, dashed] (pair3.east) -- ++(0.7, 0) node[right, font=\tiny\color{red!80!black}] {Bỏ qua};
+
+\end{tikzpicture}%
+}
+\end{tcolorbox}
 
 \begin{codeWindow}[Ví Dụ Minh Họa Cơ Chế Gửi Dữ Liệu Dạng Query String Trên URL]
 \begin{lstlisting}[language=HTML5]
@@ -4183,7 +4278,7 @@ Khi người dùng bấm nút \textbf{"Gửi"}, địa chỉ URL trên trình du
 \textcolor{primaryBlue}{\textbf{https://example.com/submit}}\textcolor{darkText}{\textbf{?}}\textcolor{accentOrange}{\textbf{username}}\textcolor{darkText}{\textbf{=}}\textcolor{primaryBlue}{\textbf{Alice}}\textcolor{darkText}{\textbf{\&}}\textcolor{accentOrange}{\textbf{pass}}\textcolor{darkText}{\textbf{=}}\textcolor{primaryBlue}{\textbf{1234}}
 }
 \end{center}
-\textcolor{primaryBlue}{\textbf{[->]}} Trong đó \codeinline{username} và \codeinline{pass} chính là giá trị của thuộc tính \codeinline{name}!
+\textcolor{primaryBlue}{\textbf{[$\rightarrow$]}} Trong đó \codeinline{username} và \codeinline{pass} chính là giá trị của thuộc tính \codeinline{name}!
 \end{browserWindow}
 
 \paragraph{Mẹo Kỹ Thuật: Nhóm Nhiều Checkbox Dùng Chung Một name:}
@@ -4301,8 +4396,8 @@ Dữ liệu Request Body được đóng gói hoàn chỉnh gửi tới Server:
 \end{browserWindow}
 \end{enumerate}
 
+% ------------------------------------------------------------------------------
 \subsubsection{3. Quy Tắc \& So Sánh Nhanh Giữa Thuộc Tính name Và id}
-
 
 \begin{prettyTableBox}[Bảng Quy Tắc Và Lưu Ý Kỹ Thuật Của Thuộc Tính name]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -4311,29 +4406,44 @@ Dữ liệu Request Body được đóng gói hoàn chỉnh gửi tới Server:
 \rowcolor{primaryBlue}
 \thd{\sffamily Thuộc Tính / Quy Tắc} & \thd{\sffamily Ý Nghĩa \& Cơ Chế Hoạt Động} \\
 
-Bắt buộc để gửi dữ liệu & Nếu input không có \codeinline{name}, dữ liệu sẽ không được gửi. \\
+Bắt buộc để gửi dữ liệu & Nếu input không có \codeinline{name}, trình duyệt bỏ qua và dữ liệu hoàn toàn không được gửi về máy chủ. \\
 
-Có thể trùng name & Các input có cùng \codeinline{name} sẽ gửi nhiều giá trị (ví dụ: \codeinline{checkbox}, \codeinline{radio}). \\
+Có thể trùng name & Nhiều input có thể chia sẻ cùng một \codeinline{name} để tạo nhóm lựa chọn hoặc mảng dữ liệu (ví dụ: \codeinline{checkbox}, \codeinline{radio}). \\
 
-Khác với id & \codeinline{id} là duy nhất trong trang, còn \codeinline{name} chỉ để gắn dữ liệu khi submit. \\
+Khác biệt hoàn toàn với id & \codeinline{id} phải duy nhất trên toàn tài liệu để liên kết CSS/JS/\codeinline{<label>}, còn \codeinline{name} đóng vai trò đặt tên khóa cho gói tin HTTP. \\
 
-Dùng trong JS & Có thể truy xuất form qua \codeinline{document.forms["formName"].elements["inputName"]}. \\
+Truy xuất DOM thuận tiện & Trong JavaScript, có thể truy xuất nhanh phần tử qua cây Collection: \codeinline{document.forms["orderForm"].elements["payment"]}. \\
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{prettyTableBox}[Bảng So Sánh Nhanh Đặc Điểm Giữa Thuộc Tính name Và id]
+\begin{prettyTableBox}[Ma Trận So Sánh Kỹ Thuật Toàn Diện Giữa Thuộc Tính name Và id]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{>{\ttfamily\color{primaryBlue}\bfseries\raggedright\arraybackslash}m{2.5cm} Z Z}
+\begin{tabularx}{\linewidth}{>{\sffamily\bfseries\color{primaryBlue}\raggedright\arraybackslash}m{3.2cm} Z Z}
 \rowcolor{primaryBlue}
-\thd{\sffamily Thuộc Tính} & \thd{\sffamily Dùng Để} & \thd{\sffamily Đặc Điểm} \\
+\thd{\sffamily Tiêu Chí Kỹ Thuật} & \thd{\sffamily Thuộc Tính name} & \thd{\sffamily Thuộc Tính id} \\
 
-name & Gửi dữ liệu khi submit form & Có thể trùng nhau \\
+\textbf{Mục Đích Chính} & Đặt tên định danh trường dữ liệu để gửi lên Backend Server qua HTTP Request. & Xác định duy nhất một phần tử DOM trong phạm vi toàn bộ trang web. \\
 
-id & Xác định duy nhất phần tử trong trang (JS, CSS, \codeinline{<label for="...">}) & Phải duy nhất \\
+\textbf{Tính Duy Nhất} & \textcolor{secondaryTeal}{\textbf{Không bắt buộc}}. Có thể trùng nhau (dành cho Radio Group, Checkbox Array). & \textcolor{red!80!black}{\textbf{Bắt buộc duy nhất 100\%}} trên toàn bộ tài liệu HTML. \\
+
+\textbf{Gửi Lên Server} & \textcolor{secondaryTeal}{\textbf{CÓ}}. Trình duyệt lấy giá trị của \codeinline{name} làm Key của tham số. & \textcolor{red!80!black}{\textbf{KHÔNG}}. Máy chủ hoàn toàn không biết \codeinline{id} của phần tử là gì. \\
+
+\textbf{Liên Kết với Label} & Không có tác dụng liên kết trực tiếp với thuộc tính \codeinline{for} của \codeinline{<label>}. & \textcolor{secondaryTeal}{\textbf{Bắt buộc}}: Khớp chính xác với \codeinline{<label for="elementId">} để tối ưu tương tác \& A11y. \\
+
+\textbf{Bộ Chọn CSS} & Sử dụng cú pháp Attribute Selector: \newline \codeinline{input[name="user"]}. & Sử dụng cú pháp ID Selector: \newline \codeinline{\#elementId} (độ ưu tiên Specificity cao hơn). \\
+
+\textbf{Truy Xuất JavaScript} & \codeinline{form.elements["user"]} \newline \codeinline{document.getElementsByName()} & \codeinline{document.getElementById()} \newline \codeinline{document.querySelector("\#id")} \\
 \end{tabularx}
 \end{prettyTableBox}
 
+\begin{tipBox}[Góc Phỏng Vấn Frontend: Cạm Bẫy Thực Tế Khi Xử Lý name \& value]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Cạm bẫy "Input có dữ liệu nhưng Server nhận null/undefined"}: Đây là lỗi sơ đẳng phổ biến nhất của lập trình viên mới. Nguyên nhân $99\%$ là do người viết khai báo nhầm \codeinline{id="username"} mà quên thuộc tính \codeinline{name="username"}. Trình duyệt chỉ gửi những điều khiển có thuộc tính \codeinline{name}!
+    \item \textbf{Checkbox không gửi giá trị "false"}: Khi một ô Checkbox không được người dùng đánh dấu tick, trình duyệt sẽ \textbf{hoàn toàn không gửi tên trường đó lên Server}. Do đó ở Backend (PHP/NodeJS/Java), ta cần kiểm tra sự tồn tại (\codeinline{isset()} hoặc kiểm tra \codeinline{undefined}) thay vì kiểm tra giá trị bằng \codeinline{false}.
+    \item \textbf{Đặt tên dạng mảng (\codeinline{name="skills[]"})}: Trong các ngôn ngữ Backend như PHP, việc thêm cặp dấu ngoặc vuông \codeinline{[]} vào cuối thuộc tính name giúp máy chủ tự động gom các giá trị đã chọn thành một mảng dữ liệu (Array) thay vì chỉ lưu giá trị cuối cùng.
+\end{itemize}
+\end{tipBox}
 \subsection{5. Phân Tích Chuyên Sâu Thuộc Tính placeholder, required \& autocomplete}
 
 \subsubsection{1. Phân Tích Chuyên Sâu Thuộc Tính placeholder}
