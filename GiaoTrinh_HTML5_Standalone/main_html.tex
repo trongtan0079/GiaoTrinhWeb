@@ -2152,21 +2152,31 @@ Dưới đây là cú pháp và ví dụ minh họa cách viết chú thích tro
 
 \begin{codeWindow}[Ví dụ cú pháp chú thích trong các ngôn ngữ lập trình]
 \begin{lstlisting}[language=HTML5]
-<!-- (*@1. HTML: Sử dụng cặp thẻ mở/đóng đặc trưng@*) -->(*@<!-- Đây là một chú thích dòng đơn trong HTML --><!-- *@Đây là một chú thích *@trên nhiều dòng trong HTML@*)
+<!-- (*@1. HTML: Sử dụng cặp thẻ mở/đóng đặc trưng@*) -->
+<!-- (*@Đây là một chú thích dòng đơn trong HTML@*) -->
+<!-- 
+  (*@Đây là một chú thích trên nhiều dòng trong HTML@*)
 -->
 \end{lstlisting}
 \begin{lstlisting}[language=JavaScript]
-(*@/* 2. CSS: Chỉ hỗ trợ kiểu chú thích khối (dùng cặp ký hiệu) *@*)// (*@* Đây là một chú thích trong CSS *//* *@Đây là một chú thích *@nhiều dòng trong CSS@*)
+/* (*@2. CSS: Chỉ hỗ trợ kiểu chú thích khối@*) */
+/* (*@Đây là một chú thích trong CSS@*) */
+/* 
+  (*@Đây là một chú thích nhiều dòng trong CSS@*)
 */
 
-// (*@3. JS / C++ / C\# / Java: Hỗ trợ cả chú thích dòng đơn và khối// Đây là chú thích dòng đơn (dùng hai dấu gạch chéo)@*)
+// 3. JS / C++ / C# / Java: (*@Hỗ trợ cả chú thích dòng đơn và khối@*)
+// (*@Đây là chú thích dòng đơn (dùng hai dấu gạch chéo)@*)
 /* 
   (*@Đây là chú thích nhiều dòng (dùng cặp ký hiệu mở/đóng)@*)
 */
 \end{lstlisting}
 \begin{lstlisting}[language=Python]
-# (*@4. Python: Sử dụng ký tự thăng (\#) làm chú thích dòng đơn\# Đây là một chú thích dòng đơn trong Python@*)
-# (*@Python không hỗ trợ chú thích nhiều dòng chính thức,\# nhưng có thể dùng Docstring (chuỗi 3 dấu nháy đơn) thay thế:''' *@Đây là một chú thích nhiều dòng *@sử dụng Docstring trong Python@*)
+# 4. Python: (*@Sử dụng ký tự thăng@*) (#) (*@làm chú thích dòng đơn@*)
+# (*@Đây là một chú thích dòng đơn trong Python@*)
+# (*@Python không hỗ trợ chú thích nhiều dòng chính thức, nhưng có thể dùng Docstring thay thế:@*)
+'''
+(*@Đây là một chú thích nhiều dòng sử dụng Docstring trong Python@*)
 '''
 \end{lstlisting}
 \end{codeWindow}
@@ -3388,7 +3398,9 @@ Thẻ \codeinline{<pre>} (\textbf{Preformatted Text}) dùng để hiển thị v
 \begin{codeWindow}[Mã Nguồn Căn Chỉnh Cột Bằng Thẻ Preformatted pre]
 \begin{lstlisting}[language=HTML5]
 <pre>
-(*@Họ và tên:\hspace{1.2cm}Nguyễn Văn A *@Nghề nghiệp:\hspace{1.0cm}Kỹ sư Frontend *@Kỹ năng:\hspace{1.4cm}HTML5, CSS3, JavaScript@*)
+(*@Họ và tên:    Nguyễn Văn A@*)
+(*@Nghề nghiệp:  Kỹ sư Frontend@*)
+(*@Kỹ năng:      HTML5, CSS3, JavaScript@*)
 </pre>
 \end{lstlisting}
 \end{codeWindow}
@@ -7191,12 +7203,12 @@ name & Đặt tên cho fieldset (ít dùng, chủ yếu cho script). \\
 \begin{codeWindow}[Fieldset Nằm Ngoài Form (Sử Dụng Thuộc Tính form)]
 \begin{lstlisting}[language=HTML5]
 <form id="myForm">
-  <input type="submit" value="Gửi">
+  <input type="submit" value="(*@Gửi@*)">
 </form>
 
 <fieldset form="myForm">
   <legend>(*@Thông tin thêm@*)</legend>
-  <input type="text" placeholder="Nhập dữ liệu">
+  <input type="text" placeholder="(*@Nhập dữ liệu@*)">
 </fieldset>
 \end{lstlisting}
 \end{codeWindow}
@@ -7700,9 +7712,9 @@ Ngữ cảnh sử dụng chính & Tìm kiếm, lọc sản phẩm, truy vấn ch
     
     <label for="country">Quoc gia:</label>
     <select id="country" name="country">
-      <option value="vn">(*@Việt@*) Nam@*)</option>
-      <option value="us">My</option>
-      <option value="jp">(*@Nhật *@Bản@*)</option>
+      <option value="vn">(*@Việt Nam@*)</option>
+      <option value="us">(*@Mỹ@*)</option>
+      <option value="jp">(*@Nhật Bản@*)</option>
     </select>
     
     <label for="bio">Gioi thieu ban than:</label>
@@ -11240,7 +11252,8 @@ Thẻ \codeinline{<address>} cung cấp thông tin liên hệ cho tác giả ho�
 \begin{lstlisting}[language=HTML5]
 <address>
   (*@Viết bởi@*) <a href="mailto:tan@eduweb.vn">(*@Nguyễn Trọng Tấn@*)</a>.<br>
-  (*@Địa chỉ: Tòa nhà EduWeb, Hà Nội, Việt Nam.<br> *@Điện thoại: <a href="tel:+84987654321">0987 654 321</a>@*)
+  (*@Địa chỉ: Tòa nhà EduWeb, Hà Nội, Việt Nam.<br>@*)
+  (*@Điện thoại: <a href="tel:+84987654321">0987 654 321</a>@*)
 </address>
 \end{lstlisting}
 \end{codeWindow}
@@ -11329,7 +11342,8 @@ Khi trình duyệt phân tích các thẻ Bố cục ngữ nghĩa HTML5, nó t�
 <!-- (*@Đoạn văn bình thường@*) --><p>(*@Đây là một đoạn văn bản chuẩn.@*)</p>
 
 <!-- (*@Khối hiển thị giữ nguyên khoảng trắng@*) --><pre>
-  (*@Họ và Tên    : Nguyễn Văn A *@Quê Quán     : Hà Nội@*)
+  (*@Họ và Tên    : Nguyễn Văn A@*)
+  (*@Quê Quán     : Hà Nội@*)
 </pre>
 \end{lstlisting}
 \end{codeWindow}
@@ -11368,7 +11382,7 @@ Quê Quán     : Hà Nội
   <p>(*@HTML5 là chuẩn Living Standard phát triển bởi WHATWG.@*)</p>
 </blockquote>
 
-<p>(*@Tim Berners-Lee (*@từng nói:@*)<q cite="https://quote.com">(*@Internet (*@là dành@*) cho (*@tất cả mọi người@*)</q>.</p>
+<p>(*@Tim Berners-Lee từng nói:@*) <q cite="https://quote.com">(*@Internet là dành cho tất cả mọi người@*)</q>.</p>
 \end{lstlisting}
 \end{codeWindow}
 
@@ -11942,6 +11956,7 @@ Form là thành phần tương tác quan trọng nhất để người dùng g�
 \end{conceptBox}
 
 % ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
 \paragraph{Sơ Đồ Luồng Hoạt Động Của Form Action:}
 
 \begin{center}
@@ -12139,7 +12154,7 @@ Thuộc tính \codeinline{action} không hoạt động độc lập mà luôn k
 <!-- Form dang ky tai khoan truyen du lieu den server handler -->
 <form action="process_register.php" method="POST">
   <label for="user_email">Email dang ky:</label>
-  <input type="email" id="user_email" name="email" placeholder="(nhập_email@example.com)" required>
+  <input type="email" id="user_email" name="email" placeholder="user@example.com" required>
   
   <label for="user_pass">Mat khau:</label>
   <input type="password" id="user_pass" name="password" placeholder="******" required>
@@ -12179,10 +12194,10 @@ Trong đặc tả HTML5, nếu một form có nhiều nút bấm gửi dữ li�
 \begin{codeWindow}[Ví dụ sử dụng thuộc tính formaction trên từng nút submit]
 \begin{lstlisting}[language=HTML5]
 <form action="/save-article" method="post">
-  (*@<!-- Nut 1: (*@Gửi@*) du lieu den /save-draft -->@*)
+  <!-- (*@Nút 1: Gửi dữ liệu đến /save-draft@*) -->
   <button type="submit" formaction="/save-draft">Luu Nhap</button>
   
-  <!-- Nut 2: Su dung action mac dinh cua form (/save-article) -->
+  <!-- (*@Nút 2: Sử dụng action mặc định của form (/save-article)@*) -->
   <button type="submit">Xuat Ban</button>
 </form>
 \end{lstlisting}
@@ -14477,9 +14492,9 @@ Thẻ \codeinline{<select>} trong HTML được sử dụng để tạo một \t
 \begin{lstlisting}[language=HTML5]
 <label for="country">Chon quoc gia:</label>
 <select id="country" name="country">
-  <option value="vn">(*@Việt@*) Nam@*)</option>
-  <option value="us">(*@Hoa (*@Kỳ@*)</option>
-  <option value="jp">(*@Nhật *@Bản@*)</option>
+  <option value="vn">(*@Việt Nam@*)</option>
+  <option value="us">(*@Hoa Kỳ@*)</option>
+  <option value="jp">(*@Nhật Bản@*)</option>
 </select>
 \end{lstlisting}
 \end{codeWindow}
@@ -14725,12 +14740,12 @@ Thẻ \codeinline{<optgroup>} (\term{Option Group}) trong HTML được sử d�
 \begin{codeWindow}[Mã HTML phân nhóm danh sách thực đơn với optgroup]
 \begin{lstlisting}[language=HTML5]
 <select name="food">
-  <optgroup label="Trai cay">
+  <optgroup label="(*@Trái cây@*)">
     <option value="apple">(*@Táo@*)</option>
     <option value="banana">(*@Chuối@*)</option>
   </optgroup>
-  <optgroup label="Do uong">
-    <option value="coffee">(*@Cà *@phê@*)</option>
+  <optgroup label="(*@Đồ uống@*)">
+    <option value="coffee">(*@Cà phê@*)</option>
     <option value="tea">(*@Trà@*)</option>
   </optgroup>
 </select>
@@ -14801,11 +14816,11 @@ Thẻ \codeinline{<optgroup>} (\term{Option Group}) trong HTML được sử d�
 \begin{codeWindow}[Mã HTML nhóm sản phẩm Hết hàng bị vô hiệu hóa bằng disabled]
 \begin{lstlisting}[language=HTML5]
 <select name="drink">
-  <optgroup label="Con hang">
-    <option value="coffee">(*@Cà *@phê@*)</option>
+  <optgroup label="(*@Còn hàng@*)">
+    <option value="coffee">(*@Cà phê@*)</option>
     <option value="tea">(*@Trà@*)</option>
   </optgroup>
-  <optgroup label="Het hang" disabled>
+  <optgroup label="(*@Hết hàng@*)" disabled>
     <option value="beer">Bia</option>
     <option value="wine">(*@Rượu@*)</option>
   </optgroup>
@@ -15066,7 +15081,7 @@ form, input, textarea, select, button, label {
 <body>
   <form>
     <label for="name">(*@Tên:@*)</label><br>
-    <input type="text" id="name" placeholder="(*@Nhập *@tên của bạn@*)">
+    <input type="text" id="name" placeholder="(*@Nhập tên của bạn@*)">
   </form>
 </body>
 </html>
@@ -15576,7 +15591,7 @@ input:placeholder-shown {
   <title>Vi du tabindex</title>
 </head>
 <body>
-  <h2>(*@Thứ *@tự@*) Tab@*)</h2>
+  <h2>(*@Thứ tự Tab@*)</h2>
   <!-- Theo DOM mac dinh (tabindex=0) -->
   <input type="text" placeholder="(*@Tên (DOM)@*)" tabindex="0"><br>
   <input type="text" placeholder="Email (DOM)" tabindex="0"><br>
@@ -15654,16 +15669,16 @@ Chương này phân tích chi tiết cơ chế Kiểm tra tính hợp lệ biể
 \begin{codeWindow}[Ví dụ áp dụng thuộc tính Validation thuần HTML5]
 \begin{lstlisting}[language=HTML5]
 <form action="/register" method="POST">
-  <!-- Bat buoc nhap & dinh dang Email -->
-  <input type="email" name="email" required placeholder="(nhập_email@example.com)">
+  <!-- (*@Bắt buộc nhập và định dạng Email@*) -->
+  <input type="email" name="email" required placeholder="user@example.com">
   
-  <!-- Mat khau toi thieu 8 ky tu -->
-  <input type="password" name="password" minlength="8" required placeholder="(*@Mật *@khẩu@*) (>=8 (*@ký tự@*)">
+  <!-- (*@Mật khẩu tối thiểu 8 ký tự@*) -->
+  <input type="password" name="password" minlength="8" required placeholder="(*@Mật khẩu (>= 8 ký tự)@*)">
   
-  (*@<!-- So dien (*@thoại@*) dung dinh dang 10 (*@chữ@*) so -->@*)
-  <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="(*@Số *@điện thoại@*) (10 (*@số@*)">
+  <!-- (*@Số điện thoại đúng định dạng 10 chữ số@*) -->
+  <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="(*@Số điện thoại (10 chữ số)@*)">
   
-  <button type="submit">(*@Đăng *@Ký@*)</button>
+  <button type="submit">(*@Đăng Ký@*)</button>
 </form>
 \end{lstlisting}
 \end{codeWindow}
@@ -15882,7 +15897,7 @@ target & \_self, \_blank & Nơi nhận kết quả trả về từ server. \\
 \begin{lstlisting}[language=HTML5]
 <form action="/api/v1/register" method="POST"
       enctype="multipart/form-data" autocomplete="on">
-  <!-- Các trường nhập liệu nằm ở đây -->
+  <!-- (*@Các trường nhập liệu nằm ở đây@*) -->
   <button type="submit">(*@Đăng Ký Hồ Sơ@*)</button>
 </form>
 \end{lstlisting}
@@ -16023,17 +16038,17 @@ submit, reset, button & Các dạng nút thực thi gửi form hoặc làm mới
 
 \begin{codeWindow}[Mã Nguồn: Các Ô Input Di Động Nâng Cao]
 \begin{lstlisting}[language=HTML5]
-<!-- Ô nhập OTP tự động đọc SMS trên iOS/Android -->
+<!-- (*@Ô nhập OTP tự động đọc SMS trên iOS/Android@*) -->
 <label for="otp">(*@Nhập Mã OTP:@*)</label>
 <input type="text" id="otp" name="otp" inputmode="numeric" 
-       autocomplete="one-time-code" required placeholder="6 chữ số">
+       autocomplete="one-time-code" required placeholder="(*@6 chữ số@*)">
 
-<!-- Chọn tệp ảnh PNG/JPEG nhiều file -->
+<!-- (*@Chọn tệp ảnh PNG/JPEG nhiều file@*) -->
 <label for="photos">(*@Tải Ảnh Hóa Đơn:@*)</label>
 <input type="file" id="photos" name="photos" 
        accept="image/png, image/jpeg" multiple>
 
-<!-- Thanh chọn khoảng giá -->
+<!-- (*@Thanh chọn khoảng giá@*) -->
 <label for="price">(*@Khoảng Giá:@*)</label>
 <input type="range" id="price" name="price" 
        min="100" max="1000" step="50" value="500">
@@ -16101,11 +16116,11 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
 \begin{lstlisting}[language=HTML5]
 <label for="city">(*@Chọn Thành Phố:@*)</label>
 <select id="city" name="city">
-  <optgroup label="Miền Bắc">
+  <optgroup label="(*@Miền Bắc@*)">
     <option value="hn" selected>(*@Hà Nội@*)</option>
     <option value="hp">(*@Hải Phòng@*)</option>
   </optgroup>
-  <optgroup label="Miền Nam">
+  <optgroup label="(*@Miền Nam@*)">
     <option value="hcm">(*@Hồ Chí Minh@*)</option>
     <option value="ct">(*@Cần Thơ@*)</option>
   </optgroup>
@@ -16151,7 +16166,7 @@ Thẻ \codeinline{<textarea>} cho phép người dùng nhập các đoạn văn 
 \begin{lstlisting}[language=HTML5]
 <label for="comment">(*@Bình Luận Bài Viết:@*)</label>
 <textarea id="comment" name="comment" rows="5" cols="50" 
-          maxlength="500" placeholder="Viết phản hồi của bạn..."></textarea>
+          maxlength="500" placeholder="(*@Viết phản hồi của bạn...@*)"></textarea>
 \end{lstlisting}
 \end{codeWindow}
 
@@ -16219,7 +16234,7 @@ Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tín
 <form oninput="result.value = parseInt(a.value) * parseInt(b.value)">
   <input type="number" id="a" value="10"> x
   <input type="number" id="b" value="5"> =
-  <output name="result" for="a b">50</output> VNĐ
+  <output name="result" for="a b">50</output> (*@VNĐ@*)
 </form>
 \end{lstlisting}
 \end{codeWindow}
@@ -16274,7 +16289,7 @@ Thẻ \codeinline{<img>} dùng để nhúng hình ảnh vào tài liệu.
 \end{table}
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ ảnh chuẩn@*) Responsive (*@kèm@*) Lazy Loading (*@và@*) Fetch Priority}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ ảnh chuẩn Responsive kèm Lazy Loading và Fetch Priority}]
 <!-- (*@Ảnh Hero banner tải ngay lập tức với ưu tiên cao nhất@*) --><img src="hero-1200.webp"
      srcset="hero-600.webp 600w, hero-1200.webp 1200w"
      sizes="(max-width: 600px) 100vw, 1200px"
@@ -16292,7 +16307,7 @@ Thẻ \codeinline{<img>} dùng để nhúng hình ảnh vào tài liệu.
 Thẻ \codeinline{<picture>} là wrapper chứa một hoặc nhiều thẻ \codeinline{<source>} và một thẻ \codeinline{<img>} dự phòng. Thẻ này áp dụng kỹ thuật \term{Art Direction} (Đổi khung ảnh theo màn hình di động/máy tính) và tự động chọn định dạng ảnh thế hệ mới (AVIF, WebP).
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ đổi định *@dạng ảnh@*) AVIF/WebP (*@với thẻ@*) picture}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ đổi định dạng ảnh AVIF/WebP với thẻ picture}]
 <picture>
   <!-- (*@1. Ưu tiên cao nhất: Định dạng AVIF siêu nhẹ@*) -->  <source srcset="image.avif" type="image/avif">
   
@@ -16309,7 +16324,7 @@ Thẻ \codeinline{<picture>} là wrapper chứa một hoặc nhiều thẻ \code
 - \codeinline{<area>}: Khai báo một vùng nhấp chuột cụ thể. Thuộc tính \codeinline{shape="rect|circle|poly"}, \codeinline{coords="x1,y1,x2,y2"}, \codeinline{href="..."}.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ tạo vùng *@nhấp chuột tương tác *@trên ảnh@*)}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ tạo vùng nhấp chuột tương tác trên ảnh}]
 <img src="planets.jpg" alt="(*@Hệ Mặt Trời@*)" usemap="#                    image-map">
 
 
@@ -16351,7 +16366,7 @@ Thẻ \codeinline{<video>} phát trình chiếu các tệp video gốc (MP4, Web
 \end{itemize}
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ thẻ@*) video (*@phát chuẩn đa thiết *@bị@*)}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ thẻ video phát chuẩn đa thiết bị}]
 <video controls poster="thumbnail.jpg" width="800" height="450" playsinline preload="metadata">
   <source src="course-intro.webm" type="video/webm">
   <source src="course-intro.mp4" type="video/mp4">
@@ -16365,7 +16380,7 @@ Thẻ \codeinline{<video>} phát trình chiếu các tệp video gốc (MP4, Web
 Thẻ \codeinline{<audio>} nhúng trình phát âm thanh gốc (MP3, WAV, OGG).
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ thẻ@*) audio (*@phát nhạc@*) podcast}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ thẻ audio phát nhạc podcast}]
 <audio controls preload="none">
   <source src="podcast-ep1.mp3" type="audio/mpeg">
   <source src="podcast-ep1.ogg" type="audio/ogg">
@@ -16385,7 +16400,7 @@ Thẻ \codeinline{<track>} nhúng phụ đề văn bản chuẩn \textbf{WebVTT}
 \end{itemize}
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ nhúng phụ *@đề tiếng Việt và *@tiếng@*) Anh cho video}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng phụ đề tiếng Việt và tiếng Anh cho video}]
 <video controls src="lecture.mp4">
   <track kind="subtitles" src="subtitles-vi.vtt" srclang="vi" label="(*@Tiếng Việt@*)" default>
   <track kind="subtitles" src="subtitles-en.vtt" srclang="en" label="English">
@@ -16417,7 +16432,7 @@ Thẻ \codeinline{<iframe>} (Inline Frame) nhúng một tài liệu HTML độc 
 \end{table}
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ nhúng@*) video YouTube an (*@toàn với@*) sandbox (*@và@*) allow}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng video YouTube an toàn với sandbox và allow}]
 <iframe width="560" height="315"
         src="https://www.youtube.com/embed/dQw4w9WgXcQ"
         title="(*@Trình chiếu Video YouTube@*)"
@@ -16433,7 +16448,7 @@ Thẻ \codeinline{<iframe>} (Inline Frame) nhúng một tài liệu HTML độc 
 Thẻ \codeinline{<svg>} nhúng mã đồ họa Vector 2D trực tiếp vào trang web. Các thẻ con chính: \codeinline{<path>}, \codeinline{<circle>}, \codeinline{<rect>}, \codeinline{<line>}, \codeinline{<text>}, \codeinline{<defs>}, \codeinline{<use>}.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ vẽ@*) icon (*@hình tròn và hình@*) sao (*@bằng@*) SVG}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ vẽ icon hình tròn và hình sao bằng SVG}]
 <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
   <circle cx="50" cy="50" r="40" stroke="# 0F4C81" stroke-width="4" fill="#008080" />
 </svg>
@@ -16445,7 +16460,7 @@ Thẻ \codeinline{<svg>} nhúng mã đồ họa Vector 2D trực tiếp vào tra
 Thẻ \codeinline{<canvas>} tạo ra một vùng trống tính bằng điểm ảnh (Pixels) cho phép JavaScript vẽ đồ họa 2D, biểu đồ động hoặc game WebGL.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ vẽ hình *@chữ nhật đỏ bằng@*) Canvas API}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ vẽ hình chữ nhật đỏ bằng Canvas API}]
 <canvas id="myCanvas" width="200" height="100" style="border:1px solid #ccc;"></canvas>
 
 <script>
@@ -16462,7 +16477,7 @@ Thẻ \codeinline{<canvas>} tạo ra một vùng trống tính bằng điểm �
 Thẻ \codeinline{<math>} nhúng công thức toán học chuẩn W3C MathML. Các thẻ con: \codeinline{<mfrac>} (Phân số), \codeinline{<msqrt>} (Căn bậc hai), \codeinline{<msup>} (Số mũ).
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ hiển thị *@công thức toán học *@Phân số@*)}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ hiển thị công thức toán học Phân số}]
 <math>
   <mfrac>
     <mi>a</mi>
@@ -16478,7 +16493,7 @@ Thẻ \codeinline{<math>} nhúng công thức toán học chuẩn W3C MathML. C�
 - \codeinline{<embed src="..." type="...">}: Nhúng đa phương tiện ứng dụng ngoài.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ nhúng tệp@*) PDF (*@hiển thị trực tiếp@*)}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng tệp PDF hiển thị trực tiếp}]
 <object data="document.pdf" type="application/pdf" width="100%" height="500px">
   <p>(*@Trình duyệt không hỗ trợ xem PDF.@*)<a href="document.pdf">(*@Tải tệp tại đây@*)</a>.</p>
 </object>
@@ -16502,7 +16517,7 @@ Chương này phân tích các thẻ Web Components, danh sách toàn bộ Thu�
 - \codeinline{<slot name="...">}: Điểm chèn nội dung động trong kiến trúc Web Components và Shadow DOM.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ định nghĩa *@thẻ@*) template (*@và@*) named slot}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ định nghĩa thẻ template và named slot}]
 <template id="user-card-template">
   <style>
     .card { padding: 16px; border: 1px solid # ccc; border-radius: 8px; }
@@ -16547,7 +16562,7 @@ Thuộc tính toàn cục (\term{Global Attributes}) là các thuộc tính có 
 \end{table}
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ ứng dụng *@các thuộc tính@*) contenteditable, inert (*@và@*) data-*}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ ứng dụng các thuộc tính contenteditable, inert và data-*}]
 <!-- (*@Cho phép người dùng trực tiếp sửa văn bản@*) --><h1 contenteditable="true" spellcheck="false">(*@Nhấp vào đây để chỉnh sửa tiêu đề@*)</h1>
 
 <!-- (*@Khung bị vô hiệu hóa hoàn toàn tương tác với inert@*) --><div inert>
@@ -16565,7 +16580,7 @@ Thuộc tính toàn cục (\term{Global Attributes}) là các thuộc tính có 
 Bộ thẻ Open Graph (\codeinline{og:*}) do Facebook phát triển và Twitter Cards (\codeinline{twitter:*}) điều khiển hình ảnh, tiêu đề và mô tả hiển thị khi người dùng chia sẻ liên kết trang web lên mạng xã hội.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ bộ thẻ@*) Open Graph (*@chuẩn@*) khi chia (*@sẻ@*) Facebook/Zalo}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ bộ thẻ Open Graph chuẩn khi chia sẻ Facebook/Zalo}]
 <!-- Facebook Open Graph -->
 <meta property="og:type" content="article">
 <meta property="og:title" content="(*@Khóa Học HTML5 Masterclass 2026@*)">
@@ -16585,7 +16600,7 @@ Bộ thẻ Open Graph (\codeinline{og:*}) do Facebook phát triển và Twitter 
 Dữ liệu cấu trúc Schema.org theo chuẩn \textbf{JSON-LD} giúp Googlebot hiểu chính xác ngữ nghĩa của trang web (Bài viết, Sản phẩm, Khóa học, FAQ) để hiển thị các kết quả tìm kiếm nổi bật (\term{Rich Snippets}).
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ@*) khai (*@báo dữ liệu cấu *@trúc Khóa Học chuẩn@*) Google Rich Results}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ khai báo dữ liệu cấu trúc Khóa Học chuẩn Google Rich Results}]
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -16608,7 +16623,7 @@ Dữ liệu cấu trúc Schema.org theo chuẩn \textbf{JSON-LD} giúp Googlebot
 - Subresource Integrity (SRI): Bảo vệ tệp CDN khỏi bị sửa đổi mã độc bằng mã băm Hash.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ cấu hình@*) Content Security Policy trong (*@thẻ@*) meta}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ cấu hình Content Security Policy trong thẻ meta}]
 <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; script-src 'self' https:// trustedscripts.example.com; style-src 'self' 'unsafe-inline';">
 \end{lstlisting}

@@ -86,7 +86,7 @@ const actionBtn = document.getElementById('btn-update');
 
 // 2. Thao tac noi dung text va HTML
 mainTitle.textContent = "(*@Học Lập Trình@*) DOM Masterclass 2026";
-statusBadge.innerHTML = "<strong>(*@Trạng *@Thái: Đã Cập Nhật@*)</strong>";
+statusBadge.innerHTML = "<strong>(*@Trạng Thái: Đã Cập Nhật@*)</strong>";
 
 // 3. Thay doi Style va Class bang JS
 statusBadge.classList.remove('badge-pending');
@@ -114,10 +114,10 @@ Trong các ứng dụng Web hiện đại, dữ liệu thường được tải 
 const todoData = ["(*@Học@*) HTML5 Semantics", "(*@Thực hành@*) CSS Grid", "(*@Làm chủ@*) DOM Events"];
 const listContainer = document.getElementById('todo-list');
 
-(*@// Dung DocumentFragment de toi uu hieu nang (*@Tránh@*) reflow nhieu lan)@*)
+// (*@Dùng DocumentFragment để tối ưu hiệu năng (Tránh reflow nhiều lần)@*)
 const fragment = document.createDocumentFragment();
 
-todoData.forEachtaskText, index) => {
+todoData.forEach((taskText, index) => {
   const li = document.createElement('li');
   li.className = 'todo-item';
   li.innerHTML = `<span>${index + 1}. ${taskText}</span> <button class="btn-del">(*@Xóa@*)</button>`;
@@ -177,15 +177,15 @@ Thay vì gắn hàng trăm Event Listener lên từng nút bấm con trong một
 \begin{lstlisting}[language=JavaScript]
 const tableBody = document.querySelector('#user-table tbody');
 
-(*@// Gan 1 listener duy nhat tren (*@thẻ@*) tbody cha@*)
+// (*@Gắn 1 listener duy nhất trên thẻ tbody cha@*)
 tableBody.addEventListener('click', function(e) {
-  (*@// Kiem tra xem nguoi dung co nhap vao nut (*@Xoá@*) hay khong@*)
-  if (e.target.classList.contains('btn-delete-user' {
+  // (*@Kiểm tra xem người dùng có nhấp vào nút Xoá hay không@*)
+  if (e.target.classList.contains('btn-delete-user')) {
     const userId = e.target.getAttribute('data-id');
     const row = e.target.closest('tr');
     
-    row.remove(); // Xoa hang khoi DOM
-    console.log(*@`Đã xóa người dùng *@có@*) ID: ${userId}`);
+    row.remove(); // (*@Xóa hàng khỏi DOM@*)
+    console.log(`(*@Đã xóa người dùng có ID:@*) ${userId}`);
   }
 });
 \end{lstlisting}

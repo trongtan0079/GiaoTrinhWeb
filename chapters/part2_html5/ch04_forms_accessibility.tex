@@ -220,7 +220,7 @@ Thuộc tính \codeinline{action} không hoạt động độc lập mà luôn k
 <!-- Form dang ky tai khoan truyen du lieu den server handler -->
 <form action="process_register.php" method="POST">
   <label for="user_email">Email dang ky:</label>
-  <input type="email" id="user_email" name="email" placeholder="(nhập_email@example.com)" required>
+  <input type="email" id="user_email" name="email" placeholder="user@example.com" required>
   
   <label for="user_pass">Mat khau:</label>
   <input type="password" id="user_pass" name="password" placeholder="******" required>
@@ -260,10 +260,10 @@ Trong đặc tả HTML5, nếu một form có nhiều nút bấm gửi dữ li�
 \begin{codeWindow}[Ví dụ sử dụng thuộc tính formaction trên từng nút submit]
 \begin{lstlisting}[language=HTML5]
 <form action="/save-article" method="post">
-  (*@<!-- Nut 1: (*@Gửi@*) du lieu den /save-draft -->@*)
+  <!-- (*@Nút 1: Gửi dữ liệu đến /save-draft@*) -->
   <button type="submit" formaction="/save-draft">Luu Nhap</button>
   
-  <!-- Nut 2: Su dung action mac dinh cua form (/save-article) -->
+  <!-- (*@Nút 2: Sử dụng action mặc định của form (/save-article)@*) -->
   <button type="submit">Xuat Ban</button>
 </form>
 \end{lstlisting}
@@ -2558,9 +2558,9 @@ Thẻ \codeinline{<select>} trong HTML được sử dụng để tạo một \t
 \begin{lstlisting}[language=HTML5]
 <label for="country">Chon quoc gia:</label>
 <select id="country" name="country">
-  <option value="vn">(*@Việt@*) Nam@*)</option>
-  <option value="us">(*@Hoa (*@Kỳ@*)</option>
-  <option value="jp">(*@Nhật *@Bản@*)</option>
+  <option value="vn">(*@Việt Nam@*)</option>
+  <option value="us">(*@Hoa Kỳ@*)</option>
+  <option value="jp">(*@Nhật Bản@*)</option>
 </select>
 \end{lstlisting}
 \end{codeWindow}
@@ -2806,12 +2806,12 @@ Thẻ \codeinline{<optgroup>} (\term{Option Group}) trong HTML được sử d�
 \begin{codeWindow}[Mã HTML phân nhóm danh sách thực đơn với optgroup]
 \begin{lstlisting}[language=HTML5]
 <select name="food">
-  <optgroup label="Trai cay">
+  <optgroup label="(*@Trái cây@*)">
     <option value="apple">(*@Táo@*)</option>
     <option value="banana">(*@Chuối@*)</option>
   </optgroup>
-  <optgroup label="Do uong">
-    <option value="coffee">(*@Cà *@phê@*)</option>
+  <optgroup label="(*@Đồ uống@*)">
+    <option value="coffee">(*@Cà phê@*)</option>
     <option value="tea">(*@Trà@*)</option>
   </optgroup>
 </select>
@@ -2882,11 +2882,11 @@ Thẻ \codeinline{<optgroup>} (\term{Option Group}) trong HTML được sử d�
 \begin{codeWindow}[Mã HTML nhóm sản phẩm Hết hàng bị vô hiệu hóa bằng disabled]
 \begin{lstlisting}[language=HTML5]
 <select name="drink">
-  <optgroup label="Con hang">
-    <option value="coffee">(*@Cà *@phê@*)</option>
+  <optgroup label="(*@Còn hàng@*)">
+    <option value="coffee">(*@Cà phê@*)</option>
     <option value="tea">(*@Trà@*)</option>
   </optgroup>
-  <optgroup label="Het hang" disabled>
+  <optgroup label="(*@Hết hàng@*)" disabled>
     <option value="beer">Bia</option>
     <option value="wine">(*@Rượu@*)</option>
   </optgroup>
@@ -3147,7 +3147,7 @@ form, input, textarea, select, button, label {
 <body>
   <form>
     <label for="name">(*@Tên:@*)</label><br>
-    <input type="text" id="name" placeholder="(*@Nhập *@tên của bạn@*)">
+    <input type="text" id="name" placeholder="(*@Nhập tên của bạn@*)">
   </form>
 </body>
 </html>
@@ -3657,7 +3657,7 @@ input:placeholder-shown {
   <title>Vi du tabindex</title>
 </head>
 <body>
-  <h2>(*@Thứ *@tự@*) Tab@*)</h2>
+  <h2>(*@Thứ tự Tab@*)</h2>
   <!-- Theo DOM mac dinh (tabindex=0) -->
   <input type="text" placeholder="(*@Tên (DOM)@*)" tabindex="0"><br>
   <input type="text" placeholder="Email (DOM)" tabindex="0"><br>

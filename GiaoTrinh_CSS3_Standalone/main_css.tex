@@ -1892,7 +1892,7 @@ Xét ví dụ phần tử cha chứa cỡ chữ $20\text{px}$ và thẻ con đư
 \begin{codeWindow}[Ví Dụ Đơn Giản: Xác Định font-size Bằng Đơn Vị em]
 \begin{lstlisting}[language=HTML5]
 <div class="parent">
-  <p class="child">Chữ này 2em</p>
+  <p class="child">(*@Chữ này 2em@*)</p>
 </div>
 
 <style>
@@ -1923,7 +1923,7 @@ Xét ví dụ phần tử cha chứa cỡ chữ $20\text{px}$ và thẻ con đư
 \begin{codeWindow}[Ví Dụ Rõ Ràng Hơn: Áp Dụng em Cho Khoảng Đệm padding]
 \begin{lstlisting}[language=HTML5]
 <div class="outer">
-  <div class="inner">Tôi có padding 2em</div>
+  <div class="inner">(*@Tôi có padding 2em@*)</div>
 </div>
 
 <style>
@@ -3426,7 +3426,7 @@ Cần kết hợp với \codeinline{min-width} / \codeinline{max-width} & Để 
 </head>
 <body>
   <div class="parent">
-    <div class="child">Child: 50vw (50% màn hình)</div>
+    <div class="child">Child: 50vw (*@(50\% màn hình)@*)</div>
   </div>
 </body>
 </html>
@@ -3504,7 +3504,7 @@ Trường hợp KHÔNG hoạt động & Khi \codeinline{width: auto} (vì phần
 
 \begin{codeWindow}[Ví Dụ Cơ Bản: Khối Cao 50\% Màn Hình \& Canh Giữa Dọc Bằng line-height]
 \begin{lstlisting}[language=HTML5]
-<div class="box">Tôi cao 50% màn hình</div>
+<div class="box">(*@Tôi cao 50\% màn hình@*)</div>
 
 <style>
   .box {
@@ -3590,8 +3590,8 @@ Hiệu ứng cuộn từng phần (Fullpage Scroll) & section \{ height: 100vh; 
 </style>
 
 <div class="hero-fullscreen">
-  <h1>Chào Mừng Đến Với Khóa Học CSS Masterclass</h1>
-  <button class="cta-btn">Bắt Đầu Học Ngay</button>
+  <h1>(*@Chào Mừng Đến Với Khóa Học CSS Masterclass@*)</h1>
+  <button class="cta-btn">(*@Bắt Đầu Học Ngay@*)</button>
 </div>
 \end{lstlisting}
 \end{codeWindow}

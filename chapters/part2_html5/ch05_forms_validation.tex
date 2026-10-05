@@ -37,16 +37,16 @@ Chương này phân tích chi tiết cơ chế Kiểm tra tính hợp lệ biể
 \begin{codeWindow}[Ví dụ áp dụng thuộc tính Validation thuần HTML5]
 \begin{lstlisting}[language=HTML5]
 <form action="/register" method="POST">
-  <!-- Bat buoc nhap & dinh dang Email -->
-  <input type="email" name="email" required placeholder="(nhập_email@example.com)">
+  <!-- (*@Bắt buộc nhập và định dạng Email@*) -->
+  <input type="email" name="email" required placeholder="user@example.com">
   
-  <!-- Mat khau toi thieu 8 ky tu -->
-  <input type="password" name="password" minlength="8" required placeholder="(*@Mật *@khẩu@*) (>=8 (*@ký tự@*)">
+  <!-- (*@Mật khẩu tối thiểu 8 ký tự@*) -->
+  <input type="password" name="password" minlength="8" required placeholder="(*@Mật khẩu (>= 8 ký tự)@*)">
   
-  (*@<!-- So dien (*@thoại@*) dung dinh dang 10 (*@chữ@*) so -->@*)
-  <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="(*@Số *@điện thoại@*) (10 (*@số@*)">
+  <!-- (*@Số điện thoại đúng định dạng 10 chữ số@*) -->
+  <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="(*@Số điện thoại (10 chữ số)@*)">
   
-  <button type="submit">(*@Đăng *@Ký@*)</button>
+  <button type="submit">(*@Đăng Ký@*)</button>
 </form>
 \end{lstlisting}
 \end{codeWindow}

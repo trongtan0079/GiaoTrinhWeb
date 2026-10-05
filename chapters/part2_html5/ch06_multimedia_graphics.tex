@@ -40,7 +40,7 @@ target & \_self, \_blank & Nơi nhận kết quả trả về từ server. \\
 \begin{lstlisting}[language=HTML5]
 <form action="/api/v1/register" method="POST"
       enctype="multipart/form-data" autocomplete="on">
-  <!-- Các trường nhập liệu nằm ở đây -->
+  <!-- (*@Các trường nhập liệu nằm ở đây@*) -->
   <button type="submit">(*@Đăng Ký Hồ Sơ@*)</button>
 </form>
 \end{lstlisting}
@@ -181,17 +181,17 @@ submit, reset, button & Các dạng nút thực thi gửi form hoặc làm mới
 
 \begin{codeWindow}[Mã Nguồn: Các Ô Input Di Động Nâng Cao]
 \begin{lstlisting}[language=HTML5]
-<!-- Ô nhập OTP tự động đọc SMS trên iOS/Android -->
+<!-- (*@Ô nhập OTP tự động đọc SMS trên iOS/Android@*) -->
 <label for="otp">(*@Nhập Mã OTP:@*)</label>
 <input type="text" id="otp" name="otp" inputmode="numeric" 
-       autocomplete="one-time-code" required placeholder="6 chữ số">
+       autocomplete="one-time-code" required placeholder="(*@6 chữ số@*)">
 
-<!-- Chọn tệp ảnh PNG/JPEG nhiều file -->
+<!-- (*@Chọn tệp ảnh PNG/JPEG nhiều file@*) -->
 <label for="photos">(*@Tải Ảnh Hóa Đơn:@*)</label>
 <input type="file" id="photos" name="photos" 
        accept="image/png, image/jpeg" multiple>
 
-<!-- Thanh chọn khoảng giá -->
+<!-- (*@Thanh chọn khoảng giá@*) -->
 <label for="price">(*@Khoảng Giá:@*)</label>
 <input type="range" id="price" name="price" 
        min="100" max="1000" step="50" value="500">
@@ -259,11 +259,11 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
 \begin{lstlisting}[language=HTML5]
 <label for="city">(*@Chọn Thành Phố:@*)</label>
 <select id="city" name="city">
-  <optgroup label="Miền Bắc">
+  <optgroup label="(*@Miền Bắc@*)">
     <option value="hn" selected>(*@Hà Nội@*)</option>
     <option value="hp">(*@Hải Phòng@*)</option>
   </optgroup>
-  <optgroup label="Miền Nam">
+  <optgroup label="(*@Miền Nam@*)">
     <option value="hcm">(*@Hồ Chí Minh@*)</option>
     <option value="ct">(*@Cần Thơ@*)</option>
   </optgroup>
@@ -309,7 +309,7 @@ Thẻ \codeinline{<textarea>} cho phép người dùng nhập các đoạn văn 
 \begin{lstlisting}[language=HTML5]
 <label for="comment">(*@Bình Luận Bài Viết:@*)</label>
 <textarea id="comment" name="comment" rows="5" cols="50" 
-          maxlength="500" placeholder="Viết phản hồi của bạn..."></textarea>
+          maxlength="500" placeholder="(*@Viết phản hồi của bạn...@*)"></textarea>
 \end{lstlisting}
 \end{codeWindow}
 
@@ -377,7 +377,7 @@ Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tín
 <form oninput="result.value = parseInt(a.value) * parseInt(b.value)">
   <input type="number" id="a" value="10"> x
   <input type="number" id="b" value="5"> =
-  <output name="result" for="a b">50</output> VNĐ
+  <output name="result" for="a b">50</output> (*@VNĐ@*)
 </form>
 \end{lstlisting}
 \end{codeWindow}

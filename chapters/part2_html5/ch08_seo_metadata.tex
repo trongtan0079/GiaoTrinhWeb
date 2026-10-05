@@ -12,7 +12,7 @@ Chương này phân tích các thẻ Web Components, danh sách toàn bộ Thu�
 - \codeinline{<slot name="...">}: Điểm chèn nội dung động trong kiến trúc Web Components và Shadow DOM.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ định nghĩa *@thẻ@*) template (*@và@*) named slot}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ định nghĩa thẻ template và named slot}]
 <template id="user-card-template">
   <style>
     .card { padding: 16px; border: 1px solid # ccc; border-radius: 8px; }
@@ -57,7 +57,7 @@ Thuộc tính toàn cục (\term{Global Attributes}) là các thuộc tính có 
 \end{table}
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ ứng dụng *@các thuộc tính@*) contenteditable, inert (*@và@*) data-*}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ ứng dụng các thuộc tính contenteditable, inert và data-*}]
 <!-- (*@Cho phép người dùng trực tiếp sửa văn bản@*) --><h1 contenteditable="true" spellcheck="false">(*@Nhấp vào đây để chỉnh sửa tiêu đề@*)</h1>
 
 <!-- (*@Khung bị vô hiệu hóa hoàn toàn tương tác với inert@*) --><div inert>
@@ -75,7 +75,7 @@ Thuộc tính toàn cục (\term{Global Attributes}) là các thuộc tính có 
 Bộ thẻ Open Graph (\codeinline{og:*}) do Facebook phát triển và Twitter Cards (\codeinline{twitter:*}) điều khiển hình ảnh, tiêu đề và mô tả hiển thị khi người dùng chia sẻ liên kết trang web lên mạng xã hội.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ bộ thẻ@*) Open Graph (*@chuẩn@*) khi chia (*@sẻ@*) Facebook/Zalo}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ bộ thẻ Open Graph chuẩn khi chia sẻ Facebook/Zalo}]
 <!-- Facebook Open Graph -->
 <meta property="og:type" content="article">
 <meta property="og:title" content="(*@Khóa Học HTML5 Masterclass 2026@*)">
@@ -95,7 +95,7 @@ Bộ thẻ Open Graph (\codeinline{og:*}) do Facebook phát triển và Twitter 
 Dữ liệu cấu trúc Schema.org theo chuẩn \textbf{JSON-LD} giúp Googlebot hiểu chính xác ngữ nghĩa của trang web (Bài viết, Sản phẩm, Khóa học, FAQ) để hiển thị các kết quả tìm kiếm nổi bật (\term{Rich Snippets}).
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ@*) khai (*@báo dữ liệu cấu *@trúc Khóa Học chuẩn@*) Google Rich Results}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ khai báo dữ liệu cấu trúc Khóa Học chuẩn Google Rich Results}]
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -118,7 +118,7 @@ Dữ liệu cấu trúc Schema.org theo chuẩn \textbf{JSON-LD} giúp Googlebot
 - Subresource Integrity (SRI): Bảo vệ tệp CDN khỏi bị sửa đổi mã độc bằng mã băm Hash.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={(*@Ví dụ cấu hình@*) Content Security Policy trong (*@thẻ@*) meta}]
+\begin{lstlisting}[language=HTML5, caption={Ví dụ cấu hình Content Security Policy trong thẻ meta}]
 <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; script-src 'self' https:// trustedscripts.example.com; style-src 'self' 'unsafe-inline';">
 \end{lstlisting}

@@ -86,21 +86,31 @@ Dưới đây là cú pháp và ví dụ minh họa cách viết chú thích tro
 
 \begin{codeWindow}[Ví dụ cú pháp chú thích trong các ngôn ngữ lập trình]
 \begin{lstlisting}[language=HTML5]
-<!-- (*@1. HTML: Sử dụng cặp thẻ mở/đóng đặc trưng@*) -->(*@<!-- Đây là một chú thích dòng đơn trong HTML --><!-- *@Đây là một chú thích *@trên nhiều dòng trong HTML@*)
+<!-- (*@1. HTML: Sử dụng cặp thẻ mở/đóng đặc trưng@*) -->
+<!-- (*@Đây là một chú thích dòng đơn trong HTML@*) -->
+<!-- 
+  (*@Đây là một chú thích trên nhiều dòng trong HTML@*)
 -->
 \end{lstlisting}
 \begin{lstlisting}[language=JavaScript]
-(*@/* 2. CSS: Chỉ hỗ trợ kiểu chú thích khối (dùng cặp ký hiệu) *@*)// (*@* Đây là một chú thích trong CSS *//* *@Đây là một chú thích *@nhiều dòng trong CSS@*)
+/* (*@2. CSS: Chỉ hỗ trợ kiểu chú thích khối@*) */
+/* (*@Đây là một chú thích trong CSS@*) */
+/* 
+  (*@Đây là một chú thích nhiều dòng trong CSS@*)
 */
 
-// (*@3. JS / C++ / C\# / Java: Hỗ trợ cả chú thích dòng đơn và khối// Đây là chú thích dòng đơn (dùng hai dấu gạch chéo)@*)
+// 3. JS / C++ / C# / Java: (*@Hỗ trợ cả chú thích dòng đơn và khối@*)
+// (*@Đây là chú thích dòng đơn (dùng hai dấu gạch chéo)@*)
 /* 
   (*@Đây là chú thích nhiều dòng (dùng cặp ký hiệu mở/đóng)@*)
 */
 \end{lstlisting}
 \begin{lstlisting}[language=Python]
-# (*@4. Python: Sử dụng ký tự thăng (\#) làm chú thích dòng đơn\# Đây là một chú thích dòng đơn trong Python@*)
-# (*@Python không hỗ trợ chú thích nhiều dòng chính thức,\# nhưng có thể dùng Docstring (chuỗi 3 dấu nháy đơn) thay thế:''' *@Đây là một chú thích nhiều dòng *@sử dụng Docstring trong Python@*)
+# 4. Python: (*@Sử dụng ký tự thăng@*) (#) (*@làm chú thích dòng đơn@*)
+# (*@Đây là một chú thích dòng đơn trong Python@*)
+# (*@Python không hỗ trợ chú thích nhiều dòng chính thức, nhưng có thể dùng Docstring thay thế:@*)
+'''
+(*@Đây là một chú thích nhiều dòng sử dụng Docstring trong Python@*)
 '''
 \end{lstlisting}
 \end{codeWindow}

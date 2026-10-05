@@ -1473,7 +1473,7 @@ Reset nền mặc định ô nhập liệu & Tháo bỏ màu nền xám mặc đ
 \begin{lstlisting}[language=CSS3]
 /* 1. Nut bam Ghost Button sang trong */
 .btn-ghost {
-  background-color: transparent; /* Nen trong suot nhin xuyên qua */
+  background-color: transparent; /* (*@Nền trong suốt nhìn xuyên qua@*) */
   border: 2px solid #3b82f6;
   color: #3b82f6;
   padding: 8px 16px;
@@ -1784,7 +1784,7 @@ Không kế thừa (Non-inherited) & margin, padding, border, width, height, bac
 \begin{lstlisting}[language=HTML5]
 <!-- HTML Structure -->
 <div class="parent">
-  <p>Doan van nay tu dong ke thua mau do tu thẻ div.parent.</p>
+  <p>(*@Đoạn văn này tự động kế thừa màu đỏ từ thẻ div.parent.@*)</p>
 </div>
 
 <!-- CSS Styling -->
@@ -2242,8 +2242,8 @@ Trình duyệt sẽ duyệt danh sách từ trên xuống dưới và chọn ph�
   </style>
 </head>
 <body>
-  <h1>Tiêu đề theo system font</h1>
-  <p>Đây là đoạn văn bản sử dụng font mặc định của hệ điều hành bạn đang dùng.</p>
+  <h1>(*@Tiêu đề theo system font@*)</h1>
+  <p>(*@Đây là đoạn văn bản sử dụng font mặc định của hệ điều hành bạn đang dùng.@*)</p>
 </body>
 </html>
 \end{lstlisting}
@@ -9664,7 +9664,7 @@ Nếu một quy tắc có specificity cao hơn, nó sẽ ghi đè lên quy tắc
 /* Specificity: (0,0,0,1) - Viet TRUOC */
 p { color: red; }
 
-/* Specificity: (0,1,0,1) - Viet SAU nhung specificity CAO HƠN -> WINS! */
+/* (*@Specificity: (0,1,0,1) - Viết SAU nhưng specificity CAO HƠN -> WINS!@*) */
 #content p { color: blue; }
 \end{lstlisting}
 \end{codeWindow}
@@ -9681,8 +9681,8 @@ Inline styles (\codeinline{style="..."}) có specificity cao nhất $(1,0,0,0)$,
 
 \begin{codeWindow}[Ví Dụ 4: Inline Styles Ghi Đè CSS Bên Ngoài]
 \begin{lstlisting}[language=HTML5]
-<!-- Inline Style có Specificity = (1,0,0,0) -->
-<p style="color: green;">Doan van nay co mau gi?</p>
+<!-- (*@Inline Style có Specificity = (1,0,0,0)@*) -->
+<p style="color: green;">(*@Đoạn văn này có màu gì?@*)</p>
 
 <style>
   /* Specificity: (0,0,0,1) - Viet SAU nhung thua Inline Style */

@@ -1097,7 +1097,9 @@ Thẻ \codeinline{<pre>} (\textbf{Preformatted Text}) dùng để hiển thị v
 \begin{codeWindow}[Mã Nguồn Căn Chỉnh Cột Bằng Thẻ Preformatted pre]
 \begin{lstlisting}[language=HTML5]
 <pre>
-(*@Họ và tên:\hspace{1.2cm}Nguyễn Văn A *@Nghề nghiệp:\hspace{1.0cm}Kỹ sư Frontend *@Kỹ năng:\hspace{1.4cm}HTML5, CSS3, JavaScript@*)
+(*@Họ và tên:    Nguyễn Văn A@*)
+(*@Nghề nghiệp:  Kỹ sư Frontend@*)
+(*@Kỹ năng:      HTML5, CSS3, JavaScript@*)
 </pre>
 \end{lstlisting}
 \end{codeWindow}
@@ -4900,12 +4902,12 @@ name & Đặt tên cho fieldset (ít dùng, chủ yếu cho script). \\
 \begin{codeWindow}[Fieldset Nằm Ngoài Form (Sử Dụng Thuộc Tính form)]
 \begin{lstlisting}[language=HTML5]
 <form id="myForm">
-  <input type="submit" value="Gửi">
+  <input type="submit" value="(*@Gửi@*)">
 </form>
 
 <fieldset form="myForm">
   <legend>(*@Thông tin thêm@*)</legend>
-  <input type="text" placeholder="Nhập dữ liệu">
+  <input type="text" placeholder="(*@Nhập dữ liệu@*)">
 </fieldset>
 \end{lstlisting}
 \end{codeWindow}
@@ -5409,9 +5411,9 @@ Ngữ cảnh sử dụng chính & Tìm kiếm, lọc sản phẩm, truy vấn ch
     
     <label for="country">Quoc gia:</label>
     <select id="country" name="country">
-      <option value="vn">(*@Việt@*) Nam@*)</option>
-      <option value="us">My</option>
-      <option value="jp">(*@Nhật *@Bản@*)</option>
+      <option value="vn">(*@Việt Nam@*)</option>
+      <option value="us">(*@Mỹ@*)</option>
+      <option value="jp">(*@Nhật Bản@*)</option>
     </select>
     
     <label for="bio">Gioi thieu ban than:</label>
