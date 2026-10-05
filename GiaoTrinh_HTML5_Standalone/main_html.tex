@@ -2447,33 +2447,89 @@ Các phần tử HTML được phân thành nhiều nhóm chức năng dựa tr�
 \end{codeWindow}
 
 \subsubsection{3. HTML Attributes (Thuộc tính HTML)}
-\term{Attribute} (thuộc tính) là các thông tin bổ sung hoặc thiết lập hành vi cấu hình cho phần tử HTML, luôn được đặt bên trong thẻ mở. Các thuộc tính luôn có dạng cặp cú pháp \codeinline{tên\_thuộc\_tính="giá\_trị"}. Một phần tử HTML có thể chứa nhiều thuộc tính khác nhau ngăn cách bằng dấu cách.
 
-\begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Cấu trúc cơ bản của thuộc tính}: \codeinline{<tagname attribute="value"> Nội dung </tagname>}.
-    \item \textbf{Ví dụ minh họa}: \codeinline{<a href="https://www.google.com" target="\_blank">Truy cập Google</a>}.
-    \item \textbf{Giải thích chi tiết}:
-    \begin{itemize}
-        \item \codeinline{href="https://www.google.com"} $\rightarrow$ Thuộc tính \codeinline{href} chỉ định đường dẫn URL đích của liên kết.
-        \item \codeinline{target="\_blank"} $\rightarrow$ Thuộc tính \codeinline{target} chỉ định trình duyệt mở liên kết này trong một thẻ (tab) mới.
-    \end{itemize}
+\begin{conceptBox}[Khái Niệm Cốt Lõi: Thuộc Tính HTML (HTML Attributes)]
+\term{Attribute} (thuộc tính) là các thông số mở rộng được khai báo \textbf{bên trong thẻ mở}, có vai trò cung cấp thông tin bổ sung, định danh hoặc cấu hình hành vi hiển thị của phần tử HTML.
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Vị trí bắt buộc}: Luôn nằm ngay sau tên thẻ trong thẻ mở (không bao giờ nằm trong thẻ đóng).
+    \item \textbf{Quy tắc cú pháp chuẩn}: Luôn có dạng cặp khóa -- giá trị \codeinline{name="value"}.
+    \item \textbf{Đa thuộc tính}: Một thẻ mở có thể chứa đồng thời nhiều thuộc tính, mỗi thuộc tính phân tách nhau bằng ít nhất một khoảng trắng (\textit{space}).
 \end{itemize}
+\end{conceptBox}
+
+\begin{center}
+\begin{tcolorbox}[
+    enhanced,
+    colback=codeBg,
+    colframe=primaryBlue!30,
+    arc=6pt,
+    boxrule=0.8pt,
+    drop shadow=black!4!white,
+    top=18pt, bottom=18pt, left=10pt, right=10pt
+]
+\centering
+\begin{tikzpicture}[
+    font=\sffamily\small,
+    tagNode/.style={fill=primaryBlue!12, draw=primaryBlue, rounded corners=3pt, inner sep=4pt, font=\ttfamily\bfseries\color{primaryBlue}},
+    nameNode/.style={fill=accentOrange!15, draw=accentOrange, rounded corners=3pt, inner sep=4pt, font=\ttfamily\bfseries\color{accentOrange}},
+    valNode/.style={fill=codeString!15, draw=codeString, rounded corners=3pt, inner sep=4pt, font=\ttfamily\bfseries\color{codeString}},
+    symNode/.style={font=\ttfamily\bfseries\color{darkText}},
+    lblNode/.style={font=\sffamily\bfseries\scriptsize, align=center},
+    arrLine/.style={->, >=stealth, line width=0.8pt}
+]
+
+\node[tagNode] (tag) {<a};
+\node[nameNode, right=8pt of tag] (attrname) {href};
+\node[symNode, right=2pt of attrname] (eq) {=};
+\node[valNode, right=2pt of eq] (attrval) {"https://www.google.com"};
+\node[nameNode, right=10pt of attrval] (targetname) {target};
+\node[symNode, right=2pt of targetname] (eq2) {=};
+\node[valNode, right=2pt of eq2] (targetval) {"\_blank"};
+\node[tagNode, right=8pt of targetval] (gt) {>};
+
+% Braces and labels
+\node[lblNode, color=primaryBlue, below=20pt of tag] (l_tag) {Thẻ mở};
+\draw[arrLine, color=primaryBlue] (l_tag) -- (tag);
+
+\draw[thick, color=accentOrange, decorate, decoration={brace, mirror, amplitude=5pt, raise=4pt}] 
+    (attrname.south west) -- (attrval.south east) 
+    node[midway, below=12pt, font=\sffamily\bfseries\scriptsize\color{accentOrange}] {Thuộc tính 1: Đích đến URL};
+
+\draw[thick, color=secondaryTeal, decorate, decoration={brace, mirror, amplitude=5pt, raise=4pt}] 
+    (targetname.south west) -- (targetval.south east) 
+    node[midway, below=12pt, font=\sffamily\bfseries\scriptsize\color{secondaryTeal}] {Thuộc tính 2: Cách mở tab};
+
+\end{tikzpicture}
+\end{tcolorbox}
+\end{center}
+
+\begin{prettyTableBox}[Bảng Giải Phẫu Chi Tiết Các Thành Phần Cú Pháp Thuộc Tính]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}p{3.2cm} K{4.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thành phần} & \thd{Cú pháp đại diện} & \thd{Ý nghĩa và Quy tắc kỹ thuật} \\
+Tên thuộc tính (\textit{Name}) & href, target, class & Viết thường toàn bộ theo chuẩn W3C, xác định loại cấu hình cần áp dụng cho thẻ. \\
+Dấu gán (\textit{Equal sign}) & = & Phân cách giữa tên thuộc tính và giá trị, viết liền không khoảng cách. \\
+Giá trị (\textit{Value}) & "https://...", "\_blank" & Luôn đặt trong cặp dấu nháy kép \codeinline{""}, chứa tham số cấu hình tương ứng. \\
+Khoảng cách (\textit{Space}) & dấu cách giữa các thuộc tính & Dùng để phân tách khi một thẻ mở khai báo đồng thời từ hai thuộc tính trở lên. \\
+\end{tabularx}
+\end{prettyTableBox}
 
 \subsubsection{4. Các loại thuộc tính trong HTML}
-Dưới đây là các nhóm thuộc tính quan trọng thường gặp trong lập trình web:
-\begin{itemize}[leftmargin=1.8em, itemsep=4pt, parsep=0pt]
-    \item \textbf{Thuộc tính cơ bản (Global Attributes)}: Có thể áp dụng cho hầu hết mọi phần tử HTML. Ví dụ:
-    \begin{itemize}
-        \item \codeinline{id}: Định danh duy nhất cho một phần tử trên toàn trang web.
-        \item \codeinline{class}: Xác định một hoặc nhiều lớp CSS để định dạng giao diện.
-        \item \codeinline{style}: Nhúng mã CSS trực tiếp trên phần tử (inline style).
-        \item \codeinline{title}: Hiển thị một khung tooltip nhỏ chú thích khi di chuột vào phần tử.
-    \end{itemize}
-    \item \textbf{Thuộc tính cho liên kết (<a>)}: \codeinline{href} (URL) và \codeinline{target} (\codeinline{\_self}, \codeinline{\_blank}, \codeinline{\_parent}, \codeinline{\_top}).
-    \item \textbf{Thuộc tính cho hình ảnh (<img>)}: \codeinline{src} (đường dẫn ảnh), \codeinline{alt} (văn bản mô tả ảnh thay thế), cùng kích thước \codeinline{width} và \codeinline{height}.
-    \item \textbf{Thuộc tính cho biểu mẫu (<input>)}: \codeinline{type} (kiểu nhập liệu như \codeinline{text}, \codeinline{password}, \codeinline{checkbox}, \codeinline{radio}), \codeinline{name} (tên trường dữ liệu), \codeinline{value} (giá trị mặc định) và \codeinline{placeholder} (gợi ý nhập liệu).
-    \item \textbf{Thuộc tính Boolean}: Không cần giá trị (chỉ cần có mặt là đúng). Ví dụ: \codeinline{checked}, \codeinline{disabled}, \codeinline{readonly}, \codeinline{required}, \codeinline{autofocus}.
-\end{itemize}
+Trong tài liệu HTML5, các thuộc tính được phân chia thành 5 nhóm kỹ thuật chính:
+
+\begin{prettyTableBox}[Phân Loại 5 Nhóm Thuộc Tính Quan Trọng Trong HTML5]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}p{3.0cm} p{3.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Nhóm thuộc tính} & \thd{Các thuộc tính tiêu biểu} & \thd{Mục đích sử dụng \& Lưu ý kỹ thuật} \\
+Toàn cục (\textit{Global}) & \codeinline{id}, \codeinline{class}, \codeinline{style}, \codeinline{title}, \codeinline{hidden} & Áp dụng được cho mọi thẻ HTML. Dùng để định danh, style CSS và gán hành vi JavaScript. \\
+Liên kết (\textit{Links}) & \codeinline{href}, \codeinline{target}, \codeinline{rel}, \codeinline{download} & Cấu hình địa chỉ đích, phương thức mở tab và quan hệ bảo mật giữa trang hiện tại và URL đích. \\
+Đa phương tiện (\textit{Media}) & \codeinline{src}, \codeinline{alt}, \codeinline{width}, \codeinline{height}, \codeinline{loading} & Chỉ định nguồn tài nguyên ảnh/video, văn bản thay thế (\textit{alt text}) và tối ưu hiệu suất tải. \\
+Biểu mẫu (\textit{Forms}) & \codeinline{type}, \codeinline{name}, \codeinline{value}, \codeinline{placeholder} & Kiểm soát định dạng nhập liệu (\textit{text, email, password...}) và truyền dữ liệu lên máy chủ. \\
+Logic (\textit{Boolean}) & \codeinline{required}, \codeinline{disabled}, \codeinline{readonly}, \codeinline{checked} & Thuộc tính nhị phân (chỉ cần khai báo tên thuộc tính là kích hoạt, không cần truyền giá trị). \\
+\end{tabularx}
+\end{prettyTableBox}
 
 \begin{codeWindow}[Ví dụ minh họa cách khai báo các loại thuộc tính HTML]
 \begin{lstlisting}[language=HTML5]
