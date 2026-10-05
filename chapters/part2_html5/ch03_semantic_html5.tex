@@ -5209,8 +5209,64 @@ Mặc định trình duyệt cho phép người dùng kéo góc ô \codeinline{<
 \end{warnBox}
 
 \subsection{10. Phân Tích Chuyên Sâu Phương Thức Gửi Dữ Liệu GET vs POST}
+\label{sec:form_methods_get_post}
 
+Thuộc tính \codeinline{method} trong thẻ \codeinline{<form>} xác định phương thức giao thức truyền tải siêu văn bản (\term{HTTP Method}) được trình duyệt sử dụng để chuyển phát dữ liệu người dùng đến tài nguyên máy chủ được chỉ định ở \codeinline{action}. Trong chuẩn W3C HTML5 và IETF RFC 7231, hai phương thức kinh điển và quan trọng nhất mà mọi kỹ sư Frontend bắt buộc phải làm chủ là \codeinline{GET} và \codeinline{POST}.
 
+% ------------------------------------------------------------------------------
+\subsubsection{1. Sơ Đồ Kiến Trúc \& Luồng Vận Hành Dữ Liệu (GET vs POST Architecture)}
+
+\begin{conceptBox}[Bản Chất Vận Hành Cốt Lõi Theo Chuẩn HTTP/1.1 \& HTTP/2]
+Sự khác biệt cốt tử giữa GET và POST nằm ở \textbf{kênh truyền tải dữ liệu} trong cấu trúc gói tin HTTP Request:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Phương thức GET}: Đóng gói dữ liệu trực tiếp lên dòng yêu cầu URL (\term{Request Line}) dưới dạng chuỗi truy vấn (\term{Query String}). Thân của gói tin yêu cầu (\term{Request Body}) hoàn toàn để trống.
+    \item \textbf{Phương thức POST}: Giữ cho đường dẫn URL sạch sẽ và đóng gói toàn bộ tham số vào phần thân dữ liệu ngầm (\term{Request Payload / HTTP Body}) qua luồng dữ liệu TCP, cho phép truyền tải an toàn và không giới hạn dung lượng.
+\end{itemize}
+\end{conceptBox}
+
+\begin{browserWindow}[Sơ Đồ Đối Sánh Kiến Trúc Kênh Truyền Dữ Liệu: GET vs POST]
+\centering\small\sffamily
+\begin{tikzpicture}[font=\sffamily, >=Stealth, scale=0.95, transform shape]
+  % Client Browser Node
+  \node[draw=primaryBlue!80, fill=primaryBlue!6, line width=1.1pt, rounded corners=6pt, minimum width=3.4cm, minimum height=3.6cm, align=center] (client) at (0, 0) {
+    \textbf{\color{primaryBlue}\large TRÌNH DUYỆT}\\[2pt]
+    \textbf{(Client / Browser)}\\[6pt]
+    \tcbox[on line, arc=3pt, colback=white, colframe=primaryBlue!40, boxsep=2pt, left=4pt, right=4pt]{\scriptsize Nhập Form HTML}\\[3pt]
+    \tcbox[on line, arc=3pt, colback=white, colframe=primaryBlue!40, boxsep=2pt, left=4pt, right=4pt]{\scriptsize Đóng Gói Tham Số}
+  };
+
+  % Server Node
+  \node[draw=secondaryTeal!80, fill=secondaryTeal!6, line width=1.1pt, rounded corners=6pt, minimum width=3.4cm, minimum height=3.6cm, align=center] (server) at (10.5, 0) {
+    \textbf{\color{secondaryTeal}\large MÁY CHỦ WEB}\\[2pt]
+    \textbf{(Backend Server)}\\[6pt]
+    \tcbox[on line, arc=3pt, colback=white, colframe=secondaryTeal!40, boxsep=2pt, left=4pt, right=4pt]{\scriptsize Phân Tích Request}\\[3pt]
+    \tcbox[on line, arc=3pt, colback=white, colframe=secondaryTeal!40, boxsep=2pt, left=4pt, right=4pt]{\scriptsize Trả Về HTTP Response}
+  };
+
+  % Đường truyền GET
+  \draw[->, line width=1.3pt, accentOrange] ([yshift=1.1cm]client.east) -- ([yshift=1.1cm]server.west)
+    node[midway, above=2pt, font=\bfseries\small\color{accentOrange}] {1. Luồng GET: Gắn tham số trực tiếp trên URL (?q=HTML5)}
+    node[midway, below=2pt, font=\scriptsize\color{darkText}] {$\bullet$ Body rỗng $\bullet$ Lưu Browser History $\bullet$ Giới hạn ký tự};
+
+  % Khối trực quan URL Bar cho GET
+  \node[draw=accentOrange!70, fill=accentOrange!8, rounded corners=3pt, font=\ttfamily\scriptsize, align=center] at (5.25, 0.45) {
+    \textcolor{gray!80}{https://api.eduweb.vn/search}\textcolor{accentOrange}{\textbf{?q=HTML5\&page=1}}
+  };
+
+  % Đường truyền POST
+  \draw[->, line width=1.3pt, primaryBlue] ([yshift=-1.1cm]client.east) -- ([yshift=-1.1cm]server.west)
+    node[midway, above=2pt, font=\bfseries\small\color{primaryBlue}] {2. Luồng POST: Đóng gói ẩn ngầm trong Request Body}
+    node[midway, below=2pt, font=\scriptsize\color{darkText}] {$\bullet$ URL sạch $\bullet$ Không lưu History $\bullet$ Không giới hạn dung lượng};
+
+  % Khối trực quan Request Body cho POST
+  \node[draw=primaryBlue!70, fill=primaryBlue!8, rounded corners=3pt, font=\ttfamily\scriptsize, align=center] at (5.25, -1.75) {
+    \textcolor{primaryBlue}{\textbf{HTTP Payload Body:}} \{ "user": "admin", "pass": "secret" \}
+  };
+\end{tikzpicture}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+\subsubsection{2. Phương Thức GET: Cấu Trúc Query String \& Kịch Bản Lọc Dữ Liệu}
 
 \paragraph{Mục tiêu \& Cách thức hoạt động:}
 Phương thức \codeinline{GET} được sử dụng để gửi yêu cầu lấy dữ liệu từ máy chủ. Dữ liệu nhập trong form sẽ được đính kèm trực tiếp vào đuôi thanh địa chỉ URL của trình duyệt dưới dạng chuỗi truy vấn (\term{Query String}):
@@ -5222,12 +5278,27 @@ Phương thức \codeinline{GET} được sử dụng để gửi yêu cầu l�
     \item Nếu không khai báo thuộc tính \codeinline{method}, trình duyệt sẽ mặc định coi form sử dụng phương thức \codeinline{GET}.
 \end{itemize}
 
+\paragraph{Giải Phẫu Cấu Trúc Chuỗi Truy Vấn (Query String Anatomy):}
+Một đường link URL gửi bằng phương thức GET luôn bao gồm cấu trúc thành phần giải phẫu chuẩn như sau:
+\begin{center}
+\begin{tcolorbox}[enhanced, colback=codeBg, colframe=primaryBlue!30, arc=4pt, boxrule=0.8pt, left=8pt, right=8pt, top=6pt, bottom=6pt]
+\ttfamily\small
+\textcolor{gray!80}{https://www.example.com/search}\textcolor{accentOrange}{\textbf{?}}\textcolor{primaryBlue}{\textbf{q}}\textbf{=}\textcolor{secondaryTeal}{\textbf{HTML5}}\textcolor{accentOrange}{\textbf{\&}}\textcolor{primaryBlue}{\textbf{page}}\textbf{=}\textcolor{secondaryTeal}{\textbf{1}} \\[3pt]
+\scriptsize\sffamily
+$\underbrace{\text{\textcolor{gray!80}{Đường dẫn tĩnh (Path)}}}_{\text{URL Endpoint}}$ \quad
+$\underbrace{\text{\textcolor{accentOrange}{\textbf{?}}}}_{\text{Bắt đầu Query}}$ \quad
+$\underbrace{\text{\textcolor{primaryBlue}{\textbf{q}}\textbf{=}\textcolor{secondaryTeal}{\textbf{HTML5}}}}_{\text{Cặp 1 (Key = Value)}}$ \quad
+$\underbrace{\text{\textcolor{accentOrange}{\textbf{\&}}}}_{\text{Phân cách}}$ \quad
+$\underbrace{\text{\textcolor{primaryBlue}{\textbf{page}}\textbf{=}\textcolor{secondaryTeal}{\textbf{1}}}}_{\text{Cặp 2 (Key = Value)}}$
+\end{tcolorbox}
+\end{center}
+
 \begin{codeWindow}[Mã Nguồn Form Tìm Kiếm Sử Dụng Phương Thức GET]
 \begin{lstlisting}[language=HTML5]
 <form action="https://www.example.com/search" method="GET">
-    <label for="query">Tim kiem bai viet:</label>
+    <label for="query">(*@Tìm kiếm bài viết:@*)</label>
     <input type="text" id="query" name="q">
-    <button type="submit">Tim Kiem</button>
+    <button type="submit">(*@Tìm Kiếm@*)</button>
 </form>
 \end{lstlisting}
 \end{codeWindow}
@@ -5244,28 +5315,29 @@ Phương thức \codeinline{GET} được sử dụng để gửi yêu cầu l�
 \end{tcolorbox}
 \end{browserWindow}
 
-\paragraph{Khi nào NÊN và KHÔNG NÊN dùng GET?}
-\begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
-    \item \textbf{NÊN DÙNG}: Khi thực hiện các thao tác chỉ đọc dữ liệu (\term{Read-only}), tìm kiếm (\term{Search}), lọc sản phẩm (\term{Filter}), hoặc khi muốn người dùng có thể lưu Bookmark và chia sẻ URL có chứa tham số cho người khác.
-    \item \textbf{KHÔNG NÊN DÙNG}: Khi gửi dữ liệu nhạy cảm (mật khẩu, số tài khoản) hoặc khi gửi dữ liệu kích thước lớn (upload file, nội dung bài viết dài).
+\begin{tipBox}[Nguyên Tắc Lựa Chọn: Khi Nào NÊN và KHÔNG NÊN Dùng GET?]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{NÊN DÙNG}: Khi thực hiện các thao tác chỉ đọc dữ liệu (\term{Read-only}), tìm kiếm (\term{Search}), lọc sản phẩm (\term{Filter}), phân trang danh sách (\term{Pagination}), hoặc khi muốn người dùng có thể lưu Bookmark và sao chép liên kết URL có chứa đầy đủ tham số để chia sẻ cho người khác.
+    \item \textbf{KHÔNG NÊN DÙNG}: Khi gửi dữ liệu nhạy cảm (mật khẩu tài khoản, số thẻ tín dụng, mã bảo mật OTP) vì dữ liệu sẽ bị lộ hoàn toàn trên URL bar, lịch sử trình duyệt và máy chủ Proxy/Log; hoặc khi cần gửi dữ liệu kích thước lớn (upload tệp tin, tải ảnh, gửi nội dung bài viết dài).
 \end{itemize}
+\end{tipBox}
 
 \paragraph{Ví Dụ Thực Tế 1: Form Lọc Sản Phẩm Thương Mại Điện Tử (Filter Form)}
-Trong các ứng dụng thương mại điện tử (Shopee, Tiki, Lazada), khi người dùng chọn lọc sản phẩm theo Thương hiệu và Khoảng giá, form sẽ sử dụng phương thức \codeinline{GET} để người dùng dễ dàng lưu Bookmark hoặc chia sẻ link kết quả cho bạn bè:
+Trong các ứng dụng thương mại điện tử (Shopee, Tiki, Lazada), khi người dùng chọn lọc sản phẩm theo Thương hiệu và Khoảng giá, form bắt buộc sử dụng phương thức \codeinline{GET} để người dùng dễ dàng lưu Bookmark hoặc chia sẻ link kết quả lọc cho bạn bè:
 
 \begin{codeWindow}[Mã Nguồn Form Lọc Sản Phẩm Bằng Phương Thức GET]
 \begin{lstlisting}[language=HTML5]
 <form action="https://shopee.vn/search" method="GET">
-  <label for="brand">Thuong hieu:</label>
+  <label for="brand">(*@Thương hiệu:@*)</label>
   <select id="brand" name="brand">
     <option value="apple">Apple</option>
     <option value="samsung">Samsung</option>
   </select>
 
-  <label for="max_price">Gia toi da:</label>
+  <label for="max_price">(*@Giá tối đa:@*)</label>
   <input type="number" id="max_price" name="max_price" value="20000000">
 
-  <button type="submit">Loc San Pham</button>
+  <button type="submit">(*@Lọc Sản Phẩm@*)</button>
 </form>
 \end{lstlisting}
 \end{codeWindow}
@@ -5281,8 +5353,7 @@ Trong các ứng dụng thương mại điện tử (Shopee, Tiki, Lazada), khi 
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\clearpage
-\paragraph{Phân Tích Chuyên Sâu Phương Thức POST:}
+\subsubsection{3. Phương Thức POST: Đóng Gói Request Body \& Kịch Bản Bảo Mật}
 
 \paragraph{Mục tiêu \& Cách thức hoạt động:}
 Phương thức \codeinline{POST} được sử dụng để gửi dữ liệu cần xử lý hoặc thay đổi trạng thái trên máy chủ. Dữ liệu biểu mẫu được đóng gói ngầm bên trong thân của yêu cầu HTTP (\term{HTTP Request Body}):
@@ -5296,13 +5367,13 @@ Phương thức \codeinline{POST} được sử dụng để gửi dữ liệu c
 \begin{codeWindow}[Mã Nguồn Form Đăng Nhập Sử Dụng Phương Thức POST]
 \begin{lstlisting}[language=HTML5]
 <form action="https://www.example.com/login" method="POST">
-    <label for="username">Ten dang nhap:</label>
+    <label for="username">(*@Tên đăng nhập:@*)</label>
     <input type="text" id="username" name="user">
     
-    <label for="password">Mat khau:</label>
+    <label for="password">(*@Mật khẩu:@*)</label>
     <input type="password" id="password" name="pass">
     
-    <button type="submit">Dang Nhap</button>
+    <button type="submit">(*@Đăng Nhập@*)</button>
 </form>
 \end{lstlisting}
 \end{codeWindow}
@@ -5313,7 +5384,7 @@ Phương thức \codeinline{POST} được sử dụng để gửi dữ liệu c
 \tcbox[on line, arc=3pt, colback=codeBg, colframe=secondaryTeal!40, left=6pt, right=6pt]{\ttfamily\small https://www.example.com/login} \;\textcolor{codeComment}{(Không hiện username hay password!)} \\[10pt]
 \textbf{Giao diện hiển thị trong trang:} \\[4pt]
 \begin{tcolorbox}[colback=white, colframe=primaryBlue!20, arc=4pt, boxrule=0.6pt, left=10pt, right=10pt, top=8pt, bottom=8pt]
-  \textbf{(*@Tên đăng nhập:@*)} \\[2pt]
+  \textbf{Tên đăng nhập:} \\[2pt]
   \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=2pt, left=8pt, right=50pt]{\textcolor{darkText}{admin\_user}} \\[6pt]
   \textbf{Mật khẩu:} \\[2pt]
   \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=2pt, left=8pt, right=50pt]{\textcolor{darkText}{$\bullet\bullet\bullet\bullet\bullet\bullet$}} \\[10pt]
@@ -5321,11 +5392,12 @@ Phương thức \codeinline{POST} được sử dụng để gửi dữ liệu c
 \end{tcolorbox}
 \end{browserWindow}
 
-\paragraph{Khi nào NÊN và KHÔNG NÊN dùng POST?}
-\begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
-    \item \textbf{NÊN DÙNG}: Khi gửi thông tin nhạy cảm (đăng nhập, đổi mật khẩu, thanh toán), khi upload file, hoặc khi thực hiện thao tác làm ghi/thay đổi dữ liệu trên server (đăng ký tài khoản, cập nhật profile, xóa dữ liệu).
-    \item \textbf{KHÔNG NÊN DÙNG}: Khi chỉ muốn thực hiện các truy vấn tìm kiếm nhẹ và muốn chia sẻ URL kết quả cho người khác.
+\begin{tipBox}[Nguyên Tắc Lựa Chọn: Khi Nào NÊN và KHÔNG NÊN Dùng POST?]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{NÊN DÙNG}: Khi gửi thông tin định danh và nhạy cảm (đăng nhập tài khoản, đổi mật khẩu, xác thực thẻ ngân hàng, thanh toán), khi gửi dữ liệu đính kèm tệp tin đa phương tiện (\codeinline{<input type="file">}), hoặc khi thực hiện các tác vụ tạo mới (\term{Create}), cập nhật (\term{Update}) hay làm thay đổi trạng thái tài nguyên cơ sở dữ liệu trên máy chủ.
+    \item \textbf{KHÔNG NÊN DÙNG}: Khi chỉ muốn thực hiện các truy vấn tìm kiếm nhẹ, đọc dữ liệu công khai hoặc khi muốn người dùng có khả năng chia sẻ liên kết kết quả trực tiếp cho người khác.
 \end{itemize}
+\end{tipBox}
 
 \paragraph{Ví Dụ Thực Tế 2: Form Thanh Toán \& Upload Tệp Tin (Checkout \& Upload Form)}
 Khi người dùng thực hiện thanh toán đơn hàng hoặc đính kèm ảnh hóa đơn lên server, form bắt buộc sử dụng phương thức \codeinline{POST} để bảo mật dữ liệu thẻ và truyền tải tệp tin dung lượng lớn:
@@ -5333,13 +5405,13 @@ Khi người dùng thực hiện thanh toán đơn hàng hoặc đính kèm ản
 \begin{codeWindowBreakable}[Mã Nguồn Form Thanh Toán \& Tải File Bảo Mật Bằng POST]
 \begin{lstlisting}[language=HTML5]
 <form action="https://store.com/api/checkout" method="POST" enctype="multipart/form-data">
-  <label for="card">So the credit card:</label>
+  <label for="card">(*@Số thẻ tín dụng:@*)</label>
   <input type="text" id="card" name="credit_card">
 
-  <label for="receipt">Anh hoa don nhan hang:</label>
+  <label for="receipt">(*@Ảnh hóa đơn nhận hàng:@*)</label>
   <input type="file" id="receipt" name="receipt_img">
 
-  <button type="submit">Xac Nhan Thanh Toan</button>
+  <button type="submit">(*@Xác Nhận Thanh Toán@*)</button>
 </form>
 \end{lstlisting}
 \end{codeWindowBreakable}
@@ -5355,11 +5427,13 @@ Khi người dùng thực hiện thanh toán đơn hàng hoặc đính kèm ản
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\paragraph{Ma Trận So Sánh Toàn Diện Giữa GET Và POST:}
+\subsubsection{4. Ma Trận So Sánh Kỹ Thuật Toàn Diện (GET vs POST Comparison Matrix)}
+
+Dưới đây là bảng ma trận tổng hợp toàn bộ các tiêu chí kỹ thuật chuẩn mực đối sánh giữa hai phương thức theo chuẩn đặc tả W3C và IETF RFC 7231:
 
 \begin{prettyTableBox}[Ma Trận So Sánh Kỹ Thuật Toàn Diện Giữa Phương Thức GET Và POST]
 \rowcolors{2}{white}{primaryBlue!4}
-\begin{tabularx}{\linewidth}{>{\sffamily\bfseries\color{primaryBlue}}K{3.2cm} Z Z}
+\begin{tabularx}{\linewidth}{>{\sffamily\bfseries\color{primaryBlue}}K{3.4cm} Z Z}
 \rowcolor{primaryBlue}
 \thd{\sffamily Tiêu Chí So Sánh} & \thd{\sffamily Phương Thức GET} & \thd{\sffamily Phương Thức POST} \\
 
@@ -5377,9 +5451,28 @@ Bookmark URL kết quả & \textbf{Có thể Bookmark} và chia sẻ liên kết
 
 Khả năng Upload File & \textbf{Không thể} dùng để tải tệp tin lên server. & \textbf{Hỗ trợ tốt} (kết hợp với \codeinline{enctype="multipart/form-data"}). \\
 
+Tính An Toàn (Safe / Idempotent) & \textbf{Safe \& Idempotent} (Gửi lặp lại nhiều lần không làm thay đổi trạng thái server). & \textbf{Non-Idempotent} (Mỗi lần gửi lặp lại có thể tạo ra đơn hàng mới). \\
+
 Ngữ cảnh sử dụng chính & Tìm kiếm, lọc sản phẩm, truy vấn chỉ đọc (\term{Read-only}). & Đăng nhập, đăng ký, thanh toán, upload file, cập nhật dữ liệu. \\
 \end{tabularx}
 \end{prettyTableBox}
+
+% ------------------------------------------------------------------------------
+\subsubsection{5. Góc Phỏng Vấn Chuyên Sâu \& Cạm Bẫy Thực Tế (Engineering Insights)}
+
+\begin{conceptBox}[2 Câu Hỏi Phỏng Vấn Thường Gặp Về Form Methods]
+\begin{enumerate}[leftmargin=1.5em, itemsep=5pt, parsep=0pt]
+    \item \textbf{Câu hỏi 1: "Phương thức POST có thực sự mã hóa bảo mật dữ liệu tuyệt đối không nếu trang web dùng giao thức HTTP thường?"}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \textbf{Trả lời chuẩn}: \textbf{KHÔNG!} Phương thức POST chỉ có tác dụng giấu dữ liệu khỏi thanh địa chỉ URL của màn hình người dùng. Nếu trang web chạy trên giao thức \codeinline{http://} thông thường (chưa có chứng chỉ SSL/TLS \codeinline{https://}), toàn bộ Request Body vẫn được truyền qua mạng Internet dưới dạng văn bản thô (\term{Plaintext}). Bất kỳ ai sử dụng phần mềm bắt gói tin (như Wireshark) trên cùng mạng Wi-Fi đều có thể đọc trọn vẹn mật khẩu của bạn. Do đó, bảo mật biểu mẫu \textbf{bắt buộc phải kết hợp POST với HTTPS}.
+    \end{itemize}
+    \item \textbf{Câu hỏi 2: "Tại sao khi bấm F5 hoặc nút Reload trang sau khi gửi Form POST, trình duyệt lại bật cửa sổ cảnh báo 'Confirm Form Resubmission'?"}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \textbf{Nguyên nhân}: POST là phương thức \term{Non-Idempotent} (Không có tính bất biến). Khi người dùng Reload lại trang nhận kết quả, trình duyệt hỏi xác nhận để ngăn chặn việc người dùng vô tình gửi lại dữ liệu cũ lần 2 (ví dụ: bị trừ tiền hai lần cho cùng một đơn hàng).
+        \item \textbf{Giải pháp kiến trúc chuẩn ngành}: Áp dụng mô hình thiết kế \term{PRG Pattern (Post/Redirect/Get)}. Khi Server Backend nhận được yêu cầu POST thành công, server không trả về trang HTML trực tiếp mà trả về mã trạng thái \codeinline{HTTP 302 / 303 Redirect} chuyển hướng trình duyệt của người dùng sang một đường dẫn GET thông báo thành công. Khi đó, người dùng có F5 bao nhiêu lần cũng chỉ kích hoạt yêu cầu GET an toàn!
+    \end{itemize}
+\end{enumerate}
+\end{conceptBox}
 
 % ==============================================================================
 % 5. HTML5 VÀ CÁC TÍNH NĂNG MỚI HIỆN ĐẠI
