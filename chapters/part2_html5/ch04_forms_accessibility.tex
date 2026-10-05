@@ -22,23 +22,89 @@ Form là thành phần tương tác quan trọng nhất để người dùng g�
 \end{conceptBox}
 
 % ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
 \paragraph{Sơ Đồ Luồng Hoạt Động Của Form Action:}
 
 \begin{center}
-\begin{tikzpicture}[node distance=1.6cm, auto,
-    block/.style={rectangle, draw=primaryBlue, fill=primaryBlue!6, text width=3.0cm, text centered, rounded corners=3pt, minimum height=1.2cm, font=\sffamily\small},
-    cloud/.style={rectangle, draw=codeComment, fill=codeComment!10, text width=3.0cm, text centered, rounded corners=3pt, minimum height=1.2cm, font=\sffamily\small},
-    line/.style={draw=primaryBlue, ->, line width=1.2pt}]
-    
-    \node [block] (input) {\textbf{1. Người Dùng}\\Nhập liệu \& Bấm Submit};
-    \node [block, right of=input, node distance=3.7cm] (browser) {\textbf{2. Trình Duyệt}\\Gom cặp \codeinline{name=value}};
-    \node [block, right of=browser, node distance=3.7cm] (action) {\textbf{3. HTTP Request}\\Gửi dữ liệu tới \codeinline{action}};
-    \node [cloud, right of=action, node distance=3.7cm] (backend) {\textbf{4. Backend Server}\\Tiếp nhận \& Trả phản hồi};
-    
-    \path [line] (input) -- (browser);
-    \path [line] (browser) -- (action);
-    \path [line] (action) -- (backend);
+\begin{tcolorbox}[
+    enhanced,
+    colback=codeBg,
+    colframe=primaryBlue!25,
+    arc=8pt,
+    boxrule=0.8pt,
+    drop shadow=black!4!white,
+    top=18pt, bottom=14pt, left=6pt, right=6pt
+]
+\centering
+\begin{tikzpicture}[
+    >=Stealth,
+    stepCard/.style={
+        rectangle,
+        rounded corners=5pt,
+        draw=#1!60,
+        fill=white,
+        line width=0.8pt,
+        text width=3.0cm,
+        minimum height=2.1cm,
+        inner sep=6pt,
+        align=center,
+        font=\sffamily\small
+    },
+    stepBadge/.style={
+        rectangle,
+        rounded corners=3pt,
+        fill=#1,
+        text=white,
+        font=\sffamily\bfseries\scriptsize,
+        inner sep=2.5pt,
+        inner xsep=6pt
+    },
+    arrowLine/.style={
+        ->,
+        line width=1.3pt,
+        color=primaryBlue!70
+    }
+]
+
+% Step 1: User
+\node[stepCard=secondaryTeal] (step1) {
+    \vspace{4pt}
+    \textbf{\color{secondaryTeal}Người Dùng}\\[3pt]
+    {\footnotesize\color{darkText} Nhập form \& kích hoạt sự kiện \textbf{Submit}}
+};
+\node[stepBadge=secondaryTeal] at (step1.north) {BƯỚC 1};
+
+% Step 2: Browser
+\node[stepCard=primaryBlue, right=0.35cm of step1] (step2) {
+    \vspace{4pt}
+    \textbf{\color{primaryBlue}Trình Duyệt}\\[3pt]
+    {\footnotesize\color{darkText} Quét form, gom cặp dữ liệu \codeinline{name=value}}
+};
+\node[stepBadge=primaryBlue] at (step2.north) {BƯỚC 2};
+
+% Step 3: HTTP Request
+\node[stepCard=accentOrange, right=0.35cm of step2] (step3) {
+    \vspace{4pt}
+    \textbf{\color{accentOrange}HTTP Request}\\[3pt]
+    {\footnotesize\color{darkText} Gửi gói tin HTTP tới địa chỉ \codeinline{action}}
+};
+\node[stepBadge=accentOrange] at (step3.north) {BƯỚC 3};
+
+% Step 4: Backend Server
+\node[stepCard=accentPurple, right=0.35cm of step3] (step4) {
+    \vspace{4pt}
+    \textbf{\color{accentPurple}Backend Server}\\[3pt]
+    {\footnotesize\color{darkText} Tiếp nhận, xử lý logic \& trả phản hồi}
+};
+\node[stepBadge=accentPurple] at (step4.north) {BƯỚC 4};
+
+% Connecting Arrows
+\draw[arrowLine] (step1) -- (step2);
+\draw[arrowLine] (step2) -- (step3);
+\draw[arrowLine] (step3) -- (step4);
+
 \end{tikzpicture}
+\end{tcolorbox}
 \end{center}
 
 % ------------------------------------------------------------------------------
