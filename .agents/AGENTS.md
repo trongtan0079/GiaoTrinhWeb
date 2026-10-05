@@ -26,7 +26,15 @@
 5. git add + git commit + git push origin main
 ```
 
+## Cấu trúc các bộ Giáo Trình Độc Lập (Standalone Editions)
+
+Dự án duy trì mô hình Standalone tách riêng từng chuyên đề để biên dịch siêu tốc và linh hoạt:
+- **CSS3:** `GiaoTrinh_CSS3_Standalone/` (`main_css.tex`, `main_css.pdf`, `QUY_TẮC_THIẾT_KẾ.MD`)
+- **HTML5 & Nền Tảng:** `GiaoTrinh_HTML5_Standalone/` (`main_html.tex`, `main_html.pdf`, `figures/`, `QUY_TẮC_THIẾT_KẾ.MD`)
+- **JavaScript Modern (Quy chuẩn tương lai):** Khi tách JavaScript, tuân thủ đúng mô hình trên thành `GiaoTrinh_JavaScript_Standalone/` (`main_js.tex`, `main_js.pdf`, cấu hình độc lập + bìa riêng + `QUY_TẮC_THIẾT_KẾ.MD`).
+
 ## Tham khảo
 
 - Đọc `QUY_TẮC_THIẾT_KẾ.MD` để hiểu quy cách format LaTeX.
 - Giáo trình hiện tại: **614 trang**, 24 file `.tex`.
+
