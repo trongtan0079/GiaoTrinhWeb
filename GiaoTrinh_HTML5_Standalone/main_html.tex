@@ -7525,46 +7525,97 @@ Sự khác biệt cốt tử giữa GET và POST nằm ở \textbf{kênh truyề
 \end{itemize}
 \end{conceptBox}
 
-\begin{browserWindow}[Sơ Đồ Đối Sánh Kiến Trúc Kênh Truyền Dữ Liệu: GET vs POST]
-\centering\small\sffamily
-\begin{tikzpicture}[font=\sffamily, >=Stealth, scale=0.95, transform shape]
-  % Client Browser Node
-  \node[draw=primaryBlue!80, fill=primaryBlue!6, line width=1.1pt, rounded corners=6pt, minimum width=3.4cm, minimum height=3.6cm, align=center] (client) at (0, 0) {
-    \textbf{\color{primaryBlue}\large TRÌNH DUYỆT}\\[2pt]
-    \textbf{(Client / Browser)}\\[6pt]
-    \tcbox[on line, arc=3pt, colback=white, colframe=primaryBlue!40, boxsep=2pt, left=4pt, right=4pt]{\scriptsize Nhập Form HTML}\\[3pt]
-    \tcbox[on line, arc=3pt, colback=white, colframe=primaryBlue!40, boxsep=2pt, left=4pt, right=4pt]{\scriptsize Đóng Gói Tham Số}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=primaryBlue!40,
+    boxrule=0.8pt,
+    arc=6pt,
+    colbacktitle=primaryBlue!8,
+    coltitle=primaryBlue,
+    fonttitle=\bfseries\sffamily,
+    title={Sơ Đồ Đối Sánh Kiến Trúc Kênh Truyền Dữ Liệu: GET vs POST},
+    top=8pt, bottom=8pt, left=8pt, right=8pt,
+    toptitle=6pt, bottomtitle=6pt, lefttitle=10pt, righttitle=10pt
+]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth, font=\sffamily]
+
+  % ==========================================
+  % KHỐI 1: KIẾN TRÚC GET
+  % ==========================================
+  % Nền card GET
+  \draw[draw=accentOrange!40, fill=accentOrange!3, rounded corners=6pt, line width=0.8pt] (-0.2, 2.3) rectangle (14.6, 5.6);
+  \node[anchor=north west, font=\bfseries\small\color{accentOrange}] at (0.1, 5.45) {
+    (A) KIẾN TRÚC TRUYỀN DỮ LIỆU BẰNG PHƯƠNG THỨC GET (URL Query String)
   };
 
-  % Server Node
-  \node[draw=secondaryTeal!80, fill=secondaryTeal!6, line width=1.1pt, rounded corners=6pt, minimum width=3.4cm, minimum height=3.6cm, align=center] (server) at (10.5, 0) {
-    \textbf{\color{secondaryTeal}\large MÁY CHỦ WEB}\\[2pt]
-    \textbf{(Backend Server)}\\[6pt]
-    \tcbox[on line, arc=3pt, colback=white, colframe=secondaryTeal!40, boxsep=2pt, left=4pt, right=4pt]{\scriptsize Phân Tích Request}\\[3pt]
-    \tcbox[on line, arc=3pt, colback=white, colframe=secondaryTeal!40, boxsep=2pt, left=4pt, right=4pt]{\scriptsize Trả Về HTTP Response}
+  % Client GET
+  \node[draw=accentOrange!80, fill=white, rounded corners=4pt, line width=1pt, minimum width=2.4cm, minimum height=1.6cm, align=center] (cGet) at (1.2, 3.65) {
+    \textbf{\color{accentOrange}Trình Duyệt}\\[1pt]
+    \scriptsize(Client)\\[3pt]
+    \tcbox[on line, arc=2pt, colback=accentOrange!10, colframe=accentOrange!30, boxsep=1pt, left=2pt, right=2pt]{\tiny\sffamily\bfseries\color{accentOrange} method="GET"}
   };
 
-  % Đường truyền GET
-  \draw[->, line width=1.3pt, accentOrange] ([yshift=1.1cm]client.east) -- ([yshift=1.1cm]server.west)
-    node[midway, above=2pt, font=\bfseries\small\color{accentOrange}] {1. Luồng GET: Gắn tham số trực tiếp trên URL (?q=HTML5)}
-    node[midway, below=2pt, font=\scriptsize\color{darkText}] {$\bullet$ Body rỗng $\bullet$ Lưu Browser History $\bullet$ Giới hạn ký tự};
-
-  % Khối trực quan URL Bar cho GET
-  \node[draw=accentOrange!70, fill=accentOrange!8, rounded corners=3pt, font=\ttfamily\scriptsize, align=center] at (5.25, 0.45) {
-    \textcolor{gray!80}{https://api.eduweb.vn/search}\textcolor{accentOrange}{\textbf{?q=HTML5\&page=1}}
+  % Server GET
+  \node[draw=secondaryTeal!80, fill=white, rounded corners=4pt, line width=1pt, minimum width=2.4cm, minimum height=1.6cm, align=center] (sGet) at (13.2, 3.65) {
+    \textbf{\color{secondaryTeal}Máy Chủ Web}\\[1pt]
+    \scriptsize(Backend Server)\\[3pt]
+    \tcbox[on line, arc=2pt, colback=secondaryTeal!10, colframe=secondaryTeal!30, boxsep=1pt, left=2pt, right=2pt]{\tiny\sffamily\bfseries\color{secondaryTeal} \$\_GET / req.query}
   };
 
-  % Đường truyền POST
-  \draw[->, line width=1.3pt, primaryBlue] ([yshift=-1.1cm]client.east) -- ([yshift=-1.1cm]server.west)
-    node[midway, above=2pt, font=\bfseries\small\color{primaryBlue}] {2. Luồng POST: Đóng gói ẩn ngầm trong Request Body}
-    node[midway, below=2pt, font=\scriptsize\color{darkText}] {$\bullet$ URL sạch $\bullet$ Không lưu History $\bullet$ Không giới hạn dung lượng};
-
-  % Khối trực quan Request Body cho POST
-  \node[draw=primaryBlue!70, fill=primaryBlue!8, rounded corners=3pt, font=\ttfamily\scriptsize, align=center] at (5.25, -1.75) {
-    \textcolor{primaryBlue}{\textbf{HTTP Payload Body:}} \{ "user": "admin", "pass": "secret" \}
+  % Gói tin ở giữa GET
+  \node[draw=accentOrange!70, fill=white, rounded corners=4pt, line width=0.9pt, minimum width=7.2cm, align=center, inner sep=4pt] (packGet) at (7.2, 3.65) {
+    {\scriptsize\textbf{\color{darkText}Gói Tin HTTP GET (Tham số đính trực tiếp trên URL):}}\\[2pt]
+    \tcbox[on line, arc=2pt, colback=accentOrange!8, colframe=accentOrange!50, boxsep=1pt, left=4pt, right=4pt]{\ttfamily\scriptsize https://api.web.vn/search\textbf{\color{accentOrange}?q=HTML5\&page=1}}\\[3pt]
+    {\tiny\color{darkText!75} $\bullet$ Dữ liệu lộ trên URL $\bullet$ Request Body: \textbf{RỖNG} $\bullet$ Lưu History $\bullet$ Giới hạn $\sim$2KB}
   };
-\end{tikzpicture}
-\end{browserWindow}
+
+  % Mũi tên GET
+  \draw[->, line width=1.3pt, accentOrange] (cGet.east) -- (packGet.west);
+  \draw[->, line width=1.3pt, accentOrange] (packGet.east) -- (sGet.west);
+
+
+  % ==========================================
+  % KHỐI 2: KIẾN TRÚC POST
+  % ==========================================
+  % Nền card POST
+  \draw[draw=primaryBlue!40, fill=primaryBlue!3, rounded corners=6pt, line width=0.8pt] (-0.2, -1.4) rectangle (14.6, 2.0);
+  \node[anchor=north west, font=\bfseries\small\color{primaryBlue}] at (0.1, 1.85) {
+    (B) KIẾN TRÚC TRUYỀN DỮ LIỆU BẰNG PHƯƠNG THỨC POST (HTTP Request Body)
+  };
+
+  % Client POST
+  \node[draw=primaryBlue!80, fill=white, rounded corners=4pt, line width=1pt, minimum width=2.4cm, minimum height=1.8cm, align=center] (cPost) at (1.2, 0.05) {
+    \textbf{\color{primaryBlue}Trình Duyệt}\\[1pt]
+    \scriptsize(Client)\\[3pt]
+    \tcbox[on line, arc=2pt, colback=primaryBlue!10, colframe=primaryBlue!30, boxsep=1pt, left=2pt, right=2pt]{\tiny\sffamily\bfseries\color{primaryBlue} method="POST"}
+  };
+
+  % Server POST
+  \node[draw=secondaryTeal!80, fill=white, rounded corners=4pt, line width=1pt, minimum width=2.4cm, minimum height=1.8cm, align=center] (sPost) at (13.2, 0.05) {
+    \textbf{\color{secondaryTeal}Máy Chủ Web}\\[1pt]
+    \scriptsize(Backend Server)\\[3pt]
+    \tcbox[on line, arc=2pt, colback=secondaryTeal!10, colframe=secondaryTeal!30, boxsep=1pt, left=2pt, right=2pt]{\tiny\sffamily\bfseries\color{secondaryTeal} \$\_POST / req.body}
+  };
+
+  % Gói tin ở giữa POST
+  \node[draw=primaryBlue!70, fill=white, rounded corners=4pt, line width=0.9pt, minimum width=7.2cm, align=center, inner sep=4pt] (packPost) at (7.2, 0.05) {
+    {\scriptsize\textbf{\color{darkText}Gói Tin HTTP POST (Tham số đóng gói trong Body):}}\\[2pt]
+    \tcbox[on line, arc=2pt, colback=primaryBlue!8, colframe=primaryBlue!50, boxsep=1pt, left=4pt, right=4pt]{%
+      \ttfamily\tiny\color{darkText!90}\textbf{URL:} /login \quad|\quad \textbf{\color{primaryBlue}Payload Body:} \{ "user": "admin", "pass": "••••••" \}%
+    }\\[3pt]
+    {\tiny\color{darkText!75} $\bullet$ URL sạch (an toàn) $\bullet$ Dữ liệu đóng gói ngầm $\bullet$ Không lưu History $\bullet$ Không giới hạn size}
+  };
+
+  % Mũi tên POST
+  \draw[->, line width=1.3pt, primaryBlue] (cPost.east) -- (packPost.west);
+  \draw[->, line width=1.3pt, primaryBlue] (packPost.east) -- (sPost.west);
+
+\end{tikzpicture}%
+}
+\end{tcolorbox}
 
 % ------------------------------------------------------------------------------
 \subsubsection{2. Phương Thức GET: Cấu Trúc Query String \& Kịch Bản Lọc Dữ Liệu}
