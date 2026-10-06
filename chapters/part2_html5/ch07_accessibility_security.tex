@@ -1,14 +1,186 @@
 % ==============================================================================
-% CHƯƠNG 8: THẺ ĐA PHƯƠNG TIỆN, NHÚNG & GRAPHICS MASTERCLASS
+% CHƯƠNG 7: THẺ TƯƠNG TÁC HIỆN ĐẠI, WEB COMPONENTS, GLOBAL ATTRIBUTES & SEO
 % ==============================================================================
-\chapter{Thẻ Đa Phương Tiện (Multimedia), Nhúng \& Graphics}
-\label{chap:multimedia_graphics}
+\chapter{Thẻ Tương Tác Hiện Đại, Web Components, Global Attributes \& SEO}
+\label{chap:modern_interactive_web_components}
 
-Chương này phân tích chi tiết từng thẻ thuộc nhóm Đa phương tiện, Nhúng khung web và Đồ họa Vector SVG/Canvas trong HTML5.
+Chương này làm chủ các thẻ Tương tác nội tạng hiện đại như \codeinline{<dialog>}, Popover API, \codeinline{<details>}, \codeinline{<progress>}, \codeinline{<meter>}; kiến trúc Web Components với \codeinline{<template>} và \codeinline{<slot>}; bộ Thuộc Tính Toàn Cục (Global Attributes); cùng kỹ thuật tối ưu hóa công cụ tìm kiếm SEO Metadata và Dữ liệu cấu trúc JSON-LD.
 
-\section{Thẻ Hình Ảnh \taghint{<img>}}
-\subsection{1. Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính Tối Ưu Hiệu Năng}
-Thẻ \codeinline{<img>} dùng để nhúng hình ảnh vào tài liệu.
+% ==============================================================================
+% PHẦN 1: CÁC THẺ TƯƠNG TÁC NỘI TẠNG HIỆN ĐẠI
+% ==============================================================================
+\section{Thẻ Accordion \taghint{<details>} \& \taghint{<summary>}}
+\label{sec:details_summary}
+
+\begin{conceptBox}[Thẻ Accordion Thuần HTML5]
+Thẻ \codeinline{<details>} và \codeinline{<summary>} tạo ra widget ẩn/hiện nội dung (Accordion/Collapsible) thuần HTML5 mà không cần dùng JavaScript hay thư viện bên thứ ba.
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{<summary>}: Đóng vai trò là tiêu đề nhấp chọn (kích hoạt mở/đóng).
+    \item Thuộc tính \codeinline{open}: Đặt trạng thái mặc định mở nội dung khi tải trang.
+    \item Thuộc tính \codeinline{name="..."}: Gom nhóm các thẻ \codeinline{<details>} lại với nhau, tự động đóng các ô khác khi một ô mới được mở (chuẩn HTML Living Standard).
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví dụ danh sách FAQ Accordion với details và summary]
+\begin{lstlisting}[language=HTML5]
+<details name="faq-group" open>
+  <summary><strong>Khoa hoc keo dai trong bao lau?</strong></summary>
+  <p>Khoa hoc keo dai trong 3 thang voi 50 bai giang chuyen sau.</p>
+</details>
+
+<details name="faq-group">
+  <summary><strong>Toi co duoc nhan chung chi khong?</strong></summary>
+  <p>Co, ban se nhan duoc chung chi hoan thanh chuan quoc te.</p>
+</details>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Trình Duyệt: Widget Accordion FAQ]
+\sffamily\small
+\textbf{[-]} \textbf{Khóa học kéo dài trong bao lâu?} \quad \textcolor{codeComment}{\small\textit{(Đang mở open)}} \\
+\begin{quote}\small
+Khóa học kéo dài trong 3 tháng với 50 bài giảng chuyên sâu.
+\end{quote}
+\textbf{[+]} \textbf{Tôi có được nhận chứng chỉ không?} \quad \textcolor{codeComment}{\small\textit{(Đang đóng)}}
+\end{browserWindow}
+
+% ==============================================================================
+\section{Thẻ Cửa Sổ Modal \taghint{<dialog>}}
+\label{sec:dialog_modal}
+
+\begin{conceptBox}[Thẻ Cửa Sổ Hộp Thoại Dialog Native]
+Thẻ \codeinline{<dialog>} cung cấp giải pháp chuẩn native để xây dựng cửa sổ Popup / Modal / Hộp thoại xác nhận trong HTML5.
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Phương thức JS \codeinline{showModal()}}: Mở dialog ở chế độ Modal chính thức trên lớp trên cùng (\term{Top Layer}) với phần nền mờ (\codeinline{::backdrop}).
+    \item \textbf{Phương thức JS \codeinline{close()}}: Đóng cửa sổ hộp thoại.
+    \item \textbf{Cấu hình \codeinline{method="dialog"}}: Khi nằm trong form, submit nút bấm sẽ tự động đóng dialog mà không làm tải lại trang.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví dụ tạo Modal Popup chuẩn với thẻ dialog]
+\begin{lstlisting}[language=HTML5]
+<!-- Nut mo modal -->
+<button onclick="document.getElementById('confirmModal').showModal()">Xoa Bai Viet</button>
+
+<!-- The dialog modal -->
+<dialog id="confirmModal">
+  <h3>Xac Nhan Hanh Dong</h3>
+  <p>Ban co chac chan muon xoa bai viet nay vinh vien khong?</p>
+  <form method="dialog">
+    <button value="cancel">Huy Bo</button>
+    <button value="confirm" style="color: red;">Xoa Vinh Vien</button>
+  </form>
+</dialog>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trình Duyệt: Hộp Thoại Modal Dialog]
+\sffamily\small
+\tcbox[on line, arc=3pt, colback=codeComment, colframe=codeComment, boxsep=2pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{\color{white}\bfseries\small Xóa Bài Viết} \\[10pt]
+
+\begin{center}
+\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue, boxsep=8pt, width=0.85\linewidth, halign=center]
+  \textbf{\textcolor{primaryBlue}{Xác Nhận Hành Động}} \\[4pt]
+  {\small Bạn có chắc chắn muốn xóa bài viết này vĩnh viễn không?} \\[8pt]
+  \tcbox[on line, arc=2pt, colback=gray!20, colframe=gray!40, boxsep=1pt, left=8pt, right=8pt, top=2pt, bottom=2pt]{\small Hủy Bỏ} \qquad
+  \tcbox[on line, arc=2pt, colback=red!80, colframe=red!80, boxsep=1pt, left=8pt, right=8pt, top=2pt, bottom=2pt]{\color{white}\small\bfseries Xóa Vĩnh Viễn}
+\end{tcolorbox}
+\end{center}
+\end{browserWindow}
+
+% ==============================================================================
+\section{Thẻ Popover API (popover, popovertarget)}
+\label{sec:popover_api}
+
+\begin{conceptBox}[Tính Năng Đột Phá Popover API (WHATWG Standard)]
+\term{Popover API} cho phép biến bất kỳ phần tử HTML nào thành Tooltip, Dropdown Menu hoặc Popup nổi hiển thị ở lớp trên cùng (\term{Top Layer}) mà không bị giới hạn bởi thuộc tính \codeinline{overflow: hidden} của phần tử cha.
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Thuộc tính \codeinline{popover="auto|manual"}: Gán tính năng popover cho phần tử.
+    \item Thuộc tính \codeinline{popovertarget="id"}: Liên kết nút bấm kích hoạt tới ID của khung popover.
+    \item Khởi chạy hoàn toàn thuần HTML5 không cần JavaScript!
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví dụ Tooltip Popover thuần HTML5 không cần JS]
+\begin{lstlisting}[language=HTML5]
+<!-- Nut kich hoat Popover -->
+<button popovertarget="userTooltip">Xem Thong Tin Tac Gia</button>
+
+<!-- Khung noi dung Popover -->
+<div id="userTooltip" popover="auto">
+  <h4>Nguyen Trong Tan</h4>
+  <p>Chuyen gia Kien truc Frontend & Tac gia sach.</p>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+% ==============================================================================
+\section{Thẻ Thước Đo \taghint{<meter>} \& Tiến Trình \taghint{<progress>}}
+\label{sec:meter_progress}
+
+\begin{conceptBox}[Phân Biệt <progress> và <meter>]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{<progress>}: Biểu diễn tiến trình đang chạy (đang tải tệp, hoàn tất đăng ký...).
+    \item \codeinline{<meter>}: Biểu diễn thước đo của một giá trị nằm trong phạm vi xác định (dung lượng ổ đĩa, nhiệt độ, điểm đánh giá).
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Bảng Thuộc Tính Của Thẻ meter Và progress]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{3.0cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Thuộc Tính} & \thd{Áp Dụng Cho} & \thd{Ý Nghĩa} \\
+\codeinline{value} & \codeinline{<progress>}, \codeinline{<meter>} & Giá trị hiện tại. \\
+\codeinline{min} / \codeinline{max} & \codeinline{<progress>}, \codeinline{<meter>} & Giá trị tối thiểu và tối đa. \\
+\codeinline{low} / \codeinline{high} / \codeinline{optimum} & Chỉ \codeinline{<meter>} & Các dải mốc giá trị thấp, cao và tối ưu. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví dụ sử dụng thẻ progress và thẻ meter]
+\begin{lstlisting}[language=HTML5]
+<!-- Thanh tien trinh tai tep 70% -->
+<label for="fileDown">Tien trinh tai tep:</label>
+<progress id="fileDown" value="70" max="100">70%</progress>
+
+<!-- Thuoc do dung luong o dia -->
+<label for="diskSpace">Dung luong o dia:</label>
+<meter id="diskSpace" value="85" min="0" max="100" low="30" high="80" optimum="20">85%</meter>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Trình Duyệt: Tiến Trình \& Thước Đo]
+\sffamily\small
+\textbf{Tiến trình tải tệp:} \;\;
+\tcbox[on line, arc=3pt, colback=primaryBlue!20, colframe=primaryBlue, boxsep=1pt, left=4pt, right=40pt, top=2pt, bottom=2pt]{\color{primaryBlue}\bfseries 70\%} \\[6pt]
+\textbf{Dung lượng ổ đĩa:} \;\;
+\tcbox[on line, arc=3pt, colback=red!20, colframe=red!80, boxsep=1pt, left=4pt, right=40pt, top=2pt, bottom=2pt]{\color{red!80}\bfseries 85\% (Cảnh báo dung lượng cao)}
+\end{browserWindow}
+
+% ==============================================================================
+% PHẦN 2: WEB COMPONENTS, GLOBAL ATTRIBUTES & SEO METADATA
+% ==============================================================================
+\section{Thẻ Mẫu Thụ Động \taghint{<template>} \& Thẻ Điểm Chèn \taghint{<slot>}}
+\subsection{1. Lý Thuyết \& Web Components Architecture}
+- \codeinline{<template>}: Chứa đoạn mã HTML thụ động không dựng hình khi tải trang, chỉ được nhân bản bằng JavaScript.
+- \codeinline{<slot name="...">}: Điểm chèn nội dung động trong kiến trúc Web Components và Shadow DOM.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ định nghĩa thẻ template và named slot}]
+<template id="user-card-template">
+  <style>
+    .card { padding: 16px; border: 1px solid #ccc; border-radius: 8px; }
+  </style>
+  <div class="card">
+    <h2><slot name="username">(*@Tên Mặc Định@*)</slot></h2>
+    <p><slot name="bio">(*@Mô tả mặc định...@*)</slot></p>
+  </div>
+</template>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Tất Cả Thuộc Tính Toàn Cục (Global Attributes Masterclass)}
+\subsection{1. Lý Thuyết \& Bảng Tra Cứu Toàn Bộ Thuộc Tính Toàn Cục}
+Thuộc tính toàn cục (\term{Global Attributes}) là các thuộc tính có thể áp dụng cho \textbf{tất cả mọi thẻ HTML5} không ngoại lệ.
 
 \begin{table}[H]
 \centering
@@ -17,231 +189,95 @@ Thẻ \codeinline{<img>} dùng để nhúng hình ảnh vào tài liệu.
 \rowcolors{2}{white}{primaryBlue!4}
 \begin{tabularx}{\linewidth}{lp{3.5cm}X}
 \rowcolor{primaryBlue}
-\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Tối Ưu Hiệu Năng} \\
+\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Tác Dụng} \\
 \hline
-\codeinline{src} & URL ảnh & Đường dẫn tệp ảnh. \\
-\codeinline{alt} & Chuỗi văn bản & Văn bản thay thế khi lỗi ảnh hoặc cho Screen Reader. \\
-\codeinline{srcset} & Danh sách URLs kèm mật độ pixel & Cung cấp các định dạng ảnh theo độ phân giải màn hình. \\
-\codeinline{sizes} & Media queries (\codeinline{(max-width: 600px) 100vw}) & Khai báo kích thước hiển thị dự kiến của ảnh. \\
-\codeinline{loading} & \codeinline{lazy}, \codeinline{eager} & Tải ngầm Lazy Loading khi cuộn tới ảnh. \\
-\codeinline{decoding} & \codeinline{async}, \codeinline{sync} & Giải mã hình ảnh bất đồng bộ không làm giật trang. \\
-\codeinline{fetchpriority} & \codeinline{high}, \codeinline{low}, \codeinline{auto} & Ép trình duyệt tải ảnh Banner Hero trước tiên. \\
+\codeinline{id} & Mã định danh duy nhất & Đặt ID duy nhất trong trang (Dùng cho CSS/JS/Anchor). \\
+\codeinline{class} & Danh sách tên lớp & Gom nhóm các phần tử để định kiểu CSS. \\
+\codeinline{style} & Chuỗi mã CSS & Nhúng mã CSS trực tiếp trong thẻ (Inline Style). \\
+\codeinline{title} & Chuỗi văn bản & Chú thích bổ sung hiển thị khi di chuột (Tooltip). \\
+\codeinline{hidden} & \codeinline{hidden}, \codeinline{until-found} & Ẩn phần tử khỏi màn hình và Trình đọc màn hình. \\
+\codeinline{tabindex} & \codeinline{-1}, \codeinline{0}, \codeinline{1+} & Cấu hình thứ tự di chuyển con trỏ Focus phím Tab. \\
+\codeinline{accesskey} & Ký tự bàn phím & Phím tắt kích hoạt phần tử (\codeinline{Alt + Key}). \\
+\codeinline{autofocus} & Boolean & Tự động Focus con trỏ chuột vào thẻ khi nạp trang. \\
+\codeinline{contenteditable} & \codeinline{true}, \codeinline{false} & Cho phép người dùng chỉnh sửa văn bản trực tiếp. \\
+\codeinline{spellcheck} & \codeinline{true}, \codeinline{false} & Kiểm tra lỗi chính tả văn bản. \\
+\codeinline{inert} & Boolean & Vô hiệu hóa toàn bộ tương tác và focus của vùng phần tử. \\
+\codeinline{data-*} & Giá trị tùy biến & Lưu trữ dữ liệu tùy biến máy tính đọc được trong \codeinline{dataset}. \\
 \end{tabularx}
 \end{prettyTableBox}
 \vspace{-2pt}
-\caption{Toàn bộ thuộc tính tối ưu hình ảnh của thẻ <img>}
+\caption{Toàn bộ các thuộc tính toàn cục trong HTML5}
 \end{table}
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ ảnh chuẩn Responsive kèm Lazy Loading và Fetch Priority}]
-<!-- (*@Ảnh Hero banner tải ngay lập tức với ưu tiên cao nhất@*) --><img src="hero-1200.webp"
-     srcset="hero-600.webp 600w, hero-1200.webp 1200w"
-     sizes="(max-width: 600px) 100vw, 1200px"
-     alt="(*@Banner Khóa Học HTML5@*)"
-     width="1200" height="600"
-     fetchpriority="high"
-     decoding="async">
+\begin{lstlisting}[language=HTML5, caption={Ví dụ ứng dụng các thuộc tính contenteditable, inert và data-*}]
+<!-- (*@Cho phép người dùng trực tiếp sửa văn bản@*) --><h1 contenteditable="true" spellcheck="false">(*@Nhấp vào đây để chỉnh sửa tiêu đề@*)</h1>
 
-<!-- (*@Ảnh bên dưới cuộn tới đâu tải tới đó (Lazy Loading)@*) --><img src="course-thumb.jpg" alt="(*@Minh họa bài học@*)" loading="lazy">
+<!-- (*@Khung bị vô hiệu hóa hoàn toàn tương tác với inert@*) --><div inert>
+  <button>(*@Nút này không thể nhấp@*)</button>
+</div>
+
+<!-- (*@Lưu trữ dữ liệu tùy biến với data-*@*) --><article data-product-id="9982" data-category="laptop" data-price="25000000">
+  <h2>Laptop Gaming Pro</h2>
+</article>
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Nguồn Ảnh Thích Ứng \taghint{<picture>} \& \taghint{<source>}}
-\subsection{1. Lý Thuyết \& Kỹ Thuật Art Direction}
-Thẻ \codeinline{<picture>} là wrapper chứa một hoặc nhiều thẻ \codeinline{<source>} và một thẻ \codeinline{<img>} dự phòng. Thẻ này áp dụng kỹ thuật \term{Art Direction} (Đổi khung ảnh theo màn hình di động/máy tính) và tự động chọn định dạng ảnh thế hệ mới (AVIF, WebP).
+\section{Bộ Thẻ Social Media Metadata (Open Graph \& Twitter Cards)}
+\subsection{1. Lý Thuyết \& Thẻ Hiển Thị Xem Trước Khi Chia Sẻ}
+Bộ thẻ Open Graph (\codeinline{og:*}) do Facebook phát triển và Twitter Cards (\codeinline{twitter:*}) điều khiển hình ảnh, tiêu đề và mô tả hiển thị khi người dùng chia sẻ liên kết trang web lên mạng xã hội.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ đổi định dạng ảnh AVIF/WebP với thẻ picture}]
-<picture>
-  <!-- (*@1. Ưu tiên cao nhất: Định dạng AVIF siêu nhẹ@*) -->  <source srcset="image.avif" type="image/avif">
-  
-  <!-- (*@2. Ưu tiên 2: Định dạng WebP@*) -->  <source srcset="image.webp" type="image/webp">
-  
-  <!-- (*@3. Dự phòng cho trình duyệt cũ@*) -->  <img src="image.jpg" alt="(*@Mô tả hình ảnh@*)">
-</picture>
+\begin{lstlisting}[language=HTML5, caption={Ví dụ bộ thẻ Open Graph chuẩn khi chia sẻ Facebook/Zalo}]
+<!-- Facebook Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="(*@Khóa Học HTML5 Masterclass 2026@*)">
+<meta property="og:description" content="(*@Giáo trình bách khoa toàn thư lập trình Web chuyên sâu.@*)">
+<meta property="og:image" content="https://eduweb.vn/assets/og-cover.png">
+<meta property="og:url" content="https://eduweb.vn/courses/html5">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="(*@Khóa Học HTML5 Masterclass 2026@*)">
+<meta name="twitter:image" content="https://eduweb.vn/assets/og-cover.png">
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Bản Đồ Ảnh \taghint{<map>} \& \taghint{<area>}}
-\subsection{1. Lý Thuyết \& Thuộc Tính Tọa Độ}
-- \codeinline{<map name="mapname">}: Khai báo một bản đồ hình ảnh chứa các vùng liên kết nhấp chuột.
-- \codeinline{<area>}: Khai báo một vùng nhấp chuột cụ thể. Thuộc tính \codeinline{shape="rect|circle|poly"}, \codeinline{coords="x1,y1,x2,y2"}, \codeinline{href="..."}.
+\section{Dữ Liệu Cấu Trúc Schema.org JSON-LD}
+\subsection{1. Lý Thuyết \& Cú Pháp <script type="application/ld+json">}
+Dữ liệu cấu trúc Schema.org theo chuẩn \textbf{JSON-LD} giúp Googlebot hiểu chính xác ngữ nghĩa của trang web (Bài viết, Sản phẩm, Khóa học, FAQ) để hiển thị các kết quả tìm kiếm nổi bật (\term{Rich Snippets}).
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ tạo vùng nhấp chuột tương tác trên ảnh}]
-<img src="planets.jpg" alt="(*@Hệ Mặt Trời@*)" usemap="#                    image-map">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<map name="image-map">
-  <!-- (*@Vùng hình tròn nhấp vào Mặt Trời@*) -->  <area shape="circle" coords="100,100,50" href="sun.html" alt="(*@Mặt Trời@*)">
-  <!-- (*@Vùng hình chữ nhật nhấp vào Trái Đất@*) -->  <area shape="rect" coords="200,80,260,140" href="earth.html" alt="(*@Trái Đất@*)">
-</map>
-\end{lstlisting}
-
-% ------------------------------------------------------------------------------
-\section{Thẻ Phát Video \taghint{<video>}}
-\subsection{1. Lý Thuyết \& Bảng Thuộc Tính}
-Thẻ \codeinline{<video>} phát trình chiếu các tệp video gốc (MP4, WebM, Ogg).
-
-\begin{itemize}
-    \item \codeinline{controls}: Hiển thị thanh điều khiển phát/dừng/âm lượng.
-    \item \codeinline{poster="..."}: Ảnh đại diện hiển thị trước khi ấn play.
-    \item \codeinline{autoplay}, \codeinline{muted}, \codeinline{loop}: Tự động phát ngầm (Phải kèm \codeinline{muted} mới chạy trên iOS/Android).
-    \item \codeinline{playsinline}: Phát video trực tiếp trong dòng trên trình duyệt iOS Safari.
-\end{itemize}
-
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ thẻ video phát chuẩn đa thiết bị}]
-<video controls poster="thumbnail.jpg" width="800" height="450" playsinline preload="metadata">
-  <source src="course-intro.webm" type="video/webm">
-  <source src="course-intro.mp4" type="video/mp4">
-  (*@Trình duyệt của bạn không hỗ trợ thẻ video.@*)
-</video>
-\end{lstlisting}
-
-% ------------------------------------------------------------------------------
-\section{Thẻ Phát Âm Thanh \taghint{<audio>}}
-\subsection{1. Lý Thuyết \& Định Dạng Hỗ Trợ}
-Thẻ \codeinline{<audio>} nhúng trình phát âm thanh gốc (MP3, WAV, OGG).
-
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ thẻ audio phát nhạc podcast}]
-<audio controls preload="none">
-  <source src="podcast-ep1.mp3" type="audio/mpeg">
-  <source src="podcast-ep1.ogg" type="audio/ogg">
-</audio>
-\end{lstlisting}
-
-% ------------------------------------------------------------------------------
-\section{Thẻ Nhúng Phụ Đề \taghint{<track>}}
-\subsection{1. Lý Thuyết \& Chuẩn Phụ Đề WebVTT}
-Thẻ \codeinline{<track>} nhúng phụ đề văn bản chuẩn \textbf{WebVTT} (\codeinline{.vtt}) vào các thẻ \codeinline{<video>} hoặc \codeinline{<audio>}.
-
-\begin{itemize}
-    \item \codeinline{kind="subtitles|captions|descriptions|chapters"}: Loại phụ đề.
-    \item \codeinline{srclang="vi|en"}: Mã ngôn ngữ của phụ đề.
-    \item \codeinline{label="..."}: Tên hiển thị trên menu chọn phụ đề.
-    \item \codeinline{default}: Bật sẵn phụ đề này.
-\end{itemize}
-
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng phụ đề tiếng Việt và tiếng Anh cho video}]
-<video controls src="lecture.mp4">
-  <track kind="subtitles" src="subtitles-vi.vtt" srclang="vi" label="(*@Tiếng Việt@*)" default>
-  <track kind="subtitles" src="subtitles-en.vtt" srclang="en" label="English">
-</video>
-\end{lstlisting}
-
-% ------------------------------------------------------------------------------
-\section{Thẻ Khung Nhúng Trang Web \taghint{<iframe>}}
-\subsection{1. Lý Thuyết \& Bảo Mật Sandbox}
-Thẻ \codeinline{<iframe>} (Inline Frame) nhúng một tài liệu HTML độc lập khác vào trang web hiện tại.
-
-\begin{table}[H]
-\centering
-\begin{prettyTableBox}
-\small
-\rowcolors{2}{white}{primaryBlue!4}
-\begin{tabularx}{\linewidth}{lp{3.5cm}X}
-\rowcolor{primaryBlue}
-\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Bảo Mật} \\
-\hline
-\codeinline{src} & URL & Địa chỉ trang web nhúng. \\
-\codeinline{srcdoc} & Mã HTML & Nhúng trực tiếp chuỗi HTML vào iframe mà không cần URL. \\
-\codeinline{sandbox} & \codeinline{allow-scripts}, \codeinline{allow-forms}, \codeinline{allow-same-origin} & Bật tường lửa bảo mật cô lập iframe. \\
-\codeinline{allow} & \codeinline{camera; microphone; fullscreen} & Phân quyền truy cập thiết bị phần cứng. \\
-\end{tabularx}
-\end{prettyTableBox}
-\vspace{-2pt}
-\caption{Các thuộc tính bảo mật của thẻ iframe}
-\end{table}
-
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng video YouTube an toàn với sandbox và allow}]
-<iframe width="560" height="315"
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-        title="(*@Trình chiếu Video YouTube@*)"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        sandbox="allow-scripts allow-same-origin allow-popups"
-        loading="lazy"
-        allowfullscreen></iframe>
-\end{lstlisting}
-
-% ------------------------------------------------------------------------------
-\section{Thẻ Đồ Họa Vector Inline \taghint{<svg>} \& Các Thẻ Con}
-\subsection{1. Lý Thuyết \& Đồ Họa Độc Lập Độ Phân Giải}
-Thẻ \codeinline{<svg>} nhúng mã đồ họa Vector 2D trực tiếp vào trang web. Các thẻ con chính: \codeinline{<path>}, \codeinline{<circle>}, \codeinline{<rect>}, \codeinline{<line>}, \codeinline{<text>}, \codeinline{<defs>}, \codeinline{<use>}.
-
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ vẽ icon hình tròn và hình sao bằng SVG}]
-<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="40" stroke="# 0F4C81" stroke-width="4" fill="#008080" />
-</svg>
-\end{lstlisting}
-
-% ------------------------------------------------------------------------------
-\section{Thẻ Khung Vẽ Điểm Ảnh \taghint{<canvas>}}
-\subsection{1. Lý Thuyết \& 2D Context API}
-Thẻ \codeinline{<canvas>} tạo ra một vùng trống tính bằng điểm ảnh (Pixels) cho phép JavaScript vẽ đồ họa 2D, biểu đồ động hoặc game WebGL.
-
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ vẽ hình chữ nhật đỏ bằng Canvas API}]
-<canvas id="myCanvas" width="200" height="100" style="border:1px solid #ccc;"></canvas>
-
-<script>
-  const canvas = document.getElementById('myCanvas');
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#0F4C81';
-  ctx.fillRect(10, 10, 150, 80);
+\begin{lstlisting}[language=HTML5, caption={Ví dụ khai báo dữ liệu cấu trúc Khóa Học chuẩn Google Rich Results}]
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "(*@HTML5 Masterclass Toàn Tập@*)",
+  "description": "(*@Giáo trình bách khoa toàn thư thiết kế web hiện đại.@*)",
+  "provider": {
+    "@type": "Organization",
+    "name": "EduWeb Academy",
+    "sameAs": "https://eduweb.vn"
+  }
+}
 </script>
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Công Thức Toán Học \taghint{<math>} (MathML)}
-\subsection{1. Lý Thuyết \& Các Phần Tử MathML}
-Thẻ \codeinline{<math>} nhúng công thức toán học chuẩn W3C MathML. Các thẻ con: \codeinline{<mfrac>} (Phân số), \codeinline{<msqrt>} (Căn bậc hai), \codeinline{<msup>} (Số mũ).
+\section{Kỹ Thuật Bảo Mật Với HTML Header Tags}
+\subsection{1. Lý Thuyết \& CSP, SRI}
+- Content Security Policy (CSP): Ngăn chặn tấn công XSS bằng cách quy định các nguồn tài nguyên hợp lệ.
+- Subresource Integrity (SRI): Bảo vệ tệp CDN khỏi bị sửa đổi mã độc bằng mã băm Hash.
 
 \subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ hiển thị công thức toán học Phân số}]
-<math>
-  <mfrac>
-    <mi>a</mi>
-    <mi>b</mi>
-  </mfrac>
-</math>
+\begin{lstlisting}[language=HTML5, caption={Ví dụ cấu hình Content Security Policy trong thẻ meta}]
+<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; script-src 'self' https://trustedscripts.example.com; style-src 'self' 'unsafe-inline';">
 \end{lstlisting}
 
-% ------------------------------------------------------------------------------
-\section{Thẻ Nhúng Đối Tượng Khác \taghint{<object>}, \taghint{<embed>}, \taghint{<param>}}
-\subsection{1. Lý Thuyết \& Nhúng File PDF}
-- \codeinline{<object data="..." type="...">}: Nhúng tài nguyên ngoài như file PDF.
-- \codeinline{<embed src="..." type="...">}: Nhúng đa phương tiện ứng dụng ngoài.
-
-\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
-\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng tệp PDF hiển thị trực tiếp}]
-<object data="document.pdf" type="application/pdf" width="100%" height="500px">
-  <p>(*@Trình duyệt không hỗ trợ xem PDF.@*)<a href="document.pdf">(*@Tải tệp tại đây@*)</a>.</p>
-</object>
-\end{lstlisting}
-
-\section{Tóm Tắt Chương 8}
-Chương 8 đã phân tích trọn bộ các mục riêng biệt dành cho từng thẻ Đa phương tiện, Nhúng khung web và Đồ họa Vector/Canvas. Chương tiếp theo sẽ tiến sang nhóm Thẻ Web Components, WAI-ARIA và SEO Metadata.
+% ==============================================================================
+\section{Tóm Tắt Chương 7}
+\begin{conceptBox}[Tóm Lại Cốt Lõi Kiến Thức Chương 7]
+Chương 7 đã hoàn tất hệ thống Bách Khoa Toàn Thư HTML5 hiện đại với toàn bộ các thẻ Tương tác (\codeinline{<details>}, \codeinline{<dialog>}, Popover API, \codeinline{<meter>}, \codeinline{<progress>}), kiến trúc Web Components (\codeinline{<template>}, \codeinline{<slot>}), bảng tra cứu Thuộc tính toàn cục Global Attributes, cùng bộ thẻ Social Media Metadata và Dữ liệu cấu trúc JSON-LD. Toàn bộ nền tảng HTML5 đã được trang bị vững chắc, chuẩn bị cho Phần 3: CSS3 Thiết Kế Giao Diện \& Bố Cục Trang Web.
+\end{conceptBox}

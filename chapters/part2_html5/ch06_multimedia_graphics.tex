@@ -1,397 +1,230 @@
 % ==============================================================================
-% CHƯƠNG 7: TRA CỨU THUỘC TÍNH FORM & CÁC LOẠI INPUT TYPES
+% CHƯƠNG 6: THẺ ĐA PHƯƠNG TIỆN, NHÚNG & GRAPHICS MASTERCLASS
 % ==============================================================================
-\chapter{Tra Cứu Thuộc Tính Form \& Các Loại Input Types}
-\label{chap:forms_masterclass}
+\chapter{Thẻ Đa Phương Tiện (Multimedia), Nhúng \& Graphics}
+\label{chap:multimedia_graphics}
 
-Chương này đi sâu phân tích toàn bộ các thẻ biểu mẫu HTML Forms, bao gồm 22+ loại Input Types, các thuộc tính điều khiển và cơ chế kiểm tra hợp lệ Constraint Validation API.
+Chương này phân tích chi tiết từng thẻ thuộc nhóm Đa phương tiện, Nhúng khung web và Đồ họa Vector SVG/Canvas trong HTML5.
 
-% ==============================================================================
-\section{Thẻ Khung Biểu Mẫu \taghint{<form>}}
-\subsection{Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính}
+\section{Thẻ Hình Ảnh \taghint{<img>}}
+\subsection{1. Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính Tối Ưu Hiệu Năng}
+Thẻ \codeinline{<img>} dùng để nhúng hình ảnh vào tài liệu.
 
-Thẻ \codeinline{<form>} đại diện cho một phần tử chứa các trường nhập liệu tương tác để thu thập và gửi dữ liệu tới máy chủ.
-
-\begin{prettyTableBox}[Toàn Bộ Các Thuộc Tính Của Thẻ <form>]
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
 \small
 \rowcolors{2}{white}{primaryBlue!4}
-\begin{tabularx}{\linewidth}{|>{\ttfamily\color{accentOrange}\bfseries}p{3.2cm}|>{\raggedright\arraybackslash\ttfamily}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Tối Ưu Hiệu Năng} \\
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Giá trị hợp lệ} & \thd{\sffamily Chức năng \& Hành vi trình duyệt} \\
-\hline
-action & URL máy chủ & Địa chỉ API nhận dữ liệu form khi submit. \\
-\hline
-method & GET, POST, dialog & Phương thức truyền dữ liệu HTTP Request. \\
-\hline
-enctype & application/x-www-form-urlencoded, multipart/form-data & Mã hóa dữ liệu (Dùng \codeinline{multipart} khi tải file). \\
-\hline
-autocomplete & on, off & Bật/Tắt tự động gợi ý điền thông tin của trình duyệt. \\
-\hline
-novalidate & Boolean & Tắt cơ chế kiểm tra hợp lệ dữ liệu mặc định của HTML5. \\
-\hline
-target & \_self, \_blank & Nơi nhận kết quả trả về từ server. \\
-\hline
+\codeinline{src} & URL ảnh & Đường dẫn tệp ảnh. \\
+\codeinline{alt} & Chuỗi văn bản & Văn bản thay thế khi lỗi ảnh hoặc cho Screen Reader. \\
+\codeinline{srcset} & Danh sách URLs kèm mật độ pixel & Cung cấp các định dạng ảnh theo độ phân giải màn hình. \\
+\codeinline{sizes} & Media queries (\codeinline{(max-width: 600px) 100vw}) & Khai báo kích thước hiển thị dự kiến của ảnh. \\
+\codeinline{loading} & \codeinline{lazy}, \codeinline{eager} & Tải ngầm Lazy Loading khi cuộn tới ảnh. \\
+\codeinline{decoding} & \codeinline{async}, \codeinline{sync} & Giải mã hình ảnh bất đồng bộ không làm giật trang. \\
+\codeinline{fetchpriority} & \codeinline{high}, \codeinline{low}, \codeinline{auto} & Ép trình duyệt tải ảnh Banner Hero trước tiên. \\
 \end{tabularx}
 \end{prettyTableBox}
+\vspace{-2pt}
+\caption{Toàn bộ thuộc tính tối ưu hình ảnh của thẻ <img>}
+\end{table}
 
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ ảnh chuẩn Responsive kèm Lazy Loading và Fetch Priority}]
+<!-- (*@Ảnh Hero banner tải ngay lập tức với ưu tiên cao nhất@*) --><img src="hero-1200.webp"
+     srcset="hero-600.webp 600w, hero-1200.webp 1200w"
+     sizes="(max-width: 600px) 100vw, 1200px"
+     alt="(*@Banner Khóa Học HTML5@*)"
+     width="1200" height="600"
+     fetchpriority="high"
+     decoding="async">
 
-\begin{codeWindow}[Mã Nguồn: Khai Báo Biểu Mẫu Đăng Ký Hỗ Trợ Tải File]
-\begin{lstlisting}[language=HTML5]
-<form action="/api/v1/register" method="POST"
-      enctype="multipart/form-data" autocomplete="on">
-  <!-- (*@Các trường nhập liệu nằm ở đây@*) -->
-  <button type="submit">(*@Đăng Ký Hồ Sơ@*)</button>
-</form>
+<!-- (*@Ảnh bên dưới cuộn tới đâu tải tới đó (Lazy Loading)@*) --><img src="course-thumb.jpg" alt="(*@Minh họa bài học@*)" loading="lazy">
 \end{lstlisting}
-\end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Khung Form Đăng Ký]
-\sffamily\small
-\begin{center}
-\begin{tcolorbox}[arc=4pt, colback=gray!5, colframe=primaryBlue!40, boxsep=8pt, width=0.85\linewidth]
-  \textbf{\color{primaryBlue} FORM ĐĂNG KÝ HỒ SƠ TRỰC TUYẾN} \par\vspace{6pt}
-  \begin{tabular}{r l}
-    \textbf{Tải hồ sơ (File):} & \fcolorbox{gray!40}{white}{\small Choose File} \textcolor{gray!80}{\scriptsize No file chosen} \\[6pt]
-    & \fcolorbox{primaryBlue}{primaryBlue}{\color{white}\bfseries\small Đăng Ký Hồ Sơ}
-  \end{tabular}
-\end{tcolorbox}
-\end{center}
-\end{browserWindow}
+% ------------------------------------------------------------------------------
+\section{Thẻ Nguồn Ảnh Thích Ứng \taghint{<picture>} \& \taghint{<source>}}
+\subsection{1. Lý Thuyết \& Kỹ Thuật Art Direction}
+Thẻ \codeinline{<picture>} là wrapper chứa một hoặc nhiều thẻ \codeinline{<source>} và một thẻ \codeinline{<img>} dự phòng. Thẻ này áp dụng kỹ thuật \term{Art Direction} (Đổi khung ảnh theo màn hình di động/máy tính) và tự động chọn định dạng ảnh thế hệ mới (AVIF, WebP).
 
-% ==============================================================================
-\section{Thẻ Nhãn Dán \taghint{<label>}}
-\subsection{Lý Thuyết \& Accessibility (a11y)}
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ đổi định dạng ảnh AVIF/WebP với thẻ picture}]
+<picture>
+  <!-- (*@1. Ưu tiên cao nhất: Định dạng AVIF siêu nhẹ@*) -->  <source srcset="image.avif" type="image/avif">
+  
+  <!-- (*@2. Ưu tiên 2: Định dạng WebP@*) -->  <source srcset="image.webp" type="image/webp">
+  
+  <!-- (*@3. Dự phòng cho trình duyệt cũ@*) -->  <img src="image.jpg" alt="(*@Mô tả hình ảnh@*)">
+</picture>
+\end{lstlisting}
 
-Thẻ \codeinline{<label>} tạo nhãn mô tả cho ô nhập liệu. Khi người dùng nhấp chuột vào thẻ \codeinline{<label>}, trình duyệt sẽ tự động nhảy con trỏ chuột vào ô input tương ứng.
+% ------------------------------------------------------------------------------
+\section{Thẻ Bản Đồ Ảnh \taghint{<map>} \& \taghint{<area>}}
+\subsection{1. Lý Thuyết \& Thuộc Tính Tọa Độ}
+- \codeinline{<map name="mapname">}: Khai báo một bản đồ hình ảnh chứa các vùng liên kết nhấp chuột.
+- \codeinline{<area>}: Khai báo một vùng nhấp chuột cụ thể. Thuộc tính \codeinline{shape="rect|circle|poly"}, \codeinline{coords="x1,y1,x2,y2"}, \codeinline{href="..."}.
 
-\begin{conceptBox}[Thuộc Tính Cốt Lõi Của Thẻ Label]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{for="id\_input"}: Liên kết nhãn dán với thuộc tính \codeinline{id} của phần tử nhập liệu tương ứng.
-    \item \textbf{Lợi ích Accessibility}: Giúp trình đọc màn hình (\term{Screen Reader}) đọc đúng tên trường và giúp người dùng di động dễ chạm nhấp vào ô nhập liệu.
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ tạo vùng nhấp chuột tương tác trên ảnh}]
+<img src="planets.jpg" alt="(*@Hệ Mặt Trời@*)" usemap="#image-map">
+
+<map name="image-map">
+  <!-- (*@Vùng hình tròn nhấp vào Mặt Trời@*) -->  <area shape="circle" coords="100,100,50" href="sun.html" alt="(*@Mặt Trời@*)">
+  <!-- (*@Vùng hình chữ nhật nhấp vào Trái Đất@*) -->  <area shape="rect" coords="200,80,260,140" href="earth.html" alt="(*@Trái Đất@*)">
+</map>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Phát Video \taghint{<video>}}
+\subsection{1. Lý Thuyết \& Bảng Thuộc Tính}
+Thẻ \codeinline{<video>} phát trình chiếu các tệp video gốc (MP4, WebM, Ogg).
+
+\begin{itemize}
+    \item \codeinline{controls}: Hiển thị thanh điều khiển phát/dừng/âm lượng.
+    \item \codeinline{poster="..."}: Ảnh đại diện hiển thị trước khi ấn play.
+    \item \codeinline{autoplay}, \codeinline{muted}, \codeinline{loop}: Tự động phát ngầm (Phải kèm \codeinline{muted} mới chạy trên iOS/Android).
+    \item \codeinline{playsinline}: Phát video trực tiếp trong dòng trên trình duyệt iOS Safari.
 \end{itemize}
-\end{conceptBox}
 
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
-
-\begin{codeWindow}[Mã Nguồn: Liên Kết Thẻ Label Với Input]
-\begin{lstlisting}[language=HTML5]
-<label for="username">(*@Tên Đăng Nhập@*)<span style="color: red;">*</span></label>
-<input type="text" id="username" name="username" required>
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ thẻ video phát chuẩn đa thiết bị}]
+<video controls poster="thumbnail.jpg" width="800" height="450" playsinline preload="metadata">
+  <source src="course-intro.webm" type="video/webm">
+  <source src="course-intro.mp4" type="video/mp4">
+  (*@Trình duyệt của bạn không hỗ trợ thẻ video.@*)
+</video>
 \end{lstlisting}
-\end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Nhấp Chuột Vào Label Con Trỏ Tự Động Focus]
-\sffamily\small
-\begin{center}
-\begin{tabular}{l l}
-  \textbf{Tên Đăng Nhập} \textcolor{red}{\textbf{*}}: & \fcolorbox{primaryBlue}{white}{\parbox[c][18pt][c]{160pt}{~admin\_user \textcolor{primaryBlue}{\textbf{|}}}}
-\end{tabular}
-\par\vspace{4pt}
-\textcolor{codeComment}{\small\textit{$\rightarrow$ Nhấp chuột vào chữ "Tên Đăng Nhập" tự động kích hoạt viền xanh Focus và con trỏ chuột vào ô nhập liệu.}}
-\end{center}
-\end{browserWindow}
+% ------------------------------------------------------------------------------
+\section{Thẻ Phát Âm Thanh \taghint{<audio>}}
+\subsection{1. Lý Thuyết \& Định Dạng Hỗ Trợ}
+Thẻ \codeinline{<audio>} nhúng trình phát âm thanh gốc (MP3, WAV, OGG).
 
-% ==============================================================================
-\section{Thẻ Khung Nhóm \taghint{<fieldset>} \& Tiêu Đề Khung \taghint{<legend>}}
-\subsection{Lý Thuyết \& Bảng Thuộc Tính}
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ thẻ audio phát nhạc podcast}]
+<audio controls preload="none">
+  <source src="podcast-ep1.mp3" type="audio/mpeg">
+  <source src="podcast-ep1.ogg" type="audio/ogg">
+</audio>
+\end{lstlisting}
 
-\begin{conceptBox}[Vai Trò Của Fieldset \& Legend trong Bố Cục Biểu Mẫu]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{<fieldset>}: Gom nhóm các ô nhập liệu có liên quan lại trong một khung viền giao diện.
-    \item \codeinline{<legend>}: Đặt tiêu đề hiển thị nằm đè lên viền trên của khối \codeinline{<fieldset>}.
-    \item \textbf{Thuộc tính \codeinline{disabled}} trên \codeinline{<fieldset>}: Vô hiệu hóa \textbf{tất cả các input con} bên trong cùng một lúc!
+% ------------------------------------------------------------------------------
+\section{Thẻ Nhúng Phụ Đề \taghint{<track>}}
+\subsection{1. Lý Thuyết \& Chuẩn Phụ Đề WebVTT}
+Thẻ \codeinline{<track>} nhúng phụ đề văn bản chuẩn \textbf{WebVTT} (\codeinline{.vtt}) vào các thẻ \codeinline{<video>} hoặc \codeinline{<audio>}.
+
+\begin{itemize}
+    \item \codeinline{kind="subtitles|captions|descriptions|chapters"}: Loại phụ đề.
+    \item \codeinline{srclang="vi|en"}: Mã ngôn ngữ của phụ đề.
+    \item \codeinline{label="..."}: Tên hiển thị trên menu chọn phụ đề.
+    \item \codeinline{default}: Bật sẵn phụ đề này.
 \end{itemize}
-\end{conceptBox}
 
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
-
-\begin{codeWindow}[Mã Nguồn: Gom Nhóm Trường Thông Tin Bằng Fieldset Và Legend]
-\begin{lstlisting}[language=HTML5]
-<fieldset>
-  <legend>(*@Thông Tin Giao Hàng@*)</legend>
-  <label for="address">(*@Địa Chỉ:@*)</label>
-  <input type="text" id="address" name="address">
-</fieldset>
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng phụ đề tiếng Việt và tiếng Anh cho video}]
+<video controls src="lecture.mp4">
+  <track kind="subtitles" src="subtitles-vi.vtt" srclang="vi" label="(*@Tiếng Việt@*)" default>
+  <track kind="subtitles" src="subtitles-en.vtt" srclang="en" label="English">
+</video>
 \end{lstlisting}
-\end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Khung Nhóm Fieldset Nổi Tiêu Đề Legend]
-\sffamily\small
-\begin{center}
-\begin{tcolorbox}[arc=2pt, colback=white, colframe=gray!40, title={\sffamily\small\bfseries\color{primaryBlue} THÔNG TIN GIAO HÀNG}, boxsep=6pt, width=0.85\linewidth]
-  \small
-  \begin{tabular}{r l}
-    \textbf{Địa Chỉ:} & \fcolorbox{gray!40}{white}{\parbox[c][18pt][c]{180pt}{~\textcolor{gray!80}{Số 123 Đường Nguyễn Huệ, Q.1...}}}
-  \end{tabular}
-\end{tcolorbox}
-\end{center}
-\end{browserWindow}
+% ------------------------------------------------------------------------------
+\section{Thẻ Khung Nhúng Trang Web \taghint{<iframe>}}
+\subsection{1. Lý Thuyết \& Bảo Mật Sandbox}
+Thẻ \codeinline{<iframe>} (Inline Frame) nhúng một tài liệu HTML độc lập khác vào trang web hiện tại.
 
-% ==============================================================================
-\section{Thẻ Đầu Vào \taghint{<input>} \& Toàn Bộ 22+ Input Types}
-\subsection{Lý Thuyết \& Bảng Tra Cứu All Input Types}
-
-Thẻ \codeinline{<input>} là thẻ nhập liệu quan trọng nhất trong HTML5, linh hoạt thay đổi giao diện dựa vào thuộc tính \codeinline{type="..."}.
-
-\begin{prettyTableBox}[Bảng Tra Cứu Toàn Bộ 22+ Kiểu Đầu Vào (Input Types) Trong HTML5]
+\begin{table}[H]
+\centering
+\begin{prettyTableBox}
 \small
 \rowcolors{2}{white}{primaryBlue!4}
-\begin{tabularx}{\linewidth}{|>{\ttfamily\color{accentOrange}\bfseries}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{lp{3.5cm}X}
+\rowcolor{primaryBlue}
+\color{white}\textbf{Thuộc Tính} & \color{white}\textbf{Giá Trị Hợp Lệ} & \color{white}\textbf{Chức Năng \& Bảo Mật} \\
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Input Type} & \thd{\sffamily Giao diện \& Hành vi tương tác trình duyệt} \\
-\hline
-text, password & Nhập văn bản 1 dòng và ẩn mật khẩu dạng dấu chấm tròn. \\
-\hline
-email, url, tel & Tự động bật bàn phím di động tương ứng (@, .com, phím số). \\
-\hline
-search & Ô tìm kiếm có nút dấu "X" xóa nhanh văn bản vừa gõ. \\
-\hline
-number, range & Nhập số có nút tăng giảm spinner và thanh trượt khoảng min-max. \\
-\hline
-color & Bật bảng chọn màu sắc giao diện đồ họa (Color Picker). \\
-\hline
-date, time, datetime-local & Bật giao diện chọn Lịch (Calendar) và Đồng hồ hệ thống. \\
-\hline
-month, week & Chọn tháng/năm hoặc chọn tuần cụ thể trong năm. \\
-\hline
-checkbox, radio & Chọn nhiều ô vuông chọn lựa hoặc chọn duy nhất 1 ô tròn trong nhóm name. \\
-\hline
-file & Tải tệp lên máy chủ (Hỗ trợ thuộc tính \codeinline{multiple}, \codeinline{accept}, \codeinline{capture}). \\
-\hline
-hidden & Trữ dữ liệu ngầm gửi lên server mà không hiển thị ra giao diện màn hình. \\
-\hline
-submit, reset, button & Các dạng nút thực thi gửi form hoặc làm mới ô nhập liệu. \\
-\hline
+\codeinline{src} & URL & Địa chỉ trang web nhúng. \\
+\codeinline{srcdoc} & Mã HTML & Nhúng trực tiếp chuỗi HTML vào iframe mà không cần URL. \\
+\codeinline{sandbox} & \codeinline{allow-scripts}, \codeinline{allow-forms}, \codeinline{allow-same-origin} & Bật tường lửa bảo mật cô lập iframe. \\
+\codeinline{allow} & \codeinline{camera; microphone; fullscreen} & Phân quyền truy cập thiết bị phần cứng. \\
 \end{tabularx}
 \end{prettyTableBox}
+\vspace{-2pt}
+\caption{Các thuộc tính bảo mật của thẻ iframe}
+\end{table}
 
-\subsection{Bảng Thuộc Tính Nhập Liệu \& Mobile UX Attributes}
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng video YouTube an toàn với sandbox và allow}]
+<iframe width="560" height="315"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="(*@Trình chiếu Video YouTube@*)"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        sandbox="allow-scripts allow-same-origin allow-popups"
+        loading="lazy"
+        allowfullscreen></iframe>
+\end{lstlisting}
 
-\begin{conceptBox}[Các Thuộc Tính Tối Ưu Trải Nghiệm Di Động (Mobile UX)]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{inputmode="numeric|decimal|tel|search|email"}: Ép bàn phím ảo hiển thị đúng dạng mong muốn.
-    \item \codeinline{enterkeyhint="search|send|done|next"}: Đổi nhãn nút Enter trên bàn phím di động.
-    \item \codeinline{autocomplete="one-time-code"}: Tự động đọc mã OTP SMS gửi về thiết bị iOS/Android.
-    \item \codeinline{pattern="..."}: Ràng buộc dữ liệu bằng Biểu thức chính quy (\term{Regex}).
-\end{itemize}
+% ------------------------------------------------------------------------------
+\section{Thẻ Đồ Họa Vector Inline \taghint{<svg>} \& Các Thẻ Con}
+\subsection{1. Lý Thuyết \& Đồ Họa Độc Lập Độ Phân Giải}
+Thẻ \codeinline{<svg>} nhúng mã đồ họa Vector 2D trực tiếp vào trang web. Các thẻ con chính: \codeinline{<path>}, \codeinline{<circle>}, \codeinline{<rect>}, \codeinline{<line>}, \codeinline{<text>}, \codeinline{<defs>}, \codeinline{<use>}.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ vẽ icon hình tròn và hình sao bằng SVG}]
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="40" stroke="#0F4C81" stroke-width="4" fill="#008080" />
+</svg>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Khung Vẽ Điểm Ảnh \taghint{<canvas>}}
+\subsection{1. Lý Thuyết \& 2D Context API}
+Thẻ \codeinline{<canvas>} tạo ra một vùng trống tính bằng điểm ảnh (Pixels) cho phép JavaScript vẽ đồ họa 2D, biểu đồ động hoặc game WebGL.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ vẽ hình chữ nhật đỏ bằng Canvas API}]
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #ccc;"></canvas>
+
+<script>
+  const canvas = document.getElementById('myCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0F4C81';
+  ctx.fillRect(10, 10, 150, 80);
+</script>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Công Thức Toán Học \taghint{<math>} (MathML)}
+\subsection{1. Lý Thuyết \& Các Phần Tử MathML}
+Thẻ \codeinline{<math>} nhúng công thức toán học chuẩn W3C MathML. Các thẻ con: \codeinline{<mfrac>} (Phân số), \codeinline{<msqrt>} (Căn bậc hai), \codeinline{<msup>} (Số mũ).
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ hiển thị công thức toán học Phân số}]
+<math>
+  <mfrac>
+    <mi>a</mi>
+    <mi>b</mi>
+  </mfrac>
+</math>
+\end{lstlisting}
+
+% ------------------------------------------------------------------------------
+\section{Thẻ Nhúng Đối Tượng Khác \taghint{<object>}, \taghint{<embed>}, \taghint{<param>}}
+\subsection{1. Lý Thuyết \& Nhúng File PDF}
+- \codeinline{<object data="..." type="...">}: Nhúng tài nguyên ngoài như file PDF.
+- \codeinline{<embed src="..." type="...">}: Nhúng đa phương tiện ứng dụng ngoài.
+
+\subsection{2. Ví Dụ Mã Nguồn Thực Tế}
+\begin{lstlisting}[language=HTML5, caption={Ví dụ nhúng tệp PDF hiển thị trực tiếp}]
+<object data="document.pdf" type="application/pdf" width="100%" height="500px">
+  <p>(*@Trình duyệt không hỗ trợ xem PDF.@*)<a href="document.pdf">(*@Tải tệp tại đây@*)</a>.</p>
+</object>
+\end{lstlisting}
+
+\section{Tóm Tắt Chương 6}
+\begin{conceptBox}[Tóm Lại Cốt Lõi Kiến Thức Chương 6]
+Chương 6 đã phân tích trọn bộ các mục riêng biệt dành cho từng thẻ Đa phương tiện (\codeinline{<img>}, \codeinline{<picture>}, \codeinline{<video>}, \codeinline{<audio>}, \codeinline{<track>}), Nhúng khung web (\codeinline{<iframe>}, \codeinline{<object>}) và Đồ họa Vector/Canvas (\codeinline{<svg>}, \codeinline{<canvas>}, \codeinline{<math>}). Chương tiếp theo sẽ tiến sang nhóm Thẻ Tương Tác Hiện Đại, Web Components, Thuộc Tính Toàn Cục và SEO Metadata.
 \end{conceptBox}
 
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
-
-\begin{codeWindow}[Mã Nguồn: Các Ô Input Di Động Nâng Cao]
-\begin{lstlisting}[language=HTML5]
-<!-- (*@Ô nhập OTP tự động đọc SMS trên iOS/Android@*) -->
-<label for="otp">(*@Nhập Mã OTP:@*)</label>
-<input type="text" id="otp" name="otp" inputmode="numeric" 
-       autocomplete="one-time-code" required placeholder="(*@6 chữ số@*)">
-
-<!-- (*@Chọn tệp ảnh PNG/JPEG nhiều file@*) -->
-<label for="photos">(*@Tải Ảnh Hóa Đơn:@*)</label>
-<input type="file" id="photos" name="photos" 
-       accept="image/png, image/jpeg" multiple>
-
-<!-- (*@Thanh chọn khoảng giá@*) -->
-<label for="price">(*@Khoảng Giá:@*)</label>
-<input type="range" id="price" name="price" 
-       min="100" max="1000" step="50" value="500">
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Giao Diện Các Trường Input Nâng Cao]
-\sffamily\small
-\begin{center}
-\setlength{\tabcolsep}{8pt}
-\begin{tabular}{r l}
-  \textbf{Nhập Mã OTP:} & \fcolorbox{gray!40}{white}{\parbox[c][18pt][c]{100pt}{\centering\codeinline{8 4 9 2 0 1}}} \textcolor{green!60!black}{\scriptsize (SMS OTP Auto)} \\[6pt]
-  \textbf{Tải Ảnh Hóa Đơn:} & \fcolorbox{gray!40}{white}{\small Choose Files} \textcolor{primaryBlue}{\bfseries\small 2 files selected} \\[6pt]
-  \textbf{Khoảng Giá (500\$):} & \fcolorbox{gray!20}{white}{\small 100\$ [=========O---------] 1000\$}
-\end{tabular}
-\end{center}
-\end{browserWindow}
-
-% ==============================================================================
-\section{Thẻ Nút Bấm \taghint{<button>}}
-\subsection{Lý Thuyết \& Các Thuộc Tính Ghi Đè Form}
-
-Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ \codeinline{<input type="button">} vì cho phép nhúng icon HTML và các thẻ con bên trong.
-
-\begin{conceptBox}[Thuộc Tính Ghi Đè Trực Tiếp Form Của Button]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{type="submit|reset|button"}: Loại hành động của nút (Mặc định là \codeinline{submit}).
-    \item \textbf{Các thuộc tính ghi đè Cấu hình Form}: \codeinline{formaction}, \codeinline{formenctype}, \codeinline{formmethod}, \codeinline{formnovalidate}, \codeinline{formtarget}.
-\end{itemize}
-\end{conceptBox}
-
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
-
-\begin{codeWindow}[Mã Nguồn: Nút Bấm Button Chứa Icon SVG]
-\begin{lstlisting}[language=HTML5]
-<button type="submit" class="btn-primary">
-  <svg width="16" height="16"><circle cx="8" cy="8" r="7"/></svg>
-  <span>(*@Gửi Đơn Hàng@*)</span>
-</button>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Nút Bấm Tích Hợp Icon SVG]
-\sffamily\small
-\begin{center}
-\fcolorbox{primaryBlue}{primaryBlue}{\parbox[c][22pt][c]{130pt}{\centering\color{white}\bfseries [V] Gửi Đơn Hàng}}
-\end{center}
-\end{browserWindow}
-
-% ==============================================================================
-\section{Thẻ Danh Sách Chọn \taghint{<select>}, \taghint{<optgroup>} \& \taghint{<option>}}
-\subsection{Lý Thuyết \& Bảng Thuộc Tính}
-
-\begin{conceptBox}[Bộ Ba Thẻ Tạo Menu Dropdown Nâng Cao]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{<select>}: Thẻ tạo danh sách chọn xổ xuống (Dropdown). Thuộc tính \codeinline{multiple} (cho chọn nhiều), \codeinline{size} (số dòng hiển thị).
-    \item \codeinline{<optgroup>}: Gom nhóm các tùy chọn có cùng chủ đề. Thuộc tính \codeinline{label}.
-    \item \codeinline{<option>}: Một phần tử chọn cụ thể. Thuộc tính \codeinline{value}, \codeinline{selected}, \codeinline{disabled}.
-\end{itemize}
-\end{conceptBox}
-
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
-
-\begin{codeWindow}[Mã Nguồn: Menu Dropdown Gom Nhóm Optgroup]
-\begin{lstlisting}[language=HTML5]
-<label for="city">(*@Chọn Thành Phố:@*)</label>
-<select id="city" name="city">
-  <optgroup label="(*@Miền Bắc@*)">
-    <option value="hn" selected>(*@Hà Nội@*)</option>
-    <option value="hp">(*@Hải Phòng@*)</option>
-  </optgroup>
-  <optgroup label="(*@Miền Nam@*)">
-    <option value="hcm">(*@Hồ Chí Minh@*)</option>
-    <option value="ct">(*@Cần Thơ@*)</option>
-  </optgroup>
-</select>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Select Gom Nhóm Optgroup]
-\sffamily\small
-\begin{center}
-\textbf{Chọn Thành Phố:} \par\vspace{4pt}
-\begin{tcolorbox}[arc=2pt, colback=white, colframe=primaryBlue!50, boxsep=4pt, width=0.55\linewidth]
-  \small
-  \textbf{\textcolor{gray!80}{MIỀN BẮC}} \par\vspace{2pt}
-  \quad \textcolor{primaryBlue}{\textbf{Hà Nội (Được chọn mặc định)}} \par\vspace{2pt}
-  \quad Hải Phòng \par\vspace{3pt}
-  \textbf{\textcolor{gray!80}{MIỀN NAM}} \par\vspace{2pt}
-  \quad Hồ Chí Minh \par\vspace{2pt}
-  \quad Cần Thơ
-\end{tcolorbox}
-\par\vspace{4pt}
-\textcolor{codeComment}{\small\textit{$\rightarrow$ Thẻ optgroup phân chia Miền Bắc / Miền Nam in đậm, mục "Hà Nội" được chọn mặc định nhờ thuộc tính selected.}}
-\end{center}
-\end{browserWindow}
-
-% ==============================================================================
-\section{Thẻ Ô Nhập Nhiều Dòng \taghint{<textarea>}}
-\subsection{Lý Thuyết \& Thuộc Tính Khoảng Kích Thước}
-
-Thẻ \codeinline{<textarea>} cho phép người dùng nhập các đoạn văn bản dài nhiều dòng (như bình luận, ghi chú đơn hàng).
-
-\begin{conceptBox}[Các Thuộc Tính Điều Khiển Textarea]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{rows="..."}: Số dòng hiển thị mặc định.
-    \item \codeinline{cols="..."}: Số cột chiều rộng mặc định.
-    \item \codeinline{maxlength="..."}: Giới hạn số ký tự tối đa.
-\end{itemize}
-\end{conceptBox}
-
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
-
-\begin{codeWindow}[Mã Nguồn: Khung Textarea Nhập Bình Luận]
-\begin{lstlisting}[language=HTML5]
-<label for="comment">(*@Bình Luận Bài Viết:@*)</label>
-<textarea id="comment" name="comment" rows="5" cols="50" 
-          maxlength="500" placeholder="(*@Viết phản hồi của bạn...@*)"></textarea>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Khung Textarea Có Nút Kéo Giãn Kích Thước]
-\sffamily\small
-\begin{center}
-\begin{tabular}{r l}
-  \textbf{Bình Luận Bài Viết:} & \fcolorbox{gray!40}{white}{\parbox[t][50pt][t]{180pt}{\textcolor{gray!60}{\small Viết phản hồi của bạn...}\hfill\textcolor{gray!50}{\tiny ::}}}
-\end{tabular}
-\end{center}
-\end{browserWindow}
-
-% ==============================================================================
-\section{Thẻ Gợi Ý Tự Động \taghint{<datalist>}}
-\subsection{Lý Thuyết \& Cơ Chế Tự Động Điền}
-
-Thẻ \codeinline{<datalist>} chứa danh sách các tùy chọn gợi ý cho thẻ \codeinline{<input>}. Người dùng vừa có thể gõ văn bản tùy ý, vừa có thể chọn từ danh sách gợi ý xổ xuống.
-
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
-
-\begin{codeWindow}[Mã Nguồn: Liên Kết Ô Input Với Thẻ Datalist]
-\begin{lstlisting}[language=HTML5]
-<label for="browser">(*@Chọn Trình Duyệt Thường Dùng:@*)</label>
-<input type="text" id="browser" name="browser" list="browser-list">
-
-<datalist id="browser-list">
-  <option value="Google Chrome">
-  <option value="Mozilla Firefox">
-  <option value="Apple Safari">
-  <option value="Microsoft Edge">
-</datalist>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Datalist Tự Động Gợi Ý Trình Duyệt]
-\sffamily\small
-\begin{center}
-\textbf{Chọn Trình Duyệt Thường Dùng:} \fcolorbox{primaryBlue}{white}{\small Google \textcolor{primaryBlue}{\textbf{|}} \hfill v} \par\vspace{3pt}
-\begin{tcolorbox}[arc=2pt, colback=white, colframe=gray!40, boxsep=4pt, width=0.55\linewidth]
-  \small
-  \textcolor{primaryBlue}{\textbf{Google Chrome}} \par\vspace{2pt}
-  Mozilla Firefox \par\vspace{2pt}
-  Apple Safari \par\vspace{2pt}
-  Microsoft Edge
-\end{tcolorbox}
-\end{center}
-\end{browserWindow}
-
-% ==============================================================================
-\section{Thẻ Hiển Thị Kết Quả \taghint{<output>}}
-\subsection{Lý Thuyết \& Thuộc Tính for}
-
-Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tính toán hoặc hành động người dùng thực hiện trong form.
-
-\begin{conceptBox}[Thuộc Tính Của Thẻ Output]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{for="id1 id2"}: Khai báo danh sách ID các ô input tham gia vào phép tính toán.
-\end{itemize}
-\end{conceptBox}
-
-\subsection{Ví Dụ Mã Nguồn \& Kết Quả Trực Quan}
-
-\begin{codeWindow}[Mã Nguồn: Tự Động Tính Toán Phép Nhân Bằng Output Và JS]
-\begin{lstlisting}[language=HTML5]
-<form oninput="result.value = parseInt(a.value) * parseInt(b.value)">
-  <input type="number" id="a" value="10"> x
-  <input type="number" id="b" value="5"> =
-  <output name="result" for="a b">50</output> (*@VNĐ@*)
-</form>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Thẻ Output Tính Toán Trực Tiếp]
-\sffamily\small
-\begin{center}
-\fcolorbox{gray!40}{white}{\small 10} $\times$ \fcolorbox{gray!40}{white}{\small 5} $=$ \textcolor{green!60!black}{\textbf{50 VNĐ}}
-\end{center}
-\end{browserWindow}
-
-% ==============================================================================
-\section{Tóm Tắt Chương 7}
-
-\begin{conceptBox}[Tóm Lại Cốt Lõi Kiến Thức Chương 7]
-Chương 7 đã hệ thống trọn bộ các mục cho từng thẻ Biểu mẫu HTML Forms, 22+ loại Input Types, thuộc tính bàn phím di động và thẻ tính toán kết quả \codeinline{<output>}. Chương tiếp theo sẽ đi sâu vào nhóm Thẻ Đa Phương Tiện và Đồ Họa Graphics.
-\end{conceptBox}

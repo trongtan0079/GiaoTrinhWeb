@@ -572,8 +572,22 @@ checked & Đánh dấu chọn sẵn mặc định cho nút radio hoặc ô check
 autofocus & Tự động đặt con trỏ chuột vào ô nhập ngay khi trang web tải xong. & \codeinline{<input autofocus>} \\
 
 pattern & Biểu thức chính quy (\term{Regex}) kiểm tra cú pháp dữ liệu nhập. & \codeinline{<input pattern="[0-9]{10}">} \\
+
+inputmode & Ép bàn phím ảo hiển thị đúng dạng (\codeinline{numeric}, \codeinline{decimal}, \codeinline{tel}). & \codeinline{<input inputmode="numeric">} \\
+
+enterkeyhint & Đổi nhãn nút Enter trên bàn phím di động (\codeinline{search}, \codeinline{send}, \codeinline{done}). & \codeinline{<input enterkeyhint="send">} \\
+
+autocomplete & Gợi ý điền nhanh hoặc đọc OTP SMS (\codeinline{one-time-code}). & \codeinline{autocomplete="one-time-code"} \\
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{conceptBox}[Các Thuộc Tính Tối Ưu Trải Nghiệm Di Động (Mobile UX)]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{inputmode="numeric|decimal|tel|search|email"}: Ép bàn phím ảo hiển thị đúng layout tối ưu tốc độ gõ phím.
+    \item \codeinline{enterkeyhint="search|send|done|next"}: Thay đổi nhãn nút Enter trên bàn phím mềm của smartphone.
+    \item \codeinline{autocomplete="one-time-code"}: Cho phép trình duyệt/hệ điều hành tự động đọc mã OTP gửi qua SMS để người dùng nhấn điền nhanh chỉ với 1 chạm.
+\end{itemize}
+\end{conceptBox}
 
 \begin{codeWindow}[Mã Nguồn Mẫu Tổng Hợp Các Loại Input Thường Dùng]
 \begin{lstlisting}[language=HTML5]
@@ -2336,6 +2350,91 @@ Ngữ cảnh sử dụng chính & Tìm kiếm, lọc sản phẩm, truy vấn ch
 \end{noteBox}
 
 % ------------------------------------------------------------------------------
+% MỤC BỔ SUNG: THẺ HIỂN THỊ KẾT QUẢ TÍNH TOÁN <output>
+% ------------------------------------------------------------------------------
+\section{Thẻ Hiển Thị Kết Quả Tính Toán \taghint{<output>}}
+\label{sec:output_tag}
+
+Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tính toán hoặc hành động người dùng thực hiện trong form thông qua các giá trị nhập liệu.
+
+\begin{conceptBox}[Thuộc Tính Của Thẻ Output]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{for="id1 id2"}: Khai báo danh sách ID các ô input tham gia vào phép tính toán.
+    \item \codeinline{name="..."}: Đặt tên cho phần tử output để truy xuất qua form hoặc gửi kèm dữ liệu.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn: Tự Động Tính Toán Phép Nhân Bằng Output Và JS oninput]
+\begin{lstlisting}[language=HTML5]
+<form oninput="result.value = parseInt(a.value) * parseInt(b.value)">
+  <input type="number" id="a" value="10"> x
+  <input type="number" id="b" value="5"> =
+  <output name="result" for="a b">50</output> (*@VNĐ@*)
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Thẻ Output Tính Toán Trực Tiếp]
+\sffamily\small
+\begin{center}
+\fcolorbox{gray!40}{white}{\small 10} $\times$ \fcolorbox{gray!40}{white}{\small 5} $=$ \textcolor{green!60!black}{\textbf{50 VNĐ}}
+\end{center}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% MỤC: CƠ CHẾ HTML5 FORM VALIDATION & THUỘC TÍNH RÀNG BUỘC
+% ------------------------------------------------------------------------------
+\section{Cơ Chế HTML5 Form Validation \& Thuộc Tính Ràng Buộc}
+\label{sec:form_validation_attributes}
+
+\begin{conceptBox}[Form Validation Trong HTML5 Là Gì?]
+\term{Form Validation} (Kiểm tra tính hợp lệ của biểu mẫu) là quá trình xác minh dữ liệu người dùng nhập vào ô input có đáp ứng đúng định dạng và quy tắc yêu cầu trước khi gửi lên máy chủ Backend hay không.
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Native Validation}: Trình duyệt tự động kiểm tra và hiển thị thông báo lỗi giao diện mặc định mà không cần viết mã JavaScript phức tạp.
+    \item \textbf{Lợi ích}: Tăng trải nghiệm người dùng (\term{UX}), giảm tải số lượng yêu cầu không hợp lệ gửi tới máy chủ và bảo vệ tính toàn vẹn dữ liệu.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Các Thuộc Tính Ràng Buộc Dữ Liệu Form Validation]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{3.0cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Thuộc Tính} & \thd{Ý Nghĩa Ràng Buộc} & \thd{Cú Pháp HTML Mẫu} \\
+\codeinline{required} & Bắt buộc phải nhập/chọn dữ liệu trước khi gửi form. & \codeinline{<input type="text" required>} \\
+\codeinline{pattern} & Biểu thức chính quy (\term{Regex}) kiểm tra định dạng chuỗi. & \codeinline{<input pattern="[0-9]{10}">} \\
+\codeinline{minlength} / \codeinline{maxlength} & Số lượng ký tự tối thiểu và tối đa cho phép. & \codeinline{<input minlength="6" maxlength="20">} \\
+\codeinline{min} / \codeinline{max} & Giá trị số hoặc ngày tháng nhỏ nhất và lớn nhất. & \codeinline{<input type="number" min="1" max="100">} \\
+\codeinline{step} & Bước nhảy hợp lệ của giá trị số. & \codeinline{<input type="number" step="0.5">} \\
+\codeinline{type} & Định dạng dữ liệu tự động (\codeinline{email}, \codeinline{url}, \codeinline{number}). & \codeinline{<input type="email">} \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Áp Dụng Thuộc Tính Validation Thuần HTML5]
+\begin{lstlisting}[language=HTML5]
+<form action="/register" method="POST">
+  <!-- (*@Bắt buộc nhập và định dạng Email@*) -->
+  <input type="email" name="email" required placeholder="user@example.com">
+  
+  <!-- (*@Mật khẩu tối thiểu 8 ký tự@*) -->
+  <input type="password" name="password" minlength="8" required placeholder="(*@Mật khẩu (>= 8 ký tự)@*)">
+  
+  <!-- (*@Số điện thoại đúng định dạng 10 chữ số@*) -->
+  <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="(*@Số điện thoại (10 chữ số)@*)">
+  
+  <button type="submit">(*@Đăng Ký@*)</button>
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Form Validation HTML5]
+\sffamily\small
+\textbf{Đăng Ký Tài Khoản (HTML5 Validation Demo):} \\[6pt]
+\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}nhap\_email@example.com} \quad \textcolor{codeComment}{\small\textit{(Required \& Email type)}} \\[4pt]
+\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}Mật khẩu ($\ge$8 ký tự)} \quad \textcolor{codeComment}{\small\textit{(Minlength = 8)}} \\[4pt]
+\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}Số điện thoại (10 số)} \quad \textcolor{codeComment}{\small\textit{(Regex Pattern = [0-9]\{10\})}} \\[8pt]
+\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{\color{white}\bfseries\small Đăng Ký}
+\end{browserWindow}
+
 
 % ==============================================================================
 % PHẦN 2: CHUYÊN SÂU TỪNG Ô NHẬP LIỆU, ĐỊNH DẠNG CSS & TRỢ NĂNG A11Y
