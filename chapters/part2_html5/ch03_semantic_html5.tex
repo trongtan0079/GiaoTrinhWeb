@@ -1,7 +1,7 @@
 % ==============================================================================
 % CHƯƠNG 3: TỔNG QUAN HTML5, CẤU TRÚC TÀI LIỆU & THẺ <META> MASTERCLASS
 % ==============================================================================
-\chapter{Tổng Quan HTML5, Cấu Trúc Tài Liệu \& Thẻ <meta> Masterclass}
+\chapter{Tổng Quan HTML5, Cấu Trúc Tài Liệu \& Thẻ \taghint{<meta>} Masterclass}
 \label{chap:html5_fundamentals}
 
 \begin{tcolorbox}[
@@ -340,10 +340,10 @@ Một trang web HTML chuẩn mực có cấu trúc cú pháp cơ bản như sau:
 % ==============================================================================
 % 3. CHI TIẾT CHUYÊN SÂU VỀ THẺ <META> TRONG HTML
 % ==============================================================================
-\section{Chi Tiết Chuyên Sâu Về Thẻ <meta> Trong HTML (Meta Masterclass)}
+\section{Chi Tiết Chuyên Sâu Về Thẻ \taghint{<meta>} Trong HTML (Meta Masterclass)}
 \label{sec:meta_tags_masterclass}
 
-\subsection{Thẻ <meta> là gì?}
+\subsection{Thẻ \taghint{<meta>} là gì?}
 
 \term{Thẻ <meta>} được đặt bên trong phần \codeinline{<head>} của tài liệu HTML. Nó cung cấp các thông tin siêu dữ liệu (\term{Metadata}) -- tức là các dữ liệu mô tả thông tin về trang web nhưng \textbf{không hiển thị trực tiếp} trên giao diện màn hình.
 
@@ -354,7 +354,7 @@ Các công cụ tìm kiếm (Googlebot, Bingbot), trình duyệt web và các n�
 \codeinline{<meta name="tên-thuộc-tính" content="giá-trị">}
 \end{center}
 
-\subsection{Các loại thẻ <meta> phổ biến \& ứng dụng}
+\subsection{Các loại thẻ \taghint{<meta>} phổ biến \& ứng dụng}
 
 \subsubsection{1. Mã hóa ký tự (charset)}
 \begin{center}
@@ -462,7 +462,7 @@ Khi chia sẻ đường link trang web lên các mạng xã hội như Facebook,
 \end{lstlisting}
 \end{codeWindow}
 
-\subsection{Ví dụ mã nguồn tệp HTML chứa bộ thẻ <meta> đầy đủ tiêu chuẩn}
+\subsection{Ví dụ mã nguồn tệp HTML chứa bộ thẻ \taghint{<meta>} đầy đủ tiêu chuẩn}
 
 \begin{codeWindow}[Tệp Mã Nguồn HTML Mẫu Hoàn Chỉnh Bộ Thẻ Meta Tiêu Chuẩn]
 \begin{lstlisting}[language=HTML5]
@@ -512,7 +512,7 @@ Khi chia sẻ đường link trang web lên các mạng xã hội như Facebook,
 \section{Các Thẻ HTML Phổ Biến Trong Phát Triển Web}
 \label{sec:common_html_tags}
 
-\subsection{Thẻ Tiêu Đề Trong HTML (Heading Tags: <h1> - <h6>)}
+\subsection{Thẻ Tiêu Đề Trong HTML (Heading Tags: \taghint{<h1>} - \taghint{<h6>})}
 \label{subsec:heading_tags}
 
 \term{Heading Tag (Thẻ tiêu đề)} trong HTML (gồm 6 cấp độ từ \codeinline{<h1>} đến \codeinline{<h6>}) là nhóm thẻ được sử dụng để xác định tiêu đề và định hình cấu trúc phân cấp nội dung cho trang web.
@@ -749,7 +749,7 @@ Dưới đây là ví dụ minh họa cách tối ưu tiêu đề cho SEO:
 
 Trong HTML, các thẻ văn bản được sử dụng để định dạng, trình bày cấu trúc và truyền tải ý nghĩa ngữ nghĩa (\textit{semantics}) cho nội dung văn bản trên trang web. Dưới đây là danh sách tổng hợp chi tiết tất cả các thẻ văn bản quan trọng cùng ví dụ thực thi thực tế.
 
-\subsubsection{1. Thẻ đoạn văn (<p> - Paragraph)}
+\subsubsection{1. Thẻ đoạn văn (\taghint{<p>} - Paragraph)}
 
 Thẻ \codeinline{<p>} (viết tắt của \textbf{Paragraph}) được dùng để tạo một đoạn văn bản trên trang web. Theo mặc định, trình duyệt sẽ tự động chèn một khoảng trống phía trên/dưới và xuống dòng sau mỗi thẻ \codeinline{<p>}.
 
@@ -823,7 +823,7 @@ Mặc định, trình duyệt HTML sẽ tự động bỏ qua và thu gọn các
 \end{itemize}
 \end{noteBox}
 
-\subsubsection{2. Thẻ xuống dòng (<br> - Line Break)}
+\subsubsection{2. Thẻ xuống dòng (\taghint{<br>} - Line Break)}
 
 Thẻ \codeinline{<br>} (viết tắt của \textbf{Line Break}) dùng để xuống dòng trực tiếp trong một đoạn văn mà không cần tạo thành một đoạn văn mới. Đây là thẻ tự đóng (\textit{self-closing tag}), không cần thẻ đóng \codeinline{</br>}.
 
@@ -849,7 +849,7 @@ Thẻ \codeinline{<br>} (viết tắt của \textbf{Line Break}) dùng để xu�
 \end{tcolorbox}
 
 
-\subsubsection{3. Thẻ ngắt dòng theo chủ đề (<hr> - Horizontal Rule)}
+\subsubsection{3. Thẻ ngắt dòng theo chủ đề (\taghint{<hr>} - Horizontal Rule)}
 
 Thẻ \codeinline{<hr>} (viết tắt của \textbf{Horizontal Rule}) dùng để tạo một đường kẻ ngang phân tách các nội dung theo chủ đề khác nhau. Đây cũng là một thẻ tự đóng.
 
@@ -878,7 +878,7 @@ Thẻ \codeinline{<hr>} (viết tắt của \textbf{Horizontal Rule}) dùng đ�
 \end{tcolorbox}
 
 
-\subsubsection{4. Thẻ in đậm (<b> và <strong>)}
+\subsubsection{4. Thẻ in đậm (\taghint{<b>} và \taghint{<strong>})}
 
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
     \item \codeinline{<b>} (\textbf{Bold}): In đậm văn bản thuần túy về mặt thị giác, không mang ý nghĩa ngữ nghĩa đặc biệt.
@@ -908,7 +908,7 @@ Thẻ \codeinline{<hr>} (viết tắt của \textbf{Horizontal Rule}) dùng đ�
 \end{tcolorbox}
 
 
-\subsubsection{5. Thẻ in nghiêng (<i> và <em>)}
+\subsubsection{5. Thẻ in nghiêng (\taghint{<i>} và \taghint{<em>})}
 
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
     \item \codeinline{<i>} (\textbf{Italic}): In nghiêng văn bản thuần túy về thị giác, không mang ý nghĩa nhấn mạnh.
@@ -938,7 +938,7 @@ Thẻ \codeinline{<hr>} (viết tắt của \textbf{Horizontal Rule}) dùng đ�
 \end{tcolorbox}
 
 
-\subsubsection{6. Thẻ gạch chân (<u> - Underline)}
+\subsubsection{6. Thẻ gạch chân (\taghint{<u>} - Underline)}
 
 Thẻ \codeinline{<u>} (\textbf{Underline}) dùng để gạch chân văn bản.
 
@@ -963,7 +963,7 @@ Thẻ \codeinline{<u>} (\textbf{Underline}) dùng để gạch chân văn bản.
 \end{tcolorbox}
 
 
-\subsubsection{7. Thẻ gạch ngang (<s>, <del> và <strike>)}
+\subsubsection{7. Thẻ gạch ngang (\taghint{<s>}, \taghint{<del>} và \taghint{<strike>})}
 
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
     \item \codeinline{<s>} (\textbf{Strikethrough}): Gạch ngang văn bản nhưng không có ý nghĩa nội dung bị xóa.
@@ -995,7 +995,7 @@ Giá cũ: \tikz[baseline=-0.6ex]{\node[inner sep=0pt](b){600.000đ};\draw[thick,
 \end{tcolorbox}
 
 
-\subsubsection{8. Thẻ chỉ số trên (<sup>) và chỉ số dưới (<sub>)}
+\subsubsection{8. Thẻ chỉ số trên (\taghint{<sup>}) và chỉ số dưới (\taghint{<sub>})}
 
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
     \item \codeinline{<sup>} (\textbf{Superscript}): Chỉ số trên, thường dùng trong công thức số mũ hoặc ký hiệu chú thích.
@@ -1026,7 +1026,7 @@ Công thức hóa học: $\text{H}_2\text{O}$
 \end{tcolorbox}
 
 
-\subsubsection{9. Thẻ đánh dấu nội dung (<mark> - Highlight)}
+\subsubsection{9. Thẻ đánh dấu nội dung (\taghint{<mark>} - Highlight)}
 
 Thẻ \codeinline{<mark>} dùng để tô sáng (\textit{highlight}) một đoạn văn bản nhằm gây sự chú ý đặc biệt.
 
@@ -1052,7 +1052,7 @@ Thẻ \codeinline{<mark>} dùng để tô sáng (\textit{highlight}) một đo�
 \end{tcolorbox}
 
 
-\subsubsection{10. Thẻ trích dẫn (<blockquote>, <q>, <cite>)}
+\subsubsection{10. Thẻ trích dẫn (\taghint{<blockquote>}, \taghint{<q>}, \taghint{<cite>})}
 
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
     \item \codeinline{<blockquote>} (\textbf{Block Quotation}): Dùng để trích dẫn một khối văn bản dài.
@@ -1090,7 +1090,7 @@ Steve Jobs đã nói: \codeinline{}\textit{Stay hungry, stay foolish.}''\\[3pt]
 \end{tcolorbox}
 
 
-\subsubsection{11. Thẻ định dạng trước (<pre> - Preformatted Text)}
+\subsubsection{11. Thẻ định dạng trước (\taghint{<pre>} - Preformatted Text)}
 
 Thẻ \codeinline{<pre>} (\textbf{Preformatted Text}) dùng để hiển thị văn bản giữ nguyên chính xác tất cả định dạng khoảng trắng và dấu xuống dòng từ tệp mã nguồn.
 
@@ -1123,7 +1123,7 @@ Kỹ năng:\hspace{1.4cm}HTML5, CSS3, JavaScript
 \end{tcolorbox}
 
 
-\subsubsection{12. Thẻ mã nguồn (<code>, <kbd>, <samp>, <var>)}
+\subsubsection{12. Thẻ mã nguồn (\taghint{<code>}, \taghint{<kbd>}, \taghint{<samp>}, \taghint{<var>})}
 
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
     \item \codeinline{<code>} (\textbf{Code}): Hiển thị một đoạn mã lập trình ngắn.
@@ -1159,7 +1159,7 @@ Biến toán học: $\mathit{y} = \mathit{f}(\mathit{x})$
 \end{tcolorbox}
 
 
-\subsubsection{13. Thẻ văn bản nhỏ (<small> - Small Text)}
+\subsubsection{13. Thẻ văn bản nhỏ (\taghint{<small>} - Small Text)}
 
 \paragraph{1. Giới thiệu về thẻ <small>:}
 Thẻ \codeinline{<small>} được dùng để hiển thị văn bản với kích thước nhỏ hơn văn bản thông thường. Chủ yếu được dùng để hiển thị ghi chú, chú thích, hoặc thông tin pháp lý/bản quyền. Kích thước chữ của thẻ \codeinline{<small>} thường nhỏ hơn một cấp so với văn bản xung quanh nó và được hỗ trợ mặc định bởi tất cả các trình duyệt.
@@ -1263,7 +1263,7 @@ Dùng \codeinline{<sub>} / \codeinline{<sup>} & \codeinline{<sub>Chữ nhỏ dư
 \end{prettyTableBox}
 
 
-\subsubsection{14. Thẻ chèn nội dung mới (<ins> - Inserted Text)}
+\subsubsection{14. Thẻ chèn nội dung mới (\taghint{<ins>} - Inserted Text)}
 
 Thẻ \codeinline{<ins>} (\textbf{Inserted Text}) được sử dụng song hành với thẻ \codeinline{<del>} để biểu thị đoạn văn bản mới được thêm vào trong quá trình chỉnh sửa tài liệu. Trình duyệt mặc định gạch chân dưới văn bản trong thẻ \codeinline{<ins>}.
 
@@ -1282,7 +1282,7 @@ Thẻ \codeinline{<ins>} (\textbf{Inserted Text}) được sử dụng song hàn
 Giá cũ: \tikz[baseline=-0.6ex]{\node[inner sep=0pt](a){500.000đ};\draw[thick, color=codeKeyword] (a.west) -- (a.east);} Giá mới: \underline{\textbf{\color{codeString}400.000đ}}
 \end{tcolorbox}
 
-\subsubsection{15. Thẻ từ viết tắt (<abbr> - Abbreviation)}
+\subsubsection{15. Thẻ từ viết tắt (\taghint{<abbr>} - Abbreviation)}
 
 Thẻ \codeinline{<abbr>} (\textbf{Abbreviation}) dùng để định nghĩa các từ viết tắt. Khi kết hợp với thuộc tính \codeinline{title}, trình duyệt sẽ hiển thị tooltip giải nghĩa đầy đủ khi người dùng rê chuột vào.
 
@@ -1301,7 +1301,7 @@ Thẻ \codeinline{<abbr>} (\textbf{Abbreviation}) dùng để định nghĩa cá
 Học lập trình web với \tikz[baseline=-0.5ex]{\node[draw=darkText!40, densely dotted, inner xsep=2pt, inner ysep=1pt, font=\bfseries\color{primaryBlue}]{HTML};} (Rê chuột hiện tooltip: \textit{HyperText Markup Language}) và \tikz[baseline=-0.5ex]{\node[draw=darkText!40, densely dotted, inner xsep=2pt, inner ysep=1pt, font=\bfseries\color{primaryBlue}]{CSS};}.
 \end{tcolorbox}
 
-\subsubsection{16. Thẻ thời gian chuẩn hóa SEO (<time> - Time Element)}
+\subsubsection{16. Thẻ thời gian chuẩn hóa SEO (\taghint{<time>} - Time Element)}
 
 Thẻ \codeinline{<time>} giúp máy móc và công cụ tìm kiếm Googlebot nhận diện chính xác dữ liệu ngày tháng thời gian thông qua thuộc tính chuẩn hóa \codeinline{datetime}.
 
@@ -1322,7 +1322,7 @@ Bài viết xuất bản ngày 22/07/2026. \hfill \scriptsize\color{codeComment}
 Sự kiện diễn ra lúc 20:00 tối nay.
 \end{tcolorbox}
 
-\subsubsection{17. Thẻ thông tin liên hệ (<address> - Contact Info)}
+\subsubsection{17. Thẻ thông tin liên hệ (\taghint{<address>} - Contact Info)}
 
 Thẻ \codeinline{<address>} dùng để xác định thông tin liên lạc của tác giả hoặc chủ sở hữu bài viết/doanh nghiệp.
 
@@ -1349,7 +1349,7 @@ Email: contact@example.com\\
 }
 \end{tcolorbox}
 
-\subsubsection{18. Thẻ định nghĩa thuật ngữ (<dfn> - Definition)}
+\subsubsection{18. Thẻ định nghĩa thuật ngữ (\taghint{<dfn>} - Definition)}
 
 Thẻ \codeinline{<dfn>} (\textbf{Definition Element}) dùng để đánh dấu lần đầu tiên một thuật ngữ kỹ thuật mới được giới thiệu và định nghĩa trong văn bản.
 
@@ -1368,7 +1368,7 @@ Thẻ \codeinline{<dfn>} (\textbf{Definition Element}) dùng để đánh dấu 
 \textbf{\textit{HTML}} là ngôn ngữ đánh dấu siêu văn bản dùng để tạo cấu trúc trang web.
 \end{tcolorbox}
 
-\subsubsection{19. Thẻ gom nhóm nội dòng trung tính (<span> - Inline Container)}
+\subsubsection{19. Thẻ gom nhóm nội dòng trung tính (\taghint{<span>} - Inline Container)}
 
 Thẻ \codeinline{<span>} là thẻ nội dòng (\textit{inline}) trung tính, không mang ý nghĩa ngữ nghĩa mặc định, được dùng làm thùng chứa để áp dụng CSS hoặc JavaScript cho một đoạn văn bản cụ thể.
 
@@ -1460,11 +1460,11 @@ Chào mừng đến với trang web \textbf{\color{red}nổi bật}.
 \end{itemize}
 \end{conceptBox}
 
-\subsection{c. Thẻ liên kết (Anchor - <a>)}
+\subsection{c. Thẻ liên kết (Anchor - \taghint{<a>})}
 
 Thẻ \codeinline{<a>} (viết tắt của \textit{"anchor"} - điểm neo) là xương sống của không gian mạng World Wide Web (WWW). Thẻ này được sử dụng để tạo ra các liên kết siêu văn bản (\textit{hyperlinks}) giúp kết nối các trang web, điều hướng đến một vị trí cụ thể trong cùng trang, hoặc kết nối đến các tài nguyên đa dạng như tệp tin tải xuống, địa chỉ email, số điện thoại và kích hoạt các hành động JavaScript. Khi người dùng nhấp vào một liên kết, trình duyệt sẽ tự động điều hướng đến đích của liên kết đó.
 
-\subsubsection{1. Cấu trúc cú pháp cơ bản của thẻ <a>}
+\subsubsection{1. Cấu trúc cú pháp cơ bản của thẻ \taghint{<a>}}
 
 Cú pháp của thẻ \codeinline{<a>} rất đơn giản nhưng chứa đựng thuộc tính điều hướng quan trọng nhất:
 
@@ -1498,7 +1498,7 @@ Cú pháp của thẻ \codeinline{<a>} rất đơn giản nhưng chứa đựng 
 Hiển thị liên kết: \underline{\smash{\textbf{\color{primaryBlue}Tìm kiếm trên Google}}} \hfill \scriptsize\color{codeComment}(Bấm vào sẽ chuyển hướng đến https://www.google.com)
 \end{tcolorbox}
 
-\subsubsection{2. Phân loại các dạng liên kết thường gặp với thẻ <a>}
+\subsubsection{2. Phân loại các dạng liên kết thường gặp với thẻ \taghint{<a>}}
 
 Trong phát triển Web thực tế, thuộc tính \codeinline{href} có thể chứa các dạng đường dẫn URL khác nhau tùy theo mục đích sử dụng:
 
@@ -1638,7 +1638,7 @@ Nhúng trực tiếp lệnh JavaScript vào \codeinline{href} để chạy hàm 
 \end{lstlisting}
 \end{codeWindow}
 
-\subsubsection{3. Tổng hợp các thuộc tính quan trọng của thẻ <a>}
+\subsubsection{3. Tổng hợp các thuộc tính quan trọng của thẻ \taghint{<a>}}
 
 \begin{prettyTableBox}[Bảng Danh Sách Thuộc Tính Cốt Lõi Của Thẻ a Trong HTML]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -1697,7 +1697,7 @@ Khi mở liên kết ngoài với \codeinline{target="\_blank"}, nếu không c�
 \end{lstlisting}
 \end{codeWindow}
 
-\subsubsection{5. Đặt các phần tử khác làm nội dung bên trong thẻ <a>}
+\subsubsection{5. Đặt các phần tử khác làm nội dung bên trong thẻ \taghint{<a>}}
 
 Nội dung của thẻ \codeinline{<a>} không bị giới hạn ở văn bản thuần túy. Trong chuẩn HTML5, bạn có thể lồng hình ảnh hoặc thậm chí các phần tử cấp khối (\textit{Block-level elements}) như \codeinline{<div>}, \codeinline{<h1>}, \codeinline{<p>}, \codeinline{<img>} vào trong thẻ \codeinline{<a>} để biến toàn bộ khối giao diện (\textit{UI Card}) thành vùng nhấp chuột:
 
@@ -1723,7 +1723,7 @@ Nội dung của thẻ \codeinline{<a>} không bị giới hạn ở văn bản 
 \end{lstlisting}
 \end{codeWindow}
 
-\subsubsection{6. Styling thẻ <a> với CSS - Quản lý 5 trạng thái tương tác và tạo nút bấm}
+\subsubsection{6. Styling thẻ \taghint{<a>} với CSS - Quản lý 5 trạng thái tương tác và tạo nút bấm}
 
 Thẻ \codeinline{<a>} sở hữu 5 trạng thái tương tác được định kiểu qua các lớp giả (\textit{pseudo-classes}) trong CSS. Cần tuân theo thứ tự ưu tiên khai báo chuẩn \textbf{LVHA+F} (\textit{Link $\rightarrow$ Visited $\rightarrow$ Focus $\rightarrow$ Hover $\rightarrow$ Active}):
 
@@ -1798,7 +1798,7 @@ Trong thực tế giao diện Web, thẻ \codeinline{<a>} thường được bi�
 \end{lstlisting}
 \end{codeWindow}
 
-\subsubsection{7. Kết hợp thẻ <a> với JavaScript và Chuyên sâu về <a href="\#">}
+\subsubsection{7. Kết hợp thẻ \taghint{<a>} với JavaScript và Chuyên sâu về <a href="\#">}
 
 \paragraph{7.1. Chạy hành động JavaScript từ thẻ \codeinline{<a>}:}
 Có 2 cách chính để kết hợp thẻ \codeinline{<a>} với mã JavaScript:
@@ -1878,7 +1878,7 @@ Dùng \codeinline{<a>} làm nút bấm JS & Về mặt ngữ nghĩa HTML5, nếu
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{9. Bảng tổng kết nhanh công dụng các thuộc tính thẻ <a>}
+\subsubsection{9. Bảng tổng kết nhanh công dụng các thuộc tính thẻ \taghint{<a>}}
 
 \begin{prettyTableBox}[Bảng Tóm Tắt Nhanh Công Dụng Các Thuộc Tính Của Thẻ a]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -1893,11 +1893,11 @@ Dùng \codeinline{<a>} làm nút bấm JS & Về mặt ngữ nghĩa HTML5, nếu
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{d. Thẻ hình ảnh (Image - <img>)}
+\subsection{d. Thẻ hình ảnh (Image - \taghint{<img>})}
 
 Thẻ \codeinline{<img>} trong HTML được sử dụng để hiển thị hình ảnh trên trang web. Đây là một thẻ \textbf{tự đóng} (\textit{self-closing tag}), nghĩa là không cần thẻ đóng \codeinline{</img>}.
 
-\subsubsection{1. Cấu Trúc Cơ Bản của Thẻ <img>}
+\subsubsection{1. Cấu Trúc Cơ Bản của Thẻ \taghint{<img>}}
 
 Cú pháp chung của thẻ \codeinline{<img>}:
 
@@ -1947,7 +1947,7 @@ Hình ảnh \codeinline{logo.png} nằm trong thư mục \codeinline{/images} c�
 
 Ảnh sẽ được tải trực tiếp từ máy chủ của \codeinline{example.com}.
 
-\subsubsection{3. Các Thuộc Tính Quan Trọng của <img>}
+\subsubsection{3. Các Thuộc Tính Quan Trọng của \taghint{<img>}}
 
 \paragraph{3.1. width và height - Định kích thước ảnh:}
 Dùng để điều chỉnh kích thước hiển thị của ảnh.
@@ -2049,7 +2049,7 @@ Không áp dụng \codeinline{loading="lazy"} cho ảnh \textbf{hero banner}, lo
 Trong năm 2024+, hầu hết trình duyệt đã hỗ trợ tốt \codeinline{WebP} và \codeinline{AVIF}. Hãy ưu tiên dùng chúng thay vì JPEG/PNG để giảm dung lượng tải 25--50\% mà vẫn giữ chất lượng tốt. Luôn dùng thẻ \codeinline{<picture>} kèm fallback JPEG để đảm bảo tương thích với trình duyệt cũ.
 \end{tipBox}
 
-\subsubsection{5. Hiển Thị Ảnh Nền Bằng CSS (Thay Vì <img>)}
+\subsubsection{5. Hiển Thị Ảnh Nền Bằng CSS (Thay Vì \taghint{<img>})}
 
 Dùng \codeinline{background-image} trong CSS để làm ảnh nền trang web hoặc phần tử giao diện:
 
@@ -2073,7 +2073,7 @@ body {
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{6. Dùng Thẻ <figure> và <figcaption> Để Mô Tả Ảnh}
+\subsubsection{6. Dùng Thẻ \taghint{<figure>} và \taghint{<figcaption>} Để Mô Tả Ảnh}
 
 Thẻ \codeinline{<figure>} kết hợp với \codeinline{<figcaption>} cho phép gắn chú thích mô tả ngữ nghĩa cho hình ảnh, cải thiện cả SEO lẫn Accessibility:
 
@@ -2097,7 +2097,7 @@ Thẻ \codeinline{<figure>} kết hợp với \codeinline{<figcaption>} cho phé
 Thẻ \codeinline{<figure>} không chỉ dùng cho ảnh — nó có thể bao bọc bất kỳ nội dung tự đứng độc lập nào như biểu đồ, đoạn code, video, thậm chí bảng biểu. \codeinline{<figcaption>} phải là phần tử con đầu tiên hoặc cuối cùng bên trong \codeinline{<figure>}.
 \end{noteBox}
 
-\subsubsection{7. Tạo Ảnh Click Được (<a> + <img>)}
+\subsubsection{7. Tạo Ảnh Click Được (\taghint{<a>} + \taghint{<img>})}
 
 Kết hợp thẻ \codeinline{<a>} và \codeinline{<img>} để tạo một liên kết bằng hình ảnh. Khi người dùng bấm vào ảnh, họ sẽ được chuyển đến một trang web hoặc một phần khác trong trang.
 
@@ -2213,7 +2213,7 @@ img {
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{10. Thẻ <picture> - Hiển Thị Ảnh Theo Kích Thước Màn Hình}
+\subsubsection{10. Thẻ \taghint{<picture>} - Hiển Thị Ảnh Theo Kích Thước Màn Hình}
 
 Thẻ \codeinline{<picture>} giúp hiển thị ảnh khác nhau tùy vào thiết bị (Media Queries). Trình duyệt sẽ tự chọn nguồn ảnh phù hợp nhất:
 
@@ -2272,7 +2272,7 @@ Mỗi thẻ \codeinline{<img>} tạo ra một yêu cầu HTTP riêng biệt đ�
 \end{itemize}
 \end{noteBox}
 
-\subsubsection{15. Các Thuộc Tính CSS Quan Trọng Áp Dụng Cho <img>}
+\subsubsection{15. Các Thuộc Tính CSS Quan Trọng Áp Dụng Cho \taghint{<img>}}
 
 \begin{prettyTableBox}[Bảng Các Thuộc Tính CSS Phổ Biến Cho Thẻ img]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -2322,7 +2322,7 @@ Thuộc tính \codeinline{object-fit} cực kỳ hữu ích khi bạn muốn ả
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{16. Các Lỗi Thường Gặp Với Thẻ <img>}
+\subsubsection{16. Các Lỗi Thường Gặp Với Thẻ \taghint{<img>}}
 
 \begin{prettyTableBox}[Bảng Lỗi Thường Gặp Và Cách Khắc Phục Khi Dùng Thẻ img]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -3083,7 +3083,7 @@ Tính đơn giản khi viết mã & Dễ hiểu nếu URL cố định. & Dễ n
 \end{itemize}
 \end{conceptBox}
 
-\subsection{f. Thẻ Video Trong HTML (Video - <video>)}
+\subsection{f. Thẻ Video Trong HTML (Video - \taghint{<video>})}
 
 Thẻ \codeinline{<video>} trong HTML được sử dụng để nhúng video trực tiếp vào trang web mà không cần sử dụng trình phát bên thứ ba như YouTube hay Vimeo.
 
@@ -3091,7 +3091,7 @@ Thẻ \codeinline{<video>} trong HTML được sử dụng để nhúng video tr
 Thẻ \codeinline{<video>} là phần tử HTML5 cho phép phát video trực tiếp trên trình duyệt web. Nó hỗ trợ điều khiển phát lại, tự động phát, phát lặp, ảnh đại diện và tích hợp nhiều nguồn video khác nhau qua thẻ con \codeinline{<source>}.
 \end{conceptBox}
 
-\subsubsection{1. Cú Pháp Cơ Bản Của Thẻ <video>}
+\subsubsection{1. Cú Pháp Cơ Bản Của Thẻ \taghint{<video>}}
 
 \begin{codeWindow}[Cú Pháp Cơ Bản Nhúng Video Với Thẻ <video>]
 \begin{lstlisting}[language=HTML5]
@@ -3144,7 +3144,7 @@ Ngữ cảnh sử dụng & Dùng cho các dự án nhỏ, chạy thử nghiệm 
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{2. Các Thuộc Tính Của Thẻ <video>}
+\subsubsection{2. Các Thuộc Tính Của Thẻ \taghint{<video>}}
 
 \begin{prettyTableBox}[Bảng Thuộc Tính Của Thẻ <video>]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -3260,7 +3260,7 @@ Trình duyệt sẽ duyệt lần lượt từ trên xuống dưới và phát �
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{3. Các Thuộc Tính Của Thẻ <audio>}
+\subsubsection{3. Các Thuộc Tính Của Thẻ \taghint{<audio>}}
 
 \begin{prettyTableBox}[Bảng Thuộc Tính Của Thẻ <audio>]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -3302,7 +3302,7 @@ Thuộc tính \codeinline{preload} quyết định cách trình duyệt tải tr
 \end{lstlisting}
 \end{codeWindow}
 
-\subsubsection{5. Điều Khiển Thẻ <audio> Bằng JavaScript}
+\subsubsection{5. Điều Khiển Thẻ \taghint{<audio>} Bằng JavaScript}
 
 Thẻ \codeinline{<audio>} cung cấp các phương thức và thuộc tính API mạnh mẽ trong JavaScript như \codeinline{play()} và \codeinline{pause()} để tạo trình phát nhạc tùy chỉnh.
 
@@ -3331,7 +3331,7 @@ Thẻ \codeinline{<audio>} cung cấp các phương thức và thuộc tính API
 \end{lstlisting}
 \end{codeWindow}
 
-\subsubsection{6. Các Lưu Ý Quan Trọng Khi Sử Dụng Thẻ <audio>}
+\subsubsection{6. Các Lưu Ý Quan Trọng Khi Sử Dụng Thẻ \taghint{<audio>}}
 
 \begin{warnBox}[5 Quy Tắc Vàng Khi Nhúng Âm Thanh Vào Website]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -3974,11 +3974,11 @@ Tác động Margin/Padding & Đẩy khung cả 4 hướng (Top, Right, Bottom, 
 \end{browserWindow}
 % ------------------------------------------------------------------------------
 \clearpage
-\subsection{Chuyên Sâu Thẻ <div> Và <span>: Quy Tắc Sử Dụng \& Anti-Patterns}
+\subsection{Chuyên Sâu Thẻ \taghint{<div>} Và \taghint{<span>}: Quy Tắc Sử Dụng \& Anti-Patterns}
 
 Thẻ \codeinline{<div>} và \codeinline{<span>} là hai phần tử container phi ngữ nghĩa (\term{Non-semantic Containers}) phổ biến nhất trong HTML. Việc hiểu rõ tính chất và thời điểm nên/không nên sử dụng hai thẻ này là kỹ năng cốt lõi của lập trình viên Frontend:
 
-\subsubsection{1. Thẻ <div> -- Khối Chứa Nội Dung (Block-Level Container)}
+\subsubsection{1. Thẻ \taghint{<div>} -- Khối Chứa Nội Dung (Block-Level Container)}
 
 \paragraph{Định nghĩa:}
 Thẻ \codeinline{<div>} (viết tắt của \textit{"division"}) là một phần tử \term{Block-level}, thường dùng để nhóm các phần tử khác lại với nhau và giúp định dạng bố cục trang web dễ dàng hơn.
@@ -4000,7 +4000,7 @@ Thẻ \codeinline{<div>} (viết tắt của \textit{"division"}) là một ph�
 \end{itemize}
 \end{noteBox}
 
-\subsubsection{2. Thẻ <span> -- Nhóm Nội Dung Nhỏ Trong Dòng (Inline-Level Container)}
+\subsubsection{2. Thẻ \taghint{<span>} -- Nhóm Nội Dung Nhỏ Trong Dòng (Inline-Level Container)}
 
 \paragraph{Định nghĩa:}
 Thẻ \codeinline{<span>} là một phần tử \term{Inline-level}, dùng để bọc một phần nhỏ nội dung trong đoạn văn hoặc tiêu đề mà \textbf{không làm thay đổi cấu trúc dòng} của văn bản.
@@ -4018,7 +4018,7 @@ Thẻ \codeinline{<span>} là một phần tử \term{Inline-level}, dùng để
 \end{itemize}
 \end{noteBox}
 
-\subsubsection{3. Bảng So Sánh Chi Tiết Giữa <div> Và <span>}
+\subsubsection{3. Bảng So Sánh Chi Tiết Giữa \taghint{<div>} Và \taghint{<span>}}
 
 \begin{prettyTableBox}[Bảng So Sánh Toàn Diện Thuộc Tính Kỹ Thuật Giữa <div> Và <span>]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -4036,7 +4036,7 @@ CSS hay dùng & \codeinline{width}, \codeinline{height}, \codeinline{margin}, \c
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{4. Quy Tắc Ra Quyết Định Khi Nào NÊN / KHÔNG NÊN Dùng <div>}
+\subsubsection{4. Quy Tắc Ra Quyết Định Khi Nào NÊN / KHÔNG NÊN Dùng \taghint{<div>}}
 
 \paragraph{Khi NÊN dùng <div>:}
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
@@ -4076,7 +4076,7 @@ CSS hay dùng & \codeinline{width}, \codeinline{height}, \codeinline{margin}, \c
 \end{lstlisting}
 \end{codeWindow}
 
-\subsubsection{5. Quy Tắc Ra Quyết Định Khi Nào NÊN / KHÔNG NÊN Dùng <span>}
+\subsubsection{5. Quy Tắc Ra Quyết Định Khi Nào NÊN / KHÔNG NÊN Dùng \taghint{<span>}}
 
 \paragraph{Khi NÊN dùng <span> thay vì <div>:}
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
@@ -5796,13 +5796,13 @@ Mặc định trình duyệt dùng thuật toán \codeinline{table-layout: auto}
 % 11. THẺ NHÚNG IFRAME (INLINE FRAME) MASTERCLASS
 % ==============================================================================
 \Needspace*{80pt}
-\section{Thẻ Nhúng <iframe> (Inline Frame) Masterclass}
+\section{Thẻ Nhúng \taghint{<iframe>} (Inline Frame) Masterclass}
 \label{sec:html_iframe_masterclass}
 
 Thẻ \codeinline{<iframe>} (\term{Inline Frame}) được sử dụng trong HTML5 để nhúng một tài liệu HTML độc lập khác trực tiếp vào bên trong khung hiển thị của trang web hiện tại. Kỹ thuật này được ứng dụng rộng rãi để tích hợp video phát trực tuyến (YouTube, Vimeo), bản đồ tương tác (Google Maps), tệp tài liệu PDF, các widget mạng xã hội hoặc ngay cả toàn bộ một ứng dụng web độc lập.
 
 % ------------------------------------------------------------------------------
-\subsection{Cú Pháp Khai Báo \& Nguyên Lý Hoạt Động Của <iframe>}
+\subsection{Cú Pháp Khai Báo \& Nguyên Lý Hoạt Động Của \taghint{<iframe>}}
 
 Thẻ \codeinline{<iframe>} (\term{Inline Frame}) được khai báo theo cấu trúc thẻ kép với các thuộc tính điều khiển hành vi hiển thị:
 
@@ -5824,7 +5824,7 @@ Thẻ \codeinline{<iframe>} (\term{Inline Frame}) được khai báo theo cấu 
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{Bảng Tra Cứu Toàn Bộ Thuộc Tính Quan Trọng Của <iframe>}
+\subsection{Bảng Tra Cứu Toàn Bộ Thuộc Tính Quan Trọng Của \taghint{<iframe>}}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Tất Cả Thuộc Tính Thẻ <iframe> Trong HTML5]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -5844,7 +5844,7 @@ Thẻ \codeinline{<iframe>} (\term{Inline Frame}) được khai báo theo cấu 
 \end{prettyTableBox}
 
 % ------------------------------------------------------------------------------
-\subsection{4 Trường Hợp Sử Dụng <iframe> Phổ Biến Trong Thực Tế Dự Án}
+\subsection{4 Trường Hợp Sử Dụng \taghint{<iframe>} Phổ Biến Trong Thực Tế Dự Án}
 
 \paragraph{1. Nhúng một trang web mở (Ví dụ Wikipedia):}
 \begin{codeWindow}[Mã Nguồn Nhúng Trang Web Wikipedia Vào Khung Iframe]
@@ -6003,7 +6003,7 @@ Mặc định thẻ \codeinline{<iframe>} có đường viền 3D cổ điển. 
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{Bảng Đánh Giá Ưu Điểm \& Nhược Điểm Của <iframe>}
+\subsection{Bảng Đánh Giá Ưu Điểm \& Nhược Điểm Của \taghint{<iframe>}}
 
 \begin{prettyTableBox}[Bảng Tổng Hợp Đánh Giá Ưu Điểm Và Nhược Điểm Của <iframe>]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -6098,7 +6098,7 @@ Thuộc tính \codeinline{name} được sử dụng để đặt danh xưng cho
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{Phân Biệt Chi Tiết Thuộc Tính name Và id Trong <iframe>}
+\subsection{Phân Biệt Chi Tiết Thuộc Tính name Và id Trong \taghint{<iframe>}}
 
 \begin{prettyTableBox}[Bảng So Sánh Chi Tiết Giữa Thuộc Tính name Và id Của <iframe>]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -6864,7 +6864,7 @@ Bên cạnh nhóm thẻ Landmark quản lý bố cục khối, HTML5 cung cấp 
 \end{center}
 % ------------------------------------------------------------------------------
 \Needspace*{120pt}
-\subsection{Bộ Thẻ Semantic HTML5 Hiện Đại Mới Nhất (<search>, <hgroup>, <meter> vs <progress>)}
+\subsection{Bộ Thẻ Semantic HTML5 Hiện Đại Mới Nhất (\taghint{<search>}, \taghint{<hgroup>}, \taghint{<meter>} vs \taghint{<progress>})}
 
 Đặc tả WHATWG và W3C liên tục cập nhật bộ thẻ Semantic để đáp ứng sự phát triển của các ứng dụng web hiện đại. Dưới đây là phân tích kỹ thuật 3 nhóm thẻ ngữ nghĩa nâng cao quan trọng:
 
@@ -6902,7 +6902,7 @@ Khi một bài viết hoặc phần tử có tiêu đề chính (\codeinline{<h1
 \end{lstlisting}
 \end{codeWindow}
 
-\subsubsection{3. Ma Trận Phân Biệt Giữa Thẻ <meter> Và <progress>}
+\subsubsection{3. Ma Trận Phân Biệt Giữa Thẻ \taghint{<meter>} Và \taghint{<progress>}}
 
 Hai thẻ \codeinline{<meter>} và \codeinline{<progress>} thường bị nhầm lẫn do giao diện mặc định có dạng thanh ngang trên trình duyệt. Tuy nhiên, về mặt ngữ nghĩa kỹ thuật, chúng phục vụ hai mục đích hoàn toàn riêng biệt:
 
@@ -6920,7 +6920,7 @@ Hai thẻ \codeinline{<meter>} và \codeinline{<progress>} thường bị nhầm
 
 % ------------------------------------------------------------------------------
 \Needspace*{120pt}
-\subsection{Kỹ Thuật Responsive Image Semantics Với Thẻ <picture>}
+\subsection{Kỹ Thuật Responsive Image Semantics Với Thẻ \taghint{<picture>}}
 
 Song song với thẻ \codeinline{<figure>} và \codeinline{<figcaption>}, thẻ \codeinline{<picture>} đại diện cho ngữ nghĩa trình diễn hình ảnh đáp ứng (\term{Responsive Image Semantics}). Thẻ này cho phép các kỹ sư Web thực hiện kỹ thuật \term{Art Direction} và tự động thương lượng định dạng ảnh tối ưu (\term{Format Negotiation}):
 
@@ -6942,7 +6942,7 @@ Song song với thẻ \codeinline{<figure>} và \codeinline{<figcaption>}, thẻ
 
 % ------------------------------------------------------------------------------
 \Needspace*{120pt}
-\subsection{Cấu Trúc Hộp Thoại Modal Native Với Thẻ <dialog>}
+\subsection{Cấu Trúc Hộp Thoại Modal Native Với Thẻ \taghint{<dialog>}}
 
 Thẻ \codeinline{<dialog>} cung cấp giải pháp native cho các hộp thoại pop-up, alert hoặc modal mà không cần xây dựng custom modal bằng \codeinline{<div>} phức tạp:
 

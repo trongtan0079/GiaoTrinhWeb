@@ -7,7 +7,7 @@
 Chương này đi sâu phân tích toàn bộ các thẻ biểu mẫu HTML Forms, bao gồm 22+ loại Input Types, các thuộc tính điều khiển và cơ chế kiểm tra hợp lệ Constraint Validation API.
 
 % ==============================================================================
-\section{Thẻ Khung Biểu Mẫu <form>}
+\section{Thẻ Khung Biểu Mẫu \taghint{<form>}}
 \subsection{Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính}
 
 Thẻ \codeinline{<form>} đại diện cho một phần tử chứa các trường nhập liệu tương tác để thu thập và gửi dữ liệu tới máy chủ.
@@ -60,7 +60,7 @@ target & \_self, \_blank & Nơi nhận kết quả trả về từ server. \\
 \end{browserWindow}
 
 % ==============================================================================
-\section{Thẻ Nhãn Dán <label>}
+\section{Thẻ Nhãn Dán \taghint{<label>}}
 \subsection{Lý Thuyết \& Accessibility (a11y)}
 
 Thẻ \codeinline{<label>} tạo nhãn mô tả cho ô nhập liệu. Khi người dùng nhấp chuột vào thẻ \codeinline{<label>}, trình duyệt sẽ tự động nhảy con trỏ chuột vào ô input tương ứng.
@@ -93,7 +93,7 @@ Thẻ \codeinline{<label>} tạo nhãn mô tả cho ô nhập liệu. Khi ngư�
 \end{browserWindow}
 
 % ==============================================================================
-\section{Thẻ Khung Nhóm <fieldset> \& Tiêu Đề Khung <legend>}
+\section{Thẻ Khung Nhóm \taghint{<fieldset>} \& Tiêu Đề Khung \taghint{<legend>}}
 \subsection{Lý Thuyết \& Bảng Thuộc Tính}
 
 \begin{conceptBox}[Vai Trò Của Fieldset \& Legend trong Bố Cục Biểu Mẫu]
@@ -129,7 +129,7 @@ Thẻ \codeinline{<label>} tạo nhãn mô tả cho ô nhập liệu. Khi ngư�
 \end{browserWindow}
 
 % ==============================================================================
-\section{Thẻ Đầu Vào <input> \& Toàn Bộ 22+ Input Types}
+\section{Thẻ Đầu Vào \taghint{<input>} \& Toàn Bộ 22+ Input Types}
 \subsection{Lý Thuyết \& Bảng Tra Cứu All Input Types}
 
 Thẻ \codeinline{<input>} là thẻ nhập liệu quan trọng nhất trong HTML5, linh hoạt thay đổi giao diện dựa vào thuộc tính \codeinline{type="..."}.
@@ -211,7 +211,7 @@ submit, reset, button & Các dạng nút thực thi gửi form hoặc làm mới
 \end{browserWindow}
 
 % ==============================================================================
-\section{Thẻ Nút Bấm <button>}
+\section{Thẻ Nút Bấm \taghint{<button>}}
 \subsection{Lý Thuyết \& Các Thuộc Tính Ghi Đè Form}
 
 Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ \codeinline{<input type="button">} vì cho phép nhúng icon HTML và các thẻ con bên trong.
@@ -242,7 +242,7 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
 \end{browserWindow}
 
 % ==============================================================================
-\section{Thẻ Danh Sách Chọn <select>, <optgroup> \& <option>}
+\section{Thẻ Danh Sách Chọn \taghint{<select>}, \taghint{<optgroup>} \& \taghint{<option>}}
 \subsection{Lý Thuyết \& Bảng Thuộc Tính}
 
 \begin{conceptBox}[Bộ Ba Thẻ Tạo Menu Dropdown Nâng Cao]
@@ -290,7 +290,7 @@ Thẻ \codeinline{<button>} tạo nút bấm tương tác linh hoạt hơn thẻ
 \end{browserWindow}
 
 % ==============================================================================
-\section{Thẻ Ô Nhập Nhiều Dòng <textarea>}
+\section{Thẻ Ô Nhập Nhiều Dòng \taghint{<textarea>}}
 \subsection{Lý Thuyết \& Thuộc Tính Khoảng Kích Thước}
 
 Thẻ \codeinline{<textarea>} cho phép người dùng nhập các đoạn văn bản dài nhiều dòng (như bình luận, ghi chú đơn hàng).
@@ -323,7 +323,7 @@ Thẻ \codeinline{<textarea>} cho phép người dùng nhập các đoạn văn 
 \end{browserWindow}
 
 % ==============================================================================
-\section{Thẻ Gợi Ý Tự Động <datalist>}
+\section{Thẻ Gợi Ý Tự Động \taghint{<datalist>}}
 \subsection{Lý Thuyết \& Cơ Chế Tự Động Điền}
 
 Thẻ \codeinline{<datalist>} chứa danh sách các tùy chọn gợi ý cho thẻ \codeinline{<input>}. Người dùng vừa có thể gõ văn bản tùy ý, vừa có thể chọn từ danh sách gợi ý xổ xuống.
@@ -359,7 +359,7 @@ Thẻ \codeinline{<datalist>} chứa danh sách các tùy chọn gợi ý cho th
 \end{browserWindow}
 
 % ==============================================================================
-\section{Thẻ Hiển Thị Kết Quả <output>}
+\section{Thẻ Hiển Thị Kết Quả \taghint{<output>}}
 \subsection{Lý Thuyết \& Thuộc Tính for}
 
 Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tính toán hoặc hành động người dùng thực hiện trong form.

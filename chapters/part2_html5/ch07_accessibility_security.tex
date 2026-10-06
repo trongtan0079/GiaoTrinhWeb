@@ -6,7 +6,7 @@
 
 Chương này phân tích chi tiết từng thẻ thuộc nhóm Đa phương tiện, Nhúng khung web và Đồ họa Vector SVG/Canvas trong HTML5.
 
-\section{Thẻ Hình Ảnh <img>}
+\section{Thẻ Hình Ảnh \taghint{<img>}}
 \subsection{1. Lý Thuyết \& Bảng Toàn Bộ Thuộc Tính Tối Ưu Hiệu Năng}
 Thẻ \codeinline{<img>} dùng để nhúng hình ảnh vào tài liệu.
 
@@ -46,7 +46,7 @@ Thẻ \codeinline{<img>} dùng để nhúng hình ảnh vào tài liệu.
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Nguồn Ảnh Thích Ứng <picture> \& <source>}
+\section{Thẻ Nguồn Ảnh Thích Ứng \taghint{<picture>} \& \taghint{<source>}}
 \subsection{1. Lý Thuyết \& Kỹ Thuật Art Direction}
 Thẻ \codeinline{<picture>} là wrapper chứa một hoặc nhiều thẻ \codeinline{<source>} và một thẻ \codeinline{<img>} dự phòng. Thẻ này áp dụng kỹ thuật \term{Art Direction} (Đổi khung ảnh theo màn hình di động/máy tính) và tự động chọn định dạng ảnh thế hệ mới (AVIF, WebP).
 
@@ -62,7 +62,7 @@ Thẻ \codeinline{<picture>} là wrapper chứa một hoặc nhiều thẻ \code
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Bản Đồ Ảnh <map> \& <area>}
+\section{Thẻ Bản Đồ Ảnh \taghint{<map>} \& \taghint{<area>}}
 \subsection{1. Lý Thuyết \& Thuộc Tính Tọa Độ}
 - \codeinline{<map name="mapname">}: Khai báo một bản đồ hình ảnh chứa các vùng liên kết nhấp chuột.
 - \codeinline{<area>}: Khai báo một vùng nhấp chuột cụ thể. Thuộc tính \codeinline{shape="rect|circle|poly"}, \codeinline{coords="x1,y1,x2,y2"}, \codeinline{href="..."}.
@@ -98,7 +98,7 @@ Thẻ \codeinline{<picture>} là wrapper chứa một hoặc nhiều thẻ \code
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Phát Video <video>}
+\section{Thẻ Phát Video \taghint{<video>}}
 \subsection{1. Lý Thuyết \& Bảng Thuộc Tính}
 Thẻ \codeinline{<video>} phát trình chiếu các tệp video gốc (MP4, WebM, Ogg).
 
@@ -119,7 +119,7 @@ Thẻ \codeinline{<video>} phát trình chiếu các tệp video gốc (MP4, Web
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Phát Âm Thanh <audio>}
+\section{Thẻ Phát Âm Thanh \taghint{<audio>}}
 \subsection{1. Lý Thuyết \& Định Dạng Hỗ Trợ}
 Thẻ \codeinline{<audio>} nhúng trình phát âm thanh gốc (MP3, WAV, OGG).
 
@@ -132,7 +132,7 @@ Thẻ \codeinline{<audio>} nhúng trình phát âm thanh gốc (MP3, WAV, OGG).
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Nhúng Phụ Đề <track>}
+\section{Thẻ Nhúng Phụ Đề \taghint{<track>}}
 \subsection{1. Lý Thuyết \& Chuẩn Phụ Đề WebVTT}
 Thẻ \codeinline{<track>} nhúng phụ đề văn bản chuẩn \textbf{WebVTT} (\codeinline{.vtt}) vào các thẻ \codeinline{<video>} hoặc \codeinline{<audio>}.
 
@@ -152,7 +152,7 @@ Thẻ \codeinline{<track>} nhúng phụ đề văn bản chuẩn \textbf{WebVTT}
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Khung Nhúng Trang Web <iframe>}
+\section{Thẻ Khung Nhúng Trang Web \taghint{<iframe>}}
 \subsection{1. Lý Thuyết \& Bảo Mật Sandbox}
 Thẻ \codeinline{<iframe>} (Inline Frame) nhúng một tài liệu HTML độc lập khác vào trang web hiện tại.
 
@@ -187,7 +187,7 @@ Thẻ \codeinline{<iframe>} (Inline Frame) nhúng một tài liệu HTML độc 
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Đồ Họa Vector Inline <svg> \& Các Thẻ Con}
+\section{Thẻ Đồ Họa Vector Inline \taghint{<svg>} \& Các Thẻ Con}
 \subsection{1. Lý Thuyết \& Đồ Họa Độc Lập Độ Phân Giải}
 Thẻ \codeinline{<svg>} nhúng mã đồ họa Vector 2D trực tiếp vào trang web. Các thẻ con chính: \codeinline{<path>}, \codeinline{<circle>}, \codeinline{<rect>}, \codeinline{<line>}, \codeinline{<text>}, \codeinline{<defs>}, \codeinline{<use>}.
 
@@ -199,7 +199,7 @@ Thẻ \codeinline{<svg>} nhúng mã đồ họa Vector 2D trực tiếp vào tra
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Khung Vẽ Điểm Ảnh <canvas>}
+\section{Thẻ Khung Vẽ Điểm Ảnh \taghint{<canvas>}}
 \subsection{1. Lý Thuyết \& 2D Context API}
 Thẻ \codeinline{<canvas>} tạo ra một vùng trống tính bằng điểm ảnh (Pixels) cho phép JavaScript vẽ đồ họa 2D, biểu đồ động hoặc game WebGL.
 
@@ -216,7 +216,7 @@ Thẻ \codeinline{<canvas>} tạo ra một vùng trống tính bằng điểm �
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Công Thức Toán Học <math> (MathML)}
+\section{Thẻ Công Thức Toán Học \taghint{<math>} (MathML)}
 \subsection{1. Lý Thuyết \& Các Phần Tử MathML}
 Thẻ \codeinline{<math>} nhúng công thức toán học chuẩn W3C MathML. Các thẻ con: \codeinline{<mfrac>} (Phân số), \codeinline{<msqrt>} (Căn bậc hai), \codeinline{<msup>} (Số mũ).
 
@@ -231,7 +231,7 @@ Thẻ \codeinline{<math>} nhúng công thức toán học chuẩn W3C MathML. C�
 \end{lstlisting}
 
 % ------------------------------------------------------------------------------
-\section{Thẻ Nhúng Đối Tượng Khác <object>, <embed>, <param>}
+\section{Thẻ Nhúng Đối Tượng Khác \taghint{<object>}, \taghint{<embed>}, \taghint{<param>}}
 \subsection{1. Lý Thuyết \& Nhúng File PDF}
 - \codeinline{<object data="..." type="...">}: Nhúng tài nguyên ngoài như file PDF.
 - \codeinline{<embed src="..." type="...">}: Nhúng đa phương tiện ứng dụng ngoài.

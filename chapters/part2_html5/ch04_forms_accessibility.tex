@@ -34,7 +34,7 @@
 
 Biểu mẫu HTML (\term{HTML Form}) là thành phần cốt lõi trên trang web cho phép thu thập dữ liệu từ người dùng (nhập văn bản, chọn radio, tick checkbox, upload tệp tin, nhấp nút Submit...). Khi gửi form, dữ liệu sẽ được đóng gói và chuyển lên máy chủ (\term{Server}) để xử lý thông qua hai thuộc tính quyết định: \codeinline{action} và \codeinline{method}.
 
-\subsection{1. Cấu Trúc Cơ Bản \& Thuộc Tính Thẻ <form>}
+\subsection{1. Cấu Trúc Cơ Bản \& Thuộc Tính Thẻ \taghint{<form>}}
 
 \begin{codeWindow}[Mã Nguồn Cấu Trúc Khai Báo Biểu Mẫu HTML Cơ Bản]
 \begin{lstlisting}[language=HTML5]
@@ -118,7 +118,7 @@ novalidate & Vô hiệu hóa tính năng tự động kiểm tra dữ liệu (\t
 \end{prettyTableBox}
 
 % ------------------------------------------------------------------------------
-\subsection{2. Chuyên Sâu Thẻ <input> \& 22+ Loại Input Types Trong HTML5}
+\subsection{2. Chuyên Sâu Thẻ \taghint{<input>} \& 22+ Loại Input Types Trong HTML5}
 
 Thẻ \codeinline{<input>} là phần tử đa năng nhất trong biểu mẫu HTML. Phần tử này không có thẻ đóng (\term{Self-closing tag}) và thay đổi hoàn toàn giao diện cũng như cơ chế hoạt động dựa trên thuộc tính \codeinline{type}.
 
@@ -336,7 +336,7 @@ pattern & Biểu thức chính quy (\term{Regex}) kiểm tra cú pháp dữ li�
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{3. Chuyên Sâu Thẻ <label>: Quy Tắc 2 Cách Dùng \& Chuẩn Trợ Năng A11y}
+\subsection{3. Chuyên Sâu Thẻ \taghint{<label>}: Quy Tắc 2 Cách Dùng \& Chuẩn Trợ Năng A11y}
 
 Thẻ \codeinline{<label>} là phần tử ngữ nghĩa được sử dụng để gắn nhãn mô tả cho các ô nhập liệu (\codeinline{<input>}, \codeinline{<textarea>}, \codeinline{<select>}). Mặc định, \codeinline{<label>} là một phần tử Nội dòng (\term{Inline Element}).
 
@@ -1247,13 +1247,13 @@ Hành vi khi Form Submit & \begin{tikzpicture}[baseline=-0.4ex]\node[fill=tipBor
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{7. Gom Nhóm Biểu Mẫu Chuẩn Ngữ Nghĩa Với <fieldset> \& <legend>}
+\subsection{7. Gom Nhóm Biểu Mẫu Chuẩn Ngữ Nghĩa Với \taghint{<fieldset>} \& \taghint{<legend>}}
 
 \begin{conceptBox}[Tổng Quan Về Thẻ <fieldset> Và Thẻ <legend>]
 Thẻ \codeinline{<fieldset>} dùng để \textbf{gom nhóm các phần tử liên quan} trong một biểu mẫu Form lớn thành một khối logic trực quan có đường viền bo quanh. Thẻ \codeinline{<legend>} đóng vai trò là \textbf{tiêu đề (caption)} cho nhóm phần tử đó, hiển thị đè trực tiếp lên đường viền phía trên. Việc kết hợp bộ đôi này giúp tổ chức form rõ ràng, tăng tính truy cập (\term{Accessibility / a11y}) cho người dùng và thiết bị Trình đọc màn hình (\term{Screen Reader}).
 \end{conceptBox}
 
-\subsubsection{7.1. Chi Tiết Thẻ <fieldset> Trong HTML}
+\subsubsection{7.1. Chi Tiết Thẻ \taghint{<fieldset>} Trong HTML}
 
 \paragraph{a. <fieldset> Là Gì?}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -1416,7 +1416,7 @@ legend {
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{7.2. Chi Tiết Thẻ <legend> Trong HTML}
+\subsubsection{7.2. Chi Tiết Thẻ \taghint{<legend>} Trong HTML}
 
 \paragraph{a. <legend> Là Gì?}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -1574,7 +1574,7 @@ Trong một số phiên bản trình duyệt cũ, thẻ \codeinline{<fieldset>} 
 Best Practice hiện đại là đặt một thẻ wrapper \codeinline{<div class="fieldset-content">} nằm ngay bên trong \codeinline{<fieldset>} (ngay sau \codeinline{<legend>}), và áp dụng CSS Flexbox / Grid lên thẻ \codeinline{div} đó thay vì áp dụng trực tiếp lên \codeinline{<fieldset>}.
 \end{tipBox}
 
-\subsection{8. So Sánh Chuyên Sâu Bộ Chọn <select> vs Bộ Gợi Ý Autocomplete <datalist>}
+\subsection{8. So Sánh Chuyên Sâu Bộ Chọn \taghint{<select>} vs Bộ Gợi Ý Autocomplete \taghint{<datalist>}}
 
 \begin{conceptBox}[Phân Biệt Cơ Chế Thuộc Thẻ <select> Và <datalist>]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -1619,7 +1619,7 @@ Trường hợp sử dụng khuyên dùng & Dùng cho dữ liệu chuẩn hóa c
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{9. Nhập Văn Bản Đa Dòng Với Thẻ <textarea>}
+\subsection{9. Nhập Văn Bản Đa Dòng Với Thẻ \taghint{<textarea>}}
 
 \begin{conceptBox}[Đặc Điểm Thẻ <textarea>]
 Thẻ \codeinline{<textarea>} tạo ra một ô nhập văn bản nhiều dòng (\term{Multi-line Text Input}), thường được sử dụng cho các mục nhập Ý kiến phản hồi, Khung bình luận, Bài viết hoặc Địa chỉ chi tiết.
@@ -2086,7 +2086,7 @@ Form là thành phần tương tác quan trọng nhất để người dùng g�
 % ------------------------------------------------------------------------------
 % SUBSECTION: THUỘC TÍNH ACTION TRONG THẺ FORM (FORM ACTION LÀ GÌ?)
 % ------------------------------------------------------------------------------
-\subsection{Thuộc Tính action Trong Thẻ <form> (Form Action Là Gì?)}
+\subsection{Thuộc Tính action Trong Thẻ \taghint{<form>} (Form Action Là Gì?)}
 \label{subsec:form_action}
 
 \begin{conceptBox}[Thuộc Tính action Trong HTML Form Là Gì?]
@@ -2371,7 +2371,7 @@ Trong lập trình Frontend hiện đại với JavaScript (React, Vue, Angular,
 % ==============================================================================
 % MỤC GIÁO TRÌNH: CHI TIẾT VỀ CHECKBOX trong HTML (<input type="checkbox">)
 % ==============================================================================
-\section[Thẻ Ô Chọn Checkbox]{Thẻ Ô Chọn Checkbox (<input type="checkbox">)}
+\section[Thẻ Ô Chọn Checkbox (\taghint{<input type="checkbox">})]{Thẻ Ô Chọn Checkbox (\taghint{<input type="checkbox">})}
 \label{sec:html_checkbox}
 
 \begin{conceptBox}[Định Nghĩa Checkbox]
@@ -2546,7 +2546,7 @@ Khi chọn đồng thời \textbf{Nhận tin tức} và \textbf{Nhận cập nh�
 \end{conceptBox}
 
 % ------------------------------------------------------------------------------
-\subsection{Tối Ưu Trải Nghiệm Người Dùng Với Thẻ <label>}
+\subsection{Tối Ưu Trải Nghiệm Người Dùng Với Thẻ \taghint{<label>}}
 
 Nếu không có thẻ \codeinline{<label>}, người dùng vẫn có thể chọn checkbox bằng cách nhấp trực tiếp vào ô vuông nhỏ. Tuy nhiên, việc không sử dụng label sẽ mất đi các lợi ích quan trọng sau:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
@@ -2964,7 +2964,7 @@ CSS \codeinline{appearance: none} & Full (v84+) & Full (v80+) & Full (v15.4+) & 
 % ==============================================================================
 % MỤC GIÁO TRÌNH: CHI TIẾT VỀ RADIO BUTTON trong HTML (<input type="radio">)
 % ==============================================================================
-\section[Thẻ Nút Chọn Đơn Radio Button]{Thẻ Nút Chọn Đơn Radio Button (<input type="radio">)}
+\section[Thẻ Nút Chọn Đơn Radio Button (\taghint{<input type="radio">})]{Thẻ Nút Chọn Đơn Radio Button (\taghint{<input type="radio">})}
 \label{sec:html_radio_button}
 
 \begin{conceptBox}[Định Nghĩa Radio Button]
@@ -3047,7 +3047,7 @@ Khi form được submit:
 \end{tipBox}
 
 % ------------------------------------------------------------------------------
-\subsection{Tối Ưu Trải Nghiệm Tương Tác Với Thẻ <label>}
+\subsection{Tối Ưu Trải Nghiệm Tương Tác Với Thẻ \taghint{<label>}}
 
 Nếu không có thẻ \codeinline{<label>}, người dùng bắt buộc phải căn chỉnh con trỏ chuột chính xác vào hình tròn nhỏ để chọn. Việc kết hợp với thẻ \codeinline{<label>} giúp nhấp vào chữ để chọn và tăng trải nghiệm sử dụng (UX).
 
@@ -3308,7 +3308,7 @@ CSS \codeinline{appearance: none} & Full (v84+) & Full (v80+) & Full (v15.4+) & 
 % ==============================================================================
 % MỤC GIÁO TRÌNH: CHI TIẾT VỀ CÁC THẺ NÚT BẤM TRONG FORM (submit, button, <button>)
 % ==============================================================================
-\section[Các Thẻ Nút Bấm Trong Form]{Các Thẻ Nút Bấm Trong Form (<input type="submit">, <input type="button">, <button>)}
+\section[Các Thẻ Nút Bấm Trong Form (\taghint{<input type="submit">}, \taghint{<input type="button">}, \taghint{<button>})]{Các Thẻ Nút Bấm Trong Form (\taghint{<input type="submit">}, \taghint{<input type="button">}, \taghint{<button>})}
 \label{sec:html_form_buttons}
 
 \begin{conceptBox}[Tổng Quan Về Nút Bấm Trong Form]
@@ -3321,7 +3321,7 @@ Nút bấm (\term{Buttons}) là thành phần kích hoạt tương tác cốt l�
 \end{conceptBox}
 
 % ------------------------------------------------------------------------------
-\subsection{Thẻ Nút Gửi Form (<input type="submit">)}
+\subsection{Thẻ Nút Gửi Form (\taghint{<input type="submit">})}
 \label{subsec:input_submit}
 
 \paragraph{Định Nghĩa \& Bản Chất:}
@@ -3417,7 +3417,7 @@ Khi người dùng nhấp vào nút \textbf{Đăng nhập}, trình duyệt sẽ 
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{Thẻ Nút Bấm JavaScript (<input type="button">)}
+\subsection{Thẻ Nút Bấm JavaScript (\taghint{<input type="button">})}
 \label{subsec:input_button}
 
 \paragraph{Định Nghĩa \& Đặc Điểm:}
@@ -3477,7 +3477,7 @@ Bên cạnh \codeinline{<input type="submit">} và \codeinline{<input type="butt
 \end{tipBox}
 
 % ------------------------------------------------------------------------------
-\subsection{Thẻ Nút Bấm Đa Năng Linh Hoạt (<button>)}
+\subsection{Thẻ Nút Bấm Đa Năng Linh Hoạt (\taghint{<button>})}
 \label{subsec:button_tag}
 
 \begin{conceptBox}[Định Nghĩa \& Bản Chất Vượt Trội Của Thẻ <button>]
@@ -3630,7 +3630,7 @@ Bạn có thể tạo ra các nút Submit khác nhau trong cùng 1 form (ví d�
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{Thẻ Nút Khôi Phục Dữ Liệu Reset Form (<input type="reset"> \& <button type="reset">)}
+\subsection{Thẻ Nút Khôi Phục Dữ Liệu Reset Form (\taghint{<input type="reset">} \& \taghint{<button type="reset">})}
 \label{subsec:form_reset_button}
 
 \begin{conceptBox}[Định Nghĩa \& Bản Chất Của Nút Reset Form]
@@ -3894,7 +3894,7 @@ Thuộc tính \codeinline{form="id"} & Full (v10+) & Full (v4+) & Full (v5.1+) &
 \end{tipBox}
 
 % ------------------------------------------------------------------------------
-\section[Thẻ Ô Nhập Số]{Thẻ Ô Nhập Số (<input type="number">)}
+\section[Thẻ Ô Nhập Số (\taghint{<input type="number">})]{Thẻ Ô Nhập Số (\taghint{<input type="number">})}
 \label{sec:html_number}
 
 \begin{conceptBox}[Định Nghĩa Thẻ Ô Nhập Số input type="number"]
@@ -4128,7 +4128,7 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
 % ==============================================================================
 % MỤC GIÁO TRÌNH: CHI TIẾT VỀ INPUT TYPE="RANGE" (SLIDER)
 % ==============================================================================
-\section[Thẻ Ô Chọn Khoảng Giá Trị]{Thẻ Ô Chọn Khoảng Giá Trị (<input type="range">)}
+\section[Thẻ Ô Chọn Khoảng Giá Trị (\taghint{<input type="range">})]{Thẻ Ô Chọn Khoảng Giá Trị (\taghint{<input type="range">})}
 \label{sec:html_range}
 
 \begin{conceptBox}[Định Nghĩa Thẻ Range Input (Thanh Trượt Slider)]
@@ -4342,7 +4342,7 @@ rangeInput.addEventListener('input', function() {
 % ==============================================================================
 % MỤC GIÁO TRÌNH: CHI TIẾT VỀ THẺ TEXTAREA trong HTML (<textarea>)
 % ==============================================================================
-\section[Thẻ Ô Nhập Văn Bản Nhiều Dòng Textarea]{Thẻ Ô Nhập Văn Bản Nhiều Dòng Textarea (<textarea>)}
+\section[Thẻ Ô Nhập Văn Bản Nhiều Dòng Textarea (\taghint{<textarea>})]{Thẻ Ô Nhập Văn Bản Nhiều Dòng Textarea (\taghint{<textarea>})}
 \label{sec:html_textarea}
 
 \begin{conceptBox}[Định Nghĩa Thẻ Textarea]
@@ -4379,7 +4379,7 @@ rangeInput.addEventListener('input', function() {
 \end{tipBox}
 
 % ------------------------------------------------------------------------------
-\subsection{Các Thuộc Tính Quan Trọng Của Thẻ <textarea>}
+\subsection{Các Thuộc Tính Quan Trọng Của Thẻ \taghint{<textarea>}}
 
 Dưới đây là bảng tổng hợp chi tiết tất cả các thuộc tính quan trọng thường được sử dụng cùng thẻ \codeinline{<textarea>}:
 
@@ -4402,7 +4402,7 @@ Dưới đây là bảng tổng hợp chi tiết tất cả các thuộc tính q
 \end{prettyTableBox}
 
 % ------------------------------------------------------------------------------
-\subsection{Các Giá Trị Mặc Định Của <textarea> Trong HTML}
+\subsection{Các Giá Trị Mặc Định Của \taghint{<textarea>} Trong HTML}
 
 Khi không chỉ định bất kỳ thuộc tính nào, trình duyệt web sẽ áp dụng bộ giá trị mặc định tiêu chuẩn sau cho thẻ \codeinline{<textarea>}:
 
@@ -4608,7 +4608,7 @@ myText.addEventListener('input', function() {
 % ==============================================================================
 % MỤC GIÁO TRÌNH: CHI TIẾT VỀ THẺ SELECT & OPTION trong HTML (<select>, <option>, <optgroup>)
 % ==============================================================================
-\section[Thẻ Danh Sách Thả Xuống Select]{Thẻ Danh Sách Thả Xuống Select (<select>, <option> \& <optgroup>)}
+\section[Thẻ Danh Sách Thả Xuống Select (\taghint{<select>}, \taghint{<option>}, \taghint{<optgroup>})]{Thẻ Danh Sách Thả Xuống Select (\taghint{<select>}, \taghint{<option>} \& \taghint{<optgroup>})}
 \label{sec:html_select}
 
 \begin{conceptBox}[Định Nghĩa Thẻ Select \& Option]
@@ -4650,7 +4650,7 @@ Thẻ \codeinline{<select>} trong HTML được sử dụng để tạo một \t
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{Các Thuộc Tính Quan Trọng Của Thẻ <select>}
+\subsection{Các Thuộc Tính Quan Trọng Của Thẻ \taghint{<select>}}
 
 Dưới đây là bảng tổng hợp chi tiết tất cả các thuộc tính quan trọng của thẻ \codeinline{<select>}:
 
@@ -4670,7 +4670,7 @@ Dưới đây là bảng tổng hợp chi tiết tất cả các thuộc tính q
 \end{prettyTableBox}
 
 % ------------------------------------------------------------------------------
-\subsection{Các Thuộc Tính Quan Trọng Của Thẻ <option> Bên Trong}
+\subsection{Các Thuộc Tính Quan Trọng Của Thẻ \taghint{<option>} Bên Trong}
 
 Mỗi thẻ \codeinline{<option>} đại diện cho một mục lựa chọn và sở hữu các thuộc tính sau:
 
@@ -4869,7 +4869,7 @@ Trong thực tế phát triển phần mềm, ta thường tạo một mục đ�
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{Chi Tiết Về Thẻ Phân Nhóm Tùy Chọn <optgroup>}
+\subsection{Chi Tiết Về Thẻ Phân Nhóm Tùy Chọn \taghint{<optgroup>}}
 
 \begin{conceptBox}[Định Nghĩa Thẻ <optgroup>]
 Thẻ \codeinline{<optgroup>} (\term{Option Group}) trong HTML được sử dụng để \textbf{gom nhóm các tùy chọn} (\codeinline{<option>}) có cùng chủ đề lại với nhau bên trong một thẻ \codeinline{<select>}.
