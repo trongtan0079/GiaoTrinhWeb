@@ -118,6 +118,290 @@ novalidate & Vô hiệu hóa tính năng tự động kiểm tra dữ liệu (\t
 \end{prettyTableBox}
 
 % ------------------------------------------------------------------------------
+% MỤC CON 5.1.1: CHUYÊN SÂU THUỘC TÍNH ACTION TRONG THẺ <FORM>
+% ------------------------------------------------------------------------------
+\subsubsection{Chuyên Sâu Thuộc Tính action Trong Thẻ \taghint{<form>} (Form Action Là Gì?)}
+\label{subsubsec:form_action}
+
+\begin{conceptBox}[Thuộc Tính action Trong HTML Form Là Gì?]
+\term{Thuộc tính action} của thẻ \codeinline{<form>} xác định địa chỉ \term{URL} (Uniform Resource Locator) mà dữ liệu trong biểu mẫu sẽ được đóng gói và gửi tới khi người dùng kích hoạt sự kiện Submit (Gửi).
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Nói cách khác}: Đây là điểm cuối (\term{Endpoint}) tiếp nhận và xử lý dữ liệu biểu mẫu trên máy chủ Backend (thường là một tập tin xử lý như PHP, Python, Node.js, Java hoặc một điểm cuối RESTful API).
+    \item \textbf{Cơ chế hoạt động bên dưới}: Khi sự kiện submit xảy ra, trình duyệt web dừng luồng tương tác hiện tại, quét qua tất cả các phần tử nhập liệu hợp lệ trong thẻ \codeinline{<form>}, gom các cặp \codeinline{name=value}, mã hóa dữ liệu theo định dạng \codeinline{enctype} và khởi tạo một HTTP Request chuyển hướng tới địa chỉ URL khai báo trong \codeinline{action}.
+\end{itemize}
+\end{conceptBox}
+
+% ------------------------------------------------------------------------------
+\paragraph{Sơ Đồ Luồng Hoạt Động Của Form Action:}
+
+\begin{center}
+\begin{tcolorbox}[
+    enhanced,
+    colback=codeBg,
+    colframe=primaryBlue!25,
+    arc=8pt,
+    boxrule=0.8pt,
+    drop shadow=black!4!white,
+    top=18pt, bottom=14pt, left=6pt, right=6pt
+]
+\centering
+\begin{tikzpicture}[
+    >=Stealth,
+    stepCard/.style={
+        rectangle,
+        rounded corners=5pt,
+        draw=#1!60,
+        fill=white,
+        line width=0.8pt,
+        text width=3.0cm,
+        minimum height=2.1cm,
+        inner sep=6pt,
+        align=center,
+        font=\sffamily\small
+    },
+    stepBadge/.style={
+        rectangle,
+        rounded corners=3pt,
+        fill=#1,
+        text=white,
+        font=\sffamily\bfseries\scriptsize,
+        inner sep=2.5pt,
+        inner xsep=6pt
+    },
+    arrowLine/.style={
+        ->,
+        line width=1.3pt,
+        color=primaryBlue!70
+    }
+]
+
+% Step 1: User
+\node[stepCard=secondaryTeal] (step1) {
+    \vspace{4pt}
+    \textbf{\color{secondaryTeal}Người Dùng}\\[3pt]
+    {\footnotesize\color{darkText} Nhập form \& kích hoạt sự kiện \textbf{Submit}}
+};
+\node[stepBadge=secondaryTeal] at (step1.north) {BƯỚC 1};
+
+% Step 2: Browser
+\node[stepCard=primaryBlue, right=0.35cm of step1] (step2) {
+    \vspace{4pt}
+    \textbf{\color{primaryBlue}Trình Duyệt}\\[3pt]
+    {\footnotesize\color{darkText} Quét form, gom cặp dữ liệu \codeinline{name=value}}
+};
+\node[stepBadge=primaryBlue] at (step2.north) {BƯỚC 2};
+
+% Step 3: HTTP Request
+\node[stepCard=accentOrange, right=0.35cm of step2] (step3) {
+    \vspace{4pt}
+    \textbf{\color{accentOrange}HTTP Request}\\[3pt]
+    {\footnotesize\color{darkText} Gửi gói tin HTTP tới địa chỉ \codeinline{action}}
+};
+\node[stepBadge=accentOrange] at (step3.north) {BƯỚC 3};
+
+% Step 4: Backend Server
+\node[stepCard=accentPurple, right=0.35cm of step3] (step4) {
+    \vspace{4pt}
+    \textbf{\color{accentPurple}Backend Server}\\[3pt]
+    {\footnotesize\color{darkText} Tiếp nhận, xử lý logic \& trả phản hồi}
+};
+\node[stepBadge=accentPurple] at (step4.north) {BƯỚC 4};
+
+% Connecting Arrows
+\draw[arrowLine] (step1) -- (step2);
+\draw[arrowLine] (step2) -- (step3);
+\draw[arrowLine] (step3) -- (step4);
+
+\end{tikzpicture}
+\end{tcolorbox}
+\end{center}
+
+% ------------------------------------------------------------------------------
+\paragraph{Phân Loại Địa Chỉ URL Trong Thuộc Tính action:}
+
+Khi khai báo đường dẫn \codeinline{action}, lập trình viên có thể sử dụng các dạng đường dẫn sau:
+
+\begin{prettyTableBox}[Phân Loại Các Dạng Đường Dẫn Trong Thuộc Tính action]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{3.6cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Dạng Đường Dẫn} & \thd{Cú Pháp HTML Mẫu} & \thd{Đặc Điểm \& Hành Vi Xử Lý} \\
+\textbf{Đường Dẫn Tương Đối}\newline(\term{Relative URL}) & \codeinline{<form action="process.php">}\newline\codeinline{<form action="../save.php">} & Trỏ tới tệp nằm cùng thư mục hoặc thư mục cha/con trên cùng server. Dễ di chuyển mã nguồn giữa các môi trường (Dev/Staging/Prod). \\
+\textbf{Đường Dẫn Từ Gốc Root}\newline(\term{Root-Relative URL}) & \codeinline{<form action="/api/v1/users">} & Trỏ tới địa chỉ tính từ tên miền gốc (\term{Domain Root}). Đảm bảo không bị lỗi đường dẫn khi nhúng form ở các trang con có độ sâu cấp thư mục khác nhau. \\
+\textbf{Đường Dẫn Tuyệt Đối}\newline(\term{Absolute URL}) & \codeinline{<form action="https://api.domain.com/submit">} & Trỏ trực tiếp tới một tên miền hoặc máy chủ API bên ngoài. Bắt buộc phải khởi chạy qua giao thức an toàn \codeinline{https://}. \\
+\textbf{Chuỗi Rỗng Hoặc Bỏ Trống}\newline(\term{Self-Submitting Form}) & \codeinline{<form action="">}\newline\codeinline{<form>} & Trình duyệt mặc định gửi toàn bộ dữ liệu biểu mẫu về chính URL của trang hiện tại. Rất phổ biến khi làm việc với PHP/ASP.NET monolithic hoặc xử lý form 2 giai đoạn (GET hiển thị, POST xử lý). \\
+\textbf{Dấu Thăng (\codeinline{action="\#"})}\newline(\term{Hash Navigation}) & \codeinline{<form action="\#">} & Gửi dữ liệu về trang hiện tại nhưng đính kèm thẻ \codeinline{\#} làm trình duyệt tự động cuộn trang lên trên cùng (\term{Top Page}). Không khuyến nghị dùng trong thực tế trừ khi có xử lý JS. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+% ------------------------------------------------------------------------------
+\paragraph{Mối Quan Hệ Cốt Lõi Giữa action, method và enctype:}
+
+Thuộc tính \codeinline{action} không hoạt động độc lập mà luôn kết hợp chặt chẽ với phương thức gửi dữ liệu \codeinline{method} và kiểu mã hóa dữ liệu \codeinline{enctype}:
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{Kết hợp với \codeinline{method="GET"}}:
+    Trình duyệt đính kèm toàn bộ dữ liệu vào sau địa chỉ trong \codeinline{action} dưới dạng chuỗi truy vấn (\term{Query String}):
+    \begin{center}
+    \codeinline{URL\_action?name1=value1\&name2=value2}
+    \end{center}
+    \textit{Ứng dụng}: Dùng cho các biểu mẫu tìm kiếm, lọc dữ liệu, phân trang mà thông tin không cần bảo mật và cho phép người dùng lưu bookmark URL.
+
+    \item \textbf{Kết hợp với \codeinline{method="POST"}}:
+    Trình duyệt đính kèm dữ liệu ẩn bên trong thân của HTTP Request (\term{Request Body}).
+    \textit{Ứng dụng}: Dùng cho đăng nhập, đăng ký, thanh toán, cập nhật thông tin cá nhân.
+
+    \item \textbf{Ảnh hưởng của thuộc tính \codeinline{enctype} khi gửi tới action}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \codeinline{application/x-www-form-urlencoded} (\textit{Mặc định}): Tất cả khoảng trắng đổi thành \codeinline{+} hoặc \codeinline{\%20}, các ký tự đặc biệt được mã hóa theo dạng Hex.
+        \item \codeinline{multipart/form-data}: \textbf{Bắt buộc phải dùng} khi form có ô tải tệp tin (\codeinline{<input type="file">}) để dữ liệu tệp nhị phân được phân chia thành từng khối gửi tới \codeinline{action}.
+        \item \codeinline{text/plain}: Gửi dữ liệu dưới dạng văn bản thô không mã hóa (chỉ phục vụ thử nghiệm).
+    \end{itemize}
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+\paragraph{Ví Dụ Minh Họa Chi Tiết:}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{Gửi đến file xử lý khác (\codeinline{save\_data.php}):}
+    
+\begin{codeWindow}[Form gửi dữ liệu tới file xử lý save\_data.php]
+\begin{lstlisting}[language=HTML5]
+<form action="save_data.php" method="post">
+  <input type="text" name="email" placeholder="(*@Nhập email@*)">
+  <button type="submit">(*@Đăng ký@*)</button>
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Trình Duyệt: Gửi Đến File save\_data.php]
+\sffamily\small
+\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=30pt, top=3pt, bottom=3pt]{\color{gray!80}Nhập email} \;\;
+\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{\color{white}\bfseries\small Đăng ký}
+\end{browserWindow}
+
+\textbf{$\rightarrow$} \textit{Kết quả khi submit}: Dữ liệu nhập ở ô email sẽ được gửi đến tập tin \codeinline{save\_data.php}.
+
+    \item \textbf{Gửi đến chính trang hiện tại (\codeinline{action=""}):}
+
+\begin{codeWindow}[Form tìm kiếm gửi dữ liệu về chính trang hiện tại]
+\begin{lstlisting}[language=HTML5]
+<form action="" method="get">
+  <input type="text" name="q" placeholder="(*@Tìm kiếm...@*)">
+  <button type="submit">Search</button>
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Trình Duyệt: Form Tìm Kiếm Gửi Về Trang Hiện Tại]
+\sffamily\small
+\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=30pt, top=3pt, bottom=3pt]{\color{gray!80}Tìm kiếm...} \;\;
+\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{\color{white}\bfseries\small Search}
+\end{browserWindow}
+
+\textbf{$\rightarrow$} \textit{Kết quả khi submit}: Trình duyệt sẽ đổi URL trên thanh địa chỉ thành dạng:
+\begin{center}
+\codeinline{http://example.com/?q=giatri\_nhap}
+\end{center}
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+\paragraph{Lưu Ý Quan Trọng \& Cảnh Báo Bảo Mật (Security Best Practices):}
+
+\begin{warnBox}[Các Nguyên Tắc Bảo Mật Cần Nắm Vững Khi Cấu Hình Form Action]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Bắt buộc sử dụng giao thức HTTPS trong action}: Không bao giờ trỏ thuộc tính \codeinline{action} tới đường dẫn giao thức không an toàn (\codeinline{http://}) trong sản phẩm thực tế để tránh nguy cơ bị nghe lén dữ liệu trên đường truyền (\term{Man-in-the-Middle Attack}).
+    \item \textbf{Phòng chống lỗ hổng Cross-Site Request Forgery (CSRF)}: Khi \codeinline{action} trỏ tới các điểm cuối thay đổi dữ liệu hệ thống (như đổi mật khẩu, chuyển tiền), bắt buộc Backend phải yêu cầu đính kèm \term{CSRF Token} hợp lệ bên trong form.
+    \item \textbf{Tránh lỗ hổng Open Redirect}: Không bao giờ cấu hình thuộc tính \codeinline{action} nhận trực tiếp giá trị URL biến động truyền từ tham số chuỗi truy vấn người dùng nhập mà không qua kiểm tra (\term{Whitelist validation}).
+    \item \textbf{Phân công vai trò giữa Frontend và Backend}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \textbf{Frontend}: Thiết kế giao diện, đảm bảo liên kết thuộc tính \codeinline{action} chính xác, thu thập và kiểm tra sơ bộ tính hợp lệ (\term{Client-side Validation}).
+        \item \textbf{Backend}: Xây dựng bộ định tuyến (\term{Router/Endpoint}) tại đúng đường dẫn khai báo trong \codeinline{action}, kiểm tra tính hợp lệ chặt chẽ (\term{Server-side Validation}) và lưu trữ cơ sở dữ liệu.
+    \end{itemize}
+\end{enumerate}
+\end{warnBox}
+
+% ------------------------------------------------------------------------------
+\paragraph{Minh Họa Thực Tế \& Kịch Bản Nhập Thử (Form Action Demonstration):}
+
+\begin{codeWindow}[Mã Nguồn Đầy Đủ Minh Họa Form Action Với Kịch Bản Nhập Thử]
+\begin{lstlisting}[language=HTML5]
+<!-- Form dang ky tai khoan truyen du lieu den server handler -->
+<form action="process_register.php" method="POST">
+  <label for="user_email">Email dang ky:</label>
+  <input type="email" id="user_email" name="email" placeholder="user@example.com" required>
+  
+  <label for="user_pass">Mat khau:</label>
+  <input type="password" id="user_pass" name="password" placeholder="******" required>
+  
+  <button type="submit">Dang ky tai khoan</button>
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Minh Họa Form Action Nhập Thử]
+\sffamily\small
+\textbf{Form Đăng Ký Tài Khoản (Gửi tới: \codeinline{process\_register.php}):} \\[6pt]
+\begin{tabular}{ll}
+\textbf{Email đăng ký:} & \tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!50, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\small \textcolor{black}{nguyenvana@gmail.com}} \\
+\textbf{Mật khẩu:} & \tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!50, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\small \textcolor{black}{$\bullet\bullet\bullet\bullet\bullet\bullet\bullet\bullet$}} \\
+\end{tabular} \\[8pt]
+\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=3pt, left=12pt, right=12pt, top=4pt, bottom=4pt]{\color{white}\bfseries\small Đăng ký tài khoản}
+
+\vspace{6pt}
+\hrule height 0.4pt \relax
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{Mô Phỏng Trạng Thái Khi Người Dùng Nhấn Nút Submit ("Nhập Thử"):}}
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+    \item \textbf{Trình duyệt khởi tạo}: HTTP POST Request gửi tới URL \codeinline{process\_register.php}.
+    \item \textbf{Dữ liệu đóng gói gửi đi}: \codeinline{email=nguyenvana\%40gmail.com\&password=******}
+    \item \textbf{Trạng thái xử lý Backend}: Server xử lý tệp \codeinline{process\_register.php} nhận dữ liệu, tiến hành mã hóa mật khẩu và trả về phản hồi chào mừng.
+\end{itemize}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% MỤC ĐỌC THÊM (MỞ RỘNG KIẾN THỨC THEO QUY TẮC GIÁO TRÌNH)
+% ------------------------------------------------------------------------------
+\paragraph{Đọc Thêm: Các Kỹ Thuật Nâng Cao Với Form Action Trong Lập Trình Modern Web}
+
+\begin{conceptBox}[Ghi Đè Đường Dẫn Action Bằng Thuộc Tính formaction (HTML5)]
+Trong đặc tả HTML5, nếu một form có nhiều nút bấm gửi dữ liệu cho các mục đích khác nhau (ví dụ: Nút "Gửi bài" và Nút "Lưu nháp"), ta có thể dùng thuộc tính \codeinline{formaction} ngay trên nút submit để ghi đè thuộc tính \codeinline{action} chung của form:
+\begin{codeWindow}[Ví dụ sử dụng thuộc tính formaction trên từng nút submit]
+\begin{lstlisting}[language=HTML5]
+<form action="/save-article" method="post">
+  <!-- (*@Nút 1: Gửi dữ liệu đến /save-draft@*) -->
+  <button type="submit" formaction="/save-draft">Luu Nhap</button>
+  
+  <!-- (*@Nút 2: Sử dụng action mặc định của form (/save-article)@*) -->
+  <button type="submit">Xuat Ban</button>
+</form>
+\end{lstlisting}
+\end{codeWindow}
+\end{conceptBox}
+
+\begin{tipBox}[Xử Lý Form Action Trong Các Ứng Dụng Trang Đơn (SPA / AJAX)]
+Trong lập trình Frontend hiện đại với JavaScript (React, Vue, Angular, Fetch API/Axios):
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Lập trình viên thường gọi hàm \codeinline{event.preventDefault()} trong sự kiện \codeinline{onsubmit} để \textbf{chặn hành vi điều hướng trang mặc định} của thuộc tính \codeinline{action}.
+    \item Dữ liệu sau đó được đóng gói và gửi qua AJAX/Fetch API một cách bất đồng bộ mà không làm tải lại trang web, giúp tối ưu trải nghiệm người dùng (\term{UX}).
+\end{itemize}
+\end{tipBox}
+
+\begin{noteBox}[Góc Phỏng Vấn: Các Câu Hỏi Thường Gặp Về Form Action]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Phân biệt action="", action="\#" và bỏ qua thuộc tính action?}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \codeinline{action=""} và bỏ trống \codeinline{action}: Đều gửi form về chính URL trang hiện tại mà không làm đổi thẻ thăng.
+        \item \codeinline{action="\#"}: Gửi dữ liệu về trang hiện tại nhưng đính kèm vị trí \codeinline{\#} khiến trình duyệt tự cuộn lên đầu trang.
+    \end{itemize}
+    \item \textbf{Tại sao thẻ <form> vẫn cần thuộc tính action khi làm việc với React/Vue/Angular?}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Để đảm bảo tính năng \textbf{Progressive Enhancement} (Cải tiến tiệm tiến) và \textbf{Accessibility (a11y)}: Nếu JavaScript của người dùng bị tắt hoặc gặp sự cố tải, form vẫn có thể gửi dữ liệu lên server backend thông qua đường dẫn \codeinline{action} truyền thống.
+    \end{itemize}
+\end{enumerate}
+\end{noteBox}
+
+% ------------------------------------------------------------------------------
 \subsection{2. Chuyên Sâu Thẻ \taghint{<input>} \& 22+ Loại Input Types Trong HTML5}
 
 Thẻ \codeinline{<input>} là phần tử đa năng nhất trong biểu mẫu HTML. Phần tử này không có thẻ đóng (\term{Self-closing tag}) và thay đổi hoàn toàn giao diện cũng như cơ chế hoạt động dựa trên thuộc tính \codeinline{type}.
@@ -2080,293 +2364,8 @@ Sau khi đã nắm vững toàn bộ nền tảng cốt lõi về cấu trúc th
 \section[PHẦN 2: Chuyên Sâu Từng Ô Nhập Liệu, Định Dạng CSS \& Trợ Năng A11y]{PHẦN 2: Chuyên Sâu Từng Ô Nhập Liệu, Định Dạng CSS \& Chuẩn Trợ Năng A11y}
 \label{sec:form_part2_deepdive}
 
-\subsection*{Tổng Quan Về HTML Forms \& Thuộc Tính Quan Trọng}
-Form là thành phần tương tác quan trọng nhất để người dùng gửi dữ liệu lên máy chủ. Một biểu mẫu bao gồm nhiều loại ô nhập liệu khác nhau phục vụ các mục đích dữ liệu riêng biệt.
+Phần này đi sâu vào chi tiết kỹ thuật từng phần tử nhập liệu chuyên biệt, các thuộc tính điều khiển nâng cao, kỹ thuật định dạng giao diện CSS hiện đại và quy chuẩn Trợ năng Web (\term{Web Accessibility - A11y}) đạt chuẩn công nghiệp.
 
-% ------------------------------------------------------------------------------
-% SUBSECTION: THUỘC TÍNH ACTION TRONG THẺ FORM (FORM ACTION LÀ GÌ?)
-% ------------------------------------------------------------------------------
-\subsection{Thuộc Tính action Trong Thẻ \taghint{<form>} (Form Action Là Gì?)}
-\label{subsec:form_action}
-
-\begin{conceptBox}[Thuộc Tính action Trong HTML Form Là Gì?]
-\term{Thuộc tính action} của thẻ \codeinline{<form>} xác định địa chỉ \term{URL} (Uniform Resource Locator) mà dữ liệu trong biểu mẫu sẽ được đóng gói và gửi tới khi người dùng kích hoạt sự kiện Submit (Gửi).
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Nói cách khác}: Đây là điểm cuối (\term{Endpoint}) tiếp nhận và xử lý dữ liệu biểu mẫu trên máy chủ Backend (thường là một tập tin xử lý như PHP, Python, Node.js, Java hoặc một điểm cuối RESTful API).
-    \item \textbf{Cơ chế hoạt động bên dưới}: Khi sự kiện submit xảy ra, trình duyệt web dừng luồng tương tác hiện tại, quét qua tất cả các phần tử nhập liệu hợp lệ trong thẻ \codeinline{<form>}, gom các cặp \codeinline{name=value}, mã hóa dữ liệu theo định dạng \codeinline{enctype} và khởi tạo một HTTP Request chuyển hướng tới địa chỉ URL khai báo trong \codeinline{action}.
-\end{itemize}
-\end{conceptBox}
-
-% ------------------------------------------------------------------------------
-% ------------------------------------------------------------------------------
-\paragraph{Sơ Đồ Luồng Hoạt Động Của Form Action:}
-
-\begin{center}
-\begin{tcolorbox}[
-    enhanced,
-    colback=codeBg,
-    colframe=primaryBlue!25,
-    arc=8pt,
-    boxrule=0.8pt,
-    drop shadow=black!4!white,
-    top=18pt, bottom=14pt, left=6pt, right=6pt
-]
-\centering
-\begin{tikzpicture}[
-    >=Stealth,
-    stepCard/.style={
-        rectangle,
-        rounded corners=5pt,
-        draw=#1!60,
-        fill=white,
-        line width=0.8pt,
-        text width=3.0cm,
-        minimum height=2.1cm,
-        inner sep=6pt,
-        align=center,
-        font=\sffamily\small
-    },
-    stepBadge/.style={
-        rectangle,
-        rounded corners=3pt,
-        fill=#1,
-        text=white,
-        font=\sffamily\bfseries\scriptsize,
-        inner sep=2.5pt,
-        inner xsep=6pt
-    },
-    arrowLine/.style={
-        ->,
-        line width=1.3pt,
-        color=primaryBlue!70
-    }
-]
-
-% Step 1: User
-\node[stepCard=secondaryTeal] (step1) {
-    \vspace{4pt}
-    \textbf{\color{secondaryTeal}Người Dùng}\\[3pt]
-    {\footnotesize\color{darkText} Nhập form \& kích hoạt sự kiện \textbf{Submit}}
-};
-\node[stepBadge=secondaryTeal] at (step1.north) {BƯỚC 1};
-
-% Step 2: Browser
-\node[stepCard=primaryBlue, right=0.35cm of step1] (step2) {
-    \vspace{4pt}
-    \textbf{\color{primaryBlue}Trình Duyệt}\\[3pt]
-    {\footnotesize\color{darkText} Quét form, gom cặp dữ liệu \codeinline{name=value}}
-};
-\node[stepBadge=primaryBlue] at (step2.north) {BƯỚC 2};
-
-% Step 3: HTTP Request
-\node[stepCard=accentOrange, right=0.35cm of step2] (step3) {
-    \vspace{4pt}
-    \textbf{\color{accentOrange}HTTP Request}\\[3pt]
-    {\footnotesize\color{darkText} Gửi gói tin HTTP tới địa chỉ \codeinline{action}}
-};
-\node[stepBadge=accentOrange] at (step3.north) {BƯỚC 3};
-
-% Step 4: Backend Server
-\node[stepCard=accentPurple, right=0.35cm of step3] (step4) {
-    \vspace{4pt}
-    \textbf{\color{accentPurple}Backend Server}\\[3pt]
-    {\footnotesize\color{darkText} Tiếp nhận, xử lý logic \& trả phản hồi}
-};
-\node[stepBadge=accentPurple] at (step4.north) {BƯỚC 4};
-
-% Connecting Arrows
-\draw[arrowLine] (step1) -- (step2);
-\draw[arrowLine] (step2) -- (step3);
-\draw[arrowLine] (step3) -- (step4);
-
-\end{tikzpicture}
-\end{tcolorbox}
-\end{center}
-
-% ------------------------------------------------------------------------------
-\paragraph{Phân Loại Địa Chỉ URL Trong Thuộc Tính action:}
-
-Khi khai báo đường dẫn \codeinline{action}, lập trình viên có thể sử dụng các dạng đường dẫn sau:
-
-\begin{prettyTableBox}[Phân Loại Các Dạng Đường Dẫn Trong Thuộc Tính action]
-\rowcolors{2}{white}{primaryBlue!4}
-\begin{tabularx}{\linewidth}{K{3.6cm} Z Z}
-\rowcolor{primaryBlue}
-\thd{Dạng Đường Dẫn} & \thd{Cú Pháp HTML Mẫu} & \thd{Đặc Điểm \& Hành Vi Xử Lý} \\
-\textbf{Đường Dẫn Tương Đối}\newline(\term{Relative URL}) & \codeinline{<form action="process.php">}\newline\codeinline{<form action="../save.php">} & Trỏ tới tệp nằm cùng thư mục hoặc thư mục cha/con trên cùng server. Dễ di chuyển mã nguồn giữa các môi trường (Dev/Staging/Prod). \\
-\textbf{Đường Dẫn Từ Gốc Root}\newline(\term{Root-Relative URL}) & \codeinline{<form action="/api/v1/users">} & Trỏ tới địa chỉ tính từ tên miền gốc (\term{Domain Root}). Đảm bảo không bị lỗi đường dẫn khi nhúng form ở các trang con có độ sâu cấp thư mục khác nhau. \\
-\textbf{Đường Dẫn Tuyệt Đối}\newline(\term{Absolute URL}) & \codeinline{<form action="https://api.domain.com/submit">} & Trỏ trực tiếp tới một tên miền hoặc máy chủ API bên ngoài. Bắt buộc phải khởi chạy qua giao thức an toàn \codeinline{https://}. \\
-\textbf{Chuỗi Rỗng Hoặc Bỏ Trống}\newline(\term{Self-Submitting Form}) & \codeinline{<form action="">}\newline\codeinline{<form>} & Trình duyệt mặc định gửi toàn bộ dữ liệu biểu mẫu về chính URL của trang hiện tại. Rất phổ biến khi làm việc với PHP/ASP.NET monolithic hoặc xử lý form 2 giai đoạn (GET hiển thị, POST xử lý). \\
-\textbf{Dấu Thăng (\codeinline{action="\#"})}\newline(\term{Hash Navigation}) & \codeinline{<form action="\#">} & Gửi dữ liệu về trang hiện tại nhưng đính kèm thẻ \codeinline{\#} làm trình duyệt tự động cuộn trang lên trên cùng (\term{Top Page}). Không khuyến nghị dùng trong thực tế trừ khi có xử lý JS. \\
-\end{tabularx}
-\end{prettyTableBox}
-
-% ------------------------------------------------------------------------------
-\paragraph{Mối Quan Hệ Cốt Lõi Giữa action, method và enctype:}
-
-Thuộc tính \codeinline{action} không hoạt động độc lập mà luôn kết hợp chặt chẽ với phương thức gửi dữ liệu \codeinline{method} và kiểu mã hóa dữ liệu \codeinline{enctype}:
-
-\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
-    \item \textbf{Kết hợp với \codeinline{method="GET"}}:
-    Trình duyệt đính kèm toàn bộ dữ liệu vào sau địa chỉ trong \codeinline{action} dưới dạng chuỗi truy vấn (\term{Query String}):
-    \begin{center}
-    \codeinline{URL\_action?name1=value1\&name2=value2}
-    \end{center}
-    \textit{Ứng dụng}: Dùng cho các biểu mẫu tìm kiếm, lọc dữ liệu, phân trang mà thông tin không cần bảo mật và cho phép người dùng lưu bookmark URL.
-
-    \item \textbf{Kết hợp với \codeinline{method="POST"}}:
-    Trình duyệt đính kèm dữ liệu ẩn bên trong thân của HTTP Request (\term{Request Body}).
-    \textit{Ứng dụng}: Dùng cho đăng nhập, đăng ký, thanh toán, cập nhật thông tin cá nhân.
-
-    \item \textbf{Ảnh hưởng của thuộc tính \codeinline{enctype} khi gửi tới action}:
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
-        \item \codeinline{application/x-www-form-urlencoded} (\textit{Mặc định}): Tất cả khoảng trắng đổi thành \codeinline{+} hoặc \codeinline{\%20}, các ký tự đặc biệt được mã hóa theo dạng Hex.
-        \item \codeinline{multipart/form-data}: \textbf{Bắt buộc phải dùng} khi form có ô tải tệp tin (\codeinline{<input type="file">}) để dữ liệu tệp nhị phân được phân chia thành từng khối gửi tới \codeinline{action}.
-        \item \codeinline{text/plain}: Gửi dữ liệu dưới dạng văn bản thô không mã hóa (chỉ phục vụ thử nghiệm).
-    \end{itemize}
-\end{enumerate}
-
-% ------------------------------------------------------------------------------
-\paragraph{Ví Dụ Minh Họa Chi Tiết:}
-
-\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
-    \item \textbf{Gửi đến file xử lý khác (\codeinline{save\_data.php}):}
-    
-\begin{codeWindow}[Form gửi dữ liệu tới file xử lý save\_data.php]
-\begin{lstlisting}[language=HTML5]
-<form action="save_data.php" method="post">
-  <input type="text" name="email" placeholder="(*@Nhập email@*)">
-  <button type="submit">(*@Đăng ký@*)</button>
-</form>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Trình Duyệt: Gửi Đến File save\_data.php]
-\sffamily\small
-\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=30pt, top=3pt, bottom=3pt]{\color{gray!80}Nhập email} \;\;
-\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{\color{white}\bfseries\small Đăng ký}
-\end{browserWindow}
-
-\textbf{$\rightarrow$} \textit{Kết quả khi submit}: Dữ liệu nhập ở ô email sẽ được gửi đến tập tin \codeinline{save\_data.php}.
-
-    \item \textbf{Gửi đến chính trang hiện tại (\codeinline{action=""}):}
-
-\begin{codeWindow}[Form tìm kiếm gửi dữ liệu về chính trang hiện tại]
-\begin{lstlisting}[language=HTML5]
-<form action="" method="get">
-  <input type="text" name="q" placeholder="(*@Tìm kiếm...@*)">
-  <button type="submit">Search</button>
-</form>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Trình Duyệt: Form Tìm Kiếm Gửi Về Trang Hiện Tại]
-\sffamily\small
-\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=30pt, top=3pt, bottom=3pt]{\color{gray!80}Tìm kiếm...} \;\;
-\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{\color{white}\bfseries\small Search}
-\end{browserWindow}
-
-\textbf{$\rightarrow$} \textit{Kết quả khi submit}: Trình duyệt sẽ đổi URL trên thanh địa chỉ thành dạng:
-\begin{center}
-\codeinline{http://example.com/?q=giatri\_nhap}
-\end{center}
-\end{enumerate}
-
-% ------------------------------------------------------------------------------
-\paragraph{Lưu Ý Quan Trọng \& Cảnh Báo Bảo Mật (Security Best Practices):}
-
-\begin{warnBox}[Các Nguyên Tắc Bảo Mật Cần Nắm Vững Khi Cấu Hình Form Action]
-\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Bắt buộc sử dụng giao thức HTTPS trong action}: Không bao giờ trỏ thuộc tính \codeinline{action} tới đường dẫn giao thức không an toàn (\codeinline{http://}) trong sản phẩm thực tế để tránh nguy cơ bị nghe lén dữ liệu trên đường truyền (\term{Man-in-the-Middle Attack}).
-    \item \textbf{Phòng chống lỗ hổng Cross-Site Request Forgery (CSRF)}: Khi \codeinline{action} trỏ tới các điểm cuối thay đổi dữ liệu hệ thống (như đổi mật khẩu, chuyển tiền), bắt buộc Backend phải yêu cầu đính kèm \term{CSRF Token} hợp lệ bên trong form.
-    \item \textbf{Tránh lỗ hổng Open Redirect}: Không bao giờ cấu hình thuộc tính \codeinline{action} nhận trực tiếp giá trị URL biến động truyền từ tham số chuỗi truy vấn người dùng nhập mà không qua kiểm tra (\term{Whitelist validation}).
-    \item \textbf{Phân công vai trò giữa Frontend và Backend}:
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
-        \item \textbf{Frontend}: Thiết kế giao diện, đảm bảo liên kết thuộc tính \codeinline{action} chính xác, thu thập và kiểm tra sơ bộ tính hợp lệ (\term{Client-side Validation}).
-        \item \textbf{Backend}: Xây dựng bộ định tuyến (\term{Router/Endpoint}) tại đúng đường dẫn khai báo trong \codeinline{action}, kiểm tra tính hợp lệ chặt chẽ (\term{Server-side Validation}) và lưu trữ cơ sở dữ liệu.
-    \end{itemize}
-\end{enumerate}
-\end{warnBox}
-
-% ------------------------------------------------------------------------------
-\paragraph{Minh Họa Thực Tế \& Kịch Bản Nhập Thử (Form Action Demonstration):}
-
-\begin{codeWindow}[Mã Nguồn Đầy Đủ Minh Họa Form Action Với Kịch Bản Nhập Thử]
-\begin{lstlisting}[language=HTML5]
-<!-- Form dang ky tai khoan truyen du lieu den server handler -->
-<form action="process_register.php" method="POST">
-  <label for="user_email">Email dang ky:</label>
-  <input type="email" id="user_email" name="email" placeholder="user@example.com" required>
-  
-  <label for="user_pass">Mat khau:</label>
-  <input type="password" id="user_pass" name="password" placeholder="******" required>
-  
-  <button type="submit">Dang ky tai khoan</button>
-</form>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Minh Họa Form Action Nhập Thử]
-\sffamily\small
-\textbf{Form Đăng Ký Tài Khoản (Gửi tới: \codeinline{process\_register.php}):} \\[6pt]
-\begin{tabular}{ll}
-\textbf{Email đăng ký:} & \tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!50, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\small \textcolor{black}{nguyenvana@gmail.com}} \\
-\textbf{Mật khẩu:} & \tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!50, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\small \textcolor{black}{$\bullet\bullet\bullet\bullet\bullet\bullet\bullet\bullet$}} \\
-\end{tabular} \\[8pt]
-\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=3pt, left=12pt, right=12pt, top=4pt, bottom=4pt]{\color{white}\bfseries\small Đăng ký tài khoản}
-
-\vspace{6pt}
-\hrule height 0.4pt \relax
-\vspace{6pt}
-\textbf{\textcolor{primaryBlue}{Mô Phỏng Trạng Thái Khi Người Dùng Nhấn Nút Submit ("Nhập Thử"):}}
-\begin{itemize}[leftmargin=1.2em, itemsep=2pt]
-    \item \textbf{Trình duyệt khởi tạo}: HTTP POST Request gửi tới URL \codeinline{process\_register.php}.
-    \item \textbf{Dữ liệu đóng gói gửi đi}: \codeinline{email=nguyenvana\%40gmail.com\&password=******}
-    \item \textbf{Trạng thái xử lý Backend}: Server xử lý tệp \codeinline{process\_register.php} nhận dữ liệu, tiến hành mã hóa mật khẩu và trả về phản hồi chào mừng.
-\end{itemize}
-\end{browserWindow}
-
-% ------------------------------------------------------------------------------
-% MỤC ĐỌC THÊM (MỞ RỘNG KIẾN THỨC THEO QUY TẮC GIÁO TRÌNH)
-% ------------------------------------------------------------------------------
-\subsection{Đọc Thêm: Các Kỹ Thuật Nâng Cao Với Form Action Trong Lập Trình Modern Web}
-
-\begin{conceptBox}[Ghi Đè Đường Dẫn Action Bằng Thuộc Tính formaction (HTML5)]
-Trong đặc tả HTML5, nếu một form có nhiều nút bấm gửi dữ liệu cho các mục đích khác nhau (ví dụ: Nút "Gửi bài" và Nút "Lưu nháp"), ta có thể dùng thuộc tính \codeinline{formaction} ngay trên nút submit để ghi đè thuộc tính \codeinline{action} chung của form:
-\begin{codeWindow}[Ví dụ sử dụng thuộc tính formaction trên từng nút submit]
-\begin{lstlisting}[language=HTML5]
-<form action="/save-article" method="post">
-  <!-- (*@Nút 1: Gửi dữ liệu đến /save-draft@*) -->
-  <button type="submit" formaction="/save-draft">Luu Nhap</button>
-  
-  <!-- (*@Nút 2: Sử dụng action mặc định của form (/save-article)@*) -->
-  <button type="submit">Xuat Ban</button>
-</form>
-\end{lstlisting}
-\end{codeWindow}
-\end{conceptBox}
-
-\begin{tipBox}[Xử Lý Form Action Trong Các Ứng Dụng Trang Đơn (SPA / AJAX)]
-Trong lập trình Frontend hiện đại với JavaScript (React, Vue, Angular, Fetch API/Axios):
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item Lập trình viên thường gọi hàm \codeinline{event.preventDefault()} trong sự kiện \codeinline{onsubmit} để \textbf{chặn hành vi điều hướng trang mặc định} của thuộc tính \codeinline{action}.
-    \item Dữ liệu sau đó được đóng gói và gửi qua AJAX/Fetch API một cách bất đồng bộ mà không làm tải lại trang web, giúp tối ưu trải nghiệm người dùng (\term{UX}).
-\end{itemize}
-\end{tipBox}
-
-\begin{noteBox}[Góc Phỏng Vấn: Các Câu Hỏi Thường Gặp Về Form Action]
-\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Phân biệt action="", action="\#" và bỏ qua thuộc tính action?}
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
-        \item \codeinline{action=""} và bỏ trống \codeinline{action}: Đều gửi form về chính URL trang hiện tại mà không làm đổi thẻ thăng.
-        \item \codeinline{action="\#"}: Gửi dữ liệu về trang hiện tại nhưng đính kèm vị trí \codeinline{\#} khiến trình duyệt tự cuộn lên đầu trang.
-    \end{itemize}
-    \item \textbf{Tại sao thẻ <form> vẫn cần thuộc tính action khi làm việc với React/Vue/Angular?}
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
-        \item Để đảm bảo tính năng \textbf{Progressive Enhancement} (Cải tiến tiệm tiến) và \textbf{Accessibility (a11y)}: Nếu JavaScript của người dùng bị tắt hoặc gặp sự cố tải, form vẫn có thể gửi dữ liệu lên server backend thông qua đường dẫn \codeinline{action} truyền thống.
-    \end{itemize}
-\end{enumerate}
-\end{noteBox}
 
 % ==============================================================================
 % MỤC GIÁO TRÌNH: CHI TIẾT VỀ CHECKBOX trong HTML (<input type="checkbox">)
