@@ -6482,15 +6482,106 @@ Trong thiết kế giao diện hiện đại, thuộc tính CSS \codeinline{disp
 \end{browserWindow}
 
 % ------------------------------------------------------------------------------
-\subsection{Lưu Ý Quan Trọng Vấn Đề Chuẩn HTML5 \& Lỗi Thường Gặp}
+\subsection{Quy Tắc Lồng Thẻ Chuẩn HTML5: Ranh Giới Block -- Inline \& Các Ngoại Lệ}
+\label{subsec:nesting_rules_block_inline}
 
-\begin{warnBox}[Các Quy Tắc Bắt Bắt Buộc Khi Sử Dụng Block Và Inline Elements]
+\begin{warnBox}[Các Quy Tắc Bắt Buộc Khi Sử Dụng Block Và Inline Elements]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Luôn tôn trọng quy tắc lồng phần tử}: Không bao giờ đặt thẻ Block Element vào bên trong thẻ Inline Element (ngoại trừ ngoại lệ đặc biệt của thẻ \codeinline{<a>} trong chuẩn HTML5).
     \item \textbf{Thẻ không chứa Block}: Các thẻ như \codeinline{<p>}, \codeinline{<h1>-<h6>}, \codeinline{<li>} là Block Elements nhưng \textbf{không được chứa} phần tử khối khác bên trong.
     \item \textbf{Cảnh báo lỗi hiển thị}: Nếu đặt \codeinline{<div>} bên trong \codeinline{<span>}, trình duyệt sẽ cố gắng tự động sửa lỗi bằng cách đóng thẻ \codeinline{<span>} sớm, làm hỏng toàn bộ cấu trúc cây DOM và gây lỗi vỡ giao diện CSS.
 \end{itemize}
 \end{warnBox}
+
+\begin{center}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=primaryBlue!35,
+    arc=8pt,
+    boxrule=0.9pt,
+    drop shadow=black!5!white,
+    width=\linewidth,
+    top=10pt, bottom=10pt, left=10pt, right=10pt,
+    title={\sffamily\bfseries\small\color{primaryBlue} [MINH HỌA TRỰC QUAN]\quad BỐ CỤC 4 QUY TẮC VÀNG LỒNG GHÉP: BLOCK VÀ INLINE}
+]
+\noindent
+\begin{minipage}[t]{0.485\linewidth}
+    \begin{tcolorbox}[
+        enhanced,
+        colback=darkText!92!black,
+        colframe=red!70!black,
+        arc=5pt,
+        boxrule=1pt,
+        top=6pt, bottom=6pt, left=8pt, right=8pt
+    ]
+        {\small\ttfamily\bfseries\color{red!40} <!-- Sai -->}\\[3pt]
+        {\small\ttfamily\color{white!95}
+        \textcolor{codeKey}{\textbf{<span>}}\\
+        \hspace*{1.2em}\textcolor{codeKey}{\textbf{<p>}}Nội dung...\textcolor{codeKey}{\textbf{</p>}}\\
+        \textcolor{codeKey}{\textbf{</span>}}}
+    \end{tcolorbox}
+    \vspace{3pt}
+    \centering{\footnotesize\sffamily\color{darkText} \textbf{Phần tử kiểu inline} không được chứa phần tử kiểu block.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+    \begin{tcolorbox}[
+        enhanced,
+        colback=darkText!92!black,
+        colframe=green!60!black,
+        arc=5pt,
+        boxrule=1pt,
+        top=6pt, bottom=6pt, left=8pt, right=8pt
+    ]
+        {\small\ttfamily\bfseries\color{green!40} <!-- Đúng -->}\\[3pt]
+        {\small\ttfamily\color{white!95}
+        \textcolor{codeKey}{\textbf{<span>}}\\
+        \hspace*{1.2em}\textcolor{codeKey}{\textbf{<b>}}Nội dung...\textcolor{codeKey}{\textbf{</b>}}\\
+        \textcolor{codeKey}{\textbf{</span>}}}
+    \end{tcolorbox}
+    \vspace{3pt}
+    \centering{\footnotesize\sffamily\color{darkText} \textbf{Phần tử kiểu inline} chỉ chứa các phần tử kiểu inline, dữ liệu.}
+\end{minipage}
+
+\vspace{10pt}\noindent
+\begin{minipage}[t]{0.485\linewidth}
+    \begin{tcolorbox}[
+        enhanced,
+        colback=darkText!92!black,
+        colframe=green!60!black,
+        arc=5pt,
+        boxrule=1pt,
+        top=6pt, bottom=6pt, left=8pt, right=8pt
+    ]
+        {\small\ttfamily\bfseries\color{green!40} <!-- Đúng -->}\\[3pt]
+        {\small\ttfamily\color{white!95}
+        \textcolor{codeKey}{\textbf{<p>}}\\
+        \hspace*{1.2em}\textcolor{codeKey}{\textbf{<b>}}Nội dung...\textcolor{codeKey}{\textbf{</b>}}\\
+        \textcolor{codeKey}{\textbf{</p>}}}
+    \end{tcolorbox}
+    \vspace{3pt}
+    \centering{\footnotesize\sffamily\color{darkText} \textbf{Phần tử kiểu block} thì được chứa các phần tử kiểu block, kiểu inline, dữ liệu.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+    \begin{tcolorbox}[
+        enhanced,
+        colback=darkText!92!black,
+        colframe=accentOrange,
+        arc=5pt,
+        boxrule=1pt,
+        top=6pt, bottom=6pt, left=8pt, right=8pt
+    ]
+        {\small\ttfamily\bfseries\color{accentOrange!80!white} <!-- Đúng (Ngoại Lệ) -->}\\[3pt]
+        {\small\ttfamily\color{white!95}
+        \textcolor{codeKey}{\textbf{<a href="">}}\\
+        \hspace*{1.2em}\textcolor{codeKey}{\textbf{<p>}}Nội dung...\textcolor{codeKey}{\textbf{</p>}}\\
+        \textcolor{codeKey}{\textbf{</a>}}}
+    \end{tcolorbox}
+    \vspace{3pt}
+    \centering{\footnotesize\sffamily\color{darkText} \textbf{Ngoại lệ}: Thẻ \codeinline{<a>} (kiểu inline) có thể chứa phần tử kiểu block.}
+\end{minipage}
+\end{tcolorbox}
+\end{center}
 
 \paragraph{Ví dụ minh họa lỗi sai phổ biến đặt Block vào Inline:}
 \begin{codeWindow}[Lỗi Sai Cấu Trúc Đặt div (Block) Bên Trong span (Inline)]
