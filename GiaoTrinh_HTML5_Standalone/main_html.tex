@@ -6108,8 +6108,9 @@ Trong HTML, các phần tử (elements) khi hiển thị trên trình duyệt đ
 
 \paragraph{Mô tả chi tiết:}
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
-    \item Luôn luôn bắt đầu trên một dòng mới trong luồng hiển thị (Document Flow).
-    \item Chiếm toàn bộ chiều rộng ($100\%$ width) của phần tử cha, ngay cả khi nội dung bên trong rất ngắn.
+    \item Luôn luôn bắt đầu trên một dòng mới trong luồng hiển thị (Document Flow) và độc chiếm trọn vẹn $100\%$ chiều rộng một hàng.
+    \item Chiếm toàn bộ chiều rộng ($100\%$ width) của phần tử cha, ngay cả khi nội dung bên trong rất ngắn (dù chỉ có một từ hay một ký tự).
+    \item Cho phép thiết lập tự do kích thước chiều rộng (\codeinline{width}), chiều cao (\codeinline{height}), khoảng cách lề (\codeinline{margin}) và đệm (\codeinline{padding}) cả 4 hướng bằng CSS.
     \item Thường được sử dụng để phân chia khu vực, xây dựng bố cục trang web.
     \item Có thể chứa cả các phần tử khối (\term{Block Elements}) khác và các phần tử nội tuyến (\term{Inline Elements}).
 \end{itemize}
@@ -6182,10 +6183,11 @@ Trong HTML, các phần tử (elements) khi hiển thị trên trình duyệt đ
 
 \paragraph{Mô tả chi tiết:}
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Không} bắt đầu trên một dòng mới; hiển thị nối tiếp ngay trên cùng dòng với văn bản đứng trước.
-    \item Chiếm kích thước chiều rộng (\codeinline{width}) vừa đúng bằng nội dung bên trong nó.
+    \item \textbf{Không} bắt đầu trên một dòng mới; các phần tử hiển thị nối tiếp nhau trên cùng một hàng và \textbf{chỉ xuống dòng khi hết chiều ngang} (hết độ rộng của khung chứa) hoặc khi gặp thẻ ngắt dòng \codeinline{<br>}.
+    \item Chiếm kích thước chiều rộng (\codeinline{width}) và chiều cao (\codeinline{height}) vừa khít với nội dung bên trong nó; không thể thiết lập \codeinline{width} và \codeinline{height} bằng CSS (nếu đặt, trình duyệt sẽ tự động bỏ qua).
+    \item Khoảng cách \codeinline{margin} và \codeinline{padding} chỉ có tác dụng theo phương ngang (trái -- phải); khoảng cách theo phương đứng (trên -- dưới) không đẩy các dòng văn bản xung quanh ra.
     \item Chủ yếu được sử dụng để định dạng, nhấn mạnh hoặc tạo liên kết cho một phần từ/cụm từ bên trong khối văn bản.
-    \item \textbf{Không thể} chứa các phần tử khối (\term{Block Elements}); chỉ được chứa các phần tử nội tuyến khác hoặc văn bản thô.
+    \item \textbf{Không thể} chứa các phần tử khối (\term{Block Elements}); chỉ được chứa các phần tử nội tuyến khác hoặc văn bản thô (ngoại trừ ngoại lệ đặc biệt của thẻ \codeinline{<a>} trong chuẩn HTML5).
 \end{itemize}
 
 \paragraph{Ví dụ mã nguồn phần tử nội tuyến:}
@@ -6246,10 +6248,10 @@ Học lập trình với \textbf{HTML} và \textit{CSS} là rất quan trọng.
 \begin{tabularx}{\linewidth}{K{3.5cm} Z Z}
 \rowcolor{primaryBlue}
 \thd{Tiêu Chí So Sánh} & \thd{Block Elements (Khối)} & \thd{Inline Elements (Nội tuyền)} \\
-Bắt đầu dòng mới? & \textbf{Có} (Luôn luôn xuống dòng mới) & \textbf{Không} (Nằm cùng dòng với văn bản) \\
+Bắt đầu dòng mới? & \textbf{Có} (Luôn luôn xuống dòng mới, độc chiếm 1 hàng) & \textbf{Không} (Nằm cùng dòng, \textbf{chỉ xuống dòng khi hết chiều ngang}) \\
 Chiếm toàn bộ chiều rộng? & \textbf{Có} ($100\%$ chiều rộng phần tử cha) & \textbf{Không} (Chỉ vừa đúng dung lượng nội dung) \\
 Chứa phần tử khối khác? & \textbf{Có} (Cho phép lồng khối) & \textbf{Không} (Chỉ chứa Inline hoặc văn bản) \\
-Cấu hình Width / Height & \textbf{Hoạt động} tốt qua CSS & \textbf{Bị bỏ qua} bởi trình duyệt \\
+Cấu hình Width / Height & \textbf{Tùy biến tự do} qua CSS & \textbf{Bị bỏ qua} bởi trình duyệt (ôm sát nội dung) \\
 Tác động Margin/Padding & Đẩy khung cả 4 hướng (Top, Right, Bottom, Left) & Chỉ đẩy phương ngang (Left, Right); Top/Bottom không đẩy dòng \\
 Ứng dụng chính & Xây dựng bố cục, phân vùng trang & Định dạng văn bản, tạo liên kết, gắn icon \\
 \end{tabularx}
@@ -6447,8 +6449,8 @@ CSS hay dùng & \codeinline{width}, \codeinline{height}, \codeinline{margin}, \c
 \paragraph{Mô tả chi tiết:}
 Trong thiết kế giao diện hiện đại, thuộc tính CSS \codeinline{display: inline-block;} tạo ra một phần tử mang đặc tính lai hoàn hảo:
 \begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Giống Inline}: Không tự động xuống dòng mới, cho phép các phần tử đứng xếp hàng ngang cạnh nhau trên cùng một dòng.
-    \item \textbf{Giống Block}: Tự do thiết lập kích thước chiều rộng (\codeinline{width}), chiều cao (\codeinline{height}), khoảng cách lề (\codeinline{margin}) và đệm (\codeinline{padding}) cả 4 hướng.
+    \item \textbf{Giống Inline}: Không tự động xuống dòng mới; các phần tử đứng xếp hàng ngang cạnh nhau trên cùng một dòng và \textbf{chỉ xuống dòng khi hết chiều ngang} của phần tử cha.
+    \item \textbf{Giống Block}: Tự do thiết lập kích thước chiều rộng (\codeinline{width}), chiều cao (\codeinline{height}), khoảng cách lề (\codeinline{margin}) và đệm (\codeinline{padding}) cả 4 hướng bằng CSS.
 \end{itemize}
 
 \paragraph{Ví dụ mã nguồn sử dụng \codeinline{display: inline-block;}:}
