@@ -11155,6 +11155,59 @@ Ngữ cảnh sử dụng chính & Tìm kiếm, lọc sản phẩm, truy vấn ch
 \end{enumerate}
 \end{conceptBox}
 
+% ------------------------------------------------------------------------------
+\subsubsection{6. Kịch Bản Thực Tế (Case Studies) \& Bí Mật Triết Lý Mặc Định Của Phương Thức GET}
+
+\paragraph{a. Tại Sao POST Tiện Lợi Và Kín Đáo Nhưng GET Lại Được Chọn Làm Mặc Định?}
+Nhiều kỹ sư mới vào nghề thường thắc mắc: \textit{"Phương thức POST vừa kín đáo, không lộ thông tin trên thanh địa chỉ, lại không bị giới hạn độ dài dữ liệu, vậy tại sao W3C và Tim Berners-Lee lại đặt GET làm phương thức mặc định cho thẻ \codeinline{<form>}?"}
+
+Bí mật đằng sau quyết định kiến trúc này gồm 3 lý do sống còn đối với mạng Internet toàn cầu:
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Triết lý Siêu văn bản \& Khả năng chia sẻ liên kết (Shareable URLs)}:
+    Mạng Web (World Wide Web) sinh ra để tra cứu và liên kết tài nguyên qua URL (\term{Hyperlinks}). Với phương thức GET, toàn bộ tham số tìm kiếm/lọc nằm ngay trên URL. Người dùng có thể \textbf{sao chép đường dẫn gửi cho bạn bè qua Zalo/Messenger}, lưu vào \textbf{Bookmark trình duyệt}, hoặc sử dụng nút \textbf{Back / Forward} mượt mà. Nếu mặc định là POST, dữ liệu bị giấu trong thân gói tin (Body), URL chỉ trơ trọi một địa chỉ tĩnh, người dùng không thể chia sẻ liên kết cho nhau và tính liên kết của Internet sẽ hoàn toàn bị phá vỡ.
+    
+    \item \textbf{Tận dụng Bộ nhớ đệm (Caching) \& Hạ tầng CDN toàn cầu}:
+    Yêu cầu GET có tính năng \textbf{Cacheable} (cho phép trình duyệt và mạng lưới máy chủ trung gian CDN như Cloudflare, Akamai lưu bản sao). Khi hàng triệu người dùng cùng tra cứu chung một từ khóa hay xem cùng một trang danh mục sản phẩm, máy chủ chỉ cần xử lý một lần, các lượt sau được trả về tức thì từ bộ nhớ đệm. Trái lại, POST mặc định không được cache; nếu form mặc định là POST, hệ thống máy chủ toàn cầu sẽ nhanh chóng bị quá tải.
+    
+    \item \textbf{Tính an toàn khi người dùng tải lại trang (Idempotency)}:
+    GET là phương thức mang tính \term{Idempotent} (chỉ đọc dữ liệu, bấm F5 tải lại 100 lần cũng không làm thay đổi hay mất mát dữ liệu). POST mang tính \term{Non-Idempotent} (tạo đơn hàng, chuyển tiền). Nếu mặc định là POST, mỗi khi tải lại trang người dùng sẽ liên tục bị làm phiền bởi hộp thoại cảnh báo \textit{"Confirm Form Resubmission"}.
+\end{enumerate}
+
+\paragraph{b. Case Study Thực Chiến: Bài Toán Phân Trang \& Trình Chiếu Slide (State in URL):}
+\begin{conceptBox}[Hiện Tượng: Trình Chiếu 33 Trang Slide --- Tại Trang 2, Bấm F5 Vẫn Ở Đúng Trang 2]
+\textbf{Đặt vấn đề}: Trên một trang web trình chiếu tài liệu gồm 33 trang slide, bạn đang xem ở trang 2. Khi bấm phím \badge{F5} để tải lại trang, trình duyệt vẫn mở đúng vị trí slide trang 2 mà không bị bật ngược về trang 1. Kỹ thuật đằng sau hiện tượng này là gì?
+
+\textbf{Bản chất kỹ thuật}: Đó chính là nguyên lý \textbf{Lưu trạng thái vào URL (State in URL)} thông qua tham số \codeinline{GET Query String}:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Khi bấm Next sang trang 2, đường dẫn URL được cập nhật thành: \codeinline{https://example.com/slides?page=2}.
+    \item Khi bấm F5, trình duyệt gửi lại yêu cầu GET mang theo tham số \codeinline{page=2}. Mã nguồn máy chủ (Backend) hoặc Router JavaScript phía Client đọc tham số này và tức thời hiển thị đúng slide số 2.
+    \item \textbf{Lợi ích thực chiến}: Bạn có thể gửi thẳng đường link \codeinline{.../slides?page=2} cho đồng nghiệp hay giảng viên, người nhận nhấp chuột vào sẽ nhảy thẳng tới đúng trang 2 để thảo luận mà không cần lật lại từ đầu.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{c. Bảng Đối Sánh Kịch Bản Thực Tế: Khi Nào Bắt Buộc Dùng GET vs POST?}
+
+\begin{prettyTableBox}[Bảng Tra Cứu Kịch Bản Ứng Dụng Thực Tế Của GET Và POST Trên Các Nền Tảng Lớn]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}\raggedright\arraybackslash}m{2.5cm} >{\raggedright\arraybackslash}m{3.2cm} >{\ttfamily\small\raggedright\arraybackslash}m{3.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{\sffamily Nền Tảng} & \thd{\sffamily Tính Năng Thực Tế} & \thd{\sffamily Phương Thức \& Dữ Liệu} & \thd{\sffamily Lý Do Kỹ Thuật Bắt Buộc} \\
+
+Google Search & Ô tìm kiếm từ khóa & GET (\codeinline{/search?q=HTML5}) & Cho phép chia sẻ URL kết quả, lưu Bookmark, lưu Cache mạng. \\
+
+Shopee / Tiki & Bộ lọc giá, danh mục sản phẩm & GET (\codeinline{/search?cat=1\&price\_min=100}) & Lưu trạng thái bộ lọc trên URL, hỗ trợ SEO và gửi link cho bạn bè. \\
+
+YouTube & Tìm kiếm video & GET (\codeinline{/results?search\_query=...}) & Hỗ trợ duyệt lịch sử xem và chia sẻ danh sách kết quả tra cứu. \\
+
+Facebook / TikTok & Form Đăng nhập tài khoản & POST (Gửi ngầm trong Body) & Giấu mật khẩu khỏi URL, không lưu thông tin nhạy cảm vào Browser History. \\
+
+Cổng VNPAY / MoMo & Nút "Xác nhận chuyển tiền" & POST (Payload giao dịch ẩn) & Ngăn chặn việc bấm F5 vô tình kích hoạt chuyển tiền lần 2 (\term{Non-Idempotent}). \\
+
+Canva / Google Drive & Nút tải lên (Upload tệp tin) & POST (\codeinline{multipart/form-data}) & Kích thước tệp lớn vượt xa giới hạn độ dài ký tự của URL. \\
+\end{tabularx}
+\end{prettyTableBox}
+
 % ==============================================================================
 % 5. HTML5 VÀ CÁC TÍNH NĂNG MỚI HIỆN ĐẠI
 % ==============================================================================
