@@ -10701,6 +10701,119 @@ Trong lập trình Frontend hiện đại với JavaScript (React, Vue, Angular,
 \end{noteBox}
 
 % ------------------------------------------------------------------------------
+% MỤC CON: CHUYÊN SÂU CÁC THUỘC TÍNH enctype, target, novalidate & autocomplete
+% ------------------------------------------------------------------------------
+\subsubsection{Chuyên Sâu Các Thuộc Tính Điều Khiển: \taghint{enctype}, \taghint{target}, \taghint{novalidate} \& \taghint{autocomplete}}
+\label{subsubsec:form_other_attributes}
+
+Bên cạnh \codeinline{action} và \codeinline{method}, thẻ \codeinline{<form>} sở hữu 4 thuộc tính điều khiển nâng cao quyết định trực tiếp đến định dạng mã hóa gói tin HTTP, hành vi điều hướng cửa sổ và cơ chế kiểm soát bảo mật dữ liệu.
+
+\paragraph{1. Chuyên Sâu Thuộc Tính enctype (Encoding Type) \& Bí Quyết Upload File:}
+Thuộc tính \codeinline{enctype} quy định \term{MIME type} của nội dung biểu mẫu được mã hóa khi gửi lên máy chủ thông qua phương thức \codeinline{method="post"} (với \codeinline{GET}, thuộc tính này hoàn toàn bị trình duyệt bỏ qua).
+
+\begin{prettyTableBox}[Ma Trận Phân Biệt 3 Giá Trị enctype Trong HTML Form]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{>{\ttfamily\bfseries\color{primaryBlue}\raggedright\arraybackslash}m{3.5cm} Z >{\raggedright\arraybackslash}m{3.8cm}}
+\rowcolor{primaryBlue}
+\thd{\sffamily Giá Trị enctype} & \thd{\sffamily Cơ Chế Mã Hóa \& Cấu Trúc Payload} & \thd{\sffamily Trường Hợp Ứng Dụng Thực Tế} \\
+
+application/x-www-form-urlencoded & \textbf{Giá trị mặc định}. Mọi ký tự được mã hóa: khoảng trắng thành dấu \codeinline{+}, ký tự đặc biệt thành mã Hex (\codeinline{\%XX}), các cặp nối bằng dấu \codeinline{\&}. & Biểu mẫu văn bản thông thường (Đăng nhập, Tìm kiếm, Đăng ký thông tin chữ). \\
+
+multipart/form-data & Dữ liệu \textbf{không bị mã hóa ký tự}, mà được chia thành các phân đoạn đa phần tách biệt bởi ranh giới phân cách (\term{Boundary}). & \textcolor{accentOrange}{\textbf{Bắt buộc 100\%}} khi form có ô upload file (\codeinline{<input type="file">}). \\
+
+text/plain & Dữ liệu gửi đi dưới dạng văn bản thô, chỉ khoảng trắng đổi thành dấu \codeinline{+}, không mã hóa ký tự đặc biệt. & Chỉ dùng cho mục đích gỡ lỗi (\term{Debugging}), không dùng cho sản phẩm thực tế. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{warnBox}[Cạm Bẫy Thực Tế: Quên Khai Báo enctype="multipart/form-data" Khi Upload File]
+Nếu một biểu mẫu chứa thẻ \codeinline{<input type="file">} nhưng thiếu khai báo \codeinline{enctype="multipart/form-data"} trên thẻ \codeinline{<form>}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Trình duyệt sẽ chỉ gửi \textbf{tên tệp tin} (chuỗi văn bản đơn thuần) thay vì toàn bộ luồng nhị phân (\term{Binary Stream}) của tệp.
+    \item Phía máy chủ Backend (PHP \codeinline{\$\_FILES}, Node.js \codeinline{multer}, Python Django/FastAPI) sẽ nhận về giá trị rỗng và không thể lưu tệp tin.
+\end{itemize}
+\end{warnBox}
+
+\begin{codeWindow}[Mã Nguồn: Biểu Mẫu Upload Tệp Tin Chuẩn Kỹ Thuật Với multipart/form-data]
+\begin{lstlisting}[language=HTML5]
+<!-- Bat buoc phai co method="post" va enctype="multipart/form-data" -->
+<form action="/api/upload" method="post" enctype="multipart/form-data">
+  <label for="user-avatar">Chon anh dai dien (Toi da 5MB):</label>
+  <input type="file" id="user-avatar" name="avatar" accept="image/png, image/jpeg" required>
+  
+  <button type="submit">Tai Len Server</button>
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{2. Chuyên Sâu Thuộc Tính target (Điều Hướng Cửa Sổ Kết Quả):}
+Thuộc tính \codeinline{target} xác định ngữ cảnh duyệt web (\term{Browsing Context}) nơi kết quả phản hồi từ máy chủ sẽ được hiển thị sau khi người dùng gửi form.
+
+\begin{prettyTableBox}[Bảng Tra Cứu 4 Từ Khóa Cốt Lõi Của Thuộc Tính target]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{>{\ttfamily\bfseries\color{primaryBlue}\centering\arraybackslash}m{2.2cm} Z >{\raggedright\arraybackslash}m{3.5cm}}
+\rowcolor{primaryBlue}
+\thd{\sffamily Từ Khóa} & \thd{\sffamily Hành Vi Hiển Thị Phản Hồi} & \thd{\sffamily Kịch Bản Sử Dụng Thực Chiến} \\
+
+\_self & \textbf{Mặc định}. Tải kết quả phản hồi ngay tại tab/khung hình hiện tại. & Luồng đăng nhập, gửi phản hồi thông thường. \\
+
+\_blank & Mở một \textbf{tab mới hoặc cửa sổ mới} để hiển thị kết quả xử lý. & Xuất hóa đơn PDF, tạo báo cáo thống kê, cổng thanh toán. \\
+
+\_parent & Tải phản hồi vào khung hình cha (\term{Parent Frame}) chứa form hiện tại. & Biểu mẫu nhúng trong iframe phân cấp đa tầng. \\
+
+\_top & Tải phản hồi vào toàn bộ cửa sổ trình duyệt cao nhất, phá vỡ mọi khung iframe. & Thoát khỏi iframe khi hết phiên đăng nhập. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Kỹ Thuật Thực Chiến: Submit Form Không Reload Trang Bằng target Và iframe Ẩn]
+Trước khi kỹ thuật AJAX và Fetch API ra đời, các lập trình viên sử dụng thuộc tính \codeinline{target} kết hợp với một thẻ \codeinline{<iframe name="hidden-frame">} ẩn để gửi form ngầm mà không làm tải lại trang web chính:
+\begin{center}
+\codeinline{<form action="/save" method="post" target="hidden-frame">} \quad $\rightarrow$ \textit{Kết quả phản hồi nạp vào iframe ẩn!}
+\end{center}
+\end{tipBox}
+
+\paragraph{3. Chuyên Sâu Thuộc Tính novalidate (Kiểm Soát Native Validation):}
+\codeinline{novalidate} là một thuộc tính boolean. Khi hiện diện trên thẻ \codeinline{<form>}, nó ra lệnh cho trình duyệt \textbf{vô hiệu hóa hoàn toàn cơ chế kiểm tra dữ liệu mặc định (Native HTML5 Validation)}.
+
+\begin{conceptBox}[Khi Nào Kỹ Sư Frontend Cần Sử Dụng novalidate?]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Thay thế bằng Custom JavaScript Validation}: Khi giao diện ứng dụng sử dụng các thư viện kiểm tra lỗi chuyên nghiệp (React Hook Form, Formik, Yup, Zod, VeeValidate) và cần hiển thị tooltip/thông báo lỗi tùy biến theo thiết kế UI riêng thay vì hộp thông báo màu xám mặc định của trình duyệt.
+    \item \textbf{Tính năng Lưu Bản Nháp (Save Draft)}: Người dùng muốn lưu tạm biểu mẫu khi chưa hoàn thành tất cả các trường \codeinline{required}.
+    \item \textbf{Lưu ý an ninh}: Thuộc tính \codeinline{novalidate} chỉ tắt kiểm tra ở phía trình duyệt người dùng (\term{Client-side}). Máy chủ Backend \textbf{bắt buộc 100\% vẫn phải kiểm tra lại dữ liệu} để phòng chống tấn công chèn mã độc.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn: Biểu Mẫu Tắt Native Validation Để Tự Xử Lý Bằng JavaScript]
+\begin{lstlisting}[language=HTML5]
+<!-- Trinh duyet se khong tu dong chan submit khi de trong o required -->
+<form action="/api/posts" method="post" novalidate id="postForm">
+  <label for="title">Tieu de bai viet:</label>
+  <input type="text" id="title" name="title" required>
+  
+  <button type="submit" name="action" value="publish">Xuat Ban</button>
+  <button type="submit" name="action" value="draft" formnovalidate>Luu Ban Nhap</button>
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{4. Chuyên Sâu Thuộc Tính autocomplete (Kiểm Soát Gợi Ý Cấp Độ Form):}
+Thuộc tính \codeinline{autocomplete} trên thẻ \codeinline{<form>} có hai giá trị: \codeinline{on} (mặc định) và \codeinline{off}.
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{autocomplete="on"}: Trình duyệt tự động lưu và hiển thị danh sách gợi ý các giá trị người dùng đã từng nhập trước đó cho tất cả các ô input bên trong form.
+    \item \codeinline{autocomplete="off"}: Yêu cầu trình duyệt \textbf{không ghi nhớ và không gợi ý dữ liệu} cho toàn bộ form.
+\end{itemize}
+
+\begin{warnBox}[Khuyến Cáo Bảo Mật Thực Chiến Đối Với autocomplete="off"]
+Quy chuẩn an ninh mạng ngành tài chính ngân hàng (\term{FinTech}) và thương mại điện tử khuyến nghị tắt tự động điền đối với các biểu mẫu giao dịch nhạy cảm:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Biểu mẫu nhập mã xác thực OTP, mật khẩu giao dịch hoặc mã PIN thẻ ngân hàng.
+    \item Tránh rò rỉ dữ liệu khi người dùng sử dụng máy tính công cộng hoặc thiết bị dùng chung.
+\end{itemize}
+\end{warnBox}
+
+% ------------------------------------------------------------------------------
 \subsection{2. Phân Tích Chuyên Sâu Phương Thức Gửi Dữ Liệu GET vs POST (\taghint{method})}
 \label{sec:form_methods_get_post}
 
