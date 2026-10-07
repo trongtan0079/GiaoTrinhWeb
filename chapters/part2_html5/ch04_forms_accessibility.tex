@@ -968,62 +968,62 @@ Thẻ \codeinline{<input>} là phần tử đa năng nhất trong biểu mẫu H
 \begin{prettyTableBox}[Bảng Phụ 1: Minh Họa Giao Diện (10 Loại Input Nhập Liệu \& Tìm Kiếm)]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{m{2.6cm} m{4.8cm} Z}
+\begin{tabularx}{\linewidth}{m{2.4cm} C{4.0cm} Z}
 \rowcolor{primaryBlue}
-\thd{\sffamily Loại Input} & \thd{\sffamily Giao Diện Minh Họa (UI Vector)} & \thd{\sffamily Đặc Điểm Trực Quan} \\
+\thd{\sffamily Loại Input} & \thd{\sffamily Giao Diện Minh Họa (Modern UI)} & \thd{\sffamily Đặc Điểm Trực Quan} \\
 
-\codeinline{text} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=18pt]{\textcolor{darkText}{\sffamily\small Nguyễn Văn A}} & Ô nhập văn bản tiêu chuẩn, viền xám mảnh. \\
+\codeinline{text} & \uiInputText & Ô nhập văn bản tiêu chuẩn, có con trỏ văn bản nhấp nháy. \\
 
-\codeinline{password} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=18pt]{\textcolor{darkText}{\sffamily\small ••••••}} & Che giấu ký tự nhập bằng các chấm bảo mật. \\
+\codeinline{password} & \uiInputPassword & Che giấu ký tự nhập bằng các chấm tròn bảo mật kèm biểu tượng ẩn/hiện mật khẩu. \\
 
-\codeinline{email} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=18pt]{\textcolor{darkText}{\sffamily\small user@site.com}} & Định dạng văn bản Email mẫu kèm ký tự \codeinline{@}. \\
+\codeinline{email} & \uiInputEmail & Định dạng email kèm biểu tượng phong bì thư nhận diện ngữ cảnh. \\
 
-\codeinline{url} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=18pt]{\textcolor{darkText}{\sffamily\small https://site.com}} & Tiền tố địa chỉ đường dẫn trang web \codeinline{https://...}. \\
+\codeinline{url} & \uiInputUrl & Tích hợp tiền tố giao thức \codeinline{https://} dạng khối nhãn dán hiện đại. \\
 
-\codeinline{number} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=4pt]{\textcolor{darkText}{\sffamily\small 10} \;\textcolor{gray}{\tiny [v]}} & Tích hợp hai nút mũi tên tăng/giảm số ở góc phải. \\
+\codeinline{number} & \uiInputNumber & Tích hợp cụm nút Stepper hai chiều tăng/giảm giá trị số ở cạnh phải. \\
 
-\codeinline{tel} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=18pt]{\textcolor{darkText}{\sffamily\small 0912345678}} & Format nhập chuỗi chữ số điện thoại di động. \\
+\codeinline{tel} & \uiInputTel & Tích hợp tiền tố mã quốc gia di động chuẩn quốc tế (ví dụ: \codeinline{+84}). \\
 
-\codeinline{search} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=4pt]{\textcolor{darkText}{\sffamily\small Tìm kiếm...} \;\textcolor{gray}{\tiny [x]}} & Tích hợp biểu tượng nút xóa nhanh văn bản \codeinline{x}. \\
+\codeinline{search} & \uiInputSearch & Hộp tìm kiếm bo cong mềm mại với biểu tượng kính lúp và nút xóa nhanh văn bản. \\
 
-\codeinline{date} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=4pt]{\textcolor{darkText}{\sffamily\small 26/07/2026} \;\textcolor{primaryBlue}{\tiny [Lịch]}} & Hộp chọn ngày kèm biểu tượng lịch DatePicker. \\
+\codeinline{date} & \uiInputDate & Hộp chọn ngày kèm biểu tượng lịch DatePicker trực quan. \\
 
-\codeinline{time} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=4pt]{\textcolor{darkText}{\sffamily\small 14:30} \;\textcolor{primaryBlue}{\tiny [Đồng hồ]}} & Hộp chọn thời gian kèm biểu tượng đồng hồ. \\
+\codeinline{time} & \uiInputTime & Hộp chọn thời gian kèm biểu tượng đồng hồ kim chuyên dụng. \\
 
-\codeinline{datetime-local} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=4pt]{\textcolor{darkText}{\sffamily\small 26/07/2026 14:30}} & Kết hợp bộ chọn Ngày và Giờ địa phương. \\
+\codeinline{datetime-local} & \uiInputDateTime & Bộ chọn kết hợp Ngày và Giờ địa phương với biểu tượng đồng bộ. \\
 \end{tabularx}
 \end{prettyTableBox}
 
 \begin{prettyTableBox}[Bảng Phụ 2: Minh Họa Giao Diện (12 Loại Input Lựa Chọn, Color, File \& Nút Bấm)]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{m{2.6cm} m{4.8cm} Z}
+\begin{tabularx}{\linewidth}{m{2.4cm} C{4.0cm} Z}
 \rowcolor{primaryBlue}
-\thd{\sffamily Loại Input} & \thd{\sffamily Giao Diện Minh Họa (UI Vector)} & \thd{\sffamily Đặc Điểm Trực Quan} \\
+\thd{\sffamily Loại Input} & \thd{\sffamily Giao Diện Minh Họa (Modern UI)} & \thd{\sffamily Đặc Điểm Trực Quan} \\
 
-\codeinline{month} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=4pt]{\textcolor{darkText}{\sffamily\small Tháng 07, 2026}} & Bộ chọn tháng và năm định dạng Month picker. \\
+\codeinline{month} & \uiInputMonth & Bộ chọn Tháng và Năm với biểu tượng nhận diện DatePicker. \\
 
-\codeinline{week} & \tcbox[on line, arc=3pt, colback=codeBg, colframe=codeBorder, boxsep=1.5pt, left=6pt, right=4pt]{\textcolor{darkText}{\sffamily\small Tuần 30, 2026}} & Bộ chọn tuần cụ thể trong năm. \\
+\codeinline{week} & \uiInputWeek & Bộ chọn Tuần chuyên dụng với nhãn hiển thị số tuần (ví dụ: W30). \\
 
-\codeinline{color} & \begin{tikzpicture}[baseline=-0.5ex]\node[fill=primaryBlue, draw=primaryBlue!40, rounded corners=3pt, inner xsep=10pt, inner ysep=3.5pt, drop shadow={opacity=0.12}] {\color{white}\sffamily\bfseries\tiny \#0066CC};\end{tikzpicture} & Bảng chọn màu sắc Color Picker dạng khối màu. \\
+\codeinline{color} & \uiInputColor & Hộp chọn màu sắc Color Swatch với mã màu Hex và biểu tượng bảng màu. \\
 
-\codeinline{checkbox} & \begin{tikzpicture}[baseline=-0.5ex]\node[fill=primaryBlue, rounded corners=2pt, inner sep=1.8pt] {\color{white}\tiny\bfseries\sffamily v};\end{tikzpicture} \;\textcolor{darkText}{\sffamily\small Tick chọn} & Nút vuông tick chọn nhiều lựa chọn (Checkbox). \\
+\codeinline{checkbox} & \uiInputCheckbox & Hộp kiểm vuông bo góc với dấu tick vector sắc nét cho phép chọn nhiều mục. \\
 
-\codeinline{radio} & \begin{tikzpicture}[baseline=-0.5ex]\draw[primaryBlue, fill=white, line width=1.1pt] (0,0) circle (5.5pt); \fill[primaryBlue] (0,0) circle (2.8pt);\end{tikzpicture} \;\textcolor{darkText}{\sffamily\small Chọn 1 duy nhất} & Nút tròn radio lựa chọn duy nhất trong nhóm. \\
+\codeinline{radio} & \uiInputRadio & Nút tròn radio đồng tâm đại diện cho lựa chọn duy nhất trong một nhóm. \\
 
-\codeinline{range} & \begin{tikzpicture}[baseline=-0.5ex]\draw[gray!25, line width=3.5pt, line cap=round] (0,0) -- (1.4,0); \draw[primaryBlue, line width=3.5pt, line cap=round] (0,0) -- (0.7,0); \fill[white, draw=primaryBlue, line width=1.2pt, drop shadow={opacity=0.15}] (0.7,0) circle (4.5pt);\end{tikzpicture} \;\textcolor{codeComment}{\sffamily\tiny (50\%)} & Thanh trượt Slider kéo thả chọn khoảng giá trị. \\
+\codeinline{range} & \uiInputRange & Thanh trượt Slider hiện đại hiển thị trực quan tiến trình và con chạy Thumb. \\
 
-\codeinline{file} & \tcbox[on line, arc=3pt, colback=gray!15, colframe=gray!35, boxsep=1.5pt, left=6pt, right=6pt]{\color{darkText}\sffamily\bfseries\tiny Choose File} \;\textcolor{codeComment}{\tiny (No file chosen)} & Nút chọn và tải tệp tin đính kèm từ thiết bị. \\
+\codeinline{file} & \uiInputFile & Nút tải tệp đính kèm bo góc hiện đại kèm tên tệp đã chọn. \\
 
-\codeinline{hidden} & \textcolor{codeComment}{\sffamily\tiny\textit{(Ẩn ngầm -- 0px UI)}} & Trường ẩn ngầm, không render ra màn hình. \\
+\codeinline{hidden} & \uiInputHidden & Trường dữ liệu ngầm, hoàn toàn không chiếm diện tích hiển thị trên giao diện (0px). \\
 
-\codeinline{submit} & \tcbox[on line, arc=4pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt]{\color{white}\sffamily\bfseries\small Gửi Form} & Nút bấm gửi biểu mẫu nổi bật màu chủ đạo. \\
+\codeinline{submit} & \uiInputSubmit & Nút gửi biểu mẫu màu chủ đạo nổi bật kèm mũi tên hành động. \\
 
-\codeinline{reset} & \tcbox[on line, arc=4pt, colback=gray!15, colframe=gray!30, boxsep=2pt, left=10pt, right=10pt]{\color{darkText}\sffamily\bfseries\small Làm lại} & Nút khôi phục biểu mẫu màu trung tính. \\
+\codeinline{reset} & \uiInputReset & Nút khôi phục dữ liệu ban đầu kèm biểu tượng xoay hoàn tác. \\
 
-\codeinline{button} & \tcbox[on line, arc=4pt, colback=codeBg, colframe=primaryBlue!40, boxsep=2pt, left=10pt, right=10pt]{\color{primaryBlue}\sffamily\bfseries\small Click Me} & Nút bấm tương tác JavaScript tiêu chuẩn. \\
+\codeinline{button} & \uiInputButton & Nút bấm tùy chỉnh phục vụ gắn sự kiện JavaScript tương tác. \\
 
-\codeinline{image} & \tcbox[on line, arc=4pt, colback=accentOrange!10, colframe=accentOrange, boxsep=2pt, left=8pt, right=8pt]{\color{accentOrange}\sffamily\bfseries\small [IMG Submit]} & Nút bấm gửi form dạng hình ảnh đồ họa. \\
+\codeinline{image} & \uiInputImage & Nút gửi biểu mẫu thay thế bằng hình ảnh đồ họa tùy biến. \\
 \end{tabularx}
 \end{prettyTableBox}
 
