@@ -51,32 +51,53 @@
 
 \titlespacing*{name=\chapter,numberless}{0pt}{0pt}{15pt}
 
-% 2. Định dạng Section Gọn Gàng
+% 2. Định dạng Section Gọn Gàng Với Thanh Accent Dọc Sang Trọng
 \titleformat{\section}
   {\normalfont\Large\sffamily\bfseries\color{primaryBlue}}
-  {\thesection}
-  {10pt}
-  {}
-
-\titlespacing*{\section}{0pt}{12pt}{6pt}
-
-% 3. Định dạng Subsection
-\titleformat{\subsection}
-  {\normalfont\large\sffamily\bfseries\color{secondaryTeal}}
-  {\thesubsection}
+  {\textcolor{primaryBlue}{\rule[-0.2ex]{3.5pt}{1.15em}}\hspace{8pt}\thesection}
   {8pt}
   {}
 
-\titlespacing*{\subsection}{0pt}{9pt}{4pt}
+\titleformat{name=\section,numberless}
+  {\normalfont\Large\sffamily\bfseries\color{primaryBlue}}
+  {\textcolor{primaryBlue}{\rule[-0.2ex]{3.5pt}{1.15em}}}
+  {8pt}
+  {}
 
-% 3b. Định dạng Subsubsection
+\titlespacing*{\section}{0pt}{14pt}{7pt}
+\titlespacing*{name=\section,numberless}{0pt}{14pt}{7pt}
+
+% 3. Định dạng Subsection Với Thanh Accent Dọc Nhẹ
+\titleformat{\subsection}
+  {\normalfont\large\sffamily\bfseries\color{secondaryTeal}}
+  {\textcolor{secondaryTeal}{\rule[-0.15ex]{2.5pt}{1.05em}}\hspace{7pt}\thesubsection}
+  {7pt}
+  {}
+
+\titleformat{name=\subsection,numberless}
+  {\normalfont\large\sffamily\bfseries\color{secondaryTeal}}
+  {\textcolor{secondaryTeal}{\rule[-0.15ex]{2.5pt}{1.05em}}}
+  {7pt}
+  {}
+
+\titlespacing*{\subsection}{0pt}{10pt}{5pt}
+\titlespacing*{name=\subsection,numberless}{0pt}{10pt}{5pt}
+
+% 3b. Định dạng Subsubsection Với Thanh Accent Dọc Thanh Mảnh
 \titleformat{\subsubsection}
   {\normalfont\normalsize\sffamily\bfseries\color{primaryBlue!85!black}}
-  {\thesubsubsection}
+  {\textcolor{primaryBlue!80}{\rule[-0.1ex]{1.8pt}{0.95em}}\hspace{6pt}\thesubsubsection}
   {6pt}
   {}
 
-\titlespacing*{\subsubsection}{0pt}{8pt}{3pt}
+\titleformat{name=\subsubsection,numberless}
+  {\normalfont\normalsize\sffamily\bfseries\color{primaryBlue!85!black}}
+  {\textcolor{primaryBlue!80}{\rule[-0.1ex]{1.8pt}{0.95em}}}
+  {6pt}
+  {}
+
+\titlespacing*{\subsubsection}{0pt}{8pt}{4pt}
+\titlespacing*{name=\subsubsection,numberless}{0pt}{8pt}{4pt}
 
 % 5. Định dạng Paragraph (Tiêu đề khối nhỏ - Không bị đè chữ)
 \titleformat{\paragraph}[hang]
