@@ -10320,7 +10320,7 @@ Chương 4 đã phân tích trọn bộ 27 mục section riêng biệt dành cho
 ]
 \sffamily\small
 \begin{description}[font=\sffamily\bfseries\color{primaryBlue}, leftmargin=1.2em, itemsep=5pt, parsep=0pt]
-    \item[PHẦN 1: Nền Tảng Biểu Mẫu Web \& Ô Nhập Liệu Cốt Lõi] Cấu trúc thẻ \codeinline{<form>}, giao thức truyền nhận \codeinline{GET} vs \codeinline{POST}, 22+ loại input types, \codeinline{<label>}, \codeinline{name} / \codeinline{value}, \codeinline{<fieldset>} \& \codeinline{<legend>}, so sánh \codeinline{<select>} vs \codeinline{<datalist>}, thẻ \codeinline{<textarea>}.
+    \item[PHẦN 1: Nền Tảng Biểu Mẫu Web \& Ô Nhập Liệu Cốt Lõi] Cấu trúc thẻ \codeinline{<form>}, giao thức truyền nhận \codeinline{GET} vs \codeinline{POST}, 22+ loại input types, \codeinline{<label>}, \codeinline{name} / \codeinline{value}, \codeinline{<fieldset>} \& \codeinline{<legend>}, so sánh \codeinline{<select>} vs \codeinline{<datalist>}, thẻ \codeinline{<textarea>}, thẻ tính toán \codeinline{<output>}, cơ chế Native Form Validation và biểu mẫu đăng ký tổng hợp.
     \item[PHẦN 2: Chuyên Sâu Từng Ô Nhập Liệu, Định Dạng CSS \& Trợ Năng A11y] Chi tiết kỹ thuật Checkbox, Radio, Buttons, Number, Range; Kỹ thuật CSS hiện đại (\codeinline{:placeholder-shown}, Floating Label, \codeinline{:focus-within}); Chuẩn trợ năng Web Accessibility (WCAG 2.1 / WAI-ARIA).
 \end{description}
 \end{tcolorbox}
@@ -12158,7 +12158,7 @@ Hành vi khi Form Submit & \begin{tikzpicture}[baseline=-0.4ex]\node[fill=tipBor
 Thẻ \codeinline{<fieldset>} dùng để \textbf{gom nhóm các phần tử liên quan} trong một biểu mẫu Form lớn thành một khối logic trực quan có đường viền bo quanh. Thẻ \codeinline{<legend>} đóng vai trò là \textbf{tiêu đề (caption)} cho nhóm phần tử đó, hiển thị đè trực tiếp lên đường viền phía trên. Việc kết hợp bộ đôi này giúp tổ chức form rõ ràng, tăng tính truy cập (\term{Accessibility / a11y}) cho người dùng và thiết bị Trình đọc màn hình (\term{Screen Reader}).
 \end{conceptBox}
 
-\subsubsection{7.1. Chi Tiết Thẻ \taghint{<fieldset>} Trong HTML}
+\subsubsection{8.1. Chi Tiết Thẻ \taghint{<fieldset>} Trong HTML}
 
 \paragraph{a. <fieldset> Là Gì?}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -12321,7 +12321,7 @@ legend {
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{7.2. Chi Tiết Thẻ \taghint{<legend>} Trong HTML}
+\subsubsection{8.2. Chi Tiết Thẻ \taghint{<legend>} Trong HTML}
 
 \paragraph{a. <legend> Là Gì?}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -12456,7 +12456,7 @@ Tuổi: \fcolorbox{gray!60}{white}{\textcolor{darkText}{25\hspace{0.8cm}}\strut}
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{7.3. Đọc Thêm: Chuyên Sâu Về Accessibility (a11y), DOM API JavaScript \& Best Practices}
+\subsubsection{8.3. Đọc Thêm: Chuyên Sâu Về Accessibility (a11y), DOM API JavaScript \& Best Practices}
 
 \paragraph{a. Nguyên Lý Hoạt Động Của Screen Reader Với Fieldset \& Legend (WCAG 2.1 Standard):}
 Khi thiết kế các nhóm ô chọn Checkbox hoặc Radio Button, người dùng thị giác có thể nhận biết câu hỏi chung nhờ dòng chữ nằm phía trên. Tuy nhiên, người dùng khiếm thị dùng Trình đọc màn hình (\term{Screen Reader}) chuyển ô bằng phím \badge{Tab} sẽ bị mất ngữ cảnh nếu câu hỏi không được kết nối chuẩn.
@@ -12556,7 +12556,96 @@ Mặc định trình duyệt cho phép người dùng kéo góc ô \codeinline{<
 \end{center}
 \end{warnBox}
 
-\subsection{11. Mã Nguồn Minh Họa Biểu Mẫu Đăng Ký Tổng Hợp}
+% ------------------------------------------------------------------------------
+% MỤC BỔ SUNG: THẺ HIỂN THỊ KẾT QUẢ TÍNH TOÁN <output>
+% ------------------------------------------------------------------------------
+\subsection{11. Thẻ Hiển Thị Kết Quả Tính Toán \taghint{<output>}}
+\label{sec:output_tag}
+
+Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tính toán hoặc hành động người dùng thực hiện trong form thông qua các giá trị nhập liệu.
+
+\begin{conceptBox}[Thuộc Tính Của Thẻ Output]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{for="id1 id2"}: Khai báo danh sách ID các ô input tham gia vào phép tính toán.
+    \item \codeinline{name="..."}: Đặt tên cho phần tử output để truy xuất qua form hoặc gửi kèm dữ liệu.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn: Tự Động Tính Toán Phép Nhân Bằng Output Và JS oninput]
+\begin{lstlisting}[language=HTML5]
+<form oninput="result.value = parseInt(a.value) * parseInt(b.value)">
+  <input type="number" id="a" value="10"> x
+  <input type="number" id="b" value="5"> =
+  <output name="result" for="a b">50</output> (*@VNĐ@*)
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Thẻ Output Tính Toán Trực Tiếp]
+\sffamily\small
+\begin{center}
+\fcolorbox{gray!40}{white}{\small 10} $\times$ \fcolorbox{gray!40}{white}{\small 5} $=$ \textcolor{green!60!black}{\textbf{50 VNĐ}}
+\end{center}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% MỤC: CƠ CHẾ HTML5 FORM VALIDATION & THUỘC TÍNH RÀNG BUỘC
+% ------------------------------------------------------------------------------
+\subsection{12. Cơ Chế HTML5 Form Validation \& Thuộc Tính Ràng Buộc}
+\label{sec:form_validation_attributes}
+
+\begin{conceptBox}[Form Validation Trong HTML5 Là Gì?]
+\term{Form Validation} (Kiểm tra tính hợp lệ của biểu mẫu) là quá trình xác minh dữ liệu người dùng nhập vào ô input có đáp ứng đúng định dạng và quy tắc yêu cầu trước khi gửi lên máy chủ Backend hay không.
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Native Validation}: Trình duyệt tự động kiểm tra và hiển thị thông báo lỗi giao diện mặc định mà không cần viết mã JavaScript phức tạp.
+    \item \textbf{Lợi ích}: Tăng trải nghiệm người dùng (\term{UX}), giảm tải số lượng yêu cầu không hợp lệ gửi tới máy chủ và bảo vệ tính toàn vẹn dữ liệu.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Các Thuộc Tính Ràng Buộc Dữ Liệu Form Validation]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{K{3.0cm} Z Z}
+\rowcolor{primaryBlue}
+\thd{Thuộc Tính} & \thd{Ý Nghĩa Ràng Buộc} & \thd{Cú Pháp HTML Mẫu} \\
+\codeinline{required} & Bắt buộc phải nhập/chọn dữ liệu trước khi gửi form. & \codeinline{<input type="text" required>} \\
+\codeinline{pattern} & Biểu thức chính quy (\term{Regex}) kiểm tra định dạng chuỗi. & \codeinline{<input pattern="[0-9]{10}">} \\
+\codeinline{minlength} / \codeinline{maxlength} & Số lượng ký tự tối thiểu và tối đa cho phép. & \codeinline{<input minlength="6" maxlength="20">} \\
+\codeinline{min} / \codeinline{max} & Giá trị số hoặc ngày tháng nhỏ nhất và lớn nhất. & \codeinline{<input type="number" min="1" max="100">} \\
+\codeinline{step} & Bước nhảy hợp lệ của giá trị số. & \codeinline{<input type="number" step="0.5">} \\
+\codeinline{type} & Định dạng dữ liệu tự động (\codeinline{email}, \codeinline{url}, \codeinline{number}). & \codeinline{<input type="email">} \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Áp Dụng Thuộc Tính Validation Thuần HTML5]
+\begin{lstlisting}[language=HTML5]
+<form action="/register" method="POST">
+  <!-- (*@Bắt buộc nhập và định dạng Email@*) -->
+  <input type="email" name="email" required placeholder="user@example.com">
+  
+  <!-- (*@Mật khẩu tối thiểu 8 ký tự@*) -->
+  <input type="password" name="password" minlength="8" required placeholder="(*@Mật khẩu (>= 8 ký tự)@*)">
+  
+  <!-- (*@Số điện thoại đúng định dạng 10 chữ số@*) -->
+  <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="(*@Số điện thoại (10 chữ số)@*)">
+  
+  <button type="submit">(*@Đăng Ký@*)</button>
+</form>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Form Validation HTML5]
+\sffamily\small
+\textbf{Đăng Ký Tài Khoản (HTML5 Validation Demo):} \\[6pt]
+\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}nhap\_email@example.com} \quad \textcolor{codeComment}{\small\textit{(Required \& Email type)}} \\[4pt]
+\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}Mật khẩu ($\ge$8 ký tự)} \quad \textcolor{codeComment}{\small\textit{(Minlength = 8)}} \\[4pt]
+\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}Số điện thoại (10 số)} \quad \textcolor{codeComment}{\small\textit{(Regex Pattern = [0-9]\{10\})}} \\[8pt]
+\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{\color{white}\bfseries\small Đăng Ký}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% MỤC: MÃ NGUỒN MINH HỌA BIỂU MẪU ĐĂNG KÝ TỔNG HỢP (CAPSTONE PROJECT PHẦN 1)
+% ------------------------------------------------------------------------------
+\subsection{13. Mã Nguồn Minh Họa Biểu Mẫu Đăng Ký Tổng Hợp}
 
 \begin{codeWindowBreakable}[Mã Nguồn Mẫu Form Đăng Ký Tài Khoản Tổng Hợp Đầy Đủ Tính Năng]
 \begin{lstlisting}[language=HTML5]
@@ -12635,92 +12724,6 @@ Mặc định trình duyệt cho phép người dùng kéo góc ô \codeinline{<
     \item \textbf{Khai báo \codeinline{enctype="multipart/form-data"} khi upload file}: Nếu thiếu thuộc tính này trên thẻ \codeinline{<form>}, tệp tin tải lên sẽ bị lỗi biến thành chuỗi văn bản rỗng khi gửi lên server.
 \end{enumerate}
 \end{noteBox}
-
-% ------------------------------------------------------------------------------
-% MỤC BỔ SUNG: THẺ HIỂN THỊ KẾT QUẢ TÍNH TOÁN <output>
-% ------------------------------------------------------------------------------
-\section{Thẻ Hiển Thị Kết Quả Tính Toán \taghint{<output>}}
-\label{sec:output_tag}
-
-Thẻ \codeinline{<output>} đại diện cho kết quả của một phép tính toán hoặc hành động người dùng thực hiện trong form thông qua các giá trị nhập liệu.
-
-\begin{conceptBox}[Thuộc Tính Của Thẻ Output]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{for="id1 id2"}: Khai báo danh sách ID các ô input tham gia vào phép tính toán.
-    \item \codeinline{name="..."}: Đặt tên cho phần tử output để truy xuất qua form hoặc gửi kèm dữ liệu.
-\end{itemize}
-\end{conceptBox}
-
-\begin{codeWindow}[Mã Nguồn: Tự Động Tính Toán Phép Nhân Bằng Output Và JS oninput]
-\begin{lstlisting}[language=HTML5]
-<form oninput="result.value = parseInt(a.value) * parseInt(b.value)">
-  <input type="number" id="a" value="10"> x
-  <input type="number" id="b" value="5"> =
-  <output name="result" for="a b">50</output> (*@VNĐ@*)
-</form>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Thẻ Output Tính Toán Trực Tiếp]
-\sffamily\small
-\begin{center}
-\fcolorbox{gray!40}{white}{\small 10} $\times$ \fcolorbox{gray!40}{white}{\small 5} $=$ \textcolor{green!60!black}{\textbf{50 VNĐ}}
-\end{center}
-\end{browserWindow}
-
-% ------------------------------------------------------------------------------
-% MỤC: CƠ CHẾ HTML5 FORM VALIDATION & THUỘC TÍNH RÀNG BUỘC
-% ------------------------------------------------------------------------------
-\section{Cơ Chế HTML5 Form Validation \& Thuộc Tính Ràng Buộc}
-\label{sec:form_validation_attributes}
-
-\begin{conceptBox}[Form Validation Trong HTML5 Là Gì?]
-\term{Form Validation} (Kiểm tra tính hợp lệ của biểu mẫu) là quá trình xác minh dữ liệu người dùng nhập vào ô input có đáp ứng đúng định dạng và quy tắc yêu cầu trước khi gửi lên máy chủ Backend hay không.
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Native Validation}: Trình duyệt tự động kiểm tra và hiển thị thông báo lỗi giao diện mặc định mà không cần viết mã JavaScript phức tạp.
-    \item \textbf{Lợi ích}: Tăng trải nghiệm người dùng (\term{UX}), giảm tải số lượng yêu cầu không hợp lệ gửi tới máy chủ và bảo vệ tính toàn vẹn dữ liệu.
-\end{itemize}
-\end{conceptBox}
-
-\begin{prettyTableBox}[Bảng Tổng Hợp Các Thuộc Tính Ràng Buộc Dữ Liệu Form Validation]
-\rowcolors{2}{white}{primaryBlue!4}
-\begin{tabularx}{\linewidth}{K{3.0cm} Z Z}
-\rowcolor{primaryBlue}
-\thd{Thuộc Tính} & \thd{Ý Nghĩa Ràng Buộc} & \thd{Cú Pháp HTML Mẫu} \\
-\codeinline{required} & Bắt buộc phải nhập/chọn dữ liệu trước khi gửi form. & \codeinline{<input type="text" required>} \\
-\codeinline{pattern} & Biểu thức chính quy (\term{Regex}) kiểm tra định dạng chuỗi. & \codeinline{<input pattern="[0-9]{10}">} \\
-\codeinline{minlength} / \codeinline{maxlength} & Số lượng ký tự tối thiểu và tối đa cho phép. & \codeinline{<input minlength="6" maxlength="20">} \\
-\codeinline{min} / \codeinline{max} & Giá trị số hoặc ngày tháng nhỏ nhất và lớn nhất. & \codeinline{<input type="number" min="1" max="100">} \\
-\codeinline{step} & Bước nhảy hợp lệ của giá trị số. & \codeinline{<input type="number" step="0.5">} \\
-\codeinline{type} & Định dạng dữ liệu tự động (\codeinline{email}, \codeinline{url}, \codeinline{number}). & \codeinline{<input type="email">} \\
-\end{tabularx}
-\end{prettyTableBox}
-
-\begin{codeWindow}[Ví Dụ Áp Dụng Thuộc Tính Validation Thuần HTML5]
-\begin{lstlisting}[language=HTML5]
-<form action="/register" method="POST">
-  <!-- (*@Bắt buộc nhập và định dạng Email@*) -->
-  <input type="email" name="email" required placeholder="user@example.com">
-  
-  <!-- (*@Mật khẩu tối thiểu 8 ký tự@*) -->
-  <input type="password" name="password" minlength="8" required placeholder="(*@Mật khẩu (>= 8 ký tự)@*)">
-  
-  <!-- (*@Số điện thoại đúng định dạng 10 chữ số@*) -->
-  <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="(*@Số điện thoại (10 chữ số)@*)">
-  
-  <button type="submit">(*@Đăng Ký@*)</button>
-</form>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Trình Duyệt: Form Validation HTML5]
-\sffamily\small
-\textbf{Đăng Ký Tài Khoản (HTML5 Validation Demo):} \\[6pt]
-\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}nhap\_email@example.com} \quad \textcolor{codeComment}{\small\textit{(Required \& Email type)}} \\[4pt]
-\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}Mật khẩu ($\ge$8 ký tự)} \quad \textcolor{codeComment}{\small\textit{(Minlength = 8)}} \\[4pt]
-\tcbox[on line, arc=2pt, colback=white, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=40pt, top=3pt, bottom=3pt]{\color{gray!80}Số điện thoại (10 số)} \quad \textcolor{codeComment}{\small\textit{(Regex Pattern = [0-9]\{10\})}} \\[8pt]
-\tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{\color{white}\bfseries\small Đăng Ký}
-\end{browserWindow}
 
 % ------------------------------------------------------------------------------
 
