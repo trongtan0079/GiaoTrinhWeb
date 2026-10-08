@@ -531,14 +531,14 @@
             {\large \sffamily \color{white!95} Từ Nền Tảng Layout đến Flexbox, Grid, CSS Variables \& Animations}
         };
 
-        \node[anchor=north west] at ($(current page.north west)+(2.2cm,-9.4cm)$) {
+        \node[anchor=north] at ($(current page.north)+(0,-8.7cm)$) {
             \begin{tcolorbox}[
                 on line,
                 colback=white,
                 colframe=primaryBlue!40,
                 boxrule=1.2pt,
                 arc=16pt,
-                left=16pt, right=16pt, top=8pt, bottom=8pt,
+                left=18pt, right=18pt, top=8pt, bottom=8pt,
                 drop shadow=black!12!white
             ]
                 {\sffamily \bfseries \small \color{primaryBlue}
@@ -549,7 +549,7 @@
             \end{tcolorbox}
         };
 
-        \node[anchor=center, text width=15.5cm, align=center] at ($(current page.center)+(0,-2.5cm)$) {
+        \node[anchor=center, text width=15.5cm, align=center] at ($(current page.center)+(0,-2.3cm)$) {
             \begin{tcolorbox}[
                 colback=white,
                 colframe=primaryBlue!25,
@@ -562,16 +562,16 @@
                 {\Large \sffamily \bfseries \color{primaryBlue} TÀI LIỆU CHUYÊN SÂU TẬP TRUNG CSS3} \\[0.3cm]
                 {\color{accentOrange}\rule{6cm}{1.2pt}} \\[0.3cm]
                 {\small \sffamily \color{darkText} 
-                Tệp LaTeX độc lập tích hợp toàn bộ cấu hình \& gói thư viện $\bullet$ Sẵn sàng di chuyển sang mọi trình biên dịch}
+                Hệ thống hóa toàn diện kiến thức CSS hiện đại $\bullet$ Bố cục Flexbox \& Grid $\bullet$ Minh họa trực quan chuẩn UI/UX}
             \end{tcolorbox}
         };
 
-        \node[anchor=south west] at ($(current page.south west)+(2.2cm,1.9cm)$) {
+        \node[anchor=south west, align=left] at ($(current page.south west)+(2.2cm,1.9cm)$) {
             {\sffamily \bfseries \small \color{primaryBlue} ĐỘI NGŨ BIÊN SOẠN WEB} \\
             {\sffamily \scriptsize \color{codeComment} Tài liệu lưu hành nội bộ}
         };
 
-        \node[anchor=south east] at ($(current page.south east)+(-2.2cm,1.9cm)$) {
+        \node[anchor=south east, align=right] at ($(current page.south east)+(-2.2cm,1.9cm)$) {
             {\sffamily \bfseries \small \color{primaryBlue} NĂM 2026} \\
             {\sffamily \scriptsize \color{codeComment} Phiên bản Standalone}
         };
@@ -625,7 +625,37 @@
 \renewcommand{\contentsname}{MỤC LỤC TÀI LIỆU CSS3}
 \setcounter{tocdepth}{2}
 
+% Định dạng Mục lục Tinh tế bằng titletoc
+\titlecontents{part}[0pt]
+  {\addvspace{8pt}\sffamily\bfseries\color{primaryBlue}\large}
+  {\thecontentslabel\quad}
+  {}
+  {\hfill\contentspage}
+  [\addvspace{3pt}{\color{primaryBlue!30}\hrule height 0.6pt}\addvspace{3pt}]
+
+\titlecontents{chapter}[0pt]
+  {\addvspace{5pt}\sffamily\bfseries\color{primaryBlue}}
+  {\thecontentslabel\quad}
+  {}
+  {\titlerule*[0.45pc]{.}\;\bfseries\contentspage}
+  [\addvspace{1pt}]
+
+\titlecontents{section}[1.6em]
+  {\sffamily\small\bfseries\color{darkText}}
+  {\thecontentslabel\quad}
+  {}
+  {\titlerule*[0.45pc]{.}\;\contentspage}
+
+\titlecontents{subsection}[3.4em]
+  {\sffamily\footnotesize\color{darkText!85}}
+  {\thecontentslabel\quad}
+  {}
+  {\titlerule*[0.45pc]{.}\;\contentspage}
+
+\begingroup
+\setlength{\parskip}{0pt}
 \tableofcontents
+\endgroup
 \clearpage
 
 % ==============================================================================
@@ -682,9 +712,36 @@ selector {
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả: Sơ Đồ Cấu Trúc Khai Báo CSS]
-\begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  {\sffamily\bfseries\color{primaryBlue} Khái niệm cốt lõi:}\par\vspace{4pt}
-  {\sffamily Trình duyệt sẽ tìm tất cả các phần tử khớp với \codeinline{selector} trên trang HTML và áp dụng lần lượt các thuộc tính định kiểu bên trong khối khai báo \codeinline{\{\}}.}
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=12pt, bottom=12pt, left=14pt, right=14pt]
+  \centering
+  \begin{tikzpicture}[font=\sffamily]
+    % Selector box
+    \node[draw=primaryBlue, fill=primaryBlue!12, rounded corners=4pt, line width=1pt, inner sep=6pt] (sel) at (0, 0) {\textbf{\color{primaryBlue}h1}};
+    \node[anchor=south, font=\scriptsize\bfseries\color{primaryBlue}] at (sel.north) {Bộ chọn (Selector)};
+    
+    % Open brace
+    \node[font=\Large\bfseries\color{accentOrange}] at (1.0, 0) {\{};
+    
+    % Declaration 1
+    \node[draw=secondaryTeal!80, fill=teal!6, rounded corners=3pt, line width=0.8pt, inner sep=4pt] (dec1) at (3.0, 0) {%
+      \textcolor{codeKey}{\bfseries color}\textcolor{darkText}{:}\;\textcolor{codeKeyword}{\bfseries red}\textcolor{darkText}{;}%
+    };
+    
+    % Declaration 2
+    \node[draw=secondaryTeal!80, fill=teal!6, rounded corners=3pt, line width=0.8pt, inner sep=4pt] (dec2) at (6.2, 0) {%
+      \textcolor{codeKey}{\bfseries font-size}\textcolor{darkText}{:}\;\textcolor{codeNumber}{\bfseries 24px}\textcolor{darkText}{;}%
+    };
+    
+    % Close brace
+    \node[font=\Large\bfseries\color{accentOrange}] at (8.0, 0) {\}};
+
+    % Declaration brace & label
+    \draw[decorate, decoration={brace, amplitude=5pt, mirror}, color=accentOrange!90!black, line width=1pt] (1.6, -0.6) -- (7.6, -0.6)
+      node[midway, below=6pt, font=\scriptsize\bfseries\color{accentOrange!90!black}] {Khối khai báo (Declaration Block)};
+  \end{tikzpicture}
+  \par\vspace{8pt}
+  \textcolor{darkText}{\small Trình duyệt quét cây DOM để tìm tất cả thẻ khớp \codeinline{h1} và áp dụng đồng thời các cặp \codeinline{thuộc tính: giá trị} bên trong cặp ngoặc nhọn.}
 \end{tcolorbox}
 \end{browserWindow}
 
@@ -700,8 +757,15 @@ h1 {
 
 \begin{browserWindow}[Kết Quả Hiển Thị: Thẻ h1 Chữ Đỏ, Cỡ Chữ 24px]
 \sffamily\small
-{\color{red}\bfseries\Large Tiêu Đề Văn Bản h1} \par\vspace{4pt}
-\textcolor{gray!70}{\small\textit{($\rightarrow$ Kết quả: Thẻ <h1> có chữ màu đỏ và kích thước 24px)}}
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=14pt, right=14pt]
+  \textcolor{gray!45}{\scriptsize\ttfamily <!-- Cửa sổ hiển thị trang web -->}\par\vspace{4pt}
+  {\fontsize{24pt}{28pt}\selectfont\bfseries\color{red!80!black} Tiêu Đề Văn Bản h1}\par\vspace{6pt}
+  \textcolor{darkText!75}{\small Đây là đoạn văn bản nội dung đi kèm để đối chứng tỷ lệ với tiêu đề h1 màu đỏ cỡ chữ 24px.}
+  \par\vspace{6pt}
+  \tcbox[on line, arc=3pt, colback=red!6, colframe=red!60, boxrule=0.6pt, boxsep=2pt]{%
+    \scriptsize\ttfamily\textcolor{red!80!black}{h1 \{ color: red; font-size: 24px; \} $\rightarrow$ Rendered CSS}%
+  }
+\end{tcolorbox}
 \end{browserWindow}
 
 \begin{noteBox}[Giải Thích Chi Tiết Cú Pháp]
@@ -743,9 +807,19 @@ Viết trực tiếp vào thẻ HTML bằng thuộc tính \codeinline{style}.
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Inline CSS]
+\begin{browserWindow}[Kết Quả Hiển Thị: Inline CSS Áp Dụng Trực Tiếp Trong Thẻ HTML]
 \sffamily\small
-\textcolor{red}{\Huge Tiêu đề đỏ}
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=14pt, right=14pt]
+  \begin{tcolorbox}[enhanced, colback=red!4, colframe=red!35, arc=4pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+    {\fontsize{30pt}{34pt}\selectfont\bfseries\color{red!85!black} Header Title}\par
+    \vspace{4pt}
+    \tcbox[on line, arc=3pt, colback=red!10, colframe=red!70!black, boxrule=0.6pt, boxsep=2pt]{%
+      \tiny\ttfamily\bfseries\textcolor{red!90!black}{<h1 style="color: red; font-size: 30px;">}%
+    }
+  \end{tcolorbox}
+  \par\vspace{4pt}
+  \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Thuộc tính CSS nằm trực tiếp trên thẻ HTML, có độ ưu tiên cao nhưng gây khó khăn khi tái sử dụng).}
+\end{tcolorbox}
 \end{browserWindow}
 \textcolor{warnBorder}{\textbf{$\rightarrow$ Hạn chế}}: \textcolor{accentOrange}{\textbf{Không khuyến khích}} vì làm code khó bảo trì.
 
@@ -764,9 +838,19 @@ Viết trong thẻ \codeinline{<style>} trong file HTML (bên trong \codeinline{
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Internal CSS]
+\begin{browserWindow}[Kết Quả Hiển Thị: Internal CSS Được Định Kiểu Từ Thẻ <style>]
 \sffamily\small
-\textcolor{primaryBlue}{\Large Tiêu Đề Xanh Dương}
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=14pt, right=14pt]
+  \begin{tcolorbox}[enhanced, colback=primaryBlue!4, colframe=primaryBlue!30, arc=4pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+    {\fontsize{24pt}{28pt}\selectfont\bfseries\color{primaryBlue} Tiêu Đề Xanh Dương}\par
+    \vspace{4pt}
+    \tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!70, boxrule=0.6pt, boxsep=2pt]{%
+      \tiny\ttfamily\bfseries\textcolor{primaryBlue}{<style> h1 \{ color: blue; font-size: 24px; \} </style>}%
+    }
+  \end{tcolorbox}
+  \par\vspace{4pt}
+  \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Cung cấp quy tắc định kiểu tập trung cho toàn bộ trang web trong cùng một file HTML).}
+\end{tcolorbox}
 \end{browserWindow}
 
 \subsection{External CSS (CSS Bên Ngoài)}
@@ -789,9 +873,19 @@ p {
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị External CSS]
+\begin{browserWindow}[Kết Quả Hiển Thị: External CSS Liên Kết Từ File style.css]
 \sffamily\small
-\textcolor{tipBorder}{Đoạn văn bản màu xanh lá được định kiểu từ file style.css bên ngoài.}
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=14pt, right=14pt]
+  \begin{tcolorbox}[enhanced, colback=green!4, colframe=green!50!black, arc=4pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+    {\fontsize{16pt}{22pt}\selectfont\color{green!50!black} Đoạn văn bản màu xanh lá được định kiểu từ file \codeinline{style.css} bên ngoài.}\par
+    \vspace{4pt}
+    \tcbox[on line, arc=3pt, colback=green!10, colframe=green!70!black, boxrule=0.6pt, boxsep=2pt]{%
+      \tiny\ttfamily\bfseries\textcolor{green!70!black}{<link rel="stylesheet" href="style.css"> $\rightarrow$ p \{ color: green; font-size: 16px; \}}%
+    }
+  \end{tcolorbox}
+  \par\vspace{4pt}
+  \textcolor{tipBorder}{\scriptsize ($\rightarrow$ Cách chuẩn mực chuyên nghiệp: Tách biệt triệt để nội dung HTML và kiểu dáng CSS).}
+\end{tcolorbox}
 \end{browserWindow}
 \textcolor{tipBorder}{\textbf{$\rightarrow$ Lời khuyên}}: \textcolor{primaryBlue}{\textbf{Khuyến khích sử dụng}} vì giúp code gọn gàng và dễ bảo trì.
 
@@ -841,12 +935,30 @@ p {
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Của Thẻ p Định Kiểu]
+\begin{browserWindow}[Kết Quả Hiển Thị Thẻ p: Tổng Hợp Màu Chữ, Nền, Viền \& Padding]
 \sffamily\small
-\begin{tcolorbox}[arc=3pt, colback=cyan!8, colframe=teal!80!black, boxrule=1pt, boxsep=6pt]
-\textcolor{teal!70!black}{\textbf{Đoạn văn có chữ màu xanh lá, nền xanh nhạt (\#e0f7fa), viền xanh đậm (\#00796b), khoảng cách nội dung padding 10px.}}
-\end{tcolorbox} \par\vspace{4pt}
-\textcolor{primaryBlue}{\textbf{$\rightarrow$ Kết quả}}: Đoạn văn sẽ có chữ màu xanh lá, nền xanh nhạt, viền xanh đậm, khoảng cách nội dung 10px.
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=14pt, right=14pt]
+  \begin{tcolorbox}[
+    enhanced,
+    colback=cyan!12,
+    colframe=teal!85!black,
+    boxrule=1pt,
+    arc=4pt,
+    top=10pt, bottom=10pt, left=12pt, right=12pt
+  ]
+    {\fontsize{18pt}{22pt}\selectfont\bfseries\color{teal!80!black} Đoạn văn có chữ màu xanh lá, nền xanh nhạt (\#e0f7fa), viền xanh đậm (\#00796b), khoảng cách nội dung padding 10px.}
+  \end{tcolorbox}
+  \par\vspace{6pt}
+  \begin{tabularx}{\linewidth}{X X}
+    \tcbox[on line, arc=3pt, colback=teal!10, colframe=teal!80, boxrule=0.6pt, boxsep=2pt]{%
+      \tiny\sffamily\bfseries\textcolor{teal!90!black}{background: \#e0f7fa \quad border: 1px solid \#00796b}%
+    } &
+    \raggedleft
+    \tcbox[on line, arc=3pt, colback=green!10, colframe=green!70!black, boxrule=0.6pt, boxsep=2pt]{%
+      \tiny\sffamily\bfseries\textcolor{green!70!black}{color: green (18px) \quad padding: 10px}%
+    }
+  \end{tabularx}
+\end{tcolorbox}
 \end{browserWindow}
 
 % ==============================================================================
@@ -941,10 +1053,32 @@ Trong CSS, \codeinline{px} (viết tắt của \term{Pixel}) là đơn vị đ�
 \begin{browserWindow}[Mô Phỏng Trực Quan Khối .box Đơn Vị px]
 \sffamily\small
 \centering
-\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!30, width=200pt, height=100pt, arc=4pt, boxrule=1.5pt, boxsep=4pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
-  \textcolor{darkText}{\bfseries Khối Box ($200\text{px} \times 100\text{px}$)}\par
-  \textcolor{codeComment}{\scriptsize (Font $16\text{px}$, Padding $10\text{px}$, Border $2\text{px}$ solid).}
+\begin{tcolorbox}[
+    enhanced,
+    colback=gray!5,
+    colframe=darkText,
+    width=6.5cm,
+    height=3.4cm,
+    arc=0pt,
+    boxrule=2pt,
+    top=10pt, bottom=10pt, left=10pt, right=10pt
+]
+  \begin{tcolorbox}[
+      enhanced,
+      colback=white,
+      colframe=primaryBlue!30,
+      arc=3pt,
+      boxrule=0.6pt,
+      top=6pt, bottom=6pt, left=8pt, right=8pt
+  ]
+    \centering
+    {\fontsize{14pt}{17pt}\selectfont\bfseries\color{primaryBlue} Khối Box dùng px}\par
+    \vspace{2pt}
+    \textcolor{codeComment}{\scriptsize (width: 200px, height: 100px, font-size: 16px)}
+  \end{tcolorbox}
 \end{tcolorbox}
+\par\vspace{4pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Khung viền đen dày chuẩn \codeinline{2px solid black}, khoảng đệm padding \codeinline{10px} cách mép viền, kích thước cố định tuyệt đối).}
 \end{browserWindow}
 
 \paragraph{5. Đặc Điểm Của Đơn Vị px (Ưu Điểm \& Nhược Điểm):}
