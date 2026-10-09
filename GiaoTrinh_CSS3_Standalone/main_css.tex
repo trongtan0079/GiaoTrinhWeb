@@ -895,6 +895,45 @@ p {
 % ==============================================================================
 \section{Một Số Thuộc Tính CSS Cơ Bản \& Đơn Vị Đo Kích Thước}
 
+\begin{tcolorbox}[
+    enhanced,
+    colback=primaryBlue!3,
+    colframe=primaryBlue!35,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.4]\quad BẢN ĐỒ KIẾN THỨC ĐƠN VỊ ĐO \& HỆ THỐNG MÀU SẮC},
+    colbacktitle=primaryBlue!10,
+    fonttitle=\bfseries\sffamily,
+    drop shadow=black!5!white
+]
+\sffamily\small
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh A: Hệ Thống Đơn Vị Đo (CSS Units)}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.4.1 -- 1.4.2:} Tra cứu thuộc tính \& Phân loại đơn vị
+    \item \textbf{1.4.3:} Đơn vị tuyệt đối \codeinline{px} Masterclass
+    \item \textbf{1.4.4:} Đơn vị phần trăm \codeinline{\%} \& Bài toán \codeinline{height}
+    \item \textbf{1.4.5:} Đơn vị tương đối \codeinline{em} \& Cạm bẫy nhân dồn
+    \item \textbf{1.4.6:} Đơn vị \codeinline{rem} \& Kỹ thuật Root Reset 62.5\%
+    \item \textbf{1.4.7 -- 1.4.9:} Viewport (\codeinline{vw}, \codeinline{vh}, \codeinline{dvh}, \codeinline{svh}) \& \codeinline{clamp()}
+  \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh B: Hệ Thống Biểu Diễn Màu Sắc}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{Color Name:} 140+ tên màu chuẩn W3C
+    \item \textbf{Mô hình HEX:} 6 ký tự \& 8 ký tự với kênh Alpha
+    \item \textbf{Mô hình RGB / RGBA:} Pha trộn ánh sáng đỏ, xanh, lam
+    \item \textbf{Mô hình HSL / HSLA:} Tư duy thiết kế UI/UX theo Hue
+    \item \textbf{Từ khóa đặc biệt:} \codeinline{transparent} \& \codeinline{currentColor}
+    \item \textbf{Quy tắc kế thừa:} Thuộc tính \codeinline{color} trong DOM
+  \end{itemize}
+\end{minipage}
+\end{tcolorbox}
+\vspace{4pt}
+
 \subsection{Bảng Tra Cứu Một Số Thuộc Tính CSS Cơ Bản}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Các Thuộc Tính CSS Cơ Bản Phổ Biến]
@@ -6283,6 +6322,45 @@ color: initial & \textcolor{red}{\textbf{Không}} & Reset màu chữ về mặc 
 
 CSS cung cấp một bộ các thuộc tính để kiểm soát mọi khía cạnh của văn bản, từ loại font đến kích thước, kiểu dáng, độ đậm (trọng lượng) và chiều cao dòng. Việc tùy chỉnh font chữ là một phần quan trọng trong việc tạo ra giao diện người dùng hấp dẫn, hiện đại và dễ đọc. Bằng cách hiểu rõ các thuộc tính và kỹ thuật nhúng font, bạn có thể kiểm soát hoàn toàn typography trên trang web của mình.
 
+\begin{tcolorbox}[
+    enhanced,
+    colback=primaryBlue!3,
+    colframe=primaryBlue!35,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.5]\quad BẢN ĐỒ KIẾN THỨC NGHỆ THUẬT TYPOGRAPHY \& FONT CHỮ},
+    colbacktitle=primaryBlue!10,
+    fonttitle=\bfseries\sffamily,
+    drop shadow=black!5!white
+]
+\sffamily\small
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh A: Nền Tảng \& 7 Thuộc Tính Font Cốt Lõi}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.5.1 -- 1.5.2:} Generic Families (Serif vs Sans) \& System Font
+    \item \textbf{1.5.3.1:} \codeinline{font-family} \& Chiến lược chuỗi Fallback
+    \item \textbf{1.5.3.2:} \codeinline{font-size} Masterclass (\codeinline{rem}, \codeinline{em}, \codeinline{clamp})
+    \item \textbf{1.5.3.3:} \codeinline{font-weight} (100 -- 900) \& Weight fallback
+    \item \textbf{1.5.3.4 -- 1.5.3.5:} \codeinline{font-style} \& \codeinline{font-variant}
+    \item \textbf{1.5.3.6 -- 1.5.3.7:} \codeinline{line-height} \& Viết tắt \codeinline{font} shorthand
+  \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh B: Kỹ Thuật Nhúng Web Font \& Tối Ưu Hóa}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{Google Fonts:} Nhúng qua \codeinline{<link>} và \codeinline{@import}
+    \item \textbf{@font-face tự host:} Tải định dạng \codeinline{.woff2} siêu nhẹ
+    \item \textbf{Adobe Fonts:} Sử dụng bộ sưu tập phông chữ thương mại
+    \item \textbf{Multi-font nhúng:} Gộp URL tối ưu hóa request mạng
+    \item \textbf{Hiệu suất cao cấp:} \codeinline{font-display: swap;} \& Font Loading API
+    \item \textbf{Variable Fonts:} Một tệp font duy nhất co giãn vô cấp
+  \end{itemize}
+\end{minipage}
+\end{tcolorbox}
+\vspace{4pt}
+
 \subsection{Chuyên Đề Phông Chữ \& Typography Trong CSS (Generic Font Families Masterclass)}
 \label{sec:css_typography_foundations}
 
@@ -9288,8 +9366,40 @@ body {
 % ==============================================================================
 \section{Các Loại Selectors Trong CSS (CSS Selectors Masterclass)}
 
-
 Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML mà bạn muốn áp dụng kiểu dáng (\term{CSS styles}). CSS cung cấp nhiều loại selectors để bạn có thể chọn phần tử theo tên thẻ, ID, class, trạng thái, hoặc cấu trúc của chúng.
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=primaryBlue!3,
+    colframe=primaryBlue!35,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.6]\quad BẢN ĐỒ KIẾN THỨC CSS SELECTORS TOÀN DIỆN},
+    colbacktitle=primaryBlue!10,
+    fonttitle=\bfseries\sffamily,
+    drop shadow=black!5!white
+]
+\sffamily\small
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh A: Bộ Chọn Cơ Bản, Kết Hợp \& Thuộc Tính}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.6.1 -- 1.6.2:} Cơ bản: Type, Class (\codeinline{.c}), ID (\codeinline{\#i}), Universal (\codeinline{*})
+    \item \textbf{1.6.3 -- 1.6.5:} Kết hợp: Hậu duệ, Con (\codeinline{>}), Liền kề (\codeinline{+}), Chung (\codeinline{\~{}})
+    \item \textbf{1.6.6:} Thuộc tính: \codeinline{[attr]}, \codeinline{[attr="val"]}, \codeinline{\textasciicircum=}, \codeinline{\$=}, \codeinline{*=}, \codeinline{\~{}=}, \codeinline{|=}
+  \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh B: Pseudo-classes \& Pseudo-elements}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.6.7.1:} Trạng thái: \codeinline{:hover}, \codeinline{:active}, \codeinline{:focus}, \codeinline{:target}
+    \item \textbf{1.6.7.2:} Cấu trúc DOM: \codeinline{:first-child}, \codeinline{:nth-child(an+b)}, \codeinline{:empty}
+    \item \textbf{1.6.8:} Phần tử giả: \codeinline{::before}, \codeinline{::after}, \codeinline{::first-letter}, \codeinline{::selection}
+  \end{itemize}
+\end{minipage}
+\end{tcolorbox}
+\vspace{4pt}
 
 \subsection{1. Bảng Tổng Quan Chi Tiết Các Bộ Chọn CSS Quan Trọng}
 
@@ -16713,8 +16823,40 @@ Thứ tự CSS (Cascade) & Quy tắc ghi nguồn từ trên xuống dưới & Kh
 % ==============================================================================
 \section{Thứ Tự Ưu Tiên Trong CSS (CSS Specificity Masterclass)}
 
-
 Trong thiết kế giao diện Web thực tế, một phần tử HTML thường nằm trong phạm vi ảnh hưởng của nhiều quy tắc CSS khác nhau (ví dụ: vừa có style từ thẻ \codeinline{p}, vừa có class \codeinline{.text}, vừa có ID \codeinline{\#main}, lại vừa có thuộc tính \codeinline{style="..."} trực tiếp). Khi xảy ra xung đột giữa các quy tắc này, trình duyệt sẽ dùng cơ chế \term{CSS Specificity} (Thứ tự ưu tiên / Tính đặc hiệu) để tính toán điểm số và quyết định quy tắc nào sẽ chiến thắng.
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=primaryBlue!3,
+    colframe=primaryBlue!35,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.7]\quad BẢN ĐỒ KIẾN THỨC ĐỘ ƯU TIÊN \& CƠ CHẾ CASCADE},
+    colbacktitle=primaryBlue!10,
+    fonttitle=\bfseries\sffamily,
+    drop shadow=black!5!white
+]
+\sffamily\small
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh A: Trọng Số \& Công Thức Tính Điểm}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.7.1:} Bảng xếp hạng 6 bậc Specificity (Inline $\rightarrow$ Universal)
+    \item \textbf{1.7.2 -- 1.7.3:} Quy trình 4 bước \& Công thức 4 nhóm \codeinline{(A, B, C, D)}
+    \item \textbf{1.7.4:} Quy tắc đặc biệt: \codeinline{!important}, Combinators, Link order
+  \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh B: Quy Tắc Ghi Đè, Modern CSS \& Thực Chiến}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.7.5:} Khi nào "Viết sau đè viết trước" ĐÚNG và SAI?
+    \item \textbf{1.7.6 -- 1.7.8:} 10 cấp độ leo thang Specificity \& Sơ đồ Step-by-Step
+    \item \textbf{1.7.7:} Modern Selectors: \codeinline{:not()}, \codeinline{:is()} \& \codeinline{:where()}
+  \end{itemize}
+\end{minipage}
+\end{tcolorbox}
+\vspace{4pt}
 
 \begin{conceptBox}[Khái Niệm Specificity (Tính Đặc Hiệu) Là Gì?]
 \textbf{CSS Specificity (Tính đặc hiệu)} là thuật toán và hệ thống quy tắc mà trình duyệt sử dụng để quyết định quy tắc CSS nào sẽ được áp dụng cho một phần tử HTML khi có nhiều quy tắc cùng nhắm vào phần tử đó.
