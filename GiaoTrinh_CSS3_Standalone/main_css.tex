@@ -5087,29 +5087,96 @@ Cam (Orange) & rgb(255, 165, 0) & Kết hợp Đỏ tối đa + một ít Xanh l
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Mô Phỏng Lớp Phủ Trong Suốt RGBA (Modal Overlay)]
+\begin{browserWindow}[Mô Phỏng Trực Quan Lớp Phủ Bán Trong Suốt RGBA (Modal Backdrop Overlay)]
 \begin{tcolorbox}[
     enhanced,
-    colback=black!65,
-    colframe=black!80,
+    colback=white,
+    colframe=gray!30,
     arc=6pt, boxrule=0.8pt,
-    top=14pt, bottom=14pt, left=14pt, right=14pt
+    top=0pt, bottom=0pt, left=0pt, right=0pt,
+    boxsep=0pt,
+    underlay={
+      % Background webpage (header + mock content)
+      \fill[slateBg] (interior.north west) rectangle ([yshift=-24pt]interior.north east);
+      \node[anchor=west, font=\sffamily\bfseries\small, text=gray!80!black] at ([xshift=12pt, yshift=-12pt]interior.north west) {Dashboard Quản Trị Hệ Thống};
+      \node[anchor=east, font=\sffamily\scriptsize, text=gray!60!black] at ([xshift=-12pt, yshift=-12pt]interior.north east) {Trang chủ \quad Sản phẩm \quad Tài khoản};
+      
+      % Mock background rows representing underlying webpage
+      \fill[gray!25, rounded corners=2pt] ([xshift=14pt, yshift=-36pt]interior.north west) rectangle ([xshift=180pt, yshift=-44pt]interior.north west);
+      \fill[gray!18, rounded corners=2pt] ([xshift=14pt, yshift=-50pt]interior.north west) rectangle ([xshift=-14pt, yshift=-56pt]interior.north east);
+      \fill[gray!18, rounded corners=2pt] ([xshift=14pt, yshift=-62pt]interior.north west) rectangle ([xshift=-40pt, yshift=-68pt]interior.north east);
+      \fill[gray!18, rounded corners=2pt] ([xshift=14pt, yshift=-74pt]interior.north west) rectangle ([xshift=-80pt, yshift=-80pt]interior.north east);
+      \fill[gray!18, rounded corners=2pt] ([xshift=14pt, yshift=-86pt]interior.north west) rectangle ([xshift=-14pt, yshift=-92pt]interior.north east);
+      \fill[gray!18, rounded corners=2pt] ([xshift=14pt, yshift=-98pt]interior.north west) rectangle ([xshift=-50pt, yshift=-104pt]interior.north east);
+      
+      % Dark Overlay (rgba(0, 0, 0, 0.55))
+      \fill[black, opacity=0.55] (interior.north west) rectangle (interior.south east);
+      
+      % Overlay badge label in top-left
+      \node[anchor=north west, fill=black!80, text=white, font=\sffamily\bfseries\tiny, rounded corners=2pt, inner sep=3pt] at ([xshift=8pt, yshift=-8pt]interior.north west) {LỚP PHỦ: background-color: rgba(0, 0, 0, 0.5); (Che mờ 50\%)};
+    }
 ]
+  \vspace{16pt}
   \centering
+  % Centered Modal Card (Opaque & Clear)
   \begin{tcolorbox}[
       enhanced,
-      width=0.88\linewidth,
+      width=0.86\linewidth,
       colback=white,
-      colframe=primaryBlue!40,
-      arc=6pt, boxrule=1pt,
-      top=10pt, bottom=10pt, left=12pt, right=12pt,
-      drop shadow=black!40!white
+      colframe=gray!30,
+      arc=8pt, boxrule=0.8pt,
+      top=12pt, bottom=12pt, left=14pt, right=14pt,
+      drop shadow={black!50!white, shadow xshift=0pt, shadow yshift=-4pt, opacity=0.35}
   ]
-    \centering
-    {\sffamily\bfseries\large\color{primaryBlue} Cửa Sổ Modal / Popup Dialog}\\[6pt]
-    {\sffamily\small\color{darkText} Lớp phủ xung quanh: \codeinline{background-color: rgba(0, 0, 0, 0.5);}}\\[4pt]
-    {\sffamily\small\color{gray} Lớp màu tối bán trong suốt RGBA giúp làm nổi bật Modal trung tâm mà vẫn giữ được bối cảnh trang web đằng sau.}
+    \begin{minipage}{\linewidth}
+      % Modal Header
+      \begin{tikzpicture}[baseline=(X.base)]
+        \node[inner sep=0pt] (X) {};
+        \fill[red!12, rounded corners=6pt] (0,0) rectangle (22pt, 22pt);
+        \node[text=red!80!black, font=\bfseries\normalsize] at (11pt, 11pt) {!};
+      \end{tikzpicture}%
+      \hspace{8pt}%
+      \begin{minipage}[c]{0.78\linewidth}
+        {\sffamily\bfseries\normalsize\color{darkText} Xác Nhận Xóa Tài Khoản Vĩnh Viễn}\\[2pt]
+        {\sffamily\scriptsize\color{gray!70!black} Thao tác này sẽ xóa toàn bộ cơ sở dữ liệu liên quan.}
+      \end{minipage}%
+      \hfill
+      {\sffamily\bfseries\color{gray!40!black}\large $\times$}
+      
+      \vspace{6pt}
+      \textcolor{gray!25}{\rule{\linewidth}{0.6pt}}
+      \vspace{6pt}
+      
+      % Modal Body
+      {\sffamily\small\color{darkText}
+      Bạn có chắc chắn muốn xóa tài khoản này không? Dữ liệu người dùng sẽ không thể khôi phục sau khi hoàn tất.
+      }
+      
+      \vspace{6pt}
+      \begin{tcolorbox}[
+          enhanced,
+          colback=red!6,
+          colframe=red!35,
+          arc=4pt, boxrule=0.6pt,
+          top=5pt, bottom=5pt, left=8pt, right=8pt
+      ]
+        {\sffamily\scriptsize\color{red!85!black} \textbf{Cảnh báo an toàn}: Bạn cần quyền quản trị viên cấp cao (Super Admin) để phê duyệt.}
+      \end{tcolorbox}
+      
+      \vspace{8pt}
+      % Modal Footer Buttons
+      \begin{flushright}
+        \tcbox[on line, arc=4pt, colback=gray!15, colframe=gray!30, boxsep=2pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{%
+          \sffamily\small\bfseries\color{gray!70!black} Hủy bỏ%
+        }%
+        \hspace{6pt}%
+        \tcbox[on line, arc=4pt, colback=red!80!black, colframe=red!80!black, boxsep=2pt, left=10pt, right=10pt, top=4pt, bottom=4pt]{%
+          \sffamily\small\bfseries\color{white} Xác nhận xóa%
+        }
+      \end{flushright}
+    \end{minipage}
   \end{tcolorbox}
+  \vspace{14pt}
 \end{tcolorbox}
 \end{browserWindow}
 
@@ -5147,30 +5214,60 @@ Cam (Orange) & rgb(255, 165, 0) & Kết hợp Đỏ tối đa + một ít Xanh l
 % 1. Error Note Box Component
 \begin{tcolorbox}[
     enhanced,
-    colback=red!8,
-    colframe=red!80!black,
-    arc=5pt, boxrule=0.8pt,
-    top=8pt, bottom=8pt, left=12pt, right=12pt,
-    fontupper=\sffamily\color{red!80!black}
+    colback=red!7,
+    colframe=red!75!black,
+    arc=6pt, boxrule=1pt,
+    top=10pt, bottom=10pt, left=12pt, right=12pt
 ]
-  \textbf{.note}: Thông báo lỗi hệ thống\\
-  {\small\codeinline{background-color: rgba(255, 0, 0, 0.1);} \quad|\quad \codeinline{border: 1px solid rgb(255, 0, 0);}}
+  \begin{minipage}{\linewidth}
+    \begin{tikzpicture}[baseline=(X.base)]
+      \node[inner sep=0pt] (X) {};
+      \fill[red!80!black, rounded corners=4pt] (0,0) rectangle (20pt, 20pt);
+      \node[text=white, font=\bfseries\normalsize] at (10pt, 10pt) {$\times$};
+    \end{tikzpicture}%
+    \hspace{8pt}%
+    \begin{minipage}[c]{0.70\linewidth}
+      {\sffamily\bfseries\color{red!80!black}\normalsize Lỗi Hệ Thống: Không Thể Đồng Bộ Dữ Liệu}\\[2pt]
+      {\sffamily\small\color{darkText} Máy chủ không phản hồi sau 30 giây. Vui lòng kiểm tra lại kết nối mạng.}
+    \end{minipage}%
+    \hfill
+    \tcbox[on line, arc=3pt, colback=red!80!black, colframe=red!80!black, boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt]{%
+      \sffamily\bfseries\tiny\color{white} ERROR 500%
+    }
+    \par\vspace{6pt}
+    \textcolor{red!25}{\rule{\linewidth}{0.6pt}}
+    \vspace{4pt}
+    {\sffamily\scriptsize\color{red!85!black}
+      \codeinline{background-color: rgba(255, 0, 0, 0.1);} \quad|\quad
+      \codeinline{border: 1px solid rgb(255, 0, 0);} \quad|\quad
+      \codeinline{color: rgb(200, 0, 0);}
+    }
+  \end{minipage}
 \end{tcolorbox}
 
-\vspace{4pt}
+\vspace{6pt}
 
 % 2. Linear Gradient Banner Component
 \begin{tcolorbox}[
     enhanced,
-    interior style={left color=red!60, right color=blue!60},
-    colframe=primaryBlue!40,
-    arc=5pt, boxrule=0.6pt,
-    top=8pt, bottom=8pt, left=12pt, right=12pt,
-    fontupper=\sffamily\bfseries\color{white}
+    interior style={left color=red!75!white, right color=blue!75!white},
+    colframe=gray!30,
+    arc=8pt, boxrule=0.8pt,
+    top=12pt, bottom=12pt, left=14pt, right=14pt,
+    drop shadow={black!20!white, shadow xshift=0pt, shadow yshift=-2pt}
 ]
-  \centering
-  .gradient-banner: Dải Chuyển Màu RGBA (Red 50\% $\rightarrow$ Blue 50\%)\\
-  {\small\normalfont\color{white!95}\codeinline{background: linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 0, 255, 0.5));}}
+  \begin{minipage}{\linewidth}
+    \tcbox[on line, arc=3pt, colback=white!20, colframe=white!40, boxsep=1pt, left=6pt, right=6pt, top=2pt, bottom=2pt]{%
+      \sffamily\bfseries\tiny\color{white} SPECIAL PROMOTION 2026%
+    }%
+    \par\vspace{5pt}
+    {\sffamily\bfseries\large\color{white} Flash Sale Khóa Học Frontend: Giảm 50\% Toàn Bộ Học Phí}\\[3pt]
+    {\sffamily\small\color{white!90} Áp dụng dải màu chuyển tiếp RGBA: \codeinline{linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 0, 255, 0.5))}}
+    \par\vspace{8pt}
+    \tcbox[on line, arc=4pt, colback=white, colframe=white, boxsep=2pt, left=10pt, right=10pt, top=4pt, bottom=4pt]{%
+      \sffamily\bfseries\small\color{blue!80!black} Khám Phá Ngay $\rightarrow$%
+    }
+  \end{minipage}
 \end{tcolorbox}
 \end{browserWindow}
 
@@ -5447,39 +5544,111 @@ color: hsla(H, S%, L%, A);
 
 \begin{browserWindow}[Kết Quả Hiển Thị Của Dải Màu HSL Palette \& Thẻ Alert HSLA]
 \vspace{2pt}
-\begin{tcolorbox}[
-    enhanced,
-    colback=white,
-    colframe=gray!30,
-    arc=6pt, boxrule=0.8pt,
-    top=10pt, bottom=10pt, left=12pt, right=12pt
-]
-  % HSL Palette Preview
-  {\sffamily\bfseries\color{primaryBlue} Dải Màu Đồng Bộ Tạo Từ HSL (Xoay quanh Góc Hue 217$^\circ$)}:\\[4pt]
-  \begin{tcolorbox}[nobeforeafter, colback=blue!8, colframe=blue!20, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=6pt, right=6pt, fontupper=\sffamily\bfseries\scriptsize\color{black}]
-    hsl(217, 91\%, 95\%) - Nền nhạt
-  \end{tcolorbox}
-  \quad
-  \begin{tcolorbox}[nobeforeafter, colback=blue!65!white, colframe=blue!65!white, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=6pt, right=6pt, fontupper=\sffamily\bfseries\scriptsize\color{white}]
-    hsl(217, 91\%, 60\%) - Nút chính
-  \end{tcolorbox}
-  \quad
-  \begin{tcolorbox}[nobeforeafter, colback=blue!85!black, colframe=blue!85!black, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=6pt, right=6pt, fontupper=\sffamily\bfseries\scriptsize\color{white}]
-    hsl(217, 91\%, 40\%) - Active
-  \end{tcolorbox}
-  \vspace{6pt}
-  
-  % HSLA Alert Card Preview
+% 1. HSL Design System Color Palette (Hue = 217deg)
+{\sffamily\bfseries\color{primaryBlue}\small Dải Màu Đồng Bộ Tạo Từ HSL Design System (Góc Cố Định: Hue = 217$^\circ$, Saturation = 91\%):}\\[4pt]
+\begin{tcbraster}[raster columns=4, raster equal height, raster column skip=6pt]
+  % Swatch 1: Lightest
   \begin{tcolorbox}[
       enhanced,
-      colback=violet!12,
-      colframe=violet!60,
-      arc=4pt, boxrule=0.8pt,
-      top=6pt, bottom=6pt, left=10pt, right=10pt,
-      fontupper=\sffamily\bfseries\color{violet!80!black}
+      colback=blue!8,
+      colframe=blue!25,
+      arc=5pt, boxrule=0.8pt,
+      top=6pt, bottom=6pt, left=6pt, right=6pt
   ]
-    .alert-purple: Thẻ Alert Tím nhẹ bằng HSLA \codeinline{hsla(280, 80\%, 60\%, 0.15);}
+    \centering
+    \begin{tikzpicture}
+      \fill[blue!15, rounded corners=3pt] (0,0) rectangle (28pt, 10pt);
+    \end{tikzpicture}
+    \par\vspace{2pt}
+    {\sffamily\bfseries\scriptsize\color{darkText} .bg-lightest}\\[2pt]
+    {\ttfamily\tiny\color{blue!80!black} L = 95\%}\\[3pt]
+    \tcbox[on line, arc=2pt, colback=white, colframe=blue!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\color{gray!80!black} Surface Nền%
+    }
   \end{tcolorbox}
+  
+  % Swatch 2: Primary Button
+  \begin{tcolorbox}[
+      enhanced,
+      colback=blue!70!cyan,
+      colframe=blue!80!black,
+      arc=5pt, boxrule=0.8pt,
+      top=6pt, bottom=6pt, left=6pt, right=6pt
+  ]
+    \centering
+    {\sffamily\bfseries\scriptsize\color{white} .btn-primary}\\[2pt]
+    {\ttfamily\tiny\color{white!90} L = 60\%}\\[3pt]
+    \tcbox[on line, arc=2pt, colback=white!20, colframe=white!40, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\color{white} Default CTA%
+    }
+  \end{tcolorbox}
+  
+  % Swatch 3: Button Hover
+  \begin{tcolorbox}[
+      enhanced,
+      colback=blue!80!black,
+      colframe=blue!90!black,
+      arc=5pt, boxrule=0.8pt,
+      top=6pt, bottom=6pt, left=6pt, right=6pt
+  ]
+    \centering
+    {\sffamily\bfseries\scriptsize\color{white} .btn-hover}\\[2pt]
+    {\ttfamily\tiny\color{white!90} L = 50\%}\\[3pt]
+    \tcbox[on line, arc=2pt, colback=white!20, colframe=white!40, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\color{white} Hover State%
+    }
+  \end{tcolorbox}
+  
+  % Swatch 4: Button Active
+  \begin{tcolorbox}[
+      enhanced,
+      colback=blue!60!black,
+      colframe=blue!95!black,
+      arc=5pt, boxrule=0.8pt,
+      top=6pt, bottom=6pt, left=6pt, right=6pt
+  ]
+    \centering
+    {\sffamily\bfseries\scriptsize\color{white} .btn-active}\\[2pt]
+    {\ttfamily\tiny\color{white!90} L = 40\%}\\[3pt]
+    \tcbox[on line, arc=2pt, colback=white!20, colframe=white!40, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\color{white} Active Press%
+    }
+  \end{tcolorbox}
+\end{tcbraster}
+
+\vspace{6pt}
+
+% 2. HSLA Alert Card Component
+{\sffamily\bfseries\color{violet!80!black}\small Thẻ Thông Báo Tím HSLA Bán Trong Suốt (.alert-purple):}\\[4pt]
+\begin{tcolorbox}[
+    enhanced,
+    colback=violet!8,
+    colframe=violet!60,
+    arc=6pt, boxrule=1pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  \begin{minipage}{\linewidth}
+    \begin{tikzpicture}[baseline=(X.base)]
+      \node[inner sep=0pt] (X) {};
+      \fill[violet!70!black, rounded corners=4pt] (0,0) rectangle (18pt, 18pt);
+      \node[text=white, font=\bfseries\scriptsize] at (9pt, 9pt) {*};
+    \end{tikzpicture}%
+    \hspace{6pt}%
+    \begin{minipage}[c]{0.74\linewidth}
+      {\sffamily\bfseries\small\color{violet!90!black} Cập Nhật Tính Năng Mới Thành Công}\\[1pt]
+      {\sffamily\scriptsize\color{darkText} Áp dụng nền HSLA độ mờ 15\% giúp giao diện trang nhã và tôn vinh nội dung.}
+    \end{minipage}%
+    \hfill
+    {\sffamily\bfseries\scriptsize\color{violet!70!black} Vừa xong}
+    \par\vspace{5pt}
+    \textcolor{violet!25}{\rule{\linewidth}{0.6pt}}
+    \vspace{3pt}
+    {\sffamily\tiny\color{violet!85!black}
+      \codeinline{background-color: hsla(280, 80\%, 60\%, 0.15);} \quad|\quad
+      \codeinline{border: 1px solid hsl(280, 80\%, 50\%);} \quad|\quad
+      \codeinline{color: hsl(280, 80\%, 30\%);}
+    }
+  \end{minipage}
 \end{tcolorbox}
 \end{browserWindow}
 
@@ -5580,25 +5749,74 @@ Reset nền mặc định ô nhập liệu & Tháo bỏ màu nền xám mặc đ
 
 \begin{browserWindow}[Kết Quả Hiển Thị Của Nút Bấm Ghost Button \& Mũi Tên Tooltip]
 \vspace{2pt}
+% 1. Ghost Button Normal vs Hover State on Modern Hero Background
+{\sffamily\bfseries\color{primaryBlue}\small 1. Hiệu Ứng Nút Bấm Ghost Button (Normal vs Hover trên nền tối):}\\[4pt]
 \begin{tcolorbox}[
     enhanced,
-    colback=gray!5,
-    colframe=gray!30,
+    colback=darkText,
+    colframe=darkText!90!black,
     arc=6pt, boxrule=0.8pt,
     top=10pt, bottom=10pt, left=12pt, right=12pt
 ]
-  % Ghost Button Preview
-  {\sffamily\bfseries\color{primaryBlue} Nút Bấm Ghost Button (\codeinline{background: transparent;}):}\\[4pt]
-  \begin{tcolorbox}[nobeforeafter, colback=gray!5, colframe=blue!70!black, arc=4pt, boxrule=1.2pt, top=4pt, bottom=4pt, left=10pt, right=10pt, fontupper=\sffamily\bfseries\small\color{blue!70!black}]
-    Khám Phá Khóa Học (Ghost Button)
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    {\sffamily\scriptsize\color{gray!30} Trạng thái mặc định (Normal)}\\[4pt]
+    \tcbox[on line, arc=4pt, colback=transparent, colframe=blue!60!cyan, boxsep=3pt, left=10pt, right=10pt, top=4pt, bottom=4pt]{%
+      \sffamily\bfseries\small\color{blue!60!cyan} Khám Phá Khóa Học%
+    }\\[3pt]
+    {\sffamily\tiny\color{gray!40} \codeinline{background: transparent;} viền 2px}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    {\sffamily\scriptsize\color{gray!30} Trạng thái di chuột (:hover)}\\[4pt]
+    \tcbox[on line, arc=4pt, colback=blue!60!cyan, colframe=blue!60!cyan, boxsep=3pt, left=10pt, right=10pt, top=4pt, bottom=4pt]{%
+      \sffamily\bfseries\small\color{white} Khám Phá Khóa Học%
+    }\\[3pt]
+    {\sffamily\tiny\color{gray!40} \codeinline{background: \#3b82f6;} màu chữ trắng}
+  \end{minipage}
+\end{tcolorbox}
+
+\vspace{6pt}
+
+% 2. Tooltip Component with CSS Triangle Arrow
+{\sffamily\bfseries\color{primaryBlue}\small 2. Mũi Tên Tooltip Tam Giác (Kỹ Thuật 3 Cạnh transparent):}\\[4pt]
+\begin{tcolorbox}[
+    enhanced,
+    colback=slateBg,
+    colframe=gray!30,
+    arc=6pt, boxrule=0.8pt,
+    top=12pt, bottom=10pt, left=12pt, right=12pt
+]
+  \centering
+  % Tooltip Bubble
+  \begin{tcolorbox}[
+      nobeforeafter,
+      enhanced,
+      colback=darkText,
+      colframe=darkText,
+      arc=4pt, boxrule=0.5pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt,
+      drop shadow={black!20!white, shadow xshift=0pt, shadow yshift=-2pt}
+  ]
+    {\sffamily\scriptsize\bfseries\color{white} Đã sao chép liên kết vào bộ nhớ tạm! \quad [OK]}
   \end{tcolorbox}
-  \vspace{6pt}
   
-  % Tooltip Triangle Preview
-  {\sffamily\bfseries\color{primaryBlue} Mũi Tên Tooltip Tam Giác (Kết hợp \codeinline{transparent}):}\\[4pt]
-  \begin{tcolorbox}[nobeforeafter, colback=gray!90!black, colframe=gray!90!black, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=10pt, right=10pt, fontupper=\sffamily\bfseries\scriptsize\color{white}]
-    ▲ \quad Thẻ Tooltip Thông Tin (\codeinline{border-left/right: transparent;})
-  \end{tcolorbox}
+  % Triangle Arrow (Pointing Down to Button)
+  \vspace{-2pt}
+  \begin{tikzpicture}
+    % CSS border trick: border-left: 6pt transparent, border-right: 6pt transparent, border-top: 6pt solid darkText
+    \fill[darkText] (-6pt, 0pt) -- (6pt, 0pt) -- (0pt, -6pt) -- cycle;
+  \end{tikzpicture}
+  \vspace{2pt}
+  
+  % Target Button
+  \tcbox[on line, arc=4pt, colback=white, colframe=gray!40, boxsep=2pt, left=10pt, right=10pt, top=4pt, bottom=4pt]{%
+    \sffamily\small\color{darkText} Sao chép mã nguồn bài viết%
+  }\\[4pt]
+  {\sffamily\tiny\color{gray!80!black}
+    \textbf{Nguyên lý}: \codeinline{border-left/right: transparent;} triệt tiêu 2 cạnh bên, để lại đỉnh tam giác chỉ xuống.
+  }
 \end{tcolorbox}
 \end{browserWindow}
 
@@ -5664,26 +5882,83 @@ button.btn-sync:hover {
 
 \begin{browserWindow}[Kết Quả Hiển Thị Đồng Bộ Trạng Thái Focus \& Hover Bằng currentColor]
 \vspace{2pt}
-\begin{tcolorbox}[
-    enhanced,
-    colback=white,
-    colframe=gray!30,
-    arc=6pt, boxrule=0.8pt,
-    top=10pt, bottom=10pt, left=12pt, right=12pt
-]
-  % Input Focus Sync Preview
-  {\sffamily\bfseries\color{primaryBlue} Trạng Thái Focus Input Đồng Bộ Icon SVG (\codeinline{currentColor}):}\\[4pt]
+% 1. Input Group Synchronized Focus
+{\sffamily\bfseries\color{primaryBlue}\small 1. Khung Nhập Liệu Đồng Bộ Viền \& Icon Bằng currentColor:}\\[4pt]
+\begin{tcbraster}[raster columns=2, raster equal height, raster column skip=8pt]
+  % Normal State
   \begin{tcolorbox}[
       enhanced,
-      colback=blue!5,
-      colframe=blue!70!black,
-      arc=4pt, boxrule=1.2pt,
-      top=6pt, bottom=6pt, left=10pt, right=10pt,
-      fontupper=\sffamily\bfseries\color{blue!80!black}
+      colback=white,
+      colframe=gray!50,
+      arc=6pt, boxrule=1.2pt,
+      top=8pt, bottom=8pt, left=10pt, right=10pt
   ]
-    [Icon SVG] \quad Nhập email... \quad (\codeinline{border} và Icon tự động chuyển màu Xanh dương khi Focus)
+    \begin{tikzpicture}[baseline=(X.base)]
+      \node[inner sep=0pt] (X) {};
+      \draw[gray!70, line width=0.8pt] (0,0) rectangle (14pt, 10pt);
+      \draw[gray!70, line width=0.8pt] (0,10pt) -- (7pt, 5pt) -- (14pt, 10pt);
+    \end{tikzpicture}%
+    \hspace{6pt}%
+    {\sffamily\small\color{gray!70!black} nhap.email@example.com}
+    \par\vspace{6pt}
+    \tcbox[on line, arc=3pt, colback=gray!15, colframe=gray!30, boxsep=1pt, left=5pt, right=5pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{gray!80!black} Normal: color: \#64748b; viền xám%
+    }
   \end{tcolorbox}
-\end{tcolorbox}
+  
+  % Focus-within State
+  \begin{tcolorbox}[
+      enhanced,
+      colback=blue!4,
+      colframe=blue!80!black,
+      arc=6pt, boxrule=1.4pt,
+      top=8pt, bottom=8pt, left=10pt, right=10pt
+  ]
+    \begin{tikzpicture}[baseline=(X.base)]
+      \node[inner sep=0pt] (X) {};
+      \draw[blue!80!black, line width=0.8pt] (0,0) rectangle (14pt, 10pt);
+      \draw[blue!80!black, line width=0.8pt] (0,10pt) -- (7pt, 5pt) -- (14pt, 10pt);
+    \end{tikzpicture}%
+    \hspace{6pt}%
+    {\sffamily\small\color{blue!90!black} contact@company.vn} \textcolor{blue!80!black}{|}
+    \par\vspace{6pt}
+    \tcbox[on line, arc=3pt, colback=blue!15, colframe=blue!30, boxsep=1pt, left=5pt, right=5pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{blue!90!black} :focus-within: color: \#2563eb; viền + icon tự xanh!%
+    }
+  \end{tcolorbox}
+\end{tcbraster}
+
+\vspace{6pt}
+
+% 2. Synchronized Button Hover
+{\sffamily\bfseries\color{primaryBlue}\small 2. Nút Bấm Đồng Bộ Màu Chữ \& Đường Viền Khi Hover (.btn-sync):}\\[4pt]
+\begin{tcbraster}[raster columns=2, raster equal height, raster column skip=8pt]
+  % Normal Button
+  \begin{tcolorbox}[
+      enhanced,
+      colback=white,
+      colframe=blue!75!black,
+      arc=5pt, boxrule=1.2pt,
+      top=6pt, bottom=6pt, left=10pt, right=10pt
+  ]
+    \centering
+    {\sffamily\bfseries\small\color{blue!75!black} $\rightarrow$ Đăng Ký Tài Khoản}\\[2pt]
+    {\sffamily\tiny\color{gray!70!black} \codeinline{color: \#2563eb;} (Viền tự động xanh)}
+  \end{tcolorbox}
+  
+  % Hover Button
+  \begin{tcolorbox}[
+      enhanced,
+      colback=orange!6,
+      colframe=orange!85!black,
+      arc=5pt, boxrule=1.2pt,
+      top=6pt, bottom=6pt, left=10pt, right=10pt
+  ]
+    \centering
+    {\sffamily\bfseries\small\color{orange!85!black} $\rightarrow$ Đăng Ký Tài Khoản}\\[2pt]
+    {\sffamily\tiny\color{gray!70!black} \codeinline{color: \#d97706;} (Hover: Viền + chữ tự cam!)}
+  \end{tcolorbox}
+\end{tcbraster}
 \end{browserWindow}
 
 \begin{prettyTableBox}[Tóm Tắt Tổng Kết Nhanh So Sánh transparent Và currentColor]
@@ -17101,19 +17376,106 @@ url(image.png) & Sử dụng ảnh tùy chỉnh làm con trỏ & Game, ứng d�
 \end{codeWindow}
 
 \begin{browserWindow}[Mô Phỏng Trực Quan Kết Quả Hiển Thị 4 Tình Huống Cursor]
-\sffamily\small
-\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  \begin{tabularx}{\linewidth}{Y Y Y Y}
-    \tcbox[on line, arc=4pt, colback=primaryBlue, colframe=primaryBlue, boxsep=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{\color{white}\bfseries Click me} &
-    \tcbox[on line, arc=4pt, colback=gray!15, colframe=gray!40, boxsep=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{\color{gray!80!black}\bfseries Đang xử lý...} &
-    \tcbox[on line, arc=4pt, colback=orange!10!white, colframe=orange!60!black, boxsep=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{\color{orange!90!black}\bfseries Kéo thả tôi} &
-    \tcbox[on line, arc=4pt, colback=red!10, colframe=red!40, boxsep=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{\color{red!80!black}\bfseries Ẩn con trỏ} \\
-    \vspace{2pt}\textcolor{primaryBlue}{\small (cursor: pointer)} &
-    \vspace{2pt}\textcolor{gray!80!black}{\small (cursor: wait)} &
-    \vspace{2pt}\textcolor{orange!90!black}{\small (cursor: grab)} &
-    \vspace{2pt}\textcolor{red!80!black}{\small (cursor: none)} \\
-  \end{tabularx}
-\end{tcolorbox}
+\vspace{2pt}
+\begin{tcbraster}[raster columns=4, raster equal height, raster column skip=6pt]
+  % 1. Pointer (Clickable Button)
+  \begin{tcolorbox}[
+      enhanced,
+      colback=white,
+      colframe=primaryBlue!30,
+      arc=6pt, boxrule=0.8pt,
+      top=8pt, bottom=8pt, left=6pt, right=6pt
+  ]
+    \centering
+    \tcbox[on line, arc=4pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{%
+      \sffamily\bfseries\scriptsize\color{white} Mua Ngay%
+    }
+    \par\vspace{6pt}
+    \begin{tikzpicture}
+      % Pointer hand icon
+      \fill[darkText] (0,0) -- (0,10pt) -- (3pt, 8pt) -- (5pt, 12pt) -- (7pt, 11pt) -- (5pt, 7pt) -- (8pt, 7pt) -- cycle;
+    \end{tikzpicture}
+    \par\vspace{4pt}
+    \tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!30, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{primaryBlue} cursor: pointer%
+    }
+  \end{tcolorbox}
+
+  % 2. Wait (Processing Area)
+  \begin{tcolorbox}[
+      enhanced,
+      colback=white,
+      colframe=gray!30,
+      arc=6pt, boxrule=0.8pt,
+      top=8pt, bottom=8pt, left=6pt, right=6pt
+  ]
+    \centering
+    \tcbox[on line, arc=4pt, colback=gray!12, colframe=gray!30, boxsep=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt]{%
+      \sffamily\bfseries\scriptsize\color{gray!80!black} Đang nạp...%
+    }
+    \par\vspace{6pt}
+    \begin{tikzpicture}
+      % Hourglass / Wait icon
+      \draw[gray!80!black, line width=1pt] (-4pt, 6pt) -- (4pt, 6pt) -- (-4pt, -6pt) -- (4pt, -6pt) -- cycle;
+      \fill[gray!60!black] (-2pt, 3pt) -- (2pt, 3pt) -- (0,0) -- cycle;
+      \fill[gray!60!black] (0,0) -- (-2pt, -5pt) -- (2pt, -5pt) -- cycle;
+    \end{tikzpicture}
+    \par\vspace{4pt}
+    \tcbox[on line, arc=3pt, colback=gray!15, colframe=gray!35, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{gray!80!black} cursor: wait%
+    }
+  \end{tcolorbox}
+
+  % 3. Grab (Draggable Element)
+  \begin{tcolorbox}[
+      enhanced,
+      colback=white,
+      colframe=orange!30,
+      arc=6pt, boxrule=0.8pt,
+      top=8pt, bottom=8pt, left=6pt, right=6pt
+  ]
+    \centering
+    \tcbox[on line, arc=4pt, colback=orange!10, colframe=orange!50, boxsep=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt]{%
+      \sffamily\bfseries\scriptsize\color{orange!90!black} Kéo Task \#1%
+    }
+    \par\vspace{6pt}
+    \begin{tikzpicture}
+      % Grab hand icon
+      \draw[orange!85!black, line width=1pt, rounded corners=1pt] (-4pt, -4pt) rectangle (4pt, 4pt);
+      \fill[orange!85!black] (-2pt, 1pt) circle (0.8pt);
+      \fill[orange!85!black] (0, 1pt) circle (0.8pt);
+      \fill[orange!85!black] (2pt, 1pt) circle (0.8pt);
+    \end{tikzpicture}
+    \par\vspace{4pt}
+    \tcbox[on line, arc=3pt, colback=orange!15, colframe=orange!35, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{orange!90!black} cursor: grab%
+    }
+  \end{tcolorbox}
+
+  % 4. None (Hidden Cursor)
+  \begin{tcolorbox}[
+      enhanced,
+      colback=darkText,
+      colframe=darkText!90!black,
+      arc=6pt, boxrule=0.8pt,
+      top=8pt, bottom=8pt, left=6pt, right=6pt
+  ]
+    \centering
+    \tcbox[on line, arc=4pt, colback=black!60, colframe=black!40, boxsep=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt]{%
+      \sffamily\bfseries\scriptsize\color{white} Trình chiếu%
+    }
+    \par\vspace{6pt}
+    \begin{tikzpicture}
+      % Hidden circle with slash
+      \draw[red!60, line width=1pt] (0,0) circle (5pt);
+      \draw[red!60, line width=1pt] (-3.5pt, -3.5pt) -- (3.5pt, 3.5pt);
+    \end{tikzpicture}
+    \par\vspace{4pt}
+    \tcbox[on line, arc=3pt, colback=red!20, colframe=red!40, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{white} cursor: none%
+    }
+  \end{tcolorbox}
+\end{tcbraster}
 \end{browserWindow}
 
 \paragraph{4. Demo Tổ Hợp Các Kiểu Con Trỏ Chuột:}
@@ -17129,21 +17491,52 @@ url(image.png) & Sử dụng ảnh tùy chỉnh làm con trỏ & Game, ứng d�
 \end{codeWindow}
 
 \begin{browserWindow}[Mô Phỏng Trực Quan Demo Tổ Hợp Các Kiểu Con Trỏ Chuột]
-\sffamily\small
-\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
-  \begin{tabularx}{\linewidth}{|X|c|c|}
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=gray!25,
+    arc=6pt, boxrule=0.8pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  \sffamily\small
+  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{4.2cm}|>{\centering\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
     \hline
-    \rowcolor{primaryBlue!10} \textbf{Phần Tử \& Văn Bản Hiển Thị} & \textbf{Biểu Tượng Con Trỏ} & \textbf{Kiểu Khai Báo CSS} \\
+    \rowcolor{primaryBlue} \thd{\sffamily Phần Tử UI Mô Phỏng} & \thd{\sffamily Biểu Tượng Con Trỏ} & \thd{\sffamily Thuộc Tính \& Ý Nghĩa UX} \\
     \hline
-    \textbf{Click được} & Bàn tay chỉ & \codeinline{cursor: pointer;} \\
+    \tcbox[on line, arc=3pt, colback=blue!10, colframe=blue!30, boxsep=1pt, left=6pt, right=6pt, top=2pt, bottom=2pt]{\color{primaryBlue}\bfseries\scriptsize [Link] Click được} &
+    \begin{tikzpicture}[baseline=-2pt]
+      \fill[primaryBlue] (0,0) -- (0,8pt) -- (2.5pt, 6.5pt) -- (4pt, 10pt) -- (5.5pt, 9pt) -- (4pt, 5.5pt) -- (6.5pt, 5.5pt) -- cycle;
+    \end{tikzpicture} \quad \textcolor{primaryBlue}{\footnotesize Bàn tay chỉ} &
+    \codeinline{cursor: pointer;} \newline \textcolor{gray!70!black}{\tiny Biểu thị liên kết/nút bấm click được.} \\
     \hline
-    \textbf{Không cho phép} & Vòng tròn gạch chéo & \codeinline{cursor: not-allowed;} \\
+    \tcbox[on line, arc=3pt, colback=red!10, colframe=red!30, boxsep=1pt, left=6pt, right=6pt, top=2pt, bottom=2pt]{\color{red!80!black}\bfseries\scriptsize [Khóa] Không cho phép} &
+    \begin{tikzpicture}[baseline=-2pt]
+      \draw[red!80!black, line width=1pt] (0,0) circle (4pt);
+      \draw[red!80!black, line width=1pt] (-2.8pt, -2.8pt) -- (2.8pt, 2.8pt);
+    \end{tikzpicture} \quad \textcolor{red!80!black}{\footnotesize Vòng gạch chéo} &
+    \codeinline{cursor: not-allowed;} \newline \textcolor{gray!70!black}{\tiny Báo hiệu phần tử bị khóa / vô hiệu hóa.} \\
     \hline
-    \textbf{Cần trợ giúp} & Dấu chấm hỏi & \codeinline{cursor: help;} \\
+    \tcbox[on line, arc=3pt, colback=violet!10, colframe=violet!30, boxsep=1pt, left=6pt, right=6pt, top=2pt, bottom=2pt]{\color{violet!80!black}\bfseries\scriptsize [Trợ giúp] Tooltip info} &
+    \begin{tikzpicture}[baseline=-2pt]
+      \node[font=\bfseries\small, text=violet!80!black] at (0,0) {?};
+    \end{tikzpicture} \quad \textcolor{violet!80!black}{\footnotesize Dấu chấm hỏi} &
+    \codeinline{cursor: help;} \newline \textcolor{gray!70!black}{\tiny Báo hiệu có Tooltip giải thích chi tiết.} \\
     \hline
-    \textbf{Vùng nhập liệu} & Con trỏ chữ I & \codeinline{cursor: text;} \\
+    \tcbox[on line, arc=3pt, colback=gray!15, colframe=gray!30, boxsep=1pt, left=6pt, right=6pt, top=2pt, bottom=2pt]{\color{darkText}\bfseries\scriptsize [Input] Vùng nhập liệu} &
+    \begin{tikzpicture}[baseline=-2pt]
+      \draw[darkText, line width=0.8pt] (-2pt, 5pt) -- (2pt, 5pt);
+      \draw[darkText, line width=0.8pt] (0, 5pt) -- (0, -5pt);
+      \draw[darkText, line width=0.8pt] (-2pt, -5pt) -- (2pt, -5pt);
+    \end{tikzpicture} \quad \textcolor{darkText}{\footnotesize Chữ I (I-Beam)} &
+    \codeinline{cursor: text;} \newline \textcolor{gray!70!black}{\tiny Người dùng có thể bôi đen hoặc nhập văn bản.} \\
     \hline
-    \textbf{Vẽ tọa độ} & Dấu cộng (+) nhỏ & \codeinline{cursor: crosshair;} \\
+    \tcbox[on line, arc=3pt, colback=teal!10, colframe=teal!30, boxsep=1pt, left=6pt, right=6pt, top=2pt, bottom=2pt]{\color{teal!80!black}\bfseries\scriptsize [Canvas] Vẽ tọa độ} &
+    \begin{tikzpicture}[baseline=-2pt]
+      \draw[teal!80!black, line width=1pt] (-5pt, 0) -- (5pt, 0);
+      \draw[teal!80!black, line width=1pt] (0, -5pt) -- (0, 5pt);
+    \end{tikzpicture} \quad \textcolor{teal!80!black}{\footnotesize Dấu cộng (+)} &
+    \codeinline{cursor: crosshair;} \newline \textcolor{gray!70!black}{\tiny Đo lường pixel hoặc vẽ trên Canvas.} \\
     \hline
   \end{tabularx}
 \end{tcolorbox}
@@ -17202,16 +17595,53 @@ url(image.png) & Sử dụng ảnh tùy chỉnh làm con trỏ & Game, ứng d�
 \end{codeWindow}
 
 \begin{browserWindow}[Mô Phỏng Trực Quan Giao Diện Nút Tùy Chỉnh (.custom-button)]
-\sffamily\small
-\centering
-\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=8pt, boxrule=0.8pt, width=0.85\linewidth, top=12pt, bottom=12pt, left=16pt, right=16pt]
-  \centering
-  \tcbox[on line, arc=6pt, colback=primaryBlue, colframe=primaryBlue, boxsep=4pt, left=14pt, right=14pt, top=6pt, bottom=6pt, drop shadow=black!10!white]{%
-    \color{white}\bfseries\sffamily Nhấn vào tôi!%
-  }
-  \par\vspace{8pt}
-  \textcolor{secondaryTeal}{\small ($\rightarrow$ Khi di chuột vào nút trên: Con trỏ biến thành hình bàn tay, người dùng nhận biết ngay có thể click).}
-\end{tcolorbox}
+\vspace{2pt}
+{\sffamily\bfseries\color{primaryBlue}\small So Sánh Trực Quan: Trạng Thái Thường vs Trạng Thái Rê Chuột (Hover):}\\[4pt]
+\begin{tcbraster}[raster columns=2, raster equal height, raster column skip=10pt]
+  % Normal State
+  \begin{tcolorbox}[
+      enhanced,
+      colback=slateBg,
+      colframe=gray!30,
+      arc=6pt, boxrule=0.8pt,
+      top=10pt, bottom=10pt, left=10pt, right=10pt
+  ]
+    \centering
+    {\sffamily\scriptsize\color{gray!70!black} Trạng thái bình thường}\\[6pt]
+    \tcbox[on line, arc=5pt, colback=primaryBlue, colframe=primaryBlue, boxsep=3pt, left=12pt, right=12pt, top=5pt, bottom=5pt]{%
+      \color{white}\bfseries\small Nhấn vào tôi!%
+    }
+    \par\vspace{8pt}
+    \begin{tikzpicture}
+      % Default arrow cursor pointing away
+      \fill[gray!60!black] (0,0) -- (0,9pt) -- (2.5pt, 7pt) -- (5pt, 7pt) -- cycle;
+    \end{tikzpicture}
+    \par\vspace{2pt}
+    {\sffamily\tiny\color{gray!60!black} Con trỏ mặc định (default)}
+  \end{tcolorbox}
+
+  % Hovered State with Pointer Hand
+  \begin{tcolorbox}[
+      enhanced,
+      colback=slateBg,
+      colframe=primaryBlue!40,
+      arc=6pt, boxrule=0.8pt,
+      top=10pt, bottom=10pt, left=10pt, right=10pt
+  ]
+    \centering
+    {\sffamily\scriptsize\color{primaryBlue}\bfseries Trạng thái khi di chuột (:hover)}\\[6pt]
+    \tcbox[on line, arc=5pt, colback=blue!85!black, colframe=blue!85!black, boxsep=3pt, left=12pt, right=12pt, top=5pt, bottom=5pt, drop shadow={primaryBlue!30, shadow xshift=0pt, shadow yshift=-2pt}]{%
+      \color{white}\bfseries\small Nhấn vào tôi!%
+    }
+    \par\vspace{8pt}
+    \begin{tikzpicture}
+      % Hand cursor directly over/touching button
+      \fill[primaryBlue] (0,0) -- (0,10pt) -- (3pt, 8pt) -- (5pt, 12pt) -- (7pt, 11pt) -- (5pt, 7pt) -- (8pt, 7pt) -- cycle;
+    \end{tikzpicture}
+    \par\vspace{2pt}
+    {\sffamily\tiny\bfseries\color{primaryBlue} \codeinline{cursor: pointer;} (Bàn tay chỉ nhấp)}
+  \end{tcolorbox}
+\end{tcbraster}
 \end{browserWindow}
 
 \begin{noteBox}[Trải Nghiệm Người Dùng \& Lưu Ý Quan Trọng]
