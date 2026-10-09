@@ -1899,19 +1899,26 @@ Một trong những cạm bẫy kinh điển và thường xuyên gây bối r�
 \sffamily\small
 \centering
 \begin{tikzpicture}[font=\sffamily]
-  % Khung cha .parent (chiều rộng 7.2cm, chiều cao 1.8cm)
-  \draw[fill=gray!15, draw=gray!50, line width=1pt, rounded corners=4pt] (0,0) rectangle (7.2, 1.8);
-  \node[anchor=north west, font=\scriptsize\bfseries, color=darkText] at (0.2, 1.65) {.parent \textmd{(Không set height $\rightarrow$ co theo chữ)}};
+  % Khung nền canvas
+  \draw[fill=white, draw=gray!30, line width=0.8pt, rounded corners=6pt] (-1.0, -0.6) rectangle (8.6, 3.2);
+  
+  % Header bar
+  \fill[gray!8, rounded corners=5pt] (-0.9, 2.6) rectangle (8.5, 3.1);
+  \node[anchor=west, font=\scriptsize\ttfamily\color{gray!80!black}] at (-0.7, 2.85) {DOM Inspector: Parent Without Explicit Height};
+
+  % Khung cha .parent (co theo nội dung chữ)
+  \draw[fill=slateBg, draw=gray!40, line width=1.1pt, rounded corners=3pt] (0, 0.2) rectangle (8.0, 1.8);
+  \node[anchor=north west, font=\tiny\bfseries\color{gray!80!black}] at (0.2, 1.65) {.parent \{ background: \#e0e0e0; /* KHÔNG có height */ \}};
   
   % Khối con .child (bị co theo chữ)
-  \draw[fill=pink!60, draw=pink!90!black, line width=1pt, rounded corners=3pt] (0.2, 0.2) rectangle (7.0, 1.05);
-  \node[anchor=center, font=\scriptsize\bfseries, color=purple!90!black] at (3.6, 0.62) {.child \{ height: 50\%; \} $\rightarrow$ \textcolor{red!80!black}{\textbf{Bị co thành 26px}}};
+  \draw[fill=red!10, draw=red!70, dashed, line width=1pt, rounded corners=2pt] (0.2, 0.4) rectangle (7.8, 1.25);
+  \node[anchor=west, font=\scriptsize\bfseries\color{red!80!black}] at (0.35, 0.85) {.child \{ height: 50\%; \} $\rightarrow$ Bị co thành 26px (không tính được 50\%)};
 
   % Thước đo chiều cao bên trái
-  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=red!80!black] (-0.3, 0) -- (-0.3, 1.8)
-    node[midway, left=6pt, font=\scriptsize\bfseries, color=red!80!black, align=right] {Chiều cao cha\\bằng chữ\\($\approx 35\text{px}$)};
+  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=red!80!black] (-0.2, 0.2) -- (-0.2, 1.8)
+    node[midway, left=5pt, font=\tiny\bfseries, color=red!80!black, align=right] {Chiều cao cha\\bằng chữ ($\approx 35\text{px}$)};
 \end{tikzpicture}
-\par\vspace{4pt}
+\par\vspace{3pt}
 \textcolor{red!80!black}{\scriptsize ($\rightarrow$ \textbf{Thất bại}: .child không thể tính ra $50\%$ vì .parent không có kích thước cụ thể để làm mốc).}
 \end{browserWindow}
 
@@ -1938,25 +1945,34 @@ Một trong những cạm bẫy kinh điển và thường xuyên gây bối r�
 \sffamily\small
 \centering
 \begin{tikzpicture}[font=\sffamily]
-  % Khung cha .parent (tổng chiều cao 3.8cm, rộng 7.2cm)
-  \draw[fill=gray!15, draw=gray!50, line width=1pt, rounded corners=4pt] (0,0) rectangle (7.2, 3.8);
-  \node[anchor=north west, font=\scriptsize\bfseries, color=darkText] at (0.2, 3.65) {.parent \{ height: 400px; background: \#e0e0e0; \}};
+  % Khung nền canvas
+  \draw[fill=white, draw=gray!30, line width=0.8pt, rounded corners=6pt] (-1.0, -0.6) rectangle (8.8, 4.4);
   
-  % Khối con .child (chiếm đúng 50% = 200px nửa trên, cao 1.4cm)
-  \draw[fill=pink!65, draw=purple!80!black, line width=1.1pt, rounded corners=3pt] (0.2, 1.75) rectangle (7.0, 3.15);
-  \node[anchor=center, font=\scriptsize\bfseries, color=purple!90!black, align=center] at (3.6, 2.45) {\textcolor{green!60!black}{\textbf{[ĐẠT]}} .child \{ height: 50\%; \} $= \mathbf{200\text{px}}$\\[2pt]\textcolor{darkText}{\tiny (Chiếm trọn vẹn $50\%$ nửa trên)}};
+  % Header bar
+  \fill[gray!8, rounded corners=5pt] (-0.9, 3.8) rectangle (8.7, 4.3);
+  \node[anchor=west, font=\scriptsize\ttfamily\color{gray!80!black}] at (-0.7, 4.05) {DOM Inspector: Explicit Parent Height (height: 400px)};
+
+  % Khung cha .parent (cao 400px ~ scale 3.2cm)
+  \draw[fill=slateBg, draw=primaryBlue!50, line width=1.1pt, rounded corners=4pt] (0, 0.2) rectangle (8.0, 3.4);
+  \node[anchor=north west, font=\tiny\bfseries\color{primaryBlue!80!black}] at (0.2, 3.25) {.parent \{ height: 400px; \}};
+  
+  % Khối con .child (50% = 200px nửa trên)
+  \draw[fill=primaryBlue!12, draw=primaryBlue, line width=1.2pt, rounded corners=3pt] (0.2, 1.8) rectangle (7.8, 3.0);
+  \node[anchor=north west, font=\footnotesize\bfseries\color{primaryBlue}] at (0.35, 2.8) {.child \{ height: 50\%; \}};
+  \node[anchor=west, font=\scriptsize\color{darkText}] at (0.35, 2.3) {Nội dung Hello -- Hoạt động hoàn hảo: $50\% \times 400\text{px} = \mathbf{200\text{px}}$};
+  \node[anchor=south west, font=\tiny\bfseries\color{white}, fill=primaryBlue, rounded corners=2pt, inner sep=1.5pt] at (0.35, 1.95) {50\% = 200px COMPUTED};
   
   % Vùng trống 50% còn lại của cha
-  \draw[dashed, draw=gray!40, fill=white!60, rounded corners=3pt] (0.2, 0.2) rectangle (7.0, 1.55);
-  \node[anchor=center, font=\scriptsize\color{codeComment}] at (3.6, 0.87) {Vùng trống $50\%$ còn lại của cha ($200\text{px}$)};
+  \draw[dashed, draw=gray!40, fill=gray!3, rounded corners=3pt] (0.2, 0.4) rectangle (7.8, 1.6);
+  \node[anchor=center, font=\scriptsize\color{gray!60}] at (4.0, 1.0) {Vùng trống $50\%$ còn lại của cha ($200\text{px}$)};
 
   % Thước đo tổng thể bên trái (400px)
-  \draw[decorate, decoration={brace, amplitude=5pt}, line width=0.9pt, color=primaryBlue] (-0.3, 0) -- (-0.3, 3.8)
-    node[midway, left=7pt, font=\scriptsize\bfseries, color=primaryBlue, align=right] {Chiều cao cha\\$400\text{px}$ ($100\%$)};
+  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=primaryBlue] (-0.2, 0.2) -- (-0.2, 3.4)
+    node[midway, left=5pt, font=\scriptsize\bfseries, color=primaryBlue, align=right] {Chiều cao cha\\$400\text{px}$ ($100\%$)};
 
   % Thước đo con bên phải (200px)
-  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=purple!80!black] (7.5, 3.15) -- (7.5, 1.75)
-    node[midway, right=6pt, font=\scriptsize\bfseries, color=purple!90!black, align=left] {Chiều cao con\\$200\text{px}$ ($50\%$)};
+  \draw[decorate, decoration={brace, amplitude=4pt}, line width=0.8pt, color=primaryBlue] (8.2, 3.0) -- (8.2, 1.8)
+    node[midway, right=5pt, font=\scriptsize\bfseries, color=primaryBlue, align=left] {Chiều cao con\\$200\text{px}$ ($50\%$)};
 \end{tikzpicture}
 \par\vspace{4pt}
 \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ \textbf{Thành công}: Trình duyệt lấy $50\% \times 400\text{px} = 200\text{px}$ để gán chính xác cho khối con).}
@@ -2048,19 +2064,28 @@ Khối \codeinline{.child} không chiếm $100\%$ chiều cao màn hình vì \co
 \centering
 \begin{tikzpicture}[font=\sffamily]
   % Cửa sổ trái (Sai - Chưa set html)
-  \draw[fill=white, draw=red!40, line width=0.9pt, rounded corners=4pt] (0,0) rectangle (4.6, 3.5);
-  \node[anchor=north, font=\scriptsize\bfseries, color=red!80!black] at (2.3, 3.35) {[CHƯA KHAI BÁO <html>]};
-  \draw[fill=pink!60, draw=red!70!black, line width=0.8pt, rounded corners=2pt] (0.25, 2.1) rectangle (4.35, 2.9);
-  \node[font=\tiny\bfseries\color{purple!90!black}] at (2.3, 2.5) {.child (Bị co rút $\approx 30\text{px}$)};
-  \draw[dashed, draw=gray!30] (0.25, 0.2) rectangle (4.35, 1.9);
-  \node[font=\tiny\color{gray!60}, align=center] at (2.3, 1.05) {Khoảng trắng thừa\\(body không cao $100\%$)};
+  \draw[fill=white, draw=gray!30, line width=0.8pt, rounded corners=5pt] (0, 0) rectangle (4.4, 3.8);
+  \fill[red!8, rounded corners=4pt] (0.1, 3.25) rectangle (4.3, 3.7);
+  \node[anchor=center, font=\tiny\bfseries\color{red!80!black}] at (2.2, 3.48) {CHƯA KHAI BÁO html \{ height: 100\%; \}};
+  % Khối con bị co
+  \draw[fill=red!10, draw=red!70, dashed, line width=0.9pt, rounded corners=2pt] (0.2, 2.3) rectangle (4.2, 3.1);
+  \node[anchor=center, font=\tiny\bfseries\color{red!80!black}] at (2.2, 2.7) {.child (Bị co cụm $\approx 30\text{px}$)};
+  % Khoảng trắng thừa
+  \draw[dashed, draw=gray!35, fill=gray!3, rounded corners=2pt] (0.2, 0.2) rectangle (4.2, 2.15);
+  \node[anchor=center, font=\tiny\color{gray!60}, align=center] at (2.2, 1.15) {Khoảng trắng thừa lớn\\(body không nhận đủ $100\%$)};
 
   % Cửa sổ phải (Đúng - Đã set html, body 100%)
-  \draw[fill=white, draw=primaryBlue!40, line width=0.9pt, rounded corners=4pt] (5.2,0) rectangle (9.8, 3.5);
-  \node[anchor=north, font=\scriptsize\bfseries, color=primaryBlue] at (7.5, 3.35) {[ĐÃ KHAI BÁO html, body 100\%]};
-  \draw[fill=pink!70, draw=purple!80!black, line width=1pt, rounded corners=2pt] (5.45, 0.2) rectangle (9.55, 2.9);
-  \node[font=\scriptsize\bfseries\color{purple!90!black}, align=center] at (7.5, 1.55) {.child \{ height: 100\%; \}\\\textbf{Phủ kín $100\%$ màn hình!}};
+  \draw[fill=white, draw=gray!30, line width=0.8pt, rounded corners=5pt] (5.0, 0) rectangle (9.4, 3.8);
+  \fill[primaryBlue!10, rounded corners=4pt] (5.1, 3.25) rectangle (9.3, 3.7);
+  \node[anchor=center, font=\tiny\bfseries\color{primaryBlue}] at (7.2, 3.48) {ĐÃ KHAI BÁO html, body \{ height: 100\%; \}};
+  % Khối con phủ kín
+  \draw[fill=primaryBlue!12, draw=primaryBlue, line width=1.1pt, rounded corners=3pt] (5.2, 0.2) rectangle (9.2, 3.1);
+  \node[anchor=center, font=\footnotesize\bfseries\color{primaryBlue}] at (7.2, 1.85) {.child \{ height: 100\%; \}};
+  \node[anchor=center, font=\scriptsize\color{darkText}, align=center] at (7.2, 1.25) {\textbf{Phủ kín trọn vẹn}\\\textbf{toàn bộ chiều cao màn hình!}};
+  \node[anchor=south, font=\tiny\bfseries\color{white}, fill=primaryBlue, rounded corners=2pt, inner sep=1.5pt] at (7.2, 0.35) {100\% VIEWPORT HEIGHT};
 \end{tikzpicture}
+\par\vspace{3pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Điểm then chốt: Để \codeinline{height: 100\%} phủ kín màn hình, chuỗi kế thừa từ \codeinline{html} $\rightarrow$ \codeinline{body} $\rightarrow$ \codeinline{.child} đều phải được gán \codeinline{height: 100\%}).}
 \end{browserWindow}
 
 \paragraph{e) Bảng Ma Trận So Sánh Hành Vi Của Thẻ <html> Và <body> Trong CSS:}
@@ -4476,29 +4501,20 @@ Màu Tím (Purple) & purple, violet, indigo, orchid & Sang trọng, sáng tạo,
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Của Thẻ Bài Viết \& Huy Hiệu Trạng Thái Bằng Color Name]
-\vspace{2pt}
-\begin{tcolorbox}[
-    enhanced,
-    colback=gray!5,
-    colframe=blue!80!black,
-    arc=6pt, boxrule=1.2pt,
-    top=10pt, bottom=10pt, left=12pt, right=12pt
-]
-  {\sffamily\bfseries\large\color{red!70!black} Tin Tức Công Nghệ Mới Nhất (\codeinline{color: crimson;})}\\[4pt]
-  {\sffamily\small\color{gray!40!black} Khám phá các tính năng CSS3 hiện đại giúp tối ưu giao diện Web. (\codeinline{color: darkslategrey;})}\\[8pt]
-  
-  % Badges preview
-  \begin{tcolorbox}[nobeforeafter, colback=green!60!black, colframe=green!60!black, arc=3pt, boxrule=0.4pt, top=3pt, bottom=3pt, left=6pt, right=6pt, fontupper=\sffamily\bfseries\scriptsize\color{white}]
-    THÀNH CÔNG (seagreen)
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+  % 1. Article Card Component
+  \begin{tcolorbox}[enhanced, colback=gray!6, colframe=blue!80!black, arc=5pt, boxrule=1.2pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+    \tcbox[on line, arc=2.5pt, colback=red!80!black, colframe=red!80!black, boxsep=1pt, left=4pt, right=4pt, top=1.5pt, bottom=1.5pt]{\color{white}\tiny\bfseries HOT (darkred)}\par\vspace{3pt}
+    {\fontsize{13pt}{16pt}\selectfont \textbf{\color{red!70!black}Tin Tức Công Nghệ Mới Nhất} \textcolor{gray!60}{\scriptsize(color: crimson)}}\par\vspace{3pt}
+    {\fontsize{9.5pt}{13pt}\selectfont \color{gray!30!black}Khám phá các tính năng CSS3 hiện đại giúp tối ưu giao diện Web. \textcolor{gray!60}{\scriptsize(color: darkslategrey)}}
   \end{tcolorbox}
-  \quad
-  \begin{tcolorbox}[nobeforeafter, colback=red!70!black, colframe=red!70!black, arc=3pt, boxrule=0.4pt, top=3pt, bottom=3pt, left=6pt, right=6pt, fontupper=\sffamily\bfseries\scriptsize\color{white}]
-    LỖI HỆ THỐNG (firebrick)
-  \end{tcolorbox}
-  \quad
-  \begin{tcolorbox}[nobeforeafter, colback=orange!90!black, colframe=orange!90!black, arc=3pt, boxrule=0.4pt, top=3pt, bottom=3pt, left=6pt, right=6pt, fontupper=\sffamily\bfseries\scriptsize\color{black}]
-    CẢNH BÁO (darkorange)
-  \end{tcolorbox}
+  \vspace{6pt}
+  % 2. System Notification Badges
+  \textcolor{gray!80!black}{\scriptsize\bfseries HUY HIỆU TRẠNG THÁI (NOTIFICATION BADGES):}\par\vspace{3pt}
+  \tcbox[on line, arc=3pt, colback=green!60!black, colframe=green!60!black, boxsep=1pt, left=5pt, right=5pt, top=2.5pt, bottom=2.5pt]{\color{white}\scriptsize\bfseries THÀNH CÔNG (seagreen)} \hspace{6pt}
+  \tcbox[on line, arc=3pt, colback=red!70!black, colframe=red!70!black, boxsep=1pt, left=5pt, right=5pt, top=2.5pt, bottom=2.5pt]{\color{white}\scriptsize\bfseries LỖI HỆ THỐNG (firebrick)} \hspace{6pt}
+  \tcbox[on line, arc=3pt, colback=orange!90!black, colframe=orange!90!black, boxsep=1pt, left=5pt, right=5pt, top=2.5pt, bottom=2.5pt]{\color{black}\scriptsize\bfseries CẢNH BÁO (darkorange)}
 \end{tcolorbox}
 \end{browserWindow}
 
@@ -4606,33 +4622,46 @@ color: #RRGGBB;
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Của Các Mã Màu HEX Cơ Bản]
-\vspace{2pt}
-\begin{tcolorbox}[
-    enhanced,
-    colback=white,
-    colframe=gray!30,
-    arc=4pt, boxrule=0.6pt,
-    top=8pt, bottom=8pt, left=10pt, right=10pt
-]
-  \begin{tcolorbox}[colback=black, colframe=black, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{white}]
-    .black-text (\#000000): Chữ màu Đen tuyền tuyệt đối
-  \end{tcolorbox}
-  \vspace{3pt}
-  \begin{tcolorbox}[colback=white, colframe=gray!40, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{black}]
-    .white-text (\#ffffff): Chữ màu Trắng tinh nét trên nền xám nhẹ
-  \end{tcolorbox}
-  \vspace{3pt}
-  \begin{tcolorbox}[colback=red!10, colframe=red!60, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{red!80!black}]
-    .red-text (\#ff0000): Chữ màu Đỏ thuần tươi tắn
-  \end{tcolorbox}
-  \vspace{3pt}
-  \begin{tcolorbox}[colback=green!10, colframe=green!60!black, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{green!50!black}]
-    .green-text (\#00ff00): Chữ màu Xanh lá thuần chuẩn
-  \end{tcolorbox}
-  \vspace{3pt}
-  \begin{tcolorbox}[colback=blue!10, colframe=blue!60, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\color{blue!80!black}]
-    .blue-text (\#0000ff): Chữ màu Xanh dương thuần đậm
-  \end{tcolorbox}
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+  \textcolor{gray!80!black}{\scriptsize\bfseries BẢNG MẪU MÃ MÀU HEX CƠ BẢN (DESIGN TOKEN COLOR SWATCHES):}\par\vspace{6pt}
+  \begin{tcbraster}[raster columns=5, raster equal height=rows, raster column skip=5pt]
+    % Black
+    \begin{tcolorbox}[enhanced, colback=slateBg, colframe=gray!30, arc=4pt, boxrule=0.6pt, halign=center, top=4pt, bottom=4pt, left=2pt, right=2pt]
+      \begin{tcolorbox}[colback=black, colframe=black, arc=3pt, boxrule=0pt, height=0.7cm, top=0pt, bottom=0pt]{}\end{tcolorbox}
+      \vspace{2pt}
+      \textcolor{darkText}{\tiny\bfseries .black-text}\par
+      \textcolor{primaryBlue}{\tiny\ttfamily \#000000}
+    \end{tcolorbox}
+    % White
+    \begin{tcolorbox}[enhanced, colback=slateBg, colframe=gray!30, arc=4pt, boxrule=0.6pt, halign=center, top=4pt, bottom=4pt, left=2pt, right=2pt]
+      \begin{tcolorbox}[colback=white, colframe=gray!40, arc=3pt, boxrule=0.5pt, height=0.7cm, top=0pt, bottom=0pt]{}\end{tcolorbox}
+      \vspace{2pt}
+      \textcolor{darkText}{\tiny\bfseries .white-text}\par
+      \textcolor{primaryBlue}{\tiny\ttfamily \#ffffff}
+    \end{tcolorbox}
+    % Red
+    \begin{tcolorbox}[enhanced, colback=slateBg, colframe=gray!30, arc=4pt, boxrule=0.6pt, halign=center, top=4pt, bottom=4pt, left=2pt, right=2pt]
+      \begin{tcolorbox}[colback=red, colframe=red, arc=3pt, boxrule=0pt, height=0.7cm, top=0pt, bottom=0pt]{}\end{tcolorbox}
+      \vspace{2pt}
+      \textcolor{darkText}{\tiny\bfseries .red-text}\par
+      \textcolor{primaryBlue}{\tiny\ttfamily \#ff0000}
+    \end{tcolorbox}
+    % Green
+    \begin{tcolorbox}[enhanced, colback=slateBg, colframe=gray!30, arc=4pt, boxrule=0.6pt, halign=center, top=4pt, bottom=4pt, left=2pt, right=2pt]
+      \begin{tcolorbox}[colback=green!80!black, colframe=green!80!black, arc=3pt, boxrule=0pt, height=0.7cm, top=0pt, bottom=0pt]{}\end{tcolorbox}
+      \vspace{2pt}
+      \textcolor{darkText}{\tiny\bfseries .green-text}\par
+      \textcolor{primaryBlue}{\tiny\ttfamily \#00ff00}
+    \end{tcolorbox}
+    % Blue
+    \begin{tcolorbox}[enhanced, colback=slateBg, colframe=gray!30, arc=4pt, boxrule=0.6pt, halign=center, top=4pt, bottom=4pt, left=2pt, right=2pt]
+      \begin{tcolorbox}[colback=blue, colframe=blue, arc=3pt, boxrule=0pt, height=0.7cm, top=0pt, bottom=0pt]{}\end{tcolorbox}
+      \vspace{2pt}
+      \textcolor{darkText}{\tiny\bfseries .blue-text}\par
+      \textcolor{primaryBlue}{\tiny\ttfamily \#0000ff}
+    \end{tcolorbox}
+  \end{tcbraster}
 \end{tcolorbox}
 \end{browserWindow}
 
@@ -4826,36 +4855,20 @@ Trong tiêu chuẩn CSS hiện đại, bạn có thể bổ sung kênh Alpha tr�
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Của Thẻ Sản Phẩm \& Mã HEX 8 Ký Tự Alpha]
-\vspace{2pt}
-\begin{tcolorbox}[
-    enhanced,
-    colback=white,
-    colframe=gray!30,
-    arc=6pt, boxrule=0.8pt,
-    top=10pt, bottom=10pt, left=12pt, right=12pt
-]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
   % E-Commerce Product Card Preview
-  \begin{tcolorbox}[
-      enhanced,
-      colback=gray!8,
-      colframe=gray!30,
-      arc=4pt, boxrule=0.6pt,
-      top=8pt, bottom=8pt, left=10pt, right=10pt
-  ]
-    \begin{tcolorbox}[nobeforeafter, colback=red!80!black, colframe=red!80!black, arc=2pt, boxrule=0.3pt, top=2pt, bottom=2pt, left=5pt, right=5pt, fontupper=\sffamily\bfseries\scriptsize\color{white}]
-      -25\% (\#ef4444)
-    \end{tcolorbox}\\[4pt]
-    {\sffamily\bfseries\large\color{gray!90!black} Tai Nghe Bluetooth Wireless (\#1e293b)}\\[2pt]
-    {\sffamily\bfseries\color{green!60!black} Giá: 1.250.000 VNĐ (\#059669)}\\[6pt]
-    \begin{tcolorbox}[nobeforeafter, colback=blue!70!black, colframe=blue!70!black, arc=3pt, boxrule=0.4pt, top=3pt, bottom=3pt, left=8pt, right=8pt, fontupper=\sffamily\bfseries\small\color{white}]
-      Thêm Vào Giỏ Hàng (\#3b82f6)
-    \end{tcolorbox}
+  \begin{tcolorbox}[enhanced, colback=slateBg, colframe=gray!30, arc=5pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+    \tcbox[on line, arc=3pt, colback=red!80!black, colframe=red!80!black, boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt]{\color{white}\tiny\bfseries -25\% (\#ef4444)}\par\vspace{3pt}
+    {\fontsize{13pt}{16pt}\selectfont \textbf{\color{gray!90!black}Tai Nghe Bluetooth Wireless} \textcolor{gray!60}{\scriptsize(\#1e293b)}}\par\vspace{2pt}
+    {\fontsize{11pt}{14pt}\selectfont \textbf{\color{green!60!black}1.250.000 VNĐ} \textcolor{gray!60}{\scriptsize(\#059669)}}\par\vspace{6pt}
+    \tcbox[on line, arc=4pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=10pt, right=10pt, top=3.5pt, bottom=3.5pt]{\color{white}\footnotesize\bfseries Thêm Vào Giỏ Hàng (\#3b82f6)}
   \end{tcolorbox}
-  \vspace{4pt}
-  
+  \vspace{6pt}
   % HEX 8-digit Alpha Preview
-  \begin{tcolorbox}[colback=blue!12, colframe=blue!40, arc=3pt, boxrule=0.4pt, top=4pt, bottom=4pt, left=8pt, right=8pt, fontupper=\sffamily\small\color{blue!80!black}]
-    \textbf{Tag Nổi Bật với Mã HEX 8 Ký Tự}: \codeinline{background-color: \#3b82f633;} (Nền Xanh dương mờ 20\%)
+  \begin{tcolorbox}[enhanced, colback=primaryBlue!10, colframe=primaryBlue!35, arc=4pt, boxrule=0.8pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+    \textcolor{primaryBlue}{\bfseries\scriptsize THÔNG BÁO HEX 8 KÝ TỰ (.info-tag):}\par\vspace{2pt}
+    \textcolor{darkText}{\small Nền xanh dương mờ 20\%: \codeinline{background-color: \#3b82f633;} $\rightarrow$ Giá trị Hex \codeinline{33} đại diện cho độ mờ $\mathbf{20\%}$ kênh Alpha.}
   \end{tcolorbox}
 \end{tcolorbox}
 \end{browserWindow}
@@ -4969,40 +4982,22 @@ rgba(255 0 0 0.5) & \textcolor{red!80!black}{\textbf{Không hợp lệ}} & Sai c
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Trực Quan Của Mã CSS Trên]
-\vspace{2pt}
-% 1. Preview .basic-text
-\begin{tcolorbox}[
-    enhanced,
-    colback=green!80!black,
-    colframe=green!60!black,
-    arc=4pt, boxrule=0.6pt,
-    top=6pt, bottom=6pt, left=10pt, right=10pt,
-    fontupper=\sffamily\bfseries\color{red}
-]
-.basic-text: Chữ màu Đỏ rgb(255, 0, 0) trên nền Xanh lá rgb(0, 255, 0)
-\end{tcolorbox}
-
-\vspace{4pt}
-
-% 2. Preview .translucent-box trên lớp nền phía dưới
-\begin{tcolorbox}[
-    enhanced,
-    colback=primaryBlue!5,
-    colframe=primaryBlue!20,
-    arc=4pt, boxrule=0.6pt,
-    top=8pt, bottom=8pt, left=10pt, right=10pt
-]
-  {\sffamily\small\color{gray!70}\itshape Dòng văn bản nền phía dưới trang web... (Lớp giao diện nằm ở phía đằng sau)}\\[4pt]
-  \begin{tcolorbox}[
-      enhanced,
-      colback=blue!45!white,
-      colframe=blue!60!black,
-      arc=4pt, boxrule=0.6pt,
-      top=6pt, bottom=6pt, left=10pt, right=10pt,
-      fontupper=\sffamily\bfseries\color{white}
-  ]
-  .translucent-box: Nền Xanh dương mờ 50\% rgba(0, 0, 255, 0.5)\\
-  \normalfont\small(Hiệu ứng độ mờ bán trong suốt giúp nhìn xuyên qua nền)
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!25, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+  % 1. Preview .basic-text
+  \begin{tcolorbox}[enhanced, colback=green!15, colframe=green!60!black, arc=4pt, boxrule=0.8pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+    \textcolor{red!80!black}{\bfseries .basic-text: Chữ màu Đỏ \codeinline{rgb(255, 0, 0)} trên nền Xanh lá \codeinline{rgb(0, 255, 0)}}\par
+    \textcolor{gray!70!black}{\scriptsize Hai màu thuần sắc tố đối kháng ở mức phát sáng cực đại ($255$).}
+  \end{tcolorbox}
+  \vspace{6pt}
+  % 2. Preview .translucent-box trên lớp nền phía dưới
+  \begin{tcolorbox}[enhanced, colback=slateBg, colframe=gray!30, arc=5pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+    \textcolor{gray!80!black}{\scriptsize\bfseries HIỆU ỨNG TRONG SUỐT (.translucent-box với alpha = 0.5):}\par\vspace{3pt}
+    {\color{gray!60}\itshape Lớp văn bản nền nằm bên dưới (Bối cảnh trang web có thể nhìn xuyên thấu qua lớp kính)...}\par\vspace{4pt}
+    \begin{tcolorbox}[enhanced, colback=primaryBlue!50, colframe=primaryBlue, arc=4pt, boxrule=1pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+      \textcolor{white}{\bfseries .translucent-box \{ background-color: rgba(0, 0, 255, 0.5); \}}\par
+      \textcolor{white}{\scriptsize Kênh Alpha $0.5$ ($50\%$) tạo hiệu ứng bán trong suốt mờ ảo, nhìn xuyên thấu nền bên dưới.}
+    \end{tcolorbox}
   \end{tcolorbox}
 \end{tcolorbox}
 \end{browserWindow}
