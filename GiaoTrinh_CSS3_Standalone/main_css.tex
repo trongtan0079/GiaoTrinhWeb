@@ -9527,13 +9527,47 @@ Tên class không được bắt đầu bằng số và không chứa ký tự �
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Class Selector]
-\sffamily\small
-\centering{\color{orange!90!black}\bfseries\Huge Chào mừng bạn đến với trang web!} \par\vspace{4pt}
-\flushleft
-\textcolor{darkText}{Đây là đoạn văn bản nội dung.} \par\vspace{2pt}
-\colorbox{yellow!80}{\textcolor{darkText}{\textbf{Đây là đoạn văn bản nổi bật.}}} \par\vspace{4pt}
-\tcbox[on line, arc=5pt, colback=blue!80!white, colframe=blue!80!white, boxsep=4pt, left=10pt, right=10pt]{\color{white}\bfseries Nhấn vào đây}
+\begin{browserWindow}[Kết Quả Hiển Thị Class Selector (.title, .content, .highlight, .btn)]
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=gray!25,
+    arc=8pt, boxrule=0.8pt,
+    top=12pt, bottom=12pt, left=14pt, right=14pt,
+    drop shadow={black!10!white, shadow xshift=0pt, shadow yshift=-2pt}
+]
+  \centering
+  % .title: color: #ff6600, text-align: center, font-size: 28px
+  {\fontsize{20pt}{24pt}\selectfont\sffamily\bfseries\color{orange!85!black} Chào Mừng Bạn Đến Với Trang Web!}\\[8pt]
+  
+  \flushleft
+  % .content: color: #333, font-size: 16px, line-height: 1.5
+  {\sffamily\small\color{darkText}
+  Đây là đoạn văn bản nội dung tiêu chuẩn áp dụng lớp \codeinline{.content} với khoảng cách dòng thông thoáng và màu xám đậm dễ đọc.
+  }
+  \par\vspace{8pt}
+  
+  % .highlight: background-color: yellow, font-weight: bold
+  \begin{tcolorbox}[
+      enhanced,
+      colback=yellow!25,
+      colframe=yellow!70!black,
+      arc=4pt, boxrule=0.8pt,
+      leftrule=4pt,
+      top=6pt, bottom=6pt, left=10pt, right=10pt
+  ]
+    {\sffamily\small\bfseries\color{darkText!90!black}
+    Đây là đoạn văn bản nổi bật được gán đồng thời 2 lớp: \codeinline{class="content highlight"}.
+    }
+  \end{tcolorbox}
+  \par\vspace{8pt}
+  
+  % .btn: background-color: #007bff, color: white, padding: 10px 20px, border-radius: 5px
+  \tcbox[on line, arc=5pt, colback=primaryBlue, colframe=primaryBlue, boxsep=3pt, left=14pt, right=14pt, top=6pt, bottom=6pt]{%
+    \sffamily\bfseries\small\color{white} Nhấn Vào Đây (class="btn")%
+  }
+\end{tcolorbox}
 \end{browserWindow}
 
 \paragraph{c. Ưu/Nhược điểm \& Tóm tắt nhanh:}
@@ -10942,14 +10976,90 @@ h2 ~ p {
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả: Chỉ Thẻ p Được Chọn, span Không Bị Ảnh Hưởng]
-\sffamily\small
-\begin{tcolorbox}[arc=2pt, colback=primaryBlue!5, colframe=primaryBlue!40, boxrule=1pt, title={\sffamily\small\color{white}\textbf{.container}}, colbacktitle=primaryBlue!70]
-{\bfseries\large\textcolor{darkText}{Tiêu đề}} \par\vspace{4pt}
-\colorbox{yellow!60}{\textbf{Đoạn văn 1}} {\small\textcolor{gray!60}{$\leftarrow$ nền vàng}} \par\vspace{3pt}
-\textcolor{darkText}{\textit{Span không bị ảnh hưởng}} {\small\textcolor{gray!60}{$\leftarrow$ không phải \codeinline{<p>}}} \par\vspace{3pt}
-\colorbox{yellow!60}{\textbf{Đoạn văn 2}} {\small\textcolor{gray!60}{$\leftarrow$ nền vàng}} \par\vspace{3pt}
-\colorbox{yellow!60}{\textbf{Đoạn văn 3}} {\small\textcolor{gray!60}{$\leftarrow$ nền vàng}}
+\begin{browserWindow}[Kết Quả: Chỉ Thẻ p Đứng Sau h2 Được Chọn, span Không Bị Ảnh Hưởng]
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=primaryBlue!30,
+    arc=6pt, boxrule=0.8pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  {\sffamily\bfseries\scriptsize\color{primaryBlue} DOM CONTAINER: \codeinline{.container} (Minh Họa Bộ Chọn Sibling \codeinline{h2 ~ p}):}\\[4pt]
+  
+  % 1. h2
+  \begin{tcolorbox}[
+      enhanced,
+      colback=slateBg,
+      colframe=gray!30,
+      arc=4pt, boxrule=0.6pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    {\sffamily\bfseries\normalsize\color{darkText} <h2> Tiêu Đề Bài Viết} \hfill
+    \tcbox[on line, arc=3pt, colback=gray!20, colframe=gray!40, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\color{gray!80!black} Gốc so sánh: h2%
+    }
+  \end{tcolorbox}
+  \vspace{3pt}
+  
+  % 2. p1: MATCHED
+  \begin{tcolorbox}[
+      enhanced,
+      colback=yellow!20,
+      colframe=yellow!70!black,
+      arc=4pt, boxrule=0.8pt, leftrule=3.5pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    {\sffamily\small\color{darkText} <p> Đoạn văn 1 (Đồng cấp, đứng sau h2)} \hfill
+    \tcbox[on line, arc=3pt, colback=yellow!60!orange, colframe=yellow!60!orange, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{white} KHỚP: h2 \textasciitilde{} p%
+    }
+  \end{tcolorbox}
+  \vspace{3pt}
+  
+  % 3. span: SKIPPED
+  \begin{tcolorbox}[
+      enhanced,
+      colback=gray!8,
+      colframe=gray!25,
+      arc=4pt, boxrule=0.6pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    {\sffamily\small\color{gray!60!black} <span> Thẻ Span ghi chú phụ (Không phải thẻ p)} \hfill
+    \tcbox[on line, arc=3pt, colback=gray!20, colframe=gray!35, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\color{gray!70!black} BỎ QUA (Khác loại thẻ)%
+    }
+  \end{tcolorbox}
+  \vspace{3pt}
+  
+  % 4. p2: MATCHED
+  \begin{tcolorbox}[
+      enhanced,
+      colback=yellow!20,
+      colframe=yellow!70!black,
+      arc=4pt, boxrule=0.8pt, leftrule=3.5pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    {\sffamily\small\color{darkText} <p> Đoạn văn 2 (Đồng cấp, đứng sau h2)} \hfill
+    \tcbox[on line, arc=3pt, colback=yellow!60!orange, colframe=yellow!60!orange, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{white} KHỚP: h2 \textasciitilde{} p%
+    }
+  \end{tcolorbox}
+  \vspace{3pt}
+  
+  % 5. p3: MATCHED
+  \begin{tcolorbox}[
+      enhanced,
+      colback=yellow!20,
+      colframe=yellow!70!black,
+      arc=4pt, boxrule=0.8pt, leftrule=3.5pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    {\sffamily\small\color{darkText} <p> Đoạn văn 3 (Đồng cấp, đứng sau h2)} \hfill
+    \tcbox[on line, arc=3pt, colback=yellow!60!orange, colframe=yellow!60!orange, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\tiny\bfseries\color{white} KHỚP: h2 \textasciitilde{} p%
+    }
+  \end{tcolorbox}
 \end{tcolorbox}
 \end{browserWindow}
 
@@ -14269,12 +14379,76 @@ $n = 4$ & 3(4) + 1 = 13 & \textbf{\color{primaryBlue}Vị trí 13} \quad {\scrip
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Xen Kẽ Lẻ / Chẵn]
-\sffamily\small
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \colorbox{gray!20}{\textbf{Item 1, 3, 5...}} {\scriptsize\textcolor{gray!60}{($\leftarrow$ Có màu nền xám nhạt \#f0f0f0)}}
-    \item Item 2, 4, 6... {\scriptsize\textcolor{gray!60}{(Màu nền trắng mặc định)}}
-\end{itemize}
+\begin{browserWindow}[Kết Quả Hiển Thị Bảng Kẻ Sọc Xen Kẽ Lẻ (odd) / Chẵn (even)]
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=gray!25,
+    arc=6pt, boxrule=0.8pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  {\sffamily\bfseries\scriptsize\color{primaryBlue} DANH SÁCH NHÂN SỰ (ZEBRA STRIPING BẰNG :NTH-CHILD):}\\[4pt]
+  \sffamily\small
+  % Row 1: Odd
+  \begin{tcolorbox}[
+      enhanced,
+      colback=gray!12,
+      colframe=gray!25,
+      arc=3pt, boxrule=0.5pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    \textbf{1. Nguyễn Văn An} \quad|\quad Phòng Kỹ Thuật \hfill
+    \tcbox[on line, arc=2pt, colback=gray!25, colframe=gray!40, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \ttfamily\tiny\color{darkText} li:nth-child(odd) [\#f0f0f0]%
+    }
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Row 2: Even
+  \begin{tcolorbox}[
+      enhanced,
+      colback=gray!30,
+      colframe=gray!40,
+      arc=3pt, boxrule=0.5pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    \textbf{2. Trần Thị Bình} \quad|\quad Ban Giám Đốc \hfill
+    \tcbox[on line, arc=2pt, colback=gray!45, colframe=gray!60, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \ttfamily\tiny\color{darkText} li:nth-child(even) [\#d3d3d3]%
+    }
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Row 3: Odd
+  \begin{tcolorbox}[
+      enhanced,
+      colback=gray!12,
+      colframe=gray!25,
+      arc=3pt, boxrule=0.5pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    \textbf{3. Lê Hoàng Cường} \quad|\quad Trưởng Nhóm Frontend \hfill
+    \tcbox[on line, arc=2pt, colback=gray!25, colframe=gray!40, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \ttfamily\tiny\color{darkText} li:nth-child(odd) [\#f0f0f0]%
+    }
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Row 4: Even
+  \begin{tcolorbox}[
+      enhanced,
+      colback=gray!30,
+      colframe=gray!40,
+      arc=3pt, boxrule=0.5pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    \textbf{4. Phạm Thu Dung} \quad|\quad Chuyên Viên UX/UI \hfill
+    \tcbox[on line, arc=2pt, colback=gray!45, colframe=gray!60, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \ttfamily\tiny\color{darkText} li:nth-child(even) [\#d3d3d3]%
+    }
+  \end{tcolorbox}
+\end{tcolorbox}
 \end{browserWindow}
 
 \begin{codeWindow}[Ví Dụ Chọn Với Công Thức Bội Số (3n) \& Công Thức Offset (n + 4)]
@@ -14293,11 +14467,34 @@ li:nth-child(n + 4) {
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Công Thức 3n Và n + 4]
-\sffamily\small
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textcolor{primaryBlue}{\textbf{Item 3}} {\scriptsize\textcolor{gray!60}{($\rightarrow$ li:nth-child(3n) chọn màu xanh, in đậm)}}
-    \item \underline{Item 4, 5, 6...} {\scriptsize\textcolor{gray!60}{($\rightarrow$ li:nth-child(n + 4) gạch chân từ phần tử 4 trở đi)}}
-\end{itemize}
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=gray!25,
+    arc=6pt, boxrule=0.8pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  {\sffamily\bfseries\scriptsize\color{primaryBlue} KIỂM TRA ĐIỀU KIỆN 6 PHẦN TỬ (BỘI SỐ 3n VÀ ĐIỂM BẮT ĐẦU n + 4):}\\[4pt]
+  \sffamily\small
+  \begin{tabularx}{\linewidth}{|c|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{3.5cm}|}
+    \hline
+    \rowcolor{primaryBlue} \thd{\sffamily Vị trí} & \thd{\sffamily Phần tử UI} & \thd{\sffamily Quy tắc khớp} \\
+    \hline
+    1 & Item 1 (Bình thường) & \textcolor{gray!60}{Không khớp} \\
+    \hline
+    2 & Item 2 (Bình thường) & \textcolor{gray!60}{Không khớp} \\
+    \hline
+    3 & \textcolor{blue!80!black}{\textbf{Item 3 (Xanh dương, in đậm)}} & \tcbox[on line, arc=2pt, colback=blue!10, colframe=blue!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny\color{blue!80!black} li:nth-child(3n)} \\
+    \hline
+    4 & \underline{Item 4 (Gạch chân)} & \tcbox[on line, arc=2pt, colback=orange!10, colframe=orange!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny\color{orange!90!black} li:nth-child(n + 4)} \\
+    \hline
+    5 & \underline{Item 5 (Gạch chân)} & \tcbox[on line, arc=2pt, colback=orange!10, colframe=orange!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny\color{orange!90!black} li:nth-child(n + 4)} \\
+    \hline
+    6 & \textcolor{blue!80!black}{\underline{\textbf{Item 6 (Vừa đậm xanh, vừa gạch chân)}}} & \tcbox[on line, arc=2pt, colback=green!15, colframe=green!40!black, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny\color{green!60!black} KHỚP CẢ HAI!} \\
+    \hline
+  \end{tabularx}
+\end{tcolorbox}
 \end{browserWindow}
 
 \begin{warnBox}[Phân Tích Chi Tiết: Các Trường Hợp :nth-child(an + b) KHÔNG Hoạt Động Như Kỳ Vọng]
@@ -14437,12 +14634,55 @@ selector:nth-of-type(an + b) {
 \end{prettyTableBox}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Phân Biệt Chi Tiết Trong Trình Duyệt]
-\sffamily\small
-Doan 1 {\scriptsize\textcolor{gray!60}{(Thẻ <p> thứ 1 -- STT DOM 1)}} \par\vspace{2pt}
-Ghi chu 1 {\scriptsize\textcolor{gray!60}{(Thẻ <span> thứ 1 -- STT DOM 2)}} \par\vspace{2pt}
-\textcolor{red}{\textbf{Doan 2}} {\scriptsize\textcolor{gray!60}{($\leftarrow$ .container :nth-child(3) KHỚP -- Con thứ 3 tổng thể của .container)}} \par\vspace{2pt}
-\colorbox{yellow!30}{\textbf{Doan 3}} {\scriptsize\textcolor{gray!60}{($\leftarrow$ .container p:nth-of-type(3) KHỚP -- Thẻ <p> thứ 3 trong các <p> con của .container)}} \par\vspace{2pt}
-Ghi chu 2 {\scriptsize\textcolor{gray!60}{(Thẻ <span> thứ 2 -- STT DOM 5)}}
+\vspace{2pt}
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=primaryBlue!30,
+    arc=6pt, boxrule=0.8pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt
+]
+  {\sffamily\bfseries\scriptsize\color{primaryBlue} DOM SO SÁNH: :nth-child(3) (ĐẾM TẤT CẢ) vs p:nth-of-type(3) (CHỈ ĐẾM THẺ <p>):}\\[4pt]
+  \sffamily\small
+  
+  % 1. Doan 1
+  \begin{tcolorbox}[enhanced, colback=slateBg, colframe=gray!25, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
+    <p> Đoạn văn 1 \hfill
+    \tcbox[on line, arc=2pt, colback=gray!20, colframe=gray!35, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny DOM: \#1 \quad|\quad p: \#1}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % 2. Ghi chu 1
+  \begin{tcolorbox}[enhanced, colback=gray!8, colframe=gray!25, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
+    <span> Ghi chú 1 \hfill
+    \tcbox[on line, arc=2pt, colback=gray!20, colframe=gray!35, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny DOM: \#2 \quad|\quad span: \#1}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % 3. Doan 2: Matches :nth-child(3)
+  \begin{tcolorbox}[enhanced, colback=red!6, colframe=red!50, arc=3pt, boxrule=0.8pt, leftrule=3.5pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
+    \textbf{<p> Đoạn văn 2} \hfill
+    \tcbox[on line, arc=2pt, colback=red!15, colframe=red!60, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\bfseries\tiny\color{red!80!black} KHỚP :nth-child(3) (Vị trí 3 DOM)!%
+    }
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % 4. Doan 3: Matches p:nth-of-type(3)
+  \begin{tcolorbox}[enhanced, colback=yellow!25, colframe=yellow!70!black, arc=3pt, boxrule=0.8pt, leftrule=3.5pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
+    \textbf{<p> Đoạn văn 3} \hfill
+    \tcbox[on line, arc=2pt, colback=yellow!60!orange, colframe=yellow!60!orange, boxsep=1pt, left=4pt, right=4pt, top=1pt, bottom=1pt]{%
+      \sffamily\bfseries\tiny\color{white} KHỚP p:nth-of-type(3) (Thẻ <p> thứ 3)!%
+    }
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % 5. Ghi chu 2
+  \begin{tcolorbox}[enhanced, colback=gray!8, colframe=gray!25, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=6pt, right=6pt]
+    <span> Ghi chú 2 \hfill
+    \tcbox[on line, arc=2pt, colback=gray!20, colframe=gray!35, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny DOM: \#5 \quad|\quad span: \#2}
+  \end{tcolorbox}
+\end{tcolorbox}
 \end{browserWindow}
 
 \begin{prettyTableBox}[Bảng Đánh Giá Kết Luận Chuẩn Xác Chọn Phần Tử]
@@ -14526,14 +14766,72 @@ p:nth-of-type(3) & Thẻ \codeinline{<p>} thứ 3 trong nhóm \codeinline{<p>} c
 
 \begin{browserWindow}[Kết Quả Trực Quan 3 Trường Hợp Thất Bại \& Cách Khắc Phục]
 \sffamily\small
-\textbf{Trường hợp 1 (Vị trí 1 không phải <p>):} \par\vspace{1pt}
-\hspace{0.5em}p:nth-child(1) $\rightarrow$ \textcolor{red}{Thất bại (Không đỏ)}. p:nth-of-type(1) $\rightarrow$ \textcolor{green!70!black}{\textbf{Thành công (Tô xanh)}} \par\vspace{5pt}
+\begin{tcolorbox}[enhanced, colback=white, colframe=gray!25, boxrule=0.8pt, arc=4pt, left=10pt, right=10pt, top=8pt, bottom=8pt]
+  % Case 1
+  \textbf{\textcolor{primaryBlue}{Trường hợp 1 (Vị trí 1 trong container không phải <p>):}}\\[3pt]
+  \begin{minipage}{0.48\linewidth}
+    \begin{tcolorbox}[enhanced, colback=red!4, colframe=red!30, boxrule=0.6pt, arc=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt]
+      \textbf{\textcolor{red!80!black}{p:nth-child(1) [Thất bại]}}\\[2pt]
+      \textcolor{gray!80!black}{\scriptsize \#1 <h2>Header Title</h2>}\\[1pt]
+      \textcolor{gray!80!black}{\scriptsize \#2 <p>Paragraph 1</p> (Vị trí 2 $\neq$ 1, không đỏ)}
+    \end{tcolorbox}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}{0.48\linewidth}
+    \begin{tcolorbox}[enhanced, colback=green!5, colframe=green!40!black, boxrule=0.6pt, arc=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt]
+      \textbf{\textcolor{green!60!black}{p:nth-of-type(1) [Thành công]}}\\[2pt]
+      \textcolor{gray!80!black}{\scriptsize \#1 <h2>Header Title</h2>}\\[1pt]
+      \textbf{\textcolor{green!70!black}{\scriptsize \#2 <p>Paragraph 1</p> (<p> thứ nhất $\rightarrow$ Xanh)}}
+    \end{tcolorbox}
+  \end{minipage}
 
-\textbf{Trường hợp 2 (Không đủ 3 phần tử):} \par\vspace{1pt}
-\hspace{0.5em}li:nth-child(3n) $\rightarrow$ \textcolor{gray!60}{Không có tác dụng vì danh sách chỉ có 2 items} \par\vspace{5pt}
+  \vspace{6pt}
+  \hrulefill
+  \vspace{4pt}
 
-\textbf{Trường hợp 3 (Odd/Even trong DOM hỗn hợp):} \par\vspace{1pt}
-\hspace{0.5em}p:nth-child(odd) $\rightarrow$ \textcolor{red}{Thất bại (Vì <p> nằm ở vị trí chẵn 2 \& 4)}. p:nth-of-type(odd) $\rightarrow$ \textcolor{green!70!black}{\textbf{Thành công (Tô xanh Paragraph 2)}}
+  % Case 2
+  \textbf{\textcolor{primaryBlue}{Trường hợp 2 (Không đủ số lượng phần tử đáp ứng công thức 3n):}}\\[3pt]
+  \begin{tcolorbox}[enhanced, colback=orange!10, colframe=orange!70!black, boxrule=0.6pt, arc=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]
+    \begin{minipage}{0.35\linewidth}
+      \begin{itemize}[leftmargin=12pt, topsep=1pt, itemsep=1pt]
+        \item \scriptsize Item 1 (Index \#1)
+        \item \scriptsize Item 2 (Index \#2)
+      \end{itemize}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.62\linewidth}
+      \begin{tcolorbox}[enhanced, colback=gray!15, colframe=gray!40, boxrule=0.5pt, arc=2pt, left=4pt, right=4pt, top=3pt, bottom=3pt]
+        \centering\scriptsize\textbf{\textcolor{gray!70!black}{li:nth-child(3n) $\rightarrow$ Không khớp (Cần index $\ge$ 3)}}
+      \end{tcolorbox}
+    \end{minipage}
+  \end{tcolorbox}
+
+  \vspace{6pt}
+  \hrulefill
+  \vspace{4pt}
+
+  % Case 3
+  \textbf{\textcolor{primaryBlue}{Trường hợp 3 (Odd/Even trong DOM hỗn hợp nhiều loại thẻ):}}\\[3pt]
+  \begin{minipage}{0.48\linewidth}
+    \begin{tcolorbox}[enhanced, colback=red!4, colframe=red!30, boxrule=0.6pt, arc=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt]
+      \textbf{\textcolor{red!80!black}{p:nth-child(odd) [Thất bại]}}\\[2pt]
+      \textcolor{gray!80!black}{\scriptsize \#1 <span>Span 1</span> (odd, nhưng không phải p)}\\[1pt]
+      \textcolor{gray!80!black}{\scriptsize \#2 <p>Paragraph 2</p> (even $\rightarrow$ Không khớp!)}\\[1pt]
+      \textcolor{gray!80!black}{\scriptsize \#3 <span>Span 3</span> (odd)}\\[1pt]
+      \textcolor{gray!80!black}{\scriptsize \#4 <p>Paragraph 4</p> (even $\rightarrow$ Không khớp!)}
+    \end{tcolorbox}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}{0.48\linewidth}
+    \begin{tcolorbox}[enhanced, colback=green!5, colframe=green!40!black, boxrule=0.6pt, arc=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt]
+      \textbf{\textcolor{green!60!black}{p:nth-of-type(odd) [Thành công]}}\\[2pt]
+      \textcolor{gray!60!black}{\scriptsize \#1 <span>Span 1</span> (Bỏ qua)}\\[1pt]
+      \textbf{\textcolor{green!70!black}{\scriptsize \#2 <p>Paragraph 2</p> (p \#1 = odd $\rightarrow$ Xanh)}}\\[1pt]
+      \textcolor{gray!60!black}{\scriptsize \#3 <span>Span 3</span> (Bỏ qua)}\\[1pt]
+      \textcolor{gray!80!black}{\scriptsize \#4 <p>Paragraph 4</p> (p \#2 = even $\rightarrow$ Bỏ qua)}
+    \end{tcolorbox}
+  \end{minipage}
+\end{tcolorbox}
 \end{browserWindow}
 
 \begin{prettyTableBox}[Bảng So Sánh Toàn Diện Cơ Chế Đếm: :nth-child(n) vs :nth-of-type(n)]
@@ -14700,15 +14998,45 @@ selector:nth-last-child(an + b) {
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Ví Dụ 2: li:nth-last-child(2n + 1)]
+\begin{browserWindow}[Kết Quả Ví Dụ 2: li:nth-last-child(2n + 1) -- Đếm Ngược Từ Dưới Lên]
 \sffamily\small
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \colorbox{gray!20}{\textbf{Item 1}} {\scriptsize\textcolor{gray!60}{($\leftarrow$ Nền xám \#f0f0f0 -- Vị trí 5 từ dưới lên)}}
-    \item Item 2 {\scriptsize\textcolor{gray!60}{(Vị trí 4 từ dưới -- không đổi)}}
-    \item \colorbox{gray!20}{\textbf{Item 3}} {\scriptsize\textcolor{gray!60}{($\leftarrow$ Nền xám \#f0f0f0 -- Vị trí 3 từ dưới lên)}}
-    \item Item 4 {\scriptsize\textcolor{gray!60}{(Vị trí 2 từ dưới -- không đổi)}}
-    \item \colorbox{gray!20}{\textbf{Item 5}} {\scriptsize\textcolor{gray!60}{($\leftarrow$ Nền xám \#f0f0f0 -- Vị trí 1 từ dưới lên)}}
-\end{itemize}
+\begin{tcolorbox}[enhanced, colback=white, colframe=gray!25, boxrule=0.8pt, arc=4pt, left=10pt, right=10pt, top=8pt, bottom=8pt]
+  \textcolor{gray!80!black}{\textbf{Container \codeinline{<ul>} (5 phần tử, chiều đếm: đáy $\rightarrow$ đỉnh):}}\\[6pt]
+  
+  % Item 1
+  \begin{tcolorbox}[enhanced, colback=gray!15, colframe=gray!30, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    \textbf{Item 1} \hfill
+    \tcbox[on line, arc=2pt, colback=primaryBlue!10, colframe=primaryBlue!40, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny Đáy lên: \#5 (odd) $\rightarrow$ Matched [\#f0f0f0]}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Item 2
+  \begin{tcolorbox}[enhanced, colback=white, colframe=gray!20, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    Item 2 \hfill
+    \tcbox[on line, arc=2pt, colback=gray!10, colframe=gray!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny Đáy lên: \#4 (even) $\rightarrow$ Giữ nguyên}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Item 3
+  \begin{tcolorbox}[enhanced, colback=gray!15, colframe=gray!30, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    \textbf{Item 3} \hfill
+    \tcbox[on line, arc=2pt, colback=primaryBlue!10, colframe=primaryBlue!40, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny Đáy lên: \#3 (odd) $\rightarrow$ Matched [\#f0f0f0]}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Item 4
+  \begin{tcolorbox}[enhanced, colback=white, colframe=gray!20, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    Item 4 \hfill
+    \tcbox[on line, arc=2pt, colback=gray!10, colframe=gray!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny Đáy lên: \#2 (even) $\rightarrow$ Giữ nguyên}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Item 5
+  \begin{tcolorbox}[enhanced, colback=gray!15, colframe=gray!30, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    \textbf{Item 5} \hfill
+    \tcbox[on line, arc=2pt, colback=primaryBlue!10, colframe=primaryBlue!40, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny Đáy lên: \#1 (odd) $\rightarrow$ Matched [\#f0f0f0]}
+  \end{tcolorbox}
+\end{tcolorbox}
 \end{browserWindow}
 
 \begin{codeWindow}[Ví Dụ 3: DOM Hỗn Hợp -- Lưu Ý Về Vị Trí Tuyệt Đối Đếm Ngược]
@@ -14836,13 +15164,45 @@ Footer text {\scriptsize\textcolor{gray!60}{(Thẻ <span> -- không bị đếm 
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Ví Dụ 2: p:nth-last-of-type(odd)]
+\begin{browserWindow}[Kết Quả Ví Dụ 2: p:nth-last-of-type(odd) -- Đếm Ngược Theo Nhóm <p>]
 \sffamily\small
-Title {\scriptsize\textcolor{gray!60}{(Thẻ <h2>)}} \par\vspace{2pt}
-\colorbox{yellow!20}{\textbf{Paragraph A}} {\scriptsize\textcolor{gray!60}{($\leftarrow$ Vị trí 3 đếm ngược trong các thẻ <p> -- Khớp odd)}} \par\vspace{2pt}
-Divider {\scriptsize\textcolor{gray!60}{(Thẻ <span> -- Không bị đếm)}} \par\vspace{2pt}
-Paragraph B {\scriptsize\textcolor{gray!60}{(Vị trí 2 đếm ngược trong các thẻ <p> -- Even)}} \par\vspace{2pt}
-\colorbox{yellow!20}{\textbf{Paragraph C}} {\scriptsize\textcolor{gray!60}{($\leftarrow$ Vị trí 1 đếm ngược trong các thẻ <p> -- Khớp odd)}}
+\begin{tcolorbox}[enhanced, colback=white, colframe=gray!25, boxrule=0.8pt, arc=4pt, left=10pt, right=10pt, top=8pt, bottom=8pt]
+  \textcolor{gray!80!black}{\textbf{DOM Cây Phần Tử Hỗn Hợp (Chỉ tính thứ tự đếm ngược giữa các thẻ <p>):}}\\[6pt]
+  
+  % Title
+  \begin{tcolorbox}[enhanced, colback=gray!8, colframe=gray!25, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    \textcolor{gray!70!black}{<h2>Title</h2>} \hfill
+    \tcbox[on line, arc=2pt, colback=gray!20, colframe=gray!35, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny Thẻ khác loại $\rightarrow$ Bỏ qua bộ đếm}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Paragraph A
+  \begin{tcolorbox}[enhanced, colback=yellow!25, colframe=yellow!70!black, arc=3pt, boxrule=0.6pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    \textbf{\textcolor{black}{<p>Paragraph A</p>}} \hfill
+    \tcbox[on line, arc=2pt, colback=green!15, colframe=green!50!black, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny p: \#3 từ dưới lên (odd) $\rightarrow$ lightyellow}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Divider
+  \begin{tcolorbox}[enhanced, colback=gray!8, colframe=gray!25, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    \textcolor{gray!70!black}{<span>Divider</span>} \hfill
+    \tcbox[on line, arc=2pt, colback=gray!20, colframe=gray!35, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny Thẻ span $\rightarrow$ Không bị đếm}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Paragraph B
+  \begin{tcolorbox}[enhanced, colback=white, colframe=gray!25, arc=3pt, boxrule=0.5pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    <p>Paragraph B</p> \hfill
+    \tcbox[on line, arc=2pt, colback=gray!15, colframe=gray!35, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny p: \#2 từ dưới lên (even) $\rightarrow$ Không khớp}
+  \end{tcolorbox}
+  \vspace{2pt}
+  
+  % Paragraph C
+  \begin{tcolorbox}[enhanced, colback=yellow!25, colframe=yellow!70!black, arc=3pt, boxrule=0.6pt, top=3pt, bottom=3pt, left=8pt, right=8pt]
+    \textbf{\textcolor{black}{<p>Paragraph C</p>}} \hfill
+    \tcbox[on line, arc=2pt, colback=green!15, colframe=green!50!black, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\ttfamily\tiny p: \#1 từ dưới lên (odd) $\rightarrow$ lightyellow}
+  \end{tcolorbox}
+\end{tcolorbox}
 \end{browserWindow}
 
 \begin{warnBox}[Các Lưu Ý Quan Trọng Khi Sử Dụng :nth-last-of-type()]
@@ -15873,7 +16233,22 @@ Dòng đầu tiên sẽ có màu xanh, in đậm và phóng to chữ, nhưng cá
 
 \begin{browserWindow}[Kết Quả Hiển Thị Khi Bôi Đen Nội Dung]
 \sffamily\small
-Khi bạn bôi đen đoạn văn bản, nó sẽ hiển thị: \colorbox{yellow}{\textcolor{red!80!black}{\textbf{Nền vàng sáng, chữ đỏ đậm, bóng chữ}}}.
+\begin{tcolorbox}[enhanced, colback=white, colframe=gray!25, boxrule=0.8pt, arc=4pt, left=12pt, right=12pt, top=10pt, bottom=10pt]
+  \textcolor{gray!80!black}{\textbf{Đoạn văn bản mẫu (User Interaction Demo):}}\\[3pt]
+  \textcolor{darkgray}{Trước khi bôi đen, văn bản hiển thị màu xám đen thông thường trên nền trắng.}\\[6pt]
+  \begin{tcolorbox}[enhanced, colback=yellow!15, colframe=yellow!70!black, boxrule=0.6pt, arc=3pt, left=8pt, right=8pt, top=6pt, bottom=6pt]
+    \textcolor{darkgray}{\scriptsize [Mô phỏng trỏ chuột kéo bôi đen văn bản:]}\\[2pt]
+    \colorbox{yellow!90!orange}{\textbf{\textcolor{red!85!black}{Hay boi den doan van ban nay}}}
+    \colorbox{yellow!90!orange}{\textbf{\textcolor{red!85!black}{de xem hieu ung cua ::selection!}}}
+  \end{tcolorbox}
+  \vspace{4pt}
+  \begin{tcolorbox}[enhanced, colback=primaryBlue!5, colframe=primaryBlue!30, boxrule=0.6pt, arc=3pt, left=8pt, right=8pt, top=4pt, bottom=4pt]
+    \textbf{\textcolor{primaryBlue}{Computed Styles (::selection):}} \quad
+    \codeinline{background: \#ffeb3b;} \quad
+    \codeinline{color: \#d50000;} \quad
+    \codeinline{text-shadow: 1px 1px 2px \#000;}
+  \end{tcolorbox}
+\end{tcolorbox}
 \end{browserWindow}
 
 \begin{prettyTableBox}[Bảng Phân Loại Thuộc Tính Hỗ Trợ Cho ::selection]
