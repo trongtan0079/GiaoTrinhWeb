@@ -408,16 +408,11 @@
 
 \titlespacing*{\chapter}{0pt}{-10pt}{20pt}
 
-\titleformat{name=\chapter,numberless}[display]
-  {\normalfont\sffamily\centering}
-  {%
-    \begin{tikzpicture}
-      \node[fill=accentOrange, text=white, font=\sffamily\bfseries\scriptsize, inner xsep=10pt, inner ysep=3.5pt, rounded corners=3pt] {TỔNG QUAN NỘI DUNG GIÁO TRÌNH};
-    \end{tikzpicture}%
-  }
-  {4pt}
-  {\fontsize{24pt}{28pt}\selectfont\bfseries\color{primaryBlue}}
-  [\vspace{6pt}\centerline{\color{primaryBlue!40}\rule{8cm}{1.2pt}}\vspace{16pt}]
+\titleformat{name=\chapter,numberless}[block]
+  {\normalfont\huge\sffamily\bfseries\color{primaryBlue}}
+  {}
+  {0pt}
+  {}
 
 \titlespacing*{name=\chapter,numberless}{0pt}{10pt}{20pt}
 
@@ -627,51 +622,37 @@
 % MỤC LỤC TÀI LIỆU (TABLE OF CONTENTS)
 % ==============================================================================
 \frontmatter
-\renewcommand{\contentsname}{MỤC LỤC TÀI LIỆU CSS3}
+\renewcommand{\contentsname}{MỤC LỤC}
 \setcounter{tocdepth}{2}
 
-% Định dạng Mục lục Cao Cấp & Hiện Đại bằng titletoc
+% Định dạng Mục lục Thanh Lịch, Chuẩn Mực & Sang Trọng (titletoc)
 \titlecontents{part}[0pt]
-  {\addvspace{18pt}\sffamily}
-  {%
-    \tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=2pt, left=6pt, right=6pt, top=2pt, bottom=2pt]{\color{white}\footnotesize\bfseries PHẦN \thecontentslabel}\hspace{8pt}%
-    \large\bfseries\color{primaryBlue}%
-  }
-  {\large\bfseries\color{primaryBlue}}
-  {\hfill\tcbox[on line, arc=3pt, colback=accentOrange!12, colframe=accentOrange!40, boxsep=1.5pt, left=5pt, right=5pt, top=1.5pt, bottom=1.5pt]{\footnotesize\bfseries\color{accentOrange!90!black}Trang \contentspage}}
-  [\addvspace{4pt}{\color{primaryBlue!35}\hrule height 1.2pt}\addvspace{8pt}]
+  {\addvspace{18pt}\sffamily\large\bfseries}
+  {}
+  {\color{primaryBlue}}
+  {\hfill\textbf{\color{primaryBlue}\contentspage}}
+  [\addvspace{6pt}]
 
-\titlecontents{chapter}[6.8em]
-  {\addvspace{10pt}\sffamily}
-  {%
-    \hspace*{-6.8em}%
-    \tcbox[on line, arc=3pt, colback=secondaryTeal, colframe=secondaryTeal, boxsep=1.8pt, left=5pt, right=5pt, top=1.5pt, bottom=1.5pt]{\color{white}\scriptsize\bfseries CHƯƠNG \thecontentslabel}\hspace{8pt}%
-    \bfseries\color{darkText}%
-  }
-  {\hspace*{-6.8em}\bfseries\color{darkText}}
-  {\;\titlerule*[0.45pc]{\textcolor{primaryBlue!25}{.}}\;\textbf{\color{primaryBlue}\contentspage}}
-  [\addvspace{3pt}{\color{primaryBlue!12}\hrule height 0.5pt}\addvspace{3pt}]
+\titlecontents{chapter}[0pt]
+  {\addvspace{10pt}\sffamily\bfseries}
+  {\textcolor{primaryBlue}{Chương \thecontentslabel:\hspace{8pt}}\color{darkText}}
+  {\color{darkText}}
+  {\titlerule*[0.45pc]{\textcolor{gray!40}{.}}\;\textbf{\color{primaryBlue}\contentspage}}
+  [\addvspace{2pt}]
 
-\titlecontents{section}[2.2em]
+\titlecontents{section}[1.5em]
   {\addvspace{3pt}\sffamily\small}
-  {%
-    \textcolor{accentOrange}{\bfseries\thecontentslabel}\hspace{7pt}%
-    \bfseries\color{darkText!90}%
-  }
-  {\bfseries\color{darkText!90}}
-  {\;\titlerule*[0.45pc]{\textcolor{gray!30}{.}}\;\textcolor{primaryBlue}{\bfseries\contentspage}}
-  [\addvspace{0.8pt}]
+  {\textcolor{primaryBlue!85}{\bfseries\thecontentslabel}\hspace{8pt}\color{darkText}}
+  {\color{darkText}}
+  {\titlerule*[0.45pc]{\textcolor{gray!30}{.}}\;\textcolor{darkText}{\contentspage}}
+  [\addvspace{1pt}]
 
-\titlecontents{subsection}[4.4em]
+\titlecontents{subsection}[3.5em]
   {\addvspace{1pt}\sffamily\footnotesize}
-  {%
-    \textcolor{secondaryTeal!80}{\textbf{--}}\hspace{5pt}%
-    \textcolor{gray!80!black}{\thecontentslabel}\hspace{6pt}%
-    \color{darkText!80}%
-  }
-  {\color{darkText!80}}
-  {\;\titlerule*[0.45pc]{\textcolor{gray!20}{.}}\;\textcolor{gray!70!black}{\contentspage}}
-  [\addvspace{0.5pt}]
+  {\textcolor{gray!70!black}{\thecontentslabel}\hspace{7pt}\color{darkText!85}}
+  {\color{darkText!85}}
+  {\titlerule*[0.45pc]{\textcolor{gray!20}{.}}\;\textcolor{gray!70!black}{\contentspage}}
+  []
 
 \begingroup
 \setlength{\parskip}{0pt}
@@ -689,7 +670,7 @@
 % ==============================================================================
 % CHƯƠNG 6: NỀN TẢNG CSS (CASCADE, SPECIFICITY, BOX MODEL \& OUTLINE)
 % ==============================================================================
-\chapter{Nền Tảng CSS: Cascading Style Sheets, Box Model \& Thuộc Tính Outline}
+\chapter[Nền Tảng CSS: Cascading Style Sheets \& Box Model]{Nền Tảng CSS: Cascading Style Sheets, Box Model \& Thuộc Tính Outline}
 \label{chap:css_foundations}
 
 % ==============================================================================
