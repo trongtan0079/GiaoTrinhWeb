@@ -627,37 +627,56 @@
 \renewcommand{\contentsname}{MỤC LỤC}
 \setcounter{tocdepth}{2}
 
-% Định dạng Mục lục Thanh Lịch, Chuẩn Mực & Sang Trọng (titletoc)
+% ── Override tiêu đề MỤC LỤC bằng titletoc-compatible approach ───────────────
+\makeatletter
+\renewcommand{\tableofcontents}{%
+  \chapter*{\contentsname}%
+  {\color{accentOrange}\rule{3.5cm}{2.5pt}}\\[3pt]%
+  {\sffamily\small\color{codeComment}\itshape
+   Giáo Trình Chuyên Sâu CSS3 \textendash{} Thiết Kế Giao Diện \& Bố Cục Trang Web}%
+  \par\vspace{16pt}%
+  \@starttoc{toc}%
+}
+\makeatother
+
+% ── Định dạng từng cấp Mục lục Chuyên Nghiệp & Đồng Đều (titletoc) ──────────
+\contentsmargin{2.2em}
+
+% PHẦN (Part): Nổi bật, cỡ lớn, primaryBlue, hairline phân cách
 \titlecontents{part}[0pt]
-  {\addvspace{18pt}\sffamily\large\bfseries}
+  {\addvspace{20pt}\sffamily\large\bfseries\color{primaryBlue}}
   {}
-  {\color{primaryBlue}}
+  {}
   {\hfill\textbf{\color{primaryBlue}\contentspage}}
-  [\addvspace{6pt}]
+  [\addvspace{5pt}{\color{primaryBlue!25}\hrule height 0.8pt}\addvspace{6pt}]
 
+% CHƯƠNG (Chapter): Đậm, normalsize, dot leader nhạt xanh dương
 \titlecontents{chapter}[0pt]
-  {\addvspace{10pt}\sffamily\bfseries}
-  {\textcolor{primaryBlue}{Chương \thecontentslabel:\hspace{8pt}}\color{darkText}}
-  {\color{darkText}}
-  {\titlerule*[0.45pc]{\textcolor{gray!40}{.}}\;\textbf{\color{primaryBlue}\contentspage}}
-  [\addvspace{2pt}]
+  {\addvspace{12pt}\sffamily\normalsize\bfseries\color{darkText}}
+  {\textcolor{primaryBlue}{Chương\ \thecontentslabel:\enskip}}
+  {\textcolor{primaryBlue}{}}
+  {\enspace\titlerule*[0.5pc]{\textcolor{primaryBlue!30}{.}}\enspace\textbf{\color{primaryBlue}\contentspage}}
+  [\addvspace{3pt}]
 
-\titlecontents{section}[1.5em]
-  {\addvspace{3pt}\sffamily\small}
-  {\textcolor{primaryBlue!85}{\bfseries\thecontentslabel}\hspace{8pt}\color{darkText}}
-  {\color{darkText}}
-  {\titlerule*[0.45pc]{\textcolor{gray!30}{.}}\;\textcolor{darkText}{\contentspage}}
+% MỤC (Section): normalsize, không quá đậm, indent 1.8em
+\titlecontents{section}[1.8em]
+  {\addvspace{4pt}\sffamily\normalsize\color{darkText}}
+  {\textcolor{primaryBlue}{\bfseries\thecontentslabel}\enskip}
+  {\textcolor{darkText}{}}
+  {\enspace\titlerule*[0.5pc]{\textcolor{gray!35}{.}}\enspace\textcolor{darkText}{\contentspage}}
   [\addvspace{1pt}]
 
-\titlecontents{subsection}[3.5em]
-  {\addvspace{1pt}\sffamily\footnotesize}
-  {\textcolor{gray!70!black}{\thecontentslabel}\hspace{7pt}\color{darkText!85}}
-  {\color{darkText!85}}
-  {\titlerule*[0.45pc]{\textcolor{gray!20}{.}}\;\textcolor{gray!70!black}{\contentspage}}
+% MỤC CON (Subsection): small — chỉ 1 bậc nhỏ hơn section, màu teal nhạt, indent 3.8em
+\titlecontents{subsection}[3.8em]
+  {\addvspace{1.5pt}\sffamily\small\color{darkText!75}}
+  {\textcolor{secondaryTeal!80}{\thecontentslabel}\enskip}
+  {\textcolor{darkText!75}{}}
+  {\enspace\titlerule*[0.5pc]{\textcolor{gray!22}{.}}\enspace\textcolor{darkText!70}{\contentspage}}
   []
 
 \begingroup
 \setlength{\parskip}{0pt}
+\pagestyle{plain}
 \tableofcontents
 \endgroup
 \clearpage
@@ -6320,7 +6339,7 @@ color: initial & \textcolor{red}{\textbf{Không}} & Reset màu chữ về mặc 
 % ==============================================================================
 % CHUYÊN ĐỀ: CÁC THUỘC TÍNH FONT & TYPOGRAPHY CHUYÊN SÂU TRONG CSS
 % ==============================================================================
-\section{Chuyên Đề Các Thuộc Tính Font \& Typography Chuyên Sâu Trong CSS (CSS Font Masterclass)}
+\section[Thuộc Tính Font \& Typography Chuyên Sâu (CSS Font Masterclass)]{Chuyên Đề Các Thuộc Tính Font \& Typography Chuyên Sâu Trong CSS (CSS Font Masterclass)}
 \label{sec:css_font_properties_masterclass}
 
 CSS cung cấp một bộ các thuộc tính để kiểm soát mọi khía cạnh của văn bản, từ loại font đến kích thước, kiểu dáng, độ đậm (trọng lượng) và chiều cao dòng. Việc tùy chỉnh font chữ là một phần quan trọng trong việc tạo ra giao diện người dùng hấp dẫn, hiện đại và dễ đọc. Bằng cách hiểu rõ các thuộc tính và kỹ thuật nhúng font, bạn có thể kiểm soát hoàn toàn typography trên trang web của mình.
@@ -6364,7 +6383,7 @@ CSS cung cấp một bộ các thuộc tính để kiểm soát mọi khía cạ
 \end{tcolorbox}
 \vspace{4pt}
 
-\subsection{Chuyên Đề Phông Chữ \& Typography Trong CSS (Generic Font Families Masterclass)}
+\subsection[Phông Chữ \& Typography Trong CSS (Generic Font Families)]{Chuyên Đề Phông Chữ \& Typography Trong CSS (Generic Font Families Masterclass)}
 \label{sec:css_typography_foundations}
 
 \begin{conceptBox}[Khái Niệm Cơ Bản Về Generic Font Families]
@@ -9365,8 +9384,7 @@ body {
   {\sffamily\small\color{gray!70} → \codeinline{font-synthesis: none;} bảo vệ nét thiết kế chuẩn của phông chữ gốc, loại bỏ hoàn toàn hiện tượng nghiêng/đậm giả lập.}
 \end{tcolorbox}
 \end{browserWindow}
-% MỤC 5: PHÂN LOẠI BỘ CHỌN CSS (CSS SELECTORS MASTERCLASS)
-% ==============================================================================
+\addtocontents{toc}{\protect\newpage}
 \section{Các Loại Selectors Trong CSS (CSS Selectors Masterclass)}
 
 Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML mà bạn muốn áp dụng kiểu dáng (\term{CSS styles}). CSS cung cấp nhiều loại selectors để bạn có thể chọn phần tử theo tên thẻ, ID, class, trạng thái, hoặc cấu trúc của chúng.
