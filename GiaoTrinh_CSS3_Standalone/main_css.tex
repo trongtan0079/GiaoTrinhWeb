@@ -270,6 +270,8 @@
 \newcommand{\codeinline}[1]{\textcolor{accentOrange}{\texttt{#1}}}
 \newcommand{\term}[1]{\textbf{\textcolor{primaryBlue}{#1}}}
 \newcommand{\badge}[1]{\tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!30, boxsep=1pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\small\sffamily\color{primaryBlue}#1}}
+\DeclareRobustCommand{\taghint}[1]{\texorpdfstring{\textcolor{accentOrange}{\textbf{\texttt{#1}}}}{#1}}
+\DeclareRobustCommand{\csshint}[1]{\texorpdfstring{\textcolor{accentOrange}{\textbf{\texttt{#1}}}}{#1}}
 
 % ==============================================================================
 % 3. CẤU HÌNH MÃ NGUỒN (CODE LISTINGS & UNICODE)
@@ -781,7 +783,7 @@ h1 {
 % ==============================================================================
 % MỤC 3: CÁC CÁCH THÊM STYLE VÀO TRANG WEB
 % ==============================================================================
-\section{Các Cách Thêm Style Vào Trang Web}
+\section{Các Cách Thêm Style Vào Trang Web (\csshint{inline}, \csshint{internal}, \csshint{external})}
 
 CSS có thể được áp dụng vào HTML theo 3 cách:
 
@@ -801,7 +803,7 @@ CSS có thể được áp dụng vào HTML theo 3 cách:
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{Inline CSS (CSS Trong Thẻ HTML)}
+\subsection{Inline CSS (Khai Báo Trong Thuộc Tính \csshint{style})}
 Viết trực tiếp vào thẻ HTML bằng thuộc tính \codeinline{style}.
 \begin{codeWindow}[Mã Nguồn Inline CSS]
 \begin{lstlisting}[language=HTML5]
@@ -825,7 +827,7 @@ Viết trực tiếp vào thẻ HTML bằng thuộc tính \codeinline{style}.
 \end{browserWindow}
 \textcolor{warnBorder}{\textbf{$\rightarrow$ Hạn chế}}: \textcolor{accentOrange}{\textbf{Không khuyến khích}} vì làm code khó bảo trì.
 
-\subsection{Internal CSS (CSS Nội Bộ)}
+\subsection{Internal CSS (Khai Báo Trong Thẻ \taghint{<style>})}
 Viết trong thẻ \codeinline{<style>} trong file HTML (bên trong \codeinline{<head>}). Dùng khi chỉ áp dụng CSS cho một trang web duy nhất.
 \begin{codeWindow}[Mã Nguồn Internal CSS]
 \begin{lstlisting}[language=HTML5]
@@ -855,7 +857,7 @@ Viết trong thẻ \codeinline{<style>} trong file HTML (bên trong \codeinline{
 \end{tcolorbox}
 \end{browserWindow}
 
-\subsection{External CSS (CSS Bên Ngoài)}
+\subsection{External CSS (Liên Kết File Ngoại Qua \taghint{<link>})}
 Viết CSS trong file \codeinline{.css} riêng biệt, sau đó liên kết vào HTML bằng thẻ \codeinline{<link>}.
 \begin{codeWindow}[Liên Kết File CSS Qua Thẻ Link]
 \begin{lstlisting}[language=HTML5]
@@ -894,7 +896,7 @@ p {
 % ==============================================================================
 % MỤC 4: MỘT SỐ THUỘC TÍNH CSS CƠ BẢN \& ĐƠN VỊ ĐO KÍCH THƯỚC
 % ==============================================================================
-\section{Một Số Thuộc Tính CSS Cơ Bản \& Đơn Vị Đo Kích Thước}
+\section{Một Số Thuộc Tính CSS Cơ Bản \& Đơn Vị Đo Kích Thước (\csshint{px}, \csshint{\%}, \csshint{rem})}
 
 \begin{tcolorbox}[
     enhanced,
@@ -1041,7 +1043,7 @@ pc & Pica ($1\text{pc} = 12\text{pt}$) & Hiếm dùng trên web. \\
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ PIXEL (PX MASTERCLASS TRONG CSS)
 % ==============================================================================
-\subsection{Chuyên Đề Đơn Vị Pixel (px Masterclass Trong CSS)}
+\subsection{Chuyên Đề Đơn Vị Pixel (\csshint{px} Masterclass Trong CSS)}
 \label{sec:css_pixel_masterclass}
 
 Trong CSS, \codeinline{px} (viết tắt của \term{Pixel}) là đơn vị độ dài tuyệt đối vô cùng phổ biến và là một trong những đơn vị cơ bản nhất được sử dụng để xác định kích thước cho các thuộc tính như: \codeinline{width}, \codeinline{height}, \codeinline{margin}, \codeinline{padding}, \codeinline{font-size}, \codeinline{border-width}, \codeinline{border-radius}, \codeinline{box-shadow}, \codeinline{text-shadow}, \codeinline{min-width}, \codeinline{max-width}, \codeinline{min-height}, \codeinline{max-height}...
@@ -1326,7 +1328,7 @@ lh & Line height hiện tại & Tương đối với thuộc tính \codeinline{l
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ PHẦN TRĂM (%) - PERCENTAGE MASTERCLASS TRONG CSS
 % ==============================================================================
-\subsection{Chuyên Đề Đơn Vị Phần Trăm (\% Masterclass Trong CSS)}
+\subsection{Chuyên Đề Đơn Vị Phần Trăm (\csshint{\%} Masterclass Trong CSS)}
 \label{sec:css_percentage_masterclass}
 
 Đơn vị phần trăm (\codeinline{\%}) trong CSS là một đơn vị tương đối cực kỳ mạnh mẽ và linh hoạt, thường được sử dụng làm nòng cốt để tạo ra các bố cục trang web tự động co giãn và đáp ứng (\term{Responsive Web Design}).
@@ -2163,7 +2165,7 @@ Khối con (\codeinline{.child}) & Bây giờ có thể sử dụng \codeinline{
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ EM & REM (TYPOGRAPHY & SCALABLE UI MASTERCLASS)
 % ==============================================================================
-\subsection{Chuyên Đề Đơn Vị em (em Masterclass Trong CSS)}
+\subsection{Chuyên Đề Đơn Vị \csshint{em} (em Masterclass Trong CSS)}
 \label{sec:css_em_masterclass}
 
 Đơn vị \codeinline{em} là một trong những đơn vị đo lường tương đối lâu đời và quan trọng bậc nhất trong CSS, bắt nguồn từ thuật ngữ ngành in ấn (chiều rộng của ký tự chữ ``M'' hoa). Trong CSS hiện đại, \codeinline{em} hoạt động linh hoạt theo cơ chế kế thừa ngữ cảnh phông chữ.
@@ -3182,7 +3184,7 @@ Khoảng cách dòng (\codeinline{line-height}) & Unitless (1.5) & Ngăn ngừa 
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ REM (ROOT EM MASTERCLASS)
 % ==============================================================================
-\subsection{Chuyên Đề Đơn Vị rem (rem Masterclass Trong CSS)}
+\subsection{Chuyên Đề Đơn Vị \csshint{rem} (rem Masterclass Trong CSS)}
 \label{sec:css_rem_masterclass}
 
 \paragraph{1. Bản Chất Đơn Vị rem \& 3 Đặc Điểm Cốt Lõi:}
@@ -3618,7 +3620,7 @@ Khi phân vân giữa các đơn vị đo lường trong dự án thực tế:
 % ==============================================================================
 % CHUYÊN ĐỀ SÂU VỀ ĐƠN VỊ VIEWPORT (VIEWPORT UNITS MASTERCLASS)
 % ==============================================================================
-\subsection{Chuyên Đề Đơn Vị Viewport (vw, vh, vmin, vmax Masterclass)}
+\subsection{Chuyên Đề Đơn Vị Viewport (\csshint{vw}, \csshint{vh}, \csshint{vmin}, \csshint{vmax} Masterclass)}
 \label{sec:css_viewport_masterclass}
 
 Đơn vị Viewport trong CSS lấy \textbf{kích thước khung nhìn của cửa sổ trình duyệt (\term{Viewport})} làm thước đo tham chiếu. Điều tuyệt vời nhất của đơn vị Viewport là: \textbf{Nó hoàn toàn độc lập với phần tử cha}, bất kể phần tử nằm sâu bao nhiêu cấp trong cây DOM.
@@ -4138,7 +4140,7 @@ Chi tiết nhỏ cố định (Border, Icon, Shadow) & px & Kiểm soát chính 
 \end{itemize}
 \end{tipBox}
 
-\subsection{Mục "Đọc Thêm": Các Kỹ Thuật Đơn Vị Hiện Đại Trong CSS}
+\subsection{Mục "Đọc Thêm": Các Kỹ Thuật Đơn Vị Hiện Đại (\csshint{dvh}, \csshint{svh}, \csshint{clamp()})}
 \label{sec:css_modern_units_deepdive}
 
 \begin{conceptBox}[Đọc Thêm: Các Kỹ Thuật Đơn Vị Hiện Đại Trong CSS Modern]
@@ -4375,7 +4377,7 @@ p  { font-size: 1.4rem; } /* 1.4 * 10px = 14px */
 % ==============================================================================
 % MỤC 4.1: HỆ THỐNG MÀU SẮC TRONG CSS (CSS COLORS MASTERCLASS TỪ A-Z)
 % ==============================================================================
-\subsection{Chuyên Đề Hệ Thống Màu Sắc Trong CSS (CSS Colors Masterclass Từ A đến Z)}
+\subsection{Chuyên Đề Hệ Thống Màu Sắc (\csshint{HEX}, \csshint{RGB}, \csshint{HSL}, \csshint{Alpha}) - Từ A đến Z}
 \label{sec:css_colors_masterclass}
 
 Màu sắc là yếu tố sống còn quyết định tính thẩm mỹ, khả năng truyền tải thông điệp, trải nghiệm người dùng (\term{UX}) và khả năng truy cập (\term{Accessibility - a11y}) của mọi trang web. Trong CSS, lập trình viên có thể biểu diễn màu sắc qua nhiều hệ thống biểu diễn khác nhau từ đơn giản đến nâng cao.
@@ -5723,7 +5725,7 @@ Trong hệ thống màu sắc của CSS, ngoài các mô hình mã màu số (HE
 % ==========================================
 % PHẦN I: TỪ KHÓA TRANSPARENT
 % ==========================================
-\subsubsection*{I. Chuyên Đề Từ Khóa Đặc Biệt \codeinline{transparent}:}
+\subsubsection*{I. Chuyên Đề Từ Khóa Đặc Biệt \csshint{transparent}}
 
 \begin{conceptBox}[Bản Chất Kỹ Thuật Của Từ Khóa transparent]
 \textbf{1. transparent Là Gì?}:
@@ -5879,7 +5881,7 @@ Khả năng kế thừa phần tử con & Phần tử con giữ màu sắc riên
 % ==========================================
 % PHẦN II: TỪ KHÓA CURRENTCOLOR
 % ==========================================
-\subsubsection*{II. Chuyên Đề Từ Khóa Đặc Biệt \codeinline{currentColor}:}
+\subsubsection*{II. Chuyên Đề Từ Khóa Đặc Biệt \csshint{currentColor}}
 
 \begin{conceptBox}[Bản Chất Kỹ Thuật Của Từ Khóa Đặc Biệt currentColor]
 \textbf{1. currentColor Là Gì?}:
@@ -6749,7 +6751,7 @@ Khuyết điểm hạn chế & Không kiểm soát chi tiết 100\% về kiểu 
 
 \subsection{Chi Tiết 7 Thuộc Tính Font Cốt Lõi Trong CSS}
 
-\subsubsection{1. Thuộc Tính font-family \& Quy Tắc Khai Báo Chuẩn (Vấn Đề 2: Quy Tắc Viết font-family Trong CSS)}
+\subsubsection{1. Thuộc Tính \csshint{font-family} \& Quy Tắc Khai Báo Chuẩn}
 
 \begin{conceptBox}[VẤN ĐỀ 2: QUY TẮC VIẾT FONT-FAMILY TRONG CSS]
 \textbf{Khái niệm cốt lõi}: Thuộc tính \codeinline{font-family} nhận một danh sách các phông chữ ưu tiên từ trái qua phải, phân tách bằng dấu phẩy và bắt buộc kết thúc bằng nhóm phông chữ tổng quát (\term{generic font family}). Tên font có khoảng trắng phải được bọc trong dấu ngoặc kép.
@@ -7046,7 +7048,7 @@ Trang trí nhẹ / Tiêu đề nghệ thuật & Pacifico, Lobster, Dancing Scrip
 
 Việc làm chủ thuộc tính \codeinline{font-family} không chỉ là về việc chọn font đẹp mà còn là về việc đảm bảo trải nghiệm người dùng tối ưu và hiệu suất trang web tốt.
 
-\subsubsection{2. Thuộc Tính font-size (Kích Thước Phông Chữ MASTERCLASS)}
+\subsubsection{2. Thuộc Tính \csshint{font-size} (Kích Thước Phông Chữ Masterclass)}
 \label{sec:font_size}
 
 Thuộc tính \codeinline{font-size} trong CSS được sử dụng để thiết lập kích thước của phông chữ (văn bản) trong một phần tử HTML. Đây là một trong những thuộc tính cơ bản và quan trọng nhất trong việc kiểm soát typography trên trang web, ảnh hưởng trực tiếp đến khả năng đọc và thẩm mỹ tổng thể.
@@ -7299,7 +7301,7 @@ p {
 \end{codeWindow}
 \end{conceptBox}
 
-\subsubsection{3. Thuộc Tính font-weight (Trọng Lượng / Độ Đậm Phông Chữ MASTERCLASS)}
+\subsubsection{3. Thuộc Tính \csshint{font-weight} (Trọng Lượng / Độ Đậm Phông Chữ Masterclass)}
 \label{sec:font_weight}
 
 \begin{conceptBox}[Khái Niệm Cốt Lõi Về Thuộc Tính font-weight]
@@ -7463,7 +7465,7 @@ span.light {
 \end{lstlisting}
 \end{codeWindow}
 
-\subsection*{IV. Sự Khác Biệt Giữa Giá Trị bolder Và bold trong CSS}
+\subsection*{IV. Sự Khác Biệt Giữa Giá Trị \csshint{bolder} Và \csshint{bold} trong CSS}
 
 \begin{conceptBox}[So Sánh Cơ Chế Hoạt Động Của bold và bolder]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -7664,7 +7666,7 @@ Chuyển sang sử dụng các phông chữ thiết kế hiện đại có sự 
 \end{enumerate}
 \end{tipBox}
 
-\subsubsection{4. Thuộc Tính font-style (Kiểu Phông Chữ Nghiêng MASTERCLASS)}
+\subsubsection{4. Thuộc Tính \csshint{font-style} (Kiểu Phông Chữ Nghiêng Masterclass)}
 \label{sec:font_style}
 
 Thuộc tính \codeinline{font-style} trong CSS được sử dụng để xác định kiểu dáng của chữ (văn bản), chủ yếu là chuyển đổi giữa chữ thường (\codeinline{normal}), chữ nghiêng nghệ thuật (\codeinline{italic}) hoặc chữ nghiêng mô phỏng (\codeinline{oblique}). Nó giúp bạn thêm sắc thái và sự nhấn mạnh vào nội dung mà không cần phải thay đổi họ phông chữ (\codeinline{font-family}).
@@ -7880,7 +7882,7 @@ Trong HTML, có một số thẻ mang ngữ nghĩa chuyên biệt được trìn
 \end{itemize}
 \end{conceptBox}
 
-\subsubsection{5. Thuộc Tính font-variant (Biến Thể Phông Chữ Small-Caps)}
+\subsubsection{5. Thuộc Tính \csshint{font-variant} (Biến Thể Phông Chữ Small-Caps)}
 \label{sec:font_variant}
 
 Thuộc tính \codeinline{font-variant} dùng để đặt các biến thể chữ hoa nhỏ (\term{small-caps}).
@@ -7911,7 +7913,7 @@ Thuộc tính \codeinline{font-variant} dùng để đặt các biến thể ch�
 \end{tcolorbox}
 \end{browserWindow}
 
-\subsubsection{6. Thuộc Tính line-height (Chiều Cao Dòng \& Khoảng Cách Dòng MASTERCLASS)}
+\subsubsection{6. Thuộc Tính \csshint{line-height} (Chiều Cao Dòng \& Khoảng Cách Dòng Masterclass)}
 \label{sec:line_height}
 
 \paragraph*{I. Khái Niệm Cốt Lõi Về line-height}
@@ -8703,7 +8705,7 @@ Bản chất của \codeinline{-webkit-line-clamp} là gì? & Là thuộc tính 
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{7. Thuộc Tính Viết Tắt font (Shorthand Property)}
+\subsubsection{7. Thuộc Tính Viết Tắt \csshint{font} (Shorthand Property)}
 \label{sec:font_shorthand}
 
 Thuộc tính viết tắt \codeinline{font} cho phép bạn đặt nhiều thuộc tính font trong một khai báo duy nhất. Thứ tự các giá trị là rất quan trọng và một số giá trị là bắt buộc.
@@ -8902,7 +8904,7 @@ Phương pháp \codeinline{@import} có thể làm chậm quá trình tải font
 \end{itemize}
 
 % ------------------------------------------------------------------------------
-\subsubsection{2. Sử Dụng Quy Tắc @font-face (Tự Host Font Trên Server)}
+\subsubsection{2. Sử Dụng Quy Tắc \csshint{@font-face} (Tự Host Font Trên Server)}
 
 Phương pháp \codeinline{@font-face} cho phép bạn tự host các tệp font trực tiếp trên máy chủ của dự án. Đây là giải pháp bắt buộc khi sử dụng phông chữ độc quyền, phông chữ bản quyền trả phí, hoặc khi dự án yêu cầu bảo mật và độc lập dữ liệu tuyệt đối.
 
@@ -9402,7 +9404,7 @@ Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML
 \end{tcolorbox}
 \vspace{4pt}
 
-\subsection{1. Bảng Tổng Quan Chi Tiết Các Bộ Chọn CSS Quan Trọng}
+\subsection{Bảng Tổng Quan Chi Tiết Các Bộ Chọn CSS Quan Trọng}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Danh Sách Đầy Đủ Các Bộ Chọn CSS Quan Trọng]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -9442,7 +9444,7 @@ Pseudo-element (Phần tử giả) & selector::pseudo-element \{\} & Chọn mộ
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{2. Chi Tiết Các Bộ Chọn Cơ Bản (Basic Selectors)}
+\subsection{Chi Tiết Các Bộ Chọn Cơ Bản (Basic Selectors)}
 
 \begin{prettyTableBox}[Bảng Tổng Hợp Chi Tiết Các Bộ Chọn Cơ Bản (Basic Selectors)]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -9464,7 +9466,7 @@ Bộ chọn chung (Universal Selector) & * \{\} & Chọn tất cả các thành 
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{2.1. Bộ Chọn Theo Thẻ (Type Selector / Tag Selector)}
+\subsubsection{Bộ Chọn Theo Thẻ (\csshint{Type} / \csshint{Tag} Selector)}
 
 \paragraph{a. Khái niệm:}
 Bộ chọn theo thẻ (Type Selector) là bộ chọn cơ bản trong CSS, dùng để chọn tất cả các phần tử có cùng tên thẻ HTML và áp dụng chung một quy tắc CSS cho chúng.
@@ -9584,7 +9586,7 @@ button {
 \textbf{Hạn chế}: Nếu chỉ muốn định dạng một số phần tử cụ thể thay vì tất cả, nên dùng \textbf{Class Selector} (\codeinline{.classname}) hoặc \textbf{ID Selector} (\codeinline{\#idname}) để tránh ảnh hưởng ngoài ý muốn đến các phần tử cùng loại khác trên trang.
 \end{warnBox}
 
-\subsubsection{2.2. Bộ Chọn Theo Lớp (Class Selector)}
+\subsubsection{Bộ Chọn Theo Lớp (Class Selector -- \csshint{.class})}
 
 \paragraph{a. Khái niệm \& Cú pháp:}
 Bộ chọn class chọn các phần tử HTML có thuộc tính \codeinline{class} nhất định.
@@ -9720,7 +9722,7 @@ Tính tái sử dụng & Cao -- có thể áp dụng cùng class cho nhiều th�
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{2.3. Bộ Chọn Theo ID (ID Selector)}
+\subsubsection{Bộ Chọn Theo ID (ID Selector -- \csshint{\#id})}
 
 \paragraph{a. Khái niệm \& Cú pháp:}
 ID là một định danh duy nhất cho mỗi phần tử HTML. Bộ chọn ID dùng dấu thăng \codeinline{\#}.
@@ -9810,7 +9812,7 @@ Tính tái sử dụng & Không -- mỗi ID chỉ dùng cho 1 phần tử duy nh
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{2.4. Bộ Chọn Chung (Universal Selector - *)}
+\subsubsection{Bộ Chọn Chung (Universal Selector -- \csshint{*})}
 
 Bộ chọn chung dùng dấu sao \codeinline{*} giúp bạn chọn tất cả các phần tử HTML trên trang web.
 
@@ -9889,7 +9891,7 @@ Trường hợp dùng & Reset CSS, cấu hình toàn trang, kiểm tra layout \\
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{3. Bộ Chọn Kết Hợp (Combinator Selectors) Chi Tiết \& Ví Dụ Thực Tế}
+\subsection{Bộ Chọn Kết Hợp (Combinator Selectors) Chi Tiết \& Ví Dụ Thực Tế}
 
 \begin{conceptBox}[Khái Niệm Về Bộ Chọn Kết Hợp (Combinator Selectors)]
 Trong CSS, \textbf{combinator selectors (bộ chọn kết hợp)} là các bộ chọn dùng để kết nối hoặc liên kết các phần tử dựa trên mối quan hệ của chúng trong cây DOM. Chúng giúp bạn chọn phần tử con, phần tử liền kề, hoặc phần tử nằm cùng cấp cực kỳ linh hoạt!
@@ -9913,7 +9915,7 @@ Bộ chọn anh em chung (General Sibling) & element1 \textasciitilde{} element2
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsubsection{3.1. Descendant Selector (Bộ Chọn Hậu Duệ) -- Chi Tiết \& Ví Dụ Thực Tế}
+\subsubsection{Descendant Selector (Bộ Chọn Hậu Duệ -- \csshint{A B})}
 
 \begin{conceptBox}[Khái Niệm Descendant Selector (Bộ Chọn Hậu Duệ)]
 \textbf{Descendant Selector (Bộ chọn hậu duệ)} trong CSS dùng để chọn \textbf{tất cả các phần tử con, cháu, chắt\ldots} nằm bên trong một phần tử cha, bất kể cấp độ lồng nhau sâu bao nhiêu trong cây DOM.
@@ -10309,7 +10311,7 @@ form label input {
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{3.2. Child Selector (Bộ Chọn Con Trực Tiếp) -- Chi Tiết \& Cơ Chế Xử Lý}
+\subsubsection{Child Selector (Bộ Chọn Con Trực Tiếp -- \csshint{A > B})}
 
 \begin{conceptBox}[Khái Niệm Child Selector (bộ chọn con trực tiếp)]
 \textbf{Child Selector (Bộ chọn con trực tiếp)} trong CSS là một bộ chọn dùng để chọn các \textbf{phần tử con trực tiếp} của phần tử cha, tức là các phần tử nằm ngay bên trong phần tử cha mà không đi qua trung gian. Nếu phần tử con nằm sâu hơn một cấp (là cháu, chắt\ldots), thì \textbf{không} bị ảnh hưởng bởi bộ chọn này.
@@ -10613,7 +10615,7 @@ section > p {
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{3.3. Adjacent Sibling Selector (Bộ Chọn Anh Chị Liền Kề) -- Chi Tiết}
+\subsubsection{Adjacent Sibling Selector (Bộ Chọn Anh Chị Liền Kề -- \csshint{A + B})}
 
 \begin{conceptBox}[Khái Niệm Adjacent Sibling Selector]
 \textbf{Adjacent Sibling Selector (Bộ chọn anh chị liền kề)} là một loại bộ chọn trong CSS dùng để chọn phần tử ngay liền kề sau một phần tử khác trong cây DOM, cùng cấp cha. Bộ chọn này rất hữu ích khi bạn muốn tác động chỉ đến phần tử đứng ngay sau một phần tử cụ thể, thay vì chọn tất cả các phần tử sau đó.
@@ -10875,7 +10877,7 @@ So sánh với \textasciitilde{} & \codeinline{+} chọn 1 phần tử liền k�
 \end{tipBox}
 
 
-\subsubsection{3.4. General Sibling Selector (Bộ Chọn Anh Chị Tổng Quát) -- Chi Tiết}
+\subsubsection{General Sibling Selector (Bộ Chọn Anh Chị Tổng Quát -- \csshint{A \~{} B})}
 
 \begin{conceptBox}[Khái Niệm General Sibling Selector]
 \textbf{General Sibling Selector (bộ chọn anh chị tổng quát)} là một công cụ mạnh trong CSS giúp bạn chọn \textbf{tất cả} các phần tử cùng cấp nằm sau phần tử được chọn, không cần phải liền kề như với Adjacent Sibling Selector (\codeinline{+}). Nó hoạt động bằng cách quét từ trên xuống dưới trong DOM và chọn tất cả các phần tử phù hợp nằm sau phần tử gốc.
@@ -11315,7 +11317,7 @@ nav ul > li:hover > ul {
 %% MỤC MỚI: CHUYÊN ĐỀ PHẦN TỬ CÙNG CẤP \& BỘ CHỌN COMBINATOR STRUCTURAL
 %% ===================================================================
 
-\subsection{4. Chuyên Đề Phân Biệt Chi Tiết: "Phần Tử Cùng Cấp" \& "Phần Tử Con Trực Tiếp" (Masterclass Structural Combinators)}
+\subsection{Chuyên Đề Phân Biệt: "Phần Tử Cùng Cấp" \& "Phần Tử Con Trực Tiếp"}
 
 \begin{conceptBox}[Khái Niệm Phần Tử Cùng Cấp (Sibling Element) Là Gì?]
 \textbf{Phần tử cùng cấp (\term{Sibling Element})} là những phần tử nằm trong \textbf{cùng một phần tử cha (parent)}.
@@ -11678,7 +11680,7 @@ Việc lựa chọn bộ chọn chặt chẽ (\codeinline{.Parent > p}, \codeinl
 %% MỤC MỚI: SO SÁNH TỔNG HỢP TẤT CẢ CÁC BỘ CHỌN KẾT HỢP TRONG CSS
 %% ===================================================================
 
-\subsection{5. So Sánh Tổng Hợp Chi Tiết Và Dễ Hiểu Nhất Về Tất Cả Các Bộ Chọn Kết Hợp Trong CSS}
+\subsection{So Sánh Tổng Hợp Chi Tiết Các Bộ Chọn Kết Hợp Trong CSS}
 
 
 \begin{conceptBox}[Tổng Quan: 4 Loại Bộ Chọn Kết Hợp (Combinator Selectors)]
@@ -11910,7 +11912,7 @@ Bộ chọn kết hợp là công cụ mạnh mẽ giúp CSS linh hoạt và ch�
 %% MỤC MỚI: CHUYÊN ĐỀ BỘ CHỌN THUỘC TÍNH (ATTRIBUTE SELECTORS MASTERCLASS)
 %% ===================================================================
 
-\subsection{6. Chuyên Đề Phân Tích Chi Tiết \& Thực Nghiệm Về Bộ Chọn Thuộc Tính (Attribute Selectors Masterclass)}
+\subsection{Chuyên Đề Bộ Chọn Thuộc Tính (Attribute Selectors Masterclass)}
 
 \begin{conceptBox}[Khái Niệm Về Bộ Chọn Thuộc Tính (Attribute Selectors)]
 \textbf{Bộ chọn thuộc tính (\term{Attribute Selector})} trong CSS cho phép bạn chọn và áp dụng định kiểu cho các phần tử HTML dựa trên sự \textbf{tồn tại của một thuộc tính} hoặc \textbf{giá trị cụ thể của thuộc tính đó} (ví dụ: \codeinline{href}, \codeinline{type}, \codeinline{src}, \codeinline{title}, \codeinline{target}, \codeinline{disabled}, \codeinline{required}, các thuộc tính tùy chỉnh \codeinline{data-*}, hay thuộc tính trợ năng \codeinline{aria-*}).
@@ -11948,7 +11950,7 @@ Không phân biệt hoa/thường & [attr="val" i] & Cờ \codeinline{i} giúp q
 
 \paragraph{b. Phân tích chi tiết 7 loại bộ chọn thuộc tính kèm ví dụ thực tế:}
 
-\subsubsection{6.1. Bộ Chọn Sự Tồn Tại Của Thuộc Tính ([attr])}
+\subsubsection{Bộ Chọn Sự Tồn Tại Của Thuộc Tính (\csshint{[attr]})}
 
 \begin{conceptBox}[{Ý Nghĩa Selector [attr]}]
 Bộ chọn \codeinline{[attr]} sẽ khớp với tất cả các phần tử có chứa thuộc tính được chỉ định, không quan tâm giá trị của thuộc tính đó là gì hay có rỗng hay không.
@@ -11981,7 +11983,7 @@ input[required] {
 \end{tcolorbox}
 \end{browserWindow}
 
-\subsubsection{6.2. Bộ Chọn Giá Trị Chính Xác ([attr="val"])}
+\subsubsection{Bộ Chọn Giá Trị Chính Xác (\csshint{[attr="val"]})}
 
 \begin{conceptBox}[{Ý Nghĩa Selector [attr="val"]}]
 So khớp chính xác từng ký tự của giá trị thuộc tính. Chỉ khi giá trị khớp 100\% thì CSS mới được áp dụng.
@@ -12011,7 +12013,7 @@ input[type="submit"] {
 \tcbox[on line, arc=3pt, colback=tipBorder, colframe=tipBorder, boxsep=4pt, left=8pt, right=8pt]{\color{white}\bfseries Gửi Dữ Liệu} \textcolor{gray!60}{\scriptsize $\leftarrow$ input[type="submit"]}
 \end{browserWindow}
 
-\subsubsection{6.3. Bộ Chọn Chứa Từ Độc Lập ([attr\textasciitilde{}="val"])}
+\subsubsection{Bộ Chọn Chứa Từ Độc Lập (\csshint{[attr\~{}="val"]})}
 
 \begin{conceptBox}[{Ý Nghĩa Selector [attr\textasciitilde{}="val"]}]
 Bộ chọn này tìm giá trị thuộc tính chứa từ \codeinline{val} như \textbf{một từ riêng biệt hoàn chỉnh} (được phân cách bởi khoảng trắng xung quanh). Thường dùng khi một thuộc tính chứa danh sách nhiều từ (như \codeinline{class="btn primary active"}).
@@ -12038,7 +12040,7 @@ Bộ chọn này tìm giá trị thuộc tính chứa từ \codeinline{val} như
 \tcbox[on line, arc=3pt, colback=gray!5, colframe=gray!30, boxsep=3pt]{\textcolor{darkText}{Không khớp (Class interactive)}}
 \end{browserWindow}
 
-\subsubsection{6.4. Bộ Chọn Bắt Đầu Tiền Tố / Mã Ngôn Ngữ ([attr|="val"])}
+\subsubsection{Bộ Chọn Bắt Đầu Tiền Tố / Mã Ngôn Ngữ (\csshint{[attr|="val"]})}
 
 \begin{conceptBox}[{Ý Nghĩa Selector [attr|="val"]}]
 Khớp với các phần tử có giá trị thuộc tính \textbf{chính xác là \codeinline{val}} hoặc \textbf{bắt đầu bằng \codeinline{val-}} (theo sau là dấu gạch nối). Bộ chọn này sinh ra đặc biệt để chọn mã ngôn ngữ chuẩn ISO (như \codeinline{lang="en"}, \codeinline{lang="en-US"}, \codeinline{lang="en-GB"}).
@@ -12067,7 +12069,7 @@ p[lang|="en"] {
 Bonjour \textcolor{gray!60}{\scriptsize $\leftarrow$ lang="fr" (Mặc định)}
 \end{browserWindow}
 
-\subsubsection{6.5. Bộ Chọn Bắt Đầu Chuỗi ([attr\textasciicircum{}="val"])}
+\subsubsection{Bộ Chọn Bắt Đầu Chuỗi (\csshint{[attr\textasciicircum{}="val"]})}
 
 \begin{conceptBox}[{Ý Nghĩa Selector [attr\textasciicircum{}="val"]}]
 Khớp với tất cả các phần tử có giá trị thuộc tính \textbf{bắt đầu bằng chuỗi \codeinline{val}} (Prefix Match).
@@ -12094,7 +12096,7 @@ a[href^="https://"] {
 \textcolor{darkText}{\underline{Trang không an toàn HTTP}}
 \end{browserWindow}
 
-\subsubsection{6.6. Bộ Chọn Kết Thúc Chuỗi ([attr\$="val"])}
+\subsubsection{Bộ Chọn Kết Thúc Chuỗi (\csshint{[attr\$="val"]})}
 
 \begin{conceptBox}[{Ý Nghĩa Selector [attr\$="val"]}]
 Khớp với tất cả các phần tử có giá trị thuộc tính \textbf{kết thúc bằng chuỗi \codeinline{val}} (Suffix Match). Ứng dụng phổ biến nhất là nhận diện đuôi mở rộng của tệp tin tải về (\codeinline{.pdf}, \codeinline{.docx}, \codeinline{.zip}).
@@ -12122,7 +12124,7 @@ a[href$=".pdf"]::after {
 \textcolor{primaryBlue}{\underline{Tải Báo Cáo Tài Chính}} \textcolor{red}{\textbf{[PDF]}} \textcolor{gray!60}{\scriptsize $\leftarrow$ a[href\$=".pdf"]::after}
 \end{browserWindow}
 
-\subsubsection{6.7. Bộ Chọn Chứa Chuỗi Con ([attr*="val"])}
+\subsubsection{Bộ Chọn Chứa Chuỗi Con (\csshint{[attr*="val"]})}
 
 \begin{conceptBox}[{Ý Nghĩa Selector [attr*="val"]}]
 Khớp với các phần tử có giá trị thuộc tính \textbf{chứa chuỗi \codeinline{val} ở bất kỳ vị trí nào} (Substring Match).
@@ -12147,7 +12149,7 @@ a[href*="facebook"] {
 \textcolor{primaryBlue}{\textbf{\underline{Trang Fanpage}}} \textcolor{gray!60}{\scriptsize $\leftarrow$ a[href*="facebook"] (Tô màu xanh Facebook)}
 \end{browserWindow}
 
-\subsubsection{6.8. Cờ Phân Biệt Chữ Hoa / Chữ Thường ([attr="val" i])}
+\subsubsection{Cờ Phân Biệt Chữ Hoa / Chữ Thường (\csshint{[attr="val" i]})}
 
 \begin{conceptBox}[{Ý Nghĩa Cờ Case-Insensitive Flag "i"}]
 Mặc định trong HTML5, một số thuộc tính phân biệt hoa thường. Thêm cờ \codeinline{i} trước dấu đóng ngoặc \codeinline{]} giúp bộ chọn \textbf{bỏ qua phân biệt hoa/thường}, giúp khớp cả \codeinline{.pdf}, \codeinline{.PDF}, \codeinline{.Pdf}.
@@ -12231,7 +12233,7 @@ a[href$=".pdf" i] {
 \end{itemize}
 \end{tipBox}
 
-\subsection{7. Chuyên Đề Phân Tích Chi Tiết \& Thực Nghiệm Về Bộ Chọn Lớp Giả (Pseudo-class Selectors Masterclass)}
+\subsection{Chuyên Đề Bộ Chọn Lớp Giả (Pseudo-class Selectors Masterclass)}
 
 Pseudo-class selectors (Bộ chọn lớp giả) là một phần cực kỳ mạnh mẽ trong CSS3 giúp bạn chọn và định kiểu các phần tử HTML dựa trên \textbf{trạng thái tương tác đặc biệt} hoặc \textbf{vị trí vị thế cấu trúc} của chúng trong cây DOM -- mà \textbf{không cần phải thêm bất kỳ class hay ID thủ công nào vào file HTML}!
 
@@ -12250,11 +12252,11 @@ Pseudo-class selectors (Bộ chọn lớp giả) là một phần cực kỳ m�
 \end{itemize}
 \end{conceptBox}
 
-\subsubsection{7.1. Bảng Tra Cứu Tổng Hợp Toàn Bộ Pseudo-Classes}
+\subsubsection{Bảng Tra Cứu Tổng Hợp Toàn Bộ Pseudo-Classes}
 
 Dưới đây là phân tích chi tiết toàn bộ các bộ chọn lớp giả (Pseudo-classes) được nhóm theo 4 phân loại chức năng thực tế trong thiết kế giao diện Web:
 
-\subsubsection{7.1. Nhóm Trạng Thái Tương Tác \& Điều Hướng (User Action \& Links)}
+\subsubsection{Nhóm Trạng Thái Tương Tác \& Điều Hướng (User Action \& Links)}
 
 Nhóm này kiểm soát các hành vi động của người dùng khi di chuột, click bấm, focus ô nhập liệu hoặc truy cập đường dẫn:
 
@@ -13484,7 +13486,7 @@ Khi định kiểu hiệu ứng \codeinline{:hover}, hãy tuân thủ nguyên t�
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{7.2. Nhóm Vị Trí Vị Thế Cấu Trúc Cây DOM (Structural Selectors)}
+\subsubsection{Nhóm Vị Trí Vị Thế Cấu Trúc Cây DOM (Structural Selectors)}
 
 Cho phép chọn phần tử dựa trên thứ tự xuất hiện hoặc vị thế anh chị em trong cây HTML mà không cần gán class:
 
@@ -15932,7 +15934,7 @@ Khi thay đổi thứ tự hiển thị trực quan hoặc màu sắc của các
 % ==============================================================================
 % MỤC 8: BỘ CHỌN PHẦN TỬ GIẢ (PSEUDO-ELEMENT SELECTORS MASTERCLASS)
 % ==============================================================================
-\subsection{8. Chuyên Đề Phân Tích Chi Tiết \& Thực Nghiệm Về Bộ Chọn Phần Tử Giả (Pseudo-element Selectors Masterclass)}
+\subsection{Chuyên Đề Bộ Chọn Phần Tử Giả (Pseudo-element Selectors Masterclass)}
 
 Pseudo-element selector (bộ chọn phần tử giả) là các bộ chọn trong CSS cho phép bạn định kiểu một phần cụ thể của phần tử, mà không cần phải thêm thẻ HTML mới. Nó giống như tạo ra một phần tử ảo trong cấu trúc trang web!
 
@@ -16007,7 +16009,7 @@ Dưới đây là ví dụ kết hợp bộ chọn \codeinline{::before} và \co
 %% -------------------------------------------------------------------
 %% 8.1. ::BEFORE
 %% -------------------------------------------------------------------
-\subsubsection{8.1. Bộ Chọn ::before (Chèn Nội Dung Vào Trước Phần Tử)}
+\subsubsection{Bộ Chọn \csshint{::before} (Chèn Nội Dung Vào Trước Phần Tử)}
 
 \begin{codeWindow}[Cú Pháp Cơ Bản Của ::before]
 \begin{lstlisting}[language=CSS3]
@@ -16059,7 +16061,7 @@ Chèn nội dung vào \textbf{TRƯỚC} nội dung bên trong của phần tử,
 %% -------------------------------------------------------------------
 %% 8.2. ::AFTER
 %% -------------------------------------------------------------------
-\subsubsection{8.2. Bộ Chọn ::after (Chèn Nội Dung Vào Sau Phần Tử)}
+\subsubsection{Bộ Chọn \csshint{::after} (Chèn Nội Dung Vào Sau Phần Tử)}
 
 \begin{codeWindow}[Cú Pháp Cơ Bản Của ::after]
 \begin{lstlisting}[language=CSS3]
@@ -16111,7 +16113,7 @@ Lưu ý quan trọng [WARNING]
 %% -------------------------------------------------------------------
 %% 8.3. ::FIRST-LETTER
 %% -------------------------------------------------------------------
-\subsubsection{8.3. Bộ Chọn ::first-letter (Định Dạng Ký Tự Đầu Tiên)}
+\subsubsection{Bộ Chọn \csshint{::first-letter} (Định Dạng Ký Tự Đầu Tiên)}
 
 \begin{conceptBox}[Khái Niệm \& Cấu Trúc Căn Bản Của ::first-letter]
 \codeinline{::first-letter} là một pseudo-element selector trong CSS, dùng để định dạng \textbf{chữ cái đầu tiên} của phần tử văn bản dạng khối (block element).
@@ -16242,7 +16244,7 @@ article::first-letter {
 %% -------------------------------------------------------------------
 %% 8.4. ::FIRST-LINE
 %% -------------------------------------------------------------------
-\subsubsection{8.4. Bộ Chọn ::first-line (Định Dạng Dòng Đầu Tiên Của Phần Tử Khối)}
+\subsubsection{Bộ Chọn \csshint{::first-line} (Định Dạng Dòng Đầu Tiên Của Phần Tử Khối)}
 
 \begin{conceptBox}[Bản Chất \& Cơ Chế Hoạt Động Của ::first-line]
 Bộ chọn \codeinline{::first-line} nhắm đến **dòng đầu tiên** của phần tử văn bản dạng khối (block element).
@@ -16312,7 +16314,7 @@ Dòng đầu tiên sẽ có màu xanh, in đậm và phóng to chữ, nhưng cá
 %% -------------------------------------------------------------------
 %% 8.5. ::SELECTION
 %% -------------------------------------------------------------------
-\subsubsection{8.5. Bộ Chọn ::selection (Tùy Chỉnh Văn Bản Khi Người Dùng Bôi Đen)}
+\subsubsection{Bộ Chọn \csshint{::selection} (Tùy Chỉnh Văn Bản Khi Người Dùng Bôi Đen)}
 
 \begin{conceptBox}[Định Nghĩa \& Cấu Trúc Căn Bản Của ::selection]
 \codeinline{::selection} là một pseudo-element selector dùng để định dạng (\term{styling}) phần nội dung mà người dùng bôi đen (\term{highlight}) trên trang web bằng chuột hoặc thao tác vuốt cảm ứng!
@@ -16387,7 +16389,7 @@ Không hỗ trợ \textcolor{red}{\textbf{[Không]}} & \codeinline{border}, \cod
 %% -------------------------------------------------------------------
 %% 8.6. ::MARKER
 %% -------------------------------------------------------------------
-\subsubsection{8.6. Bộ Chọn ::marker (Tùy Chỉnh Ký Hiệu Đầu Dòng Danh Sách <li>)}
+\subsubsection{Bộ Chọn \csshint{::marker} (Tùy Chỉnh Ký Hiệu Đầu Dòng Danh Sách \taghint{<li>})}
 
 \begin{conceptBox}[Định Nghĩa \& Đối Tượng Nhắm Tới Của ::marker]
 \codeinline{::marker} chọn phần ký hiệu đánh dấu của danh sách, bao gồm:
@@ -16868,7 +16870,7 @@ Trong thiết kế giao diện Web thực tế, một phần tử HTML thường
 %% ===================================================================
 %% PHẦN 8.1: BẢNG XẾP HẠNG ĐỘ ƯU TIÊN SPECIFICITY
 %% ===================================================================
-\subsection{1. Bảng Xếp Hạng Chi Tiết Độ Ưu Tiên Specificity (6 Bậc Giá Trị)}
+\subsection{Bảng Xếp Hạng Chi Tiết Độ Ưu Tiên Specificity (6 Bậc Giá Trị)}
 
 \begin{prettyTableBox}[Bảng Xếp Hạng Chi Tiết Độ Ưu Tiên Trong CSS]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -16895,7 +16897,7 @@ Trong thiết kế giao diện Web thực tế, một phần tử HTML thường
 %% ===================================================================
 %% PHẦN 8.2: QUY TRÌNH 4 BƯỚC DUYỆT DOM TÍNH SPECIFICITY
 %% ===================================================================
-\subsection{2. Quy Trình 4 Bước Duyệt DOM \& Công Thức (A, B, C, D) / (a, b, c, d)}
+\subsection{Quy Trình 4 Bước Duyệt DOM \& Công Thức (A, B, C, D)}
 
 Trình duyệt thực hiện quá trình tính toán và áp dụng kiểu dáng theo 4 bước tiêu chuẩn:
 
@@ -16958,7 +16960,7 @@ D / d & Thẻ HTML (Elements) \& Pseudo-elements & (0,0,0,1) & \textbf{+1} cho m
 %% ===================================================================
 %% PHẦN 8.3: BẢNG SO SÁNH ĐỘ ƯU TIÊN CÁC BỘ CHỌN THƯỜNG GẶP
 %% ===================================================================
-\subsection{3. Bảng Tra Cứu Specificity Của Các Bộ Chọn Thường Gặp (15 Ví Dụ)}
+\subsection{Bảng Tra Cứu Specificity Của Các Bộ Chọn Thường Gặp (15 Ví Dụ)}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Specificity Của Các Bộ Chọn CSS Phổ Biến (Tự Động Sắp Xếp Từ Thấp Đến Cao)]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -17003,7 +17005,7 @@ style="color:red" (inline style) & (1,0,0,0) & 1 thuộc tính nội tuyến \co
 %% ===================================================================
 %% PHẦN 8.4: NHỮNG QUY TẮC ĐẶC BIỆT TRONG SPECIFICITY
 %% ===================================================================
-\subsection{4. Những Quy Tắc Đặc Biệt Trong Specificity}
+\subsection{Những Quy Tắc Đặc Biệt Trong Specificity (\csshint{!important}, Inline Styles)}
 
 \paragraph{4.1. Từ Khóa !important Không Được Tính Vào Specificity Nhưng Ghi Đè Tất Cả}
 
@@ -17151,7 +17153,7 @@ Internal và External CSS không ảnh hưởng & Độ ưu tiên được quy�
 %% ===================================================================
 %% PHẦN 8.5: KHI NÀO QUY TẮC "VIẾT SAU ĐÈ VIẾT TRƯỚC" ĐÚNG / SAI?
 %% ===================================================================
-\subsection{5. Phân Tích Chi Tiết: Khi Nào Quy Tắc "Viết Sau Đè Viết Trước" Đúng Hoặc Sai?}
+\subsection{Phân Tích Chi Tiết: Khi Nào Quy Tắc "Viết Sau Đè Viết Trước" Đúng Hoặc Sai?}
 
 \paragraph{5.1. Khi Nào Quy Tắc Này ĐÚNG?}
 \begin{conceptBox}[Điều Kiện Để Quy Tắc Source Order Áp Dụng]
@@ -17261,7 +17263,7 @@ Một quy tắc là Inline styles (\codeinline{style="..."}) & \textcolor{red}{\
 %% ===================================================================
 %% PHẦN 8.6: BÀI TẬP VÀ VÍ DỤ PHÂN TÍCH CHUYÊN SÂU
 %% ===================================================================
-\subsection{6. Bài Tập \& Ví Dụ Phân Tích Chuyên Sâu Độ Ưu Tiên}
+\subsection{Bài Tập \& Ví Dụ Phân Tích Chuyên Sâu Độ Ưu Tiên}
 
 \paragraph{Ví Dụ Chuyên Sâu 1: Phân Tích Độ Ưu Tiên Danh Sách <li> Trong <ul>}
 
@@ -17397,7 +17399,7 @@ div.head h2.title:last-child { color: yellow; }
 %% ===================================================================
 %% PHẦN 8.7: GIẢI THÍCH CHI TIẾT :not(), :is(), :where()
 %% ===================================================================
-\subsection{7. Pseudo-class :not(), :is() Và :where() Trong CSS Modern}
+\subsection{Pseudo-classes \csshint{:not()}, \csshint{:is()} Và \csshint{:where()} Trong CSS Modern}
 
 \paragraph{7.1. Pseudo-class :not() -- Bản Thân Không Tính Điểm}
 
@@ -17440,7 +17442,7 @@ div.head h2.title:last-child { color: yellow; }
 %% ===================================================================
 %% PHẦN 8.8: SƠ ĐỒ TÍNH ĐIỂM TỪNG BƯỚC CHO SELECTOR PHỨC TẠP
 %% ===================================================================
-\subsection{8. Sơ Đồ Tính Điểm Specificity Từng Bước (Step-by-Step)}
+\subsection{Sơ Đồ Tính Điểm Specificity Từng Bước (Step-by-Step)}
 
 \paragraph{Ví dụ minh họa: Tính specificity cho \codeinline{div\#main .btn:hover}}
 
@@ -17469,7 +17471,7 @@ div.head h2.title:last-child { color: yellow; }
 %% ===================================================================
 %% PHẦN 8.9: KINH NGHIỆM THỰC TẾ & BEST PRACTICES
 %% ===================================================================
-\subsection{9. Kinh Nghiệm Thực Tế \& Tối Ưu Kiến Trúc CSS}
+\subsection{Kinh Nghiệm Thực Tế \& Tối Ưu Kiến Trúc CSS}
 
 \begin{prettyTableBox}[Bảng Quy Tắc "Nên \& Không Nên" Trong Thực Tế Lập Trình Frontend]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -17529,7 +17531,7 @@ Lồng selector quá sâu: \codeinline{body div.container section.main article.p
 %% ==============================================================================
 %% MỤC 10: THUỘC TÍNH OPACITY (ĐỘ MỜ & ĐỘ TRONG SUỐT TRONG CSS)
 %% ==============================================================================
-\section{Thuộc Tính Opacity (Độ Mờ \& Độ Trong Suốt Trong CSS)}
+\section{Thuộc Tính \csshint{opacity} (Độ Mờ \& Độ Trong Suốt Trong CSS)}
 \label{sec:css_opacity_masterclass}
 
 Thuộc tính \codeinline{opacity} trong CSS cho phép lập trình viên kiểm soát mức độ hiển thị, độ mờ và độ trong suốt của bất kỳ phần tử HTML nào trên giao diện web.
@@ -17809,7 +17811,7 @@ Tăng tốc phần cứng GPU? & \textcolor{green!60!black}{\textbf{CÓ}} (Dùng
 % ==============================================================================
 % MỤC 11: THUỘC TÍNH CURSOR TRONG CSS (CSS CURSOR MASTERCLASS)
 % ==============================================================================
-\section{Thuộc Tính Cursor Trong CSS (CSS Cursor Masterclass)}
+\section{Thuộc Tính \csshint{cursor} Trong CSS (CSS Cursor Masterclass)}
 \label{sec:css_cursor_masterclass}
 
 Thuộc tính \codeinline{cursor} trong CSS cho phép bạn thay đổi kiểu con trỏ chuột khi người dùng di chuyển chuột lên phần tử HTML. Nó giúp cải thiện trải nghiệm người dùng bằng cách cho biết hành vi có thể xảy ra (ví dụ: click được, không cho phép, đang chờ...).
@@ -18172,7 +18174,7 @@ Khi rê chuột vào \codeinline{div}, con trỏ sẽ biến thành bàn tay, t�
 \end{itemize}
 \end{noteBox}
 
-\subsection{Mục "Đọc Thêm": Mở Rộng Kiến Thức Về Thuộc Tính Cursor}
+\subsection{Mở Rộng Kiến Thức Về Thuộc Tính \csshint{cursor} (Hotspot, Mobile \& A11y)}
 
 \begin{conceptBox}[Đọc Thêm: Các Kỹ Thuật Chuyên Sâu Về Cursor Trong Thiết Kế Web]
 Mục này mở rộng các kiến thức chuyên sâu về thuộc tính \codeinline{cursor}, giúp lập trình viên tối ưu trải nghiệm người dùng (UX), tăng khả năng truy cập (Accessibility) và hiểu rõ nguyên lý hoạt động của trình duyệt.
@@ -18225,11 +18227,11 @@ Trên thiết bị di động (Smartphone/Tablet):
 \chapter{Bố Cục Modern CSS: Flexbox \& CSS Grid}
 \label{chap:flexbox_grid}
 
-\section{Bố Cục Một Chiều Với CSS Flexbox}
+\section{Bố Cục Một Chiều Với \csshint{display: flex} (CSS Flexbox)}
 Các thuộc tính Container: \codeinline{display: flex}, \codeinline{flex-direction}, \codeinline{justify-content}, \codeinline{align-items}, \codeinline{gap}.
 Thuộc tính Flex Items: \codeinline{flex-grow}, \codeinline{flex-shrink}, \codeinline{flex-basis}.
 
-\section{Bố Cục Hai Chiều Với CSS Grid}
+\section{Bố Cục Hai Chiều Với \csshint{display: grid} (CSS Grid)}
 Khai báo lưới \codeinline{grid-template-columns}, \codeinline{grid-template-rows}, kỹ thuật \codeinline{repeat(auto-fit, minmax(250px, 1fr))} giúp responsive tự động không cần Media Query.
 
 
@@ -18242,7 +18244,7 @@ Khai báo lưới \codeinline{grid-template-columns}, \codeinline{grid-template-
 \section{Tư Duy Mobile-First}
 Xây dựng giao diện từ màn hình nhỏ nhất (Mobile), mở rộng dần sang Tablet và Desktop để tối ưu hiệu năng.
 
-\section{Fluid Typography \& Container Queries}
+\section{Fluid Typography (\csshint{clamp()}) \& Container Queries}
 Sử dụng hàm CSS \codeinline{clamp(1rem, 2.5vw, 2rem)} cho cỡ chữ linh hoạt và tính năng hiện đại \term{Container Queries}.
 
 
@@ -18252,7 +18254,7 @@ Sử dụng hàm CSS \codeinline{clamp(1rem, 2.5vw, 2rem)} cho cỡ chữ linh h
 \chapter{CSS Variables \& BEM Architecture}
 \label{chap:css_variables_bem}
 
-\section{CSS Custom Properties (CSS Variables)}
+\section{CSS Custom Properties (\csshint{--var})}
 Khai báo biến toán cục trong \codeinline{:root} để làm Dark Mode và Design System.
 
 \section{Phương Pháp Đặt Tên BEM (Block - Element - Modifier)}
@@ -18265,10 +18267,10 @@ Tổ chức CSS sạch sẽ, tránh xung đột tên lớp bằng BEM (ví dụ:
 \chapter{CSS Animations \& Transitions}
 \label{chap:animations_transitions}
 
-\section{Hiệu Ứng Chuyển Động Với CSS Transitions}
+\section{Hiệu Ứng Chuyển Động Với \csshint{transition}}
 Thuộc tính \codeinline{transition}, \codeinline{transition-timing-function} (\codeinline{ease-in-out}, \codeinline{cubic-bezier}).
 
-\section{Keyframe Animations}
+\section{Keyframe Animations (\csshint{@keyframes})}
 Viết animation phức tạp bằng \codeinline{@keyframes} và biến đổi không gian 2D/3D \codeinline{transform}.
 
 
