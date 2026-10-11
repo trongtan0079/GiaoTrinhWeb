@@ -625,7 +625,7 @@
 % ==============================================================================
 \frontmatter
 \renewcommand{\contentsname}{MỤC LỤC}
-\setcounter{tocdepth}{3}
+\setcounter{tocdepth}{2}
 
 % ── Override tiêu đề MỤC LỤC bằng titletoc-compatible approach ───────────────
 \makeatletter
@@ -672,14 +672,6 @@
   {\textcolor{secondaryTeal!80}{\thecontentslabel}\enskip}
   {\textcolor{darkText!75}{}}
   {\enspace\titlerule*[0.5pc]{\textcolor{gray!22}{.}}\enspace\textcolor{darkText!70}{\contentspage}}
-  []
-
-% MỤC CHI TIẾT CẤP 3 (Subsubsection): Tra cứu thuộc tính & bộ chọn có hint code, indent 6.2em
-\titlecontents{subsubsection}[6.2em]
-  {\addvspace{1pt}\sffamily\footnotesize\color{darkText!75}}
-  {\textcolor{primaryBlue!75}{\thecontentslabel}\enskip}
-  {\textcolor{darkText!75}{}}
-  {\enspace\titlerule*[0.45pc]{\textcolor{gray!20}{.}}\enspace\textcolor{darkText!65}{\contentspage}}
   []
 
 \begingroup
@@ -6809,7 +6801,7 @@ Khuyết điểm hạn chế & Không kiểm soát chi tiết 100\% về kiểu 
 % ==============================================================================
 
 
-\subsection{Chi Tiết 7 Thuộc Tính Font Cốt Lõi Trong CSS}
+\subsection{Chi Tiết 7 Thuộc Tính Font Cốt Lõi (\csshint{family}, \csshint{size}, \csshint{weight}, \csshint{line-height}...)}
 
 \subsubsection{1. Thuộc Tính \csshint{font-family} \& Quy Tắc Khai Báo Chuẩn}
 
@@ -8835,7 +8827,7 @@ Hiện tượng chữ bị ẩn 3s (\term{FOIT}) & Thiếu thuộc tính \codein
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{Kỹ Thuật Nhúng Font Ngoại Vào CSS (External Web Fonts)}
+\subsection{Kỹ Thuật Nhúng Web Fonts (\csshint{Google Fonts}, \csshint{@font-face}, \csshint{Adobe Fonts})}
 \label{sec:web_fonts_embedding}
 
 Trong thiết kế web hiện đại, việc sử dụng các phông chữ độc đáo (không nằm trong danh sách \term{Web-Safe Fonts} mặc định) là yếu tố quan trọng giúp định hình nhận diện thương hiệu và tạo nên phong cách thị giác ấn tượng. Để hiển thị phông chữ tùy chỉnh đồng bộ trên mọi thiết bị và hệ điều hành, lập trình viên cần thực hiện \term{nhúng font} (\term{Font Embedding}).
@@ -9503,7 +9495,7 @@ Pseudo-element (Phần tử giả) & selector::pseudo-element \{\} & Chọn mộ
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{Chi Tiết Các Bộ Chọn Cơ Bản (Basic Selectors)}
+\subsection{Chi Tiết Các Bộ Chọn Cơ Bản (\csshint{Tag}, \csshint{.class}, \csshint{\#id}, \csshint{*})}
 
 \begin{prettyTableBox}[Bảng Tổng Hợp Chi Tiết Các Bộ Chọn Cơ Bản (Basic Selectors)]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -9950,7 +9942,7 @@ Trường hợp dùng & Reset CSS, cấu hình toàn trang, kiểm tra layout \\
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{Bộ Chọn Kết Hợp (Combinator Selectors) Chi Tiết \& Ví Dụ Thực Tế}
+\subsection{Bộ Chọn Kết Hợp (\csshint{Combinators} -- \csshint{A B}, \csshint{A > B}, \csshint{A + B}, \csshint{A \~{} B})}
 
 \begin{conceptBox}[Khái Niệm Về Bộ Chọn Kết Hợp (Combinator Selectors)]
 Trong CSS, \textbf{combinator selectors (bộ chọn kết hợp)} là các bộ chọn dùng để kết nối hoặc liên kết các phần tử dựa trên mối quan hệ của chúng trong cây DOM. Chúng giúp bạn chọn phần tử con, phần tử liền kề, hoặc phần tử nằm cùng cấp cực kỳ linh hoạt!
@@ -11971,7 +11963,7 @@ Bộ chọn kết hợp là công cụ mạnh mẽ giúp CSS linh hoạt và ch�
 %% MỤC MỚI: CHUYÊN ĐỀ BỘ CHỌN THUỘC TÍNH (ATTRIBUTE SELECTORS MASTERCLASS)
 %% ===================================================================
 
-\subsection{Chuyên Đề Bộ Chọn Thuộc Tính (Attribute Selectors Masterclass)}
+\subsection{Chuyên Đề Bộ Chọn Thuộc Tính (\csshint{[attr]} / \csshint{Attribute} Selectors)}
 
 \begin{conceptBox}[Khái Niệm Về Bộ Chọn Thuộc Tính (Attribute Selectors)]
 \textbf{Bộ chọn thuộc tính (\term{Attribute Selector})} trong CSS cho phép bạn chọn và áp dụng định kiểu cho các phần tử HTML dựa trên sự \textbf{tồn tại của một thuộc tính} hoặc \textbf{giá trị cụ thể của thuộc tính đó} (ví dụ: \codeinline{href}, \codeinline{type}, \codeinline{src}, \codeinline{title}, \codeinline{target}, \codeinline{disabled}, \codeinline{required}, các thuộc tính tùy chỉnh \codeinline{data-*}, hay thuộc tính trợ năng \codeinline{aria-*}).
@@ -12292,7 +12284,7 @@ a[href$=".pdf" i] {
 \end{itemize}
 \end{tipBox}
 
-\subsection{Chuyên Đề Bộ Chọn Lớp Giả (Pseudo-class Selectors Masterclass)}
+\subsection{Chuyên Đề Bộ Chọn Lớp Giả (\csshint{Pseudo-classes}: \csshint{:hover}, \csshint{:focus}, \csshint{:nth-child})}
 
 Pseudo-class selectors (Bộ chọn lớp giả) là một phần cực kỳ mạnh mẽ trong CSS3 giúp bạn chọn và định kiểu các phần tử HTML dựa trên \textbf{trạng thái tương tác đặc biệt} hoặc \textbf{vị trí vị thế cấu trúc} của chúng trong cây DOM -- mà \textbf{không cần phải thêm bất kỳ class hay ID thủ công nào vào file HTML}!
 
@@ -15993,7 +15985,7 @@ Khi thay đổi thứ tự hiển thị trực quan hoặc màu sắc của các
 % ==============================================================================
 % MỤC 8: BỘ CHỌN PHẦN TỬ GIẢ (PSEUDO-ELEMENT SELECTORS MASTERCLASS)
 % ==============================================================================
-\subsection{Chuyên Đề Bộ Chọn Phần Tử Giả (Pseudo-element Selectors Masterclass)}
+\subsection{Chuyên Đề Bộ Chọn Phần Tử Giả (\csshint{Pseudo-elements}: \csshint{::before}, \csshint{::after})}
 
 Pseudo-element selector (bộ chọn phần tử giả) là các bộ chọn trong CSS cho phép bạn định kiểu một phần cụ thể của phần tử, mà không cần phải thêm thẻ HTML mới. Nó giống như tạo ra một phần tử ảo trong cấu trúc trang web!
 
