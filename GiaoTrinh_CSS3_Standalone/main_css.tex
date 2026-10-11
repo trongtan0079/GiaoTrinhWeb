@@ -3264,84 +3264,159 @@ Dù bạn thiết lập giá trị nào, \codeinline{font-size} của thẻ \cod
 \subparagraph{b. Tính toán giá trị thực tế (Pixel) trên đa dạng thuộc tính:}
 Khi bạn sử dụng \codeinline{rem} cho \textbf{bất kỳ thuộc tính CSS nào} (như \codeinline{font-size}, \codeinline{padding}, \codeinline{margin}, \codeinline{width}, \codeinline{height}, \codeinline{border-radius},...), trình duyệt sẽ thực hiện phép nhân đơn giản để chuyển đổi giá trị \codeinline{rem} thành giá trị pixel thực tế mà nó render lên màn hình.
 
-\begin{conceptBox}[Công Thức Chuyển Đổi Đơn Vị rem Sang Pixel Thực Tế]
+\begin{conceptBox}[CÔNG THỨC CHUYỂN ĐỔI CHUẨN XÁC: px $\rightarrow$ rem]
+Công thức quy đổi cốt lõi trong CSS:
 \[
-\mathbf{\text{Giá Trị Thực Tế (px)} = \text{Giá Trị rem} \times \text{font-size của thẻ gốc \codeinline{<html>}}}
+\mathbf{\text{rem} = \frac{\text{Giá trị Pixel (px)}}{\text{font-size của thẻ gốc } \codeinline{<html>}}}
 \]
-Theo chuẩn mặc định:
-\[
-1\text{rem} = 16\text{px}, \quad 2\text{rem} = 32\text{px}, \quad 0.5\text{rem} = 8\text{px}
-\]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Mặc định trình duyệt}: \codeinline{html \{ font-size: 16px; \}} $\rightarrow \mathbf{1\text{rem} = 16\text{px}}$.
+    \item \textbf{Gợi ý chuẩn hóa dễ tính toán}: \codeinline{html \{ font-size: 62.5\%; \}} $\rightarrow \mathbf{1\text{rem} = 10\text{px}}$ (Chỉ cần lấy giá trị $\text{px} / 10$ là ra ngay số \codeinline{rem}).
+\end{itemize}
 \end{conceptBox}
 
-Xét ví dụ minh họa tính toán trên nhiều thuộc tính thuộc Box Model và Typography:
+\begin{prettyTableBox}[BẢNG QUY ĐỔI PHỔ BIẾN TỪ PIXEL SANG REM]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash \bfseries\color{primaryBlue}\ttfamily}p{2.8cm}|>{\centering\arraybackslash\ttfamily\bfseries\color{secondaryTeal}}X|>{\centering\arraybackslash\ttfamily\bfseries\color{accentOrange}}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Pixel (px)} & \thd{\sffamily rem (Gốc font-size 16px)} & \thd{\sffamily rem (Gốc font-size 10px / 62.5\%)} \\
+\hline
+8px & 0.5rem & 0.8rem \\
+\hline
+10px & 0.625rem & 1rem \\
+\hline
+12px & 0.75rem & 1.2rem \\
+\hline
+14px & 0.875rem & 1.4rem \\
+\hline
+16px & 1rem & 1.6rem \\
+\hline
+18px & 1.125rem & 1.8rem \\
+\hline
+20px & 1.25rem & 2rem \\
+\hline
+24px & 1.5rem & 2.4rem \\
+\hline
+32px & 2rem & 3.2rem \\
+\hline
+40px & 2.5rem & 4rem \\
+\hline
+48px & 3rem & 4.8rem \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
-\begin{codeWindow}[Khai Báo Nhiều Thuộc Tính Box Model \& Typography Bằng Đơn Vị rem]
+\begin{codeWindow}[Ví Dụ 1: Quy Đổi rem Theo Mặc Định Trình Duyệt (16px)]
 \begin{lstlisting}[language=CSS3]
 html {
-  font-size: 16px;    /* Gia tri goc tham chieu */
+  font-size: 16px;
 }
 
 h1 {
-  font-size: 2.5rem;  /* Co chu tieu de */
-  margin-top: 1.25rem;/* Khoang cach le tren */
+  font-size: 32px;     /* = 2rem (vi 32 / 16 = 2) */
 }
 
 p {
-  font-size: 1rem;    /* Co chu doan van */
-  padding: 0.5rem;    /* Khoang dem noi bo */
-}
-
-.box {
-  width: 10rem;       /* Chieu rong */
-  height: 5rem;       /* Chieu cao */
+  padding: 8px 16px;   /* = 0.5rem 1rem (vi 8/16=0.5, 16/16=1) */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-Cách trình duyệt tính toán giá trị pixel thực tế kết xuất ra màn hình:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Phần tử \codeinline{<h1>}}:
-    \begin{itemize}[leftmargin=1.2em]
-        \item \codeinline{font-size: 2.5rem} $\rightarrow 2.5 \times 16\text{px} = \mathbf{40\text{px}}$.
-        \item \codeinline{margin-top: 1.25rem} $\rightarrow 1.25 \times 16\text{px} = \mathbf{20\text{px}}$.
-    \end{itemize}
-    \item \textbf{Phần tử \codeinline{<p>}}:
-    \begin{itemize}[leftmargin=1.2em]
-        \item \codeinline{font-size: 1rem} $\rightarrow 1 \times 16\text{px} = \mathbf{16\text{px}}$.
-        \item \codeinline{padding: 0.5rem} $\rightarrow 0.5 \times 16\text{px} = \mathbf{8\text{px}}$.
-    \end{itemize}
-    \item \textbf{Phần tử \codeinline{.box}}:
-    \begin{itemize}[leftmargin=1.2em]
-        \item \codeinline{width: 10rem} $\rightarrow 10 \times 16\text{px} = \mathbf{160\text{px}}$.
-        \item \codeinline{height: 5rem} $\rightarrow 5 \times 16\text{px} = \mathbf{80\text{px}}$.
-    \end{itemize}
-\end{itemize}
+\begin{codeWindow}[Ví Dụ 2: Quy Đổi rem Theo Chuẩn font-size: 62.5\% (1rem = 10px)]
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 62.5%;    /* 1rem = 10px */
+}
 
+button {
+  padding: 1.2rem 2rem; /* = 12px 20px (nham nhanh: 1.2x10=12, 2x10=20) */
+  font-size: 1.6rem;    /* = 16px (nham nhanh: 1.6x10=16) */
+}
+\end{lstlisting}
+\end{codeWindow}
 
-\begin{prettyTableBox}[Bảng Tra Cứu Quy Đổi Nhanh Từ Pixel Sang rem (Chuẩn Gốc 16px)]
+\begin{tipBox}[Bảng Lưu Ý Sống Còn Khi Quy Đổi rem]
+\rowcolors{2}{white}{accentOrange!5}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{accentOrange}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{accentOrange} \thd{\sffamily Nội dung lưu ý} & \thd{\sffamily Chi tiết nguyên tắc} \\
+\hline
+\textbf{\codeinline{rem} ổn định hơn \codeinline{em}} & Vì chỉ phụ thuộc duy nhất vào thẻ \codeinline{html}, hoàn toàn không bị ảnh hưởng bởi lồng chồng DOM. \\
+\hline
+\textbf{Nên cấu hình \codeinline{html} từ đầu} & Thiết lập quy chuẩn thẻ gốc ngay khi khởi tạo dự án để dùng \codeinline{rem} hiệu quả và dễ quy đổi. \\
+\hline
+\textbf{Dễ làm Responsive} & Chỉ cần thay đổi \codeinline{font-size} trong Media Query là tự động scale kích thước toàn bộ trang web. \\
+\hline
+\end{tabularx}
+\end{tipBox}
+
+\paragraph{Chuyên Sâu: Vì Sao Công Thức rem = px / font-size Của html?}
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{\codeinline{rem} là đơn vị tương đối (\term{Relative Unit})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \codeinline{rem} viết tắt từ \term{``Root EM''}.
+        \item Nó không phụ thuộc vào phần tử cha, mà chỉ phụ thuộc duy nhất vào \codeinline{font-size} của phần tử gốc \codeinline{<html>}.
+        \item \textbf{Do đó, mọi phép quy đổi $\text{px} \rightarrow \text{rem}$ đều dựa trên}: Giá trị thực tế ($\text{px}$) chia cho \codeinline{font-size} của \codeinline{<html>}.
+    \end{itemize}
+
+    \item \textbf{Ví dụ minh họa thực tế}:
+\begin{codeWindow}[Minh Họa Tính Toán Thực Tế rem]
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 16px;
+}
+
+p {
+  font-size: 1.5rem;
+}
+\end{lstlisting}
+\end{codeWindow}
+    $\rightarrow$ Trình duyệt sẽ tính toán kết xuất như sau: $1.5\text{rem} = 1.5 \times 16\text{px} = \mathbf{24\text{px}}$.
+
+    \item \textbf{Cơ chế hoạt động của trình duyệt}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item Trình duyệt cần biết \textbf{kích thước gốc} (\codeinline{font-size} gốc), từ đó nhân với số \codeinline{rem} để render ra màn hình đúng kích cỡ pixel vật lý.
+        \item Điều này tạo ra một hệ thống co giãn toàn cục (\term{Scalable System}) -- chỉ cần chỉnh \codeinline{font-size} trong \codeinline{html}, mọi thành phần sử dụng \codeinline{rem} trên khắp giao diện đều tự động thay đổi theo.
+    \end{itemize}
+
+    \item \textbf{Vì sao nên chọn \codeinline{font-size: 62.5\%;}?}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item $16\text{px} \times 62.5\% = \mathbf{10\text{px}}$.
+        \item Dễ quy đổi nhẩm trong đầu: $20\text{px} = 2\text{rem}$, $13\text{px} = 1.3\text{rem}$, $15\text{px} = 1.5\text{rem}$,...
+        \item Giúp tăng tốc thiết kế Responsive cực nhanh và giúp lập trình viên dễ đọc, dễ bảo trì mã nguồn CSS.
+    \end{itemize}
+
+    \item \textbf{Vì sao không dùng luôn \codeinline{px}?}:
+\end{enumerate}
+
+\begin{prettyTableBox}[So Sánh: Vì Sao Nên Dùng rem Thay Vì Dùng Luôn px?]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{2.8cm}|>{\ttfamily\color{codeNumber}\bfseries}K{2.4cm}|>{\ttfamily\color{secondaryTeal}\bfseries}K{2.4cm}|Z|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{Mục Đích Dùng} & \thd{Pixel (px)} & \thd{Giá Trị rem} & \thd{Giải Thích Quy Đổi} \\
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily Đơn vị Tuyệt Đối (\codeinline{px})} & \thd{\sffamily Đơn vị Tương Đối (\codeinline{rem})} \\
 \hline
-Chú thích nhỏ (Small Text) & $12\text{px}$ & 0.75rem & $12 / 16 = 0.75\text{rem}$. \\
+Bản chất đơn vị & Đơn vị tuyệt đối (cố định số điểm ảnh). & Đơn vị tương đối (co giãn tỷ lệ \term{Scalable}). \\
 \hline
-Chữ phụ (Secondary Text) & $14\text{px}$ & 0.875rem & $14 / 16 = 0.875\text{rem}$. \\
+Hành vi khi Zoom & Không tự động co giãn theo cài đặt cỡ chữ trình duyệt. & Tự động thích ứng mượt mà theo thẻ \codeinline{html}. \\
 \hline
-Văn bản chuẩn (Body Text) & $16\text{px}$ & 1rem & $16 / 16 = 1\text{rem}$ (Chuẩn mặc định trình duyệt). \\
+Hỗ trợ Responsive & Kém linh hoạt, phải ghi đè từng thuộc tính ở breakpoint. & Tối ưu vượt trội cho thiết kế thích ứng và truy cập (Accessibility). \\
 \hline
-Tiêu đề phụ (Subheading) & $20\text{px}$ & 1.25rem & $20 / 16 = 1.25\text{rem}$. \\
-\hline
-Tiêu đề H2 (Heading 2) & $24\text{px}$ & 1.5rem & $24 / 16 = 1.5\text{rem}$. \\
-\hline
-Tiêu đề H1 (Heading 1) & $32\text{px}$ & 2rem & $32 / 16 = 2\text{rem}$. \\
-\hline
-Tiêu đề Hero Banner & $48\text{px}$ & 3rem & $48 / 16 = 3\text{rem}$. \\
+Ưu thế kỹ thuật & Dễ hiểu ban đầu, độ chính xác tuyệt đối từng điểm ảnh. & Linh hoạt, hiện đại, phù hợp kiến trúc giao diện chuyên nghiệp. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{conceptBox}[Kết Luận Về Logic Cốt Lõi Của Quy Đổi rem]
+Việc quy đổi $\text{px} \rightarrow \text{rem}$ theo công thức $\mathbf{\text{rem} = \text{px} / \text{font-size của html}}$ là \textbf{logic cốt lõi của CSS} nhằm đáp ứng 3 mục tiêu sống còn:
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Hỗ trợ khả năng \textbf{Responsive} linh hoạt trên mọi kích thước màn hình.
+    \item Giúp \textbf{scale toàn cục} cấu trúc website (chỉ cần tinh chỉnh một chỗ duy nhất tại thẻ gốc \codeinline{<html>}).
+    \item Hỗ trợ tối đa người dùng thay đổi kích cỡ chữ trình duyệt vì lý do thị lực (\textbf{Accessibility / Trợ năng}).
+\end{enumerate}
+\end{conceptBox}
 
 \paragraph{3. Các Ví Dụ Trực Quan Minh Họa Đơn Vị rem:}
 
@@ -3481,82 +3556,100 @@ Dưới đây là bảng tổng hợp đối chiếu sự khác biệt bản ch�
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{prettyTableBox}[Bảng So Sánh Đối Chiếu Chi Tiết Giữa em Và rem]
+\begin{prettyTableBox}[BẢNG SO SÁNH TOÀN DIỆN: ĐƠN VỊ em vs rem TRONG CSS]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{3.2cm}|Z|Z|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{Tiêu Chí So Sánh} & \thd{Đơn Vị em} & \thd{Đơn Vị rem} \\
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí so sánh} & \thd{\sffamily Đơn vị em} & \thd{\sffamily Đơn vị rem} \\
 \hline
-\textbf{Điểm tham chiếu} & Phần tử cha gần nhất (với \codeinline{font-size}) hoặc chính nó (với padding/margin). & Thẻ gốc \codeinline{<html>} duy nhất trên toàn bộ trang. \\
+Ý nghĩa cốt lõi & Tương đối với \codeinline{font-size} của phần tử cha gần nhất. & Tương đối với \codeinline{font-size} của phần tử gốc \codeinline{<html>}. \\
 \hline
-\textbf{Độ phức tạp kiểm soát} & \textcolor{red!80!black}{\textbf{[Phức tạp]}} Dễ bị nhân dồn kích thước khi lồng nhau nhiều cấp. & \textcolor{green!60!black}{\textbf{[Rất dễ]}} Đồng nhất, dự đoán chính xác kích thước ở mọi nơi trong DOM. \\
+Cách tính toán & Nhân với \codeinline{font-size} của cha gần nhất (hoặc chính nó). & Nhân với \codeinline{font-size} của thẻ gốc \codeinline{<html>}. \\
 \hline
-\textbf{Khả năng mở rộng (Scaling)} & Cục bộ theo từng thành phần (Component-level). & Toàn cục trên quy mô cả trang web (Global-level). \\
+Dễ bị lồng sai lệch & \textcolor{red!80!black}{\textbf{Có}} $\rightarrow$ Nguy cơ lỗi scale không kiểm soát do hiệu ứng nhân dồn. & \textcolor{green!60!black}{\textbf{Không}} $\rightarrow$ Dễ kiểm soát kích thước chuẩn xác ở mọi vị trí DOM. \\
 \hline
-\textbf{Trường hợp tối ưu nhất} & Tạo khoảng đệm (\codeinline{padding}), bo góc (\codeinline{border-radius}) cho nút bấm co giãn. & Định cỡ phông chữ (\codeinline{font-size}), khoảng cách bố cục (\codeinline{margin}, \codeinline{gap}) chuẩn Responsive. \\
+Cơ chế kế thừa & Dễ thay đổi tăng giảm theo từng cấp độ lồng nhau. & Hoàn toàn không phụ thuộc cấp độ cha trung gian. \\
+\hline
+Ứng dụng tốt cho & \codeinline{padding}, \codeinline{margin}, khoảng cách (\term{spacing}) nội bộ component. & Hệ thống layout tổng thể, hệ thống phân cấp Typography toàn trang. \\
+\hline
+Ví dụ thường gặp & \codeinline{padding: 2em;} trong button để tự co giãn theo cỡ chữ. & \codeinline{font-size: 2rem;} cho tiêu đề \codeinline{<h1>} chuẩn xác. \\
+\hline
+Nhược điểm chính & Dễ bị nhân chồng lũy tiến khi cả cha và con đều dùng \codeinline{em}. & Không tự động co giãn theo từng component nhỏ lẻ độc lập. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\subparagraph{Thực nghiệm đối chứng: Hành vi của em vs rem trên cùng một cấu trúc DOM lồng nhau:}
-Để hiểu sâu sắc sự khác biệt cốt lõi, hãy quan sát cùng một cây DOM lồng nhau $3$ cấp:
+\paragraph{Ví Dụ Thực Tế Phân Tích Sự Khác Biệt Giữa em Và rem:}
 
-\begin{codeWindow}[Cấu Trúc HTML Cây DOM Lồng Nhau 3 Cấp: .parent > .child > .grandchild]
-\begin{lstlisting}[language=HTML5]
-<div class="parent">
-  Parent Text
-  <div class="child">
-    Child Text
-    <div class="grandchild">
-      Grandchild Text
-    </div>
-  </div>
-</div>
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{codeWindow}[Thử Nghiệm 1: Định Cỡ Bằng Đơn Vị em (Gây Hiệu Ứng Tầng Compounding)]
+\begin{codeWindow}[Ví Dụ 1: Dùng em Phụ Thuộc Cha (Nguy Cơ Nhân Dồn Cấp Số Nhân)]
 \begin{lstlisting}[language=CSS3]
-html {
-  font-size: 16px;
-}
 .parent {
-  font-size: 1em;   /* 1 x 16px = 16px */
+  font-size: 20px;
 }
 .child {
-  font-size: 1.2em; /* 1.2 x font-size cua .parent (1.2 x 16px = 19.2px) */
-}
-.grandchild {
-  font-size: 1.2em; /* 1.2 x font-size cua .child (1.2 x 19.2px = 23.04px) */
+  font-size: 2em;     /* = 40px vi 2 x 20px */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{warnBox}[Hệ Quả Của Hiệu Ứng Tầng (Compounding Effect) Khi Dùng em]
-Với \codeinline{em}, kích thước phông chữ của \codeinline{.grandchild} bị ảnh hưởng bởi \codeinline{.child}, và \codeinline{.child} lại bị ảnh hưởng bởi \codeinline{.parent}. Kích thước bị nhân dồn lên thành $23.04\text{px}$, trở nên rất khó kiểm soát khi cấu trúc DOM lồng nhau phức tạp.
+\begin{warnBox}[Hiểm Họa Khi Lồng Nhiều Cấp Với em]
+Nếu bên trong \codeinline{.child} tiếp tục chứa một phần tử \codeinline{.grandchild} có khai báo \codeinline{font-size: 2em}, kích thước thực tế sẽ bị phóng đại lên thành $\mathbf{80\text{px}}$ ($2 \times 40\text{px}$)! Đây chính là bẫy nhân chồng nguy hiểm khi cấu trúc DOM lồng sâu nhiều cấp.
 \end{warnBox}
 
-\begin{codeWindow}[Thử Nghiệm 2: Định Cỡ Bằng Đơn Vị rem (Hoàn Toàn Độc Lập Khỏi Thẻ Cha)]
+\begin{codeWindow}[Ví Dụ 2: Dùng rem Luôn Tính Từ Thẻ Gốc html (Ổn Định \& Dễ Dự Đoán)]
 \begin{lstlisting}[language=CSS3]
 html {
   font-size: 16px;
 }
-.parent {
-  font-size: 1rem;   /* 1 x 16px = 16px */
-}
 .child {
-  font-size: 1.2rem; /* 1.2 x 16px = 19.2px */
-}
-.grandchild {
-  font-size: 1.4rem; /* 1.4 x 16px = 22.4px */
+  font-size: 2rem;    /* = 32px luon, hoan toan khong bi anh huong boi cha */
 }
 \end{lstlisting}
 \end{codeWindow}
 
 \begin{conceptBox}[Điểm Tựa Độc Lập Tuyệt Đối Của rem]
-Với \codeinline{rem}, kích thước của \codeinline{.child} ($19.2\text{px}$) và \codeinline{.grandchild} ($22.4\text{px}$) \textbf{hoàn toàn độc lập} với phần tử cha của chúng. Mọi phép tính đều neo chặt vào mỏ neo duy nhất là thẻ \codeinline{<html>}, giúp kích thước luôn dễ dự đoán và ổn định tuyệt đối trong mọi tình huống.
+Với \codeinline{rem}, kích thước luôn giữ mức $\mathbf{32\text{px}}$ ổn định tuyệt đối và dễ dự đoán, bất kể phần tử cha của nó có kích thước phông chữ bao nhiêu!
 \end{conceptBox}
+
+\begin{prettyTableBox}[BẢNG HƯỚNG DẪN: KHI NÀO NÊN DÙNG em vs rem?]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}p{6.5cm}|>{\centering\arraybackslash\ttfamily\bfseries}p{3cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Nhu cầu thiết kế thực tế} & \thd{\sffamily Gợi ý dùng} & \thd{\sffamily Lý do kỹ thuật} \\
+\hline
+Muốn phần tử tự co giãn linh hoạt theo thẻ cha & \textcolor{accentOrange}{\textbf{em}} & Đảm bảo component con co giãn tỷ lệ khi component cha đổi kích cỡ. \\
+\hline
+Muốn giữ kích thước ổn định, dễ kiểm soát toàn trang & \textcolor{primaryBlue}{\textbf{rem}} & Tránh hoàn toàn lỗi nhân dồn và sai lệch kích thước ngoài ý muốn. \\
+\hline
+Thiết kế layout lớn, khoảng cách toàn trang & \textcolor{primaryBlue}{\textbf{rem}} & Đồng bộ hệ thống Spacing toàn cục theo Breakpoint. \\
+\hline
+Canh chỉnh khoảng đệm (\codeinline{padding}) nội bộ nút bấm, card & \textcolor{accentOrange}{\textbf{em}} (nếu hợp lý) & Nút bấm tự động phồng to/thu nhỏ tương ứng khi đổi cỡ chữ nút. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[BẢNG TỔNG KẾT PHẠM VI ỨNG DỤNG TỐI ƯU]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash \bfseries\color{primaryBlue}\ttfamily}p{2.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Loại đơn vị} & \thd{\sffamily Phù hợp khi nào?} & \thd{\sffamily Tuyệt đối không nên dùng khi nào?} \\
+\hline
+\textbf{\codeinline{em}} & Bạn cần kích thước có tỷ lệ chặt chẽ theo phần tử cha gần nhất. & Khi phần tử cha cũng sử dụng \codeinline{em}, gây ra lỗi nhân chồng lũy tiến. \\
+\hline
+\textbf{\codeinline{rem}} & Bạn cần sự ổn định, dễ quản lý, dễ bảo trì và dễ đoán trước kết quả. & Khi bạn muốn kích thước phần tử tự động co giãn riêng biệt theo từng khu vực cục bộ. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Tip Chuyên Nghiệp Dành Cho Frontend Developer]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Dùng \codeinline{rem}}: Cho toàn bộ hệ thống kích thước phông chữ (\term{Typography}), chiều cao dòng (\codeinline{line-height}), và các khoảng cách lớn (\codeinline{margin}, \codeinline{padding}, \codeinline{gap}) của hệ thống lưới Layout.
+    \item \textbf{Dùng \codeinline{em}}: Cho các khoảng cách nhỏ nội bộ liên quan mật thiết đến chính cỡ chữ của phần tử đó (ví dụ: \codeinline{padding} và \codeinline{border-radius} bên trong nút bấm \codeinline{<button>}).
+\end{itemize}
+\end{tipBox}
 
 \paragraph{5. Toàn Bộ Những Lưu Ý Sống Còn Khi Sử Dụng Đơn Vị rem (7 Nguyên Tắc Vàng):}
 
