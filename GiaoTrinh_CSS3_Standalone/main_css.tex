@@ -10033,48 +10033,436 @@ body {
 
 Hệ thống thuộc tính \codeinline{background} trong CSS là công cụ trực quan mạnh mẽ hàng đầu giúp các nhà phát triển định hình không gian, phong cách thị giác và chiều sâu giao diện của trang web. Nền không chỉ đơn thuần là việc tô một mảng màu, mà là một hệ sinh thái phối hợp giữa màu sắc, ảnh chụp, dải chuyển màu (\term{Gradients}), quy luật co giãn, vị trí neo và hiệu ứng xếp lớp đa tầng.
 
-\subsection{Thuộc Tính Màu Nền (\csshint{background-color})}
+\subsection{Chuyên Đề Thuộc Tính Màu Nền (\csshint{background-color} Masterclass)}
 \label{sec:css_bg_color}
 
-\begin{conceptBox}[Khái Niệm Cốt Lõi Về background-color]
-Thuộc tính \codeinline{background-color} thiết lập màu nền đồng nhất cho một phần tử. Vùng phủ màu nền mặc định sẽ lấp đầy toàn bộ diện tích nội dung (\term{Content}), khoảng đệm (\term{Padding}) và lan ra sát cạnh ngoài của đường viền (\term{Border}).
+\begin{conceptBox}[1. background-color Là Gì? \& Cú Pháp Cơ Bản]
+\textbf{\codeinline{background-color}} là một trong những thuộc tính CSS cốt lõi và được sử dụng với tần suất cao nhất, dùng để \textbf{thiết lập màu nền} cho bất kỳ phần tử HTML nào trên trang web (từ các thẻ khối như \codeinline{<div>}, \codeinline{<section>}, \codeinline{<header>}, \codeinline{<body>} cho đến các thẻ tương tác như \codeinline{<button>}, hoặc thẻ văn bản như \codeinline{<span>}, \codeinline{<p>}).
+
+\vspace{4pt}
+\textbf{Cú pháp chuẩn}:
+\begin{center}
+\tcbox[on line, arc=3pt, colback=primaryBlue!8, colframe=primaryBlue!40, boxsep=1pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue}
+  selector \{ background-color: <giá-trị-màu>; \}%
+}
+\end{center}
+Trong đó \codeinline{<giá-trị-màu>} có thể là tên màu định danh, mã Hex, hàm RGB/RGBA, hàm HSL/HSLA hoặc các từ khóa đặc biệt như \codeinline{transparent}, \codeinline{inherit}, \codeinline{initial}.
 \end{conceptBox}
 
-\paragraph{1. Các Kiểu Giá Trị Được Chấp Nhận:}
-Thuộc tính \codeinline{background-color} tiếp nhận tất cả các kiểu định dạng màu chuẩn trong CSS:
+\paragraph{2. Các Định Dạng Giá Trị Màu Tiếp Nhận (Color Values):}
+
+Thuộc tính \codeinline{background-color} hỗ trợ toàn diện các hệ thống biểu diễn màu sắc hiện đại trong Web Frontend:
+
+\begin{prettyTableBox}[BẢNG TỔNG HỢP CÁC ĐỊNH DẠNG GIÁ TRỊ CỦA background-color]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash\ttfamily\small\color{accentOrange}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Loại giá trị} & \thd{\sffamily Cú pháp ví dụ} & \thd{\sffamily Đặc tính kỹ thuật \& Ghi chú} \\
+\hline
+Tên màu (Keyword) & red, blue, green, white & Có sẵn khoảng $140$ tên màu tiếng Anh tiêu chuẩn chuẩn hóa bởi W3C. \\
+\hline
+Mã Hexadecimal & \#ff0000, \#3498db, \#000 & Phổ biến nhất, định dạng \codeinline{\#RRGGBB} hoặc rút gọn \codeinline{\#RGB}. \\
+\hline
+Mã Hex-8 (Alpha) & \#ff000080, \#3498db80 & Thêm 2 ký tự Hex cuối điều khiển độ trong suốt ($00 \rightarrow \text{FF}$). \\
+\hline
+Hàm RGB & rgb(255, 0, 0), rgb(46, 204, 113) & Pha trộn 3 kênh màu Red-Green-Blue với giá trị từ $0$ đến $255$. \\
+\hline
+Hàm RGBA & rgba(255, 0, 0, 0.5), rgba(0,0,0,0.7) & Bổ sung kênh Alpha độ mờ ($0.0$ là trong suốt, $1.0$ là đậm đặc). \\
+\hline
+Hàm HSL & hsl(0, 100\%, 50\%), hsl(240, 100\%, 50\%) & Tiếp cận tự nhiên: Hue (sắc độ $0-360^\circ$), Saturation (độ bão hòa \%), Lightness (độ sáng \%). \\
+\hline
+Hàm HSLA & hsla(200, 50\%, 70\%, 0.5) & Thêm kênh Alpha điều khiển độ mờ trên nền mô hình màu HSL. \\
+\hline
+transparent & background-color: transparent; & \textbf{Giá trị mặc định}: Làm màu nền hoàn toàn trong suốt để lộ nền của cha. \\
+\hline
+inherit / initial & background-color: inherit; & Ép buộc kế thừa từ cha (\codeinline{inherit}) hoặc trả về mặc định (\codeinline{initial}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Minh Họa 4 Định Dạng Màu Cơ Bản \& Nâng Cao]
+\begin{lstlisting}[language=CSS3]
+/* 1. Ten mau tieng Anh & Gia tri transparent mac dinh */
+.element-red         { background-color: red; }
+.element-transparent { background-color: transparent; /* Mac dinh cua moi the */ }
+
+/* 2. Ma Hex 6 ky tu va Hex 8 ky tu co do mo Alpha (50%) */
+.element-hex         { background-color: #3498db; }
+.element-hex-alpha   { background-color: #3498db80; /* Alpha 50% = 80 in Hex */ }
+
+/* 3. Ham RGB truyen thong va RGBA do mo 70% */
+.element-rgb         { background-color: rgb(46, 204, 113); }
+.element-rgba        { background-color: rgba(46, 204, 113, 0.7); }
+
+/* 4. Ham HSL truc quan va HSLA do mo 30% */
+.element-hsl         { background-color: hsl(240, 100%, 50%); }
+.element-hsla        { background-color: hsla(240, 100%, 50%, 0.3); }
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{3. Cơ Chế Hoạt Động Của background-color Trên Mô Hình Khối (Box Model):}
+
+Khi bạn khai báo \codeinline{background-color} cho một phần tử HTML, màu nền sẽ lan tỏa và chiếm lĩnh những vùng không gian nào trong mô hình 4 lớp Box Model?
+
+\begin{prettyTableBox}[BẢNG XÁC ĐỊNH PHẠM VI BAO PHỦ CỦA MÀU NỀN TRONG BOX MODEL]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\centering\arraybackslash\bfseries}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thành phần Box Model} & \thd{\sffamily Có được tô màu nền?} & \thd{\sffamily Chi tiết cơ chế hiển thị của trình duyệt} \\
+\hline
+Nội dung (\term{Content}) & \textcolor{green!60!black}{\textbf{Có}} & Màu nền bao phủ trọn vẹn toàn bộ diện tích chữ viết, ảnh, icon bên trong. \\
+\hline
+Khoảng đệm (\term{Padding}) & \textcolor{green!60!black}{\textbf{Có}} & Màu nền tiếp tục lan tỏa bao phủ toàn bộ khoảng đệm xung quanh nội dung. \\
+\hline
+Đường viền (\term{Border}) & \textcolor{accentOrange}{\textbf{Kéo dài tới viền}} & Không tô trực tiếp đè lên nét vẽ viền, nhưng màu nền ngầm kéo dài ra sát mép ngoài của viền (thấy rõ khi border dạng \codeinline{dashed}, \codeinline{dotted} hoặc bán trong suốt). \\
+\hline
+Khoảng lề (\term{Margin}) & \textcolor{red!80!black}{\textbf{Không}} & \textbf{Tuyệt đối không}: Khoảng lề bên ngoài luôn luôn trong suốt, không bao giờ nhận màu nền của phần tử! \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Quy Tắc Vàng Về Phạm Vi Phủ Màu Của background-color]
+Màu nền \codeinline{background-color} bao phủ:
+\begin{center}
+\tcbox[on line, arc=3.5pt, colback=primaryBlue!8, colframe=primaryBlue!40, boxsep=1pt, left=8pt, right=8pt, top=3.5pt, bottom=3.5pt]{%
+  \sffamily\small\bfseries\color{primaryBlue}
+  Vùng phủ màu = Content (Nội dung) + Padding (Khoảng đệm) + Đến mép ngoài Border%
+}
+\end{center}
+\vspace{2pt}
+\textbf{Đặc biệt chú ý}: \textcolor{red!80!black}{\textbf{Hoàn toàn KHÔNG bao phủ Margin}} vì Margin là vùng đệm phân tách các phần tử độc lập bên ngoài.
+\end{conceptBox}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan: Phạm Vi Phủ Màu Nền Trong Mô Hình Box Model]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.92, every node/.style={transform shape}]
+  % Margin area (outermost, transparent, dashed gray)
+  \draw[fill=gray!12, draw=gray!50, line width=1pt, dashed, rounded corners=6pt] (-0.8, -0.6) rectangle (10.0, 5.0);
+  \node[anchor=north west, font=\scriptsize\bfseries\color{gray!70!black}] at (-0.6, 4.8) {margin (Khoảng trống ngoài cùng: Trong suốt, KHÔNG có màu nền)};
+
+  % Border area (Navy blue)
+  \draw[fill=blue!85!black, draw=blue!95!black, line width=1.5pt, rounded corners=4pt] (0.8, 0.4) rectangle (8.4, 4.0);
+  \node[anchor=north west, font=\tiny\bfseries\color{white}] at (0.95, 3.9) {border (Viền ngoài: Navy solid)};
+
+  % Padding area (lightblue)
+  \draw[fill=cyan!25, draw=cyan!60, line width=0.8pt] (1.2, 0.8) rectangle (8.0, 3.5);
+  \node[anchor=north west, font=\tiny\bfseries\color{primaryBlue}] at (1.35, 3.4) {padding (Khoảng đệm: ĐƯỢC TÔ MÀU NỀN)};
+
+  % Content area (deeper blue tint)
+  \draw[fill=primaryBlue!20, draw=primaryBlue!70, line width=1pt, rounded corners=2pt] (2.2, 1.3) rectangle (7.0, 2.9);
+  \node[anchor=center, font=\small\bfseries\color{primaryBlue}, align=center] at (4.6, 2.1) {content (Vùng Nội Dung)\\{\scriptsize \color{darkText}"Xin chào bạn!"}};
+
+  % Arrows / Annotation labels
+  \draw[<-, line width=1.2pt, color=accentOrange] (8.0, 2.15) -- (9.4, 2.15) 
+    node[right, font=\scriptsize\bfseries\color{accentOrange}, align=left] {MÀU NỀN (\codeinline{background-color})\\Bao phủ trọn vẹn cả Content + Padding};
+\end{tikzpicture}
+\par\vspace{3pt}
+\textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Màu nền lan tỏa từ vùng nội dung (Content), phủ kín khoảng đệm (Padding) và chạm đến sát mép viền (Border), nhưng hoàn toàn không bao phủ Margin).}
+\end{browserWindow}
+
+\begin{codeWindow}[Ví Dụ Thực Nghiệm: Kiểm Chứng Màu Nền Trên Box Model]
+\begin{lstlisting}[language=HTML5]
+<!-- HTML -->
+<div class="box">Xin chao ban!</div>
+
+<!-- CSS -->
+<style>
+.box {
+  background-color: lightblue; /* To mau xanh nhat */
+  padding: 20px;               /* Khoang dem ben trong duoc to mau nen */
+  margin: 30px;                /* Khoang cach le ngoai cung KHONG co mau nen */
+  border: 2px solid navy;      /* Duong vien xanh dam bao quanh */
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[ĐỐI CHIẾU SỰ KHÁC BIỆT GIỮA padding VÀ margin VỚI MÀU NỀN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.5cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Đặc điểm so sánh} & \thd{\sffamily Khoảng đệm (padding)} & \thd{\sffamily Khoảng lề (margin)} \\
+\hline
+Vị trí cấu trúc & \textcolor{green!60!black}{\textbf{Nằm bên trong phần tử}} & \textcolor{red!80!black}{\textbf{Nằm ngoài phần tử}} \\
+\hline
+Bị ảnh hưởng bởi màu nền? & \textcolor{green!60!black}{\textbf{Có (Được tô màu nền)}} & \textcolor{red!80!black}{\textbf{Không (Hoàn toàn trong suốt)}} \\
+\hline
+Khả năng nhìn thấy màu nền? & \textbf{Rõ ràng} (Tạo không gian thở) & \textbf{Trong suốt} (Lộ nền thẻ cha bên dưới) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{4. Ảnh Hưởng Của Loại Phần Tử (Display Type: Block vs Inline):}
+
+Hành vi bao phủ của \codeinline{background-color} phụ thuộc mật thiết vào loại hiển thị của thẻ HTML:
+
+\begin{prettyTableBox}[MÀU NỀN BAO PHỦ THEO LOẠI PHẦN TỬ (BLOCK VS INLINE)]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Loại phần tử} & \thd{\sffamily Cách thức màu nền bao phủ không gian} \\
+\hline
+Phần tử Khối (\term{Block}: \codeinline{div}, \codeinline{p}, \codeinline{section}...) & Bao phủ \textbf{toàn bộ chiều rộng} ($100\%$ width của khung chứa cha) ngay cả khi nội dung văn bản bên trong rất ngắn. \\
+\hline
+Phần tử Nội dòng (\term{Inline}: \codeinline{span}, \codeinline{a}, \codeinline{em}...) & Chỉ bao phủ \textbf{vừa khít diện tích của các con chữ} (không kéo dài ra hết dòng). Muốn mở rộng kích thước phải chuyển sang \codeinline{display: inline-block} hoặc \codeinline{block}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ: Màu Nền Trên Phần Tử Inline (Thẻ <span>)]
+\begin{lstlisting}[language=HTML5]
+<p>Day la <span style="background-color: yellow;">vi du mau vang</span> nam tren dong.</p>
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{5. Tính Kế Thừa \& Cơ Chế Xếp Lớp (Inheritance \& Stacking Layer):}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Tên màu định danh}: \codeinline{red}, \codeinline{transparent}, \codeinline{currentColor}.
-    \item \textbf{Hệ màu HEX}: \codeinline{\#ffffff}, \codeinline{\#1e293b}, \codeinline{\#ff000080} (có alpha).
-    \item \textbf{Hệ màu RGB/RGBA}: \codeinline{rgb(30, 41, 59)}, \codeinline{rgba(0, 0, 0, 0.65)}.
-    \item \textbf{Hệ màu HSL/HSLA}: \codeinline{hsl(215, 28\%, 17\%)}, \codeinline{hsla(210, 100\%, 50\%, 0.2)}.
+    \item \textbf{Không kế thừa tự động}: Thuộc tính \codeinline{background-color} \textbf{không tự động kế thừa} từ thẻ cha sang thẻ con.
+    \item \textbf{Cơ chế hiển thị ngầm}: Mỗi phần tử con mặc định có \codeinline{background-color: transparent;}. Nhờ lớp nền trong suốt này, mắt người nhìn xuyên qua và trông thấy màu nền của thẻ cha bên dưới.
+    \item \textbf{Ép kế thừa chủ động}: Có thể dùng \codeinline{background-color: inherit;} nếu muốn thẻ con nhận chính xác màu nền của cha.
+    \item \textbf{Vị trí xếp lớp}: \codeinline{background-color} luôn nằm ở \textbf{tầng đáy sâu nhất} của hệ thống nền. Nếu có ảnh nền (\codeinline{background-image}), ảnh nền sẽ đè lên trên màu nền.
 \end{itemize}
 
-\begin{codeWindow}[Ví Dụ Minh Họa: Các Cách Thiết Lập background-color Phổ Biến]
+\paragraph{6. Màu Nền Cho Thẻ \codeinline{<body>} Và Mối Quan Hệ Giữa Thẻ Cha \& Thẻ Con:}
+
+Thiết lập màu nền cho thẻ \codeinline{<body>} là bước khởi đầu để định hình tông màu chủ đạo cho toàn bộ giao diện:
+
+\begin{codeWindow}[Ví Dụ 1: Phân Tách Màu Nền Giữa body (Toàn Trang) Và div.box Con]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      background-color: #f0f0f0; /* Nen xam nhat trang nha toan trang */
+      margin: 0;
+      padding: 20px;
+    }
+    .box {
+      background-color: white;   /* Nen trang noi bat cho khoi noi dung */
+      width: 320px;
+      padding: 24px;
+      margin: 40px auto;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Tieu De Hop</h2>
+    <p>Noi dung the con div noi bat tren nen xam cua the body.</p>
+  </div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[BẢNG PHÂN TÍCH MÀU NỀN CỦA body VÀ THẺ CON]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}\ttfamily}p{2.8cm}|>{\raggedright\arraybackslash\ttfamily\color{accentOrange}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Phần tử} & \thd{\sffamily Màu nền áp dụng} & \thd{\sffamily Vai trò thị giác} \\
+\hline
+body & \#f0f0f0 (Xám nhạt) & Làm phông nền êm dịu toàn bộ website, giảm mỏi mắt người dùng. \\
+\hline
+.box (div con) & white (Trắng) & Khối thẻ con nổi bật ở trung tâm, tạo điểm tập trung đọc nội dung. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ 2: Màu Nền Đa Tầng Lồng Nhau (section $\rightarrow$ h2 $\rightarrow$ p)]
+\begin{lstlisting}[language=HTML5]
+<section style="background-color: lightblue; padding: 20px; border-radius: 6px;">
+  <h2 style="background-color: yellow; padding: 5px;">Tieu de vang ruc ro</h2>
+  <p style="background-color: white; padding: 10px;">Doan van nen trang tren nen xanh cua section.</p>
+</section>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[LƯU Ý KHI ÁP DỤNG MÀU NỀN GIỮA THẺ CHA VÀ THẺ CON]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{5.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Đặc điểm màu nền} & \thd{\sffamily Giải thích kỹ thuật cốt lõi} \\
+\hline
+Thẻ cha có nền không ép thẻ con & Thẻ con tự do xác định màu nền riêng mà không bị thẻ cha cưỡng ép. \\
+\hline
+\codeinline{transparent} là mặc định & Nếu thẻ con không khai báo, màu nền là trong suốt, nhìn xuyên thấu màu của cha. \\
+\hline
+Luôn dùng \codeinline{padding} tạo khoảng thở & Màu nền luôn cần khoảng đệm \codeinline{padding} để chữ không bị dính sát mép viền. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{7. Kỹ Thuật Nâng Cao \& Hiệu Ứng Tương Tác (:hover):}
+
+Khi kết hợp \codeinline{background-color} với bộ chọn giả \codeinline{:hover} và thuộc tính \codeinline{transition}, bạn có thể tạo nên những nút bấm và khối tương tác phản hồi chuyển màu vô cùng mượt mà:
+
+\begin{codeWindow}[Tạo Hiệu Ứng Chuyển Màu Mượt Mà Với :hover Và transition]
 \begin{lstlisting}[language=CSS3]
-/* 1. Mau nen dac don sac */
-.card-solid {
-  background-color: #2563eb; /* Hex blue */
+/* Nut bam co hieu ung chuyen doi mau nen em diu: */
+.btn-interactive {
+  background-color: #3b82f6; /* Xanh duong ban dau */
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Chuyen mau muot ma trong 0.3 giay */
 }
 
-/* 2. Mau nen trong suot mot phan voi kenh Alpha (RGBA) */
-.modal-overlay {
-  background-color: rgba(15, 23, 42, 0.75); /* Nen mo toi bao phu */
+.btn-interactive:hover {
+  background-color: #1d4ed8; /* Chuyen sang xanh dam khi re chuot qua */
 }
 
-/* 3. Mau nen mac dinh trong suot tuyet doi */
-.btn-transparent {
-  background-color: transparent;
-  border: 1px solid #2563eb;
+/* Hop the doi mau nen nhe khi re chuot: */
+.interactive-card {
+  background-color: #ffffff;
+  transition: background-color 0.25s ease;
+}
+.interactive-card:hover {
+  background-color: #ffeaa7; /* Vang nhat diu mat tao diem nhan */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{warnBox}[Phân Biệt Cốt Lõi Giữa background-color Và color]
-Rất nhiều người mới bắt đầu nhầm lẫn giữa hai thuộc tính này:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \codeinline{color}: Thiết lập màu sắc của \textbf{văn bản} (chữ viết) và icon bên trong phần tử. Có tính chất \textbf{kế thừa} xuống con.
-    \item \codeinline{background-color}: Thiết lập màu của \textbf{bề mặt nền} phía sau văn bản. \textbf{Không có tính kế thừa} (mặc định thẻ con trong suốt \codeinline{transparent} để lộ nền của cha).
-\end{itemize}
+\paragraph{8. Dự Án Mini Tổng Hợp Thực Chiến: Card Component Hoàn Chỉnh:}
+
+Đoạn mã hoàn chỉnh dưới đây minh họa sự kết hợp của nhiều loại màu nền (\codeinline{Hex}, \codeinline{RGB}, \codeinline{RGBA}, \codeinline{HSLA}) trên một giao diện thẻ tin tức chuyên nghiệp:
+
+\begin{codeWindow}[Mã Nguồn Đầy Đủ: Card Component Đa Định Dạng Màu Nền]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f0f2f5; /* Nen toan trang */
+      padding: 20px;
+    }
+    .card {
+      width: 320px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .card-header {
+      background-color: #007bff; /* Header xanh duong */
+      color: white;
+      padding: 16px;
+      text-align: center;
+    }
+    .card-body {
+      background-color: white;   /* Than the nen trang */
+      padding: 20px;
+      text-align: center;
+    }
+    .highlight-text {
+      background-color: rgba(255, 255, 0, 0.3); /* To vang mo 30% RGBA */
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .button.primary {
+      display: inline-block;
+      background-color: rgb(40, 167, 69); /* Xanh la cay RGB */
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .button.primary:hover {
+      background-color: rgb(33, 136, 56); /* Xanh dam hon khi hover */
+    }
+    .translucent-box {
+      width: 260px;
+      margin: 20px auto;
+      background-color: hsla(200, 50%, 70%, 0.5); /* Xanh mo ban trong suot HSLA */
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: center;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header"><h3>Tieu De Card</h3></div>
+    <div class="card-body">
+      <p>Day la noi dung. Mot so <span class="highlight-text">cum tu quan trong</span> duoc to sang.</p>
+      <a href="#" class="button primary">Tim Hieu Them</a>
+    </div>
+  </div>
+  <div class="translucent-box">Hop Ban Trong Suot (HSLA)</div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{9. Bảng Cheatsheet Tổng Kết \& Best Practices Cốt Lõi:}
+
+\begin{prettyTableBox}[6 LƯU Ý KỸ THUẬT QUAN TRỌNG KHI DÙNG background-color]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\bfseries\color{primaryBlue}}p{0.8cm}|>{\raggedright\arraybackslash\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily \#} & \thd{\sffamily Điểm kỹ thuật} & \thd{\sffamily Hướng dẫn thực hành \& Khắc phục} \\
+\hline
+1 & Không ảnh hưởng Margin & Màu nền chỉ bao phủ Content + Padding + đến mép Border. Margin luôn trong suốt. \\
+\hline
+2 & Phần tử Inline chỉ bọc chữ & Với \codeinline{span}, \codeinline{a}, nền chỉ ôm lấy chữ; đổi sang \codeinline{display: block} hoặc \codeinline{inline-block} nếu muốn chiếm toàn dòng. \\
+\hline
+3 & Kết hợp hiệu ứng \codeinline{:hover} & Rất phổ biến cho nút bấm (\codeinline{button}), ô thẻ, thanh menu để tăng tính phản hồi tương tác. \\
+\hline
+4 & Phần tử không có kích thước cố định & Màu nền tự động co lại bám sát chiều cao nội dung. Dùng \codeinline{min-height} hoặc \codeinline{padding} để mở rộng. \\
+\hline
+5 & Kiểm tra độ tương phản (\term{Contrast}) & Không đặt chữ tối trên nền tối hoặc chữ sáng trên nền sáng. Đảm bảo tỷ lệ tương phản tối thiểu $4.5:1$ theo chuẩn WCAG 2.1. \\
+\hline
+6 & Tránh lạm dụng \codeinline{transparent} & Việc lạm dụng nền trong suốt ở nhiều lớp lồng nhau có thể gây khó kiểm soát khi phối màu trang. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Mẹo Thiết Kế box-sizing: border-box \& Gợi Ý Ứng Dụng Màu Nền]
+\textbf{1. Thiết lập cốt lõi cho dự án}:
+\begin{lstlisting}[language=CSS3]
+* {
+  box-sizing: border-box; /* Giup kiem soat hoan hao khi mau nen phu ca padding va border */
+}
+\end{lstlisting}
+
+\vspace{2pt}
+\textbf{2. Bảng gợi ý phối màu nền theo tình huống}:
+\begin{center}
+\sffamily\footnotesize
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue!15} \textbf{Thành phần giao diện} & \textbf{Gợi ý sử dụng màu nền hiệu quả} \\
+\hline
+Nút bấm tương tác (\codeinline{button}) & Dùng màu thương hiệu nổi bật + hiệu ứng \codeinline{:hover} đậm hơn $10-15\%$. \\
+\hline
+Hộp cảnh báo (Alert Card) & Màu nền nhạt pastel (\codeinline{\#fef2f2}) kết hợp viền đậm (\codeinline{\#ef4444}) và icon. \\
+\hline
+Lớp phủ mờ (Modal Overlay) & Dùng \codeinline{rgba(0, 0, 0, 0.5)} hoặc kết hợp hiệu ứng kính mờ \codeinline{backdrop-filter: blur(8px)}. \\
+\hline
+\end{tabularx}
+\end{center}
+\end{tipBox}
+
+\begin{warnBox}[Cạm Bẫy Ghi Đè Khi Dùng Shorthand background]
+\textbf{Lưu ý sống còn}: \codeinline{background-color} chỉ định duy nhất màu nền. Trong khi \codeinline{background} là thuộc tính viết tắt gộp chung: màu, ảnh, lặp, vị trí, kích cỡ. Nếu bạn đã đặt \codeinline{background-color: blue;} mà phía sau lại khai báo \codeinline{background: url("...");} mà không kèm màu, trình duyệt sẽ \textbf{tự động reset màu nền về \codeinline{transparent}}, làm mất hoàn toàn màu xanh đã thiết lập trước đó!
 \end{warnBox}
 
 \subsection{Thuộc Tính Hình Ảnh Nền \& Gradients (\csshint{background-image}, \csshint{linear-gradient})}
