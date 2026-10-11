@@ -11185,11 +11185,11 @@ div {
     \item \textbf{Ứng dụng thực tế}: Logo thương hiệu nổi bật trên ảnh nền; khung trang trí với góc bo trong suốt.
 \end{itemize}
 
-\begin{browserWindow}[Mô Phỏng Trực Quan Thực Tế: Kết Hợp Logo Trong Suốt \& Ảnh Nền]
+\begin{browserWindow}[Mô Phỏng Trực Quan Cho Kịch Bản A: Logo Trong Suốt \& Ảnh Nền]
 \centering
 \begin{minipage}{0.48\linewidth}
   \centering
-  \textbf{\footnotesize 1. Tệp Nguồn \& Mã Nguồn CSS}\par\vspace{3pt}
+  \textbf{\footnotesize 1. Tệp Tài Nguyên Nguồn \& Khai Báo CSS}\par\vspace{3pt}
   \includegraphics[width=\linewidth]{figures/bg_multi_code_assets.png}
 \end{minipage}\hfill
 \begin{minipage}{0.48\linewidth}
@@ -11197,7 +11197,7 @@ div {
   \textbf{\footnotesize 2. Kết Quả Hiển Thị Trên Trình Duyệt}\par\vspace{3pt}
   \includegraphics[width=\linewidth]{figures/bg_multi_composite_result.png}
 \end{minipage}\par\vspace{6pt}
-{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Minh chứng thực tế: Tệp \codeinline{image\_1.png} (logo hoa sen vàng trong suốt) đặt trước \codeinline{image\_2.jpg} (rừng thu đỏ). Nền rừng đỏ rực hiện rõ qua vùng rỗng của logo, chữ màu \codeinline{aliceblue} hiển thị sắc nét trên nền.}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Minh chứng kịch bản A: Tệp \codeinline{image\_1.png} (logo hoa sen vàng có alpha trong suốt) đặt trước \codeinline{image\_2.jpg} (rừng thu đỏ). Nền rừng đỏ rực hiện rõ qua vùng rỗng của logo, chữ màu \codeinline{aliceblue} hiển thị sắc nét trên nền.}
 \end{browserWindow}
 
 \paragraph{B. Ảnh trên không có vùng trong suốt (JPEG, PNG không alpha):}
@@ -11224,6 +11224,12 @@ div {
 background: rgba(255, 255, 255, 0.5) url('solid-logo.jpg'), url('background.jpg');
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Cho Kịch Bản B: Ảnh Đặc Không Trong Suốt Che Phủ Hoàn Toàn]
+\centering
+\includegraphics[width=0.52\linewidth]{figures/bg_multi_base_forest.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Minh chứng kịch bản B: Khi ảnh phía trên là ảnh đặc (JPEG hoặc PNG không alpha như tệp \codeinline{image\_2.jpg}), nó vẽ đè và che phủ kín $100\%$ ảnh bên dưới, người dùng chỉ thấy duy nhất ảnh trên cùng mà không thấy bất kỳ chi tiết nào của lớp nền bên dưới.}
+\end{browserWindow}
 
 \paragraph{C. Ảnh trên nhỏ hơn phần tử, không lặp lại:}
 
