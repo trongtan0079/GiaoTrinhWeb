@@ -9929,6 +9929,444 @@ body {
 \end{tcolorbox}
 \end{browserWindow}
 
+% ==============================================================================
+% CHUYÊN ĐỀ: HỆ THỐNG NỀN TRONG CSS (CSS BACKGROUNDS MASTERCLASS TỪ A-Z)
+% ==============================================================================
+\section{Chuyên Đề Hệ Thống Nền Trong CSS (CSS Backgrounds Masterclass Từ A Đến Z)}
+\label{sec:css_backgrounds_masterclass}
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=primaryBlue!3,
+    colframe=primaryBlue!35,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.8]\quad BẢN ĐỒ KIẾN THỨC HỆ THỐNG NỀN (CSS BACKGROUNDS)},
+    colbacktitle=primaryBlue!10,
+    fonttitle=\bfseries\sffamily,
+    drop shadow=black!5!white
+]
+\sffamily\small
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh A: Các Thuộc Tính Nền Đơn Lẻ}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.8.1:} \codeinline{background-color} (Màu đơn sắc, trong suốt \& Alpha)
+    \item \textbf{1.8.2:} \codeinline{background-image} (\codeinline{url()} \& CSS Gradients)
+    \item \textbf{1.8.3:} \codeinline{background-repeat} (\codeinline{repeat}, \codeinline{space}, \codeinline{round})
+    \item \textbf{1.8.4:} \codeinline{background-position} (Căn chỉnh tọa độ 2D \& 4-value syntax)
+    \item \textbf{1.8.5:} \codeinline{background-size} (\codeinline{cover}, \codeinline{contain} vs kích thước cụ thể)
+  \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh B: Kỹ Thuật Nâng Cao \& Shorthand}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.8.6:} \codeinline{background-attachment} (\codeinline{scroll}, \codeinline{fixed}, \codeinline{local})
+    \item \textbf{1.8.7:} \codeinline{background-origin} vs \codeinline{background-clip} (\codeinline{text} clip)
+    \item \textbf{1.8.8:} Cú pháp viết tắt Shorthand \codeinline{background} \& Cạm bẫy
+    \item \textbf{1.8.9:} Đa ảnh nền (\term{Multiple Backgrounds}) xếp chồng nhiều lớp
+    \item \textbf{1.8.10:} Cheatsheet tổng kết \& Best Practices UI/UX
+  \end{itemize}
+\end{minipage}
+\end{tcolorbox}
+\vspace{4pt}
+
+Hệ thống thuộc tính \codeinline{background} trong CSS là công cụ trực quan mạnh mẽ hàng đầu giúp các nhà phát triển định hình không gian, phong cách thị giác và chiều sâu giao diện của trang web. Nền không chỉ đơn thuần là việc tô một mảng màu, mà là một hệ sinh thái phối hợp giữa màu sắc, ảnh chụp, dải chuyển màu (\term{Gradients}), quy luật co giãn, vị trí neo và hiệu ứng xếp lớp đa tầng.
+
+\subsection{Thuộc Tính Màu Nền (\csshint{background-color})}
+\label{sec:css_bg_color}
+
+\begin{conceptBox}[Khái Niệm Cốt Lõi Về background-color]
+Thuộc tính \codeinline{background-color} thiết lập màu nền đồng nhất cho một phần tử. Vùng phủ màu nền mặc định sẽ lấp đầy toàn bộ diện tích nội dung (\term{Content}), khoảng đệm (\term{Padding}) và lan ra sát cạnh ngoài của đường viền (\term{Border}).
+\end{conceptBox}
+
+\paragraph{1. Các Kiểu Giá Trị Được Chấp Nhận:}
+Thuộc tính \codeinline{background-color} tiếp nhận tất cả các kiểu định dạng màu chuẩn trong CSS:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Tên màu định danh}: \codeinline{red}, \codeinline{transparent}, \codeinline{currentColor}.
+    \item \textbf{Hệ màu HEX}: \codeinline{\#ffffff}, \codeinline{\#1e293b}, \codeinline{\#ff000080} (có alpha).
+    \item \textbf{Hệ màu RGB/RGBA}: \codeinline{rgb(30, 41, 59)}, \codeinline{rgba(0, 0, 0, 0.65)}.
+    \item \textbf{Hệ màu HSL/HSLA}: \codeinline{hsl(215, 28\%, 17\%)}, \codeinline{hsla(210, 100\%, 50\%, 0.2)}.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Minh Họa: Các Cách Thiết Lập background-color Phổ Biến]
+\begin{lstlisting}[language=CSS3]
+/* 1. Mau nen dac don sac */
+.card-solid {
+  background-color: #2563eb; /* Hex blue */
+}
+
+/* 2. Mau nen trong suot mot phan voi kenh Alpha (RGBA) */
+.modal-overlay {
+  background-color: rgba(15, 23, 42, 0.75); /* Nen mo toi bao phu */
+}
+
+/* 3. Mau nen mac dinh trong suot tuyet doi */
+.btn-transparent {
+  background-color: transparent;
+  border: 1px solid #2563eb;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Phân Biệt Cốt Lõi Giữa background-color Và color]
+Rất nhiều người mới bắt đầu nhầm lẫn giữa hai thuộc tính này:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{color}: Thiết lập màu sắc của \textbf{văn bản} (chữ viết) và icon bên trong phần tử. Có tính chất \textbf{kế thừa} xuống con.
+    \item \codeinline{background-color}: Thiết lập màu của \textbf{bề mặt nền} phía sau văn bản. \textbf{Không có tính kế thừa} (mặc định thẻ con trong suốt \codeinline{transparent} để lộ nền của cha).
+\end{itemize}
+\end{warnBox}
+
+\subsection{Thuộc Tính Hình Ảnh Nền \& Gradients (\csshint{background-image}, \csshint{linear-gradient})}
+\label{sec:css_bg_image}
+
+\begin{conceptBox}[Khái Niệm Về background-image]
+Thuộc tính \codeinline{background-image} chèn một hoặc nhiều hình ảnh (hoặc dải màu Gradient) làm phông nền cho phần tử. Ảnh nền được vẽ đè lên trên lớp \codeinline{background-color}.
+\end{conceptBox}
+
+\paragraph{1. Chèn Ảnh Nền Bằng Hàm \codeinline{url()}:}
+Cú pháp: \codeinline{background-image: url("path/to/image.jpg");}. Đường dẫn có thể là đường dẫn tương đối, tuyệt đối hoặc Data URI Base64:
+
+\begin{codeWindow}[Mã Nguồn Thiết Lập Ảnh Nền Cơ Bản Kèm Fallback Color]
+\begin{lstlisting}[language=CSS3]
+.hero-banner {
+  /* LUON luon dat background-color du phong truoc khi anh tai xong! */
+  background-color: #1e293b;
+  background-image: url("/assets/images/hero-bg.webp");
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Quy Tắc Vàng: Luôn Khai Báo background-color Đi Cùng background-image]
+Nếu tệp ảnh gặp sự cố kết nối, bị lỗi đường dẫn 404 hoặc mất thời gian tải qua mạng chậm, lớp màu nền dự phòng (\term{Fallback Color}) sẽ hiển thị ngay lập tức, đảm bảo văn bản màu sáng trên nền tối vẫn đọc được rõ ràng theo chuẩn Trợ năng (\term{WCAG}).
+\end{tipBox}
+
+\paragraph{2. Dải Chuyển Màu Hiện Đại (CSS Gradients) Với \codeinline{background-image}:}
+Trong CSS3, Gradients được trình duyệt đối xử tương tự như một tệp hình ảnh được vẽ theo thuật toán vector, hoàn toàn sắc nét ở mọi độ phân giải và dung lượng tải bằng 0 byte:
+
+\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU 3 HÀM DẢI MÀU GRADIENTS TRONG CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Hàm Gradient} & \thd{\sffamily Hướng chuyển dịch} & \thd{\sffamily Cú pháp mẫu \& Ứng dụng tiêu biểu} \\
+\hline
+linear-gradient() & Chuyển màu theo đường thẳng (góc xoay hoặc hướng) & \codeinline{linear-gradient(135deg, \#667eea, \#764ba2)}: Hero Section, Card button. \\
+\hline
+radial-gradient() & Chuyển màu hình tròn hoặc elip tỏa ra từ tâm & \codeinline{radial-gradient(circle, \#3b82f6, \#1e1b4b)}: Hiệu ứng ánh đèn sân khấu (Spotlight). \\
+\hline
+conic-gradient() & Chuyển màu quét tròn theo góc 360 độ quanh tâm & \codeinline{conic-gradient(from 0deg, red, yellow, green)}: Vòng quay màu, biểu đồ tròn Pie Chart. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{Kiểm Soát Lặp Lại Ảnh Nền (\csshint{background-repeat})}
+\label{sec:css_bg_repeat}
+
+Mặc định trong trình duyệt, nếu kích thước của ảnh nền nhỏ hơn kích thước phần tử, ảnh sẽ tự động được lặp lại cả theo chiều ngang (trục X) và chiều dọc (trục Y) như những viên gạch lát nền (\term{Tiling}).
+
+\begin{prettyTableBox}[BẢNG CÁC GIÁ TRỊ CỦA THUỘC TÍNH background-repeat]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}p{4.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Cơ chế lặp lại} & \thd{\sffamily Trường hợp sử dụng lý tưởng} \\
+\hline
+repeat & Lặp cả hai chiều trục X và trục Y (Mặc định). & Hoa văn nền lặp (\term{Seamless Pattern}), hình lưới grid nhỏ. \\
+\hline
+no-repeat & Chỉ hiển thị ảnh đúng 1 lần duy nhất, không lặp. & Ảnh Banner, Logo công ty, Watermark, ảnh minh họa chính. \\
+\hline
+repeat-x & Chỉ lặp theo chiều ngang (trục hoành X). & Thanh dải trang trí viền trên hoặc viền chân trang web. \\
+\hline
+repeat-y & Chỉ lặp theo chiều dọc (trục tung Y). & Cột hoa văn thanh bên (\term{Sidebar ribbon}). \\
+\hline
+space & Lặp đều đặn, tự động giãn khoảng cách trắng để lấp đầy khung mà không bị cắt xén ảnh. & Hiển thị các chấm hoa văn cách đều không bị vỡ bố cục mép. \\
+\hline
+round & Tự động co giãn kích thước ảnh sao cho số lượng ảnh lặp là một số nguyên hoàn hảo. & Tránh tình trạng ảnh ở rìa ngoài cùng bị cắt cụt một nửa. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Cú Pháp 1 Giá Trị Và 2 Giá Trị Trục X/Y]
+\begin{lstlisting}[language=CSS3]
+/* Cu phap 1 gia tri: */
+.banner {
+  background-repeat: no-repeat;
+}
+
+/* Cu phap 2 gia tri (Gia tri 1 la truc X, gia tri 2 la truc Y): */
+.texture {
+  background-repeat: repeat no-repeat; /* Lap chieu ngang, khong lap chieu doc */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Định Vị Tọa Độ Ảnh Nền (\csshint{background-position})}
+\label{sec:css_bg_position}
+
+Thuộc tính \codeinline{background-position} xác định điểm đặt ban đầu của ảnh nền trong khung chứa. Mặc định là góc trên cùng bên trái (\codeinline{0\% 0\%} hoặc \codeinline{top left}).
+
+\paragraph{1. Các Cách Khai Báo Tọa Độ Phổ Biến:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Bằng từ khóa}: \codeinline{center}, \codeinline{top}, \codeinline{bottom}, \codeinline{left}, \codeinline{right}. (Ví dụ: \codeinline{center center} hoặc viết tắt \codeinline{center}).
+    \item \textbf{Bằng đơn vị đo tuyệt đối/tương đối}: \codeinline{20px 40px}, \codeinline{2rem 1.5rem}.
+    \item \textbf{Bằng đơn vị phần trăm (\%)}: Đặc biệt chú ý bản chất toán học:
+    \[
+    \text{Tọa độ điểm vẽ} = (\text{Chiều rộng khung chứa} - \text{Chiều rộng ảnh}) \times \text{Tỷ lệ } \%
+    \]
+    Do đó, \codeinline{50\% 50\%} sẽ căn tâm chính giữa của ảnh vào đúng tâm chính giữa của khung chứa!
+\end{itemize}
+
+\paragraph{2. Cú Pháp 4 Giá Trị Hiện Đại (4-Value Syntax):}
+Trong CSS hiện đại, bạn có thể chỉ định khoảng cách lệch (\term{Offset}) từ bất kỳ góc biên nào thay vì chỉ tính từ góc trên-trái:
+
+\begin{codeWindow}[Cú Pháp 4 Giá Trị Định Vị Cách Lệch Biên Linh Hoạt]
+\begin{lstlisting}[language=CSS3]
+/* Canh anh cach le phai 20px va cach le duoi 15px: */
+.watermark {
+  background-image: url("logo.svg");
+  background-repeat: no-repeat;
+  background-position: right 20px bottom 15px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Kích Thước Ảnh Nền: Cover vs Contain (\csshint{background-size})}
+\label{sec:css_bg_size}
+
+Trước CSS3, kích thước ảnh nền bị bó buộc vào độ phân giải gốc của tệp hình ảnh. Thuộc tính \codeinline{background-size} ra đời đã giải phóng hoàn toàn sức mạnh thiết kế Responsive cho ảnh nền.
+
+\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU CHI TIẾT CÁC GIÁ TRỊ background-size]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.2cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Hành vi co giãn thị giác} & \thd{\sffamily Ưu/Nhược điểm \& Ứng dụng thực tế} \\
+\hline
+auto & Giữ nguyên kích thước pixel gốc của ảnh (Mặc định). & Thích hợp cho icon nhỏ, hoa văn cố định; dễ vỡ layout nếu ảnh quá to. \\
+\hline
+cover & Phóng to ảnh để \textbf{phủ kín hoàn toàn} khung chứa mà vẫn giữ nguyên tỷ lệ khung hình. & \textbf{Ưu điểm}: Không bao giờ để lại khoảng trắng rỗng. \textbf{Nhược điểm}: Có thể bị cắt mất phần rìa ảnh nếu tỷ lệ khung hình khác nhau. Cực kỳ phổ biến cho Hero Banner. \\
+\hline
+contain & Phóng to ảnh tối đa sao cho \textbf{toàn bộ ảnh nằm trọn vẹn} trong khung chứa mà không bị cắt xén. & \textbf{Ưu điểm}: Luôn nhìn thấy 100\% nội dung ảnh. \textbf{Nhược điểm}: Có thể để lại khoảng trống màu nền ở 2 bên hoặc trên dưới. Thích hợp cho ảnh sản phẩm, Logo. \\
+\hline
+kích thước cụ thể & Ví dụ: \codeinline{100\% auto}, \codeinline{300px 200px}. & Ép kích thước chính xác; nếu khai báo cả 2 chiều khác tỷ lệ gốc ảnh sẽ bị méo hình (\term{Distortion}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Mã Nguồn Thiết Lập Cặp Đôi Hoàn Hảo Cho Hero Section]
+\begin{lstlisting}[language=CSS3]
+.hero-section {
+  width: 100%;
+  height: 80vh;
+  background-image: url("banner.webp");
+  background-repeat: no-repeat;
+  background-position: center center; /* Luon giu chu the trung tam */
+  background-size: cover;             /* Phu kin toan bo khung nhin man hinh */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Cơ Chế Cuộn Nền \& Parallax Effect (\csshint{background-attachment})}
+\label{sec:css_bg_attachment}
+
+Thuộc tính \codeinline{background-attachment} xác định ảnh nền sẽ cuộn theo nội dung trang web hay đứng yên cố định so với khung nhìn trình duyệt (\term{Viewport}).
+
+\begin{prettyTableBox}[BẢNG PHÂN BIỆT 3 GIÁ TRỊ background-attachment]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.2cm}|>{\raggedright\arraybackslash\bfseries}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Hành vi khi cuộn trang} & \thd{\sffamily Giải thích cơ chế kỹ thuật} \\
+\hline
+scroll & Cuộn cùng trang web (Mặc định). & Ảnh nền cố định so với chính phần tử, nhưng sẽ cuộn đi khi cả trang web được cuộn. \\
+\hline
+fixed & Đứng yên cố định so với Viewport. & Ảnh giữ nguyên vị trí trên màn hình dù người dùng cuộn chuột qua. Đây là cơ sở tạo hiệu ứng cuộn chiều sâu thị giác (\term{Parallax Scrolling}). \\
+\hline
+local & Cuộn cùng nội dung bên trong phần tử. & Nếu phần tử có thanh cuộn riêng (\codeinline{overflow: scroll}), ảnh sẽ cuộn theo nội dung bên trong thay vì đứng yên. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Tạo Hiệu Ứng Parallax Đơn Giản Thuần CSS]
+\begin{lstlisting}[language=CSS3]
+.parallax-banner {
+  min-height: 400px;
+  background-image: url("mountain-bg.jpg");
+  background-attachment: fixed; /* Anh dung yen khi cuon trang */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Phạm Vi \& Cắt Xén Nền: Origin vs Clip (\csshint{background-origin}, \csshint{background-clip})}
+\label{sec:css_bg_origin_clip}
+
+Đây là hai thuộc tính nâng cao của CSS3 liên quan trực tiếp đến 3 lớp của mô hình khối Box Model: \codeinline{border-box}, \codeinline{padding-box} và \codeinline{content-box}.
+
+\begin{conceptBox}[Phân Biệt Cốt Lõi Giữa Origin Và Clip]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{background-origin}}: Xác định \textbf{điểm mốc tọa độ ban đầu} ($0, 0$) để bắt đầu vẽ và định vị ảnh nền.
+    \item \textbf{\codeinline{background-clip}}: Xác định \textbf{ranh giới cắt xén} mà màu nền hoặc ảnh nền được phép hiển thị ra bên ngoài (vùng nằm ngoài ranh giới sẽ bị ẩn đi).
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU CÁC VÙNG CỦA ORIGIN VÀ CLIP]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.8cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị vùng} & \thd{\sffamily background-origin (Điểm mốc vẽ)} & \thd{\sffamily background-clip (Vùng hiển thị)} \\
+\hline
+border-box & Tọa độ bắt đầu từ mép ngoài của viền (Border). & Nền lan ra và hiển thị cả phía dưới đường viền có nét đứt/trong suốt. \\
+\hline
+padding-box & Bắt đầu từ mép ngoài của khoảng đệm (Padding) -- Mặc định của Origin. & Nền chỉ hiển thị trong vùng Padding và Content, không lấn sang viền Border. \\
+\hline
+content-box & Bắt đầu vẽ từ vùng chứa nội dung bên trong cùng. & Nền bị cắt xén gắt gao, chỉ lộ diện đúng trong khu vực có nội dung chữ/ảnh. \\
+\hline
+text & \textit{(Không hỗ trợ cho origin)} & Nền chỉ hiển thị bên trong các nét chữ (\term{Text Clipping})! \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Kỹ Thuật Tạo Chữ Đổi Màu Gradient Đỉnh Cao Với background-clip: text]
+\begin{lstlisting}[language=CSS3]
+/* Tao hieu ung chu mang mau Gradient lung linh: */
+.gradient-heading {
+  font-size: 3rem;
+  font-weight: 800;
+  background-image: linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #8b5cf6 100%);
+  
+  /* Cat boi toan bo phan nen ngoai tru net chu: */
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  /* Lam chu trong suot de lo phan nen gradient phia sau: */
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Cú Pháp Shorthand \csshint{background} \& Quy Tắc Chuẩn W3C}
+\label{sec:css_bg_shorthand}
+
+Thay vì phải khai báo 8 thuộc tính đơn lẻ dài dòng, CSS cho phép gom tất cả vào thuộc tính viết tắt siêu gọn: \codeinline{background}.
+
+\begin{conceptBox}[Cấu Trúc Thứ Tự Chuẩn Của Shorthand background]
+\begin{center}
+\tcbox[on line, arc=4pt, colback=primaryBlue!8, colframe=primaryBlue!40, boxsep=1pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue}
+  background: [color] [image] [position]/[size] [repeat] [origin] [clip] [attachment];%
+}
+\end{center}
+\vspace{2pt}
+Tất cả các thành phần đều là tùy chọn (\term{Optional}), có thể viết theo thứ tự tương đối tự do, \textbf{NGOẠI TRỪ 2 quy tắc vàng bắt buộc}:
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Quy tắc dấu gạch chéo cho kích thước}: \codeinline{size} BẮT BUỘC phải đi liền sau \codeinline{position} và ngăn cách nhau bởi dấu gạch chéo \codeinline{/}. Ví dụ: \codeinline{center/cover} hoặc \codeinline{top 20px / 150px auto}.
+    \item \textbf{Quy tắc thứ tự Box Model}: Nếu xuất hiện cả hai giá trị hộp, giá trị viết trước là \codeinline{background-origin}, giá trị viết sau là \codeinline{background-clip}.
+\end{enumerate}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ So Sánh Viết Đầy Đủ Và Shorthand]
+\begin{lstlisting}[language=CSS3]
+/* CACH 1: Khai bao day du (Verbose) */
+.hero-longhand {
+  background-color: #0f172a;
+  background-image: url("bg.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* CACH 2: Viet tat Shorthand chuan W3C (Gon gang hon rat nhieu!) */
+.hero-shorthand {
+  background: #0f172a url("bg.jpg") center/cover no-repeat fixed;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Cạm Bẫy Ngầm Của Shorthand: Tự Động Reset Thuộc Tính Không Khai Báo]
+Khi bạn sử dụng cú pháp Shorthand \codeinline{background}, bất kỳ thuộc tính nào không được bạn liệt kê sẽ \textbf{tự động bị reset về giá trị mặc định} của CSS. Nếu trước đó bạn đã đặt \codeinline{background-size: cover;} ở một bộ chọn khác, việc khai báo \codeinline{background: red;} phía sau sẽ vô tình xóa sạch \codeinline{background-size} về lại \codeinline{auto}!
+\end{warnBox}
+
+\subsection{Kỹ Thuật Đa Ảnh Nền (\csshint{Multiple Backgrounds})}
+\label{sec:css_bg_multiple}
+
+CSS3 hỗ trợ xếp chồng đồng thời nhiều hình ảnh nền trên cùng một phần tử duy nhất bằng cách phân tách chúng bằng dấu phẩy (\codeinline{,}).
+
+\begin{conceptBox}[Quy Luật Thứ Tự Lớp (Z-Index Ngầm) Của Đa Ảnh Nền]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Lớp trên cùng}: Hình ảnh hoặc gradient được khai báo \textbf{đầu tiên} trong danh sách sẽ nằm ở tầng cao nhất (gần mắt người nhìn nhất).
+    \item \textbf{Lớp bên dưới}: Các hình ảnh khai báo tiếp theo sẽ nằm lùi dần về phía sau.
+    \item \textbf{Lớp đáy cùng}: Màu nền \codeinline{background-color} luôn luôn nằm ở lớp đáy sâu nhất (phía sau tất cả các hình ảnh nền).
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Thực Chiến: Phối Hợp Gradient Tối Đè Lên Ảnh Chụp Để Đọc Chữ Rõ Ràng]
+\begin{lstlisting}[language=CSS3]
+/* Ky thuat Dark Overlay cuc ky pho bien trong thiet ke Hero Section: */
+.hero-card {
+  width: 100%;
+  min-height: 450px;
+  color: #ffffff;
+  
+  background: 
+    /* Lop 1 (Tren cung): Lop phu gradient den mo de chu mau trang doc cuc ky net */
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)),
+    
+    /* Lop 2 (O giua): Hoa van trang tri cham bi nho */
+    radial-gradient(#ffffff15 1px, transparent 1px) 0 0/20px 20px,
+    
+    /* Lop 3 (Duoi cung): Anh chup phong canh thuc te */
+    url("cityscape.webp") center/cover no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{Bảng Cheatsheet Tổng Hợp \& Best Practices Tối Ưu Nền}
+\label{sec:css_bg_cheatsheet}
+
+\begin{prettyTableBox}[CHEATSHEET TRA CỨU NHANH TOÀN BỘ 9 THUỘC TÍNH BACKGROUND]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{4.2cm}|>{\centering\arraybackslash\ttfamily}p{2.6cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Giá trị mặc định} & \thd{\sffamily Mô tả tóm tắt chức năng} \\
+\hline
+background-color & transparent & Màu nền đơn sắc cho phần tử. \\
+\hline
+background-image & none & Hình ảnh nền (qua \codeinline{url()}) hoặc dải dải màu (\codeinline{gradient}). \\
+\hline
+background-repeat & repeat & Quy tắc lặp lại ảnh nền theo trục X và trục Y. \\
+\hline
+background-position & 0\% 0\% (top left) & Tọa độ vị trí hiển thị ban đầu của ảnh nền. \\
+\hline
+background-size & auto & Kích thước co giãn của ảnh nền (\codeinline{cover}, \codeinline{contain}, kích thước). \\
+\hline
+background-attachment & scroll & Cơ chế cuộn nền theo trang hay đứng yên (\codeinline{fixed}). \\
+\hline
+background-origin & padding-box & Điểm mốc tọa độ bắt đầu vẽ ảnh nền trong Box Model. \\
+\hline
+background-clip & border-box & Phạm vi hiển thị/cắt xén của lớp nền (\codeinline{text}, \codeinline{content-box}). \\
+\hline
+background & \textit{(Shorthand)} & Cú pháp viết tắt gộp tất cả các thuộc tính nền trên. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Lời Khuyên Thực Chiến Tối Ưu Hiệu Năng \& UI/UX Cho Background]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Tối ưu hóa định dạng tệp ảnh}: Luôn ưu tiên xuất ảnh định dạng nén thế hệ mới như \textbf{WebP} hoặc \textbf{AVIF} thay vì PNG/JPEG dung lượng nặng để tăng tốc độ tải trang.
+    \item \textbf{Cẩn trọng với \codeinline{background-attachment: fixed} trên Mobile}: Trên nhiều trình duyệt điện thoại thông minh, thuộc tính này có thể làm GPU phải vẽ lại liên tục (\term{Repaint lag}), gây hiện tượng giật khung hình khi người dùng vuốt cuộn trang.
+    \item \textbf{Đảm bảo tỷ lệ tương phản chữ theo chuẩn WCAG}: Không bao giờ đặt chữ trực tiếp lên ảnh chụp có nhiều chi tiết sáng tối hỗn tạp. Luôn phủ một lớp Gradient Overlay bán trong suốt (\codeinline{rgba(0,0,0,0.6)}) lên trên ảnh trước khi đặt chữ màu trắng.
+\end{enumerate}
+\end{tipBox}
+
 \section{Các Loại Selectors Trong CSS (CSS Selectors Masterclass)}
 
 Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML mà bạn muốn áp dụng kiểu dáng (\term{CSS styles}). CSS cung cấp nhiều loại selectors để bạn có thể chọn phần tử theo tên thẻ, ID, class, trạng thái, hoặc cấu trúc của chúng.
