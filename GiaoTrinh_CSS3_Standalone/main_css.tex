@@ -913,50 +913,14 @@ p {
 \textcolor{tipBorder}{\textbf{$\rightarrow$ Lời khuyên}}: \textcolor{primaryBlue}{\textbf{Khuyến khích sử dụng}} vì giúp code gọn gàng và dễ bảo trì.
 
 % ==============================================================================
-% MỤC 4: MỘT SỐ THUỘC TÍNH CSS CƠ BẢN \& ĐƠN VỊ ĐO KÍCH THƯỚC
+% MỤC 1.4: MỘT SỐ THUỘC TÍNH CSS CƠ BẢN PHỔ BIẾN
 % ==============================================================================
-\section{Một Số Thuộc Tính CSS Cơ Bản \& Đơn Vị Đo Kích Thước (\csshint{px}, \csshint{\%}, \csshint{rem})}
+\section{Một Số Thuộc Tính CSS Cơ Bản Phổ Biến}
+\label{sec:common_css_properties}
 
-\begin{tcolorbox}[
-    enhanced,
-    colback=primaryBlue!3,
-    colframe=primaryBlue!35,
-    boxrule=0.8pt,
-    arc=6pt,
-    top=8pt, bottom=8pt, left=10pt, right=10pt,
-    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.4]\quad BẢN ĐỒ KIẾN THỨC ĐƠN VỊ ĐO \& HỆ THỐNG MÀU SẮC},
-    colbacktitle=primaryBlue!10,
-    fonttitle=\bfseries\sffamily,
-    drop shadow=black!5!white
-]
-\sffamily\small
-\begin{minipage}[t]{0.48\linewidth}
-  \textbf{\textcolor{primaryBlue}{Nhánh A: Hệ Thống Đơn Vị Đo (CSS Units)}}
-  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.4.1 -- 1.4.2:} Tra cứu thuộc tính \& Phân loại đơn vị
-    \item \textbf{1.4.3:} Đơn vị tuyệt đối \codeinline{px} Masterclass
-    \item \textbf{1.4.4:} Đơn vị phần trăm \codeinline{\%} \& Bài toán \codeinline{height}
-    \item \textbf{1.4.5:} Đơn vị tương đối \codeinline{em} \& Cạm bẫy nhân dồn
-    \item \textbf{1.4.6:} Đơn vị \codeinline{rem} \& Kỹ thuật Root Reset 62.5\%
-    \item \textbf{1.4.7 -- 1.4.9:} Viewport (\codeinline{vw}, \codeinline{vh}, \codeinline{dvh}, \codeinline{svh}) \& \codeinline{clamp()}
-  \end{itemize}
-\end{minipage}%
-\hfill
-\begin{minipage}[t]{0.48\linewidth}
-  \textbf{\textcolor{primaryBlue}{Nhánh B: Hệ Thống Biểu Diễn Màu Sắc}}
-  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{Color Name:} 140+ tên màu chuẩn W3C
-    \item \textbf{Mô hình HEX:} 6 ký tự \& 8 ký tự với kênh Alpha
-    \item \textbf{Mô hình RGB / RGBA:} Pha trộn ánh sáng đỏ, xanh, lam
-    \item \textbf{Mô hình HSL / HSLA:} Tư duy thiết kế UI/UX theo Hue
-    \item \textbf{Từ khóa đặc biệt:} \codeinline{transparent} \& \codeinline{currentColor}
-    \item \textbf{Quy tắc kế thừa:} Thuộc tính \codeinline{color} trong DOM
-  \end{itemize}
-\end{minipage}
-\end{tcolorbox}
-\vspace{4pt}
+Để bắt đầu định kiểu giao diện trang web, lập trình viên cần nắm vững các thuộc tính CSS cơ bản và có tần suất xuất hiện cao nhất trong hầu hết mọi phần tử giao diện. Bảng tra cứu dưới đây tổng hợp các thuộc tính nền tảng, chức năng cốt lõi cùng cú pháp minh họa trực quan.
 
-\subsection{Bảng Tra Cứu Một Số Thuộc Tính CSS Cơ Bản}
+\subsection{Bảng Tra Cứu Nhanh Các Thuộc Tính CSS Cơ Bản}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Các Thuộc Tính CSS Cơ Bản Phổ Biến]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -1024,8 +988,44 @@ p {
 \end{browserWindow}
 
 % ==============================================================================
-% MỤC 4.1: CÁC ĐƠN VỊ TRONG CSS (CSS UNITS MASTERCLASS TỪ A ĐẾN Z)
+% MỤC 1.5: HỆ THỐNG ĐƠN VỊ ĐO TRONG CSS (CSS UNITS MASTERCLASS)
 % ==============================================================================
+\section{Chuyên Đề Hệ Thống Đơn Vị Đo Trong CSS (CSS Units Masterclass)}
+\label{sec:css_units_masterclass}
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=primaryBlue!3,
+    colframe=primaryBlue!35,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.5]\quad BẢN ĐỒ KIẾN THỨC HỆ THỐNG ĐƠN VỊ ĐO CSS},
+    colbacktitle=primaryBlue!10,
+    fonttitle=\bfseries\sffamily,
+    drop shadow=black!5!white
+]
+\sffamily\small
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh A: Phân Loại \& Đơn Vị Tuyệt Đối}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.5.1:} Tổng quan \& Phân loại Absolute vs Relative
+    \item \textbf{1.5.2:} Đơn vị tuyệt đối \codeinline{px} Masterclass
+    \item \textbf{1.5.3:} Đơn vị phần trăm \codeinline{\%} \& Bài toán \codeinline{height}
+  \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh B: Đơn Vị Tương Đối \& Responsive UI}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.5.4:} Đơn vị tương đối \codeinline{em} \& Cạm bẫy nhân dồn
+    \item \textbf{1.5.5:} Đơn vị gốc \codeinline{rem} \& Kỹ thuật Root Reset 62.5\%
+    \item \textbf{1.5.6 -- 1.5.8:} Viewport (\codeinline{vw}, \codeinline{vh}, \codeinline{dvh}, \codeinline{svh}) \& \codeinline{clamp()}
+  \end{itemize}
+\end{minipage}
+\end{tcolorbox}
+\vspace{4pt}
+
 \subsection{Tổng Quan \& Phân Loại Các Đơn Vị Trong CSS (CSS Units Classification)}
 \label{sec:css_units_classification}
 
@@ -4394,14 +4394,49 @@ p  { font-size: 1.4rem; } /* 1.4 * 10px = 14px */
 \end{browserWindow}
 
 % ==============================================================================
-% MỤC 4.1: HỆ THỐNG MÀU SẮC TRONG CSS (CSS COLORS MASTERCLASS TỪ A-Z)
+% MỤC 1.6: HỆ THỐNG MÀU SẮC TRONG CSS (CSS COLORS MASTERCLASS TỪ A-Z)
 % ==============================================================================
-\subsection{Chuyên Đề Hệ Thống Màu Sắc (\csshint{HEX}, \csshint{RGB}, \csshint{HSL}, \csshint{Alpha}) - Từ A đến Z}
+\section{Chuyên Đề Hệ Thống Màu Sắc (\csshint{HEX}, \csshint{RGB}, \csshint{HSL}, \csshint{Alpha}) - Từ A đến Z}
 \label{sec:css_colors_masterclass}
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=primaryBlue!3,
+    colframe=primaryBlue!35,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.6]\quad BẢN ĐỒ KIẾN THỨC HỆ THỐNG BIỂU DIỄN MÀU SẮC},
+    colbacktitle=primaryBlue!10,
+    fonttitle=\bfseries\sffamily,
+    drop shadow=black!5!white
+]
+\sffamily\small
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh A: Mô Hình Định Danh \& Ánh Sáng}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.6.1 -- 1.6.2:} Vai trò màu sắc \& Phân loại tổng quan
+    \item \textbf{1.6.3:} 147 tên màu định danh W3C (Color Names)
+    \item \textbf{1.6.4:} Hệ màu Hexadecimal (\codeinline{\#RGB}, \codeinline{\#RRGGBB}, \codeinline{\#RRGGBBAA})
+    \item \textbf{1.6.5:} Hệ màu RGB \& RGBA (Cơ chế ánh sáng cộng Red-Green-Blue)
+  \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{\textcolor{primaryBlue}{Nhánh B: Mô Hình UI/UX \& Kỹ Thuật Nâng Cao}}
+  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
+    \item \textbf{1.6.6:} Hệ màu HSL \& HSLA (Tư duy thiết kế theo Hue, Saturation, Lightness)
+    \item \textbf{1.6.7:} Từ khóa đặc biệt: \codeinline{transparent} \& \codeinline{currentColor}
+    \item \textbf{1.6.8:} Tính kế thừa thuộc tính \codeinline{color} trong DOM
+    \item \textbf{1.6.9 -- 1.6.12:} Best Practices UI/UX, CSS Variables \& Bảng so sánh
+  \end{itemize}
+\end{minipage}
+\end{tcolorbox}
+\vspace{4pt}
 
 Màu sắc là yếu tố sống còn quyết định tính thẩm mỹ, khả năng truyền tải thông điệp, trải nghiệm người dùng (\term{UX}) và khả năng truy cập (\term{Accessibility - a11y}) của mọi trang web. Trong CSS, lập trình viên có thể biểu diễn màu sắc qua nhiều hệ thống biểu diễn khác nhau từ đơn giản đến nâng cao.
 
-\paragraph{1. Mục Đích Và Vai Trò Của Màu Sắc Trong CSS:}
+\subsection{Mục Đích Và Vai Trò Của Màu Sắc Trong CSS}
 
 \begin{prettyTableBox}[Bảng Phân Tích Vai Trò Của Màu Sắc Trên Giao Diện Web]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -4421,7 +4456,7 @@ Cảnh báo \& Thông báo & Thể hiện trạng thái hệ thống. & Báo l�
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{2. Phân Loại \& Tổng Quan Các Kiểu Màu Trong CSS:}
+\subsection{Phân Loại \& Tổng Quan Các Kiểu Màu Trong CSS}
 
 \begin{prettyTableBox}[Bảng Tổng Quan Chi Tiết Các Kiểu Biểu Diễn Màu CSS]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -4451,9 +4486,7 @@ CurrentColor & currentColor & border-color: currentColor; & Từ khóa đặc bi
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{3. Chi Tiết Từng Hệ Thống Biểu Diễn Màu Sắc:}
-
-\paragraph{3.1. Color Name (Tên Màu Định Danh Trong CSS):}
+\subsection{Tên Màu Định Danh Trong CSS (Color Name Masterclass)}
 
 \begin{conceptBox}[Khái Niệm Cơ Bản Về Tên Màu Định Danh (Color Name)]
 \textbf{1. Color Name Là Gì?}:
@@ -4633,7 +4666,7 @@ indigo & \#4B0082 & Màu tím chàm sâu thẳm. \\
 \end{itemize}
 \end{tipBox}
 
-\paragraph{3.2. Hệ Màu HEX Trong CSS (Hexadecimal Color Model):}
+\subsection{Hệ Màu HEX Trong CSS (Hexadecimal Color Model)}
 
 \begin{conceptBox}[Khái Niệm Cơ Bản Về Hệ Màu HEX (Hexadecimal)]
 \textbf{1. HEX Là Gì?}:
@@ -4934,7 +4967,7 @@ Trong tiêu chuẩn CSS hiện đại, bạn có thể bổ sung kênh Alpha tr�
 \end{tcolorbox}
 \end{browserWindow}
 
-\paragraph{3.3. Hệ Màu RGB Và RGBA (Red, Green, Blue, Alpha):}
+\subsection{Hệ Màu RGB Và RGBA (Red, Green, Blue, Alpha)}
 
 \begin{conceptBox}[Khái Niệm Cơ Bản Về Mô Hình Màu RGB \& Kênh RGBA]
 \textbf{1. Bản Chất Kỹ Thuật Của Hệ Màu RGB}:
@@ -5550,7 +5583,7 @@ Quá trình này được tăng tốc phần cứng (\term{GPU Hardware Accelera
 Khi thiết kế chữ mờ hoặc background bán trong suốt bằng RGBA, cần đảm bảo tỷ lệ độ tương phản (\term{Contrast Ratio}) đạt tối thiểu $4.5:1$ đối với văn bản thường và $3.0:1$ đối với văn bản lớn theo tiêu chuẩn WCAG 2.1 AA.
 \end{prettyTableBox}
 
-\paragraph{3.4. Hệ Màu HSL Và HSLA (Hue, Saturation, Lightness, Alpha) Masterclass:}
+\subsection{Hệ Màu HSL Và HSLA (Hue, Saturation, Lightness, Alpha) Masterclass}
 
 \begin{conceptBox}[Khái Niệm Cơ Bản Về Mô Hình Màu HSL \& HSLA]
 \textbf{1. Bản Chất Kỹ Thuật Của Hệ Màu HSL}:
@@ -5731,7 +5764,7 @@ Hợp tác tốt với Biến CSS & Khai báo góc màu trong biến: \codeinlin
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{3.5. Từ Khóa Đặc Biệt: transparent Và currentColor Masterclass:}
+\subsection{Từ Khóa Đặc Biệt: transparent Và currentColor Masterclass}
 
 \begin{conceptBox}[Tổng Quan Về Hai Từ Khóa Đặc Biệt Trong CSS]
 Trong hệ thống màu sắc của CSS, ngoài các mô hình mã màu số (HEX, RGB, HSL), W3C cung cấp hai từ khóa đặc biệt cực kỳ linh hoạt và có sức mạnh lớn trong thiết kế giao diện UI/UX hiện đại:
@@ -6068,7 +6101,7 @@ Gợi ý sử dụng Best Practice & Tạo nút bấm (Button), biểu tượng 
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{3.7. Mẹo Chọn Màu Sắc Chuyên Nghiệp Cho Giao Diện Web (UI/UX Best Practices):}
+\subsection{Mẹo Chọn Màu Sắc Chuyên Nghiệp Cho Giao Diện Web (UI/UX Best Practices)}
 
 \begin{prettyTableBox}[Bảng Gợi Ý Phối Màu Thực Tế Chuẩn Chuyên Nghiệp]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -6092,7 +6125,7 @@ Giao diện tối (Dark Mode) & \#121212, \#1a1a1a & Nền tối kết hợp vă
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{3.8. Ứng Dụng Màu Động Với CSS Variables \& JavaScript:}
+\subsection{Ứng Dụng Màu Động Với CSS Variables \& JavaScript}
 
 Trong phát triển ứng dụng Web thực tế, việc quản lý hệ thống màu sắc bằng Biến CSS (\term{CSS Variables}) và điều khiển linh hoạt qua JavaScript giúp hỗ trợ tính năng chuyển đổi giao diện sáng/tối (\term{Dark Mode / Theme Switch}) cực kỳ dễ dàng.
 
@@ -6128,7 +6161,7 @@ document.documentElement.style.setProperty('--primary-color', '#2ecc71');
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{3.9. Bảng So Sánh Tổng Quát Các Hệ Màu Trong CSS:}
+\subsection{Bảng So Sánh Tổng Quát Các Hệ Màu Trong CSS}
 
 \begin{prettyTableBox}[Bảng So Sánh Toàn Diện Các Hệ Biểu Diễn Màu]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -6150,7 +6183,7 @@ CSS Variables & \textcolor{green!60!black}{\textbf{Rất cao}} & Chuẩn mực &
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{3.10. Kết Luận – Khi Nào Nên Dùng Hệ Màu Nào?}
+\subsection{Kết Luận – Khi Nào Nên Dùng Hệ Màu Nào?}
 
 \begin{conceptBox}[Quy Tắc Vàng Lựa Chọn Hệ Màu Cho Dự Án]
 \begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
@@ -6162,9 +6195,9 @@ CSS Variables & \textcolor{green!60!black}{\textbf{Rất cao}} & Chuẩn mực &
 \end{conceptBox}
 
 % ==========================================
-% PHẦN 3.6: TÍNH KẾ THỪA CỦA THUỘC TÍNH COLOR
+% TÍNH KẾ THỪA CỦA THUỘC TÍNH COLOR
 % ==========================================
-\paragraph{3.6. Tính Kế Thừa Của Thuộc Tính Color (Color Property Inheritance Masterclass):}
+\subsection{Tính Kế Thừa Của Thuộc Tính Color (Color Property Inheritance Masterclass)}
 
 \begin{conceptBox}[Khái Niệm Cơ Bản Về Tính Kế Thừa Của color]
 \textbf{1. Tính Kế Thừa Mặc Định (Inherited Property)}:
@@ -6351,7 +6384,7 @@ CSS cung cấp một bộ các thuộc tính để kiểm soát mọi khía cạ
     boxrule=0.8pt,
     arc=6pt,
     top=8pt, bottom=8pt, left=10pt, right=10pt,
-    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.5]\quad BẢN ĐỒ KIẾN THỨC NGHỆ THUẬT TYPOGRAPHY \& FONT CHỮ},
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.7]\quad BẢN ĐỒ KIẾN THỨC NGHỆ THUẬT TYPOGRAPHY \& FONT CHỮ},
     colbacktitle=primaryBlue!10,
     fonttitle=\bfseries\sffamily,
     drop shadow=black!5!white
@@ -6360,12 +6393,12 @@ CSS cung cấp một bộ các thuộc tính để kiểm soát mọi khía cạ
 \begin{minipage}[t]{0.48\linewidth}
   \textbf{\textcolor{primaryBlue}{Nhánh A: Nền Tảng \& 7 Thuộc Tính Font Cốt Lõi}}
   \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.5.1 -- 1.5.2:} Generic Families (Serif vs Sans) \& System Font
-    \item \textbf{1.5.3.1:} \codeinline{font-family} \& Chiến lược chuỗi Fallback
-    \item \textbf{1.5.3.2:} \codeinline{font-size} Masterclass (\codeinline{rem}, \codeinline{em}, \codeinline{clamp})
-    \item \textbf{1.5.3.3:} \codeinline{font-weight} (100 -- 900) \& Weight fallback
-    \item \textbf{1.5.3.4 -- 1.5.3.5:} \codeinline{font-style} \& \codeinline{font-variant}
-    \item \textbf{1.5.3.6 -- 1.5.3.7:} \codeinline{line-height} \& Viết tắt \codeinline{font} shorthand
+    \item \textbf{1.7.1 -- 1.7.2:} Generic Families (Serif vs Sans) \& System Font
+    \item \textbf{1.7.3.1:} \codeinline{font-family} \& Chiến lược chuỗi Fallback
+    \item \textbf{1.7.3.2:} \codeinline{font-size} Masterclass (\codeinline{rem}, \codeinline{em}, \codeinline{clamp})
+    \item \textbf{1.7.3.3:} \codeinline{font-weight} (100 -- 900) \& Weight fallback
+    \item \textbf{1.7.3.4 -- 1.7.3.5:} \codeinline{font-style} \& \codeinline{font-variant}
+    \item \textbf{1.7.3.6 -- 1.7.3.7:} \codeinline{line-height} \& Viết tắt \codeinline{font} shorthand
   \end{itemize}
 \end{minipage}%
 \hfill
@@ -9396,7 +9429,7 @@ Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML
     boxrule=0.8pt,
     arc=6pt,
     top=8pt, bottom=8pt, left=10pt, right=10pt,
-    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.6]\quad BẢN ĐỒ KIẾN THỨC CSS SELECTORS TOÀN DIỆN},
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.8]\quad BẢN ĐỒ KIẾN THỨC CSS SELECTORS TOÀN DIỆN},
     colbacktitle=primaryBlue!10,
     fonttitle=\bfseries\sffamily,
     drop shadow=black!5!white
@@ -9405,18 +9438,18 @@ Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML
 \begin{minipage}[t]{0.48\linewidth}
   \textbf{\textcolor{primaryBlue}{Nhánh A: Bộ Chọn Cơ Bản, Kết Hợp \& Thuộc Tính}}
   \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.6.1 -- 1.6.2:} Cơ bản: Type, Class (\codeinline{.c}), ID (\codeinline{\#i}), Universal (\codeinline{*})
-    \item \textbf{1.6.3 -- 1.6.5:} Kết hợp: Hậu duệ, Con (\codeinline{>}), Liền kề (\codeinline{+}), Chung (\codeinline{\~{}})
-    \item \textbf{1.6.6:} Thuộc tính: \codeinline{[attr]}, \codeinline{[attr="val"]}, \codeinline{\textasciicircum=}, \codeinline{\$=}, \codeinline{*=}, \codeinline{\~{}=}, \codeinline{|=}
+    \item \textbf{1.8.1 -- 1.8.2:} Cơ bản: Type, Class (\codeinline{.c}), ID (\codeinline{\#i}), Universal (\codeinline{*})
+    \item \textbf{1.8.3 -- 1.8.5:} Kết hợp: Hậu duệ, Con (\codeinline{>}), Liền kề (\codeinline{+}), Chung (\codeinline{\~{}})
+    \item \textbf{1.8.6:} Thuộc tính: \codeinline{[attr]}, \codeinline{[attr="val"]}, \codeinline{\textasciicircum=}, \codeinline{\$=}, \codeinline{*=}, \codeinline{\~{}=}, \codeinline{|=}
   \end{itemize}
 \end{minipage}%
 \hfill
 \begin{minipage}[t]{0.48\linewidth}
   \textbf{\textcolor{primaryBlue}{Nhánh B: Pseudo-classes \& Pseudo-elements}}
   \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.6.7.1:} Trạng thái: \codeinline{:hover}, \codeinline{:active}, \codeinline{:focus}, \codeinline{:target}
-    \item \textbf{1.6.7.2:} Cấu trúc DOM: \codeinline{:first-child}, \codeinline{:nth-child(an+b)}, \codeinline{:empty}
-    \item \textbf{1.6.8:} Phần tử giả: \codeinline{::before}, \codeinline{::after}, \codeinline{::first-letter}, \codeinline{::selection}
+    \item \textbf{1.8.7.1:} Trạng thái: \codeinline{:hover}, \codeinline{:active}, \codeinline{:focus}, \codeinline{:target}
+    \item \textbf{1.8.7.2:} Cấu trúc DOM: \codeinline{:first-child}, \codeinline{:nth-child(an+b)}, \codeinline{:empty}
+    \item \textbf{1.8.8:} Phần tử giả: \codeinline{::before}, \codeinline{::after}, \codeinline{::first-letter}, \codeinline{::selection}
   \end{itemize}
 \end{minipage}
 \end{tcolorbox}
@@ -16853,7 +16886,7 @@ Trong thiết kế giao diện Web thực tế, một phần tử HTML thường
     boxrule=0.8pt,
     arc=6pt,
     top=8pt, bottom=8pt, left=10pt, right=10pt,
-    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.7]\quad BẢN ĐỒ KIẾN THỨC ĐỘ ƯU TIÊN \& CƠ CHẾ CASCADE},
+    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.9]\quad BẢN ĐỒ KIẾN THỨC ĐỘ ƯU TIÊN \& CƠ CHẾ CASCADE},
     colbacktitle=primaryBlue!10,
     fonttitle=\bfseries\sffamily,
     drop shadow=black!5!white
@@ -16862,18 +16895,18 @@ Trong thiết kế giao diện Web thực tế, một phần tử HTML thường
 \begin{minipage}[t]{0.48\linewidth}
   \textbf{\textcolor{primaryBlue}{Nhánh A: Trọng Số \& Công Thức Tính Điểm}}
   \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.7.1:} Bảng xếp hạng 6 bậc Specificity (Inline $\rightarrow$ Universal)
-    \item \textbf{1.7.2 -- 1.7.3:} Quy trình 4 bước \& Công thức 4 nhóm \codeinline{(A, B, C, D)}
-    \item \textbf{1.7.4:} Quy tắc đặc biệt: \codeinline{!important}, Combinators, Link order
+    \item \textbf{1.9.1:} Bảng xếp hạng 6 bậc Specificity (Inline $\rightarrow$ Universal)
+    \item \textbf{1.9.2 -- 1.9.3:} Quy trình 4 bước \& Công thức 4 nhóm \codeinline{(A, B, C, D)}
+    \item \textbf{1.9.4:} Quy tắc đặc biệt: \codeinline{!important}, Combinators, Link order
   \end{itemize}
 \end{minipage}%
 \hfill
 \begin{minipage}[t]{0.48\linewidth}
   \textbf{\textcolor{primaryBlue}{Nhánh B: Quy Tắc Ghi Đè, Modern CSS \& Thực Chiến}}
   \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.7.5:} Khi nào "Viết sau đè viết trước" ĐÚNG và SAI?
-    \item \textbf{1.7.6 -- 1.7.8:} 10 cấp độ leo thang Specificity \& Sơ đồ Step-by-Step
-    \item \textbf{1.7.7:} Modern Selectors: \codeinline{:not()}, \codeinline{:is()} \& \codeinline{:where()}
+    \item \textbf{1.9.5:} Khi nào "Viết sau đè viết trước" ĐÚNG và SAI?
+    \item \textbf{1.9.6 -- 1.9.8:} 10 cấp độ leo thang Specificity \& Sơ đồ Step-by-Step
+    \item \textbf{1.9.7:} Modern Selectors: \codeinline{:not()}, \codeinline{:is()} \& \codeinline{:where()}
   \end{itemize}
 \end{minipage}
 \end{tcolorbox}
