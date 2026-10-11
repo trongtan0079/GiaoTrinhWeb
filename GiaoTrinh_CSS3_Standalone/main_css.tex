@@ -11164,6 +11164,28 @@ Một ứng dụng kinh điển trong thiết kế UI/UX hiện đại là phủ
 
 Dưới đây là 5 tình huống thiết kế đa lớp nền thường gặp nhất trong các dự án thực tế, phân tích cặn kẽ kết quả hiển thị, cơ chế vận hành bên trong, ứng dụng thực tế và giải pháp kỹ thuật tối ưu:
 
+\begin{conceptBox}[Bản Chất Lý Thuyết \& Cơ Chế Xếp Chồng Đa Nền (CSS Multi-Layer Engine)]
+Để làm chủ đa lớp nền trong thực tế sản xuất và tránh những lỗi giao diện khó hiểu, lập trình viên cần nắm vững 4 nguyên lý vận hành cốt lõi của động cơ kết xuất trình duyệt (Browser Rendering Engine):
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{1. Nghịch lý thứ tự xếp chồng (The Reverse Stacking Trap):}
+    Trong HTML, các thẻ viết sau theo dòng chảy tự nhiên sẽ đè lên thẻ viết trước. Tuy nhiên, trong thuộc tính \codeinline{background-image}, \textbf{lớp ảnh khai báo đầu tiên (bên trái) luôn là lớp trên cùng (Topmost Layer)}, nằm sát mắt người nhìn nhất. Các lớp khai báo tiếp theo lùi sâu dần về đáy, và lớp cuối cùng sẽ nằm sát trên màu nền \codeinline{background-color}.
+    
+    \item \textbf{2. Toán học hòa trộn kênh Alpha (Alpha Blending Formula):}
+    Màu sắc tại mỗi điểm ảnh hiển thị trên màn hình được trình duyệt tính toán theo công thức hòa trộn quang học:
+    \[
+    C_{\mathrm{out}} = C_{\mathrm{top}} \times \alpha_{\mathrm{top}} + C_{\mathrm{bottom}} \times (1 - \alpha_{\mathrm{top}})
+    \]
+    Trong đó $\alpha_{\mathrm{top}} \in [0, 1]$ là độ đặc quang học (kênh Alpha). Nếu ảnh trên là JPEG ($\alpha_{\mathrm{top}} = 1$), thành phần phía sau $(1 - \alpha_{\mathrm{top}}) = 0$, lớp dưới bị \textbf{triệt tiêu hoàn toàn} (Kịch bản B). Chỉ khi ảnh trên có vùng rỗng trong suốt như PNG/WebP ($\alpha_{\mathrm{top}} < 1$), ảnh dưới mới lộ diện xuyên qua (Kịch bản A).
+    
+    \item \textbf{3. Mô hình 3 tầng chuẩn công nghiệp (The 3-Layer Production Pattern):}
+    Trong thiết kế thực chiến hiện đại (Hero Banner, Card quảng cáo), các chuyên gia thường xếp 3 tầng: \textbf{Tầng 1 (Trên):} Logo/Icon thương hiệu $\rightarrow$ \textbf{Tầng 2 (Giữa):} Lớp phủ \codeinline{linear-gradient} tối bán trong suốt (gọi là \textit{Scrim Overlay}) $\rightarrow$ \textbf{Tầng 3 (Dưới):} Ảnh phong cảnh thực tế. Lớp Scrim Overlay đóng vai trò là \textbf{tấm khiên tương phản}, bảo đảm chữ trắng luôn đọc được rõ ràng và đạt chuẩn tương phản tiếp cận \textbf{WCAG 2.1 AA} ($\ge 4.5:1$).
+    
+    \item \textbf{4. Chi phí hiệu năng GPU \& Bộ nhớ VRAM (Performance Cost):}
+    Mỗi URL trong danh sách nền buộc trình duyệt phải gửi yêu cầu mạng, giải nén bitmap (decode) và cấp phát bộ nhớ GPU để thực hiện phép tính compositing trên từng khung hình. Tránh xếp quá 3--4 lớp ảnh bitmap độ phân giải cao trên cùng một phần tử nhằm chống giật lag (frame drop) trên thiết bị di động.
+\end{itemize}
+\end{conceptBox}
+
 \paragraph{A. Ảnh trên có nền trong suốt (PNG có alpha):}
 
 \begin{codeWindow}[Kịch Bản A: Ảnh Trên Có Nền Trong Suốt (transparent-logo.png)]
