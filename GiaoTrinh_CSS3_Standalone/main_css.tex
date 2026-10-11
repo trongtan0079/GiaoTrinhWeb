@@ -9937,37 +9937,96 @@ body {
 
 \begin{tcolorbox}[
     enhanced,
-    colback=primaryBlue!3,
-    colframe=primaryBlue!35,
-    boxrule=0.8pt,
-    arc=6pt,
-    top=8pt, bottom=8pt, left=10pt, right=10pt,
-    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.8]\quad BẢN ĐỒ KIẾN THỨC HỆ THỐNG NỀN (CSS BACKGROUNDS)},
-    colbacktitle=primaryBlue!10,
+    colback=white,
+    colframe=primaryBlue!40,
+    boxrule=0.9pt,
+    arc=8pt,
+    top=10pt, bottom=10pt, left=10pt, right=10pt,
+    drop shadow=black!6!white,
+    title={\sffamily\bfseries\color{white}\small\quad LỘ TRÌNH BẢN ĐỒ KIẾN THỨC: HỆ THỐNG NỀN TRONG CSS (BACKGROUNDS)},
+    colbacktitle=primaryBlue,
+    coltitle=white,
     fonttitle=\bfseries\sffamily,
-    drop shadow=black!5!white
+    attach boxed title to top center={yshift=-3.2mm},
+    boxed title style={
+        colback=primaryBlue,
+        colframe=primaryBlue,
+        arc=4pt,
+        boxrule=0pt,
+        top=3pt, bottom=3pt, left=12pt, right=12pt,
+        drop shadow=black!10!white
+    }
 ]
-\sffamily\small
-\begin{minipage}[t]{0.48\linewidth}
-  \textbf{\textcolor{primaryBlue}{Nhánh A: Các Thuộc Tính Nền Đơn Lẻ}}
-  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.8.1:} \codeinline{background-color} (Màu đơn sắc, trong suốt \& Alpha)
-    \item \textbf{1.8.2:} \codeinline{background-image} (\codeinline{url()} \& CSS Gradients)
-    \item \textbf{1.8.3:} \codeinline{background-repeat} (\codeinline{repeat}, \codeinline{space}, \codeinline{round})
-    \item \textbf{1.8.4:} \codeinline{background-position} (Căn chỉnh tọa độ 2D \& 4-value syntax)
-    \item \textbf{1.8.5:} \codeinline{background-size} (\codeinline{cover}, \codeinline{contain} vs kích thước cụ thể)
-  \end{itemize}
+\vspace{2pt}
+\noindent
+\begin{minipage}[t]{0.488\linewidth}
+  \begin{tcolorbox}[
+      enhanced,
+      colback=primaryBlue!3,
+      colframe=primaryBlue!25,
+      arc=6pt,
+      boxrule=0.7pt,
+      top=8pt, bottom=8pt, left=8pt, right=8pt
+  ]
+    {\centering \tcbox[on line, arc=3pt, colback=primaryBlue, colframe=primaryBlue, boxsep=1pt, left=6pt, right=6pt, top=2.5pt, bottom=2.5pt]{\sffamily\bfseries\color{white}\scriptsize NHÁNH A: THUỘC TÍNH NỀN CƠ BẢN}}\par\vspace{8pt}
+    \sffamily\footnotesize\raggedright
+    \begin{tabularx}{\linewidth}{@{}c @{\hspace{6pt}} X@{}}
+      \tcbox[on line, arc=2.5pt, colback=primaryBlue!15, colframe=primaryBlue, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{primaryBlue}\bfseries\scriptsize 01} & 
+      \textbf{\codeinline{background-color}}\newline
+      {\color{gray!80!black}\scriptsize Màu đơn sắc, trong suốt \& Alpha}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=primaryBlue!15, colframe=primaryBlue, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{primaryBlue}\bfseries\scriptsize 02} & 
+      \textbf{\codeinline{background-image}}\newline
+      {\color{gray!80!black}\scriptsize Tệp ảnh \codeinline{url()} \& CSS Gradients}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=primaryBlue!15, colframe=primaryBlue, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{primaryBlue}\bfseries\scriptsize 03} & 
+      \textbf{\codeinline{background-repeat}}\newline
+      {\color{gray!80!black}\scriptsize Lặp lại (\codeinline{repeat}, \codeinline{space}, \codeinline{round})}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=primaryBlue!15, colframe=primaryBlue, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{primaryBlue}\bfseries\scriptsize 04} & 
+      \textbf{\codeinline{background-position}}\newline
+      {\color{gray!80!black}\scriptsize Tọa độ 2D \& Cú pháp 4 giá trị}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=primaryBlue!15, colframe=primaryBlue, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{primaryBlue}\bfseries\scriptsize 05} & 
+      \textbf{\codeinline{background-size}}\newline
+      {\color{gray!80!black}\scriptsize Co giãn \codeinline{cover}, \codeinline{contain}, kích thước}
+    \end{tabularx}
+  \end{tcolorbox}
 \end{minipage}%
 \hfill
-\begin{minipage}[t]{0.48\linewidth}
-  \textbf{\textcolor{primaryBlue}{Nhánh B: Kỹ Thuật Nâng Cao \& Shorthand}}
-  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.8.6:} \codeinline{background-attachment} (\codeinline{scroll}, \codeinline{fixed}, \codeinline{local})
-    \item \textbf{1.8.7:} \codeinline{background-origin} vs \codeinline{background-clip} (\codeinline{text} clip)
-    \item \textbf{1.8.8:} Cú pháp viết tắt Shorthand \codeinline{background} \& Cạm bẫy
-    \item \textbf{1.8.9:} Đa ảnh nền (\term{Multiple Backgrounds}) xếp chồng nhiều lớp
-    \item \textbf{1.8.10:} Cheatsheet tổng kết \& Best Practices UI/UX
-  \end{itemize}
+\begin{minipage}[t]{0.488\linewidth}
+  \begin{tcolorbox}[
+      enhanced,
+      colback=accentPurple!3,
+      colframe=accentPurple!25,
+      arc=6pt,
+      boxrule=0.7pt,
+      top=8pt, bottom=8pt, left=8pt, right=8pt
+  ]
+    {\centering \tcbox[on line, arc=3pt, colback=accentPurple, colframe=accentPurple, boxsep=1pt, left=6pt, right=6pt, top=2.5pt, bottom=2.5pt]{\sffamily\bfseries\color{white}\scriptsize NHÁNH B: NÂNG CAO \& SHORTHAND}}\par\vspace{8pt}
+    \sffamily\footnotesize\raggedright
+    \begin{tabularx}{\linewidth}{@{}c @{\hspace{6pt}} X@{}}
+      \tcbox[on line, arc=2.5pt, colback=accentPurple!15, colframe=accentPurple, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{accentPurple}\bfseries\scriptsize 06} & 
+      \textbf{\codeinline{background-attachment}}\newline
+      {\color{gray!80!black}\scriptsize Cơ chế cuộn \& Hiệu ứng Parallax}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=accentPurple!15, colframe=accentPurple, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{accentPurple}\bfseries\scriptsize 07} & 
+      \textbf{\codeinline{origin}} \textbf{\&} \textbf{\codeinline{clip}}\newline
+      {\color{gray!80!black}\scriptsize Vùng mốc vẽ, cắt xén \& Text Gradient}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=accentPurple!15, colframe=accentPurple, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{accentPurple}\bfseries\scriptsize 08} & 
+      \textbf{Shorthand \codeinline{background}}\newline
+      {\color{gray!80!black}\scriptsize Cú pháp chuẩn W3C \& Cạm bẫy reset}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=accentPurple!15, colframe=accentPurple, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{accentPurple}\bfseries\scriptsize 09} & 
+      \textbf{Multiple Backgrounds}\newline
+      {\color{gray!80!black}\scriptsize Đa tầng ảnh xếp lớp (Z-index ngầm)}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=accentPurple!15, colframe=accentPurple, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{accentPurple}\bfseries\scriptsize 10} & 
+      \textbf{Cheatsheet \& UX Practices}\newline
+      {\color{gray!80!black}\scriptsize Tối ưu WebP/AVIF \& Độ tương phản}
+    \end{tabularx}
+  \end{tcolorbox}
 \end{minipage}
 \end{tcolorbox}
 \vspace{4pt}
