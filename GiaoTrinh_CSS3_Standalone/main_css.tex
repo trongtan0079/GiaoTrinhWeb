@@ -4392,28 +4392,118 @@ Màn hình ngang Desktop ($1440\text{px} \times 900\text{px}$) & $1\% \text{ chi
 \textcolor{primaryBlue}{\scriptsize ($\rightarrow$ Luôn giữ đúng tỷ lệ hình vuông $1:1$ hoàn mỹ, không bao giờ vượt quá tầm nhìn của màn hình ở cả 2 hướng xoay).}
 \end{browserWindow}
 
-\subsection{Hướng Dẫn Lựa Chọn Đơn Vị \& Best Practices Thực Chiến}
-\label{sec:css_units_best_practices}
+\subsection{So Sánh Toàn Diện Các Đơn Vị Đo Trong CSS (\csshint{px}, \csshint{\%}, \csshint{em}, \csshint{rem}, \csshint{vw}, \csshint{vh})}
+\label{sec:css_units_comparison_masterclass}
 
-\begin{prettyTableBox}[Bảng Hướng Dẫn Lựa Chọn Đơn Vị CSS Theo Tình Huống]
+Để xây dựng một giao diện Web hiện đại, chuẩn Responsive và thân thiện với Trợ năng (Accessibility), việc lựa chọn chính xác đơn vị đo lường cho từng thuộc tính CSS là kỹ năng tối quan trọng của kỹ sư Frontend. Dưới đây là bức tranh đối chiếu toàn diện về toàn bộ hệ thống đơn vị trong CSS:
+
+\paragraph{I. Bảng So Sánh Tổng Quát Các Đơn Vị Trong CSS:}
+
+\begin{prettyTableBox}[BẢNG SO SÁNH TỔNG QUÁT TẤT CẢ CÁC ĐƠN VỊ ĐO TRONG CSS]
 \rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}K{3.5cm}|>{\ttfamily\color{accentOrange}\bfseries}K{3.0cm}|Z|}
+\sffamily\scriptsize
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash \bfseries\color{primaryBlue}\ttfamily}p{1.2cm}|>{\centering\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{2.5cm}|}
 \hline
-\rowcolor{primaryBlue} \thd{Tình Huống Sử Dụng} & \thd{Nên Dùng Đơn Vị Gì?} & \thd{Vì Sao? (Lý Do Kỹ Thuật)} \\
+\rowcolor{primaryBlue} \thd{\sffamily Đơn vị} & \thd{\sffamily Phân loại} & \thd{\sffamily Điểm tham chiếu} & \thd{\sffamily Kế thừa?} & \thd{\sffamily Ứng dụng chính} & \thd{\sffamily Ưu điểm} & \thd{\sffamily Nhược điểm} \\
 \hline
-Cỡ chữ toàn trang (\codeinline{font-size}) & rem & Giúp điều chỉnh quy mô tập trung từ thẻ gốc \codeinline{<html>} và bảo toàn Accessibility. \\
+px & Tuyệt đối & Mặc định trình duyệt (không đổi) & \textcolor{red!80!black}{\textbf{Không}} & Kích thước cố định, bo góc (\codeinline{border-radius}), đường viền & Chính xác tuyệt đối, quen thuộc, dễ kiểm soát & Không Responsive, không tự co giãn theo cài đặt zoom \\
 \hline
-Khoảng đệm nút bấm (\codeinline{padding}) & em & Tự động phóng to/thu nhỏ tỷ lệ thuận theo cỡ chữ của từng nút bấm. \\
+\% & Tương đối & Kích thước của phần tử cha & \textcolor{green!60!black}{\textbf{Có}} (gián tiếp) & \codeinline{width}, \codeinline{height}, \codeinline{padding}, \codeinline{font-size} & Linh hoạt cao, nền tảng của Responsive Grid & Phụ thuộc thẻ cha, khó kiểm soát nếu cha không có kích thước rõ ràng \\
 \hline
-Chia cột bố cục (\codeinline{width}) & \%, CSS Grid, Flexbox & Co giãn mượt mà theo kích thước khung chứa cha. \\
+em & Tương đối & \codeinline{font-size} của phần tử cha (hoặc chính nó) & \textcolor{green!60!black}{\textbf{Có}} (gián tiếp) & \codeinline{padding}, \codeinline{margin}, \codeinline{font-size} nội bộ component & Co giãn linh hoạt tỷ lệ theo kích thước chữ & Dễ bị lỗi nhân dồn lũy tiến (\term{Compounding}) khi lồng nhau nhiều cấp \\
 \hline
-Hero Section, Banner toàn màn hình & vh, vw, dvh & Phủ kín $100\%$ kích thước màn hình mà không cần phụ thuộc vào cây DOM cha. \\
+rem & Tương đối & \codeinline{font-size} của thẻ gốc \codeinline{<html>} & \textcolor{red!80!black}{\textbf{Không}} & \codeinline{font-size}, \term{spacing} tổng thể toàn bộ layout & Ổn định, đồng nhất, dễ kiểm soát và scale toàn trang & Phải thiết lập thẻ gốc \codeinline{html} cẩn thận nếu muốn tùy biến \\
 \hline
-Chi tiết nhỏ cố định (Border, Icon, Shadow) & px & Kiểm soát chính xác tuyệt đối từng điểm ảnh (\term{Pixel-Perfect}). \\
+vw & Viewport & $1\%$ chiều rộng cửa sổ trình duyệt & \textcolor{red!80!black}{\textbf{Không}} & Thiết kế Responsive, Hero Section, Typography co giãn & Tự động co giãn mượt mà theo độ rộng màn hình & Không phù hợp cho văn bản cỡ nhỏ (dễ bị quá bé trên mobile) \\
+\hline
+vh & Viewport & $1\%$ chiều cao cửa sổ trình duyệt & \textcolor{red!80!black}{\textbf{Không}} & Chiều cao toàn màn hình, Splash screen, Banner & Tạo giao diện Fullscreen toàn màn hình dễ dàng & Gặp lỗi co giật thanh địa chỉ trên mobile (Chrome, Safari iOS) \\
+\hline
+vmin & Viewport & $1\%$ cạnh ngắn hơn ($\min(\text{vw}, \text{vh})$) & \textcolor{red!80!black}{\textbf{Không}} & Giao diện co giãn giữ nguyên tỷ lệ trên mọi hướng xoay màn hình & Phù hợp cho layout linh hoạt, luôn vừa vặn màn hình & Ít phổ biến, khó tính toán nhẩm hơn các đơn vị cơ bản \\
+\hline
+vmax & Viewport & $1\%$ cạnh dài hơn ($\max(\text{vw}, \text{vh})$) & \textcolor{red!80!black}{\textbf{Không}} & Tương tự \codeinline{vmin}, dùng cho các khối bao phủ tối đa & Co giãn mạnh mẽ theo chiều lớn nhất của thiết bị & Khó kiểm soát, dễ làm tràn khung nếu không tính toán kỹ \\
+\hline
+pt / cm / in & Tuyệt đối & Đơn vị đo lường vật lý thực tế khi in ấn & \textcolor{red!80!black}{\textbf{Không}} & Tài liệu in ấn xuất bản (PDF, Print Stylesheet) & Chính xác tuyệt đối trên trang giấy in vật lý & Hoàn toàn không phù hợp cho thiết kế màn hình hiển thị Web \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\paragraph{II. So Sánh Nhanh Một Số Trường Hợp Thường Dùng:}
+
+\begin{prettyTableBox}[BẢNG TRA CỨU NHANH ĐƠN VỊ PHÙ HỢP THEO MỤC ĐÍCH THIẾT KẾ]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}}p{6.5cm}|>{\centering\arraybackslash\ttfamily\bfseries\color{accentOrange}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Mục đích thiết kế} & \thd{\sffamily Đơn vị phù hợp} & \thd{\sffamily Ghi chú kỹ thuật} \\
+\hline
+Kích thước cố định, chính xác từng điểm ảnh & px & Dùng cho đường viền, hiệu ứng đổ bóng, không cần Responsive. \\
+\hline
+Giao diện co giãn theo tỷ lệ màn hình & vw, vh, \% & Bố cục Layout, Header, các Section chính của trang web. \\
+\hline
+Font chữ (\codeinline{font-size}) linh hoạt toàn hệ thống & rem & Chuẩn mực cao cấp, dễ dàng scale toàn bộ website qua Media Query. \\
+\hline
+Khoảng đệm (\codeinline{padding}/\codeinline{margin}) theo font nội bộ & em & Tối ưu cho nút bấm (\codeinline{<button>}), ô nhập liệu (\codeinline{<input>}). \\
+\hline
+Thiết kế in ấn xuất bản chuẩn kích thước vật lý & cm, in, pt & Kết hợp sử dụng bên trong khối quy tắc \codeinline{@media print}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{III. Gợi Ý Sử Dụng Tốt (Best Practices Thực Chiến):}
+
+\begin{prettyTableBox}[HƯỚNG DẪN LỰA CHỌN ĐƠN VỊ TỐI ƯU THEO TỪNG VỊ TRÍ GIAO DIỆN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \bfseries\color{primaryBlue}\ttfamily}p{4.5cm}|>{\centering\arraybackslash\ttfamily\bfseries\color{secondaryTeal}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Vị trí thành phần giao diện} & \thd{\sffamily Đơn vị nên dùng} & \thd{\sffamily Vì sao? (Lý do kỹ thuật cốt lõi)} \\
+\hline
+font-size & rem & Ổn định, bảo toàn Trợ năng (Accessibility), dễ điều chỉnh toàn cục. \\
+\hline
+padding / margin & em hoặc rem & \textbf{em}: Tỷ lệ theo chữ nội bộ; \textbf{rem}: Đồng bộ nhịp điệu khoảng cách chung. \\
+\hline
+width, height & \%, vw, vh & Tối ưu Responsive, tự động co giãn theo khung chứa và màn hình. \\
+\hline
+border, box-shadow & px & Chi tiết nhỏ cố định, không bị méo mó hay biến mất khi màn hình thu nhỏ. \\
+\hline
+Hero Section, Layout full màn hình & vw, vh (hoặc dvh) & Dễ dàng tạo hiệu ứng Fullscreen bao phủ trọn vẹn tầm nhìn người dùng. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{IV. Ví Dụ Minh Họa Kết Hợp Hài Hòa Đa Đơn Vị Trong CSS:}
+
+Trong thực tế, một trang web chuyên nghiệp không bao giờ chỉ dùng một loại đơn vị duy nhất mà là sự kết hợp có chủ đích của nhiều đơn vị khác nhau:
+
+\begin{codeWindow}[Ví Dụ Thực Chiến: Phối Hợp Đa Đơn Vị (rem, em, vw, vh, px)]
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 16px;       /* 1rem = 16px (Mo neo co so toan trang) */
+}
+
+.container {
+  width: 80vw;           /* Chiếm 80% chieu rong man hinh */
+  height: 100vh;         /* Chieu cao bang 100% man hinh trinh duyet */
+  padding: 2em;          /* Khoang dem ti le theo font-size cua container */
+  font-size: 1.2rem;     /* 1.2 x 16px = 19.2px (Ti le theo the goc html) */
+  border-radius: 8px;    /* Bo goc co dinh sac net bang pixel */
+}
+
+.button {
+  padding: 0.5em 1.5em;  /* Tu dong phong to/thu nho theo co chu cua button */
+  font-size: 1rem;       /* 1rem = 16px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Quy Tắc Vàng Ghi Nhớ Nhanh Về 4 Nhóm Đơn Vị CSS]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Dùng \codeinline{px}}: Khi bạn cần độ chính xác tuyệt đối từng điểm ảnh (\codeinline{border}, \codeinline{box-shadow}, icon cố định).
+    \item \textbf{Dùng \codeinline{rem}}: Để xây dựng toàn bộ hệ thống kích thước chữ (\term{Typography}) hoặc scale toàn bộ giao diện dễ dàng.
+    \item \textbf{Dùng \codeinline{em}}: Khi cần các thành phần cục bộ tự động co giãn tỷ lệ thuận theo chính kích thước chữ nội bộ của nó (khoảng đệm nút bấm, tag nhãn).
+    \item \textbf{Dùng \codeinline{\%}, \codeinline{vw}, \codeinline{vh}}: Cho bố cục khung chứa Responsive, co giãn linh hoạt theo kích thước khung nhìn màn hình.
+\end{enumerate}
+\end{conceptBox}
 
 \paragraph{Mẹo Thực Chiến \& Lưu Ý Cốt Lõi Khi Dùng Đơn Vị CSS:}
 
