@@ -11160,27 +11160,97 @@ Một ứng dụng kinh điển trong thiết kế UI/UX hiện đại là phủ
 \end{lstlisting}
 \end{codeWindow}
 
-\noindent\textbf{d. Năm kịch bản thực chiến phối hợp đa lớp ảnh nền:}\par\vspace{4pt}
+\noindent\textbf{d. Tình huống thực tế với \codeinline{background-image} (5 Kịch Bản Thực Chiến A--E):}\par\vspace{4pt}
 
-Dưới đây là 5 mô hình thiết kế đa lớp nền thường gặp nhất trong các dự án thực tế:
+Dưới đây là 5 tình huống thiết kế đa lớp nền thường gặp nhất trong các dự án thực tế, phân tích cặn kẽ kết quả hiển thị, cơ chế vận hành bên trong, ứng dụng thực tế và giải pháp kỹ thuật tối ưu:
 
-\begin{codeWindow}[Kịch Bản 1: Logo Trong Suốt Nổi Trên Ảnh Nền Phong Cảnh Chính]
+\paragraph{A. Ảnh trên có nền trong suốt (PNG có alpha):}
+
+\begin{codeWindow}[Kịch Bản A: Ảnh Trên Có Nền Trong Suốt (transparent-logo.png)]
 \begin{lstlisting}[language=CSS3]
-.hero-logo {
+div {
   width: 600px;
   height: 400px;
-  background-image: url('logo.png'), url('background.jpg');
+  background-image: url('transparent-logo.png'), url('background.jpg');
   background-repeat: no-repeat, no-repeat;
-  background-position: center, center;
   background-size: contain, cover;
+  background-position: center, center;
 }
 \end{lstlisting}
 \end{codeWindow}
-\noindent\textit{Kết quả \& Ứng dụng}: Logo PNG có độ trong suốt nằm ở trọng tâm, người dùng vẫn nhìn thấy bức tranh nền phong cảnh sinh động xuyên qua các vùng rỗng của logo.\par\vspace{6pt}
 
-\begin{codeWindow}[Kịch Bản 2: Hoa Văn Nhỏ Lặp Lưới Phủ Lên Nền Ảnh Lớn]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Kết quả}: Ảnh trên (logo trong suốt) nằm nổi bật trên ảnh nền dưới. Phần trong suốt của ảnh trên sẽ cho phép nhìn thấy ảnh dưới xuyên qua.
+    \item \textbf{Cách hoạt động}: Ảnh thứ nhất vẽ trước, ảnh thứ hai vẽ sau làm nền. Nếu ảnh trên có vùng trong suốt, trình duyệt sẽ hiển thị ảnh dưới qua vùng đó.
+    \item \textbf{Ứng dụng thực tế}: Logo thương hiệu nổi bật trên ảnh nền; khung trang trí với góc bo trong suốt.
+\end{itemize}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Thực Tế: Kết Hợp Logo Trong Suốt \& Ảnh Nền]
+\centering
+\begin{minipage}{0.48\linewidth}
+  \centering
+  \textbf{\footnotesize 1. Tệp Nguồn \& Mã Nguồn CSS}\par\vspace{3pt}
+  \includegraphics[width=\linewidth]{figures/bg_multi_code_assets.png}
+\end{minipage}\hfill
+\begin{minipage}{0.48\linewidth}
+  \centering
+  \textbf{\footnotesize 2. Kết Quả Hiển Thị Trên Trình Duyệt}\par\vspace{3pt}
+  \includegraphics[width=\linewidth]{figures/bg_multi_composite_result.png}
+\end{minipage}\par\vspace{6pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Minh chứng thực tế: Tệp \codeinline{image\_1.png} (logo hoa sen vàng trong suốt) đặt trước \codeinline{image\_2.jpg} (rừng thu đỏ). Nền rừng đỏ rực hiện rõ qua vùng rỗng của logo, chữ màu \codeinline{aliceblue} hiển thị sắc nét trên nền.}
+\end{browserWindow}
+
+\paragraph{B. Ảnh trên không có vùng trong suốt (JPEG, PNG không alpha):}
+
+\begin{codeWindow}[Kịch Bản B: Ảnh Trên Không Có Vùng Trong Suốt (solid-logo.jpg)]
 \begin{lstlisting}[language=CSS3]
-.textured-banner {
+div {
+  background-image: url('solid-logo.jpg'), url('background.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: contain, cover;
+  background-position: center, center;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Kết quả}: Ảnh trên che phủ hoàn toàn ảnh dưới, vì không có vùng trong suốt.
+    \item \textbf{Cách hoạt động}: Ảnh trên vẽ trước, đè lên ảnh dưới hoàn toàn. Ảnh dưới không thấy được trừ khi ảnh trên nhỏ hơn phần tử.
+    \item \textbf{Giải pháp}: Muốn thấy ảnh dưới, hãy dùng ảnh PNG có alpha hoặc giảm độ mờ (độ đục) của ảnh trên:
+\end{itemize}
+
+\begin{codeWindow}[Giải Pháp Khắc Phục: Thêm Kênh Màu Trong Suốt rgba()]
+\begin{lstlisting}[language=CSS3]
+background: rgba(255, 255, 255, 0.5) url('solid-logo.jpg'), url('background.jpg');
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{C. Ảnh trên nhỏ hơn phần tử, không lặp lại:}
+
+\begin{codeWindow}[Kịch Bản C: Biểu Tượng Nhỏ Neo Góc Không Lặp Lại (icon.png)]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 400px;
+  background-image: url('icon.png'), url('background.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100px, cover;
+  background-position: top left, center;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Kết quả}: Ảnh nhỏ hơn phần tử hiển thị ở góc trên trái. Ảnh nền dưới phủ kín toàn bộ phần tử.
+    \item \textbf{Cách hoạt động}: Ảnh trên nhỏ, nên chỉ chiếm một góc phần tử. Ảnh dưới vẫn lấp đầy phần tử, nhưng ảnh trên không ảnh hưởng nhiều.
+    \item \textbf{Ứng dụng thực tế}: Thêm biểu tượng hoặc góc trang trí mà vẫn giữ được ảnh nền chính.
+\end{itemize}
+
+\paragraph{D. Ảnh trên nhỏ hơn phần tử, có lặp lại:}
+
+\begin{codeWindow}[Kịch Bản D: Hoa Văn Nhỏ Lặp Lưới (pattern.png)]
+\begin{lstlisting}[language=CSS3]
+div {
   width: 600px;
   height: 400px;
   background-image: url('pattern.png'), url('background.jpg');
@@ -11189,67 +11259,64 @@ Dưới đây là 5 mô hình thiết kế đa lớp nền thường gặp nhấ
 }
 \end{lstlisting}
 \end{codeWindow}
-\noindent\textit{Kết quả \& Ứng dụng}: Lớp hoa văn nhỏ (\codeinline{pattern.png}) tự động lặp lại dạng lưới trên toàn bộ bề mặt, trong khi bức ảnh phong cảnh bên dưới phủ kín khung chứa mà không bị lặp.\par\vspace{6pt}
 
-\begin{codeWindow}[Kịch Bản 3: Kết Hợp Gradient Tối Màu Làm Nổi Bật Chữ (Hero Overlay)]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Kết quả}: Ảnh trên nhỏ sẽ lặp lại toàn phần tử (theo chiều ngang \& dọc). Ảnh dưới hiển thị bình thường, nhưng bị hoa văn ảnh trên che phủ.
+    \item \textbf{Cách hoạt động}: Ảnh trên lặp lại nhiều lần để phủ kín phần tử. Ảnh nền dưới vẫn được hiển thị, nhưng dễ bị ảnh trên lấn át.
+    \item \textbf{Giải pháp}: Giảm độ mờ ảnh trên hoặc dừng lặp ảnh trên:
+\end{itemize}
+
+\begin{codeWindow}[Giải Pháp Khắc Phục: Giảm Độ Mờ Lớp Pattern Hoặc Dừng Lặp]
 \begin{lstlisting}[language=CSS3]
-.dark-overlay {
+/* Giai phap 1: Giam do mo anh tren */
+background: rgba(255, 255, 255, 0.5) url('pattern.png'), url('background.jpg');
+
+/* Giai phap 2: Dung lap anh tren */
+background-repeat: no-repeat, no-repeat;
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{E. Kết hợp nhiều lớp nền với gradient:}
+
+\begin{codeWindow}[Kịch Bản E: Kết Hợp Gradient + Logo Trong Suốt + Ảnh Nền Chính]
+\begin{lstlisting}[language=CSS3]
+div {
   width: 600px;
   height: 400px;
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+              url('transparent-logo.png'),
               url('background.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: cover, contain, cover;
+  background-position: center, center, center;
 }
 \end{lstlisting}
 \end{codeWindow}
-\noindent\textit{Kết quả \& Ứng dụng}: Dải gradient đen mờ $50\%$ phủ đều, giảm bớt độ chói của ảnh phong cảnh giúp các đoạn văn bản hiển thị rõ nét tuyệt đối.\par\vspace{6pt}
 
-\begin{codeWindow}[Kịch Bản 4: Biểu Tượng Góc Cố Định + Ảnh Nền Co Giãn Linh Hoạt]
-\begin{lstlisting}[language=CSS3]
-.corner-badge {
-  width: 600px;
-  height: 400px;
-  background-image: url('icon.png'), url('background.jpg');
-  background-repeat: no-repeat, no-repeat;
-  background-position: top left, center;
-  background-size: 100px, cover;
-}
-\end{lstlisting}
-\end{codeWindow}
-\noindent\textit{Kết quả \& Ứng dụng}: Icon kích thước cố định $100\text{px}$ neo chặt tại góc trên bên trái, còn ảnh nền tự do co giãn phủ kín phần tử.\par\vspace{6pt}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Kết quả}: Lớp gradient làm mờ toàn bộ phần tử. Logo nổi bật ở giữa, ảnh nền phủ kín phần tử.
+    \item \textbf{Cách hoạt động}: Gradient vẽ trước tiên, tạo hiệu ứng che mờ ảnh nền dưới. Ảnh logo vẽ trên gradient, giúp nội dung nổi bật. Ảnh nền chính vẽ cuối cùng, làm lớp nền tổng thể.
+    \item \textbf{Ứng dụng thực tế}: Hero section với logo + hiệu ứng tối; Tiêu đề lớn với nền họa tiết + gradient làm nổi chữ.
+\end{itemize}
 
-\begin{codeWindow}[Kịch Bản 5: Kiểm Soát Toàn Diện Thứ Tự Và Kích Thước 3 Lớp Riêng Biệt]
-\begin{lstlisting}[language=CSS3]
-.multi-layered-card {
-  width: 600px;
-  height: 400px;
-  background-image: url('icon.png'), url('pattern.png'), url('background.jpg');
-  background-repeat: no-repeat, repeat, no-repeat;
-  background-size: 50px, auto, cover;
-  background-position: top left, center, center;
-}
-\end{lstlisting}
-\end{codeWindow}
-\noindent\textit{Kết quả \& Ứng dụng}: Icon nằm góc trên trái (lớp 1 trên cùng), hoa văn phủ sần toàn khối (lớp 2 ở giữa), và ảnh nền phong cảnh lót đáy sâu nhất (lớp 3 dưới cùng).\par\vspace{6pt}
+\paragraph{F. Tóm Tắt Nhanh Các Tình Huống Phối Hợp:}
 
-\begin{prettyTableBox}[TỔNG KẾT CÁC TÌNH HUỐNG PHỐI HỢP ĐA LỚP ẢNH NỀN]
+\begin{prettyTableBox}[TỔNG KẾT NHANH CÁC TÌNH HUỐNG THỰC TẾ VỚI BACKGROUND-IMAGE]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
 \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Tình huống phối hợp} & \thd{\sffamily Kết quả thị giác} & \thd{\sffamily Giải pháp \& Mẹo tối ưu} \\
+\rowcolor{primaryBlue} \thd{\sffamily Trường hợp ảnh} & \thd{\sffamily Kết quả hiển thị} & \thd{\sffamily Giải pháp khắc phục \& Mẹo tối ưu} \\
 \hline
-Ảnh lớp trên có độ trong suốt & Nhìn thấy chi tiết ảnh dưới xuyên qua vùng trong suốt. & Sử dụng định dạng PNG Alpha hoặc WebP trong suốt. \\
+Ảnh trên trong suốt & Ảnh trên nổi bật, ảnh dưới thấy qua vùng trong suốt. & Không cần thay đổi; dùng PNG Alpha hoặc WebP. \\
 \hline
-Ảnh lớp trên không trong suốt & Che khuất hoàn toàn ảnh lớp dưới. & Bắt buộc dùng ảnh PNG/SVG hoặc thêm kênh màu trong suốt \codeinline{rgba()}. \\
+Ảnh trên không trong suốt & Ảnh dưới bị che khuất hoàn toàn. & Dùng ảnh PNG alpha hoặc giảm độ mờ (\codeinline{opacity} / \codeinline{rgba()}). \\
 \hline
-Ảnh nhỏ không lặp & Nằm cố định tại vị trí chỉ định. & Dùng \codeinline{background-position} (ví dụ: \codeinline{top left}). \\
+Ảnh trên nhỏ hơn phần tử, không lặp lại & Ảnh trên nhỏ nằm ở vị trí cố định, ảnh dưới phủ kín. & Tùy chỉnh vị trí (\codeinline{background-position}) và kích thước. \\
 \hline
-Ảnh nhỏ có lặp & Nhân bản dạng gạch lát phủ kín diện tích. & Dùng \codeinline{background-repeat: repeat;}. \\
+Ảnh trên nhỏ, có lặp lại & Ảnh trên lặp nhiều lần, che phủ ảnh dưới. & Dùng \codeinline{no-repeat} hoặc giảm \codeinline{opacity} / độ mờ. \\
 \hline
-Kết hợp Gradient + Ảnh thật & Dải màu phủ lên ảnh tạo hiệu ứng chiều sâu & Dùng hàm \codeinline{linear-gradient()} làm lớp trên cùng. \\
+Kết hợp ảnh + gradient & Gradient tạo hiệu ứng đẹp, ảnh trên nổi bật, ảnh dưới làm nền. & Dùng \codeinline{linear-gradient()} kết hợp 3 lớp nền. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
