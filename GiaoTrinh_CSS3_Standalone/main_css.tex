@@ -10326,7 +10326,7 @@ Màu nền \codeinline{background-color} bao phủ:
 \begin{prettyTableBox}[ĐỐI CHIẾU SỰ KHÁC BIỆT GIỮA padding VÀ margin VỚI MÀU NỀN]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.5cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.6cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
 \hline
 \rowcolor{primaryBlue} \thd{\sffamily Đặc điểm so sánh} & \thd{\sffamily Khoảng đệm (padding)} & \thd{\sffamily Khoảng lề (margin)} \\
 \hline
@@ -10597,75 +10597,69 @@ Khi kết hợp \codeinline{background-color} với bộ chọn giả \codeinlin
 
 Đoạn mã hoàn chỉnh dưới đây minh họa sự kết hợp của nhiều loại màu nền (\codeinline{Hex}, \codeinline{RGB}, \codeinline{RGBA}, \codeinline{HSLA}) trên một giao diện thẻ tin tức chuyên nghiệp:
 
-\begin{codeWindow}[Mã Nguồn Đầy Đủ: Card Component Đa Định Dạng Màu Nền]
+\begin{codeWindow}[1. Cấu Trúc Đánh Dấu Giao Diện (index.html)]
 \begin{lstlisting}[language=HTML5]
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background-color: #f0f2f5; /* Nen toan trang */
-      padding: 20px;
-    }
-    .card {
-      width: 320px;
-      margin: 20px auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
-    .card-header {
-      background-color: #007bff; /* Header xanh duong */
-      color: white;
-      padding: 16px;
-      text-align: center;
-    }
-    .card-body {
-      background-color: white;   /* Than the nen trang */
-      padding: 20px;
-      text-align: center;
-    }
-    .highlight-text {
-      background-color: rgba(255, 255, 0, 0.3); /* To vang mo 30% RGBA */
-      padding: 2px 6px;
-      border-radius: 3px;
-    }
-    .button.primary {
-      display: inline-block;
-      background-color: rgb(40, 167, 69); /* Xanh la cay RGB */
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-    .button.primary:hover {
-      background-color: rgb(33, 136, 56); /* Xanh dam hon khi hover */
-    }
-    .translucent-box {
-      width: 260px;
-      margin: 20px auto;
-      background-color: hsla(200, 50%, 70%, 0.5); /* Xanh mo ban trong suot HSLA */
-      border: 1px solid #cbd5e1;
-      padding: 12px;
-      text-align: center;
-      border-radius: 6px;
-    }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="card-header"><h3>Tieu De Card</h3></div>
-    <div class="card-body">
-      <p>Day la noi dung. Mot so <span class="highlight-text">cum tu quan trong</span> duoc to sang.</p>
-      <a href="#" class="button primary">Tim Hieu Them</a>
-    </div>
+<!-- Khoi The Card Component -->
+<div class="card">
+  <div class="card-header">
+    <h3>Tieu De Card</h3>
   </div>
-  <div class="translucent-box">Hop Ban Trong Suot (HSLA)</div>
-</body>
-</html>
+  <div class="card-body">
+    <p>Noi dung card. Mot so <span class="highlight-text">cum tu quan trong</span> duoc to sang.</p>
+    <a href="#" class="button primary">Tim Hieu Them</a>
+  </div>
+</div>
+
+<!-- Hop Thong Tin Ban Trong Suot (HSLA) -->
+<div class="translucent-box">
+  Hop Ban Trong Suot (HSLA)
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[2. Định Kiểu CSS: Phối Hợp Đa Định Dạng Màu Nền (style.css)]
+\begin{lstlisting}[language=CSS3]
+/* 1. Nen toan trang: Ma Hex 6 ky tu */
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background-color: #f0f2f5;
+  padding: 20px;
+}
+
+/* 2. Cau truc the Card Component */
+.card {
+  width: 320px; margin: 20px auto;
+  border-radius: 8px; overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.card-header {
+  background-color: #007bff; /* Header: Hex xanh duong */
+  color: white; padding: 16px; text-align: center;
+}
+.card-body {
+  background-color: white;   /* Than the: Trang tinh */
+  padding: 20px; text-align: center;
+}
+.highlight-text {
+  background-color: rgba(255, 255, 0, 0.3); /* To vang mo 30% RGBA */
+  padding: 2px 6px; border-radius: 3px;
+}
+.button.primary {
+  display: inline-block;
+  background-color: rgb(40, 167, 69); /* Nut bam: RGB xanh la */
+  color: white; padding: 10px 20px; border-radius: 5px;
+  text-decoration: none; transition: background-color 0.3s ease;
+}
+.button.primary:hover {
+  background-color: rgb(33, 136, 56); /* Hover: RGB xanh dam hon */
+}
+
+/* 3. Khoi hieu ung mo: HSLA voi kenh Alpha = 0.5 */
+.translucent-box {
+  width: 260px; margin: 20px auto; padding: 12px;
+  background-color: hsla(200, 50%, 70%, 0.5); /* Xanh mo HSLA */
+  border: 1px solid #cbd5e1; border-radius: 6px; text-align: center;
+}
 \end{lstlisting}
 \end{codeWindow}
 
