@@ -10816,7 +10816,7 @@ Trong đó, giá trị hình nền có thể nhận các dạng phong phú sau:
 
 Trong thực tế xây dựng giao diện, kích thước ảnh gốc hiếm khi khớp tuyệt đối $100\%$ với kích thước khung chứa HTML. Dưới đây là 3 trường hợp hiển thị kinh điển, phân tích kết quả và giải pháp kỹ thuật:
 
-\subparagraph{a. Ảnh lớn hơn phần tử $\rightarrow$ Bị cắt bớt (Cropped):}
+\noindent\textbf{a. Ảnh lớn hơn phần tử $\rightarrow$ Bị cắt bớt (Cropped):}\par\vspace{4pt}
 
 Khi kích thước của ảnh lớn hơn phần tử và không có thuộc tính điều chỉnh kích thước (\codeinline{background-size: auto;} hoặc không khai báo):
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
@@ -10854,7 +10854,7 @@ $\rightarrow$ \textbf{Kết quả thực tế}: Chỉ đúng diện tích $300 \
     \item \codeinline{background-size: cover;}: Phóng to ảnh để bao phủ kín toàn bộ phần tử, lấp đầy không để lại khoảng trống.
 \end{itemize}
 
-\subparagraph{b. Ảnh nhỏ hơn phần tử $\rightarrow$ Tự động lặp lại (Mặc định):}
+\noindent\textbf{b. Ảnh nhỏ hơn phần tử $\rightarrow$ Tự động lặp lại (Mặc định):}\par\vspace{4pt}
 
 Nếu kích thước ảnh nhỏ hơn phần tử, engine hiển thị của CSS sẽ tự động nhân bản lặp lại bức ảnh theo cả chiều ngang (trục X) và chiều dọc (trục Y) như những viên gạch lát nền để phủ kín toàn bộ không gian phần tử. Đây là hành vi mặc định của \codeinline{background-image}.
 
@@ -10887,7 +10887,7 @@ $\rightarrow$ \textbf{Kết quả thực tế}: Bức ảnh sẽ tự động l�
     \item \codeinline{background-position: center;}: Căn chỉnh tâm bức ảnh vào chính giữa phần tử.
 \end{itemize}
 
-\subparagraph{c. Ảnh bằng hoặc nhỏ hơn phần tử, không lặp (\codeinline{no-repeat}):}
+\noindent\textbf{c. Ảnh bằng hoặc nhỏ hơn phần tử, không lặp (\codeinline{no-repeat}):}\par\vspace{4pt}
 
 Khi áp dụng \codeinline{background-repeat: no-repeat;}, ảnh sẽ hiển thị đúng theo kích thước gốc. Nếu ảnh nhỏ hơn phần tử, diện tích còn lại của khung chứa sẽ trở thành khoảng trống trắng.
 
@@ -10970,26 +10970,34 @@ Muốn ảnh cố định khi cuộn trang & Ảnh nằm cố định trong View
 \end{itemize}
 \end{tipBox}
 
-\subparagraph{e. Cách Khai Báo Đường Dẫn Ảnh Trong Hàm \codeinline{url()}:}
-\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Đường dẫn tương đối} (Ảnh nằm trong thư mục của dự án):
-    \begin{lstlisting}[language=CSS3]
-    background-image: url('images/bg.jpg');
-    \end{lstlisting}
-    \item \textbf{Đường dẫn tuyệt đối} (Ảnh lưu trữ từ trang web hoặc CDN bên ngoài):
-    \begin{lstlisting}[language=CSS3]
-    background-image: url('https://example.com/bg.jpg');
-    \end{lstlisting}
-    \item \textbf{Đường dẫn trỏ về thư mục cha} (Sử dụng cú pháp \codeinline{../}):
-    \begin{lstlisting}[language=CSS3]
-    background-image: url('../images/bg.jpg');
-    \end{lstlisting}
-    \item \textbf{Base64 encoding} (Nhúng trực tiếp chuỗi dữ liệu ảnh Data URI vào tệp CSS):
-    \begin{lstlisting}[language=CSS3]
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...');
-    \end{lstlisting}
-    \textit{Đặc điểm}: Giúp trình duyệt không phải gửi thêm request HTTP tải ảnh riêng, nhưng làm tăng dung lượng file CSS.
-\end{enumerate}
+\noindent\textbf{e. Cách khai báo đường dẫn ảnh trong hàm \codeinline{url()}:}\par\vspace{4pt}
+Để liên kết tệp hình ảnh vào thuộc tính nền, bạn sử dụng hàm \codeinline{url()} với 4 hình thức đường dẫn chuẩn:
+
+\begin{codeWindow}[Mã Nguồn CSS: 4 Hình Thức Khai Báo Đường Dẫn Tệp Trong Hàm url()]
+\begin{lstlisting}[language=CSS3]
+/* 1. Duong dan tuong doi (anh nam trong thu muc noi bo du an): */
+.box-relative {
+  background-image: url('images/bg.jpg');
+}
+
+/* 2. Duong dan tuyet doi (anh luu tren CDN hoac may chu ngoai): */
+.box-absolute {
+  background-image: url('https://example.com/bg.jpg');
+}
+
+/* 3. Duong dan tro nguoc ve thu muc cha (su dung ky phap ../): */
+.box-parent {
+  background-image: url('../assets/images/bg.jpg');
+}
+
+/* 4. Ma hoa Base64 truc tiep (nhung Data URI thang vao file CSS): */
+.box-base64 {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...');
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textit{Đặc điểm Base64}: Giúp trình duyệt không phải gửi thêm request HTTP tải ảnh riêng lẻ, nhưng làm tăng dung lượng tệp CSS khoảng $33\%$ (khuyến nghị chỉ áp dụng cho icon vector/pixel siêu nhỏ $\le 2\text{KB}$).
 
 \paragraph{3. Ví Dụ Đơn Giản: Xây Dựng Khối Banner Chào Mừng:}
 
@@ -11069,7 +11077,7 @@ selector {
 Các giá trị cho từng thuộc tính phải được viết theo đúng thứ tự tương ứng với từng bức ảnh, phân cách nhau bởi dấu phẩy \codeinline{,}. Nếu một thuộc tính chỉ khai báo 1 giá trị, giá trị đó sẽ tự động áp dụng chung cho tất cả các lớp ảnh nền còn lại!
 \end{tipBox}
 
-\subparagraph{a. Quy luật xếp tầng \& Cơ chế thứ tự lớp ảnh:}
+\noindent\textbf{a. Quy luật xếp tầng \& Cơ chế thứ tự lớp ảnh:}\par\vspace{4pt}
 Ảnh viết trước sẽ nằm ở trên cùng, ảnh viết sau sẽ nằm ở dưới, và màu nền \codeinline{background-color} luôn nằm ở đáy sâu nhất:
 
 \begin{prettyTableBox}[QUY TẮC PHÂN TẦNG HIỂN THỊ CỦA CÁC LỚP ẢNH NỀN]
@@ -11154,34 +11162,40 @@ Một ứng dụng kinh điển trong thiết kế UI/UX hiện đại là phủ
 
 \noindent\textbf{d. Năm kịch bản thực chiến phối hợp đa lớp ảnh nền:}\par\vspace{4pt}
 
-\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
-    \item \textbf{Kịch bản 1: Logo trong suốt nổi trên ảnh nền chính}:
+Dưới đây là 5 mô hình thiết kế đa lớp nền thường gặp nhất trong các dự án thực tế:
+
+\begin{codeWindow}[Kịch Bản 1: Logo Trong Suốt Nổi Trên Ảnh Nền Phong Cảnh Chính]
 \begin{lstlisting}[language=CSS3]
-div {
-  width: 600px; height: 400px;
+.hero-logo {
+  width: 600px;
+  height: 400px;
   background-image: url('logo.png'), url('background.jpg');
   background-repeat: no-repeat, no-repeat;
   background-position: center, center;
   background-size: contain, cover;
 }
 \end{lstlisting}
-    \textit{Kết quả}: Logo PNG có độ trong suốt nằm ở trọng tâm, người dùng vẫn nhìn thấy bức tranh nền phong cảnh sinh động xuyên qua các vùng rỗng của logo.
+\end{codeWindow}
+\noindent\textit{Kết quả \& Ứng dụng}: Logo PNG có độ trong suốt nằm ở trọng tâm, người dùng vẫn nhìn thấy bức tranh nền phong cảnh sinh động xuyên qua các vùng rỗng của logo.\par\vspace{6pt}
 
-    \item \textbf{Kịch bản 2: Hoa văn nhỏ lặp lại trên nền ảnh lớn}:
+\begin{codeWindow}[Kịch Bản 2: Hoa Văn Nhỏ Lặp Lưới Phủ Lên Nền Ảnh Lớn]
 \begin{lstlisting}[language=CSS3]
-div {
-  width: 600px; height: 400px;
+.textured-banner {
+  width: 600px;
+  height: 400px;
   background-image: url('pattern.png'), url('background.jpg');
   background-repeat: repeat, no-repeat;
   background-size: auto, cover;
 }
 \end{lstlisting}
-    \textit{Kết quả}: Lớp hoa văn nhỏ (\codeinline{pattern.png}) tự động lặp lại dạng lưới trên toàn bộ bề mặt, trong khi bức ảnh phong cảnh bên dưới phủ kín khung chứa mà không bị lặp.
+\end{codeWindow}
+\noindent\textit{Kết quả \& Ứng dụng}: Lớp hoa văn nhỏ (\codeinline{pattern.png}) tự động lặp lại dạng lưới trên toàn bộ bề mặt, trong khi bức ảnh phong cảnh bên dưới phủ kín khung chứa mà không bị lặp.\par\vspace{6pt}
 
-    \item \textbf{Kịch bản 3: Kết hợp Gradient tối màu làm nổi bật nội dung}:
+\begin{codeWindow}[Kịch Bản 3: Kết Hợp Gradient Tối Màu Làm Nổi Bật Chữ (Hero Overlay)]
 \begin{lstlisting}[language=CSS3]
-div {
-  width: 600px; height: 400px;
+.dark-overlay {
+  width: 600px;
+  height: 400px;
   background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
               url('background.jpg');
   background-repeat: no-repeat;
@@ -11189,32 +11203,36 @@ div {
   background-position: center;
 }
 \end{lstlisting}
-    \textit{Kết quả}: Dải gradient đen mờ $50\%$ phủ đều, giảm bớt độ chói của ảnh phong cảnh giúp các đoạn văn bản hiển thị rõ nét tuyệt đối.
+\end{codeWindow}
+\noindent\textit{Kết quả \& Ứng dụng}: Dải gradient đen mờ $50\%$ phủ đều, giảm bớt độ chói của ảnh phong cảnh giúp các đoạn văn bản hiển thị rõ nét tuyệt đối.\par\vspace{6pt}
 
-    \item \textbf{Kịch bản 4: Biểu tượng góc cố định + Ảnh nền co giãn}:
+\begin{codeWindow}[Kịch Bản 4: Biểu Tượng Góc Cố Định + Ảnh Nền Co Giãn Linh Hoạt]
 \begin{lstlisting}[language=CSS3]
-div {
-  width: 600px; height: 400px;
+.corner-badge {
+  width: 600px;
+  height: 400px;
   background-image: url('icon.png'), url('background.jpg');
   background-repeat: no-repeat, no-repeat;
   background-position: top left, center;
   background-size: 100px, cover;
 }
 \end{lstlisting}
-    \textit{Kết quả}: Icon kích thước cố định $100\text{px}$ neo chặt tại góc trên bên trái, còn ảnh nền tự do co giãn phủ kín phần tử.
+\end{codeWindow}
+\noindent\textit{Kết quả \& Ứng dụng}: Icon kích thước cố định $100\text{px}$ neo chặt tại góc trên bên trái, còn ảnh nền tự do co giãn phủ kín phần tử.\par\vspace{6pt}
 
-    \item \textbf{Kịch bản 5: Kiểm soát toàn diện thứ tự và kích thước 3 lớp}:
+\begin{codeWindow}[Kịch Bản 5: Kiểm Soát Toàn Diện Thứ Tự Và Kích Thước 3 Lớp Riêng Biệt]
 \begin{lstlisting}[language=CSS3]
-div {
-  width: 600px; height: 400px;
+.multi-layered-card {
+  width: 600px;
+  height: 400px;
   background-image: url('icon.png'), url('pattern.png'), url('background.jpg');
   background-repeat: no-repeat, repeat, no-repeat;
   background-size: 50px, auto, cover;
   background-position: top left, center, center;
 }
 \end{lstlisting}
-    \textit{Kết quả}: Icon nằm góc trên trái (lớp 1), hoa văn phủ sần toàn khối (lớp 2), và ảnh nền phong cảnh lót đáy sâu nhất (lớp 3).
-\end{enumerate}
+\end{codeWindow}
+\noindent\textit{Kết quả \& Ứng dụng}: Icon nằm góc trên trái (lớp 1 trên cùng), hoa văn phủ sần toàn khối (lớp 2 ở giữa), và ảnh nền phong cảnh lót đáy sâu nhất (lớp 3 dưới cùng).\par\vspace{6pt}
 
 \begin{prettyTableBox}[TỔNG KẾT CÁC TÌNH HUỐNG PHỐI HỢP ĐA LỚP ẢNH NỀN]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -11238,20 +11256,32 @@ Kết hợp Gradient + Ảnh thật & Dải màu phủ lên ảnh tạo hiệu �
 
 \paragraph{6. Cú Pháp Viết Tắt Gộp (\codeinline{background} Shorthand):}
 Thay vì phải viết riêng rẽ từng thuộc tính dài dòng:
+
+\begin{codeWindow}[1. Cách Khai Báo Riêng Rẽ Từng Thuộc Tính (Dài Dòng)]
 \begin{lstlisting}[language=CSS3]
-/* Khai bao rieng le tung thuoc tinh: */
-background-image: url("bg.jpg");
-background-repeat: no-repeat;
-background-position: center;
-background-size: cover;
+/* Khai bao rieng le tung thuoc tinh cho khoi hero */
+.hero-card {
+  background-image: url("bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
 \end{lstlisting}
-Bạn hoàn toàn có thể viết gọn gàng thành một dòng lệnh duy nhất:
+\end{codeWindow}
+
+\noindent Bạn hoàn toàn có thể viết gọn gàng thành một dòng lệnh duy nhất bằng cú pháp Shorthand:
+
+\begin{codeWindow}[2. Cách Viết Gọn Gàng Bằng Cú Pháp Shorthand Tối Giản]
 \begin{lstlisting}[language=CSS3]
-/* Viet gon bang cu phap Shorthand: */
-background: url("bg.jpg") no-repeat center / cover;
+/* Viet gon gang tren 1 dong duy nhat */
+.hero-card {
+  background: url("bg.jpg") no-repeat center / cover;
+}
 \end{lstlisting}
+\end{codeWindow}
+
 \begin{tipBox}[Lưu Ý Quan Trọng Về Shorthand]
-\textbf{Dấu gạch chéo \codeinline{/}}: Bắt buộc phải dùng dấu gạch chéo \codeinline{/} để ngăn cách giữa \codeinline{position} và \codeinline{size} (\codeinline{center / cover}).
+\textbf{Dấu gạch chéo \codeinline{/}}: Bắt buộc phải dùng dấu gạch chéo \codeinline{/} để ngăn cách giữa \codeinline{position} và \codeinline{size} (\codeinline{center / cover}). Nếu thiếu dấu gạch chéo, trình duyệt sẽ coi toàn bộ giá trị là lỗi cú pháp và vô hiệu hóa thuộc tính!
 \end{tipBox}
 
 \paragraph{7. Tám Lưu Ý Sống Còn Khi Sử Dụng \codeinline{background-image}:}
