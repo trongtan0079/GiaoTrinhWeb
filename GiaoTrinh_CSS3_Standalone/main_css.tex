@@ -4516,6 +4516,160 @@ html {
 \end{itemize}
 \end{tipBox}
 
+\subsection{Chuyên Đề Các Đơn Vị Phụ Thuộc Phần Tử Cha (\csshint{em}, \csshint{\%}, \csshint{ex}, \csshint{ch})}
+\label{sec:css_parent_dependent_units}
+
+\begin{conceptBox}[Bản Chất Của Đơn Vị Phụ Thuộc Phần Tử Cha]
+\textbf{Đơn vị phụ thuộc phần tử cha} trong CSS là nhóm các đơn vị đo lường tương đối mà khi phần tử con áp dụng, giá trị kích thước thực tế hiển thị (\term{Computed Value}) sẽ bị \textbf{chi phối và tính toán trực tiếp} dựa trên kích thước hoặc thuộc tính tương ứng của \textbf{phần tử cha gần nhất} trong cây DOM.
+\end{conceptBox}
+
+\paragraph{I. Các Đơn Vị Phụ Thuộc Phần Tử Cha:}
+
+Dưới đây là bảng tổng hợp các đơn vị tiêu biểu có cơ chế tính toán dựa trên phần tử cha:
+
+\begin{prettyTableBox}[BẢNG TỔNG QUAN CÁC ĐƠN VỊ PHỤ THUỘC PHẦN TỬ CHA]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\bfseries\color{primaryBlue}\ttfamily}p{1.4cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Đơn vị} & \thd{\sffamily Phụ thuộc phần tử cha gì?} & \thd{\sffamily Dùng trong thuộc tính nào?} & \thd{\sffamily Ghi chú kỹ thuật} \\
+\hline
+em & \codeinline{font-size} của phần tử cha gần nhất & \codeinline{font-size}, \codeinline{padding}, \codeinline{margin},... & Rất phổ biến; có thể bị lồng nhân dồn lũy tiến khi lồng nhiều cấp. \\
+\hline
+\% & Giá trị của phần tử cha tùy theo thuộc tính & \codeinline{width}, \codeinline{height}, \codeinline{padding}, \codeinline{margin}, \codeinline{font-size} & Rất phổ biến; điểm tựa tính toán thay đổi linh hoạt theo từng thuộc tính. \\
+\hline
+ex & Chiều cao chữ thường ``x'' (\term{x-height}) của font cha & \codeinline{font-size}, \codeinline{line-height} & Hiếm dùng; phục vụ việc cân chỉnh độ cao ký tự vi mô trong Typography. \\
+\hline
+ch & Chiều rộng của ký tự số ``0'' trong font cha & \codeinline{width}, \codeinline{max-width} & Dùng để canh chỉnh độ dài dòng đọc text hoặc ô nhập liệu (input). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{II. Cách Hoạt Động Chi Tiết Của Từng Đơn Vị:}
+
+\subparagraph{1. Đơn Vị \codeinline{em} -- Phụ Thuộc Vào Cỡ Chữ (\codeinline{font-size}) Của Cha:}
+
+Khi thuộc tính \codeinline{font-size} của phần tử con sử dụng \codeinline{em}, nó sẽ lấy giá trị \codeinline{font-size} được tính toán của phần tử cha làm hệ số nhân:
+
+\begin{codeWindow}[Ví Dụ 1: Cách Hoạt Động Cơ Bản Của Đơn Vị em]
+\begin{lstlisting}[language=CSS3]
+.parent {
+  font-size: 20px;
+}
+
+.child {
+  font-size: 2em;  /* = 20px * 2 = 40px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Cạm Bẫy Lồng Nhân Lũy Tiến (Compounding Effect) Khi Dùng em]
+\textbf{Cảnh báo cạm bẫy}: Nếu phần tử \codeinline{.parent} cũng sử dụng đơn vị \codeinline{em} thay vì giá trị cố định, và cấu trúc HTML lồng nhau $3-4$ cấp, kích thước chữ của các cấp con bên trong sẽ bị nhân lũy thừa liên tiếp (\term{Compounding Multiplier}), khiến chữ bị phình to hoặc thu nhỏ mất kiểm soát!
+\end{warnBox}
+
+\subparagraph{2. Đơn Vị Phần Trăm (\codeinline{\%}) -- Phụ Thuộc Ngữ Cảnh Cụ Thể Của Thuộc Tính:}
+
+Điểm độc đáo của đơn vị \codeinline{\%} là điểm tựa tham chiếu của nó sẽ thay đổi tùy thuộc vào chính thuộc tính đang áp dụng:
+
+\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU ĐIỂM TỰA TÍNH TOÁN CỦA ĐƠN VỊ PHẦN TRĂM (\%)]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash\bfseries\color{darkText}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính áp dụng} & \thd{\sffamily \% Phụ thuộc trực tiếp vào} & \thd{\sffamily Ghi chú \& Lưu ý quan trọng} \\
+\hline
+width & \codeinline{width} của phần tử cha & Khối con co giãn tỷ lệ theo chiều ngang của khung chứa cha. \\
+\hline
+height & \codeinline{height} của phần tử cha & \textbf{Điều kiện bắt buộc}: Cha phải có chiều cao xác định trước. \\
+\hline
+padding, margin & \codeinline{width} của phần tử cha & \textbf{Quy tắc đặc biệt}: Cả khoảng đệm trên/dưới (\codeinline{padding-top/bottom}) đều tính theo \textbf{chiều rộng} (width) của cha! \\
+\hline
+font-size & \codeinline{font-size} của phần tử cha & Tương đương với cách hoạt động của đơn vị \codeinline{em} ($100\% = 1\text{em}$). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ 2: Đơn Vị \% Hoạt Động Theo Kích Thước Cha]
+\begin{lstlisting}[language=CSS3]
+.parent {
+  width: 400px;
+}
+
+.child {
+  width: 50%;  /* = 50% * 400px = 200px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subparagraph{3. Đơn Vị \codeinline{ex} Và \codeinline{ch} -- Phụ Thuộc Vào Đặc Tính Phông Chữ Cha:}
+
+Hai đơn vị typographic này gắn liền trực tiếp với hình học của các ký tự chữ cái trong phông chữ hiện hành:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{1ex}: Bằng chiều cao của chữ cái in thường ``x'' (\term{x-height}) trong phông chữ hiện tại.
+    \item \codeinline{1ch}: Bằng chiều rộng của ký tự số không (\codeinline{"0"}) trong phông chữ hiện tại.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 3: Sử Dụng Đơn Vị ch Căn Chỉnh Độ Rộng Chuẩn Text]
+\begin{lstlisting}[language=CSS3]
+.box {
+  font-size: 20px;
+  width: 10ch; /* Rong bang dung 10 ky tu "0" trong font hien tai */
+}
+
+/* Ung dung tieu bieu: Gioi han do dai dong doc ly tuong tu 60 den 75 ky tu */
+.article-content {
+  max-width: 65ch; /* Do dai dong toi uu cho mat doc cong thai hoc */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{III. So Sánh Nhanh Các Đơn Vị Phụ Thuộc Cha:}
+
+\begin{prettyTableBox}[BẢNG SO SÁNH NHANH CÁC ĐƠN VỊ PHỤ THUỘC CHA]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{1.6cm}|>{\centering\arraybackslash\bfseries}p{2.8cm}|>{\centering\arraybackslash\bfseries}p{2.6cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Đơn vị} & \thd{\sffamily Phụ thuộc cha?} & \thd{\sffamily Độ khó sử dụng} & \thd{\sffamily Ứng dụng phổ biến nhất} \\
+\hline
+em & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{accentOrange}{\textbf{Trung bình}} & \codeinline{padding}, \codeinline{margin} theo cỡ chữ nội bộ component. \\
+\hline
+\% & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{green!60!black}{\textbf{Dễ}} & Phân chia layout, lưới Responsive, co giãn linh hoạt. \\
+\hline
+ex & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{red!80!black}{\textbf{Khó}} & Đo chiều cao ký tự chữ thường (x-height) vi mô. \\
+\hline
+ch & \textcolor{green!60!black}{\textbf{Có}} & \textcolor{primaryBlue}{\textbf{Tùy ngữ cảnh}} & Đo chiều dài dòng text cố định, định dạng ô nhập liệu (input). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{IV. Tổng Kết \& Đánh Giá Ưu - Nhược Điểm:}
+
+\begin{conceptBox}[Bản Chất Cốt Lõi Của Các Đơn Vị Phụ Thuộc Cha]
+Các đơn vị phụ thuộc phần tử cha bản chất là các \textbf{đơn vị tương đối}. Chúng đem lại sự linh hoạt phi thường nhưng đòi hỏi lập trình viên phải nắm thật rõ \textbf{``nền tảng điểm tựa''} mà chúng đang dựa vào để tính toán kích thước thực tế.
+\end{conceptBox}
+
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!30, arc=6pt, boxrule=0.8pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+\sffamily\small
+\begin{minipage}[t]{0.48\linewidth}
+  \tcbox[on line, arc=3pt, colback=green!12, colframe=green!60!black, boxsep=1pt, left=4pt, right=4pt, top=2pt, bottom=2pt]{\color{green!60!black}\small\bfseries Ưu Điểm Vượt Trội}
+  \vspace{4pt}
+  \begin{itemize}[leftmargin=12pt, topsep=4pt, itemsep=3pt]
+    \item \textbf{Responsive, mềm dẻo}: Giao diện tự động co giãn mềm dẻo theo khung chứa cha.
+    \item \textbf{Hài hòa bố cục}: Tỷ lệ kích thước của con luôn giữ sự cân đối hoàn hảo với khối cha bao quanh.
+  \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \tcbox[on line, arc=3pt, colback=red!10, colframe=red!70!black, boxsep=1pt, left=4pt, right=4pt, top=2pt, bottom=2pt]{\color{red!70!black}\small\bfseries Nhược Điểm \& Cạm Bẫy}
+  \vspace{4pt}
+  \begin{itemize}[leftmargin=12pt, topsep=4pt, itemsep=3pt]
+    \item \textbf{Dễ gây bối rối}: Nếu khối cha không có kích thước rõ ràng (đặc biệt là \codeinline{height: \%}).
+    \item \textbf{Dễ lỗi lồng nhiều cấp}: Dễ sinh lỗi nhân dồn mất kiểm soát khi lồng nhau quá nhiều tầng cấp (\term{Compounding}).
+  \end{itemize}
+\end{minipage}
+\end{tcolorbox}
+
 \subsection{Mục "Đọc Thêm": Các Kỹ Thuật Đơn Vị Hiện Đại (\csshint{dvh}, \csshint{svh}, \csshint{clamp()})}
 \label{sec:css_modern_units_deepdive}
 
