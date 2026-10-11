@@ -625,7 +625,7 @@
 % ==============================================================================
 \frontmatter
 \renewcommand{\contentsname}{MỤC LỤC}
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
 
 % ── Override tiêu đề MỤC LỤC bằng titletoc-compatible approach ───────────────
 \makeatletter
@@ -672,6 +672,14 @@
   {\textcolor{secondaryTeal!80}{\thecontentslabel}\enskip}
   {\textcolor{darkText!75}{}}
   {\enspace\titlerule*[0.5pc]{\textcolor{gray!22}{.}}\enspace\textcolor{darkText!70}{\contentspage}}
+  []
+
+% MỤC CHI TIẾT CẤP 3 (Subsubsection): Tra cứu thuộc tính & bộ chọn có hint code, indent 6.2em
+\titlecontents{subsubsection}[6.2em]
+  {\addvspace{1pt}\sffamily\footnotesize\color{darkText!75}}
+  {\textcolor{primaryBlue!75}{\thecontentslabel}\enskip}
+  {\textcolor{darkText!75}{}}
+  {\enspace\titlerule*[0.45pc]{\textcolor{gray!20}{.}}\enspace\textcolor{darkText!65}{\contentspage}}
   []
 
 \begingroup
