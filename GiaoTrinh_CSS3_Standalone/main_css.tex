@@ -10776,17 +10776,23 @@ Lớp phủ mờ (Modal Overlay) & Dùng \codeinline{rgba(0, 0, 0, 0.5)} hoặc 
 \subsection{Thuộc Tính Hình Ảnh Nền: Bản Chất \& Kỹ Thuật Điều Khiển (\csshint{background-image})}
 \label{sec:css_bg_image}
 
-\begin{conceptBox}[Khái Niệm Cốt Lõi Về background-image]
+\begin{conceptBox}[Khái Niệm Cốt Lõi \& 4 Cơ Chế Hoạt Động Của background-image]
 \textbf{1. background-image là gì?}\\
 Thuộc tính \codeinline{background-image} trong CSS dùng để hiển thị một hoặc nhiều hình ảnh làm lớp phông nền cho một phần tử HTML (như thẻ \codeinline{div}, \codeinline{body}, \codeinline{section}, v.v.). Đây là một công cụ mạnh mẽ để thêm tính thẩm mỹ và thiết kế vào các khối nội dung, nút bấm, hoặc toàn bộ trang web.
 
 \vspace{4pt}
-\textbf{Cách thức hoạt động của lớp nền}:\\
-Khi bạn áp dụng \codeinline{background-image} cho một phần tử, hình ảnh được chỉ định sẽ được đặt ở lớp nền của phần tử đó. Nó nằm \textbf{phía trên} \codeinline{background-color} (nếu có) nhưng nằm \textbf{phía dưới} toàn bộ nội dung (văn bản chữ, thẻ con) của phần tử. Theo mặc định:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item Nếu hình ảnh \textbf{nhỏ hơn} phần tử: Ảnh sẽ tự động được lặp lại (\term{Tile}) theo cả hai chiều ngang và dọc để lấp đầy toàn bộ không gian.
-    \item Nếu hình ảnh \textbf{lớn hơn} phần tử: Ảnh sẽ bị cắt cụt (\term{Cropped}), chỉ phần diện tích nằm gọn trong khung kích thước phần tử mới có thể nhìn thấy.
-\end{itemize}
+\textbf{2. Bốn cơ chế hoạt động cốt lõi của lớp ảnh nền}:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Quy tắc hiển thị mặc định}: Khi áp dụng mà không khai báo thêm thuộc tính bổ trợ, ảnh nền sẽ luôn tuân thủ 3 giá trị mặc định của trình duyệt:
+    \begin{itemize}[leftmargin=1.2em, itemsep=1.5pt]
+        \item \textit{Cơ chế lặp}: Tự động lặp lại theo cả 2 trục X và Y (\codeinline{repeat}) để lát kín không gian.
+        \item \textit{Điểm gốc tọa độ}: Luôn bắt đầu từ góc trên cùng bên trái (\codeinline{top left} hoặc \codeinline{0\% 0\%}).
+        \item \textit{Kích thước hiển thị}: Giữ nguyên độ phân giải pixel gốc của tệp hình ảnh (\codeinline{auto}).
+    \end{itemize}
+    \item \textbf{Không làm thay đổi bố cục trang (Layout-Independent)}: Ảnh nền hoàn toàn là hiệu ứng đồ họa trang trí, không chiếm diện tích trong dòng chảy tài liệu (\term{Normal Flow}), không đẩy hay làm xô lệch các phần tử xung quanh (khác biệt căn bản với thẻ \codeinline{img}).
+    \item \textbf{Điều kiện kích thước phần tử}: Nếu phần tử không có chiều cao (\codeinline{height: 0}) hoặc nội dung văn bản bên trong rỗng, khung chứa sẽ sụp đổ và ảnh nền \textbf{hoàn toàn không hiển thị}.
+    \item \textbf{Cơ chế bao phủ theo Box Model}: Ảnh nền mặc định vẽ phủ kín toàn bộ vùng Nội dung (\term{Content-box}) và Vùng đệm (\term{Padding-box}), nhưng \textbf{không bao gồm} vùng Lề ngoài (\term{Margin-box}) vì lề nằm bên ngoài đường biên viền.
+\end{enumerate}
 \end{conceptBox}
 
 \paragraph{1. Cú Pháp Cơ Bản \& Các Dạng Giá Trị Tiếp Nhận:}
@@ -11039,21 +11045,196 @@ Thuộc tính \codeinline{background-image} hiếm khi đứng một mình. Đ�
     \item \codeinline{background-origin} \& \codeinline{background-clip}: Điểm mốc tọa độ và phạm vi cắt xén theo Box Model.
 \end{itemize}
 
-\paragraph{5. Kỹ Thuật Dùng Nhiều Ảnh Nền (Layered Backgrounds):}
-CSS cho phép khai báo đồng thời nhiều hình ảnh nền trên cùng một phần tử, phân tách nhau bằng dấu phẩy:
-\begin{codeWindow}[Mã Nguồn Thiết Lập Đa Lớp Ảnh Nền]
+\paragraph{5. Kỹ Thuật Phối Hợp Đa Lớp Ảnh Nền (Multiple Background Layers):}
+
+CSS cho phép bạn khai báo đồng thời nhiều hình ảnh nền (\term{Background Layers}) trên cùng một phần tử HTML duy nhất nhằm:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Trang trí đồ họa nâng cao, kiến tạo chiều sâu thị giác (hiệu ứng chồng lớp).
+    \item Tạo lớp phủ màu dải mờ (\term{Gradient Overlay}), bóng đổ, hoặc hoa văn viền góc.
+    \item Tùy biến giao diện phong phú mà không cần thêm các thẻ con \codeinline{div} lồng nhau gây rác mã nguồn HTML.
+\end{itemize}
+
+\begin{codeWindow}[Mã Nguồn Cú Pháp Khai Báo Đa Lớp Ảnh Nền Chuẩn Quy Chuẩn]
 \begin{lstlisting}[language=CSS3]
-div {
-  background-image: url("stars.png"), url("sky.jpg");
-  background-position: top left, center;
-  background-repeat: repeat, no-repeat;
+selector {
+  background-image: url("img1.png"), url("img2.png"), url("img3.png");
+  background-repeat: no-repeat, repeat, no-repeat;
+  background-position: center center, top left, bottom right;
+  background-size: 50% auto, cover, contain;
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{conceptBox}[Quy Luật Xếp Tầng Của Đa Ảnh Nền]
-$\rightarrow$ \textbf{Quy tắc thứ tự}: Ảnh khai báo đầu tiên (\codeinline{stars.png}) sẽ nằm ở tầng \textbf{trên cùng}, ảnh khai báo sau (\codeinline{sky.jpg}) nằm ở tầng \textbf{dưới}, và màu nền \codeinline{background-color} luôn nằm ở \textbf{đáy sâu nhất}. Bạn có thể định cấu hình riêng biệt cho từng ảnh theo thứ tự tương ứng.
-\end{conceptBox}
+\begin{tipBox}[Quy Tắc Khai Báo Phân Tách Dấu Phẩy]
+Các giá trị cho từng thuộc tính phải được viết theo đúng thứ tự tương ứng với từng bức ảnh, phân cách nhau bởi dấu phẩy \codeinline{,}. Nếu một thuộc tính chỉ khai báo 1 giá trị, giá trị đó sẽ tự động áp dụng chung cho tất cả các lớp ảnh nền còn lại!
+\end{tipBox}
+
+\subparagraph{a. Quy luật xếp tầng \& Cơ chế thứ tự lớp ảnh:}
+Ảnh viết trước sẽ nằm ở trên cùng, ảnh viết sau sẽ nằm ở dưới, và màu nền \codeinline{background-color} luôn nằm ở đáy sâu nhất:
+
+\begin{prettyTableBox}[QUY TẮC PHÂN TẦNG HIỂN THỊ CỦA CÁC LỚP ẢNH NỀN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\bfseries\color{primaryBlue}}p{2.2cm}|>{\raggedright\arraybackslash\ttfamily\bfseries}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tầng hiển thị} & \thd{\sffamily Tệp hình ảnh} & \thd{\sffamily Vai trò thị giác} \\
+\hline
+Lớp 1 (Top) & url("overlay.png") & Nằm ở tầng trên cùng (biểu tượng, hoa văn nổi). \\
+\hline
+Lớp 2 (Middle) & url("texture.png") & Nằm ở tầng giữa (chất liệu sần, lưới mờ). \\
+\hline
+Lớp 3 (Bottom) & url("base.jpg") & Nằm ở tầng đáy sâu nhất (phông cảnh chính). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\noindent\textbf{b. Ví dụ trực quan đa lớp ảnh A, B, C (\codeinline{.multi-bg}):}\par\vspace{4pt}
+
+\begin{codeWindow}[Mã Nguồn HTML \& CSS: Khối Đa Nền Định Vị 3 Góc]
+\begin{lstlisting}[language=HTML5]
+<div class="multi-bg">Noi dung tren nen da lop</div>
+
+<style>
+.multi-bg {
+  width: 400px;
+  height: 300px;
+  background-image:
+    url("https://via.placeholder.com/80x80/FF0000/FFFFFF?text=A"),
+    url("https://via.placeholder.com/80x80/00FF00/000000?text=B"),
+    url("https://via.placeholder.com/400x300/0000FF/FFFFFF?text=C");
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: left top, right top, center;
+  background-size: 80px, 80px, cover;
+  color: white;
+  padding: 20px;
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: 3 Lớp Ảnh Nền Định Vị Đồng Thời Trên Khung Chứa]
+\sffamily\small
+\begin{tcolorbox}[
+  enhanced,
+  width=0.88\linewidth,
+  height=100pt,
+  colback=blue!85!black,
+  colframe=primaryBlue!90,
+  arc=6pt,
+  center,
+  boxrule=1pt,
+  underlay={
+    \node[fill=red, text=white, font=\bfseries\small, inner sep=4pt, rounded corners=2pt, anchor=north west] at ([xshift=8pt, yshift=-8pt]interior.north west) {Ảnh A (80px)};
+    \node[fill=green!70!black, text=black, font=\bfseries\small, inner sep=4pt, rounded corners=2pt, anchor=north east] at ([xshift=-8pt, yshift=-8pt]interior.north east) {Ảnh B (80px)};
+    \node[fill=black!40, text=white, font=\scriptsize, inner sep=3pt, rounded corners=2pt, anchor=south] at ([yshift=6pt]interior.south) {Ảnh C (cover) phủ toàn bộ phông đáy xanh};
+  }
+]
+  \centering\vspace{24pt}
+  {\large\bfseries\color{white} Nội dung trên nền đa lớp}\par
+  {\scriptsize\color{white!80} [A ở góc trái trên, B ở góc phải trên, C phủ kín đáy]}
+\end{tcolorbox}
+\end{browserWindow}
+
+\noindent\textbf{c. Kỹ thuật kết hợp Gradient Overlay + Ảnh thật:}\par\vspace{4pt}
+Một ứng dụng kinh điển trong thiết kế UI/UX hiện đại là phủ một dải chuyển màu bán trong suốt lên trên ảnh nền để làm dịu ảnh, nâng cao độ tương phản và giúp chữ trắng luôn sắc nét, dễ đọc đạt chuẩn WCAG:
+
+\begin{codeWindow}[Kỹ Thuật Phủ Lớp Gradient Overlay Mờ Lên Ảnh Nền]
+\begin{lstlisting}[language=CSS3]
+.hero-banner {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), 
+    url("banner.jpg");
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, cover;
+  background-position: center, center;
+  color: #ffffff;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{d. Năm kịch bản thực chiến phối hợp đa lớp ảnh nền:}\par\vspace{4pt}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Kịch bản 1: Logo trong suốt nổi trên ảnh nền chính}:
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px; height: 400px;
+  background-image: url('logo.png'), url('background.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, center;
+  background-size: contain, cover;
+}
+\end{lstlisting}
+    \textit{Kết quả}: Logo PNG có độ trong suốt nằm ở trọng tâm, người dùng vẫn nhìn thấy bức tranh nền phong cảnh sinh động xuyên qua các vùng rỗng của logo.
+
+    \item \textbf{Kịch bản 2: Hoa văn nhỏ lặp lại trên nền ảnh lớn}:
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px; height: 400px;
+  background-image: url('pattern.png'), url('background.jpg');
+  background-repeat: repeat, no-repeat;
+  background-size: auto, cover;
+}
+\end{lstlisting}
+    \textit{Kết quả}: Lớp hoa văn nhỏ (\codeinline{pattern.png}) tự động lặp lại dạng lưới trên toàn bộ bề mặt, trong khi bức ảnh phong cảnh bên dưới phủ kín khung chứa mà không bị lặp.
+
+    \item \textbf{Kịch bản 3: Kết hợp Gradient tối màu làm nổi bật nội dung}:
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px; height: 400px;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+              url('background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+\end{lstlisting}
+    \textit{Kết quả}: Dải gradient đen mờ $50\%$ phủ đều, giảm bớt độ chói của ảnh phong cảnh giúp các đoạn văn bản hiển thị rõ nét tuyệt đối.
+
+    \item \textbf{Kịch bản 4: Biểu tượng góc cố định + Ảnh nền co giãn}:
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px; height: 400px;
+  background-image: url('icon.png'), url('background.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-position: top left, center;
+  background-size: 100px, cover;
+}
+\end{lstlisting}
+    \textit{Kết quả}: Icon kích thước cố định $100\text{px}$ neo chặt tại góc trên bên trái, còn ảnh nền tự do co giãn phủ kín phần tử.
+
+    \item \textbf{Kịch bản 5: Kiểm soát toàn diện thứ tự và kích thước 3 lớp}:
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px; height: 400px;
+  background-image: url('icon.png'), url('pattern.png'), url('background.jpg');
+  background-repeat: no-repeat, repeat, no-repeat;
+  background-size: 50px, auto, cover;
+  background-position: top left, center, center;
+}
+\end{lstlisting}
+    \textit{Kết quả}: Icon nằm góc trên trái (lớp 1), hoa văn phủ sần toàn khối (lớp 2), và ảnh nền phong cảnh lót đáy sâu nhất (lớp 3).
+\end{enumerate}
+
+\begin{prettyTableBox}[TỔNG KẾT CÁC TÌNH HUỐNG PHỐI HỢP ĐA LỚP ẢNH NỀN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tình huống phối hợp} & \thd{\sffamily Kết quả thị giác} & \thd{\sffamily Giải pháp \& Mẹo tối ưu} \\
+\hline
+Ảnh lớp trên có độ trong suốt & Nhìn thấy chi tiết ảnh dưới xuyên qua vùng trong suốt. & Sử dụng định dạng PNG Alpha hoặc WebP trong suốt. \\
+\hline
+Ảnh lớp trên không trong suốt & Che khuất hoàn toàn ảnh lớp dưới. & Bắt buộc dùng ảnh PNG/SVG hoặc thêm kênh màu trong suốt \codeinline{rgba()}. \\
+\hline
+Ảnh nhỏ không lặp & Nằm cố định tại vị trí chỉ định. & Dùng \codeinline{background-position} (ví dụ: \codeinline{top left}). \\
+\hline
+Ảnh nhỏ có lặp & Nhân bản dạng gạch lát phủ kín diện tích. & Dùng \codeinline{background-repeat: repeat;}. \\
+\hline
+Kết hợp Gradient + Ảnh thật & Dải màu phủ lên ảnh tạo hiệu ứng chiều sâu & Dùng hàm \codeinline{linear-gradient()} làm lớp trên cùng. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \paragraph{6. Cú Pháp Viết Tắt Gộp (\codeinline{background} Shorthand):}
 Thay vì phải viết riêng rẽ từng thuộc tính dài dòng:
@@ -11073,21 +11254,111 @@ background: url("bg.jpg") no-repeat center / cover;
 \textbf{Dấu gạch chéo \codeinline{/}}: Bắt buộc phải dùng dấu gạch chéo \codeinline{/} để ngăn cách giữa \codeinline{position} và \codeinline{size} (\codeinline{center / cover}).
 \end{tipBox}
 
-\paragraph{7. Các Lưu Ý Sống Còn Khi Làm Việc Với \codeinline{background-image}:}
-\begin{prettyTableBox}[4 LƯU Ý KỸ THUẬT QUAN TRỌNG KHI DÙNG background-image]
+\paragraph{7. Tám Lưu Ý Sống Còn Khi Sử Dụng \codeinline{background-image}:}
+
+\begin{prettyTableBox}[8 LƯU Ý KỸ THUẬT QUAN TRỌNG KHI LÀM VIỆC VỚI BACKGROUND-IMAGE]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\bfseries\color{primaryBlue}}p{1.2cm}|>{\raggedright\arraybackslash\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily STT} & \thd{\sffamily Lưu ý kỹ thuật} & \thd{\sffamily Chi tiết \& Hướng xử lý} \\
+\hline
+1 & Phải có kích thước hiển thị & Nếu phần tử có \codeinline{height: 0} hoặc \codeinline{display: none}, ảnh nền hoàn toàn không xuất hiện. \\
+\hline
+2 & KHÔNG tự động kế thừa & Thuộc tính ảnh nền không tự động lan truyền xuống các phần tử con. \\
+\hline
+3 & Hỗ trợ nhiều ảnh nền & Viết danh sách \codeinline{url()} ngăn cách bằng dấu phẩy, lớp trên cùng viết trước. \\
+\hline
+4 & Phối hợp với \codeinline{cover/contain} & Giúp ảnh thích ứng linh hoạt trên mọi kích thước màn hình mà không vỡ bố cục. \\
+\hline
+5 & Nhúng chuỗi Base64 trực tiếp & Giảm số lượng request HTTP mạng, nhưng làm tăng kích thước tệp CSS (chỉ dùng cho icon nhỏ). \\
+\hline
+6 & Tối ưu dung lượng tải & Ảnh nền không tối ưu sẽ gây chậm website trầm trọng; ưu tiên dùng WebP, AVIF. \\
+\hline
+7 & Dùng Gradient thay thế ảnh & Hàm \codeinline{linear-gradient()} rất nhẹ, sắc nét ở mọi độ phân giải và dung lượng 0 byte. \\
+\hline
+8 & Bẫy lỗi đường dẫn 404 & Nếu sai đường dẫn tệp ảnh, trình duyệt không báo lỗi giao diện mà âm thầm để trống nền. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\noindent\textbf{Ví dụ minh họa cấu hình hoàn hảo cho khối Card:}\par\vspace{4pt}
+\begin{codeWindow}[Mã Nguồn Cấu Hình Toàn Diện Cho Thẻ Card]
+\begin{lstlisting}[language=HTML5]
+<div class="card">Noi dung the thong tin</div>
+
+<style>
+.card {
+  width: 300px;
+  height: 200px;
+  background-image: url("bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: white;
+  padding: 20px;
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Khối Card Được Bao Phủ Hoàn Hảo Bởi Ảnh Nền]
+\sffamily\small
+\begin{tcolorbox}[
+  enhanced,
+  width=0.72\linewidth,
+  height=90pt,
+  interior style={left color=primaryBlue!90, right color=accentOrange!80},
+  colframe=primaryBlue!95,
+  arc=6pt,
+  center,
+  boxrule=1pt,
+  halign=center,
+  valign=center
+]
+  {\Large\bfseries\color{white} Nội dung thẻ thông tin}\par\vspace{4pt}
+  {\scriptsize\color{white!90} [Khối Card $300\times 200\text{px}$ với \codeinline{cover}, \codeinline{no-repeat}, \codeinline{center} \& padding $20\text{px}$]}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{Sự khác biệt cốt lõi giữa \codeinline{background-image} và thẻ HTML \codeinline{img}:}
+Hiểu rõ bản chất ngữ nghĩa để lựa chọn chính xác giữa CSS Background và thẻ HTML Image:
+
+\begin{prettyTableBox}[SO SÁNH CHUYÊN SÂU GIỮA background-image VÀ THẺ img]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.0cm}|>{\raggedright\arraybackslash}p{5.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily Thuộc tính background-image} & \thd{\sffamily Thẻ HTML \codeinline{img}} \\
+\hline
+Vai trò ngữ nghĩa & \textbf{Trang trí thuần túy}: Tăng tính thẩm mỹ giao diện. & \textbf{Nội dung thông tin}: Là một phần cốt lõi của bài viết/sản phẩm. \\
+\hline
+SEO \& Khả năng tiếp cận & Trình đọc màn hình và Google Bot \textbf{bỏ qua}, không có thẻ \codeinline{alt}. & Hỗ trợ SEO mạnh mẽ qua thuộc tính \codeinline{alt}, đọc được bởi Screen Reader. \\
+\hline
+Tương tác người dùng & Không thể kéo thả ảnh, không chuột phải "Lưu ảnh", không in ấn mặc định. & Có thể lưu ảnh, click chuột, tải trễ (\codeinline{loading="lazy"}), in ấn chuẩn xác. \\
+\hline
+Điều khiển kích thước & Linh hoạt tuyệt đỉnh với \codeinline{cover}, \codeinline{contain}, \codeinline{position}. & Dùng \codeinline{width}, \codeinline{height} kết hợp thuộc tính CSS3 \codeinline{object-fit}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Bảng tổng kết nhanh thuộc tính \codeinline{background-image}:}
+\begin{prettyTableBox}[TỔNG KẾT CÁC ĐẶC TÍNH CỐT LÕI CỦA background-image]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
 \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Lưu ý} & \thd{\sffamily Giải thích chi tiết} \\
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí kỹ thuật} & \thd{\sffamily Đặc tính vận hành của background-image} \\
 \hline
-Kích thước \codeinline{width} hoặc \codeinline{height} bằng 0 & Ảnh nền sẽ \textbf{hoàn toàn không hiển thị} do phần tử không có không gian để vẽ. \\
+Chức năng chính & Hiển thị hình ảnh hoặc dải màu Gradient làm phông nền cho phần tử HTML. \\
 \hline
-Ảnh nền KHÔNG tự kế thừa xuống con & Mỗi phần tử con phải tự khai báo ảnh nền riêng, không kế thừa từ cha. \\
+Tính kế thừa & \textbf{Không tự động kế thừa}: Mỗi phần tử con phải khai báo ảnh nền độc lập. \\
 \hline
-Dùng ảnh SVG hoặc PNG trong suốt làm Overlay & Rất linh hoạt để tạo các hiệu ứng hoa văn đè lên màu nền hoặc ảnh nền khác. \\
+Phụ thuộc kích thước & \textbf{Có}: Nếu phần tử không có chiều cao (\codeinline{height: 0}), ảnh hoàn toàn không hiển thị. \\
 \hline
-Kết hợp với dải màu Gradient & Có thể dùng hàm \codeinline{linear-gradient()} thay thế ảnh thật để tạo nền vector sắc nét 0 byte. \\
+Tương tác \& SEO & \textbf{Không}: Không hỗ trợ SEO, không focus bàn phím, không thể chọn văn bản trên ảnh. \\
+\hline
+Bộ thuộc tính phối hợp & Kết hợp hoàn hảo với \codeinline{size}, \codeinline{repeat}, \codeinline{position}, \codeinline{attachment}, \codeinline{:hover}. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
