@@ -3612,6 +3612,27 @@ html {
 Với \codeinline{rem}, kích thước luôn giữ mức $\mathbf{32\text{px}}$ ổn định tuyệt đối và dễ dự đoán, bất kể phần tử cha của nó có kích thước phông chữ bao nhiêu!
 \end{conceptBox}
 
+\begin{browserWindow}[Kết Quả Hiển Thị: So Sánh Trực Quan Cỡ Chữ font-size Khi Dùng em vs rem]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=14pt, right=14pt]
+  \noindent
+  \begin{minipage}[t]{0.48\linewidth}
+    \textbf{\color{accentOrange} 1. Thẻ .child dùng \codeinline{2em} (Cỡ chữ cha 20px)}:\par\vspace{4pt}
+    \begin{tcolorbox}[enhanced, colback=accentOrange!6, colframe=accentOrange!40, arc=4pt, boxrule=0.6pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+      {\fontsize{18pt}{22pt}\selectfont\bfseries\color{accentOrange} .child: 40px}\par\vspace{2pt}
+      {\scriptsize\color{darkText} $2\text{em} \times 20\text{px} = \mathbf{40\text{px}}$. Nếu lồng thêm thẻ con \codeinline{.grandchild} với \codeinline{2em}, chữ sẽ phóng đại lên $\mathbf{80\text{px}}$.}
+    \end{tcolorbox}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\linewidth}
+    \textbf{\color{primaryBlue} 2. Thẻ .child dùng \codeinline{2rem} (Thẻ html 16px)}:\par\vspace{4pt}
+    \begin{tcolorbox}[enhanced, colback=primaryBlue!6, colframe=primaryBlue!40, arc=4pt, boxrule=0.6pt, top=8pt, bottom=8pt, left=10pt, right=10pt]
+      {\fontsize{15pt}{19pt}\selectfont\bfseries\color{primaryBlue} .child: 32px}\par\vspace{2pt}
+      {\scriptsize\color{darkText} $2\text{rem} \times 16\text{px} = \mathbf{32\text{px}}$. Kích thước hoàn toàn độc lập với phần tử cha trung gian, không bị nhân dồn.}
+    \end{tcolorbox}
+  \end{minipage}
+\end{tcolorbox}
+\end{browserWindow}
+
 \begin{prettyTableBox}[BẢNG HƯỚNG DẪN: KHI NÀO NÊN DÙNG em vs rem?]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
@@ -10050,6 +10071,45 @@ Hệ thống thuộc tính \codeinline{background} trong CSS là công cụ tr�
 Trong đó \codeinline{<giá-trị-màu>} có thể là tên màu định danh, mã Hex, hàm RGB/RGBA, hàm HSL/HSLA hoặc các từ khóa đặc biệt như \codeinline{transparent}, \codeinline{inherit}, \codeinline{initial}.
 \end{conceptBox}
 
+\begin{codeWindow}[Ví Dụ Cơ Bản \& Nâng Cao: Thiết Lập background-color Cho Khối .box]
+\begin{lstlisting}[language=HTML5]
+<!-- 1. Vi du co ban: To mau xanh nhat -->
+<div class="box-basic">Noi dung hop div</div>
+
+<!-- 2. Vi du nang cao: Dung rgba tao nen do mo 30% (overlay / highlight) -->
+<div class="box-rgba">Nen do ban trong suot 30%</div>
+
+<!-- 3. background-color ket hop padding tao khoang tho thoai mai -->
+<div class="box-padding">Mau nen bao phu toan bo vung padding 20px</div>
+
+<style>
+.box-basic   { background-color: lightblue; padding: 10px; }
+.box-rgba    { background-color: rgba(255, 0, 0, 0.3); padding: 10px; }
+.box-padding { background-color: yellow; padding: 20px; }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: So Sánh 3 Khối Màu Nền Cơ Bản, RGBA \& Phủ Padding]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  % Hop 1: lightblue
+  \begin{tcolorbox}[enhanced, colback=cyan!20, colframe=cyan!60, boxrule=0.8pt, arc=4pt, top=7pt, bottom=7pt, left=12pt, right=12pt]
+    \textbf{\color{primaryBlue} .box-basic}: Nội dung hộp \codeinline{div} có nền màu xanh nhạt (\codeinline{lightblue}).
+  \end{tcolorbox}
+  \vspace{5pt}
+  % Hop 2: rgba(255, 0, 0, 0.3)
+  \begin{tcolorbox}[enhanced, colback=red!16, colframe=red!50, boxrule=0.8pt, arc=4pt, top=7pt, bottom=7pt, left=12pt, right=12pt]
+    \textbf{\color{red!80!black} .box-rgba}: Nền đỏ mờ 30\% (\codeinline{rgba(255, 0, 0, 0.3)}) $\rightarrow$ Tạo hiệu ứng nền mờ che phủ Overlay hoặc Highlight.
+  \end{tcolorbox}
+  \vspace{5pt}
+  % Hop 3: yellow + padding 20px
+  \begin{tcolorbox}[enhanced, colback=yellow!35, colframe=yellow!80!black, boxrule=0.8pt, arc=4pt, top=14pt, bottom=14pt, left=16pt, right=16pt]
+    \textbf{\color{darkText} .box-padding}: Màu nền vàng (\codeinline{yellow}) bao phủ toàn bộ vùng \codeinline{padding: 20px}, tạo khoảng thở rộng rãi xung quanh văn bản.
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
+
 \paragraph{2. Các Định Dạng Giá Trị Màu Tiếp Nhận (Color Values):}
 
 Thuộc tính \codeinline{background-color} hỗ trợ toàn diện các hệ thống biểu diễn màu sắc hiện đại trong Web Frontend:
@@ -10101,6 +10161,65 @@ inherit / initial & background-color: inherit; & Ép buộc kế thừa từ cha
 .element-hsla        { background-color: hsla(240, 100%, 50%, 0.3); }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Trình Duyệt: Trực Quan 4 Nhóm Màu Sắc \& Kiểm Soát Kênh Alpha]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=8pt, right=8pt]
+  \noindent
+  \begin{minipage}[t]{0.235\linewidth}
+    \centering
+    \begin{tcolorbox}[enhanced, colback=red!85!black, colframe=red!90!black, arc=4pt, top=10pt, bottom=10pt, center, halign=center]
+      {\color{white}\bfseries\scriptsize red}\\[2pt]
+      {\tiny\color{white!85} Tên Keyword}
+    \end{tcolorbox}
+    \vspace{4pt}
+    \begin{tcolorbox}[enhanced, colback=gray!10, colframe=gray!40, arc=4pt, boxrule=0.8pt, top=10pt, bottom=10pt, center, halign=center]
+      {\color{darkText}\bfseries\scriptsize transparent}\\[2pt]
+      {\tiny\color{gray!70!black} Trong suốt ngầm}
+    \end{tcolorbox}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.235\linewidth}
+    \centering
+    \begin{tcolorbox}[enhanced, colback=blue!60!cyan, colframe=blue!70!cyan, arc=4pt, top=10pt, bottom=10pt, center, halign=center]
+      {\color{white}\bfseries\scriptsize \#3498db}\\[2pt]
+      {\tiny\color{white!85} Mã Hex chuẩn}
+    \end{tcolorbox}
+    \vspace{4pt}
+    \begin{tcolorbox}[enhanced, colback=blue!25!cyan!35, colframe=blue!50!cyan, arc=4pt, top=10pt, bottom=10pt, center, halign=center]
+      {\color{primaryBlue}\bfseries\scriptsize \#3498db80}\\[2pt]
+      {\tiny\color{primaryBlue!80} Hex-8 (Alpha 50\%)}
+    \end{tcolorbox}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.235\linewidth}
+    \centering
+    \begin{tcolorbox}[enhanced, colback=green!60!black, colframe=green!70!black, arc=4pt, top=10pt, bottom=10pt, center, halign=center]
+      {\color{white}\bfseries\scriptsize rgb(46, 204, 113)}\\[2pt]
+      {\tiny\color{white!85} Kênh RGB}
+    \end{tcolorbox}
+    \vspace{4pt}
+    \begin{tcolorbox}[enhanced, colback=green!25!white, colframe=green!60!black, arc=4pt, top=10pt, bottom=10pt, center, halign=center]
+      {\color{green!50!black}\bfseries\scriptsize rgba(..., 0.7)}\\[2pt]
+      {\tiny\color{green!60!black} RGBA (Alpha 70\%)}
+    \end{tcolorbox}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.235\linewidth}
+    \centering
+    \begin{tcolorbox}[enhanced, colback=blue!85!black, colframe=blue!95!black, arc=4pt, top=10pt, bottom=10pt, center, halign=center]
+      {\color{white}\bfseries\scriptsize hsl(240, 100\%, 50\%)}\\[2pt]
+      {\tiny\color{white!85} Sắc độ HSL Lam}
+    \end{tcolorbox}
+    \vspace{4pt}
+    \begin{tcolorbox}[enhanced, colback=blue!15!white, colframe=blue!40, arc=4pt, top=10pt, bottom=10pt, center, halign=center]
+      {\color{blue!80!black}\bfseries\scriptsize hsla(..., 0.3)}\\[2pt]
+      {\tiny\color{blue!80!black} HSLA (Alpha 30\%)}
+    \end{tcolorbox}
+  \end{minipage}
+  \par\vspace{6pt}
+  \begin{tcolorbox}[enhanced, colback=primaryBlue!6, colframe=primaryBlue!30, arc=3pt, boxrule=0.6pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
+    \scriptsize\color{primaryBlue} $\rightarrow$ \textbf{Lưu ý}: Kênh Alpha trong \codeinline{rgba()}, \codeinline{hsla()} và \codeinline{\#RRGGBBAA} giúp điều khiển độ mờ tinh tế mà không làm mờ nội dung văn bản bên trong.
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
 
 \paragraph{3. Cơ Chế Hoạt Động Của background-color Trên Mô Hình Khối (Box Model):}
 
@@ -10180,6 +10299,30 @@ Màu nền \codeinline{background-color} bao phủ:
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả Hiển Thị: Kiểm Chứng Màu Nền Trên Khối .box Thực Tế]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=gray!8, colframe=gray!30, arc=6pt, boxrule=0.8pt, top=12pt, bottom=12pt, left=14pt, right=14pt]
+  \textcolor{gray!60!black}{\scriptsize\ttfamily <!-- Vùng ngoài: margin: 30px (hoàn toàn trong suốt lộ nền ngoài) -->}\par\vspace{6pt}
+  \centering
+  \begin{tcolorbox}[
+    enhanced,
+    width=0.85\linewidth,
+    colback=cyan!22,
+    colframe=blue!85!black,
+    boxrule=2pt,
+    arc=3pt,
+    top=14pt, bottom=14pt, left=18pt, right=18pt
+  ]
+    {\bfseries\color{blue!95!black}\large Xin chào bạn!}\par\vspace{4pt}
+    {\scriptsize\color{darkText!80} Vùng xanh nhạt (\codeinline{lightblue}) bao phủ cả chữ lẫn \codeinline{padding: 20px}. Viền \codeinline{border: 2px solid navy} bao quanh ngoài. Khoảng cách \codeinline{margin: 30px} bên ngoài hoàn toàn trong suốt.}
+  \end{tcolorbox}
+  \par\vspace{6pt}
+  \begin{tcolorbox}[enhanced, colback=accentOrange!8, colframe=accentOrange!50, arc=3pt, boxrule=0.6pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
+    \scriptsize\color{accentOrange!90!black}\textbf{Thí nghiệm}: Nếu đổi sang \codeinline{border: 3px dotted navy;}, bạn sẽ thấy màu nền \codeinline{lightblue} kéo dài ngầm qua các khe hở chấm tròn ra sát mép ngoài viền!
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
+
 \begin{prettyTableBox}[ĐỐI CHIẾU SỰ KHÁC BIỆT GIỮA padding VÀ margin VỚI MÀU NỀN]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
@@ -10219,6 +10362,21 @@ Phần tử Nội dòng (\term{Inline}: \codeinline{span}, \codeinline{a}, \code
 <p>Day la <span style="background-color: yellow;">vi du mau vang</span> nam tren dong.</p>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Đối Chiếu Màu Nền Inline (span) vs Block (div/p)]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=14pt, right=14pt]
+  % 1. Inline span
+  \textbf{\color{primaryBlue} 1. Thẻ Inline (\codeinline{<span>})}: Nền chỉ ôm khít từng ký tự văn bản:\par\vspace{3pt}
+  {\large Đây là \tcbox[on line, arc=2pt, colback=yellow!80, colframe=yellow!90!black, boxrule=0.5pt, boxsep=1.5pt, left=3pt, right=3pt, top=1pt, bottom=1pt]{\bfseries\color{darkText}ví dụ màu vàng} nằm trên dòng.}\par\vspace{8pt}
+  \hrule\vspace{8pt}
+  % 2. Block div
+  \textbf{\color{primaryBlue} 2. Thẻ Block (\codeinline{<div>})}: Nền trải rộng $100\%$ chiều ngang toàn dòng:\par\vspace{3pt}
+  \begin{tcolorbox}[enhanced, colback=yellow!50, colframe=yellow!85!black, boxrule=0.6pt, arc=3pt, top=6pt, bottom=6pt, left=10pt, right=10pt]
+    \bfseries\color{darkText} Khối thẻ Block: Màu nền vàng lan tỏa chiếm lĩnh toàn bộ chiều rộng từ lề trái sang lề phải!
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
 
 \paragraph{5. Tính Kế Thừa \& Cơ Chế Xếp Lớp (Inheritance \& Stacking Layer):}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -10264,6 +10422,27 @@ Thiết lập màu nền cho thẻ \codeinline{<body>} là bước khởi đầu
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả Hiển Thị: Giao Diện body Nền Xám (\#f0f0f0) \& Khối Thẻ Con .box Trắng Tinh Tế]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=gray!12, colframe=gray!30, arc=6pt, boxrule=0.8pt, top=14pt, bottom=14pt, left=14pt, right=14pt]
+  \textcolor{gray!60!black}{\scriptsize\ttfamily <!-- Cửa sổ trình duyệt: Toàn bộ body có nền xám nhạt \#f0f0f0 -->}\par\vspace{6pt}
+  \centering
+  \begin{tcolorbox}[
+    enhanced,
+    width=0.75\linewidth,
+    colback=white,
+    colframe=gray!30,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=12pt, bottom=12pt, left=14pt, right=14pt,
+    shadow={2pt}{-2pt}{0pt}{black!8}
+  ]
+    {\bfseries\color{primaryBlue}\large Tiêu Đề Hộp (h2)}\par\vspace{4pt}
+    {\color{darkText!80}\small Nội dung thẻ con \codeinline{div} nổi bật với màu nền trắng tinh khôi trên nền xám dịu mắt của thẻ \codeinline{body}, được canh giữa hoàn hảo nhờ \codeinline{margin: 40px auto}.}
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
+
 \begin{prettyTableBox}[BẢNG PHÂN TÍCH MÀU NỀN CỦA body VÀ THẺ CON]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
@@ -10286,6 +10465,44 @@ body & \#f0f0f0 (Xám nhạt) & Làm phông nền êm dịu toàn bộ website, 
 </section>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Cấu Trúc Màu Nền Đa Tầng Lồng Nhau (section $\rightarrow$ h2 $\rightarrow$ p)]
+\sffamily\small
+% Section container: lightblue
+\begin{tcolorbox}[
+  enhanced,
+  colback=cyan!20,
+  colframe=cyan!60,
+  boxrule=1pt,
+  arc=6pt,
+  top=10pt, bottom=10pt, left=12pt, right=12pt
+]
+  \textcolor{primaryBlue}{\scriptsize\bfseries [section]: background-color: lightblue; padding: 20px;}\par\vspace{5pt}
+  % h2: yellow
+  \begin{tcolorbox}[
+    enhanced,
+    colback=yellow!80,
+    colframe=yellow!90!black,
+    boxrule=0.8pt,
+    arc=3pt,
+    top=5pt, bottom=5pt, left=8pt, right=8pt
+  ]
+    \bfseries\color{darkText}\large Tiêu đề vàng rực rỡ (h2: background-color: yellow)
+  \end{tcolorbox}
+  \vspace{5pt}
+  % p: white
+  \begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=gray!35,
+    boxrule=0.8pt,
+    arc=3pt,
+    top=7pt, bottom=7pt, left=8pt, right=8pt
+  ]
+    \color{darkText}\small Đoạn văn nền trắng tinh (\codeinline{p: background-color: white}) nằm lọt lòng trên nền xanh của section.
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
 
 \begin{prettyTableBox}[LƯU Ý KHI ÁP DỤNG MÀU NỀN GIỮA THẺ CHA VÀ THẺ CON]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -10334,6 +10551,47 @@ Khi kết hợp \codeinline{background-color} với bộ chọn giả \codeinlin
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Mô Phỏng Trực Quan Trạng Thái Thường vs Rê Chuột (:hover)]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=white, colframe=primaryBlue!20, arc=6pt, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
+  \noindent
+  \begin{minipage}[t]{0.48\linewidth}
+    \centering
+    \tcbox[on line, arc=3pt, colback=primaryBlue!10, colframe=primaryBlue!40, boxsep=1.5pt]{\bfseries\color{primaryBlue}\scriptsize [TRẠNG THÁI BÌNH THƯỜNG (NORMAL)]}\par\vspace{8pt}
+    % Button normal
+    \begin{tcolorbox}[enhanced, colback=blue!65!cyan, colframe=blue!75!cyan, arc=4pt, boxrule=0.5pt, top=6pt, bottom=6pt, left=10pt, right=10pt, width=0.82\linewidth, center, halign=center]
+      {\color{white}\bfseries\small Nhấp Chuột Ngay}
+    \end{tcolorbox}
+    \par\vspace{3pt}
+    {\tiny\ttfamily\color{gray!70!black} background-color: \#3b82f6}\par\vspace{6pt}
+    % Card normal
+    \begin{tcolorbox}[enhanced, colback=white, colframe=gray!30, arc=4pt, boxrule=0.8pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+      \textbf{\color{darkText}\scriptsize Khối Thẻ Tin Tức}\\[2pt]
+      {\tiny\color{gray!70!black} background-color: \#ffffff}
+    \end{tcolorbox}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\linewidth}
+    \centering
+    \tcbox[on line, arc=3pt, colback=accentOrange!10, colframe=accentOrange!50, boxsep=1.5pt]{\bfseries\color{accentOrange}\scriptsize [TRẠNG THÁI RÊ CHUỘT (:hover)]}\par\vspace{8pt}
+    % Button hover
+    \begin{tcolorbox}[enhanced, colback=blue!85!black, colframe=blue!95!black, arc=4pt, boxrule=0.5pt, top=6pt, bottom=6pt, left=10pt, right=10pt, width=0.82\linewidth, center, halign=center]
+      {\color{white}\bfseries\small Nhấp Chuột \;\tikz[scale=0.1, baseline=-2pt]{\fill[white] (0,0) -- (0,-2.2) -- (0.6,-1.7) -- (1.2,-3.0) -- (1.7,-2.7) -- (1.1,-1.4) -- (1.9,-1.4) -- cycle;}}
+    \end{tcolorbox}
+    \par\vspace{3pt}
+    {\tiny\ttfamily\color{blue!80!black} background-color: \#1d4ed8 (Đậm hơn)}\par\vspace{6pt}
+    % Card hover
+    \begin{tcolorbox}[enhanced, colback=yellow!25, colframe=yellow!70!black, arc=4pt, boxrule=0.8pt, top=6pt, bottom=6pt, left=8pt, right=8pt]
+      \textbf{\color{darkText}\scriptsize Khối Thẻ Tin Tức}\\[2pt]
+      {\tiny\color{accentOrange!90!black} background-color: \#ffeaa7 (Vàng nhạt ấm)}
+    \end{tcolorbox}
+  \end{minipage}
+  \par\vspace{6pt}
+  \begin{tcolorbox}[enhanced, colback=tipBg, colframe=tipBorder!40, arc=3pt, boxrule=0.6pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
+    \scriptsize\color{tipBorder!90!black}\textbf{Ưu điểm}: Nhờ \codeinline{transition: background-color 0.3s ease;}, màu nền chuyển tiếp êm dịu, không gây cảm giác giật cục.
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
 
 \paragraph{8. Dự Án Mini Tổng Hợp Thực Chiến: Card Component Hoàn Chỉnh:}
 
@@ -10410,6 +10668,62 @@ Khi kết hợp \codeinline{background-color} với bộ chọn giả \codeinlin
 </html>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Giao Diện Hoàn Chỉnh Card Component \& Hộp Bán Trong Suốt]
+\sffamily\small
+\begin{tcolorbox}[enhanced, colback=gray!10, colframe=gray!30, arc=6pt, boxrule=0.8pt, top=14pt, bottom=14pt, left=14pt, right=14pt]
+  \textcolor{gray!60!black}{\scriptsize\ttfamily <!-- Cửa sổ trình duyệt: background-color: \#f0f2f5 -->}\par\vspace{6pt}
+  \centering
+  % 1. Card Component
+  \begin{tcolorbox}[
+    enhanced,
+    width=0.72\linewidth,
+    colback=white,
+    colframe=gray!35,
+    boxrule=0.8pt,
+    arc=6pt,
+    top=0pt, bottom=12pt, left=0pt, right=0pt,
+    shadow={2pt}{-2pt}{0pt}{black!10}
+  ]
+    % Card Header: blue #007bff
+    \begin{tcolorbox}[
+      enhanced,
+      colback=blue!80!cyan,
+      colframe=blue!80!cyan,
+      arc=5pt,
+      top=8pt, bottom=8pt, left=10pt, right=10pt,
+      sharp corners=downhill,
+      center, halign=center
+    ]
+      {\color{white}\bfseries\large Tiêu Đề Card}
+    \end{tcolorbox}
+    \vspace{6pt}
+    % Card Body
+    \begin{center}
+      {\small\color{darkText} Đây là nội dung của card. Một số \tcbox[on line, arc=2pt, colback=yellow!35, colframe=yellow!70!black, boxrule=0.5pt, boxsep=1pt, left=3pt, right=3pt]{\bfseries\color{darkText}cụm từ quan trọng} được tô sáng.}\par\vspace{10pt}
+      % Button primary: green rgb(40, 167, 69)
+      \tcbox[on line, arc=3.5pt, colback=green!60!black, colframe=green!70!black, boxsep=2pt, left=12pt, right=12pt, top=4pt, bottom=4pt]{%
+        \color{white}\bfseries\small Tìm Hiểu Thêm%
+      }
+    \end{center}
+  \end{tcolorbox}
+  \vspace{10pt}
+  % 2. Translucent Box: hsla(200, 50%, 70%, 0.5)
+  \begin{tcolorbox}[
+    enhanced,
+    width=0.6\linewidth,
+    colback=cyan!25!gray!30,
+    colframe=gray!40,
+    boxrule=0.8pt,
+    arc=5pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    center, halign=center
+  ]
+    {\bfseries\color{primaryBlue} Hộp Bán Trong Suốt (\codeinline{HSLA})}\\
+    {\tiny\color{gray!70!black} background-color: hsla(200, 50\%, 70\%, 0.5);}
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{browserWindow}
 
 \paragraph{9. Bảng Cheatsheet Tổng Kết \& Best Practices Cốt Lõi:}
 
