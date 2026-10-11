@@ -11209,6 +11209,12 @@ round & Tự động co giãn kích thước ảnh sao cho số lượng ảnh l
 
 Thuộc tính \codeinline{background-position} xác định điểm đặt ban đầu của ảnh nền trong khung chứa. Mặc định là góc trên cùng bên trái (\codeinline{0\% 0\%} hoặc \codeinline{top left}).
 
+\begin{browserWindow}[Trực Quan Hóa: Ma Trận 9 Vị Trí Căn Chỉnh Của Thuộc Tính background-position]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/bg_position_matrix.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Đối chiếu trực quan 9 vị trí căn chỉnh kinh điển: Kết hợp linh hoạt giữa hệ từ khóa (\codeinline{left}, \codeinline{center}, \codeinline{right}, \codeinline{top}, \codeinline{bottom}) và hệ tọa độ phần trăm (\codeinline{0\%}, \codeinline{50\%}, \codeinline{100\%}).}
+\end{browserWindow}
+
 \paragraph{1. Các Cách Khai Báo Tọa Độ Phổ Biến:}
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Bằng từ khóa}: \codeinline{center}, \codeinline{top}, \codeinline{bottom}, \codeinline{left}, \codeinline{right}. (Ví dụ: \codeinline{center center} hoặc viết tắt \codeinline{center}).
@@ -11256,6 +11262,12 @@ kích thước cụ thể & Ví dụ: \codeinline{100\% auto}, \codeinline{300px
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{browserWindow}[Phân Tích Nguyên Lý Co Giãn Của Thuộc Tính background-size: cover]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/bg_size_cover_mechanism.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Bản chất kỹ thuật của \codeinline{cover}: Phóng to ảnh đồng tỷ lệ (\term{Aspect Ratio}) cho đến khi bao phủ kín cả chiều rộng lẫn chiều cao khung chứa (\term{Covered? YES!}), chấp nhận cắt xén phần viền vượt quá khung.}
+\end{browserWindow}
 
 \begin{codeWindow}[Mã Nguồn Thiết Lập Cặp Đôi Hoàn Hảo Cho Hero Section]
 \begin{lstlisting}[language=CSS3]
