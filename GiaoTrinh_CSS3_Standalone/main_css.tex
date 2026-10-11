@@ -3708,19 +3708,28 @@ Không nên dùng khi & Muốn khoảng cách co giãn theo vùng cụ thể (kh
 \hline
 Khác biệt với \codeinline{em} & \textbf{\codeinline{rem}}: Tính từ gốc \codeinline{html} (\textbf{ổn định}) \newline \textbf{\codeinline{em}}: Tính từ cha gần nhất (\textbf{linh hoạt nhưng dễ sai do nhân dồn}) \\
 \hline
-Ví dụ cơ bản & \codeinline{html \{ font-size: 16px; \}} \newline \codeinline{h1 \{ font-size: 2rem; \}} $\rightarrow$ Tương đương $32\text{px}$ \\
-\hline
-Ví dụ Responsive kết hợp Media Query & 
-\begin{lstlisting}[language=CSS3]
-html { font-size: 62.5%; /* 1rem = 10px */ }
-h1 { font-size: 3rem; /* 30px */ }
-@media (max-width: 768px) {
-  html { font-size: 50%; /* 1rem = 8px -> h1 = 24px */ }
-}
-\end{lstlisting} \\
+Ví dụ Responsive kết hợp Media Query & \codeinline{html \{ font-size: 62.5\%; \} h1 \{ font-size: 3rem; \}} \newline \codeinline{@media (max-width: 768px) \{ html \{ font-size: 50\%; \} \}} \newline $\rightarrow$ \small (Tại tablet: $1\text{rem} = 8\text{px}$, suy ra \codeinline{h1} $= 24\text{px}$) \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{codeWindow}[Minh Họa Thực Chiến: rem Kết Hợp Media Query Scale Toàn Trang]
+\begin{lstlisting}[language=CSS3]
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+h1 {
+  font-size: 3rem;  /* 30px */
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 50%;  /* 1rem = 8px -> h1 = 24px */
+  }
+}
+\end{lstlisting}
+\end{codeWindow}
 
 \begin{tipBox}[Bảng Ghi Nhớ Nhanh Về Đơn Vị rem (Quick Cheat Sheet)]
 \rowcolors{2}{white}{accentOrange!5}
