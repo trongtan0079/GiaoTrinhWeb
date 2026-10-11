@@ -10773,53 +10773,400 @@ Lớp phủ mờ (Modal Overlay) & Dùng \codeinline{rgba(0, 0, 0, 0.5)} hoặc 
 \textbf{Lưu ý sống còn}: \codeinline{background-color} chỉ định duy nhất màu nền. Trong khi \codeinline{background} là thuộc tính viết tắt gộp chung: màu, ảnh, lặp, vị trí, kích cỡ. Nếu bạn đã đặt \codeinline{background-color: blue;} mà phía sau lại khai báo \codeinline{background: url("...");} mà không kèm màu, trình duyệt sẽ \textbf{tự động reset màu nền về \codeinline{transparent}}, làm mất hoàn toàn màu xanh đã thiết lập trước đó!
 \end{warnBox}
 
-\subsection{Thuộc Tính Hình Ảnh Nền \& Gradients (\csshint{background-image}, \csshint{linear-gradient})}
+\subsection{Thuộc Tính Hình Ảnh Nền: Bản Chất \& Kỹ Thuật Điều Khiển (\csshint{background-image})}
 \label{sec:css_bg_image}
 
-\begin{conceptBox}[Khái Niệm Về background-image]
-Thuộc tính \codeinline{background-image} chèn một hoặc nhiều hình ảnh (hoặc dải màu Gradient) làm phông nền cho phần tử. Ảnh nền được vẽ đè lên trên lớp \codeinline{background-color}.
+\begin{conceptBox}[Khái Niệm Cốt Lõi Về background-image]
+\textbf{1. background-image là gì?}\\
+Thuộc tính \codeinline{background-image} trong CSS dùng để hiển thị một hoặc nhiều hình ảnh làm lớp phông nền cho một phần tử HTML (như thẻ \codeinline{div}, \codeinline{body}, \codeinline{section}, v.v.). Đây là một công cụ mạnh mẽ để thêm tính thẩm mỹ và thiết kế vào các khối nội dung, nút bấm, hoặc toàn bộ trang web.
+
+\vspace{4pt}
+\textbf{Cách thức hoạt động của lớp nền}:\\
+Khi bạn áp dụng \codeinline{background-image} cho một phần tử, hình ảnh được chỉ định sẽ được đặt ở lớp nền của phần tử đó. Nó nằm \textbf{phía trên} \codeinline{background-color} (nếu có) nhưng nằm \textbf{phía dưới} toàn bộ nội dung (văn bản chữ, thẻ con) của phần tử. Theo mặc định:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Nếu hình ảnh \textbf{nhỏ hơn} phần tử: Ảnh sẽ tự động được lặp lại (\term{Tile}) theo cả hai chiều ngang và dọc để lấp đầy toàn bộ không gian.
+    \item Nếu hình ảnh \textbf{lớn hơn} phần tử: Ảnh sẽ bị cắt cụt (\term{Cropped}), chỉ phần diện tích nằm gọn trong khung kích thước phần tử mới có thể nhìn thấy.
+\end{itemize}
 \end{conceptBox}
 
-\paragraph{1. Chèn Ảnh Nền Bằng Hàm \codeinline{url()}:}
-Cú pháp: \codeinline{background-image: url("path/to/image.jpg");}. Đường dẫn có thể là đường dẫn tương đối, tuyệt đối hoặc Data URI Base64:
+\paragraph{1. Cú Pháp Cơ Bản \& Các Dạng Giá Trị Tiếp Nhận:}
 
-\begin{codeWindow}[Mã Nguồn Thiết Lập Ảnh Nền Cơ Bản Kèm Fallback Color]
+Cú pháp tổng quát:
+\begin{center}
+\tcbox[on line, arc=4pt, colback=codeBg, colframe=primaryBlue!40, boxsep=1.5pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue} selector \{ background-image: url("duong\_dan\_anh.jpg"); \}
+}
+\end{center}
+
+Trong đó, giá trị hình nền có thể nhận các dạng phong phú sau:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{url("duong-dan-anh.jpg")}: Đây là cách phổ biến nhất để chỉ định một hình ảnh từ bên ngoài hoặc nội bộ dự án.
+    \item \codeinline{none}: (Giá trị mặc định) Không có hình ảnh nền nào được áp dụng.
+    \item \codeinline{linear-gradient(...)}, \codeinline{radial-gradient(...)}, \codeinline{conic-gradient(...)}: Các hàm dải chuyển màu CSS. Trình duyệt xem Gradient như một dạng hình ảnh đồ họa vector đặc biệt do chính engine đồ họa tính toán và tạo ra, hoàn toàn sắc nét ở mọi độ phân giải và dung lượng tải bằng 0 byte.
+    \item \textbf{Nhiều hình ảnh nền (\term{Multiple Background Images})}: Bạn có thể chỉ định danh sách nhiều ảnh nền phân tách bằng dấu phẩy. Ảnh đầu tiên trong danh sách sẽ nằm ở tầng trên cùng, và ảnh cuối cùng sẽ nằm ở tầng đáy sâu nhất (ngay trên \codeinline{background-color}).
+\end{enumerate}
+
+\paragraph{2. Các Kịch Bản Tương Quan Kích Thước Giữa Ảnh Và Phần Tử:}
+
+Trong thực tế xây dựng giao diện, kích thước ảnh gốc hiếm khi khớp tuyệt đối $100\%$ với kích thước khung chứa HTML. Dưới đây là 3 trường hợp hiển thị kinh điển, phân tích kết quả và giải pháp kỹ thuật:
+
+\subparagraph{a. Ảnh lớn hơn phần tử $\rightarrow$ Bị cắt bớt (Cropped):}
+
+Khi kích thước của ảnh lớn hơn phần tử và không có thuộc tính điều chỉnh kích thước (\codeinline{background-size: auto;} hoặc không khai báo):
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Ảnh sẽ giữ nguyên kích thước pixel gốc.
+    \item Phần ảnh vượt quá chiều rộng/chiều cao của thẻ \codeinline{div} sẽ tràn ra ngoài, nhưng phần người dùng nhìn thấy được chỉ là vùng nằm trong ranh giới của phần tử.
+\end{itemize}
+
+\begin{codeWindow}[Mã Nguồn CSS: Ảnh Lớn Hơn Phần Tử div]
 \begin{lstlisting}[language=CSS3]
-.hero-banner {
-  /* LUON luon dat background-color du phong truoc khi anh tai xong! */
-  background-color: #1e293b;
-  background-image: url("/assets/images/hero-bg.webp");
+div {
+  width: 300px;
+  height: 200px;
+  background-image: url('large-image.jpg');
+  background-size: auto; /* hoac khong khai bao */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{tipBox}[Quy Tắc Vàng: Luôn Khai Báo background-color Đi Cùng background-image]
-Nếu tệp ảnh gặp sự cố kết nối, bị lỗi đường dẫn 404 hoặc mất thời gian tải qua mạng chậm, lớp màu nền dự phòng (\term{Fallback Color}) sẽ hiển thị ngay lập tức, đảm bảo văn bản màu sáng trên nền tối vẫn đọc được rõ ràng theo chuẩn Trợ năng (\term{WCAG}).
-\end{tipBox}
+\begin{conceptBox}[Ví Dụ Đối Chiếu Kích Thước Cắt Xén]
+$\bullet$ \textbf{Kích thước ảnh gốc}: $1000 \times 800\text{px}$.\\
+$\bullet$ \textbf{Kích thước phần tử}: $300 \times 200\text{px}$.\\
+$\rightarrow$ \textbf{Kết quả thực tế}: Chỉ đúng diện tích $300 \times 200\text{px}$ đầu tiên ở góc trên bên trái của ảnh được hiển thị!
+\end{conceptBox}
 
-\paragraph{2. Dải Chuyển Màu Hiện Đại (CSS Gradients) Với \codeinline{background-image}:}
-Trong CSS3, Gradients được trình duyệt đối xử tương tự như một tệp hình ảnh được vẽ theo thuật toán vector, hoàn toàn sắc nét ở mọi độ phân giải và dung lượng tải bằng 0 byte:
+\begin{browserWindow}[Kết Quả Hiển Thị: Ảnh Lớn Hơn Phần Tử Bị Cắt Bớt]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/bg_img_crop.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Khung \codeinline{div} kích thước $300\times 200\text{px}$ có viền nét đứt màu xanh: Ảnh rừng thu bị cắt cụt, chỉ lộ diện một phần góc trên bên trái.}
+\end{browserWindow}
 
-\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU 3 HÀM DẢI MÀU GRADIENTS TRONG CSS]
+\noindent
+\textbf{Giải pháp khắc phục}: Nếu không muốn ảnh bị cắt cụt, bạn có thể áp dụng:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{background-size: contain;}: Thu nhỏ ảnh sao cho trọn vẹn toàn bộ bức ảnh nằm vừa vặn bên trong phần tử mà không bị cắt bỏ bất kỳ chi tiết nào.
+    \item \codeinline{background-size: cover;}: Phóng to ảnh để bao phủ kín toàn bộ phần tử, lấp đầy không để lại khoảng trống.
+\end{itemize}
+
+\subparagraph{b. Ảnh nhỏ hơn phần tử $\rightarrow$ Tự động lặp lại (Mặc định):}
+
+Nếu kích thước ảnh nhỏ hơn phần tử, engine hiển thị của CSS sẽ tự động nhân bản lặp lại bức ảnh theo cả chiều ngang (trục X) và chiều dọc (trục Y) như những viên gạch lát nền để phủ kín toàn bộ không gian phần tử. Đây là hành vi mặc định của \codeinline{background-image}.
+
+\begin{codeWindow}[Mã Nguồn CSS: Ảnh Nhỏ Hơn Phần Tử div]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 500px;
+  height: 300px;
+  background-image: url('small-image.jpg');
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Ví Dụ Minh Họa Lặp Gạch Hoa (Tile)]
+$\bullet$ \textbf{Kích thước ảnh gốc}: $100 \times 100\text{px}$.\\
+$\bullet$ \textbf{Kích thước phần tử}: $500 \times 300\text{px}$.\\
+$\rightarrow$ \textbf{Kết quả thực tế}: Bức ảnh sẽ tự động lặp lại đúng 5 lần theo chiều ngang và 3 lần theo chiều dọc để lấp đầy trọn vẹn khung $500\times 300\text{px}$.
+\end{conceptBox}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Ảnh Nhỏ Hơn Phần Tử Tự Động Lặp Lại (Tiling Mặc Định)]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/bg_img_repeat.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Khung phần tử $500\times 300\text{px}$ có viền chấm xanh: Bức ảnh nhỏ được lặp lại thành 6 ô lưới lát gạch ($2\times 3$) phủ kín diện tích.}
+\end{browserWindow}
+
+\noindent
+\textbf{Giải pháp khắc phục}: Nếu không muốn ảnh lặp lại, bạn kết hợp các thuộc tính:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{background-repeat: no-repeat;}: Chỉ vẽ ảnh 1 lần duy nhất, loại bỏ hoàn toàn việc nhân bản lặp lại.
+    \item \codeinline{background-position: center;}: Căn chỉnh tâm bức ảnh vào chính giữa phần tử.
+\end{itemize}
+
+\subparagraph{c. Ảnh bằng hoặc nhỏ hơn phần tử, không lặp (\codeinline{no-repeat}):}
+
+Khi áp dụng \codeinline{background-repeat: no-repeat;}, ảnh sẽ hiển thị đúng theo kích thước gốc. Nếu ảnh nhỏ hơn phần tử, diện tích còn lại của khung chứa sẽ trở thành khoảng trống trắng.
+
+\begin{codeWindow}[Mã Nguồn CSS: Ảnh Không Lặp Lại]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 500px;
+  height: 300px;
+  background-image: url('image.jpg');
+  background-repeat: no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Kịch Bản Hiển Thị Mặc Định (Top Left)]
+$\bullet$ \textbf{Kích thước ảnh gốc}: $300 \times 200\text{px}$, \textbf{Phần tử}: $500 \times 300\text{px}$.\\
+$\rightarrow$ Bức ảnh nằm cố định tại góc trên bên trái (\codeinline{top left}), toàn bộ phần diện tích còn lại ở bên phải và phía dưới hoàn toàn trắng trống.
+\end{conceptBox}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Ảnh Nhỏ Hơn Khung Không Lặp (Mặc Định Góc Trên - Trái)]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/bg_img_norepeat_topleft.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Bức ảnh nằm gọn gàng ở góc trên bên trái khung viền chấm xanh, toàn bộ diện tích còn lại là khoảng trắng tinh khôi.}
+\end{browserWindow}
+
+\newpage
+\noindent
+\textbf{Kịch bản kết hợp căn giữa (\codeinline{background-position: center;}):}
+
+\begin{codeWindow}[Mã Nguồn CSS: Kết Hợp Căn Giữa Tâm Phần Tử]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 500px;
+  height: 300px;
+  background-image: url('image.jpg');
+  background-repeat: no-repeat;
+  background-position: center; /* Can deu anh vao chinh tam */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Kết Hợp Căn Giữa Tâm (background-position: center)]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/bg_img_position_center.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Khi bổ sung \codeinline{background-position: center;}, bức ảnh được định vị chính xác ở trọng tâm phần tử, khoảng trắng phân bổ đều ra 4 phía xung quanh.}
+\end{browserWindow}
+
+\noindent
+\textbf{Giải pháp điều chỉnh kích thước linh hoạt}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Muốn ảnh phủ toàn bộ mà không bị cắt}: Dùng \codeinline{background-size: contain;}.
+    \item \textbf{Muốn ảnh lấp đầy phần tử, chấp nhận cắt xén viền nếu cần}: Dùng \codeinline{background-size: cover;}.
+\end{itemize}
+
+\paragraph{d. Bảng Tóm Tắt Nhanh 4 Trường Hợp Ảnh \& Mẹo Thực Chiến:}
+
+\begin{prettyTableBox}[TỔNG HỢP CÁC TRƯỜNG HỢP HIỂN THỊ ẢNH NỀN \& GIẢI PHÁP]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}p{4.4cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Hàm Gradient} & \thd{\sffamily Hướng chuyển dịch} & \thd{\sffamily Cú pháp mẫu \& Ứng dụng tiêu biểu} \\
+\rowcolor{primaryBlue} \thd{\sffamily Trường hợp ảnh} & \thd{\sffamily Kết quả hiển thị} & \thd{\sffamily Giải pháp khắc phục} \\
 \hline
-linear-gradient() & Chuyển màu theo đường thẳng (góc xoay hoặc hướng) & \codeinline{linear-gradient(135deg, \#667eea, \#764ba2)}: Hero Section, Card button. \\
+Ảnh lớn hơn phần tử & Ảnh bị cắt bớt nếu không dùng \codeinline{background-size}. & Dùng \codeinline{background-size: contain;} hoặc \codeinline{cover;}. \\
 \hline
-radial-gradient() & Chuyển màu hình tròn hoặc elip tỏa ra từ tâm & \codeinline{radial-gradient(circle, \#3b82f6, \#1e1b4b)}: Hiệu ứng ánh đèn sân khấu (Spotlight). \\
+Ảnh nhỏ hơn phần tử & Ảnh lặp lại để phủ kín phần tử (mặc định). & Dùng \codeinline{background-repeat: no-repeat;}. \\
 \hline
-conic-gradient() & Chuyển màu quét tròn theo góc 360 độ quanh tâm & \codeinline{conic-gradient(from 0deg, red, yellow, green)}: Vòng quay màu, biểu đồ tròn Pie Chart. \\
+Ảnh vừa khớp phần tử & Ảnh hiển thị hoàn toàn mà không cần điều chỉnh kích thước. & Không cần thay đổi (hoặc căn chỉnh vị trí \codeinline{position}). \\
+\hline
+Muốn ảnh cố định khi cuộn trang & Ảnh nằm cố định trong Viewport. & Dùng \codeinline{background-attachment: fixed;}. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{tipBox}[Mẹo Thiết Kế Chuyên Nghiệp Với Ảnh Nền]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{cover}: Phù hợp nhất với thiết kế Hero Section, Banner lớn toàn màn hình.
+    \item \textbf{contain}: Phù hợp khi bạn muốn hiển thị trọn vẹn $100\%$ ảnh (như logo đối tác, ảnh chi tiết sản phẩm) mà không bị cắt bỏ bất kỳ chi tiết nào.
+    \item \textbf{background-repeat: no-repeat}: Dùng khi ảnh đã đủ lớn và bạn không muốn ảnh tự động lặp lại trông lộn xộn.
+\end{itemize}
+\end{tipBox}
+
+\subparagraph{e. Cách Khai Báo Đường Dẫn Ảnh Trong Hàm \codeinline{url()}:}
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Đường dẫn tương đối} (Ảnh nằm trong thư mục của dự án):
+    \begin{lstlisting}[language=CSS3]
+    background-image: url('images/bg.jpg');
+    \end{lstlisting}
+    \item \textbf{Đường dẫn tuyệt đối} (Ảnh lưu trữ từ trang web hoặc CDN bên ngoài):
+    \begin{lstlisting}[language=CSS3]
+    background-image: url('https://example.com/bg.jpg');
+    \end{lstlisting}
+    \item \textbf{Đường dẫn trỏ về thư mục cha} (Sử dụng cú pháp \codeinline{../}):
+    \begin{lstlisting}[language=CSS3]
+    background-image: url('../images/bg.jpg');
+    \end{lstlisting}
+    \item \textbf{Base64 encoding} (Nhúng trực tiếp chuỗi dữ liệu ảnh Data URI vào tệp CSS):
+    \begin{lstlisting}[language=CSS3]
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...');
+    \end{lstlisting}
+    \textit{Đặc điểm}: Giúp trình duyệt không phải gửi thêm request HTTP tải ảnh riêng, nhưng làm tăng dung lượng file CSS.
+\end{enumerate}
+
+\paragraph{3. Ví Dụ Đơn Giản: Xây Dựng Khối Banner Chào Mừng:}
+
+Đoạn mã sau minh họa sự kết hợp hoàn hảo giữa \codeinline{background-image}, \codeinline{no-repeat}, \codeinline{background-size: cover;}, màu chữ và khoảng đệm \codeinline{padding}:
+
+\begin{codeWindow}[Mã Nguồn HTML \& CSS: Khối Banner Chào Mừng]
+\begin{lstlisting}[language=HTML5]
+<!-- HTML -->
+<div class="banner">Chao mung!</div>
+
+<!-- CSS -->
+<style>
+.banner {
+  width: 500px;
+  height: 300px;
+  background-image: url("https://via.placeholder.com/500x300");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  padding: 20px;
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Khối Banner Chào Mừng Hoàn Chỉnh]
+\sffamily\small
+\begin{tcolorbox}[
+  enhanced,
+  width=0.78\linewidth,
+  height=110pt,
+  colback=primaryBlue!85!black,
+  colframe=primaryBlue!95!black,
+  arc=6pt,
+  center,
+  halign=center,
+  valign=center,
+  boxrule=1pt,
+  shadow={2pt}{-2pt}{0pt}{black!15}
+]
+  {\Huge\bfseries\color{white} Chào mừng!}\par\vspace{6pt}
+  {\scriptsize\color{white!85} [Khối Banner $500\times 300\text{px}$ với \codeinline{background-size: cover;} \& padding $20\text{px}$]}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{4. Tổng Quan Các Thuộc Tính Bổ Trợ Liên Quan Đến \codeinline{background-image}:}
+Thuộc tính \codeinline{background-image} hiếm khi đứng một mình. Để kiểm soát hoàn toàn cách ảnh nền hiển thị trên mọi kích thước màn hình, bạn cần kết hợp chặt chẽ với các thuộc tính liên quan:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{background-repeat}: Xác định ảnh nền có lặp lại hay không.
+    \item \codeinline{background-position}: Đặt vị trí ban đầu của hình ảnh nền trong phần tử.
+    \item \codeinline{background-size}: Điều chỉnh kích thước hiển thị và cơ chế co giãn của ảnh nền.
+    \item \codeinline{background-attachment}: Xác định ảnh nền cuộn cùng nội dung hay đứng yên cố định trên Viewport.
+    \item \codeinline{background-origin} \& \codeinline{background-clip}: Điểm mốc tọa độ và phạm vi cắt xén theo Box Model.
+\end{itemize}
+
+\paragraph{5. Kỹ Thuật Dùng Nhiều Ảnh Nền (Layered Backgrounds):}
+CSS cho phép khai báo đồng thời nhiều hình ảnh nền trên cùng một phần tử, phân tách nhau bằng dấu phẩy:
+\begin{codeWindow}[Mã Nguồn Thiết Lập Đa Lớp Ảnh Nền]
+\begin{lstlisting}[language=CSS3]
+div {
+  background-image: url("stars.png"), url("sky.jpg");
+  background-position: top left, center;
+  background-repeat: repeat, no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Quy Luật Xếp Tầng Của Đa Ảnh Nền]
+$\rightarrow$ \textbf{Quy tắc thứ tự}: Ảnh khai báo đầu tiên (\codeinline{stars.png}) sẽ nằm ở tầng \textbf{trên cùng}, ảnh khai báo sau (\codeinline{sky.jpg}) nằm ở tầng \textbf{dưới}, và màu nền \codeinline{background-color} luôn nằm ở \textbf{đáy sâu nhất}. Bạn có thể định cấu hình riêng biệt cho từng ảnh theo thứ tự tương ứng.
+\end{conceptBox}
+
+\paragraph{6. Cú Pháp Viết Tắt Gộp (\codeinline{background} Shorthand):}
+Thay vì phải viết riêng rẽ từng thuộc tính dài dòng:
+\begin{lstlisting}[language=CSS3]
+/* Khai bao rieng le tung thuoc tinh: */
+background-image: url("bg.jpg");
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+\end{lstlisting}
+Bạn hoàn toàn có thể viết gọn gàng thành một dòng lệnh duy nhất:
+\begin{lstlisting}[language=CSS3]
+/* Viet gon bang cu phap Shorthand: */
+background: url("bg.jpg") no-repeat center / cover;
+\end{lstlisting}
+\begin{tipBox}[Lưu Ý Quan Trọng Về Shorthand]
+\textbf{Dấu gạch chéo \codeinline{/}}: Bắt buộc phải dùng dấu gạch chéo \codeinline{/} để ngăn cách giữa \codeinline{position} và \codeinline{size} (\codeinline{center / cover}).
+\end{tipBox}
+
+\paragraph{7. Các Lưu Ý Sống Còn Khi Làm Việc Với \codeinline{background-image}:}
+\begin{prettyTableBox}[4 LƯU Ý KỸ THUẬT QUAN TRỌNG KHI DÙNG background-image]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Lưu ý} & \thd{\sffamily Giải thích chi tiết} \\
+\hline
+Kích thước \codeinline{width} hoặc \codeinline{height} bằng 0 & Ảnh nền sẽ \textbf{hoàn toàn không hiển thị} do phần tử không có không gian để vẽ. \\
+\hline
+Ảnh nền KHÔNG tự kế thừa xuống con & Mỗi phần tử con phải tự khai báo ảnh nền riêng, không kế thừa từ cha. \\
+\hline
+Dùng ảnh SVG hoặc PNG trong suốt làm Overlay & Rất linh hoạt để tạo các hiệu ứng hoa văn đè lên màu nền hoặc ảnh nền khác. \\
+\hline
+Kết hợp với dải màu Gradient & Có thể dùng hàm \codeinline{linear-gradient()} thay thế ảnh thật để tạo nền vector sắc nét 0 byte. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{8. Ví Dụ Sử Dụng CSS Gradient Thay Thế Ảnh Nền:}
+Gradient được trình duyệt đối xử như một dạng hình ảnh đặc biệt:
+\begin{codeWindow}[Mã Nguồn Nền Gradient Chuyển Màu Đỏ Sang Vàng]
+\begin{lstlisting}[language=CSS3]
+div {
+  background-image: linear-gradient(to right, red, yellow);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Dải Màu Gradient Chuyển Từ Đỏ Sang Vàng]
+\sffamily\small
+\begin{tcolorbox}[
+  enhanced,
+  width=0.85\linewidth,
+  height=36pt,
+  interior style={left color=red!90, right color=yellow!90},
+  colframe=gray!40,
+  boxrule=0.8pt,
+  arc=5pt,
+  center,
+  halign=center,
+  valign=center
+]
+  {\bfseries\color{white} Nền dải chuyển màu mượt mà từ Đỏ sang Vàng (\codeinline{to right})}
+\end{tcolorbox}
+\end{browserWindow}
+
+\paragraph{9. Bảng Tổng Kết Nhanh Hệ Thống Thuộc Tính Nền (Background):}
+\begin{prettyTableBox}[BẢNG TỔNG KẾT VAI TRÒ CỦA CÁC THUỘC TÍNH CON TRONG HỆ THỐNG BACKGROUND]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính con} & \thd{\sffamily Mục đích kỹ thuật} \\
+\hline
+background-image & Đặt hình ảnh hoặc dải chuyển màu làm nền cho phần tử. \\
+\hline
+background-repeat & Kiểm soát việc lặp lại ảnh (có lặp hay không, lặp trục X hay Y). \\
+\hline
+background-position & Định vị tọa độ vị trí bắt đầu hiển thị của ảnh nền. \\
+\hline
+background-size & Điều chỉnh kích thước và tỷ lệ co giãn của ảnh nền (\codeinline{cover}, \codeinline{contain}). \\
+\hline
+background-attachment & Thiết lập cơ chế cuộn theo trang hay đứng yên cố định (\codeinline{fixed} Parallax). \\
+\hline
+background-origin & Điểm mốc tọa độ ban đầu theo các lớp Box Model (\codeinline{border-box}, \codeinline{padding-box}, \codeinline{content-box}). \\
+\hline
+background-clip & Ranh giới cắt xén vùng hiển thị của lớp nền (kể cả \codeinline{text}). \\
+\hline
+background & Cú pháp viết tắt gộp tất cả các thuộc tính trên vào một dòng duy nhất. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{10. Chuyên Khảo Đọc Thêm: Bản Chất Kỹ Thuật \& Cơ Chế Kết Xuất Của background-image:}
+\begin{conceptBox}[Cơ Chế Render Nội Bộ Của Trình Duyệt]
+Khi áp dụng \codeinline{background-image}, trình duyệt khởi chạy một luồng tải tài nguyên bất đồng bộ (\term{Asynchronous Network Fetch}). Trong khi ảnh đang tải:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Lớp \codeinline{background-color} được vẽ trước tiên làm phông nền lót tạm.
+    \item Sau khi ảnh tải xong, engine đồ họa tiến hành giải mã (\term{Image Decoding}) và rasterize ảnh lên GPU compositor layer.
+    \item Nếu dùng dải màu Gradient (\codeinline{linear-gradient}, \codeinline{radial-gradient}, \codeinline{conic-gradient}), trình duyệt hoàn toàn không cần tải tệp qua mạng mà tự dựng trực tiếp bằng phép tính toán học, đạt độ mịn và sắc nét tuyệt đối trên màn hình Retina / HiDPI mà không gây tốn băng thông.
+\end{itemize}
+\end{conceptBox}
 
 \subsection{Kiểm Soát Lặp Lại Ảnh Nền (\csshint{background-repeat})}
 \label{sec:css_bg_repeat}
 
 Mặc định trong trình duyệt, nếu kích thước của ảnh nền nhỏ hơn kích thước phần tử, ảnh sẽ tự động được lặp lại cả theo chiều ngang (trục X) và chiều dọc (trục Y) như những viên gạch lát nền (\term{Tiling}).
+
+\begin{browserWindow}[Trực Quan Hóa: 4 Chế Độ Lặp Cốt Lõi Của Thuộc Tính background-repeat]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/bg_repeat_modes.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Đối chiếu trực quan 4 hành vi lặp: \codeinline{repeat} (lặp cả 2 trục), \codeinline{repeat-x} (chỉ lặp ngang), \codeinline{repeat-y} (chỉ lặp dọc), và \codeinline{no-repeat} (chỉ hiển thị đúng 1 lần duy nhất).}
+\end{browserWindow}
 
 \begin{prettyTableBox}[BẢNG CÁC GIÁ TRỊ CỦA THUỘC TÍNH background-repeat]
 \rowcolors{2}{white}{primaryBlue!4}
