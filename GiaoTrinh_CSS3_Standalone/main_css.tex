@@ -11726,7 +11726,51 @@ round & Ảnh được co giãn vừa đủ để lặp tròn khít không dư k
 \noindent
 \textcolor{primaryBlue}{\textbf{($\rightarrow$ Hiệu ứng)}}: Ảnh co giãn lại để vừa khít kích thước phần tử -- không dư, không bị cắt.
 
-\paragraph{4. Lưu Ý Quan Trọng Khi Dùng background-repeat:}
+\paragraph{4. Chuyên Sâu Thuật Toán W3C: So Sánh Cơ Chế space Và round:}
+
+Cả hai giá trị \codeinline{space} và \codeinline{round} đều được thiết kế để giải quyết vấn đề nan giải của kỹ thuật lát gạch truyền thống: \textbf{tránh tình trạng ảnh ở mép rìa bị cắt xén nham nhở}. Tuy nhiên, triết lý toán học của chúng hoàn toàn khác biệt:
+
+\begin{conceptBox}[Bản Chất Thuật Toán W3C Cho Thuộc Tính space Và round]
+Giả sử phần tử có chiều rộng khả dụng là $W$, và một ô ảnh nền có chiều rộng gốc là $w$:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cơ chế của \codeinline{space} (Bảo toàn hình dạng, bù khoảng trắng)}:
+    Trình duyệt tính số lượng ảnh tối đa có thể chứa trọn vẹn: $N = \lfloor W / w \rfloor$. Nếu $N \ge 2$, khoảng cách trống còn dư:
+    \[
+    \Delta = \frac{W - (N \times w)}{N - 1}
+    \]
+    Khoảng trắng $\Delta$ này được chèn đều đặn vào giữa các bản sao. Bản sao đầu tiên nằm sát mép trái ($x = 0$), bản sao cuối cùng nằm sát mép phải ($x = W - w$), và kích thước của ảnh được \textbf{bảo toàn $100\%$ không bị biến dạng}. Nếu $N < 2$, ảnh sẽ được tự động căn chính giữa.
+    \item \textbf{Cơ chế của \codeinline{round} (Lấp kín không gian, co giãn linh hoạt)}:
+    Trình duyệt tìm số nguyên $N = \text{round}(W / w)$ gần nhất (với $N \ge 1$). Sau đó, kích thước chiều rộng của mỗi ô ảnh được tính lại thành:
+    \[
+    w' = \frac{W}{N}
+    \]
+    Toàn bộ các bản sao được phóng to hoặc thu nhỏ đồng loạt theo tỷ lệ $w'$, đảm bảo $N$ bản sao xếp khít kín $100\%$ chiều rộng $W$ mà \textbf{không xuất hiện bất kỳ pixel khoảng trắng thừa nào}.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{5. Ứng Dụng Thực Chiến: Tạo Hoa Văn Pattern Bằng background-repeat Kết Hợp CSS Gradient:}
+
+Trong phát triển giao diện hiện đại, \codeinline{background-repeat} không chỉ áp dụng cho tệp hình ảnh tĩnh (PNG/SVG) mà còn là vũ khí lợi hại để kiến tạo các mẫu nền hình học (\term{Geometric CSS Patterns}) với dung lượng tải $0\text{ byte}$:
+
+\begin{codeWindow}[Kỹ Thuật Tạo Lưới Tọa Độ (Grid Pattern) Thuần CSS]
+\begin{lstlisting}[language=CSS3]
+/* Tao nen luoi toa do chuyen nghiep giong giay ke o ly / Blueprint */
+.blueprint-grid {
+  width: 100%;
+  height: 350px;
+  background-color: #0f172a; /* Mau nen xanh Slate toi */
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;   /* Dinh kich thuoc 1 o luoi */
+  background-repeat: repeat;    /* Lap lien tuc de tao thanh luoi vo tan */
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Ứng dụng thực tế)}}: Kỹ thuật này thường xuyên xuất hiện trên các trang Dashboard tài chính, giao diện IDE lập trình, hoặc Landing Page công nghệ cao (SaaS) mà không tốn băng thông tải ảnh ngoài.
+
+\paragraph{6. Lưu Ý Quan Trọng Khi Dùng background-repeat:}
 
 \begin{warnBox}[Các Lưu Ý Thực Chiến Cần Nhớ Với background-repeat]
 \rowcolors{2}{white}{warnBg!60}
@@ -11745,10 +11789,12 @@ round & Ảnh được co giãn vừa đủ để lặp tròn khít không dư k
 \hline
 5 & Không phù hợp với ảnh có chữ hoặc ảnh thông tin cụ thể & Việc lặp lại liên tiếp sẽ gây mất ý nghĩa của hình ảnh và làm hỏng trải nghiệm đọc của người dùng. \\
 \hline
+6 & Kích thước ô ảnh (\term{Tile size}) \& Hiệu năng GPU & Tránh dùng ảnh quá nhỏ ($1\text{px} \times 1\text{px}$) lặp hàng triệu lần trên màn hình 4K/Retina vì gây tốn tài nguyên rasterization của GPU. Kích thước khuyến nghị từ $16\text{px}$ đến $64\text{px}$. \\
+\hline
 \end{tabularx}
 \end{warnBox}
 
-\paragraph{5. Tổng Kết Nhanh background-repeat:}
+\paragraph{7. Tổng Kết Nhanh background-repeat:}
 
 \begin{prettyTableBox}[TỔNG KẾT NHANH CÁC GIÁ TRỊ background-repeat]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -11903,7 +11949,53 @@ Trong CSS hiện đại, bạn có thể chỉ định khoảng cách lệch (\t
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{7. Kết Hợp background-position Với Các Thuộc Tính Khác:}
+\paragraph{7. Kỹ Thuật Tính Toán Động Với Hàm calc():}
+Trước khi cú pháp 4 giá trị ra đời hoặc trong các dự án cần tương thích với trình duyệt cũ, lập trình viên sử dụng hàm \codeinline{calc()} để thiết lập khoảng cách cố định từ mép phải hoặc mép dưới:
+
+\begin{codeWindow}[Định Vị Cách Mép Phải 30px Bằng Hàm calc()]
+\begin{lstlisting}[language=CSS3]
+.search-input {
+  background-image: url("icon-search.svg");
+  background-repeat: no-repeat;
+  /* Cach mep phai dung 30px va can giua theo chieu doc: */
+  background-position: calc(100% - 30px) center;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textit{Mẹo thực chiến}: Cú pháp \codeinline{calc()} cực kỳ hữu hiệu khi bạn muốn hỗ trợ các trình duyệt di động đời cũ chưa tương thích tốt với cú pháp 4 giá trị.
+
+\paragraph{8. Kỹ Thuật Kinh Điển: CSS Image Sprites Tối Ưu Tải Trang:}
+\textbf{CSS Sprites} là kỹ thuật ghép hàng loạt hình ảnh nhỏ (biểu tượng icon, nút bấm, avatar) vào một tệp hình ảnh lớn duy nhất (\term{Spritesheet}). Khi tải trang, trình duyệt chỉ cần gửi \textbf{đúng 1 yêu cầu HTTP} duy nhất thay vì hàng chục yêu cầu riêng rẽ, giúp giảm tải tối đa cho máy chủ và tăng tốc độ hiển thị giao diện.
+
+\begin{conceptBox}[Bản Chất Tọa Độ Âm Trong CSS Sprites]
+Để hiển thị đúng biểu tượng cần thiết trong tấm ảnh lớn, ta cố định kích thước khung chứa (\codeinline{width}, \codeinline{height}), tắt chế độ lặp (\codeinline{background-repeat: no-repeat}), và dùng \textbf{tọa độ âm} (\term{Negative Offsets}) trong \codeinline{background-position}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Tọa độ âm dịch chuyển tấm ảnh lùi về phía trên và bên trái, đưa đúng phần ảnh mong muốn vào "lỗ kính ngắm" của phần tử.
+    \item \textbf{Quy tắc tính}: Muốn xem ô icon tại vị trí cách lề trái ảnh $X\text{px}$ và cách đỉnh ảnh $Y\text{px}$, ta khai báo: \codeinline{background-position: -Xpx -Ypx;}.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn Minh Họa Kỹ Thuật CSS Sprite Cho Nút Mạng Xã Hội]
+\begin{lstlisting}[language=CSS3]
+/* Khung chung cho cac bieu tuong 24x24px: */
+.social-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url("spritesheet.png"); /* Anh tong chua tat ca icon */
+  background-repeat: no-repeat;
+}
+
+/* Dich toa do am de chon dung icon can thiet tren sprite: */
+.icon-facebook { background-position: 0 0; }        /* Icon Facebook o goc tren-trai */
+.icon-twitter  { background-position: -24px 0; }    /* Icon Twitter cach le trai 24px */
+.icon-github   { background-position: -48px 0; }    /* Icon GitHub cach le trai 48px */
+.icon-linkedin { background-position: -72px 0; }    /* Icon LinkedIn cach le trai 72px */
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{9. Kết Hợp background-position Với Các Thuộc Tính Khác:}
 Trong thiết kế giao diện thực tế, \codeinline{background-position} thường được kết hợp với \codeinline{background-repeat} và \codeinline{background-size} để tạo hiệu ứng bố cục trọn vẹn:
 
 \begin{codeWindow}[Ví Dụ Phối Hợp background-position, background-repeat Và background-size]
@@ -11919,7 +12011,18 @@ Trong thiết kế giao diện thực tế, \codeinline{background-position} th�
 \noindent
 \textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh nằm ở chính giữa và được phóng lớn vừa khít phần tử, không bị lặp lại.
 
-\paragraph{8. Lưu Ý Quan Trọng Khi Dùng background-position:}
+\paragraph{10. Góc Nhìn Đồ Họa \& Hiệu Năng: Cảnh Báo Repaint Khi Animate background-position:}
+Một lỗi hiệu năng kinh điển trong CSS là tạo hiệu ứng cuộn cảnh vô tận (\term{Infinite Background Panning}) hoặc hiệu ứng di chuột chuyển dịch nền bằng cách animate trực tiếp \codeinline{background-position}:
+
+\begin{warnBox}[Cảnh Báo Về Hiệu Năng Render Khi Chuyển Động background-position]
+Thuộc tính \codeinline{background-position} nằm ở giai đoạn \textbf{Paint} trong đường ống đồ họa (\term{Pixel Pipeline}) của trình duyệt. 
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Mỗi khi giá trị \codeinline{background-position} thay đổi trong vòng lặp animation $60\text{fps}$, CPU và GPU phải liên tục tính toán và sơn lại bề mặt điểm ảnh (\term{Repaint}), dễ gây hiện tượng giật khung hình (\term{Jank}) trên thiết bị di động.
+    \item \textbf{Giải pháp tối ưu chuẩn công nghiệp}: Tạo một phần tử giả \codeinline{::before} chứa ảnh nền với kích thước lớn hơn, sau đó animate thuộc tính \codeinline{transform: translate3d(...)}. Thuộc tính \codeinline{transform} được xử lý trực tiếp trên tầng GPU Compositor mà không kích hoạt Paint, đảm bảo khung hình luôn mượt mà $60\text{fps}$ tuyệt đối!
+\end{itemize}
+\end{warnBox}
+
+\paragraph{11. Lưu Ý Quan Trọng Khi Dùng background-position:}
 
 \begin{warnBox}[Các Lưu Ý Kỹ Thuật Quan Trọng Khi Sử Dụng background-position]
 \rowcolors{2}{white}{warnBg!60}
@@ -11939,7 +12042,28 @@ Khi dùng nhiều ảnh nền & Mỗi ảnh nền có thể có một vị trí 
 \end{tabularx}
 \end{warnBox}
 
-\paragraph{9. Tổng Kết Nhanh background-position:}
+\paragraph{12. Mở Rộng Đọc Thêm: Thuộc Tính Đơn Lẻ background-position-x Và background-position-y:}
+Trong chuẩn CSS hiện đại (CSS Backgrounds and Borders Level 4), W3C đã chính thức chuẩn hóa hai thuộc tính đơn lẻ:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{background-position-x}: Chỉ điều chỉnh vị trí theo trục hoành (trục ngang).
+    \item \codeinline{background-position-y}: Chỉ điều chỉnh vị trí theo trục tung (trục dọc).
+\end{itemize}
+\noindent
+Điều này giúp bạn có thể ghi đè một chiều duy nhất trong Media Queries hoặc CSS Hover mà không cần phải lặp lại khai báo cho chiều còn lại:
+\begin{codeWindow}[Ghi Đè Một Chiều Với background-position-y Trong Hover]
+\begin{lstlisting}[language=CSS3]
+.card-header {
+  background-position: center top;
+}
+
+/* Khi di chuot: chi can ha thap anh xuong 10px ma khong can go lai center: */
+.card-header:hover {
+  background-position-y: 10px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{13. Tổng Kết Nhanh background-position:}
 
 \begin{prettyTableBox}[TỔNG KẾT NHANH CÁC GIÁ TRỊ VỊ TRÍ background-position]
 \rowcolors{2}{white}{primaryBlue!4}
