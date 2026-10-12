@@ -51,6 +51,8 @@
 \definecolor{warnBorder}{HTML}{D97706}
 \definecolor{conceptBg}{HTML}{F5F3FF}
 \definecolor{conceptBorder}{HTML}{7C3AED}
+\definecolor{successGreen}{HTML}{16A34A}
+\definecolor{dangerRed}{HTML}{DC2626}
 
 \usepackage{graphicx}
 \usepackage{float}
@@ -11821,13 +11823,13 @@ round & Co giãn ảnh tự động để lặp khít phần tử không dư th�
 \subsection{Định Vị Tọa Độ Ảnh Nền (\csshint{background-position})}
 \label{sec:css_bg_position}
 
-\begin{conceptBox}[Khái Niệm \& Bản Chất Của Thuộc Tính background-position]
-\textbf{1. background-position là gì?}\\
-Là thuộc tính dùng để xác định vị trí bắt đầu hiển thị hình nền (\codeinline{background-image}) bên trong phần tử.
+\begin{conceptBox}[Khái Niệm \& Công Dụng Thuộc Tính background-position]
+\textbf{1. background-position là gì \& Công dụng:}\\
+\codeinline{background-position} giúp bạn căn chỉnh vị trí bắt đầu hiển thị của ảnh nền (\codeinline{background-image}) bên trong phần tử.
 
 \vspace{4pt}
 \textbf{2. Vị trí mặc định:}\\
-Mặc định, hình nền bắt đầu từ góc trên bên trái (\codeinline{top left} hoặc tọa độ \codeinline{0\% 0\%} hay \codeinline{0 0}) của phần tử.
+Nếu không khai báo, ảnh sẽ mặc định bắt đầu từ góc trên bên trái của phần tử (\codeinline{top left} hoặc tọa độ \codeinline{0\% 0\%} hay \codeinline{0 0}).
 \end{conceptBox}
 
 \begin{browserWindow}[Trực Quan Hóa: Ma Trận 9 Vị Trí Căn Chỉnh Của Thuộc Tính background-position]
@@ -11836,73 +11838,188 @@ Mặc định, hình nền bắt đầu từ góc trên bên trái (\codeinline{
 {\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Đối chiếu trực quan 9 vị trí căn chỉnh kinh điển: Kết hợp linh hoạt giữa hệ từ khóa (\codeinline{left}, \codeinline{center}, \codeinline{right}, \codeinline{top}, \codeinline{bottom}) và hệ tọa độ phần trăm (\codeinline{0\%}, \codeinline{50\%}, \codeinline{100\%}).}
 \end{browserWindow}
 
-\paragraph{1. Cú Pháp Khai Báo (Syntax):}
-Cú pháp tổng quát của thuộc tính \codeinline{background-position}:
-\begin{codeWindow}[Cú Pháp CSS Thiết Lập background-position]
+\paragraph{1. Cú Pháp Cơ Bản (Basic Syntax):}
+Cú pháp tiêu chuẩn xác định vị trí trên 2 trục tọa độ:
+\begin{center}
+\tcbox[on line, arc=4pt, colback=codeBg, colframe=primaryBlue!40, boxsep=1.5pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue} background-position: <x> <y>;
+}
+\end{center}
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{x (ngang)}: Vị trí theo chiều ngang (\codeinline{left}, \codeinline{center}, \codeinline{right}, \codeinline{\%}, \codeinline{px}, \codeinline{em}, \codeinline{rem}).
+    \item \textbf{y (dọc)}: Vị trí theo chiều dọc (\codeinline{top}, \codeinline{center}, \codeinline{bottom}, \codeinline{\%}, \codeinline{px}, \codeinline{em}, \codeinline{rem}).
+    \item \textbf{Giá trị mặc định}: \codeinline{background-position: 0\% 0\%;} (dính sát góc trên bên trái).
+\end{itemize}
+
+\paragraph{2. Nghiên Cứu Tình Huống Thực Nghiệm: Khung Phần Tử .background\_001:}
+
+Xem xét một khối giao diện thực tế với khung kích thước cố định $400 \times 400\text{px}$, viền đen $5\text{px}$ và sử dụng ảnh gốc \codeinline{image\_2.jpg}:
+
+\begin{codeWindow}[Mã Nguồn Khung Thử Nghiệm .background\_001 (Chưa Hoàn Chỉnh Vị Trí)]
 \begin{lstlisting}[language=CSS3]
-selector {
-  background-image: url("image.jpg");
-  background-position: <gia_tri_x> <gia_tri_y>;
+.background_001 {
+    color: aliceblue;
+    width: 400px;
+    height: 400px;
+    border: 5px solid black;
+    background-image: url('./image/image_2.jpg');
+    background-size: 100px auto;
+    background-repeat: no-repeat;
+    background-position: ; /* Chua hoan chinh - Can bo sung gia tri */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{2. Các Giá Trị Thường Dùng:}
+\begin{conceptBox}[Giải Thích Ý Nghĩa Từng Dòng Code Khởi Tạo]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \codeinline{color: aliceblue;}: Màu chữ trắng xanh nhạt giúp văn bản nổi bật trên nền tối.
+    \item \codeinline{width: 400px; height: 400px;}: Kích thước vùng hiển thị của khối là một hình vuông $400 \times 400\text{px}$.
+    \item \codeinline{border: 5px solid black;}: Viền ngoài màu đen dày $5\text{px}$ xác lập ranh giới hiển thị rõ ràng.
+    \item \codeinline{background-image: url('./image/image\_2.jpg');}: Nạp tệp ảnh con đường rừng lá đỏ làm nền.
+    \item \codeinline{background-size: 100px auto;}: Ép chiều rộng ảnh về $100\text{px}$, chiều cao tự động co giãn theo tỷ lệ gốc để tránh méo hình.
+    \item \codeinline{background-repeat: no-repeat;}: Chỉ vẽ đúng 1 ảnh duy nhất, không lặp lại.
+    \item \codeinline{background-position: ;}: Điểm đặt chưa hoàn chỉnh -- cần xác định tọa độ để điều khiển ảnh!
+\end{itemize}
+\end{conceptBox}
 
-\begin{prettyTableBox}[BẢNG CÁC GIÁ TRỊ VÀ CÁCH VIẾT background-position THƯỜNG GẶP]
+\begin{browserWindow}[Đối Chiếu Tệp Ảnh Gốc image\_2.jpg Dùng Trong Thực Nghiệm]
+\centering
+\includegraphics[width=0.40\linewidth]{figures/bg_forest_original.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Tệp ảnh gốc \codeinline{image\_2.jpg}: Tỷ lệ khung hình dọc ($490 \times 694\text{px}$), chiều cao lớn hơn chiều rộng.}
+\end{browserWindow}
+
+\paragraph{3. Các Kịch Bản Hoàn Thiện Vị Trí background-position:}
+
+Dưới đây là các phương án thiết lập vị trí và phân tích kết quả hiển thị trên khung thực nghiệm:
+
+\noindent\textbf{a. Ảnh nằm ở góc trên cùng bên trái (Mặc định):}
+\begin{codeWindow}[Khai Báo Góc Trên Bên Trái]
+\begin{lstlisting}[language=CSS3]
+background-position: 0 0; /* Hoac viet: left top (Mac dinh) */
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Ảnh Đặt Tại Góc Trên Bên Trái (0 0)]
+\centering
+\includegraphics[width=0.68\linewidth]{figures/bg_pos_100px_auto_topleft.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Ảnh rộng $100\text{px}$ cao tự động nằm sát mép trên-trái của khung $400\times 400\text{px}$, chữ "Lập Trình Web" hiển thị ở góc trên.}
+\end{browserWindow}
+
+\noindent\textbf{b. Ảnh dạt sang góc trên cùng bên phải:}
+\begin{codeWindow}[Khai Báo Góc Trên Bên Phải]
+\begin{lstlisting}[language=CSS3]
+background-position: right top;
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Ảnh Đặt Tại Góc Trên Bên Phải (right top)]
+\centering
+\includegraphics[width=0.68\linewidth]{figures/bg_pos_right_top.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Ảnh dạt sang sát mép viền phải và dính lên đỉnh trên cùng, tách biệt hoàn toàn với dòng chữ ở bên trái.}
+\end{browserWindow}
+
+\noindent\textbf{c. Các biến thể tọa độ khác:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Căn chính giữa}: \codeinline{background-position: center;} $\rightarrow$ Căn giữa cả chiều ngang lẫn chiều dọc.
+    \item \textbf{Cách lề trái $50\text{px}$ và cách đỉnh $30\text{px}$}: \codeinline{background-position: 50px 30px;} $\rightarrow$ Dịch sang phải $50\text{px}$ từ mép trái, hạ xuống $30\text{px}$ từ mép trên.
+    \item \textbf{Cách trái $100\text{px}$, tự động dính đỉnh}: \codeinline{background-position: 100px auto;} $\rightarrow$ Trình duyệt tự gán chiều dọc về $0\text{px}$ (dính sát mép trên).
+\end{itemize}
+
+\noindent\textbf{d. Mã nguồn hoàn thiện: Cách trái 50px, căn giữa theo chiều dọc:}
+\begin{codeWindow}[Mã Nguồn Hoàn Thiện: 50px center]
+\begin{lstlisting}[language=CSS3]
+.background_001 {
+    color: aliceblue;
+    width: 400px;
+    height: 400px;
+    border: 5px solid black;
+    background-image: url('./image/image_2.jpg');
+    background-size: 100px auto;
+    background-repeat: no-repeat;
+    background-position: 50px center; /* Anh cach trai 50px, can giua doc */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Ảnh Cách Trái 50px Và Căn Giữa Dọc (50px center)]
+\centering
+\includegraphics[width=0.68\linewidth]{figures/bg_pos_50px_center.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Kết quả hiển thị: Ảnh nền có chiều rộng $100\text{px}$, không lặp, cách mép trái đúng $50\text{px}$ và căn đều chính giữa theo chiều cao của khối.}
+\end{browserWindow}
+
+\paragraph{4. Bảng Các Giá Trị Từ Khóa Phổ Biến Của background-position:}
+
+\begin{prettyTableBox}[BẢNG 9 VỊ TRÍ TỪ KHÓA KINH ĐIỂN CỦA background-position]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash\bfseries}p{3.8cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Cách viết} & \thd{\sffamily Vị trí ảnh nền hiển thị} \\
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị từ khóa} & \thd{\sffamily Vị trí tương ứng} & \thd{\sffamily Ý nghĩa \& Hành vi hiển thị} \\
 \hline
-left top & Góc trên bên trái (Mặc định). \\
+left top & Căn trái -- Trên cùng & Mặc định, ảnh dính góc trên bên trái. \\
 \hline
-center center & Chính giữa phần tử (có thể viết gọn là \codeinline{center}). \\
+left center & Căn trái -- Chính giữa & Áp sát mép trái, căn giữa theo chiều dọc. \\
 \hline
-right bottom & Góc dưới bên phải. \\
+left bottom & Căn trái -- Dưới cùng & Áp sát góc dưới bên trái của phần tử. \\
 \hline
-50\% 50\% & Giữa theo tỷ lệ phần trăm chiều ngang + dọc. \\
+center top & Căn giữa -- Trên cùng & Canh giữa theo chiều ngang, dính mép trên. \\
 \hline
-20px 40px & Dịch từ trái 20px và từ trên 40px. \\
+center center / center & Căn giữa -- Giữa & Chính tâm của phần tử (trường hợp sử dụng phổ biến nhất). \\
 \hline
-center 10px & Giữa theo chiều ngang, 10px từ trên xuống. \\
+center bottom & Căn giữa -- Dưới cùng & Canh giữa theo chiều ngang, dính sát đáy. \\
 \hline
-10\% 80\% & 10\% chiều rộng từ trái, 80\% chiều cao từ trên. \\
+right top & Căn phải -- Trên cùng & Áp sát góc trên bên phải của phần tử. \\
+\hline
+right center & Căn phải -- Chính giữa & Áp sát mép phải, căn giữa theo chiều dọc. \\
+\hline
+right bottom & Căn phải -- Dưới cùng & Áp sát góc dưới bên phải của phần tử. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{tipBox}[Linh Hoạt Các Loại Đơn Vị Trong background-position]
-Bạn có thể dùng kết hợp linh hoạt giữa:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Từ khóa vị trí}: \codeinline{left}, \codeinline{center}, \codeinline{right}, \codeinline{top}, \codeinline{bottom}.
-    \item \textbf{Giá trị phần trăm (\%)}: Tính theo tỷ lệ kích thước phần tử chứa.
-    \item \textbf{Giá trị điểm ảnh cố định (pixel -- px)}: Khoảng cách dịch chuyển thực tế chính xác.
-\end{itemize}
-\end{tipBox}
+\paragraph{5. Sử Dụng Các Hệ Đơn Vị Đo (px, \%, em, rem):}
 
-\paragraph{3. Ví Dụ Minh Họa Trực Quan:}
+\noindent\textbf{a. Đơn vị Pixel (px) -- Đặt vị trí tuyệt đối chính xác:}
+\begin{codeWindow}[Định Vị Tọa Độ Tuyệt Đối Bằng Pixel]
+\begin{lstlisting}[language=CSS3]
+/* Dich xuong 100px va doi qua phai 50px tu goc tren-trai: */
+background-position: 50px 100px;
 
-\begin{codeWindow}[Ví Dụ Căn Giữa Ảnh Nền Không Lặp Bằng background-position]
-\begin{lstlisting}[language=HTML5]
-<div class="box"></div>
-<style>
-.box {
-  width: 300px;
-  height: 200px;
-  background-image: url('https://via.placeholder.com/100');
-  background-repeat: no-repeat;
-  background-position: center center;
-  border: 2px solid black;
-}
-</style>
+/* Cach trai 100px, chieu doc tu dong tinh (thuong la 0px): */
+background-position: 100px auto;
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{b. Đơn vị Phần Trăm (\%) -- Căn chỉnh tỷ lệ theo phần tử chứa:}
+\begin{codeWindow}[Định Vị Theo Tỷ Lệ Phần Trăm]
+\begin{lstlisting}[language=CSS3]
+/* Anh nam chinh giua phan tu (50% ngang, 50% doc): */
+background-position: 50% 50%;
+
+/* Cach le trai 30% chieu rong, cach dinh 20% chieu cao: */
+background-position: 30% 20%;
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Bản Chất Toán Học Của Tỷ Lệ Phần Trăm (\%)]
+\textbf{Lưu ý quan trọng}: Tỷ lệ phần trăm là \textbf{theo kích thước phần tử chứa, không phải ảnh}! Trình duyệt áp dụng công thức chuẩn W3C:
+\[
+\text{Tọa độ điểm vẽ} = (\text{Chiều rộng khung chứa} - \text{Chiều rộng ảnh}) \times \text{Tỷ lệ } \%
+\]
+Do đó, khi đặt \codeinline{50\% 50\%}, tâm của ảnh sẽ nằm chính xác tại tâm của khung chứa! Khi đặt \codeinline{100\% 100\%}, cạnh phải và đáy của ảnh sẽ chạm khít cạnh phải và đáy của khung phần tử.
+\end{conceptBox}
+
+\noindent\textbf{c. Đơn vị em và rem -- Căn chỉnh linh hoạt theo kích thước Font chữ:}
+\begin{codeWindow}[Định Vị Theo Cỡ Chữ em và rem]
+\begin{lstlisting}[language=CSS3]
+/* Anh cach trai 2em va cach tren 3em dua theo font-size: */
+background-position: 2em 3em;
 \end{lstlisting}
 \end{codeWindow}
 \noindent
-\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả hiển thị)}}: Ảnh sẽ không lặp và nằm chính giữa khung phần tử \codeinline{.box}.
+\textit{Ý nghĩa}: Khi kích thước chữ của phần tử tăng/giảm, khoảng cách dịch chuyển của ảnh nền cũng tự động co giãn tỷ lệ theo, cực kỳ hữu ích cho thiết kế Responsive Typography.
 
-\paragraph{4. Hệ Trục Tọa Độ Hoạt Động Như Thế Nào?}
+\paragraph{6. Hệ Trục Tọa Độ Hoạt Động Như Thế Nào?}
 Trình duyệt quản lý không gian nền theo hệ trục tọa độ 2 chiều Decartes:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item Tọa độ $(x, y)$ tính từ góc trên trái $(0, 0)$ của phần tử.
@@ -11911,7 +12028,7 @@ Trình duyệt quản lý không gian nền theo hệ trục tọa độ 2 chi�
     \item \textbf{Ví dụ}: \codeinline{background-position: 50\% 0;} $\rightarrow$ Ảnh đặt ở giữa theo chiều ngang ($X = 50\%$), nhưng dính sát lên trên mép đỉnh ($Y = 0$).
 \end{itemize}
 
-\paragraph{5. So Sánh Bản Chất Giữa Phần Trăm (\%) Và Pixel (px):}
+\paragraph{7. So Sánh Bản Chất Giữa Phần Trăm (\%) Và Pixel (px):}
 
 \begin{prettyTableBox}[SO SÁNH BẢN CHẤT TÍNH TOÁN GIỮA PHẦN TRĂM VÀ PIXEL]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -11927,15 +12044,7 @@ Trình duyệt quản lý không gian nền theo hệ trục tọa độ 2 chi�
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{conceptBox}[Bản Chất Toán Học Của Tỷ Lệ Phần Trăm (\%)]
-\textbf{Lưu ý quan trọng}: Tỷ lệ phần trăm là \textbf{theo kích thước phần tử chứa, không phải ảnh}! Trình duyệt áp dụng công thức chuẩn W3C:
-\[
-\text{Tọa độ điểm vẽ} = (\text{Chiều rộng khung chứa} - \text{Chiều rộng ảnh}) \times \text{Tỷ lệ } \%
-\]
-Do đó, khi đặt \codeinline{50\% 50\%}, tâm của ảnh sẽ nằm chính xác tại tâm của khung chứa! Khi đặt \codeinline{100\% 100\%}, cạnh phải và đáy của ảnh sẽ chạm khít cạnh phải và đáy của khung phần tử.
-\end{conceptBox}
-
-\paragraph{6. Cú Pháp 4 Giá Trị Hiện Đại (4-Value Syntax):}
+\paragraph{8. Cú Pháp 4 Giá Trị Hiện Đại (4-Value Syntax):}
 Trong CSS hiện đại, bạn có thể chỉ định khoảng cách lệch (\term{Offset}) từ bất kỳ góc biên nào thay vì chỉ tính từ góc trên-trái:
 
 \begin{codeWindow}[Cú Pháp 4 Giá Trị Định Vị Cách Lệch Biên Linh Hoạt]
@@ -11949,7 +12058,7 @@ Trong CSS hiện đại, bạn có thể chỉ định khoảng cách lệch (\t
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{7. Kỹ Thuật Tính Toán Động Với Hàm calc():}
+\paragraph{9. Kỹ Thuật Tính Toán Động Với Hàm calc():}
 Trước khi cú pháp 4 giá trị ra đời hoặc trong các dự án cần tương thích với trình duyệt cũ, lập trình viên sử dụng hàm \codeinline{calc()} để thiết lập khoảng cách cố định từ mép phải hoặc mép dưới:
 
 \begin{codeWindow}[Định Vị Cách Mép Phải 30px Bằng Hàm calc()]
@@ -11965,7 +12074,7 @@ Trước khi cú pháp 4 giá trị ra đời hoặc trong các dự án cần t
 \noindent
 \textit{Mẹo thực chiến}: Cú pháp \codeinline{calc()} cực kỳ hữu hiệu khi bạn muốn hỗ trợ các trình duyệt di động đời cũ chưa tương thích tốt với cú pháp 4 giá trị.
 
-\paragraph{8. Kỹ Thuật Kinh Điển: CSS Image Sprites Tối Ưu Tải Trang:}
+\paragraph{10. Kỹ Thuật Kinh Điển: CSS Image Sprites Tối Ưu Tải Trang:}
 \textbf{CSS Sprites} là kỹ thuật ghép hàng loạt hình ảnh nhỏ (biểu tượng icon, nút bấm, avatar) vào một tệp hình ảnh lớn duy nhất (\term{Spritesheet}). Khi tải trang, trình duyệt chỉ cần gửi \textbf{đúng 1 yêu cầu HTTP} duy nhất thay vì hàng chục yêu cầu riêng rẽ, giúp giảm tải tối đa cho máy chủ và tăng tốc độ hiển thị giao diện.
 
 \begin{conceptBox}[Bản Chất Tọa Độ Âm Trong CSS Sprites]
@@ -11995,23 +12104,24 @@ Trước khi cú pháp 4 giá trị ra đời hoặc trong các dự án cần t
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{9. Kết Hợp background-position Với Các Thuộc Tính Khác:}
-Trong thiết kế giao diện thực tế, \codeinline{background-position} thường được kết hợp với \codeinline{background-repeat} và \codeinline{background-size} để tạo hiệu ứng bố cục trọn vẹn:
+\paragraph{11. Kết Hợp background-position Với background-size Và background-repeat:}
+Trong thiết kế giao diện thực tế, \codeinline{background-position} thường được phối hợp đồng bộ với \codeinline{background-repeat} và \codeinline{background-size}:
 
 \begin{codeWindow}[Ví Dụ Phối Hợp background-position, background-repeat Và background-size]
 \begin{lstlisting}[language=CSS3]
-.box {
-  background-image: url("bg.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
+/* Can giua anh va dam bao phu kin khong bi ho vien: */
+div {
+  background-image: url("example.jpg");
+  background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
 }
 \end{lstlisting}
 \end{codeWindow}
 \noindent
-\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh nằm ở chính giữa và được phóng lớn vừa khít phần tử, không bị lặp lại.
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh nằm ở chính giữa, được phóng to phủ kín phần tử và không bị lặp lại.
 
-\paragraph{10. Góc Nhìn Đồ Họa \& Hiệu Năng: Cảnh Báo Repaint Khi Animate background-position:}
+\paragraph{12. Góc Nhìn Đồ Họa \& Hiệu Năng: Cảnh Báo Repaint Khi Animate background-position:}
 Một lỗi hiệu năng kinh điển trong CSS là tạo hiệu ứng cuộn cảnh vô tận (\term{Infinite Background Panning}) hoặc hiệu ứng di chuột chuyển dịch nền bằng cách animate trực tiếp \codeinline{background-position}:
 
 \begin{warnBox}[Cảnh Báo Về Hiệu Năng Render Khi Chuyển Động background-position]
@@ -12022,7 +12132,7 @@ Thuộc tính \codeinline{background-position} nằm ở giai đoạn \textbf{Pa
 \end{itemize}
 \end{warnBox}
 
-\paragraph{11. Lưu Ý Quan Trọng Khi Dùng background-position:}
+\paragraph{13. Lưu Ý Quan Trọng Khi Dùng background-position:}
 
 \begin{warnBox}[Các Lưu Ý Kỹ Thuật Quan Trọng Khi Sử Dụng background-position]
 \rowcolors{2}{white}{warnBg!60}
@@ -12042,7 +12152,7 @@ Khi dùng nhiều ảnh nền & Mỗi ảnh nền có thể có một vị trí 
 \end{tabularx}
 \end{warnBox}
 
-\paragraph{12. Mở Rộng Đọc Thêm: Thuộc Tính Đơn Lẻ background-position-x Và background-position-y:}
+\paragraph{14. Mở Rộng Đọc Thêm: Thuộc Tính Đơn Lẻ background-position-x Và background-position-y:}
 Trong chuẩn CSS hiện đại (CSS Backgrounds and Borders Level 4), W3C đã chính thức chuẩn hóa hai thuộc tính đơn lẻ:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \codeinline{background-position-x}: Chỉ điều chỉnh vị trí theo trục hoành (trục ngang).
@@ -12063,69 +12173,670 @@ Trong chuẩn CSS hiện đại (CSS Backgrounds and Borders Level 4), W3C đã 
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{13. Tổng Kết Nhanh background-position:}
+\paragraph{15. Bảng Tổng Hợp Nhanh Tình Huống \& Giải Pháp background-position:}
 
-\begin{prettyTableBox}[TỔNG KẾT NHANH CÁC GIÁ TRỊ VỊ TRÍ background-position]
+\begin{prettyTableBox}[BẢNG TRA CỨU NHANH CÁC GIẢI PHÁP ĐỊNH VỊ ẢNH NỀN]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries}p{6.5cm}|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Giá trị ví dụ} & \thd{\sffamily Hiệu ứng vị trí} \\
+\rowcolor{primaryBlue} \thd{\sffamily Trường hợp cần làm} & \thd{\sffamily Giải pháp CSS tương ứng} \\
 \hline
-left top (mặc định) & Ảnh nằm ở góc trái trên. \\
+Ảnh căn chính giữa phần tử & background-position: center; \\
 \hline
-center center & Ảnh nằm ở giữa phần tử. \\
+Ảnh căn góc trái trên cùng (Mặc định) & background-position: left top; \\
 \hline
-20px 40px & Ảnh cách lề trái 20px, cách mép trên 40px. \\
+Ảnh căn góc phải dưới cùng & background-position: right bottom; \\
 \hline
-50\% 50\% & Ảnh nằm chính giữa (theo cả chiều ngang và chiều dọc). \\
+Ảnh cách lề trái 50px, cách mép trên 100px & background-position: 50px 100px; \\
 \hline
-right bottom & Ảnh nằm ở góc dưới phải. \\
+Ảnh căn chỉnh theo tỷ lệ phần trăm (\%) & background-position: 50\% 50\%; \\
+\hline
+Ảnh cách lề trái 30\% và trên 20\% & background-position: 30\% 20\%; \\
+\hline
+Ảnh lặp lại nhưng bắt đầu từ vị trí cụ thể & background-repeat: repeat; \newline background-position: 30px 50px; \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{Kích Thước Ảnh Nền: Cover vs Contain (\csshint{background-size})}
+\subsection{Làm Chủ Kích Thước Ảnh Nền: Toàn Diện background-size (\csshint{background-size})}
 \label{sec:css_bg_size}
 
-Trước CSS3, kích thước ảnh nền bị bó buộc vào độ phân giải gốc của tệp hình ảnh. Thuộc tính \codeinline{background-size} ra đời đã giải phóng hoàn toàn sức mạnh thiết kế Responsive cho ảnh nền.
+Thuộc tính \codeinline{background-size} xác định kích thước hiển thị của hình ảnh nền trong CSS. Kích thước này được tính toán \textbf{trước khi} hình ảnh được định vị bởi \codeinline{background-position} và lặp lại bởi \codeinline{background-repeat}. Mặc định, hình ảnh nền sẽ hiển thị với kích thước gốc của nó. Thuộc tính này có thể được áp dụng độc lập cho từng hình ảnh nền riêng lẻ khi bạn khai báo nhiều lớp \codeinline{background-image}.
 
-\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU CHI TIẾT CÁC GIÁ TRỊ background-size]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.2cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Hành vi co giãn thị giác} & \thd{\sffamily Ưu/Nhược điểm \& Ứng dụng thực tế} \\
-\hline
-auto & Giữ nguyên kích thước pixel gốc của ảnh (Mặc định). & Thích hợp cho icon nhỏ, hoa văn cố định; dễ vỡ layout nếu ảnh quá to. \\
-\hline
-cover & Phóng to ảnh để \textbf{phủ kín hoàn toàn} khung chứa mà vẫn giữ nguyên tỷ lệ khung hình. & \textbf{Ưu điểm}: Không bao giờ để lại khoảng trắng rỗng. \textbf{Nhược điểm}: Có thể bị cắt mất phần rìa ảnh nếu tỷ lệ khung hình khác nhau. Cực kỳ phổ biến cho Hero Banner. \\
-\hline
-contain & Phóng to ảnh tối đa sao cho \textbf{toàn bộ ảnh nằm trọn vẹn} trong khung chứa mà không bị cắt xén. & \textbf{Ưu điểm}: Luôn nhìn thấy 100\% nội dung ảnh. \textbf{Nhược điểm}: Có thể để lại khoảng trống màu nền ở 2 bên hoặc trên dưới. Thích hợp cho ảnh sản phẩm, Logo. \\
-\hline
-kích thước cụ thể & Ví dụ: \codeinline{100\% auto}, \codeinline{300px 200px}. & Ép kích thước chính xác; nếu khai báo cả 2 chiều khác tỷ lệ gốc ảnh sẽ bị méo hình (\term{Distortion}). \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
+\begin{conceptBox}[Khái Niệm Cốt Lõi Thuộc Tính background-size]
+Thuộc tính \codeinline{background-size} quyết định kích thước hiển thị của ảnh nền bên trong phần tử HTML. Nó giúp lập trình viên kiểm soát tuyệt đối việc phóng to, thu nhỏ, kéo giãn, lấp đầy hay lặp lại ảnh theo ý muốn để vừa vặn hoàn hảo với phần tử chứa nó trên mọi kích thước màn hình và thiết bị.
+\end{conceptBox}
 
-\begin{browserWindow}[Phân Tích Nguyên Lý Co Giãn Của Thuộc Tính background-size: cover]
-\centering
-\includegraphics[width=0.88\linewidth]{figures/bg_size_cover_mechanism.png}\par\vspace{4pt}
-{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Bản chất kỹ thuật của \codeinline{cover}: Phóng to ảnh đồng tỷ lệ (\term{Aspect Ratio}) cho đến khi bao phủ kín cả chiều rộng lẫn chiều cao khung chứa (\term{Covered? YES!}), chấp nhận cắt xén phần viền vượt quá khung.}
-\end{browserWindow}
+\paragraph{1. Cú Pháp Cơ Bản \& Mở Rộng:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Cú pháp cơ bản}: \codeinline{background-size: value;}
+    \item \textbf{Cú pháp mở rộng (2 giá trị width, height)}:
+\end{itemize}
 
-\begin{codeWindow}[Mã Nguồn Thiết Lập Cặp Đôi Hoàn Hảo Cho Hero Section]
+\begin{codeWindow}[Cú Pháp Mở Rộng background-size]
 \begin{lstlisting}[language=CSS3]
-.hero-section {
-  width: 100%;
-  height: 80vh;
-  background-image: url("banner.webp");
-  background-repeat: no-repeat;
-  background-position: center center; /* Luon giu chu the trung tam */
-  background-size: cover;             /* Phu kin toan bo khung nhin man hinh */
+selector {
+  background-image: url("image.jpg");
+  background-size: width height;
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{prettyTableBox}[BẢNG CÁC GIÁ TRỊ THƯỜNG DÙNG CỦA background-size]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa \& Hành vi hiển thị} \\
+\hline
+auto & Hiển thị theo kích thước gốc của ảnh (Giá trị mặc định). \\
+\hline
+length length & Xác định kích thước cụ thể theo đơn vị đo lường (ví dụ: \codeinline{100px 50px}). \\
+\hline
+percentage & Dựa theo phần trăm của kích thước phần tử cha (ví dụ: \codeinline{100\% 100\%}). \\
+\hline
+cover & Phóng to ảnh để phủ kín toàn bộ phần tử, giữ tỷ lệ, có thể bị cắt bớt viền. \\
+\hline
+contain & Phóng to/thu nhỏ sao cho toàn bộ ảnh vừa vặn trong phần tử, không bị cắt, có thể để dư vùng trống. \\
+\hline
+auto 50\% & Chiều rộng giữ nguyên theo tỷ lệ gốc, chiều cao chiếm 50\% chiều cao phần tử. \\
+\hline
+50\% auto & Chiều rộng chiếm 50\% phần tử, chiều cao tự động tính theo tỷ lệ gốc. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{2. Chuyên Đề A: Giá Trị auto (Kích Thước Mặc Định \& Tỉ Lệ Tự Động):}
+Ảnh nền giữ nguyên kích thước gốc của nó:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Nếu ảnh \textbf{lớn hơn} phần tử $\rightarrow$ Bị cắt bớt (chỉ hiển thị phần nằm trong khung hiển thị).
+    \item Nếu ảnh \textbf{nhỏ hơn} phần tử $\rightarrow$ Tự động lặp lại để phủ kín phần tử (nếu không tắt \codeinline{background-repeat}).
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 1: Kích Thước Mặc Định auto Với Ảnh Lớn]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 300px;
+  height: 200px;
+  background-image: url("large-image.jpg");
+  background-size: auto;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Nếu ảnh gốc có kích thước $1000 \times 800\text{px}$, trong khi phần tử chỉ có $300 \times 200\text{px}$, trình duyệt chỉ hiển thị đúng vùng $300 \times 200\text{px}$ ở góc trên bên trái của ảnh. Ngược lại, nếu ảnh nhỏ hơn $300 \times 200\text{px}$, ảnh sẽ tự động lặp lại liên tục thành nhiều ô gạch nếu không tắt \codeinline{background-repeat}.
+
+\subparagraph{Kết Hợp background-size: 100\% auto:}
+\begin{codeWindow}[Thiết Lập Co Giãn Chiều Ngang 100\% auto]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 400px;
+  background-image: url("image.jpg");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Chiều rộng của ảnh nền sẽ bằng chính xác $100\%$ chiều rộng của phần tử (tức $600\text{px}$).
+    \item Chiều cao của ảnh sẽ tự động điều chỉnh theo tỷ lệ gốc của hình ảnh để tránh méo mó (\term{Aspect Ratio Preservation}).
+    \item Ảnh không lặp lại nhờ khai báo \codeinline{background-repeat: no-repeat}.
+\end{itemize}
+
+\begin{tipBox}[Lợi Ích \& Ứng Dụng Thực Tế Của 100\% auto]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Ứng dụng}: Banner hoặc tiêu đề website cần luôn phủ toàn bộ chiều ngang màn hình; ảnh minh họa trong Card sản phẩm cần co giãn tự nhiên theo độ rộng cột mà không bị biến dạng tỷ lệ.
+    \item \textbf{Lợi ích}: Giữ ảnh tuyệt đối không bị méo vì chiều cao được hệ thống tính toán tự động dựa trên tỷ lệ gốc. Phù hợp hoàn hảo khi bạn chỉ quan tâm ảnh trải rộng hết chiều ngang mà chấp nhận chiều cao co theo.
+\end{itemize}
+\end{tipBox}
+
+\subparagraph{Minh Họa Với Kích Thước Cụ Thể (Ảnh Gốc $1000 \times 500\text{px}$ Trong Phần Tử $600 \times 400\text{px}$):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Kích thước ảnh gốc}: $1000 \times 500\text{px}$ (tỷ lệ $2:1$).
+    \item \textbf{Kích thước phần tử}: $600 \times 400\text{px}$.
+    \item \textbf{Khi áp dụng \codeinline{background-size: 100\% auto}}:
+    \begin{itemize}[leftmargin=1.2em]
+        \item Chiều rộng ảnh co lại bằng $100\%$ chiều rộng phần tử $\rightarrow 600\text{px}$.
+        \item Chiều cao ảnh tự động tính theo tỷ lệ gốc $2:1 \rightarrow 600\text{px} / 2 = 300\text{px}$.
+        \item \textbf{Kết quả}: Chiều cao ảnh ($300\text{px}$) nhỏ hơn chiều cao phần tử ($400\text{px}$) $\rightarrow$ \textbf{sẽ xuất hiện khoảng trống $100\text{px}$ ở phía dưới} nếu không căn chỉnh!
+        \item \textbf{Cách khắc phục}: Thêm \codeinline{background-position: center;} để căn đều khoảng trống lên trên và xuống dưới.
+    \end{itemize}
+\end{itemize}
+
+\subparagraph{Kiểm Thử Tình Huống Thực Tế: Phân Tích Ảnh $736 \times 1104\text{px}$ Trong Khung $600 \times 600\text{px}$:}
+Giả sử ta có tấm ảnh dọc với kích thước thực tế là $736 \times 1104\text{px}$ (tỷ lệ $\approx 0.6667$) đặt trong phần tử hình vuông $600 \times 600\text{px}$:
+
+\begin{codeWindow}[Thử Nghiệm 1: background-size: 100\% auto (Rộng 100\%, Cao Tự Động)]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 600px;
+  background-image: url("image.jpg");
+  background-size: 100% auto;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent
+\textbf{Cơ chế hoạt động \& Công thức tính}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Chiều rộng ảnh $= 100\%$ chiều rộng phần tử $\rightarrow 600\text{px}$.
+    \item Tỷ lệ khung hình ảnh gốc: $\frac{736}{1104} \approx 0.6667$.
+    \item Chiều cao mới: $\frac{600\text{px}}{0.6667} \approx 900\text{px}$.
+    \item \textbf{Kết quả trực quan}: Ảnh nền có kích thước hiển thị thực tế là $600 \times 900\text{px}$. Do phần tử chỉ cao $600\text{px}$, ảnh bị \textbf{cắt bớt $300\text{px}$ chiều cao} ở phía dưới!
+    \item \textbf{Giải pháp}: Dùng \codeinline{contain} nếu muốn thấy toàn bộ không bị cắt; dùng \codeinline{cover} nếu muốn phủ kín không dư thừa.
+\end{itemize}
+
+\begin{browserWindow}[Kết Quả Kiểm Thử Thực Tế: background-size: 100\% auto]
+\centering
+\includegraphics[width=0.48\linewidth]{figures/bg_size_100pct_auto.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Chiều rộng lấp đầy $600\text{px}$, chiều cao bung ra $900\text{px}$ khiến $300\text{px}$ chân ảnh bị cắt khỏi khung nhìn.}
+\end{browserWindow}
+
+\begin{codeWindow}[Thử Nghiệm 2: background-size: 30\% auto (Rộng 30\%, Cao Tự Động)]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 600px;
+  background-image: url("image.jpg");
+  background-size: 30% auto;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent
+\textbf{Cơ chế hoạt động \& Công thức tính}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Chiều rộng ảnh $= 30\% \times 600\text{px} = 180\text{px}$.
+    \item Chiều cao mới: $\frac{180\text{px}}{0.6667} \approx 270\text{px}$.
+    \item \textbf{Kết quả trực quan}: Ảnh có kích thước $180 \times 270\text{px}$, nhỏ hơn rất nhiều so với phần tử $600 \times 600\text{px}$. Nếu không tắt lặp nền, ảnh sẽ lặp lại liên tiếp để lấp đầy phần tử!
+    \item \textbf{Giải pháp}: Kết hợp thêm \codeinline{background-repeat: no-repeat;} và dùng \codeinline{background-position} để căn ảnh vào vị trí mong muốn (giữa, góc).
+\end{itemize}
+
+\begin{browserWindow}[Kết Quả Kiểm Thử Thực Tế: background-size: 30\% auto]
+\centering
+\includegraphics[width=0.48\linewidth]{figures/bg_size_30pct_auto.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Ảnh thu nhỏ còn $180 \times 270\text{px}$, để lại khoảng trống bao la bên phải và bên dưới trong khung $600 \times 600\text{px}$.}
+\end{browserWindow}
+
+\begin{prettyTableBox}[TÓM TẮT SO SÁNH GIỮA 100\% auto VÀ 30\% auto]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Kích thước khai báo} & \thd{\sffamily Kết quả hiển thị} & \thd{\sffamily Lưu ý kỹ thuật} \\
+\hline
+100\% auto & Ảnh rộng 600px, cao 900px $\rightarrow$ bị cắt 300px chiều cao. & Phù hợp khi ưu tiên chiều rộng, chấp nhận cắt xén phần đỉnh hoặc chân. \\
+\hline
+30\% auto & Ảnh rộng 180px, cao 270px $\rightarrow$ ảnh nhỏ hơn rất nhiều so với phần tử. & Phù hợp khi cần hiển thị icon/stamp nhỏ, bắt buộc kết hợp \codeinline{no-repeat}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Mẹo Tối Ưu Lựa Chọn Giá Trị background-size]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Muốn ảnh luôn vừa vặn}: Dùng \codeinline{contain}.
+    \item \textbf{Muốn ảnh phủ kín, không quan tâm bị cắt}: Dùng \codeinline{cover}.
+    \item \textbf{Muốn giữ kích thước linh hoạt}: Kết hợp linh hoạt giữa \codeinline{background-size}, \codeinline{background-position} và \codeinline{background-repeat}.
+\end{itemize}
+\end{tipBox}
+
+\begin{prettyTableBox}[BẢNG SO SÁNH 100\% auto VỚI CÁC GIÁ TRỊ KHÁC]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa kỹ thuật} & \thd{\sffamily Kết quả thị giác} \\
+\hline
+100\% auto & Chiều rộng $= 100\%$, chiều cao tự điều chỉnh theo tỷ lệ ảnh. & Ảnh giãn ngang đúng bằng phần tử, chiều cao tự động (có thể thừa khoảng trống). \\
+\hline
+100\% 100\% & Chiều rộng 100\%, chiều cao 100\% (bất kể tỷ lệ gốc). & Ảnh giãn đều cả 2 chiều, \textbf{bị méo mó hình} nếu tỷ lệ ảnh khác tỷ lệ khung. \\
+\hline
+cover & Phủ kín toàn bộ phần tử, cắt bớt nếu cần để giữ tỷ lệ. & Luôn che phủ 100\% diện tích, không hở nền nhưng có thể mất chi tiết mép ảnh. \\
+\hline
+contain & Hiển thị toàn bộ ảnh, không vượt quá kích thước khung. & Vừa vặn trọn vẹn, không bao giờ bị cắt nhưng có thể chừa khoảng trống nếu lệch tỷ lệ. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Khi Nào Nên \& Không Nên Dùng 100\% auto?]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Nên dùng khi}:
+    \begin{itemize}[leftmargin=1.2em]
+        \item Muốn ảnh nền phủ kín trọn vẹn chiều ngang mà vẫn bảo toàn tỷ lệ gốc.
+        \item Không muốn ảnh bị méo mó, biến dạng khi khung chứa thay đổi kích thước.
+        \item Dùng cho ảnh trang trí, infographic cuộn dọc hoặc ảnh minh họa co giãn theo chiều ngang.
+    \end{itemize}
+    \item \textbf{Không nên dùng khi}:
+    \begin{itemize}[leftmargin=1.2em]
+        \item Muốn ảnh luôn luôn lấp đầy toàn bộ phần tử mà không để lộ nền trắng $\rightarrow$ dùng \codeinline{cover} sẽ phù hợp hơn rất nhiều.
+        \item Muốn hiển thị toàn bộ 100\% nội dung ảnh mà không bị cắt xén bất kỳ cạnh nào $\rightarrow$ dùng \codeinline{contain} là giải pháp tốt nhất.
+    \end{itemize}
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Thực Tế Hoàn Chỉnh Với 100\% auto]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 800px;
+  height: 400px;
+  background-image: url("hero-banner.jpg");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Chiều rộng ảnh $= 800\text{px}$ ($100\%$ chiều rộng phần tử). Chiều cao tự tính theo tỷ lệ gốc; nếu ảnh thấp hơn $400\text{px}$, sẽ có khoảng trống bên dưới. Ảnh không lặp lại và được căn giữa theo chiều ngang nhờ \codeinline{background-position: top center}.
+
+\paragraph{3. Chuyên Đề B: Giá Trị contain (Vừa Khít Phần Tử, Bảo Toàn Tỷ Lệ Tuyệt Đối):}
+Ảnh sẽ thu nhỏ hoặc phóng to để vừa khít hoàn toàn bên trong vùng chứa của phần tử, nhưng \textbf{luôn luôn giữ tỷ lệ khung hình} (\term{Aspect Ratio}).
+
+\begin{conceptBox}[Định Nghĩa Chi Tiết Giá Trị contain]
+Thu nhỏ hoặc phóng to hình ảnh để nó vừa vặn hoàn toàn bên trong vùng chứa của phần tử, trong khi vẫn duy trì tỷ lệ khung hình. Hình ảnh sẽ được điều chỉnh sao cho cạnh dài nhất của nó vừa với cạnh tương ứng của phần tử. Điều này có thể để lại khoảng trống (\term{Letterboxing / Pillarboxing}) ở một hoặc hai bên nếu tỷ lệ khung hình không khớp.
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Khi dùng}: Khi bạn muốn đảm bảo toàn bộ hình ảnh luôn hiển thị đầy đủ, không bị cắt xén bất kỳ chi tiết nào, chẳng hạn như logo thương hiệu, huy hiệu, biểu tượng hoặc hình ảnh sản phẩm trong khung thương mại điện tử cố định.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Cơ Bản Với Giá Trị contain]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 400px;
+  height: 300px;
+  background-image: url("logo.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh thu nhỏ hoặc phóng to để vừa khít phần tử, giữ nguyên vẹn tỷ lệ, không bị cắt méo. Nếu ảnh có kích thước $300 \times 150\text{px}$ đặt trong khung $400 \times 300\text{px}$, ảnh sẽ phóng to lên $400 \times 200\text{px}$ và để lại hai viền trống trên/dưới.
+
+\subparagraph{Đào Sâu Vào Cốt Lõi Cơ Chế contain:}
+\codeinline{contain} là giá trị giúp ảnh luôn hiển thị đầy đủ trong phần tử, không bị cắt và giữ nguyên tỷ lệ khung hình. Ảnh sẽ co lại hoặc phóng to sao cho:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Ảnh vừa khớp hoàn toàn vào phần tử (cạnh dài chạm mép khung).
+    \item Tuyệt đối \textbf{không bị cắt} bất kỳ phần nào của ảnh.
+    \item Xuất hiện khoảng trống thừa nếu tỷ lệ phần tử và tỷ lệ ảnh không đồng nhất.
+\end{itemize}
+
+\begin{codeWindow}[Thiết Lập contain Tiêu Chuẩn Trong Khung 600x600px]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 600px;
+  background-image: url("image.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh thu nhỏ để vừa vặn hoàn toàn trong khung $600 \times 600\text{px}$, không bị cắt bất kỳ điểm ảnh nào, không lặp lại ảnh nhờ \codeinline{no-repeat}, và nằm cân đối ở chính giữa khung nhờ \codeinline{center}.
+
+\begin{browserWindow}[Kết Quả Hiển Thị Chuẩn Mực: background-size: contain (Căn Giữa)]
+\centering
+\includegraphics[width=0.48\linewidth]{figures/bg_size_contain_600x600.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Ảnh dọc $736 \times 1104\text{px}$ co lại còn $400 \times 600\text{px}$, căn giữa hoàn hảo, chừa 2 khoảng trống $100\text{px}$ đối xứng ở 2 bên.}
+\end{browserWindow}
+
+\subparagraph{Phân Tích Chuyên Sâu: Điều Gì Xảy Ra Khi Bỏ Quên repeat Hoặc position?}
+
+\textbf{1. Khi KHÔNG dùng \codeinline{background-repeat: no-repeat}:}
+\begin{codeWindow}[contain Không Khai Báo no-repeat]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 600px;
+  background-image: url("image.jpg");
+  background-size: contain; /* Thieu background-repeat: no-repeat */
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh nền được thu nhỏ hoặc phóng to đúng chuẩn \codeinline{contain}, nhưng ở các vùng khoảng trống thừa, \textbf{ảnh sẽ tự động lặp lại theo cả chiều ngang và chiều dọc để lấp đầy phần tử!}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Với ảnh gốc $736 \times 1104\text{px}$ trong khung $600 \times 600\text{px}$, ảnh thu nhỏ còn $400 \times 600\text{px}$. Vì không có \codeinline{no-repeat}, trình duyệt lấy tiếp $200\text{px}$ đầu của ảnh để lặp vào phần thừa bên phải!
+    \item Nếu dùng \codeinline{background-repeat: no-repeat}, những khoảng trống đó sẽ để trống và hiển thị màu nền của phần tử (\codeinline{background-color}).
+\end{itemize}
+
+\begin{browserWindow}[Hiện Tượng Lặp Gạch Khi Dùng contain Thiếu no-repeat]
+\centering
+\includegraphics[width=0.48\linewidth]{figures/bg_repeat_tiling_box.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Vùng thừa bên phải không bị bỏ trống mà tiếp tục lặp lại các ô ảnh nền tiếp theo.}
+\end{browserWindow}
+
+\textbf{2. Khi KHÔNG dùng \codeinline{background-position: center}:}
+\begin{codeWindow}[contain Khai Báo no-repeat Nhưng Thiếu center]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 600px;
+  background-image: url("image.jpg");
+  background-size: contain;
+  background-repeat: no-repeat; /* Thieu background-position: center */
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh mặc định bị neo chặt ở góc trên bên trái (\codeinline{0 0}). Nếu ảnh nhỏ hơn phần tử, toàn bộ khoảng trống dồn hết về bên phải và mép dưới. Ví dụ với ảnh $736 \times 1104\text{px}$, ảnh co về $400 \times 600\text{px}$ dính sát mép trái, để trống một dải rộng $200\text{px}$ ở mép phải.
+
+\begin{conceptBox}[Kết Luận \& Giải Pháp Kiểm Soát contain Hoàn Hảo]
+Nếu không có \codeinline{background-repeat} và \codeinline{background-position}, ảnh hoặc sẽ bị lặp vô tận để lấp đầy, hoặc sẽ bị dồn dính vào góc trên bên trái. Để kiểm soát hoàn mỹ:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Luôn tắt lặp nền: \codeinline{background-repeat: no-repeat;}
+    \item Căn chỉnh vị trí hợp lý: \codeinline{background-position: center;} hoặc \codeinline{background-position: top right;}
+    \item \textbf{Bộ ba hoàn hảo}: \codeinline{background-size: contain; background-repeat: no-repeat; background-position: center;}
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[ĐỐI CHIẾU 3 TRƯỜNG HỢP KÍCH THƯỚC THỰC TẾ VỚI contain]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.0cm}|>{\centering\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Kích thước ảnh gốc} & \thd{\sffamily Khung phần tử} & \thd{\sffamily Kết quả hiển thị chi tiết khi dùng contain} \\
+\hline
+736 $\times$ 1104px (Ảnh dọc) & 600 $\times$ 600px & Thu nhỏ còn $400 \times 600\text{px}$, giữ nguyên tỷ lệ, thừa khoảng trống ở 2 bên trái/phải. \\
+\hline
+1920 $\times$ 1080px (Ảnh ngang) & 600 $\times$ 600px & Thu nhỏ còn $600 \times 337.5\text{px}$, giữ nguyên tỷ lệ, thừa khoảng trống ở trên và dưới. \\
+\hline
+300 $\times$ 300px (Ảnh vuông) & 600 $\times$ 600px & Phóng to lên đúng $600 \times 600\text{px}$, khớp khít hoàn hảo $100\%$ không thừa viền. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[TỔNG HỢP ƯU ĐIỂM VÀ NHƯỢC ĐIỂM CỦA contain]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{successGreen}}p{6.5cm}|>{\raggedright\arraybackslash\bfseries\color{dangerRed}}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Ưu điểm vượt trội} & \thd{\sffamily Hạn chế cần lưu tâm} \\
+\hline
+Ảnh không bao giờ bị cắt, luôn hiển thị đầy đủ $100\%$ chi tiết. & Xuất hiện khoảng trống thừa nếu tỷ lệ khung hình không trùng khớp. \\
+\hline
+Bảo toàn tuyệt đối tỷ lệ khung hình gốc (không méo hình). & Kích thước ảnh có thể quá nhỏ so với khung chứa rộng lớn. \\
+\hline
+Rất dễ phối hợp với \codeinline{background-position} để căn chỉnh. & Cần xử lý màu nền nền tảng (\codeinline{background-color}) để tránh trống trải. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Mẹo Tối Ưu Cho contain]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Dùng \codeinline{contain} khi: Cần hiển thị trọn vẹn thông tin (Logo nhãn hàng, icon vector, ảnh sản phẩm bán hàng).
+    \item Dùng \codeinline{background-color} hoặc gradient tinh tế làm màu nền phụ để lấp đầy các khoảng trống thừa trang nhã.
+    \item Kết hợp \codeinline{@media} queries để điều chỉnh kích thước khung chứa linh hoạt theo từng thiết bị.
+\end{itemize}
+\end{tipBox}
+
+\paragraph{4. Chuyên Đề C: Giá Trị cover (Phủ Kín Phần Tử, Giữ Tỷ Lệ Tuyệt Đối):}
+Ảnh sẽ phóng to hoặc thu nhỏ để \textbf{phủ kín hoàn toàn diện tích của phần tử}, đồng thời vẫn duy trì tỷ lệ khung hình gốc.
+
+\begin{conceptBox}[Định Nghĩa Chi Tiết Giá Trị cover]
+Phóng to hình ảnh để nó bao phủ toàn bộ vùng chứa của phần tử (kể cả padding và border nếu \codeinline{background-origin} là \codeinline{border-box}), trong khi vẫn duy trì tỷ lệ khung hình của nó. Nếu tỷ lệ không khớp, hình ảnh sẽ bị cắt bỏ (\term{Crop}) một phần ở các mép cạnh để lấp đầy toàn bộ không gian.
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Khi dùng}: Rất phổ biến cho Banner, Hero sections hoặc hình nền toàn trang web nơi bạn muốn ảnh luôn lấp đầy không gian mà không để lộ bất kỳ khoảng trống rỗng nào, dù một phần viền ngoài của ảnh bị cắt xén.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Cơ Bản Với Giá Trị cover]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 400px;
+  height: 300px;
+  background-image: url("banner.jpg");
+  background-size: cover;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh tràn viền toàn bộ phần tử, không để hở khoảng trống, nhưng có thể bị mất một phần chi tiết ở mép nếu tỷ lệ ảnh không trùng khớp tỷ lệ phần tử.
+
+\begin{browserWindow}[Sơ Đồ Kỹ Thuật: Cơ Chế Phóng To Và Cắt Xén Của Giá Trị cover]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/bg_size_cover_mechanism.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Trình duyệt mở rộng ảnh đồng tỷ lệ cho đến khi cả hai chiều rộng và cao đều chạm hoặc vượt qua mép khung (\term{Covered? YES!}), chấp nhận xén bớt phần rìa tràn ra ngoài.}
+\end{browserWindow}
+
+\begin{prettyTableBox}[CÁCH HOẠT ĐỘNG CỦA cover TRÊN 3 TRƯỜNG HỢP THỰC TẾ]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.0cm}|>{\centering\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Kích thước ảnh gốc} & \thd{\sffamily Khung phần tử} & \thd{\sffamily Kết quả hiển thị chi tiết khi dùng cover} \\
+\hline
+736 $\times$ 1104px (Ảnh dọc) & 600 $\times$ 600px & Ảnh thu nhỏ còn $600 \times 900\text{px}$, chiều rộng vừa khít $600\text{px}$ nhưng bị \textbf{cắt bớt 300px chiều cao} để phủ kín khung. \\
+\hline
+1920 $\times$ 1080px (Ảnh ngang) & 600 $\times$ 600px & Chiều cao co về $600\text{px}$, chiều rộng thành $1066.67\text{px}$, bị \textbf{cắt bớt 466.67px chiều ngang} ở 2 bên mép. \\
+\hline
+300 $\times$ 300px (Ảnh vuông) & 600 $\times$ 600px & Ảnh phóng to lên đúng $600 \times 600\text{px}$, vừa khít hoàn toàn mà không bị cắt xén (do cùng tỷ lệ $1:1$). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{Phân Tích Chi Tiết Nguyên Lý Hoạt Động:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{cover}: Ảnh luôn luôn lấp đầy $100\%$ không gian phần tử mà không lộ bất kỳ kẽ hở nào.
+    \item Quy tắc cắt xén:
+    \begin{itemize}[leftmargin=1.2em]
+        \item Ảnh có tỷ lệ cao hơn phần tử $\rightarrow$ Chiều rộng chạm mép trước, \textbf{bị cắt chiều cao} (trên hoặc dưới).
+        \item Ảnh có tỷ lệ rộng hơn phần tử $\rightarrow$ Chiều cao chạm mép trước, \textbf{bị cắt chiều ngang} (trái hoặc phải).
+    \end{itemize}
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Hoàn Chỉnh Kết Hợp cover Chuẩn Mực]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 600px;
+  background-image: url("image.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh phủ kín trọn vẹn diện tích $600 \times 600\text{px}$, hoàn toàn không có khoảng trống thừa như \codeinline{contain}. Do ảnh gốc $736 \times 1104\text{px}$ có chiều cao vượt trội, ảnh mở rộng thành $600 \times 900\text{px}$ và nhờ \codeinline{background-position: center}, phần cắt $300\text{px}$ được chia đều: xén $150\text{px}$ ở mép trên và $150\text{px}$ ở mép dưới, giữ chủ thể bức ảnh luôn ở vị trí trung tâm thị giác!
+
+\begin{browserWindow}[Kết Quả Kiểm Thử Thực Tế: background-size: cover (Căn Giữa)]
+\centering
+\includegraphics[width=0.48\linewidth]{figures/bg_size_cover_600x600.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Ảnh phủ trọn vẹn khung $600 \times 600\text{px}$, $150\text{px}$ đỉnh và $150\text{px}$ chân ảnh được cắt xén đối xứng nhờ căn giữa.}
+\end{browserWindow}
+
+\begin{tipBox}[Mẹo Thực Chiến Với Giá Trị cover]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Dùng \codeinline{cover} khi muốn ảnh nền luôn lấp đầy toàn bộ phần tử, đặc biệt trong Hero sections, Banner lớn quảng cáo, hình nền Background toàn màn hình.
+    \item \textbf{Tránh mất nội dung quan trọng}: Kết hợp với \codeinline{background-position: center;} để giữ chủ thể chính ở giữa, hoặc định hướng vị trí hiển thị quan trọng như \codeinline{background-position: top left;} khi ảnh chứa khuôn mặt nhân vật ở góc trên.
+\end{itemize}
+\end{tipBox}
+
+\paragraph{5. Chuyên Đề D: Thiết Lập Kích Thước Cụ Thể (px, \%, em, rem):}
+Bạn có thể tự do đặt kích thước cụ thể bằng các đơn vị đo lường tuyệt đối (\codeinline{px}, \codeinline{pt}) hoặc tương đối (\codeinline{em}, \codeinline{rem}, \codeinline{\%}):
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{1 giá trị}: Đặt chiều rộng cố định, chiều cao sẽ là \codeinline{auto} để giữ nguyên tỷ lệ ảnh. Ví dụ: \codeinline{background-size: 200px;}.
+    \item \textbf{2 giá trị}: Đặt cả chiều rộng và chiều cao cố định. Tỷ lệ khung hình của ảnh có thể bị méo mó nếu bạn không giữ đúng tỷ lệ ban đầu. Ví dụ: \codeinline{background-size: 200px 150px;}.
+    \item \textbf{Kết hợp với auto}: \codeinline{background-size: 200px auto;} (Rộng 200px, cao tự động); \codeinline{background-size: auto 150px;} (Chiều rộng tự động theo tỷ lệ, chiều cao 150px).
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 1: Đặt Kích Thước Bằng Pixel Tuyệt Đối]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 500px;
+  height: 300px;
+  background-image: url("pattern.jpg");
+  background-size: 200px 150px;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh nền có kích thước cố định chính xác $200 \times 150\text{px}$ bất kể phần tử chứa lớn hay nhỏ. Nếu ảnh nhỏ hơn phần tử, ảnh sẽ tự động lặp lại (trừ khi dùng \codeinline{background-repeat: no-repeat}). Thường áp dụng cho logo thương hiệu cố định ở góc hoặc icon trang trí.
+
+\subparagraph{2. Đặt Kích Thước Theo Tỷ Lệ Phần Trăm (\%):}
+Đặt kích thước hình ảnh tương đối so với kích thước vùng chứa nền của phần tử: \codeinline{background-size: X\% Y\%;}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{X\%}: Chiều rộng ảnh bằng $X\%$ chiều rộng phần tử.
+    \item \codeinline{Y\%}: Chiều cao ảnh bằng $Y\%$ chiều cao phần tử.
+    \item Nếu chỉ khai báo một giá trị \codeinline{X\%}: Chiều rộng bằng $X\%$, chiều cao tự động giữ tỷ lệ.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 2: Đặt Kích Thước Theo Phần Trăm]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 400px;
+  background-image: url("pattern.jpg");
+  background-size: 50% 50%;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh chiếm đúng $50\%$ chiều rộng ($300\text{px}$) và $50\%$ chiều cao ($200\text{px}$) của phần tử. Do ép tỷ lệ theo cả hai chiều nên ảnh có thể bị méo nếu tỷ lệ phần trăm không tương thích với tỷ lệ gốc. \textit{Khuyên dùng}: Nếu muốn giữ nguyên tỷ lệ, hãy viết \codeinline{background-size: 50\% auto;}.
+
+\subparagraph{3. Sử Dụng Đơn Vị em Và rem (Tỷ Lệ Theo Font Size):}
+\begin{codeWindow}[Ví Dụ 3: Đặt Kích Thước Bằng em Và rem]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 400px;
+  background-image: url("icon.png");
+  background-size: 5em 3em;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Kích thước ảnh phụ thuộc trực tiếp vào cỡ chữ:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item $1\text{em}$ bằng cỡ chữ hiện tại của chính phần tử; $1\text{rem}$ bằng cỡ chữ gốc thẻ \codeinline{html} (thường là $16\text{px}$).
+    \item Khi người dùng phóng to cỡ chữ hoặc đổi giao diện tiếp cận (\term{Accessibility}), ảnh nền tự động phóng to theo tỷ lệ chữ. Rất hữu ích cho icon trang trí cạnh đầu đề hoặc giao diện Responsive linh hoạt.
+\end{itemize}
+
+\subparagraph{4. So Sánh 1 Giá Trị Và 2 Giá Trị:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{1 giá trị} (\codeinline{background-size: 300px;}): Chiều rộng cố định $300\text{px}$, chiều cao tự động co giãn bảo toàn tỷ lệ gốc.
+    \item \textbf{2 giá trị} (\codeinline{background-size: 300px 200px;}): Chiều rộng $300\text{px}$, chiều cao $200\text{px}$. Có thể bị bóp méo (\term{Distortion}) nếu tỷ lệ ảnh không khớp $3:2$.
+\end{itemize}
+
+\subparagraph{5. Kết Hợp Hoàn Hảo Với Các Thuộc Tính Khác:}
+\begin{codeWindow}[Ví Dụ 4: Phối Hợp Kích Thước Cụ Thể Với Định Vị Và Lặp Nền]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 400px;
+  background-image: url("logo.png");
+  background-size: 200px 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh nền giữ cố định $200 \times 100\text{px}$, không lặp lại và nằm ngay chính tâm phần tử. Cực kỳ tối ưu cho việc đặt logo công ty hoặc watermark bảo mật.
+
+\begin{prettyTableBox}[TÓM TẮT CÁC CÁCH KHAI BÁO KÍCH THƯỚC CỤ THỂ]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.5cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa kỹ thuật} & \thd{\sffamily Kết quả hiển thị} \\
+\hline
+px & Kích thước cố định tuyệt đối bằng pixel. & Chính xác từng điểm ảnh, không co giãn theo màn hình. \\
+\hline
+\% & Tỷ lệ phần trăm theo kích thước phần tử. & Co giãn linh hoạt theo layout, có thể méo nếu set cả 2 chiều. \\
+\hline
+em / rem & Tính theo kích thước font chữ hiện hành. & Tự phóng to/thu nhỏ khi font chữ thay đổi, cực tốt cho Responsive. \\
+\hline
+1 giá trị & Đặt chiều rộng, chiều cao tự động theo tỷ lệ. & Giữ nguyên vẹn hình ảnh gốc, không sợ méo hình. \\
+\hline
+2 giá trị & Đặt độc lập cả chiều rộng lẫn chiều cao. & Ép đúng kích thước mong muốn, dễ gây méo hình nếu tính sai. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{6. Chuyên Đề E: Các Giá Trị Toàn Cục (inherit, initial, unset):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{inherit}: Thừa hưởng giá trị \codeinline{background-size} từ phần tử cha trực tiếp.
+    \item \codeinline{initial}: Thiết lập lại giá trị mặc định của CSS (\codeinline{auto}).
+    \item \codeinline{unset}: Xóa bỏ thiết lập, quay về \codeinline{inherit} (nếu thuộc tính có tính kế thừa) hoặc \codeinline{initial}.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Về Kế Thừa Giá Trị inherit]
+\begin{lstlisting}[language=CSS3]
+.parent {
+  background-size: cover;
+}
+.child {
+  background-size: inherit; /* Nhan gia tri cover tu cha */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{7. Chuyên Đề F: Thiết Lập Kích Thước Cho Nhiều Ảnh Nền Cùng Lúc:}
+Trong CSS3, khi một phần tử sử dụng nhiều hình ảnh nền (\term{Multiple Backgrounds}), bạn có thể gán từng kích thước riêng biệt cho từng ảnh bằng danh sách phân tách bởi dấu phẩy \codeinline{,}:
+
+\begin{codeWindow}[Khai Báo Kích Thước Riêng Biệt Cho Từng Lớp Ảnh Nền]
+\begin{lstlisting}[language=CSS3]
+div {
+  width: 600px;
+  height: 400px;
+  background: 
+    url("foreground.png"),
+    url("background.jpg");
+  background-size: 100px 100px, cover;
+  background-position: center, top left;
+  background-repeat: no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Ảnh tiền cảnh \codeinline{foreground.png} được định vị ở giữa tâm và có kích thước cố định $100 \times 100\text{px}$.
+    \item Ảnh hậu cảnh \codeinline{background.jpg} được phủ kín toàn bộ phần tử theo chế độ \codeinline{cover}.
+    \item Nếu ảnh lớp trên có nền trong suốt (\term{Transparent PNG/WebP}), người xem sẽ nhìn xuyên thấu xuống cảnh nền tráng lệ bên dưới!
+\end{itemize}
+
+\paragraph{8. Bảng Tổng Hợp Tra Cứu Toàn Diện background-size:}
+
+\begin{prettyTableBox}[BẢNG TRA CỨU TỔNG QUÁT CÁC GIÁ TRỊ background-size]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.0cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa kỹ thuật} & \thd{\sffamily Kết quả thị giác trên giao diện} \\
+\hline
+auto & Giữ nguyên kích thước ảnh gốc. & Ảnh tràn ra ngoài nếu quá lớn hoặc lặp lại nếu nhỏ hơn phần tử. \\
+\hline
+contain & Co giãn vừa khít phần tử, không cắt. & Hiển thị 100\% chi tiết, có thể thừa khoảng trống nếu lệch tỷ lệ. \\
+\hline
+cover & Phủ kín toàn bộ phần tử, giữ tỷ lệ. & Không lộ nền trống, có thể bị xén bớt phần rìa mép ngoài. \\
+\hline
+Kích thước cụ thể & Đặt bằng px, \%, em, rem,... & Cố định hoặc co giãn theo layout tùy thuộc vào đơn vị khai báo. \\
+\hline
+inherit & Thừa hưởng từ phần tử cha. & Lấy nguyên giá trị kích thước đã khai báo ở phần tử chứa nó. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Lời Khuyên Vàng Khi Sử Dụng background-size]
+\textbf{background-size} là vũ khí tối thượng giúp bạn làm chủ hoàn toàn đồ họa trong thiết kế Web Responsive hiện đại:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Muốn ảnh vừa khít, không mất nội dung?} $\rightarrow$ Chọn ngay \codeinline{contain}.
+    \item \textbf{Muốn ảnh phủ kín, không lộ nền trắng?} $\rightarrow$ Chọn ngay \codeinline{cover}.
+    \item \textbf{Muốn kích thước cố định hoặc tỷ lệ?} $\rightarrow$ Dùng \codeinline{px}, \codeinline{\%}.
+    \item \textbf{Muốn sáng tạo giao diện đa tầng?} $\rightarrow$ Khai báo nhiều \codeinline{background-image} và điều chỉnh kích thước riêng rẽ cho từng lớp!
+\end{itemize}
+\end{tipBox}
+
 
 \subsection{Cơ Chế Cuộn Nền \& Parallax Effect (\csshint{background-attachment})}
 \label{sec:css_bg_attachment}
