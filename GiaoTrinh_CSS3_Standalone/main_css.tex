@@ -13521,16 +13521,21 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
     \item \textbf{Đặc điểm}: Đây là giá trị mặc định của CSS. Nếu bạn không khai báo \codeinline{background-clip}, trình duyệt sẽ luôn luôn áp dụng cơ chế này.
 \end{itemize}
 
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_clip_infographic_border_box.png}
+\end{center}
+
 \begin{codeWindow}[Mã Nguồn Mẫu: border-box Phủ Toàn Bộ Phần Tử]
 \begin{lstlisting}[language=CSS3]
-/* Vi du 1: Phu toan bo khoi voi anh nen */
+/* Vi du 1: Phu toan bo khoi voi anh nen va vien ban trong suot */
 .box {
-  width: 300px;
-  height: 150px;
-  padding: 20px;
-  border: 5px solid #000;
-  background: url('bg.jpg') no-repeat;
+  background-image: url("landscape.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   background-clip: border-box; /* Mac dinh */
+  border: 16px solid rgba(255, 80, 120, 0.55);
+  padding: 24px;
+  color: white;
 }
 
 /* Vi du 2: Vien net dut de lo nen mau xanh ben duoi */
@@ -13549,14 +13554,21 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
     \item \textbf{Hiệu ứng trực quan}: Nền sẽ bị cắt ngay tại mép trong của đường viền và hoàn toàn không kéo dài vào khu vực viền. Đường viền sẽ lộ ra màu nền của tài liệu (hoặc trong suốt), tạo cảm giác đường viền nổi bật độc lập và tách biệt khỏi bức tranh nền.
 \end{itemize}
 
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_clip_infographic_padding_box.png}
+\end{center}
+
 \begin{codeWindow}[Mã Nguồn Mẫu: padding-box Chặn Nền Tại Mép Trong Của Viền]
 \begin{lstlisting}[language=CSS3]
-/* Vi du thuc nghiem: Vien net dut lo khoang trang, khong co nen xanh */
-.background-clip-padding {
-  border: 6px dashed black;
-  background-color: blue;
+/* Vi du: Anh nen bi chan dung o mep trong vien, vien xanh ban trong suot khong co anh nen */
+.box {
+  background-image: url("landscape.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   background-clip: padding-box; /* Nen dung lai ngay truoc vien */
-  padding: 40px;
+  border: 16px solid rgba(70, 150, 255, 0.55);
+  padding: 24px;
+  color: white;
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -13564,17 +13576,24 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
 \subparagraph{c. Giá Trị content-box --- Phủ Đúng Khu Vực Nội Dung:}
 \begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
     \item \textbf{Mô tả}: Nền của phần tử bị cắt gắt gao, chỉ được vẽ và hiển thị duy nhất trong khu vực \term{Content Box}.
-    \item \textbf{Hiệu ứng trực quan}: Nền bị cắt sát mép nội dung văn bản hoặc hình ảnh, hoàn toàn không bao gồm phần khoảng đệm (\codeinline{padding}) hay đường viền (\codeinline{border}). Toàn bộ dải đệm $40\text{px}$ và viền đứt xung quanh đều hiển thị trong suốt.
+    \item \textbf{Hiệu ứng trực quan}: Nền bị cắt sát mép nội dung văn bản hoặc hình ảnh, hoàn toàn không bao gồm phần khoảng đệm (\codeinline{padding}) hay đường viền (\codeinline{border}). Toàn bộ dải đệm $24\text{px}$ và viền đều hiển thị nền trắng trong suốt.
 \end{itemize}
+
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_clip_infographic_content_box.png}
+\end{center}
 
 \begin{codeWindow}[Mã Nguồn Mẫu: content-box Thu Hẹp Nền Ôm Sát Nội Dung]
 \begin{lstlisting}[language=CSS3]
-/* Vi du thuc nghiem: Nen chi xuat hien dung ben trong vung chu */
-.background-clip-content {
-  border: 6px dashed black;
-  background-color: blue;
+/* Vi du: Anh nen chi co cum ben trong hop noi dung, padding va vien deu trong suot */
+.box {
+  background-image: url("landscape.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   background-clip: content-box; /* Chi phu vung noi dung chu */
-  padding: 40px;
+  border: 16px solid rgba(40, 190, 110, 0.55);
+  padding: 24px;
+  color: white;
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -13585,28 +13604,21 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
     \item \textbf{Cơ chế hoạt động}: Mặc định, văn bản có màu đen hoặc màu do thuộc tính \codeinline{color} quy định, sẽ che mất lớp nền phía sau. Để nền hiển thị xuyên qua nét chữ, bắt buộc phải làm chữ trở nên trong suốt bằng cách khai báo \codeinline{-webkit-text-fill-color: transparent;} và \codeinline{color: transparent;}.
 \end{itemize}
 
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_clip_infographic_text.png}
+\end{center}
+
 \begin{codeWindow}[Mã Nguồn Mẫu: Kỹ Thuật background-clip: text Hoàn Chỉnh]
 \begin{lstlisting}[language=CSS3]
-/* Vi du 1: Nen don sac xanh cat theo net chu to dam */
-.headline-blue {
-  font-size: 40px;
-  font-weight: bold;
-  background-color: blue;
-  -webkit-background-clip: text;       /* Chrome, Safari, Edge */
-  background-clip: text;               /* Chuan W3C */
-  -webkit-text-fill-color: transparent;/* Lam chu trong suot */
-  color: transparent;                  /* Phuong an fallback */
-}
-
-/* Vi du 2: Tao chu mang dai mau Gradient ruc ro lung linh */
-.text-gradient {
-  font-size: 3.5rem;
-  font-weight: 800;
-  background-image: linear-gradient(to right, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  -webkit-background-clip: text;
-  background-clip: text;
+/* Vi du 1: Anh phong canh hoac dai Gradient cat theo phong chu lon HELLO CSS */
+.title {
+  font-size: 5rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #1e90ff, #b14cff); /* Hoac url('landscape.jpg') */
+  -webkit-background-clip: text; /* Tien to ho tro Chrome, Safari, Edge */
+  background-clip: text;         /* Chuan W3C */
+  color: transparent;            /* Lam mau chu trong suot */
   -webkit-text-fill-color: transparent;
-  color: transparent;
 }
 \end{lstlisting}
 \end{codeWindow}
