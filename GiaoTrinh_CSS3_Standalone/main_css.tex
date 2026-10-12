@@ -13314,11 +13314,17 @@ local & Ảnh nền cuộn theo nội dung bên trong phần tử có thanh cu�
     \end{itemize}
 \end{itemize}
 
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_attach_infographic_scroll.png}
+\end{center}
+
 \begin{codeWindow}[Mã Nguồn Khai Báo scroll Cơ Bản]
 \begin{lstlisting}[language=CSS3]
 body {
-  background-image: url('image.jpg');
+  background-image: url('mountain.jpg');
   background-attachment: scroll; /* (Co the bo qua vi la gia tri mac dinh) */
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -13336,11 +13342,16 @@ body {
     \item \textbf{Lưu ý kỹ thuật then chốt}: Vị trí của hình nền \codeinline{fixed} được tính toán dựa vào \textbf{Viewport}, không phải theo phần tử cha của nó (trừ khi phần tử cha có thuộc tính \codeinline{transform}, \codeinline{perspective}, hoặc \codeinline{filter} khác \codeinline{none}).
 \end{itemize}
 
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_attach_infographic_fixed.png}
+\end{center}
+
 \begin{codeWindow}[Thiết Lập Ảnh Nền Cố Định Tạo Hiệu Ứng Parallax]
 \begin{lstlisting}[language=CSS3]
 body {
-  background-image: url('bg.jpg');
+  background-image: url('mountain.jpg');
   background-attachment: fixed;   /* Anh dung yen tren Viewport */
+  background-repeat: no-repeat;
   background-size: cover;          /* Phu kin toan bo man hinh */
   background-position: center;     /* Can giua trong tam anh */
 }
@@ -13372,7 +13383,24 @@ body {
     \item \textbf{Đặc điểm cốt lõi}: Ảnh nền cuộn cùng nội dung của phần tử con, chỉ phát huy tác dụng rõ rệt khi kết hợp với \codeinline{overflow: auto} hoặc \codeinline{overflow: scroll}.
 \end{itemize}
 
-\begin{codeWindow}[Ví Dụ 1: Hộp Cuộn Với Hoa Văn Lặp Lại background-attachment: local]
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_attach_infographic_local.png}
+\end{center}
+
+\begin{codeWindow}[Ví Dụ 1: Hộp Cuộn Nội Bộ background-attachment: local]
+\begin{lstlisting}[language=CSS3]
+.box {
+  height: 300px;
+  overflow: auto; /* De phan tu co thanh cuon rieng */
+  background-image: url('mountain.jpg');
+  background-attachment: local; /* Anh nen cuon dong bo theo noi dung */
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ 2: Hộp Cuộn Với Hoa Văn Lặp Lại Độc Lập]
 \begin{lstlisting}[language=CSS3]
 .scrollable-box {
   height: 200px;
@@ -13380,18 +13408,6 @@ body {
   background-image: url('pattern.png');
   background-attachment: local;
   background-repeat: repeat;
-}
-\end{lstlisting}
-\end{codeWindow}
-
-\begin{codeWindow}[Ví Dụ 2: Khung Đọc Văn Bản Tự Động Hiện Thanh Cuộn]
-\begin{lstlisting}[language=CSS3]
-.scroll-box {
-  height: 200px;
-  overflow: auto;
-  background-image: url('bg.jpg');
-  background-attachment: local;
-  background-repeat: no-repeat;
 }
 \end{lstlisting}
 \end{codeWindow}
