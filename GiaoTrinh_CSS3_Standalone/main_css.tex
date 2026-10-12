@@ -11490,33 +11490,9 @@ Bộ thuộc tính phối hợp & Kết hợp hoàn hảo với \codeinline{size
 \end{tabularx}
 \end{prettyTableBox}
 
-\paragraph{8. Ví Dụ Sử Dụng CSS Gradient Thay Thế Ảnh Nền:}
-Gradient được trình duyệt đối xử như một dạng hình ảnh đặc biệt:
-\begin{codeWindow}[Mã Nguồn Nền Gradient Chuyển Màu Đỏ Sang Vàng]
-\begin{lstlisting}[language=CSS3]
-div {
-  background-image: linear-gradient(to right, red, yellow);
-}
-\end{lstlisting}
-\end{codeWindow}
+\paragraph{8. Sử Dụng CSS Gradient Thay Thế Ảnh Nền:}
+Gradient được trình duyệt đối xử như một dạng hình ảnh vector đặc biệt được vẽ trực tiếp bằng GPU. Bạn có thể sử dụng các hàm \codeinline{linear-gradient()}, \codeinline{radial-gradient()} và \codeinline{conic-gradient()} để thay thế hoàn toàn tệp ảnh tĩnh, giúp trang web đạt độ sắc nét tuyệt đối trên màn hình Retina mà không tốn dung lượng tải trang (0 byte). Chuyên đề toàn diện và chi tiết nhất về Gradients được trình bày riêng tại Mục~\ref{sec:css_gradients}.
 
-\begin{browserWindow}[Kết Quả Hiển Thị: Dải Màu Gradient Chuyển Từ Đỏ Sang Vàng]
-\sffamily\small
-\begin{tcolorbox}[
-  enhanced,
-  width=0.85\linewidth,
-  height=36pt,
-  interior style={left color=red!90, right color=yellow!90},
-  colframe=gray!40,
-  boxrule=0.8pt,
-  arc=5pt,
-  center,
-  halign=center,
-  valign=center
-]
-  {\bfseries\color{white} Nền dải chuyển màu mượt mà từ Đỏ sang Vàng (\codeinline{to right})}
-\end{tcolorbox}
-\end{browserWindow}
 
 \paragraph{9. Bảng Tổng Kết Nhanh Hệ Thống Thuộc Tính Nền (Background):}
 \begin{prettyTableBox}[BẢNG TỔNG KẾT VAI TRÒ CỦA CÁC THUỘC TÍNH CON TRONG HỆ THỐNG BACKGROUND]
@@ -11555,7 +11531,333 @@ Khi áp dụng \codeinline{background-image}, trình duyệt khởi chạy một
 \end{itemize}
 \end{conceptBox}
 
+\subsection{Nghệ Thuật Dải Chuyển Màu: Toàn Diện CSS Gradients (\csshint{linear}, \csshint{radial}, \csshint{conic})}
+\label{sec:css_gradients}
+
+Dải chuyển màu (\term{Gradients}) trong CSS là kỹ thuật đồ họa đỉnh cao giúp tạo hiệu ứng chuyển tiếp màu sắc mượt mà giữa hai hoặc nhiều màu mà hoàn toàn không cần tải thêm bất kỳ tệp hình ảnh bitmap nào. Trình duyệt tính toán và vẽ dải màu trực tiếp bằng GPU, giúp trang web đạt độ sắc nét tuyệt đối trên mọi độ phân giải màn hình (kể cả Retina / 4K) với chi phí truyền tải mạng bằng đúng $0\text{ byte}$.
+
+\begin{conceptBox}[3 Loại Gradient Chính Trong Chuẩn CSS Hiện Đại]
+CSS cung cấp 3 loại hàm dải chuyển màu tiêu chuẩn:
+\begin{enumerate}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Linear Gradient (Tuyến tính)}: Dải màu biến đổi dọc theo một đường thẳng (từ trái sang phải, trên xuống dưới hoặc theo một góc nghiêng tùy ý).
+    \item \textbf{Radial Gradient (Hình tròn / Elip)}: Dải màu lan tỏa đồng tâm từ một điểm trung tâm ra các rìa ngoài theo hình tròn hoặc hình bầu dục (elip).
+    \item \textbf{Conic Gradient (Hình nón / Bánh xe)}: Dải màu xoay tròn $360^\circ$ quanh một tâm điểm, tương tự các nan hoa trên bánh xe hoặc biểu đồ tròn.
+\end{enumerate}
+\vspace{2pt}
+\noindent\textbf{Công cụ hỗ trợ trực tuyến}: Bạn có thể sử dụng công cụ thiết kế visual \href{https://cssgradient.io/gradient-backgrounds/}{\color{primaryBlue}\underline{cssgradient.io/gradient-backgrounds}} để phối màu trực quan và sao chép mã nguồn CSS một cách nhanh chóng.
+\end{conceptBox}
+
+\paragraph{1. Chuyên Đề 1: Linear Gradient (Chuyển Màu Tuyến Tính):}
+\textbf{Mô tả}: Chuyển màu mượt mà dọc theo một đường thẳng xác định (từ trái sang phải, trên xuống dưới hoặc theo góc tùy chọn).
+
+\subparagraph{Cú Pháp Tổng Quát:}
+\begin{center}
+\tcbox[on line, arc=4pt, colback=codeBg, colframe=primaryBlue!40, boxsep=1.5pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue} background: linear-gradient(direction, color1, color2, ...);
+}
+\end{center}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{direction}: Hướng lan tỏa của dải màu (mặc định là từ trên xuống dưới -- \codeinline{to bottom}).
+    \item \codeinline{color1, color2, ...}: Danh sách các màu sắc tham gia và các điểm dừng màu (\term{Color Stops}).
+\end{itemize}
+
+\subparagraph{Các Hướng Phổ Biến \& Đơn Vị Góc Độ:}
+\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU CÁC CÁCH KHAI BÁO HƯỚNG CỦA LINEAR-GRADIENT]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.0cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash\ttfamily}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Cách viết} & \thd{\sffamily Ý nghĩa hướng đi} & \thd{\sffamily Ví dụ minh họa} \\
+\hline
+to bottom & Trên $\rightarrow$ Dưới (Giá trị mặc định) & linear-gradient(to bottom, red, yellow) \\
+\hline
+to right & Trái $\rightarrow$ Phải & linear-gradient(to right, red, yellow) \\
+\hline
+to left & Phải $\rightarrow$ Trái & linear-gradient(to left, red, yellow) \\
+\hline
+to top & Dưới $\rightarrow$ Trên & linear-gradient(to top, red, yellow) \\
+\hline
+to top right & Góc dưới-trái $\rightarrow$ Góc trên-phải & linear-gradient(to top right, red, yellow) \\
+\hline
+to bottom left & Góc trên-phải $\rightarrow$ Góc dưới-trái & linear-gradient(to bottom left, red, yellow) \\
+\hline
+45deg & Nghiêng theo góc chéo $45^\circ$ & linear-gradient(45deg, red, yellow) \\
+\hline
+-45deg & Nghiêng theo góc chéo $-45^\circ$ & linear-gradient(-45deg, red, yellow) \\
+\hline
+90deg & Trái $\rightarrow$ Phải (Tương đương \codeinline{to right}) & linear-gradient(90deg, red, yellow) \\
+\hline
+270deg & Phải $\rightarrow$ Trái (Tương đương \codeinline{to left}) & linear-gradient(270deg, red, yellow) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Các Hướng Chuyển Màu Cơ Bản]
+\begin{lstlisting}[language=CSS3]
+/* 1. Mac dinh: Chuyen tu tren xuong duoi */
+.box-default { background: linear-gradient(#ff7e5f, #feb47b); }
+
+/* 2. Chuyen tu trai sang phai */
+.box-horizontal { background: linear-gradient(to right, #ff7e5f, #feb47b); }
+
+/* 3. Chuyen theo duong cheo goc 45 do */
+.box-diagonal { background: linear-gradient(45deg, #ff7e5f, #feb47b); }
+
+/* 4. Khong truyen direction: trinh duyet mac dinh hieu la to bottom */
+.box { background-image: linear-gradient(red, blue); }
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Đối Chiếu Trực Quan 4 Hướng Phổ Biến Của Linear Gradient]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/gradient_linear_directions.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Quan sát trực quan cùng một cặp màu San hô (\codeinline{\#ff7e5f} sang \codeinline{\#feb47b}) khi biến chuyển theo các góc độ và hướng khác nhau.}
+\end{browserWindow}
+
+\subparagraph{Cơ Chế Điểm Dừng Màu (Color Stops) \& Tỷ Lệ Phần Trăm (\%):}
+Khi sử dụng \codeinline{linear-gradient}, phần trăm (\%) được dùng để xác định vị trí của mỗi điểm màu (\term{Color Stop}) trong quá trình chuyển màu. Nó cho biết màu đó đạt trạng thái thuần khiết nhất tại vị trí bao nhiêu phần trăm dọc theo trục gradient:
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Nếu không khai báo \%}: Trình duyệt sẽ tự động chia đều khoảng cách đối xứng giữa tất cả các màu.
+    \item \textbf{Quy ước góc độ}: Chạy theo chiều kim đồng hồ ($0^\circ$ bắt đầu từ dưới hướng lên trên, $90^\circ$ sang phải, $180^\circ$ xuống dưới).
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Điểm Dừng Màu Tùy Biến: Đỏ 10\%, Vàng 50\%, Xanh Lá 90\%]
+\begin{lstlisting}[language=CSS3]
+background: linear-gradient(to right, red 10%, yellow 50%, green 90%);
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Phân Tích Cấu Trúc Các Đoạn Chuyển Màu Dọc Trục Điểm Dừng]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/gradient_linear_color_stops.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Sơ đồ giải phẫu từng phân đoạn: $[0\% - 10\%]$ giữ nguyên màu Đỏ; $(10\% - 50\%)$ chuyển mượt Đỏ $\rightarrow$ Vàng; $(50\% - 90\%)$ chuyển mượt Vàng $\rightarrow$ Xanh; $[90\% - 100\%]$ giữ nguyên màu Xanh lá.}
+\end{browserWindow}
+
+\begin{conceptBox}[Giải Thích Chi Tiết Từng Phân Đoạn Gradient]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{to right}: Trục gradient quét ngang từ mép trái ($0\%$) sang mép phải ($100\%$).
+    \item \codeinline{red 10\%}: Màu đỏ giữ nguyên độ đậm từ lề trái ($0\%$) kéo dài liên tục đến mốc $10\%$ chiều rộng.
+    \item \codeinline{yellow 50\%}: Trong khoảng từ $10\%$ đến $50\%$, màu sắc chuyển dịch dần dần từ đỏ sang vàng.
+    \item \codeinline{green 90\%}: Trong khoảng từ $50\%$ đến $90\%$, màu sắc chuyển dịch dần dần từ vàng sang xanh lá.
+    \item \textbf{Đoạn kết từ 90\% đến 100\%}: Màu xanh lá cây được giữ nguyên $100\%$ không thay đổi cho đến hết mép phải phần tử.
+\end{itemize}
+\end{conceptBox}
+
+\subparagraph{Kỹ Thuật Phân Vùng Mảng Màu Rõ Ràng (Banded / Hard Color Stops):}
+Nếu ta đặt vị trí bắt đầu của màu tiếp theo \textbf{trùng khít hoặc nhỏ hơn} vị trí kết thúc của màu trước, trình duyệt sẽ tạo ra ranh giới cắt sắc nét (\term{Hard Stop}) thay vì chuyển mờ, tạo nên hoa văn sọc màu cực kỳ ấn tượng:
+
+\begin{codeWindow}[Tạo Dải Sọc Màu Phân Vùng Bằng Hard Color Stops]
+\begin{lstlisting}[language=CSS3]
+background-image: linear-gradient(to right, red 0%, red 40%, yellow 40%, yellow 70%, blue 70%);
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Mảng Màu Phân Vùng Độc Lập Không Bị Pha Trộn]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/gradient_linear_banded.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Ranh giới rõ rệt giữa các vùng màu: Từ $0\%$ đến $40\%$ là Đỏ thuần; từ $40\%$ đến $70\%$ là Vàng thuần; từ $70\%$ đến $100\%$ là Xanh dương.}
+\end{browserWindow}
+
+\paragraph{2. Chuyên Đề 2: Radial Gradient (Chuyển Màu Hình Tròn \& Elip):}
+\textbf{Mô tả}: Màu sắc bắt đầu từ một điểm tâm trung tâm và lan tỏa tỏa tròn hoặc tỏa hình bầu dục ra các mép xung quanh.
+
+\subparagraph{Cú Pháp Tổng Quát:}
+\begin{center}
+\tcbox[on line, arc=4pt, colback=codeBg, colframe=primaryBlue!40, boxsep=1.5pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue} background: radial-gradient(shape size at position, color1, color2, ...);
+}
+\end{center}
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \codeinline{shape}: Hình dạng dải tỏa, gồm \codeinline{circle} (hình tròn đều) hoặc \codeinline{ellipse} (hình elip -- mặc định).
+    \item \codeinline{size}: Bán kính tỏa, mặc định là \codeinline{farthest-corner} (tỏa đến góc xa nhất).
+    \item \codeinline{position}: Điểm đặt tâm phát tỏa, mặc định là chính giữa (\codeinline{at center}).
+    \item \codeinline{color1, color2, ...}: Danh sách màu sắc và các điểm dừng tương ứng.
+\end{itemize}
+
+\begin{prettyTableBox}[BẢNG CÁC TÙY CHỌN THAM SỐ CỦA RADIAL-GRADIENT]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash\ttfamily}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tham số / Cách viết} & \thd{\sffamily Ý nghĩa kỹ thuật} & \thd{\sffamily Cú pháp mẫu} \\
+\hline
+circle & Gradient hình tròn hoàn hảo & radial-gradient(circle, red, yellow) \\
+\hline
+ellipse & Gradient hình bầu dục (Mặc định) & radial-gradient(ellipse, red, yellow) \\
+\hline
+at center & Tỏa từ tâm giữa (Mặc định) & radial-gradient(circle at center, red, yellow) \\
+\hline
+at top & Tỏa từ đỉnh mép trên & radial-gradient(circle at top, red, yellow) \\
+\hline
+at bottom & Tỏa từ đáy mép dưới & radial-gradient(circle at bottom, red, yellow) \\
+\hline
+at left / at right & Tỏa từ mép trái / mép phải & radial-gradient(circle at left, red, yellow) \\
+\hline
+at top left & Tỏa từ góc trên bên trái & radial-gradient(circle at top left, red, yellow) \\
+\hline
+at bottom right & Tỏa từ góc dưới bên phải & radial-gradient(circle at bottom right, red, yellow) \\
+\hline
+closest-side & Tỏa chạm cạnh gần tâm nhất & radial-gradient(circle closest-side, red, yellow) \\
+\hline
+farthest-side & Tỏa chạm cạnh xa tâm nhất & radial-gradient(circle farthest-side, red, yellow) \\
+\hline
+closest-corner & Tỏa chạm góc gần tâm nhất & radial-gradient(circle closest-corner, red, yellow) \\
+\hline
+farthest-corner & Tỏa chạm góc xa tâm nhất (Mặc định) & radial-gradient(circle farthest-corner, red, yellow) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Khai Báo Radial Gradient]
+\begin{lstlisting}[language=CSS3]
+/* 1. Hinh tron lan toa tu tam */
+.radial-circle { background: radial-gradient(circle, red, yellow, green); }
+
+/* 2. Hinh elip bat dau tu goc tren ben trai */
+.radial-corner { background: radial-gradient(ellipse at top left, red, blue, green); }
+
+/* 3. Diem dung mau ti mi */
+.radial-stops  { background: radial-gradient(circle, red 20%, yellow 50%, green 80%); }
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Đối Chiếu 3 Kịch Bản Radial Gradient]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/gradient_radial_modes.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Từ trái qua phải: Hình tròn tâm giữa; Hình elip tỏa từ góc trên-trái; Dải tỏa kiểm soát tỷ lệ điểm dừng mốc màu.}
+\end{browserWindow}
+
+\begin{tipBox}[Ứng Dụng Độc Đáo Của Radial Gradient]
+\codeinline{radial-gradient} là vũ khí bí mật để tạo hiệu ứng ánh sáng rọi sân khấu (\term{Spotlight Effect}), quầng sáng mờ ảo phía sau sản phẩm (\term{Glow / Halo Effect}), hoặc các nút bấm hình cầu 3D sang trọng.
+\end{tipBox}
+
+\paragraph{3. Chuyên Đề 3: Conic Gradient (Chuyển Màu Hình Nón -- Bánh Xe Màu):}
+\textbf{Mô tả}: Màu sắc được quét xoay tròn quanh một điểm tâm tương tự như chuyển động của kim đồng hồ hoặc các nan hoa trên bánh xe.
+
+\subparagraph{Cú Pháp Tổng Quát:}
+\begin{center}
+\tcbox[on line, arc=4pt, colback=codeBg, colframe=primaryBlue!40, boxsep=1.5pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue} background: conic-gradient(from angle at position, color1, color2, ...);
+}
+\end{center}
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \codeinline{from angle}: Góc xoay khởi đầu (mặc định là $0^\circ$ -- hướng 12 giờ trên cùng).
+    \item \codeinline{at position}: Tọa độ tâm xoay (mặc định là chính tâm \codeinline{center}).
+    \item \codeinline{color1, color2, ...}: Danh sách dải màu xoay quanh trục.
+\end{itemize}
+
+\begin{prettyTableBox}[BẢNG CÁC TÙY CHỌN THAM SỐ CỦA CONIC-GRADIENT]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash\ttfamily}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tham số / Cách viết} & \thd{\sffamily Ý nghĩa góc \& tâm xoay} & \thd{\sffamily Cú pháp mẫu} \\
+\hline
+from 0deg & Khởi đầu từ đỉnh trên cùng (Mặc định) & conic-gradient(from 0deg, red, yellow, green) \\
+\hline
+from 90deg & Khởi đầu từ hướng 3 giờ bên phải & conic-gradient(from 90deg, red, yellow, green) \\
+\hline
+from 180deg & Khởi đầu từ hướng 6 giờ đáy dưới & conic-gradient(from 180deg, red, yellow, green) \\
+\hline
+from 270deg & Khởi đầu từ hướng 9 giờ bên trái & conic-gradient(from 270deg, red, yellow, green) \\
+\hline
+at center & Tâm xoay đặt tại chính giữa (Mặc định) & conic-gradient(at center, red, yellow, green) \\
+\hline
+at top left & Tâm xoay đặt tại góc trên bên trái & conic-gradient(at top left, red, yellow, green) \\
+\hline
+at bottom right & Tâm xoay đặt tại góc dưới bên phải & conic-gradient(at bottom right, red, yellow, green) \\
+\hline
+Góc độ cố định & Chia mảng màu thành từng lát bánh & conic-gradient(red 0deg 90deg, yellow 90deg 180deg) \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Khai Báo Conic Gradient]
+\begin{lstlisting}[language=CSS3]
+/* 1. Gradient hinh non co ban xoay vong 360 do */
+.conic-basic { background: conic-gradient(red, yellow, green, blue); }
+
+/* 2. Bat dau tu huong 90 do */
+.conic-angle { background: conic-gradient(from 90deg, red, yellow, green, blue); }
+
+/* 3. Bieu do banh Pizza 4 phan bang nhau */
+.conic-pie   { background: conic-gradient(red 25%, yellow 25% 50%, green 50% 75%, blue 75%); }
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Đối Chiếu 3 Kịch Bản Conic Gradient]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/gradient_conic_modes.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Từ trái qua phải: Bánh xe màu sắc xoay $360^\circ$; Bắt đầu xoay từ góc $90^\circ$; Biểu đồ hình tròn phân chia 4 phần bằng Hard Stops.}
+\end{browserWindow}
+
+\begin{tipBox}[Sức Mạnh Đột Phá Của Conic Gradient]
+\codeinline{conic-gradient} ra đời đã giải phóng hoàn toàn việc vẽ \textbf{Biểu đồ tròn (\term{Pie Charts})}, \textbf{Thước đo đồng hồ (\term{Gauges})}, bảng chọn màu HSL và các hiệu ứng radar xoay động bằng CSS thuần mà không cần đến SVG hay thư viện JavaScript cồng kềnh!
+\end{tipBox}
+
+\paragraph{4. Bảng So Sánh Tổng Hợp 3 Loại Gradient Trong CSS:}
+
+\begin{prettyTableBox}[SO SÁNH ĐẶC TÍNH \& TÌNH HUỐNG SỬ DỤNG 3 LOẠI GRADIENT]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Loại Gradient} & \thd{\sffamily Đặc điểm chuyển sắc chính} & \thd{\sffamily Khi nào nên ưu tiên sử dụng?} \\
+\hline
+Linear Gradient & Chuyển màu dọc theo đường thẳng (ngang, dọc, chéo). & Nền giao diện trang web, nút bấm kêu gọi hành động (CTA), thanh tiến trình, tiêu đề chữ. \\
+\hline
+Radial Gradient & Chuyển màu lan tỏa từ tâm ra ngoài theo hình tròn/elip. & Nền khung ảnh tròn, hiệu ứng ánh sáng rọi Spotlight, quầng sáng Glow sau sản phẩm. \\
+\hline
+Conic Gradient & Chuyển màu quét vòng quanh một điểm tâm ($360^\circ$). & Biểu đồ hình tròn (Pie/Donut Chart), bảng mã màu bánh xe, viền phát sáng xoay tròn. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{5. Ứng Dụng Thực Chiến Gradient Trong Thiết Kế UI/UX:}
+
+\begin{codeWindow}[Mã Nguồn Các Thành Phần UI Thực Chiến Với Gradient]
+\begin{lstlisting}[language=CSS3]
+/* 1. Nut bam hien dai voi Linear Gradient ruc ro: */
+button {
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* 2. Nen trang web muot ma voi Radial Gradient: */
+body {
+  background: radial-gradient(circle, #ff7e5f, #feb47b, #ffcc33);
+}
+
+/* 3. Thanh tien trinh 3 mau truc quan: */
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(to right, green, yellow, red);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế: Nút Bấm \& Thanh Tiến Trình Gradient]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/gradient_practical_ui.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Nút bấm Call-To-Action đổ màu ấm áp và Thanh tiến trình hiển thị mức độ cảnh báo mượt mà chuẩn UI chuyên nghiệp.}
+\end{browserWindow}
+
+\begin{conceptBox}[Tổng Kết Chuyên Đề Gradient]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item Gradient giúp nâng tầm thẩm mỹ giao diện mà không tiêu tốn tài nguyên mạng để tải ảnh.
+    \item Làm chủ bộ ba \codeinline{linear-gradient()}, \codeinline{radial-gradient()} và \codeinline{conic-gradient()} mở ra cánh cửa sáng tạo vô hạn từ nền trang, nút bấm, banner, đến biểu đồ phức tạp.
+    \item Kết hợp linh hoạt với \codeinline{background-size}, \codeinline{background-repeat} và \codeinline{background-clip: text} để tạo ra những tuyệt tác đồ họa CSS thuần túy!
+\end{itemize}
+\end{conceptBox}
+
 \subsection{Kiểm Soát Lặp Lại Ảnh Nền (\csshint{background-repeat})}
+
 \label{sec:css_bg_repeat}
 
 \begin{conceptBox}[Bản Chất \& Khái Niệm Thuộc Tính background-repeat]
