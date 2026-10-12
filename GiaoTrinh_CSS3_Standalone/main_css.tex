@@ -11556,7 +11556,14 @@ Khi áp dụng \codeinline{background-image}, trình duyệt khởi chạy một
 \subsection{Kiểm Soát Lặp Lại Ảnh Nền (\csshint{background-repeat})}
 \label{sec:css_bg_repeat}
 
-Mặc định trong trình duyệt, nếu kích thước của ảnh nền nhỏ hơn kích thước phần tử, ảnh sẽ tự động được lặp lại cả theo chiều ngang (trục X) và chiều dọc (trục Y) như những viên gạch lát nền (\term{Tiling}).
+\begin{conceptBox}[Bản Chất \& Khái Niệm Thuộc Tính background-repeat]
+\textbf{1. background-repeat là gì?}\\
+\codeinline{background-repeat} là thuộc tính CSS dùng để xác định hình ảnh nền (\codeinline{background-image}) có được lặp lại hay không, và nếu có thì lặp theo chiều nào.
+
+\vspace{4pt}
+\textbf{2. Hành vi mặc định:}\\
+Mặc định: Hình ảnh sẽ tự động lặp cả theo chiều ngang và chiều dọc để phủ kín toàn bộ không gian nền của phần tử (\term{Tiling -- hiệu ứng lát gạch}).
+\end{conceptBox}
 
 \begin{browserWindow}[Trực Quan Hóa: 4 Chế Độ Lặp Cốt Lõi Của Thuộc Tính background-repeat]
 \centering
@@ -11564,46 +11571,218 @@ Mặc định trong trình duyệt, nếu kích thước của ảnh nền nhỏ
 {\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Đối chiếu trực quan 4 hành vi lặp: \codeinline{repeat} (lặp cả 2 trục), \codeinline{repeat-x} (chỉ lặp ngang), \codeinline{repeat-y} (chỉ lặp dọc), và \codeinline{no-repeat} (chỉ hiển thị đúng 1 lần duy nhất).}
 \end{browserWindow}
 
-\begin{prettyTableBox}[BẢNG CÁC GIÁ TRỊ CỦA THUỘC TÍNH background-repeat]
-\rowcolors{2}{white}{primaryBlue!4}
-\sffamily\small
-\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}p{4.0cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Cơ chế lặp lại} & \thd{\sffamily Trường hợp sử dụng lý tưởng} \\
-\hline
-repeat & Lặp cả hai chiều trục X và trục Y (Mặc định). & Hoa văn nền lặp (\term{Seamless Pattern}), hình lưới grid nhỏ. \\
-\hline
-no-repeat & Chỉ hiển thị ảnh đúng 1 lần duy nhất, không lặp. & Ảnh Banner, Logo công ty, Watermark, ảnh minh họa chính. \\
-\hline
-repeat-x & Chỉ lặp theo chiều ngang (trục hoành X). & Thanh dải trang trí viền trên hoặc viền chân trang web. \\
-\hline
-repeat-y & Chỉ lặp theo chiều dọc (trục tung Y). & Cột hoa văn thanh bên (\term{Sidebar ribbon}). \\
-\hline
-space & Lặp đều đặn, tự động giãn khoảng cách trắng để lấp đầy khung mà không bị cắt xén ảnh. & Hiển thị các chấm hoa văn cách đều không bị vỡ bố cục mép. \\
-\hline
-round & Tự động co giãn kích thước ảnh sao cho số lượng ảnh lặp là một số nguyên hoàn hảo. & Tránh tình trạng ảnh ở rìa ngoài cùng bị cắt cụt một nửa. \\
-\hline
-\end{tabularx}
-\end{prettyTableBox}
-
-\begin{codeWindow}[Ví Dụ Cú Pháp 1 Giá Trị Và 2 Giá Trị Trục X/Y]
+\paragraph{1. Cú Pháp Khai Báo (Syntax):}
+Cú pháp cơ bản của thuộc tính \codeinline{background-repeat}:
+\begin{codeWindow}[Cú Pháp Thiết Lập Thuộc Tính background-repeat]
 \begin{lstlisting}[language=CSS3]
-/* Cu phap 1 gia tri: */
-.banner {
-  background-repeat: no-repeat;
-}
-
-/* Cu phap 2 gia tri (Gia tri 1 la truc X, gia tri 2 la truc Y): */
-.texture {
-  background-repeat: repeat no-repeat; /* Lap chieu ngang, khong lap chieu doc */
+selector {
+  background-image: url("image.jpg");
+  background-repeat: <gia_tri>;
 }
 \end{lstlisting}
 \end{codeWindow}
 
+\noindent
+\textit{Mở rộng cú pháp 2 giá trị}: Trình duyệt cũng hỗ trợ thiết lập riêng rẽ cho từng trục với cú pháp 2 giá trị (giá trị 1 cho trục ngang X, giá trị 2 cho trục dọc Y):
+\begin{codeWindow}[Cú Pháp 2 Giá Trị Độc Lập Cho Trục X Và Y]
+\begin{lstlisting}[language=CSS3]
+/* Cu phap 2 gia tri: gia tri 1 la truc X, gia tri 2 la truc Y */
+.texture {
+  background-repeat: repeat no-repeat; /* Lap theo chieu ngang, khong lap theo chieu doc */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{2. Các Giá Trị Phổ Biến Của Thuộc Tính background-repeat:}
+
+\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU CÁC GIÁ TRỊ CỦA THUỘC TÍNH background-repeat]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa \& Cơ chế hoạt động} \\
+\hline
+repeat (mặc định) & Lặp ảnh theo cả chiều ngang (x) và dọc (y) để phủ toàn bộ phần tử. \\
+\hline
+no-repeat & Không lặp -- chỉ hiển thị 1 hình ảnh duy nhất tại vị trí chỉ định. \\
+\hline
+repeat-x & Chỉ lặp theo chiều ngang (trái $\leftrightarrow$ phải). \\
+\hline
+repeat-y & Chỉ lặp theo chiều dọc (trên $\updownarrow$ dưới). \\
+\hline
+space & Ảnh lặp đủ số lần nguyên vẹn, khoảng cách đều nhau, không bị cắt ảnh ở rìa mép. \\
+\hline
+round & Ảnh được co giãn vừa đủ để lặp tròn khít không dư khoảng trắng, không cắt ảnh. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3. Phân Tích Chi Tiết Từng Giá Trị \& Ví Dụ Minh Họa:}
+
+\noindent\textbf{a. repeat (mặc định):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình ảnh được lặp lại theo cả chiều ngang (x-axis) và chiều dọc (y-axis) cho đến khi lấp đầy toàn bộ không gian nền của phần tử.
+    \item \textbf{Khi dùng}: Hữu ích cho các texture (kết cấu) hoặc pattern (mẫu hoa văn) nhỏ được thiết kế để lặp lại liền mạch (\term{Seamless Pattern}).
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ background-repeat: repeat]
+\begin{lstlisting}[language=CSS3]
+.box {
+  background-image: url("logo.png");
+  background-repeat: repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Hiệu ứng)}}: Hình ảnh được lặp lại theo cả 2 chiều để phủ kín \codeinline{.box}.
+
+\vspace{6pt}
+\noindent\textbf{b. no-repeat:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình ảnh không được lặp lại và chỉ hiển thị một lần duy nhất tại vị trí được chỉ định bởi \codeinline{background-position}.
+    \item \textbf{Khi dùng}: Phổ biến cho logo, watermark hoặc các hình ảnh biểu tượng không cần lặp lại.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ background-repeat: no-repeat]
+\begin{lstlisting}[language=CSS3]
+.box {
+  background-image: url("logo.png");
+  background-repeat: no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Hiệu ứng)}}: Chỉ hiển thị 1 ảnh duy nhất ở góc trái trên (\codeinline{top left} -- mặc định).
+
+\vspace{6pt}
+\noindent\textbf{c. repeat-x:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình ảnh chỉ được lặp lại theo chiều ngang (x-axis). Nó sẽ hiển thị một hàng các bản sao của hình ảnh.
+    \item \textbf{Khi dùng}: Tạo đường viền ngang, header/footer có pattern lặp lại.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ background-repeat: repeat-x]
+\begin{lstlisting}[language=CSS3]
+.box {
+  background-image: url("logo.png");
+  background-repeat: repeat-x;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Hiệu ứng)}}: Ảnh lặp theo chiều ngang, nhưng không lặp dọc.
+
+\vspace{6pt}
+\noindent\textbf{d. repeat-y:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình ảnh chỉ được lặp lại theo chiều dọc (y-axis). Nó sẽ hiển thị một cột các bản sao của hình ảnh.
+    \item \textbf{Khi dùng}: Tạo đường viền dọc, sidebar có pattern lặp lại.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ background-repeat: repeat-y]
+\begin{lstlisting}[language=CSS3]
+.box {
+  background-image: url("logo.png");
+  background-repeat: repeat-y;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Hiệu ứng)}}: Ảnh lặp theo chiều dọc, không lặp ngang.
+
+\vspace{6pt}
+\noindent\textbf{e. space:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình ảnh được lặp lại đủ số lần nguyên vẹn để lấp đầy không gian. Nếu còn khoảng trống, nó sẽ được phân bổ đều làm khoảng trắng giữa các bản sao của hình ảnh. Hình ảnh không bị cắt.
+    \item \textbf{Khi dùng}: Đảm bảo các hình ảnh lặp lại không bị cắt ở rìa mép khung chứa.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ background-repeat: space]
+\begin{lstlisting}[language=CSS3]
+.box {
+  background-image: url("pattern.png");
+  background-repeat: space;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Hiệu ứng)}}: Ảnh lặp đều, khoảng cách tự động tính sao cho đều nhau mà không cắt ảnh.
+
+\vspace{6pt}
+\noindent\textbf{f. round:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình ảnh được lặp lại đủ số lần nguyên vẹn. Nếu còn khoảng trống, các hình ảnh sẽ được phóng to/thu nhỏ một chút để vừa vặn hoàn hảo trong không gian, mà không có khoảng trống thừa hoặc bị cắt.
+    \item \textbf{Khi dùng}: Khi bạn muốn các hình ảnh lặp lại luôn khớp hoàn hảo với kích thước của phần tử mà không có khoảng trắng.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ background-repeat: round]
+\begin{lstlisting}[language=CSS3]
+.box {
+  background-image: url("pattern.png");
+  background-repeat: round;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Hiệu ứng)}}: Ảnh co giãn lại để vừa khít kích thước phần tử -- không dư, không bị cắt.
+
+\paragraph{4. Lưu Ý Quan Trọng Khi Dùng background-repeat:}
+
+\begin{warnBox}[Các Lưu Ý Thực Chiến Cần Nhớ Với background-repeat]
+\rowcolors{2}{white}{warnBg!60}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\bfseries\color{accentOrange}}p{0.8cm}|>{\raggedright\arraybackslash\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{warnBorder!30} \thd{\sffamily STT} & \thd{\sffamily Lưu ý} & \thd{\sffamily Giải thích chi tiết} \\
+\hline
+1 & Mặc định là repeat & Nếu không chỉ rõ, ảnh sẽ lặp cả chiều ngang và dọc để phủ kín phần tử. \\
+\hline
+2 & Kết hợp với background-size để kiểm soát rõ ràng & Ví dụ: \codeinline{background-size: contain}, \codeinline{cover}, \codeinline{50px auto} giúp định hình kích thước chuẩn xác trước khi lặp. \\
+\hline
+3 & Nếu no-repeat, vị trí ảnh phụ thuộc background-position & Có thể đặt giữa (\codeinline{center}), phải (\codeinline{right}), dưới (\codeinline{bottom}),... \\
+\hline
+4 & Với ảnh lớn $\rightarrow$ nên dùng no-repeat hoặc cover & Tránh lặp gây rối mắt hoặc tốn hiệu năng xử lý đồ họa của trình duyệt. \\
+\hline
+5 & Không phù hợp với ảnh có chữ hoặc ảnh thông tin cụ thể & Việc lặp lại liên tiếp sẽ gây mất ý nghĩa của hình ảnh và làm hỏng trải nghiệm đọc của người dùng. \\
+\hline
+\end{tabularx}
+\end{warnBox}
+
+\paragraph{5. Tổng Kết Nhanh background-repeat:}
+
+\begin{prettyTableBox}[TỔNG KẾT NHANH CÁC GIÁ TRỊ background-repeat]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị background-repeat} & \thd{\sffamily Tác dụng hiển thị} \\
+\hline
+repeat & Lặp ảnh theo cả 2 chiều (ngang và dọc). \\
+\hline
+no-repeat & Không lặp (chỉ hiển thị đúng 1 lần). \\
+\hline
+repeat-x & Lặp ngang (trái $\leftrightarrow$ phải). \\
+\hline
+repeat-y & Lặp dọc (trên $\updownarrow$ dưới). \\
+\hline
+space & Lặp đều, tự chia khoảng cách trắng đều nhau, không cắt ảnh. \\
+\hline
+round & Co giãn ảnh tự động để lặp khít phần tử không dư thừa. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
 \subsection{Định Vị Tọa Độ Ảnh Nền (\csshint{background-position})}
 \label{sec:css_bg_position}
 
-Thuộc tính \codeinline{background-position} xác định điểm đặt ban đầu của ảnh nền trong khung chứa. Mặc định là góc trên cùng bên trái (\codeinline{0\% 0\%} hoặc \codeinline{top left}).
+\begin{conceptBox}[Khái Niệm \& Bản Chất Của Thuộc Tính background-position]
+\textbf{1. background-position là gì?}\\
+Là thuộc tính dùng để xác định vị trí bắt đầu hiển thị hình nền (\codeinline{background-image}) bên trong phần tử.
+
+\vspace{4pt}
+\textbf{2. Vị trí mặc định:}\\
+Mặc định, hình nền bắt đầu từ góc trên bên trái (\codeinline{top left} hoặc tọa độ \codeinline{0\% 0\%} hay \codeinline{0 0}) của phần tử.
+\end{conceptBox}
 
 \begin{browserWindow}[Trực Quan Hóa: Ma Trận 9 Vị Trí Căn Chỉnh Của Thuộc Tính background-position]
 \centering
@@ -11611,18 +11790,106 @@ Thuộc tính \codeinline{background-position} xác định điểm đặt ban �
 {\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Đối chiếu trực quan 9 vị trí căn chỉnh kinh điển: Kết hợp linh hoạt giữa hệ từ khóa (\codeinline{left}, \codeinline{center}, \codeinline{right}, \codeinline{top}, \codeinline{bottom}) và hệ tọa độ phần trăm (\codeinline{0\%}, \codeinline{50\%}, \codeinline{100\%}).}
 \end{browserWindow}
 
-\paragraph{1. Các Cách Khai Báo Tọa Độ Phổ Biến:}
+\paragraph{1. Cú Pháp Khai Báo (Syntax):}
+Cú pháp tổng quát của thuộc tính \codeinline{background-position}:
+\begin{codeWindow}[Cú Pháp CSS Thiết Lập background-position]
+\begin{lstlisting}[language=CSS3]
+selector {
+  background-image: url("image.jpg");
+  background-position: <gia_tri_x> <gia_tri_y>;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{2. Các Giá Trị Thường Dùng:}
+
+\begin{prettyTableBox}[BẢNG CÁC GIÁ TRỊ VÀ CÁCH VIẾT background-position THƯỜNG GẶP]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Cách viết} & \thd{\sffamily Vị trí ảnh nền hiển thị} \\
+\hline
+left top & Góc trên bên trái (Mặc định). \\
+\hline
+center center & Chính giữa phần tử (có thể viết gọn là \codeinline{center}). \\
+\hline
+right bottom & Góc dưới bên phải. \\
+\hline
+50\% 50\% & Giữa theo tỷ lệ phần trăm chiều ngang + dọc. \\
+\hline
+20px 40px & Dịch từ trái 20px và từ trên 40px. \\
+\hline
+center 10px & Giữa theo chiều ngang, 10px từ trên xuống. \\
+\hline
+10\% 80\% & 10\% chiều rộng từ trái, 80\% chiều cao từ trên. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Linh Hoạt Các Loại Đơn Vị Trong background-position]
+Bạn có thể dùng kết hợp linh hoạt giữa:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Từ khóa vị trí}: \codeinline{left}, \codeinline{center}, \codeinline{right}, \codeinline{top}, \codeinline{bottom}.
+    \item \textbf{Giá trị phần trăm (\%)}: Tính theo tỷ lệ kích thước phần tử chứa.
+    \item \textbf{Giá trị điểm ảnh cố định (pixel -- px)}: Khoảng cách dịch chuyển thực tế chính xác.
+\end{itemize}
+\end{tipBox}
+
+\paragraph{3. Ví Dụ Minh Họa Trực Quan:}
+
+\begin{codeWindow}[Ví Dụ Căn Giữa Ảnh Nền Không Lặp Bằng background-position]
+\begin{lstlisting}[language=HTML5]
+<div class="box"></div>
+<style>
+.box {
+  width: 300px;
+  height: 200px;
+  background-image: url('https://via.placeholder.com/100');
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: 2px solid black;
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả hiển thị)}}: Ảnh sẽ không lặp và nằm chính giữa khung phần tử \codeinline{.box}.
+
+\paragraph{4. Hệ Trục Tọa Độ Hoạt Động Như Thế Nào?}
+Trình duyệt quản lý không gian nền theo hệ trục tọa độ 2 chiều Decartes:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Bằng từ khóa}: \codeinline{center}, \codeinline{top}, \codeinline{bottom}, \codeinline{left}, \codeinline{right}. (Ví dụ: \codeinline{center center} hoặc viết tắt \codeinline{center}).
-    \item \textbf{Bằng đơn vị đo tuyệt đối/tương đối}: \codeinline{20px 40px}, \codeinline{2rem 1.5rem}.
-    \item \textbf{Bằng đơn vị phần trăm (\%)}: Đặc biệt chú ý bản chất toán học:
-    \[
-    \text{Tọa độ điểm vẽ} = (\text{Chiều rộng khung chứa} - \text{Chiều rộng ảnh}) \times \text{Tỷ lệ } \%
-    \]
-    Do đó, \codeinline{50\% 50\%} sẽ căn tâm chính giữa của ảnh vào đúng tâm chính giữa của khung chứa!
+    \item Tọa độ $(x, y)$ tính từ góc trên trái $(0, 0)$ của phần tử.
+    \item Trái $\rightarrow$ phải là hướng $X$ dương ($+X$).
+    \item Trên $\rightarrow$ dưới là hướng $Y$ dương ($+Y$).
+    \item \textbf{Ví dụ}: \codeinline{background-position: 50\% 0;} $\rightarrow$ Ảnh đặt ở giữa theo chiều ngang ($X = 50\%$), nhưng dính sát lên trên mép đỉnh ($Y = 0$).
 \end{itemize}
 
-\paragraph{2. Cú Pháp 4 Giá Trị Hiện Đại (4-Value Syntax):}
+\paragraph{5. So Sánh Bản Chất Giữa Phần Trăm (\%) Và Pixel (px):}
+
+\begin{prettyTableBox}[SO SÁNH BẢN CHẤT TÍNH TOÁN GIỮA PHẦN TRĂM VÀ PIXEL]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa \& Bản chất tính toán} \\
+\hline
+50\% & Ảnh được canh giữa theo chiều tương ứng (điểm 50\% của ảnh trùng với điểm 50\% của phần tử). \\
+\hline
+100px & Ảnh được dịch chính xác 100px từ mép tương ứng của phần tử. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Bản Chất Toán Học Của Tỷ Lệ Phần Trăm (\%)]
+\textbf{Lưu ý quan trọng}: Tỷ lệ phần trăm là \textbf{theo kích thước phần tử chứa, không phải ảnh}! Trình duyệt áp dụng công thức chuẩn W3C:
+\[
+\text{Tọa độ điểm vẽ} = (\text{Chiều rộng khung chứa} - \text{Chiều rộng ảnh}) \times \text{Tỷ lệ } \%
+\]
+Do đó, khi đặt \codeinline{50\% 50\%}, tâm của ảnh sẽ nằm chính xác tại tâm của khung chứa! Khi đặt \codeinline{100\% 100\%}, cạnh phải và đáy của ảnh sẽ chạm khít cạnh phải và đáy của khung phần tử.
+\end{conceptBox}
+
+\paragraph{6. Cú Pháp 4 Giá Trị Hiện Đại (4-Value Syntax):}
 Trong CSS hiện đại, bạn có thể chỉ định khoảng cách lệch (\term{Offset}) từ bất kỳ góc biên nào thay vì chỉ tính từ góc trên-trái:
 
 \begin{codeWindow}[Cú Pháp 4 Giá Trị Định Vị Cách Lệch Biên Linh Hoạt]
@@ -11635,6 +11902,64 @@ Trong CSS hiện đại, bạn có thể chỉ định khoảng cách lệch (\t
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\paragraph{7. Kết Hợp background-position Với Các Thuộc Tính Khác:}
+Trong thiết kế giao diện thực tế, \codeinline{background-position} thường được kết hợp với \codeinline{background-repeat} và \codeinline{background-size} để tạo hiệu ứng bố cục trọn vẹn:
+
+\begin{codeWindow}[Ví Dụ Phối Hợp background-position, background-repeat Và background-size]
+\begin{lstlisting}[language=CSS3]
+.box {
+  background-image: url("bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Ảnh nằm ở chính giữa và được phóng lớn vừa khít phần tử, không bị lặp lại.
+
+\paragraph{8. Lưu Ý Quan Trọng Khi Dùng background-position:}
+
+\begin{warnBox}[Các Lưu Ý Kỹ Thuật Quan Trọng Khi Sử Dụng background-position]
+\rowcolors{2}{white}{warnBg!60}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{accentOrange}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{warnBorder!30} \thd{\sffamily Lưu ý} & \thd{\sffamily Giải thích chi tiết} \\
+\hline
+Ảnh nhỏ hơn phần tử & \codeinline{background-position} rất dễ nhìn rõ vì ảnh không che hết phần tử. \\
+\hline
+Với ảnh lớn & Có thể bị cắt nếu không dùng \codeinline{background-size}. Nên kết hợp thêm \codeinline{cover} hoặc \codeinline{contain}. \\
+\hline
+Ảnh bị lặp toàn phần & \codeinline{background-position} KHÔNG ảnh hưởng rõ rệt nếu ảnh bị lặp toàn phần. Nên kết hợp \codeinline{no-repeat} để canh chính xác. \\
+\hline
+Khi dùng nhiều ảnh nền & Mỗi ảnh nền có thể có một vị trí riêng biệt, phân tách nhau bằng dấu phẩy \codeinline{,}. \\
+\hline
+\end{tabularx}
+\end{warnBox}
+
+\paragraph{9. Tổng Kết Nhanh background-position:}
+
+\begin{prettyTableBox}[TỔNG KẾT NHANH CÁC GIÁ TRỊ VỊ TRÍ background-position]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị ví dụ} & \thd{\sffamily Hiệu ứng vị trí} \\
+\hline
+left top (mặc định) & Ảnh nằm ở góc trái trên. \\
+\hline
+center center & Ảnh nằm ở giữa phần tử. \\
+\hline
+20px 40px & Ảnh cách lề trái 20px, cách mép trên 40px. \\
+\hline
+50\% 50\% & Ảnh nằm chính giữa (theo cả chiều ngang và chiều dọc). \\
+\hline
+right bottom & Ảnh nằm ở góc dưới phải. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \subsection{Kích Thước Ảnh Nền: Cover vs Contain (\csshint{background-size})}
 \label{sec:css_bg_size}
