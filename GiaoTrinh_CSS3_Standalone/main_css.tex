@@ -13762,48 +13762,174 @@ text & \textit{(Không hỗ trợ cho origin)} & Nền chỉ hiển thị bên t
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{Cú Pháp Shorthand \csshint{background} \& Quy Tắc Chuẩn W3C}
+\subsection{Cú Pháp Shorthand background Toàn Diện: Quy Tắc Vàng \& Cạm Bẫy Trình Duyệt (\csshint{background})}
 \label{sec:css_bg_shorthand}
 
-Thay vì phải khai báo 8 thuộc tính đơn lẻ dài dòng, CSS cho phép gom tất cả vào thuộc tính viết tắt siêu gọn: \codeinline{background}.
+\paragraph{1. Định Nghĩa \& Cú Pháp Đầy Đủ:}
+Thuộc tính \codeinline{background} là thuộc tính rút gọn (\term{shorthand}) trong CSS, cho phép bạn thiết lập nhiều thuộc tính nền (\term{background properties}) cùng lúc trong một dòng.
 
-\begin{conceptBox}[Cấu Trúc Thứ Tự Chuẩn Của Shorthand background]
+\begin{conceptBox}[Cú Pháp Shorthand background Chuẩn W3C]
 \begin{center}
-\tcbox[on line, arc=4pt, colback=primaryBlue!8, colframe=primaryBlue!40, boxsep=1pt, left=8pt, right=8pt, top=4pt, bottom=4pt]{%
-  \ttfamily\small\bfseries\color{primaryBlue}
-  background: [color] [image] [position]/[size] [repeat] [origin] [clip] [attachment];%
+\tcbox[on line, arc=4pt, colback=primaryBlue!8, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt]{%
+  \ttfamily\footnotesize\bfseries\color{primaryBlue}
+  background: [color] [image] [position] / [size] [repeat] [attachment] [origin] [clip];%
 }
 \end{center}
 \vspace{2pt}
-Tất cả các thành phần đều là tùy chọn (\term{Optional}), có thể viết theo thứ tự tương đối tự do, \textbf{NGOẠI TRỪ 2 quy tắc vàng bắt buộc}:
-\begin{enumerate}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Quy tắc dấu gạch chéo cho kích thước}: \codeinline{size} BẮT BUỘC phải đi liền sau \codeinline{position} và ngăn cách nhau bởi dấu gạch chéo \codeinline{/}. Ví dụ: \codeinline{center/cover} hoặc \codeinline{top 20px / 150px auto}.
-    \item \textbf{Quy tắc thứ tự Box Model}: Nếu xuất hiện cả hai giá trị hộp, giá trị viết trước là \codeinline{background-origin}, giá trị viết sau là \codeinline{background-clip}.
-\end{enumerate}
+\noindent\textbf{Nguyên tắc linh hoạt}: Bạn \textbf{không bắt buộc phải khai báo tất cả} --- có thể dùng tùy ý số lượng thành phần.
 \end{conceptBox}
 
-\begin{codeWindow}[Ví Dụ So Sánh Viết Đầy Đủ Và Shorthand]
-\begin{lstlisting}[language=CSS3]
-/* CACH 1: Khai bao day du (Verbose) */
-.hero-longhand {
-  background-color: #0f172a;
-  background-image: url("bg.jpg");
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
+\paragraph{2. Các Thuộc Tính Con Có Thể Rút Gọn:}
+Chuẩn CSS gom 8 thuộc tính đơn lẻ vào trong cú pháp \codeinline{background}:
 
-/* CACH 2: Viet tat Shorthand chuan W3C (Gon gang hon rat nhieu!) */
-.hero-shorthand {
-  background: #0f172a url("bg.jpg") center/cover no-repeat fixed;
-}
+\begin{prettyTableBox}[BẢNG CÁC THUỘC TÍNH NỀN CÓ THỂ RÚT GỌN TRONG SHORTHAND]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính con} & \thd{\sffamily Chức năng} \\
+\hline
+background-color & Màu nền \\
+\hline
+background-image & Hình nền \\
+\hline
+background-position & Vị trí đặt hình nền \\
+\hline
+background-size & Kích thước hình nền (\codeinline{/}) \\
+\hline
+background-repeat & Lặp lại hình nền không? \\
+\hline
+background-attachment & Cố định hay cuộn cùng nội dung? \\
+\hline
+background-origin & Điểm gốc của nền (\codeinline{content-box}, \codeinline{padding-box}, \codeinline{border-box}) \\
+\hline
+background-clip & Cắt nền ở đâu \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3. Ví Dụ Cơ Bản:}
+Trong thực tế phát triển Web, bạn thường chỉ cần kết hợp ảnh nền, chế độ lặp, vị trí căn giữa và kích thước phủ kín:
+
+\begin{codeWindow}[Ví Dụ 1: Khai Báo Shorthand Cơ Bản Thường Dùng]
+\begin{lstlisting}[language=CSS3]
+background: url('bg.jpg') no-repeat center/cover;
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{warnBox}[Cạm Bẫy Ngầm Của Shorthand: Tự Động Reset Thuộc Tính Không Khai Báo]
-Khi bạn sử dụng cú pháp Shorthand \codeinline{background}, bất kỳ thuộc tính nào không được bạn liệt kê sẽ \textbf{tự động bị reset về giá trị mặc định} của CSS. Nếu trước đó bạn đã đặt \codeinline{background-size: cover;} ở một bộ chọn khác, việc khai báo \codeinline{background: red;} phía sau sẽ vô tình xóa sạch \codeinline{background-size} về lại \codeinline{auto}!
+\noindent\textcolor{primaryBlue}{\textbf{($\rightarrow$ Tương đương với:}}
+\begin{codeWindow}[Mã Nguồn Chi Tiết Tương Đương]
+\begin{lstlisting}[language=CSS3]
+background-image: url('bg.jpg');
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{4. Ví Dụ Đầy Đủ:}
+Khi một dự án đòi hỏi cấu hình đồ họa phức tạp và tỉ mỉ, bạn có thể truyền toàn bộ 8 giá trị vào một dòng:
+
+\begin{codeWindow}[Ví Dụ 2: Khai Báo Đầy Đủ 8 Thuộc Tính Nền Trong Một Dòng]
+\begin{lstlisting}[language=CSS3]
+background: red url('bg.png') no-repeat top left / 100px 100px fixed content-box content-box;
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textcolor{primaryBlue}{\textbf{($\rightarrow$ Tương đương:}}
+\begin{codeWindow}[Mã Nguồn Chi Tiết Tương Đương Đầy Đủ]
+\begin{lstlisting}[language=CSS3]
+background-color: red;
+background-image: url('bg.png');
+background-repeat: no-repeat;
+background-position: top left;
+background-size: 100px 100px;
+background-attachment: fixed;
+background-origin: content-box;
+background-clip: content-box;
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{5. Chú Ý Về Thứ Tự:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{background-position} và \codeinline{background-size} phải đặt cùng nhau, ngăn cách bằng dấu \codeinline{/}.
+    \item \codeinline{background-color} nên để cuối cùng.
+    \item Không khai báo thì trình duyệt dùng giá trị mặc định.
+    \item \textbf{Thứ tự 2 giá trị Box Model}: Nếu có 2 giá trị hộp, giá trị trước là \codeinline{background-origin}, giá trị sau là \codeinline{background-clip}. Nếu chỉ có 1 giá trị, nó áp dụng cho cả hai.
+\end{itemize}
+
+\paragraph{6. Giá Trị Mặc Định:}
+Hiểu rõ giá trị mặc định giúp bạn chủ động kiểm soát giao diện và tránh lỗi ghi đè ngầm ngoài ý muốn:
+
+\begin{prettyTableBox}[BẢNG GIÁ TRỊ MẶC ĐỊNH CỦA CÁC THUỘC TÍNH CON]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash\ttfamily}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Giá trị mặc định} & \thd{\sffamily Ý nghĩa thực tế} \\
+\hline
+background-color & transparent & Nền trong suốt, nhìn xuyên thấu xuống dưới. \\
+\hline
+background-image & none & Không có ảnh nền. \\
+\hline
+background-repeat & repeat & Lặp lại hình nền cả chiều ngang và dọc. \\
+\hline
+background-position & 0\% 0\% (top-left) & Căn ảnh từ góc trên cùng bên trái. \\
+\hline
+background-size & auto auto & Kích thước tự nhiên của ảnh gốc. \\
+\hline
+background-attachment & scroll & Ảnh cuộn cùng nội dung trang. \\
+\hline
+background-origin & padding-box & Điểm gốc tọa độ tính từ mép khoảng đệm. \\
+\hline
+background-clip & border-box & Phủ nền lan ra mép ngoài cùng của viền. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{7. Lưu Ý Quan Trọng:}
+
+\begin{warnBox}[BẢNG LƯU Ý QUAN TRỌNG KHI SỬ DỤNG BACKGROUND SHORTHAND]
+\rowcolors{2}{white}{warnBg!60}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{accentOrange}}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{warnBorder!30} \thd{\sffamily Lưu ý} & \thd{\sffamily Chi tiết kỹ thuật} \\
+\hline
+Không khai background-color & Có thể khiến vùng không nền nếu ảnh bị lỗi (404 hoặc mạng yếu), gây khó đọc chữ. Nên có màu nền dự phòng (\term{Fallback color})! \\
+\hline
+Gộp nhiều thuộc tính & Giúp code gọn hơn, nhưng nên dùng khi chắc chắn để tránh nhầm lẫn hoặc vô tình ghi đè. \\
+\hline
+Cẩn thận với thứ tự position / size & \codeinline{size} bắt buộc phải sau \codeinline{position} và cách nhau bởi dấu \codeinline{/}. Viết sai sẽ làm hỏng toàn bộ khai báo Shorthand! \\
+\hline
+Nếu dùng text & Cần kết hợp \codeinline{-webkit-background-clip: text;} và \codeinline{-webkit-text-fill-color: transparent;} kèm \codeinline{color: transparent;}. \\
+\hline
+Cạm bẫy ngầm Reset của Shorthand (\term{Implicit Reset}) & Khi bạn sử dụng cú pháp Shorthand \codeinline{background}, bất kỳ thuộc tính nào không được bạn liệt kê sẽ \textbf{tự động bị reset về giá trị mặc định} của CSS. Nếu trước đó bạn đã đặt \codeinline{background-size: cover;} ở một bộ chọn khác, việc khai báo \codeinline{background: red;} phía sau sẽ vô tình xóa sạch \codeinline{background-size} về lại \codeinline{auto auto}! \\
+\hline
+\end{tabularx}
 \end{warnBox}
+
+\paragraph{8. Tổng Kết Cú Pháp Gợi Ý:}
+Cú pháp chuẩn khuyên dùng trong thực tế:
+
+\begin{conceptBox}[Cú Pháp Gợi Ý Chuẩn Mực]
+\begin{center}
+\tcbox[on line, arc=4pt, colback=primaryBlue!8, colframe=primaryBlue!40, boxsep=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt]{%
+  \ttfamily\footnotesize\bfseries\color{primaryBlue}
+  background: [color] [image] [repeat] [position] / [size] [attachment] [origin] [clip];%
+}
+\end{center}
+\end{conceptBox}
+
+\begin{codeWindow}[Ví Dụ Thường Dùng Nhất]
+\begin{lstlisting}[language=CSS3]
+/* Vi du thuong dung nhat trong cac du an thuc te: */
+background: url('banner.jpg') center/cover no-repeat;
+
+/* Hoac co kem mau nen du phong Fallback: */
+background: #0f172a url('banner.jpg') center/cover no-repeat;
+\end{lstlisting}
+\end{codeWindow}
 
 \subsection{Kỹ Thuật Đa Ảnh Nền (\csshint{Multiple Backgrounds})}
 \label{sec:css_bg_multiple}
