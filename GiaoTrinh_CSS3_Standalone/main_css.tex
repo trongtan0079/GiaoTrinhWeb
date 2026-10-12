@@ -476,6 +476,15 @@
 
 \titlespacing*{\paragraph}{0pt}{7pt}{3pt}
 
+\titleformat{\subparagraph}[hang]
+  {\normalfont\normalsize\sffamily\bfseries\color{secondaryTeal}}
+  {\thesubparagraph}
+  {0pt}
+  {}
+
+\titlespacing*{\subparagraph}{0pt}{6pt}{2pt}
+
+
 \titleformat{\part}[display]
   {\normalfont\sffamily\centering}
   {
@@ -11565,7 +11574,7 @@ CSS cung cấp 3 loại hàm dải chuyển màu tiêu chuẩn:
 \begin{prettyTableBox}[BẢNG ĐỐI CHIẾU CÁC CÁCH KHAI BÁO HƯỚNG CỦA LINEAR-GRADIENT]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.0cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash\ttfamily}X|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash\ttfamily\small}X|}
 \hline
 \rowcolor{primaryBlue} \thd{\sffamily Cách viết} & \thd{\sffamily Ý nghĩa hướng đi} & \thd{\sffamily Ví dụ minh họa} \\
 \hline
@@ -11677,7 +11686,7 @@ background-image: linear-gradient(to right, red 0%, red 40%, yellow 40%, yellow 
 \begin{prettyTableBox}[BẢNG CÁC TÙY CHỌN THAM SỐ CỦA RADIAL-GRADIENT]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash\ttfamily}X|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.8cm}|>{\raggedright\arraybackslash}p{4.0cm}|>{\raggedright\arraybackslash\ttfamily\small}X|}
 \hline
 \rowcolor{primaryBlue} \thd{\sffamily Tham số / Cách viết} & \thd{\sffamily Ý nghĩa kỹ thuật} & \thd{\sffamily Cú pháp mẫu} \\
 \hline
@@ -11749,7 +11758,7 @@ farthest-corner & Tỏa chạm góc xa tâm nhất (Mặc định) & radial-grad
 \begin{prettyTableBox}[BẢNG CÁC TÙY CHỌN THAM SỐ CỦA CONIC-GRADIENT]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash\ttfamily}X|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.8cm}|>{\raggedright\arraybackslash}p{4.0cm}|>{\raggedright\arraybackslash\ttfamily\small}X|}
 \hline
 \rowcolor{primaryBlue} \thd{\sffamily Tham số / Cách viết} & \thd{\sffamily Ý nghĩa góc \& tâm xoay} & \thd{\sffamily Cú pháp mẫu} \\
 \hline
