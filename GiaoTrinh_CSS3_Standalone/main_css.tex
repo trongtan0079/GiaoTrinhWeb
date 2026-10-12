@@ -13412,6 +13412,18 @@ body {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{codeWindow}[Ví Dụ 3: Khung Đọc Văn Bản Tự Động Hiện Thanh Cuộn]
+\begin{lstlisting}[language=CSS3]
+.scroll-box {
+  height: 200px;
+  overflow: auto;
+  background-image: url('bg.jpg');
+  background-attachment: local;
+  background-repeat: no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+
 \paragraph{5. Ví Dụ Minh Họa Thực Tế Toàn Diện (HTML + CSS):}
 Dưới đây là một cấu trúc giao diện hoàn chỉnh minh họa cách sử dụng \codeinline{background-attachment: fixed} để tạo khối hiển thị toàn màn hình:
 
@@ -13576,7 +13588,7 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
 
 \begin{codeWindow}[Mã Nguồn Mẫu: padding-box Chặn Nền Tại Mép Trong Của Viền]
 \begin{lstlisting}[language=CSS3]
-/* Vi du: Anh nen bi chan dung o mep trong vien, vien xanh ban trong suot khong co anh nen */
+/* Vi du 1: Anh nen bi chan dung o mep trong vien, vien xanh ban trong suot khong co anh nen */
 .box {
   background-image: url("landscape.jpg");
   background-repeat: no-repeat;
@@ -13585,6 +13597,14 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
   border: 16px solid rgba(70, 150, 255, 0.55);
   padding: 24px;
   color: white;
+}
+
+/* Vi du 2: Vien net dut de lo khoang trang, khong co nen mau ben duoi vien */
+.background-clip-padding {
+  border: 6px dashed black;
+  background-color: blue;
+  background-clip: padding-box; /* Nen dung lai o mep trong cua vien */
+  padding: 40px;
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -13601,7 +13621,7 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
 
 \begin{codeWindow}[Mã Nguồn Mẫu: content-box Thu Hẹp Nền Ôm Sát Nội Dung]
 \begin{lstlisting}[language=CSS3]
-/* Vi du: Anh nen chi co cum ben trong hop noi dung, padding va vien deu trong suot */
+/* Vi du 1: Anh nen chi co cum ben trong hop noi dung, padding va vien deu trong suot */
 .box {
   background-image: url("landscape.jpg");
   background-repeat: no-repeat;
@@ -13610,6 +13630,14 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
   border: 16px solid rgba(40, 190, 110, 0.55);
   padding: 24px;
   color: white;
+}
+
+/* Vi du 2: Nen mau chi xuat hien dung ben trong vung chu */
+.background-clip-content {
+  border: 6px dashed black;
+  background-color: blue;
+  background-clip: content-box; /* Chi phu vung content, padding va vien deu trong suot */
+  padding: 40px;
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -13626,7 +13654,7 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
 
 \begin{codeWindow}[Mã Nguồn Mẫu: Kỹ Thuật background-clip: text Hoàn Chỉnh]
 \begin{lstlisting}[language=CSS3]
-/* Vi du 1: Anh phong canh hoac dai Gradient cat theo phong chu lon HELLO CSS */
+/* Vi du 1: Anh phong canh hoac dai Gradient cat theo phong chu lon HELLO CSS (Infographic) */
 .title {
   font-size: 5rem;
   font-weight: 900;
@@ -13635,6 +13663,28 @@ text (Thử nghiệm) & Nền chỉ xuất hiện bên trong nét chữ của v�
   background-clip: text;         /* Chuan W3C */
   color: transparent;            /* Lam mau chu trong suot */
   -webkit-text-fill-color: transparent;
+}
+
+/* Vi du 2: Nen don sac xanh cat theo net chu to dam */
+.headline-blue {
+  font-size: 40px;
+  font-weight: bold;
+  background-color: blue;
+  -webkit-background-clip: text;       /* Chrome, Safari, Edge */
+  background-clip: text;               /* Chuan W3C */
+  -webkit-text-fill-color: transparent;/* Lam chu trong suot */
+  color: transparent;                  /* Phuong an fallback */
+}
+
+/* Vi du 3: Tao chu mang dai mau Gradient ruc ro lung linh */
+.text-gradient {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background-image: linear-gradient(to right, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 \end{lstlisting}
 \end{codeWindow}
