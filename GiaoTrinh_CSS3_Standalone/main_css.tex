@@ -13256,39 +13256,207 @@ inherit & Thừa hưởng từ phần tử cha. & Lấy nguyên giá trị kích
 \end{tipBox}
 
 
-\subsection{Cơ Chế Cuộn Nền \& Parallax Effect (\csshint{background-attachment})}
+\subsection{Cơ Chế Cuộn Nền \& Parallax Effect: Toàn Diện background-attachment (\csshint{background-attachment})}
 \label{sec:css_bg_attachment}
 
-Thuộc tính \codeinline{background-attachment} xác định ảnh nền sẽ cuộn theo nội dung trang web hay đứng yên cố định so với khung nhìn trình duyệt (\term{Viewport}).
+\paragraph{1. background-attachment Là Gì?}
+Thuộc tính \codeinline{background-attachment} trong CSS được dùng để xác định cách hình ảnh nền (\term{Background Image}) cuộn theo phần tử hoặc đứng yên cố định khi trang web được cuộn.
 
-\begin{prettyTableBox}[BẢNG PHÂN BIỆT 3 GIÁ TRỊ background-attachment]
+\begin{conceptBox}[Bản Chất Cốt Lõi Của background-attachment]
+Thuộc tính này trả lời trực tiếp cho câu hỏi kỹ thuật: \textbf{``Khi người dùng cuộn trang web, ảnh nền sẽ di chuyển trôi theo nội dung hay đứng yên cố định một chỗ?''}
+\end{conceptBox}
+
+\paragraph{2. Cú Pháp Khai Báo Cơ Bản:}
+\begin{codeWindow}[Cú Pháp Thiết Lập background-attachment]
+\begin{lstlisting}[language=CSS3]
+selector {
+  background-image: url('image.jpg');
+  background-attachment: <value>;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{3. Các Giá Trị Hợp Lệ Của background-attachment:}
+Chuẩn CSS quy định 3 giá trị cơ bản điều khiển chuyển động của ảnh nền:
+
+\begin{prettyTableBox}[BẢNG 3 GIÁ TRỊ HỢP LỆ CỦA background-attachment]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.2cm}|>{\raggedright\arraybackslash\bfseries}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Hành vi khi cuộn trang} & \thd{\sffamily Giải thích cơ chế kỹ thuật} \\
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa hành vi khi cuộn trang} \\
 \hline
-scroll & Cuộn cùng trang web (Mặc định). & Ảnh nền cố định so với chính phần tử, nhưng sẽ cuộn đi khi cả trang web được cuộn. \\
+scroll (Mặc định) & Ảnh nền cuộn trôi cùng nội dung tài liệu của trang web. \\
 \hline
-fixed & Đứng yên cố định so với Viewport. & Ảnh giữ nguyên vị trí trên màn hình dù người dùng cuộn chuột qua. Đây là cơ sở tạo hiệu ứng cuộn chiều sâu thị giác (\term{Parallax Scrolling}). \\
+fixed & Ảnh nền đứng yên cố định với cửa sổ trình duyệt (Viewport), không cuộn. \\
 \hline
-local & Cuộn cùng nội dung bên trong phần tử. & Nếu phần tử có thanh cuộn riêng (\codeinline{overflow: scroll}), ảnh sẽ cuộn theo nội dung bên trong thay vì đứng yên. \\
+local & Ảnh nền cuộn theo nội dung bên trong phần tử có thanh cuộn riêng. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{codeWindow}[Tạo Hiệu Ứng Parallax Đơn Giản Thuần CSS]
+\begin{browserWindow}[Sơ Đồ Kỹ Thuật: Đối Chiếu 3 Cơ Chế Cuộn Của background-attachment]
+\centering
+\includegraphics[width=0.96\linewidth]{figures/bg_attachment_three_modes.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Mô phỏng trực quan 3 kịch bản: \textbf{scroll} (ảnh trôi theo trang và biến mất khi cuộn qua), \textbf{fixed} (ảnh ghim chặt vào Viewport tạo hiệu ứng Parallax), và \textbf{local} (ảnh cuộn đồng bộ bên trong khung chứa có \codeinline{overflow: auto/scroll}).}
+\end{browserWindow}
+
+\paragraph{4. Phân Tích Cách Hoạt Động Cụ Thể Của Từng Giá Trị:}
+
+\subparagraph{a. Giá Trị scroll (Mặc Định):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình nền sẽ cuộn cùng với nội dung của phần tử và nội dung chung của cả trang web. Khi bạn cuộn trang xuống, hình nền cũng sẽ di chuyển lên trên và dần dần biến mất khỏi khung nhìn nếu nó không còn nằm trong giới hạn hiển thị của phần tử.
+    \item \textbf{Khi sử dụng}: Đây là hành vi mặc định và phổ biến nhất, phù hợp với hầu hết các trường hợp sử dụng hình nền thông thường trên mọi trang web.
+    \item \textbf{Đặc điểm cốt lõi}:
+    \begin{itemize}[leftmargin=1.2em]
+        \item Ảnh nền cuộn cùng nội dung khi bạn lướt trang.
+        \item Là giá trị mặc định, nên nếu không khai báo thuộc tính này, trình duyệt sẽ tự động áp dụng giá trị \codeinline{scroll}.
+    \end{itemize}
+\end{itemize}
+
+\begin{codeWindow}[Mã Nguồn Khai Báo scroll Cơ Bản]
+\begin{lstlisting}[language=CSS3]
+body {
+  background-image: url('image.jpg');
+  background-attachment: scroll; /* (Co the bo qua vi la gia tri mac dinh) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subparagraph{b. Giá Trị fixed (Ghim Chặt Màn Hình \& Hiệu Ứng Parallax):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình nền sẽ được cố định tại vị trí của nó trên khung nhìn trình duyệt (\term{Viewport}), hoàn toàn không cuộn cùng với nội dung của phần tử hay nội dung của trang. Khi bạn cuộn trang, hình nền vẫn giữ nguyên vị trí, tạo ra hiệu ứng thị giác \term{Parallax Scrolling} sống động hoặc tạo một phông nền tĩnh phía sau các khối nội dung trượt động.
+    \item \textbf{Khi sử dụng}: Rất hữu ích cho hiệu ứng Parallax, hoặc khi bạn muốn một hình nền lớn, ấn tượng luôn luôn hiển thị bất kể người dùng cuộn đến vị trí nào trên trang.
+    \item \textbf{Đặc điểm cốt lõi}:
+    \begin{itemize}[leftmargin=1.2em]
+        \item Ảnh nền đứng yên một chỗ trên màn hình (Viewport), còn nội dung văn bản cuộn lên/xuống đè trên mặt ảnh.
+        \item Tạo cảm giác các lớp nội dung đang lướt nhẹ trên mặt một bức tranh nền cố định.
+        \item Thường dùng kèm với \codeinline{background-size: cover} (để phủ kín toàn màn hình) và \codeinline{background-position: center} (để căn giữa ảnh).
+    \end{itemize}
+    \item \textbf{Lưu ý kỹ thuật then chốt}: Vị trí của hình nền \codeinline{fixed} được tính toán dựa vào \textbf{Viewport}, không phải theo phần tử cha của nó (trừ khi phần tử cha có thuộc tính \codeinline{transform}, \codeinline{perspective}, hoặc \codeinline{filter} khác \codeinline{none}).
+\end{itemize}
+
+\begin{codeWindow}[Thiết Lập Ảnh Nền Cố Định Tạo Hiệu Ứng Parallax]
+\begin{lstlisting}[language=CSS3]
+body {
+  background-image: url('bg.jpg');
+  background-attachment: fixed;   /* Anh dung yen tren Viewport */
+  background-size: cover;          /* Phu kin toan bo man hinh */
+  background-position: center;     /* Can giua trong tam anh */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Biến Thể Banner Parallax Thuần CSS Giữa Trang]
 \begin{lstlisting}[language=CSS3]
 .parallax-banner {
   min-height: 400px;
   background-image: url("mountain-bg.jpg");
-  background-attachment: fixed; /* Anh dung yen khi cuon trang */
+  background-attachment: fixed; /* Anh dung yen khi nguoi dung cuon trang */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\subparagraph{c. Giá Trị local (Cuộn Đồng Bộ Cùng Nội Dung Bên Trong Phần Tử):}
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Mô tả}: Hình nền sẽ cuộn cùng với nội dung bên trong phần tử mà nó được áp dụng, ngay cả khi phần tử đó có thanh cuộn riêng biệt.
+    \item \textbf{Khác biệt then chốt giữa scroll và local}: 
+    \begin{itemize}[leftmargin=1.2em]
+        \item Thuộc tính \codeinline{scroll} chỉ cuộn theo thanh cuộn của \textbf{toàn bộ trang web} (nếu phần tử con có thanh cuộn riêng, ảnh dùng \codeinline{scroll} sẽ đứng yên bên trong phần tử đó khi bạn cuộn nội dung con).
+        \item Với \codeinline{local}, nếu phần tử \codeinline{<div>} có \codeinline{overflow: scroll} hoặc \codeinline{overflow: auto}, hình nền sẽ \textbf{cuộn cùng nội dung bên trong chính khối \codeinline{<div>} đó}.
+    \end{itemize}
+    \item \textbf{Khi sử dụng}: Khi bạn có một phần tử có khả năng cuộn độc lập (ví dụ: khung chat, bảng dữ liệu dài, danh sách ghi chú có thanh cuộn riêng) và bạn muốn hình nền/hoa văn hoa văn cuộn theo các dòng chữ của riêng nó.
+    \item \textbf{Đặc điểm cốt lõi}: Ảnh nền cuộn cùng nội dung của phần tử con, chỉ phát huy tác dụng rõ rệt khi kết hợp với \codeinline{overflow: auto} hoặc \codeinline{overflow: scroll}.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ 1: Hộp Cuộn Với Hoa Văn Lặp Lại background-attachment: local]
+\begin{lstlisting}[language=CSS3]
+.scrollable-box {
+  height: 200px;
+  overflow: scroll; /* De div co thanh cuon rieng */
+  background-image: url('pattern.png');
+  background-attachment: local;
+  background-repeat: repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ 2: Khung Đọc Văn Bản Tự Động Hiện Thanh Cuộn]
+\begin{lstlisting}[language=CSS3]
+.scroll-box {
+  height: 200px;
+  overflow: auto;
+  background-image: url('bg.jpg');
+  background-attachment: local;
+  background-repeat: no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{5. Ví Dụ Minh Họa Thực Tế Toàn Diện (HTML + CSS):}
+Dưới đây là một cấu trúc giao diện hoàn chỉnh minh họa cách sử dụng \codeinline{background-attachment: fixed} để tạo khối hiển thị toàn màn hình:
+
+\begin{codeWindow}[Mã Nguồn Mẫu Giao Diện Chiếm Toàn Màn Hình Với fixed]
+\begin{lstlisting}[language=HTML5]
+<div class="fixed-bg">
+  <h1>Chao mung den voi Website cua chung toi</h1>
+  <p>Noi dung rat dai de nguoi dung co the cuon trang...</p>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS Đi Kèm Cho Khối .fixed-bg]
+\begin{lstlisting}[language=CSS3]
+.fixed-bg {
+  height: 100vh;
+  background-image: url('https://via.placeholder.com/800x600');
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: auto;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{6. Các Lưu Ý Kỹ Thuật Quan Trọng Khi Sử Dụng background-attachment:}
+
+\begin{warnBox}[BẢNG LƯU Ý KỸ THUẬT QUAN TRỌNG VỚI background-attachment]
+\rowcolors{2}{white}{warnBg!60}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{accentOrange}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{warnBorder!30} \thd{\sffamily Điểm lưu ý} & \thd{\sffamily Chi tiết kỹ thuật \& Giải pháp khắc phục} \\
+\hline
+Ảnh hưởng của transform, filter, perspective & \codeinline{fixed} sẽ \textbf{mất tác dụng ghim Viewport} nếu phần tử cha có thuộc tính \codeinline{transform}, \codeinline{perspective}, hoặc \codeinline{filter} khác \codeinline{none}. Khi đó trình duyệt sẽ biến phần tử cha thành khung tham chiếu thay vì Viewport. Khuyên dùng: Chỉ nên áp dụng \codeinline{fixed} trực tiếp cho thẻ \codeinline{body} hoặc các khối container độc lập. \\
+\hline
+Hạn chế trên thiết bị di động (Mobile) & Trên một số trình duyệt di động (đặc biệt là Safari iOS và một số phiên bản Chrome mobile), \codeinline{background-attachment: fixed} có thể không được hỗ trợ đầy đủ hoặc gây hiện tượng giật lag nghiêm trọng (\term{Repaint lag}) khi GPU phải vẽ lại toàn bộ ảnh nền sau mỗi thao tác vuốt màn hình. \textit{Giải pháp}: Sử dụng JavaScript hoặc bố cục \codeinline{position: fixed} với lớp layer riêng để mô phỏng Parallax mượt mà. \\
+\hline
+Điều kiện hoạt động của local & Thuộc tính \codeinline{local} \textbf{chỉ hoạt động và phát huy tác dụng} nếu phần tử đó có nội dung tràn ra ngoài và được kích hoạt cơ chế cuộn nội bộ (\codeinline{overflow: scroll} hoặc \codeinline{overflow: auto}). \\
+\hline
+\end{tabularx}
+\end{warnBox}
+
+\paragraph{7. Bảng Tổng Kết Nhanh Hệ Thống background-attachment:}
+
+\begin{prettyTableBox}[BẢNG TỔNG KẾT SO SÁNH 3 CHẾ ĐỘ CUỘN NỀN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.0cm}|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ảnh nền di chuyển như thế nào?} & \thd{\sffamily Khi nào nên sử dụng?} \\
+\hline
+scroll (Mặc định) & Ảnh nền cuộn trôi theo nội dung tài liệu của trang. & Hầu hết các trường hợp sử dụng ảnh nền mặc định thông thường. \\
+\hline
+fixed & Ảnh nền đứng yên cố định theo khung nhìn màn hình (Viewport). & Làm ảnh nền tĩnh toàn trang web, tạo hiệu ứng thị giác Parallax. \\
+\hline
+local & Ảnh nền cuộn theo nội dung bên trong của chính phần tử đó. & Khi bạn có khối hộp nội dung có thanh cuộn riêng biệt (\codeinline{overflow: auto/scroll}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \subsection{Phạm Vi \& Cắt Xén Nền: Origin vs Clip (\csshint{background-origin}, \csshint{background-clip})}
 \label{sec:css_bg_origin_clip}
