@@ -11851,6 +11851,20 @@ Cú pháp tiêu chuẩn xác định vị trí trên 2 trục tọa độ:
     \item \textbf{Giá trị mặc định}: \codeinline{background-position: 0\% 0\%;} (dính sát góc trên bên trái).
 \end{itemize}
 
+\begin{browserWindow}[Sơ Đồ Hệ Trục Tọa Độ 2D \& Bản Đồ 9 Điểm Neo Của background-position]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/bg_pos_coordinate_axes.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Trực quan hóa hệ quy chiếu 2 chiều ($X, Y$): Trục $X$ chạy ngang từ $0\%$ đến $100\%$, trục $Y$ chạy dọc từ đỉnh xuống đáy ($0\%$ đến $100\%$). Toàn bộ 9 từ khóa vị trí đều ánh xạ chính xác $1:1$ với các mốc tọa độ phần trăm.}
+\end{browserWindow}
+
+\begin{tipBox}[Bí Quyết Ghi Nhớ Nhanh Hệ Trục Tọa Độ background-position]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Trục hoành $X$}: $0\%$ ứng với \codeinline{left}, $50\%$ ứng với \codeinline{center}, $100\%$ ứng với \codeinline{right}.
+    \item \textbf{Trục tung $Y$}: $0\%$ ứng với \codeinline{top}, $50\%$ ứng với \codeinline{center}, $100\%$ ứng với \codeinline{bottom}.
+    \item \textbf{Quy tắc thứ tự}: Khi khai báo 2 giá trị, CSS luôn đọc \textbf{ngang trước -- dọc sau} (\codeinline{x y}), ví dụ: \codeinline{background-position: right bottom;} tương đương tuyệt đối với \codeinline{background-position: 100\% 100\%;}.
+\end{itemize}
+\end{tipBox}
+
 \paragraph{2. Nghiên Cứu Tình Huống Thực Nghiệm: Khung Phần Tử .background\_001:}
 
 Xem xét một khối giao diện thực tế với khung kích thước cố định $400 \times 400\text{px}$, viền đen $5\text{px}$ và sử dụng ảnh gốc \codeinline{image\_2.jpg}:
