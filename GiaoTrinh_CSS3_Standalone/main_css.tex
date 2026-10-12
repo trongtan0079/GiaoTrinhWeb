@@ -12770,14 +12770,42 @@ div {
 \textcolor{primaryBlue}{\textbf{($\rightarrow$ Kết quả)}}: Chiều rộng ảnh $= 800\text{px}$ ($100\%$ chiều rộng phần tử). Chiều cao tự tính theo tỷ lệ gốc; nếu ảnh thấp hơn $400\text{px}$, sẽ có khoảng trống bên dưới. Ảnh không lặp lại và được căn giữa theo chiều ngang nhờ \codeinline{background-position: top center}.
 
 \paragraph{3. Chuyên Đề B: Giá Trị contain (Vừa Khít Phần Tử, Bảo Toàn Tỷ Lệ Tuyệt Đối):}
-Ảnh sẽ thu nhỏ hoặc phóng to để vừa khít hoàn toàn bên trong vùng chứa của phần tử, nhưng \textbf{luôn luôn giữ tỷ lệ khung hình} (\term{Aspect Ratio}).
+Với \codeinline{background-size: contain}, hình ảnh nền sẽ được điều chỉnh kích thước để đảm bảo toàn bộ hình ảnh hiển thị trọn vẹn trong khu vực nền của phần tử mà \textbf{luôn luôn giữ nguyên tỷ lệ khung hình} (\term{Aspect Ratio}).
 
-\begin{conceptBox}[Định Nghĩa Chi Tiết Giá Trị contain]
-Thu nhỏ hoặc phóng to hình ảnh để nó vừa vặn hoàn toàn bên trong vùng chứa của phần tử, trong khi vẫn duy trì tỷ lệ khung hình. Hình ảnh sẽ được điều chỉnh sao cho cạnh dài nhất của nó vừa với cạnh tương ứng của phần tử. Điều này có thể để lại khoảng trống (\term{Letterboxing / Pillarboxing}) ở một hoặc hai bên nếu tỷ lệ khung hình không khớp.
+\begin{conceptBox}[Định Nghĩa Chi Tiết \& Cách Hoạt Động Của Giá Trị contain]
+\textbf{Cách hoạt động}: Trình duyệt sẽ tự động phóng to hoặc thu nhỏ hình ảnh sao cho \textbf{cả chiều rộng và chiều cao} của hình ảnh đều \textbf{nhỏ hơn hoặc bằng} kích thước tương ứng của phần tử chứa.
+
+\noindent\textbf{Kết quả hiển thị}:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Khi dùng}: Khi bạn muốn đảm bảo toàn bộ hình ảnh luôn hiển thị đầy đủ, không bị cắt xén bất kỳ chi tiết nào, chẳng hạn như logo thương hiệu, huy hiệu, biểu tượng hoặc hình ảnh sản phẩm trong khung thương mại điện tử cố định.
+    \item \textbf{Hiển thị trọn vẹn 100\%}: Toàn bộ hình ảnh nền sẽ được hiển thị đầy đủ, tuyệt đối không có bất kỳ phần nào bị cắt bớt.
+    \item \textbf{Bảo toàn tỷ lệ}: Tỷ lệ khung hình của hình ảnh gốc luôn được giữ nguyên vẹn (không bị méo mó, co giãn lệch hướng).
+    \item \textbf{Xuất hiện khoảng trống}: Có thể có khoảng trống (không có hình ảnh) ở một hoặc hai cạnh của phần tử nếu tỷ lệ khung hình của ảnh và phần tử chứa không khớp nhau. Những khoảng trống này sẽ hiển thị màu nền \codeinline{background-color} của phần tử.
 \end{itemize}
+
+\vspace{3pt}
+\noindent\textbf{Khi nào nên sử dụng}: Thích hợp nhất cho logo thương hiệu, biểu tượng icon, huy hiệu hoặc các hình ảnh sản phẩm mà bạn bắt buộc phải đảm bảo người dùng nhìn thấy toàn bộ nội dung của hình ảnh, ngay cả khi điều đó đồng nghĩa với việc xuất hiện các khoảng trắng/khoảng màu nền xung quanh.
 \end{conceptBox}
+
+\begin{tipBox}[Ví Dụ Trực Quan Dễ Hình Dung Về contain]
+Hãy tưởng tượng bạn có một bức ảnh phong cảnh hình chữ nhật và bạn muốn đặt nó vào một khung hình vuông. Với \codeinline{contain}, bức ảnh sẽ được thu nhỏ cho đến khi \textbf{chiều dài hơn} của nó khớp với một cạnh của khung hình vuông. Chiều ngắn hơn của bức ảnh sẽ tạo ra khoảng trống trong khung hình vuông, và bạn sẽ thấy toàn bộ bức ảnh, nhưng khung hình vuông có thể không được lấp đầy.
+\end{tipBox}
+
+\begin{codeWindow}[Mã Nguồn Thực Nghiệm .element-contain Chuẩn Mực]
+\begin{lstlisting}[language=CSS3]
+.element-contain {
+    width: 300px;
+    height: 200px;
+    background-image: url('your-image.jpg');
+    background-repeat: no-repeat;
+    background-position: center center; /* Giup can giua anh trong khoang trong */
+    background-size: contain; /* Chua toan bo, co the co khoang trong */
+    border: 1px solid black;
+    background-color: lightgray; /* Mau nen se hien thi o cac khoang trong */
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Phân tích kỹ thuật)}}: Phần tử có kích thước $300 \times 200\text{px}$ với viền đen $1\text{px}$. Ảnh được co giãn vừa vặn bên trong nhờ \codeinline{contain}, không lặp lại và nằm chính tâm nhờ \codeinline{center center}. Bất kỳ khoảng trống thừa nào sẽ tự động phủ màu xám nhạt \codeinline{background-color: lightgray}.
 
 \begin{codeWindow}[Ví Dụ Cơ Bản Với Giá Trị contain]
 \begin{lstlisting}[language=CSS3]
@@ -12913,14 +12941,41 @@ Rất dễ phối hợp với \codeinline{background-position} để căn chỉn
 \end{tipBox}
 
 \paragraph{4. Chuyên Đề C: Giá Trị cover (Phủ Kín Phần Tử, Giữ Tỷ Lệ Tuyệt Đối):}
-Ảnh sẽ phóng to hoặc thu nhỏ để \textbf{phủ kín hoàn toàn diện tích của phần tử}, đồng thời vẫn duy trì tỷ lệ khung hình gốc.
+Khi bạn sử dụng \codeinline{background-size: cover}, hình ảnh nền sẽ được điều chỉnh kích thước để \textbf{phủ kín hoàn toàn khu vực nền của phần tử}, đồng thời vẫn duy trì tỷ lệ khung hình gốc (\term{Aspect Ratio}).
 
-\begin{conceptBox}[Định Nghĩa Chi Tiết Giá Trị cover]
-Phóng to hình ảnh để nó bao phủ toàn bộ vùng chứa của phần tử (kể cả padding và border nếu \codeinline{background-origin} là \codeinline{border-box}), trong khi vẫn duy trì tỷ lệ khung hình của nó. Nếu tỷ lệ không khớp, hình ảnh sẽ bị cắt bỏ (\term{Crop}) một phần ở các mép cạnh để lấp đầy toàn bộ không gian.
+\begin{conceptBox}[Định Nghĩa Chi Tiết \& Cách Hoạt Động Của Giá Trị cover]
+\textbf{Cách hoạt động}: Trình duyệt sẽ tự động phóng to hoặc thu nhỏ hình ảnh sao cho \textbf{cả chiều rộng và chiều cao} của hình ảnh đều \textbf{lớn hơn hoặc bằng} kích thước tương ứng của phần tử chứa.
+
+\noindent\textbf{Kết quả hiển thị}:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Khi dùng}: Rất phổ biến cho Banner, Hero sections hoặc hình nền toàn trang web nơi bạn muốn ảnh luôn lấp đầy không gian mà không để lộ bất kỳ khoảng trống rỗng nào, dù một phần viền ngoài của ảnh bị cắt xén.
+    \item \textbf{Lấp đầy toàn bộ nền}: Toàn bộ khu vực nền của phần tử sẽ được lấp đầy bởi hình ảnh, tuyệt đối không để lộ bất kỳ kẽ hở nào.
+    \item \textbf{Bảo toàn tỷ lệ}: Tỷ lệ khung hình (aspect ratio) của hình ảnh gốc luôn được giữ nguyên vẹn.
+    \item \textbf{Khả năng bị cắt xén}: Có thể có một phần của hình ảnh bị cắt bớt (không hiển thị) nếu tỷ lệ khung hình của hình ảnh và phần tử chứa không khớp nhau. Điều này thường xảy ra khi hình ảnh ``tràn'' ra khỏi phần tử.
 \end{itemize}
+
+\vspace{3pt}
+\noindent\textbf{Khi nào nên sử dụng}: Tuyệt vời cho các hình ảnh nền toàn màn hình (\term{Hero Images}), banner quảng cáo khổ lớn, hoặc bất kỳ trường hợp nào bạn muốn đảm bảo không có khoảng trống nào trong nền, ngay cả khi điều đó có nghĩa là một phần rìa ngoài của hình ảnh bị ẩn đi.
 \end{conceptBox}
+
+\begin{tipBox}[Ví Dụ Trực Quan Dễ Hình Dung Về cover]
+Hãy tưởng tượng bạn có một bức ảnh phong cảnh hình chữ nhật và bạn muốn nó lấp đầy một khung hình vuông. Với \codeinline{cover}, bức ảnh sẽ được phóng to cho đến khi \textbf{chiều ngắn hơn} của nó khớp với một cạnh của khung hình vuông. Chiều dài hơn của bức ảnh sẽ tràn ra ngoài khung, và bạn chỉ thấy một phần của bức ảnh, nhưng khung hình vuông sẽ được lấp đầy hoàn hảo.
+\end{tipBox}
+
+\begin{codeWindow}[Mã Nguồn Thực Nghiệm .element-cover Chuẩn Mực]
+\begin{lstlisting}[language=CSS3]
+.element-cover {
+    width: 300px;
+    height: 200px;
+    background-image: url('your-image.jpg');
+    background-repeat: no-repeat;
+    background-position: center center; /* Giup can giua phan con lai cua anh */
+    background-size: cover; /* Phu kin, co the bi cat */
+    border: 1px solid black;
+}
+\end{lstlisting}
+\end{codeWindow}
+\noindent
+\textcolor{primaryBlue}{\textbf{($\rightarrow$ Phân tích kỹ thuật)}}: Khung phần tử có kích thước $300 \times 200\text{px}$ với đường viền đen dày $1\text{px}$. Khai báo \codeinline{background-size: cover} bảo đảm ảnh luôn phủ kín $100\%$ không gian, trong khi \codeinline{background-position: center center} giữ cho phần trọng tâm của ảnh nằm ngay chính giữa phần tử.
 
 \begin{codeWindow}[Ví Dụ Cơ Bản Với Giá Trị cover]
 \begin{lstlisting}[language=CSS3]
@@ -12994,6 +13049,34 @@ div {
     \item \textbf{Tránh mất nội dung quan trọng}: Kết hợp với \codeinline{background-position: center;} để giữ chủ thể chính ở giữa, hoặc định hướng vị trí hiển thị quan trọng như \codeinline{background-position: top left;} khi ảnh chứa khuôn mặt nhân vật ở góc trên.
 \end{itemize}
 \end{tipBox}
+
+\begin{browserWindow}[Đối Chiếu Trực Quan Thực Nghiệm: .element-cover vs .element-contain]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/bg_size_cover_vs_contain_demo.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Đối chiếu trực tiếp giữa hai triết lý hiển thị trên cùng khung $300\times 200\text{px}$: \codeinline{.element-cover} (trái) ưu tiên lấp đầy $100\%$ khung và chấp nhận cắt xén mép tràn; \codeinline{.element-contain} (phải) ưu tiên hiển thị trọn vẹn $100\%$ ảnh và chừa khoảng trống hiển thị \codeinline{background-color: lightgray}.}
+\end{browserWindow}
+
+\subparagraph{Bảng So Sánh Tóm Tắt Đối Đầu: background-size: cover vs contain:}
+
+\begin{prettyTableBox}[BẢNG SO SÁNH TÓM TẮT ĐẶC ĐIỂM GIỮA COVER VÀ CONTAIN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Đặc điểm} & \thd{\sffamily background-size: cover} & \thd{\sffamily background-size: contain} \\
+\hline
+Mục tiêu chính & Lấp đầy toàn bộ vùng nền. & Hiển thị toàn bộ hình ảnh. \\
+\hline
+Tỷ lệ khung hình & Giữ nguyên. & Giữ nguyên. \\
+\hline
+Hình ảnh bị cắt? & Có thể (phần bị tràn ra ngoài). & Không bao giờ. \\
+\hline
+Khoảng trống? & Không bao giờ (luôn phủ kín). & Có thể (khoảng trống xung quanh hình ảnh). \\
+\hline
+Ứng dụng điển hình & Ảnh nền lớn, banner, hero section. & Logo, biểu tượng, hình ảnh cần hiển thị trọn vẹn. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
 
 \paragraph{5. Chuyên Đề D: Thiết Lập Kích Thước Cụ Thể (px, \%, em, rem):}
 Bạn có thể tự do đặt kích thước cụ thể bằng các đơn vị đo lường tuyệt đối (\codeinline{px}, \codeinline{pt}) hoặc tương đối (\codeinline{em}, \codeinline{rem}, \codeinline{\%}):
