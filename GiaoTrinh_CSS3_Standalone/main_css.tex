@@ -14313,6 +14313,30 @@ sepia(\%) & Tạo hiệu ứng cổ điển. \\
 \end{tabularx}
 \end{prettyTableBox}
 
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/backdrop_filter_blur_saturate.jpg}
+\end{center}
+
+\begin{conceptBox}[Infographic Phối Hợp: backdrop-filter: blur() saturate()]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cơ chế}: Kết hợp làm mờ và tăng độ bão hòa màu của phần nền phía sau phần tử (\codeinline{backdrop-filter: blur(12px) saturate(1.5);}).
+    \item \textbf{Giải thích kỹ thuật}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \codeinline{blur(12px)} làm mờ nền phía sau phần tử.
+        \item \codeinline{saturate(1.5)} tăng độ bão hòa màu của nền giúp sắc màu sống động.
+        \item Có thể kết hợp nhiều hàm lọc trong cùng một khai báo \codeinline{backdrop-filter}.
+        \item Nội dung văn bản và nút bấm bên trong phần tử vẫn hiển thị sắc nét $100\%$.
+    \end{itemize}
+    \item \textbf{Bốn mức phối hợp đối chiếu}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \codeinline{blur(4px) saturate(1.1)} $\rightarrow$ Mờ nhẹ, màu tươi nhẹ.
+        \item \codeinline{blur(8px) saturate(1.3)} $\rightarrow$ Mờ trung bình, màu sắc đậm đà.
+        \item \codeinline{blur(12px) saturate(1.5)} $\rightarrow$ Chuẩn mực thiết kế Glass Card hiện đại.
+        \item \codeinline{blur(16px) saturate(1.8)} $\rightarrow$ Mờ sâu đục, màu sắc rực rỡ cao độ.
+    \end{itemize}
+\end{itemize}
+\end{conceptBox}
+
 \begin{codeWindow}[Ví Dụ Kết Hợp Đa Hiệu Ứng Thực Tế: Thẻ Frosted Đậm Chất Nghệ Thuật]
 \begin{lstlisting}[language=HTML5]
 <div class="frosted">
@@ -14344,11 +14368,15 @@ body {
 \end{lstlisting}
 \end{codeWindow}
 
-\noindent\textbf{Kết quả trực quan}: Hộp \codeinline{.frosted} đồng thời sở hữu cả 3 lớp hiệu ứng kỳ diệu:
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/backdrop_filter_frosted_demo.png}
+\end{center}
+
+\noindent\textbf{Kết quả trực quan trên trình duyệt}: Hộp kính mờ \codeinline{.frosted} hiển thị nổi bật trên nền ảnh trượt ván hoàng hôn (\term{Skatepark Sunset}), đồng thời sở hữu cả 3 lớp hiệu ứng kỳ diệu:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item Hộp có hiệu ứng kính mờ bí ẩn (\codeinline{blur(8px)}).
-    \item Làm tối bớt phần nền phía sau để tương phản rõ chữ màu trắng (\codeinline{brightness(0.7)}).
-    \item Tăng độ tươi tắn rực rỡ cho sắc màu ảnh nền bên dưới (\codeinline{saturate(200\%)}).
+    \item Làm tối bớt phần nền phía sau để tương phản rõ dòng chữ màu trắng ``Nội dung nổi bật trên nền mờ'' (\codeinline{brightness(0.7)}).
+    \item Tăng độ tươi tắn rực rỡ cho sắc màu ánh hoàng hôn bên dưới (\codeinline{saturate(200\%)}).
 \end{itemize}
 
 \begin{warnBox}[BẢNG LƯU Ý QUAN TRỌNG KHI DÙNG NHIỀU HIỆU ỨNG]
