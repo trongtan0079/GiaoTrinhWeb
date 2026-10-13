@@ -23833,6 +23833,353 @@ Trên thiết bị di động (Smartphone/Tablet):
 \textbf{Trả lời chuẩn phỏng vấn:} \textbf{Không nên.} Mặc dù \codeinline{cursor: pointer} giúp thẻ \codeinline{<div>} hiển thị con trỏ bàn tay giống nút bấm, thẻ \codeinline{<div>} thiếu các tính năng Accessibility \& Keyboard Navigation bản địa như: không kích hoạt được bằng phím \codeinline{Enter}/\codeinline{Space}, không tự động nhận lấy tiêu điểm (\term{focus state}), không submit được form và không thông báo đúng loại phần tử cho trình đọc màn hình (\term{Screen Readers}). Hãy luôn ưu tiên dùng thẻ \codeinline{<button>} cho mọi hành động tương tác nút bấm.
 \end{tipBox}
 
+% ==============================================================================
+% CHUYÊN ĐỀ: ĐỊNH DẠNG DANH SÁCH TRONG CSS (CSS LISTS MASTERCLASS)
+% ==============================================================================
+\section{Chuyên Đề Định Dạng Danh Sách Trong CSS (CSS Lists Masterclass)}
+\label{sec:css_lists_masterclass}
+
+Trong thiết kế giao diện web, danh sách (\term{List} --- \codeinline{<ul>}, \codeinline{<ol>}, \codeinline{<li>}) là một trong những thành phần cấu trúc HTML được sử dụng thường xuyên nhất. Từ việc hiển thị các đoạn liệt kê nội dung, bảng tính năng, menu điều hướng (\term{Navigation Bar}), danh sách bài viết cho đến các thanh mục lục phức tạp, CSS cung cấp một bộ thuộc tính chuyên dụng để kiểm soát toàn diện kiểu dáng, vị trí và hình ảnh của dấu đầu dòng (\term{marker}).
+
+\subsection{1. Tổng Quan Hệ Thống Thuộc Tính Định Dạng Danh Sách (CSS Lists)}
+
+\begin{conceptBox}[Hệ Thống Thuộc Tính CSS Lists]
+CSS cung cấp 4 thuộc tính cốt lõi cùng 1 phần tử giả (\term{pseudo-element}) để bạn có thể tùy biến linh hoạt toàn bộ dấu đầu dòng và khoảng cách của danh sách HTML:
+\end{conceptBox}
+
+\begin{prettyTableBox}[BẢNG TỔNG QUAN CÁC THUỘC TÍNH ĐỊNH DẠNG DANH SÁCH TRONG CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\ttfamily\color{accentOrange}}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Cú pháp ví dụ} & \thd{\sffamily Ghi chú thực tiễn} \\
+\hline
+list-style & Thuộc tính tổng hợp để đặt kiểu dấu đầu dòng, vị trí và hình ảnh cho danh sách. & list-style:\newline square inside; & Kết hợp nhanh \codeinline{list-style-type}, \codeinline{list-style-position} và \codeinline{list-style-image}. \\
+\hline
+list-style-type & Xác định kiểu dấu đầu dòng cho danh sách. & list-style-type:\newline disc; & Giá trị phổ biến: \codeinline{disc}, \codeinline{circle}, \codeinline{square}, \codeinline{none}, hoặc số thứ tự, chữ cái. \\
+\hline
+list-style-position & Đặt vị trí dấu đầu dòng (bên trong hoặc bên ngoài nội dung). & list-style-position:\newline inside; & \codeinline{outside} (mặc định): dấu nằm ngoài nội dung.\newline \codeinline{inside}: dấu nằm trong nội dung. \\
+\hline
+list-style-image & Dùng hình ảnh làm dấu đầu dòng thay vì các ký hiệu mặc định. & list-style-image:\newline url('icon.png'); & Hình ảnh thay thế dấu đầu dòng, nhưng khó chỉnh màu sắc và kích thước bằng CSS. \\
+\hline
+::marker\newline\normalfont(\term{pseudo-element}) & Tùy chỉnh dấu đầu dòng bằng CSS mà không cần thay đổi cấu trúc HTML. & li::marker \{\newline color: red;\newline font-size: 20px;\newline\} & Hỗ trợ cực mạnh trong danh sách, hữu ích khi cần đổi màu sắc hoặc kiểu dáng của dấu đầu dòng. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{2. Kiểu Dấu Đầu Dòng: Thuộc Tính list-style-type (\csshint{list-style-type})}
+
+\begin{conceptBox}[Khái Niệm Thuộc Tính list-style-type]
+\codeinline{list-style-type} là một thuộc tính CSS dùng để định nghĩa kiểu của dấu đầu dòng (\term{marker}) cho các mục trong một danh sách HTML (thường là thẻ \codeinline{<li>} bên trong \codeinline{<ul>} hoặc \codeinline{<ol>}). Thuộc tính này cho phép bạn thay đổi các dấu chấm, hình vuông hoặc số thứ tự mặc định thành nhiều kiểu dáng đa dạng khác nhau.
+\end{conceptBox}
+
+\begin{codeWindow}[Cú Pháp Khai Báo list-style-type]
+\begin{lstlisting}[language=CSS3]
+selector {
+    list-style-type: value;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{Bảng Tổng Hợp Các Giá Trị Phổ Biến Của list-style-type:}
+
+\begin{prettyTableBox}[BẢNG CÁC GIÁ TRỊ PHỔ BIẾN CỦA THUỘC TÍNH LIST-STYLE-TYPE]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\ttfamily\color{darkText}\bfseries}p{4.2cm}|>{\centering\arraybackslash\bfseries}p{2.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Kiểu danh sách} & \thd{\sffamily Giá trị CSS} & \thd{\sffamily Ký hiệu / Kết quả} & \thd{\sffamily Ý nghĩa \& Ngữ cảnh sử dụng} \\
+\hline
+Đĩa tròn (mặc định) & disc & $\bullet$ & Dấu chấm tròn đặc mặc định của thẻ \codeinline{<ul>}. \\
+\hline
+Hình tròn rỗng & circle & $\circ$ & Vòng tròn rỗng không tô màu ở giữa. \\
+\hline
+Hình vuông & square & \rule{1.1ex}{1.1ex} & Khối vuông đặc nhỏ gọn sắc nét. \\
+\hline
+Không có ký hiệu & none & (Không hiển thị) & Ẩn hoàn toàn dấu đầu dòng (dùng làm Menu/Navbar). \\
+\hline
+Số thứ tự thông thường & decimal & 1, 2, 3... & Đánh số thứ tự Ả Rập mặc định của \codeinline{<ol>}. \\
+\hline
+Số thứ tự có số 0 phía trước & decimal-leading-zero & 01, 02, 03... & Thêm số 0 vào trước các số từ 1 đến 9. \\
+\hline
+Chữ số La Mã (hoa) & upper-roman & I, II, III... & Đánh số La Mã chữ in hoa trang trọng. \\
+\hline
+Chữ số La Mã (thường) & lower-roman & i, ii, iii... & Đánh số La Mã chữ in thường. \\
+\hline
+Chữ cái viết hoa & upper-alpha & A, B, C... & Đánh số theo bảng chữ cái tiếng Anh in hoa. \\
+\hline
+Chữ cái viết thường & lower-alpha & a, b, c... & Đánh số theo bảng chữ cái tiếng Anh in thường. \\
+\hline
+Chữ số Hy Lạp & lower-greek & $\alpha$, $\beta$, $\gamma$... & Sử dụng chữ cái Hy Lạp cổ điển. \\
+\hline
+Chữ kiểu Khmer & khmer & (Ký tự Khmer) & Số thứ tự theo hệ ký tự chữ viết Khmer. \\
+\hline
+Dấu đầu dòng tùy chỉnh & string / ::marker & Icon / Ký tự riêng & Dùng chuỗi ký tự tự do hoặc icon tùy chỉnh. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Phân Định Giá Trị Theo Thẻ Danh Sách Không Thứ Tự (ul) \& Có Thứ Tự (ol):}
+
+\begin{minipage}[t]{0.48\linewidth}
+\begin{prettyTableBox}[Đối Với Danh Sách ul (Unordered List)]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{2.6cm}|>{\centering\arraybackslash}p{1.4cm}|X|}
+\hline
+\rowcolor{primaryBlue} \thd{Giá trị} & \thd{Hiển thị} & \thd{Ghi chú} \\
+\hline
+disc & $\bullet$ & Mặc định \\
+\hline
+circle & $\circ$ & Viền tròn rỗng \\
+\hline
+square & \rule{1.1ex}{1.1ex} & Hình vuông \\
+\hline
+none & (Trống) & Tùy biến List \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.50\linewidth}
+\begin{prettyTableBox}[Đối Với Danh Sách ol (Ordered List)]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\color{primaryBlue}\bfseries}p{3.2cm}|>{\centering\arraybackslash}p{1.6cm}|X|}
+\hline
+\rowcolor{primaryBlue} \thd{Giá trị} & \thd{Hiển thị} & \thd{Ghi chú} \\
+\hline
+decimal & 1, 2, 3... & Mặc định \\
+\hline
+decimal-leading-zero & 01, 02... & Có số 0 dẫn đầu \\
+\hline
+lower-alpha & a, b, c... & Chữ thường \\
+\hline
+upper-alpha & A, B, C... & Chữ in hoa \\
+\hline
+lower-roman & i, ii, iii... & La Mã thường \\
+\hline
+upper-roman & I, II, III... & La Mã in hoa \\
+\hline
+none & (Trống) & Custom số thứ tự \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+\end{minipage}
+
+\begin{codeWindow}[Ví Dụ Thực Tế: Mã Nguồn HTML \& CSS Định Dạng list-style-type]
+\begin{lstlisting}[language=HTML5]
+<!-- HTML: Cac kieu danh sach khac nhau -->
+<ul class="disc-list">
+    <li>(*@Dấu tròn đặc (disc)@*)</li>
+</ul>
+<ul class="circle-list">
+    <li>(*@Dấu tròn rỗng (circle)@*)</li>
+</ul>
+<ol class="roman-list">
+    <li>(*@Số La Mã (upper-roman)@*)</li>
+</ol>
+<ol class="alpha-list">
+    <li>(*@Chữ cái hoa (upper-alpha)@*)</li>
+</ol>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS Thiết Lập list-style-type]
+\begin{lstlisting}[language=CSS3]
+/* CSS dinh nghia cac kieu danh sach: */
+.disc-list {
+    list-style-type: disc;        /* (*@Mac dinh: Dau tron dac@*) */
+}
+.circle-list {
+    list-style-type: circle;      /* (*@Dau tron rong@*) */
+}
+.roman-list {
+    list-style-type: upper-roman; /* (*@So La Ma in hoa: I, II, III@*) */
+}
+.alpha-list {
+    list-style-type: upper-alpha; /* (*@Chu cai in hoa: A, B, C@*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Các Kiểu Dấu Đầu Dòng list-style-type]
+\begin{itemize}[leftmargin=2.0em, itemsep=3pt, parsep=0pt]
+    \item[$\bullet$] \textbf{Dấu tròn đặc} (\codeinline{list-style-type: disc})
+    \item[$\circ$] \textbf{Dấu tròn rỗng} (\codeinline{list-style-type: circle})
+    \item[\textbf{I.}] \textbf{Số La Mã in hoa} (\codeinline{list-style-type: upper-roman})
+    \item[\textbf{A.}] \textbf{Chữ cái viết hoa} (\codeinline{list-style-type: upper-alpha})
+\end{itemize}
+\end{browserWindow}
+
+\begin{tipBox}[Mẹo Hữu Ích Khi Làm Việc Với list-style-type]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Kết hợp với \codeinline{list-style-position}}: Giúp kiểm soát hoàn hảo khoảng cách thụt lề và độ thẳng hàng của văn bản.
+    \item \textbf{Sử dụng \codeinline{::marker}}: Tùy biến màu sắc, cỡ chữ và ký tự tự do (như icon Unicode hoặc emoji) cho dấu đầu dòng mà không phải đổi cấu trúc thẻ HTML.
+    \item \textbf{Độ tương thích cao}: Tất cả các trình duyệt hiện đại (Chrome, Firefox, Safari, Edge) đều hỗ trợ tuyệt đối các giá trị \codeinline{list-style-type} phổ biến, giúp bạn thoải mái sáng tạo giao diện.
+\end{itemize}
+\end{tipBox}
+
+\subsection{3. Vị Trí Dấu Đầu Dòng: Thuộc Tính list-style-position (\csshint{list-style-position})}
+
+\begin{conceptBox}[Khái Niệm Thuộc Tính list-style-position]
+\codeinline{list-style-position} là một thuộc tính CSS dùng để điều khiển \textbf{vị trí của dấu đầu dòng (marker)} của các mục trong danh sách (\codeinline{<li>}) so với nội dung văn bản của chính mục danh sách đó.
+\par\vspace{4pt}
+Nó xác định liệu dấu đầu dòng có nằm \textbf{bên trong (inside)} hay \textbf{bên ngoài (outside)} hộp chứa nội dung của phần tử \codeinline{<li>}.
+\end{conceptBox}
+
+\begin{codeWindow}[Cú Pháp Khai Báo list-style-position]
+\begin{lstlisting}[language=CSS3]
+selector {
+    list-style-position: inside | outside;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[BẢNG SO SÁNH HAI GIÁ TRỊ CỦA LIST-STYLE-POSITION]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}p{6.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Vị trí dấu đầu dòng \& Cơ chế dòng} & \thd{\sffamily Khi nào nên sử dụng?} \\
+\hline
+outside (Mặc định) & Dấu đầu dòng nằm \textbf{bên ngoài} hộp nội dung của phần tử danh sách. Phần văn bản thụt vào so với dấu đầu dòng; các dòng tiếp theo thẳng hàng với dòng đầu. & Phổ biến, dễ đọc hơn khi nội dung dài nhiều dòng và cần căn chỉnh đều đặn thẳng hàng dọc bên trái. \\
+\hline
+inside & Dấu đầu dòng nằm \textbf{bên trong} hộp nội dung của phần tử danh sách. Dấu được xem như từ đầu tiên; nội dung xuống dòng sẽ \textbf{thẳng hàng dưới dấu đầu dòng}. & Hữu ích nếu bạn muốn tiết kiệm không gian ngang hoặc tạo phong cách bố cục căn lề sát mép. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{Phân Tích Chi Tiết Cơ Chế Hoạt Động:}
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{outside (Mặc định)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \textbf{Mô tả}: Dấu đầu dòng (như dấu chấm, hình vuông, hoặc số) được đặt bên ngoài hộp nội dung của phần tử \codeinline{<li>}. Phần văn bản của mục danh sách sẽ được thụt vào (\term{indent}) và bắt đầu ngay dưới dấu đầu dòng, tạo ra một lề nhỏ giữa dấu đầu dòng và nội dung.
+        \item \textbf{Trường hợp sử dụng}: Đây là hành vi mặc định và phổ biến nhất, giúp văn bản danh sách được căn chỉnh thẳng hàng dọc theo cạnh trái rất rõ ràng, chuyên nghiệp.
+    \end{itemize}
+    \item \textbf{inside}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \textbf{Mô tả}: Dấu đầu dòng được đặt bên trong hộp nội dung của phần tử \codeinline{<li>}. Nó được coi là một phần của dòng văn bản đầu tiên của mục danh sách. Nếu nội dung mục danh sách xuống dòng, các dòng tiếp theo sẽ bắt đầu ngay dưới dấu đầu dòng, không thụt vào thêm.
+        \item \textbf{Trường hợp sử dụng}: Hữu ích khi bạn muốn văn bản của tất cả các mục danh sách được căn lề hoàn toàn về bên trái mà không có khoảng thụt lề thêm do dấu đầu dòng. Điều này giúp tiết kiệm không gian hoặc tạo ra một bố cục khác biệt.
+    \end{itemize}
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Thực Tế: Đối Chiếu Mã Nguồn HTML \& CSS Của outside và inside]
+\begin{lstlisting}[language=HTML5]
+<!-- Danh sach su dung list-style-position: outside (Mac dinh) -->
+<ul class="outside-list">
+    <li>(*@Mục danh sách bên ngoài@*)</li>
+    <li>(*@Nội dung sẽ thụt vào so với dấu đầu dòng@*)</li>
+    <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti aliquam...</li>
+</ul>
+
+<!-- Danh sach su dung list-style-position: inside -->
+<ul class="inside-list">
+    <li>(*@Mục danh sách bên trong@*)</li>
+    <li>(*@Nội dung sẽ không thụt vào mà thẳng hàng@*)</li>
+    <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit. necessitatibus alias...</li>
+</ul>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS Thiết Lập Vị Trí]
+\begin{lstlisting}[language=CSS3]
+.outside-list {
+    list-style-type: disc;
+    list-style-position: outside; /* (*@Mac dinh: Dau nam ngoai hop noi dung@*) */
+}
+
+.inside-list {
+    list-style-type: disc;
+    list-style-position: inside;  /* (*@Dau nam ben trong noi dung, dong 2 khong thut le@*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Thực Nghiệm: Đối Chiếu Trực Quan list-style-position outside vs inside]
+\centering
+\textbf{\textcolor{primaryBlue}{\small 1. list-style-position: outside; (Mặc định --- Các dòng sau thụt lề thẳng hàng chữ):}}\par\vspace{3pt}
+\includegraphics[width=0.92\linewidth]{figures/list_style_position_outside.png}\par\vspace{8pt}
+\textbf{\textcolor{primaryBlue}{\small 2. list-style-position: inside; (Dấu trong hộp nội dung --- Các dòng sau thẳng hàng dưới dấu chấm):}}\par\vspace{3pt}
+\includegraphics[width=0.92\linewidth]{figures/list_style_position_inside.png}
+\end{browserWindow}
+
+\subsection{4. Hình Ảnh Dấu Đầu Dòng: Thuộc Tính list-style-image (\csshint{list-style-image})}
+
+\begin{conceptBox}[Khái Niệm Thuộc Tính list-style-image]
+Thuộc tính \codeinline{list-style-image} cho phép bạn chỉ định một hình ảnh bitmap hoặc vector (thông qua hàm \codeinline{url()}) để thay thế dấu đầu dòng ký hiệu mặc định của danh sách.
+\end{conceptBox}
+
+\begin{codeWindow}[Cú Pháp \& Ví Dụ list-style-image]
+\begin{lstlisting}[language=CSS3]
+ul {
+    list-style-image: url('icon.png');
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Hạn Chế Thực Tiễn Của list-style-image \& Giải Pháp Thay Thế Hiện Đại]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khó điều khiển kích thước}: Thuộc tính \codeinline{list-style-image} truyền thống không cung cấp cơ chế co giãn kích thước ảnh (không có thuộc tính tương tự như \codeinline{background-size}). Nếu tệp ảnh \codeinline{icon.png} có độ phân giải lớn, nó sẽ hiển thị to nguyên bản làm vỡ khung danh sách!
+    \item \textbf{Không đổi được màu sắc}: Không thể dùng CSS để đổi màu ảnh theo theme sáng/tối.
+    \item \textbf{Giải pháp hiện đại}: Các lập trình viên Frontend hiện đại thường sử dụng pseudo-element \codeinline{li::marker} hoặc \codeinline{li::before} kết hợp SVG/Font Icon (như Lucide, FontAwesome) để kiểm soát kích thước, màu sắc và căn lề linh hoạt $100\%$.
+\end{itemize}
+\end{warnBox}
+
+\subsection{5. Thuộc Tính Viết Tắt: list-style Shorthand (\csshint{list-style})}
+
+\begin{conceptBox}[Thuộc Tính Viết Tắt list-style]
+\codeinline{list-style} là thuộc tính viết tắt (\term{shorthand property}) cho phép thiết lập đồng thời cả ba thuộc tính danh sách theo thứ tự bất kỳ:
+\begin{equation}
+\text{\codeinline{list-style: [list-style-type] [list-style-position] [list-style-image];}}
+\end{equation}
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn Mẫu: Cú Pháp Shorthand list-style \& Kỹ Thuật Reset Menu Bar]
+\begin{lstlisting}[language=CSS3]
+/* Vi du 1: Thiet lap ket hop kieu hinh vuong va nam ben trong */
+ul.custom {
+    list-style: square inside;
+}
+
+/* Vi du 2: Thiet lap anh kem theo fallback kieu tron */
+ul.branded {
+    list-style: disc outside url('bullet.svg');
+}
+
+/* Vi du 3 (KINH DIEN): Ky thuat List Reset lam Navigation Bar / Menu */
+ul.navbar {
+    list-style: none; /* Xoa bo hoan toan dau dau dong mac dinh */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{6. Tùy Biến Dấu Đầu Dòng Đỉnh Cao Với Pseudo-Element ::marker (\csshint{::marker})}
+
+\begin{conceptBox}[Phần Tử Giả ::marker Trong CSS3/CSS4]
+Bộ chọn phần tử giả \textbf{\codeinline{::marker}} nhắm trực tiếp vào chính chiếc dấu đầu dòng (dấu chấm, số thứ tự, chữ cái) của phần tử \codeinline{<li>}. Nó cho phép bạn áp dụng các thuộc tính CSS như \codeinline{color}, \codeinline{font-size}, \codeinline{content} độc lập hoàn toàn với phần văn bản nội dung!
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn Mẫu: Tùy Biến Màu Sắc, Cỡ Chữ \& Ký Tự Với ::marker]
+\begin{lstlisting}[language=CSS3]
+/* 1. Doi mau sac va phong to dau cham danh sach */
+li::marker {
+    color: #E65100;     /* (*@Mau cam noi bat@*) */
+    font-size: 1.4rem;  /* (*@Dau cham to hon chu@*) */
+}
+
+/* 2. Thay the dau cham bang ky tu tuy chinh */
+ul.checklist li::marker {
+    content: "\2713 "; /* (*@Ky tu tich xanh (Unicode: \string\2713)@*) */
+    color: #16A34A;
+    font-size: 1.2rem;
+}
+\end{lstlisting}
+\end{codeWindow}
+
 
 % ==============================================================================
 % CHƯƠNG 7: BỐ CỤC MODERN CSS: FLEXBOX & CSS GRID
