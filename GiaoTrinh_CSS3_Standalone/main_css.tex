@@ -14906,37 +14906,91 @@ backdrop-filter & none & Áp dụng bộ lọc đồ họa (blur, brightness,...
 
 Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML mà bạn muốn áp dụng kiểu dáng (\term{CSS styles}). CSS cung cấp nhiều loại selectors để bạn có thể chọn phần tử theo tên thẻ, ID, class, trạng thái, hoặc cấu trúc của chúng.
 
-\begin{tcolorbox}[
-    enhanced,
-    colback=primaryBlue!3,
-    colframe=primaryBlue!35,
-    boxrule=0.8pt,
-    arc=6pt,
-    top=8pt, bottom=8pt, left=10pt, right=10pt,
-    title={\sffamily\bfseries\color{primaryBlue} [LỘ TRÌNH CHUYÊN ĐỀ 1.8]\quad BẢN ĐỒ KIẾN THỨC CSS SELECTORS TOÀN DIỆN},
-    colbacktitle=primaryBlue!10,
-    fonttitle=\bfseries\sffamily,
-    drop shadow=black!5!white
+\begin{browserWindow}[Lộ Trình Chuyên Đề 1.8: Bản Đồ Kiến Trúc CSS Selectors Toàn Diện]
+\centering
+\begin{tikzpicture}[
+    scale=0.96,
+    every node/.style={transform shape},
+    font=\sffamily,
+    node distance=6pt and 10pt
 ]
-\sffamily\small
-\begin{minipage}[t]{0.48\linewidth}
-  \textbf{\textcolor{primaryBlue}{Nhánh A: Bộ Chọn Cơ Bản, Kết Hợp \& Thuộc Tính}}
-  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.8.1 -- 1.8.2:} Cơ bản: Type, Class (\codeinline{.c}), ID (\codeinline{\#i}), Universal (\codeinline{*})
-    \item \textbf{1.8.3 -- 1.8.5:} Kết hợp: Hậu duệ, Con (\codeinline{>}), Liền kề (\codeinline{+}), Chung (\codeinline{\~{}})
-    \item \textbf{1.8.6:} Thuộc tính: \codeinline{[attr]}, \codeinline{[attr="val"]}, \codeinline{\textasciicircum=}, \codeinline{\$=}, \codeinline{*=}, \codeinline{\~{}=}, \codeinline{|=}
-  \end{itemize}
-\end{minipage}%
-\hfill
-\begin{minipage}[t]{0.48\linewidth}
-  \textbf{\textcolor{primaryBlue}{Nhánh B: Pseudo-classes \& Pseudo-elements}}
-  \begin{itemize}[leftmargin=12pt, topsep=3pt, itemsep=2pt]
-    \item \textbf{1.8.7.1:} Trạng thái: \codeinline{:hover}, \codeinline{:active}, \codeinline{:focus}, \codeinline{:target}
-    \item \textbf{1.8.7.2:} Cấu trúc DOM: \codeinline{:first-child}, \codeinline{:nth-child(an+b)}, \codeinline{:empty}
-    \item \textbf{1.8.8:} Phần tử giả: \codeinline{::before}, \codeinline{::after}, \codeinline{::first-letter}, \codeinline{::selection}
-  \end{itemize}
-\end{minipage}
-\end{tcolorbox}
+  % 1. MASTER ROOT NODE
+  \node[fill=primaryBlue, text=white, font=\sffamily\bfseries\small, rounded corners=4pt, inner xsep=18pt, inner ysep=5pt, drop shadow={opacity=0.15, shadow xshift=1pt, shadow yshift=-1pt}] (root) at (0, 0) {BẢN ĐỒ KIẾN TRÚC CSS SELECTORS (CHUYÊN ĐỀ 1.8)};
+
+  % 2. BRANCH HEADERS
+  \node[fill=primaryBlue!12, draw=primaryBlue!70, line width=0.8pt, rounded corners=3pt, text=primaryBlue, font=\sffamily\bfseries\scriptsize, inner xsep=10pt, inner ysep=3.5pt] (branchA) at (-3.9, -0.85) {NHÁNH A: CẤU TRÚC DOM \& PHÂN CẤP};
+  \node[fill=accentPurple!12, draw=accentPurple!70, line width=0.8pt, rounded corners=3pt, text=accentPurple, font=\sffamily\bfseries\scriptsize, inner xsep=10pt, inner ysep=3.5pt] (branchB) at (3.9, -0.85) {NHÁNH B: TRẠNG THÁI \& ẢO HÓA};
+
+  % Connecting lines from Root
+  \draw[->, line width=1.1pt, draw=primaryBlue!60] (-1.6, -0.22) to[out=-135, in=90] (branchA.north);
+  \draw[->, line width=1.1pt, draw=accentPurple!60] (1.6, -0.22) to[out=-45, in=90] (branchB.north);
+
+  % 3. CARDS UNDER NHANH A (Left side)
+  % Card 1: 1.8.1 - 1.8.2
+  \node[rectangle, rounded corners=4pt, draw=primaryBlue!35, fill=primaryBlue!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=6pt of branchA] (card1) {
+    \textcolor{primaryBlue}{\bfseries\scriptsize [1.8.1 -- 1.8.2] Bộ Chọn Cơ Bản (Simple Selectors)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Type (Thẻ)}: \codeinline{p}, \codeinline{h1}, \codeinline{div} \hfill
+    $\bullet$ \textbf{Class}: \codeinline{.card}, \codeinline{.btn}\\
+    $\bullet$ \textbf{ID}: \codeinline{\#header}, \codeinline{\#main} \hfill
+    $\bullet$ \textbf{Universal}: \codeinline{*} (Toàn cục)
+    }
+  };
+  \draw[line width=2.5pt, primaryBlue, line cap=round] ($(card1.north west) + (1.2pt, -3pt)$) -- ($(card1.south west) + (1.2pt, 3pt)$);
+
+  % Card 2: 1.8.3 - 1.8.5
+  \node[rectangle, rounded corners=4pt, draw=secondaryTeal!40, fill=secondaryTeal!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=6pt of card1] (card2) {
+    \textcolor{secondaryTeal}{\bfseries\scriptsize [1.8.3 -- 1.8.5] Bộ Chọn Tổ Hợp (Combinators)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Hậu duệ} (\codeinline{A B}): Mọi cấp con cháu trong DOM\\
+    $\bullet$ \textbf{Con trực tiếp} (\codeinline{A > B}): Chỉ con cấp 1 trực tiếp\\
+    $\bullet$ \textbf{Liền kề} (\codeinline{A + B}): Phần tử anh em ngay sát phía sau\\
+    $\bullet$ \textbf{Anh em chung} (\codeinline{A \~{} B}): Tất cả anh em cùng cấp phía sau
+    }
+  };
+  \draw[line width=2.5pt, secondaryTeal, line cap=round] ($(card2.north west) + (1.2pt, -3pt)$) -- ($(card2.south west) + (1.2pt, 3pt)$);
+
+  % Card 3: 1.8.6
+  \node[rectangle, rounded corners=4pt, draw=accentOrange!40, fill=accentOrange!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=6pt of card2] (card3) {
+    \textcolor{accentOrange}{\bfseries\scriptsize [1.8.6] Bộ Chọn Thuộc Tính (Attribute Selectors)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Khớp thuộc tính}: \codeinline{[attr]}, \codeinline{[attr="val"]}\\
+    $\bullet$ \textbf{Khớp chuỗi nâng cao}: \codeinline{\textasciicircum=} (Bắt đầu) $\cdot$ \codeinline{\$=} (Kết thúc)\\
+    $\bullet$ \textbf{Mẫu đa dạng}: \codeinline{*=} (Chứa chuỗi) $\cdot$ \codeinline{\~{}=} $\cdot$ \codeinline{|=}
+    }
+  };
+  \draw[line width=2.5pt, accentOrange, line cap=round] ($(card3.north west) + (1.2pt, -3pt)$) -- ($(card3.south west) + (1.2pt, 3pt)$);
+
+  % 4. CARDS UNDER NHANH B (Right side)
+  % Card 4: 1.8.7
+  \node[rectangle, rounded corners=4pt, draw=accentPurple!40, fill=accentPurple!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=6pt of branchB] (card4) {
+    \textcolor{accentPurple}{\bfseries\scriptsize [1.8.7] Bộ Chọn Lớp Giả (Pseudo-Classes)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{1.8.7.1 Trạng thái}: \codeinline{:hover}, \codeinline{:active}, \codeinline{:focus}, \codeinline{:target}\\
+    $\bullet$ \textbf{1.8.7.2 Vị trí DOM}: \codeinline{:first-child}, \codeinline{:last-child}, \codeinline{:nth-child(an+b)}, \codeinline{:empty}\\
+    $\bullet$ \textbf{Modern Logic}: \codeinline{:not()}, \codeinline{:is()}, \codeinline{:where()}, \codeinline{:has()}
+    }
+  };
+  \draw[line width=2.5pt, accentPurple, line cap=round] ($(card4.north west) + (1.2pt, -3pt)$) -- ($(card4.south west) + (1.2pt, 3pt)$);
+
+  % Card 5: 1.8.8
+  \node[rectangle, rounded corners=4pt, draw=teal!60!black, fill=teal!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=12pt of card4] (card5) {
+    \textcolor{teal!80!black}{\bfseries\scriptsize [1.8.8] Bộ Chọn Phần Tử Giả (Pseudo-Elements)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Tạo phần tử đồ họa ảo}: \codeinline{::before}, \codeinline{::after}, \codeinline{::marker}\\
+    $\bullet$ \textbf{Nghệ thuật Typography}: \codeinline{::first-letter}, \codeinline{::first-line}\\
+    $\bullet$ \textbf{Tương tác người dùng}: \codeinline{::selection} (Vùng bôi đen)
+    }
+  };
+  \draw[line width=2.5pt, teal!80!black, line cap=round] ($(card5.north west) + (1.2pt, -3pt)$) -- ($(card5.south west) + (1.2pt, 3pt)$);
+
+  % 5. FOOTER SUMMARY BADGE
+  \node[fill=darkText!4, draw=darkText!15, line width=0.6pt, rounded corners=3pt, text width=14.5cm, inner sep=5pt, anchor=north, align=center] (footer) at ($(card3.south -| root) + (0, -8pt)$) {
+    {\scriptsize\sffamily\color{primaryBlue}\bfseries $\rightarrow$ Lộ trình làm chủ:}
+    {\scriptsize\sffamily\color{darkText} Đi từ nền tảng \textbf{Bộ chọn cơ bản \& Tổ hợp} $\rightarrow$ Nâng cao với \textbf{Thuộc tính} $\rightarrow$ Đỉnh cao tương tác với \textbf{Lớp giả \& Phần tử giả}.}
+  };
+\end{tikzpicture}
+\end{browserWindow}
 \vspace{4pt}
 
 \subsection{Phân Loại Hệ Thống: 5 Nhóm CSS Selectors Cốt Lõi}

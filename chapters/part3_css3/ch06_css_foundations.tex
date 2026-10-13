@@ -2304,6 +2304,93 @@ Khuyết điểm hạn chế & Không kiểm soát chi tiết 100\% về kiểu 
 
 Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML mà bạn muốn áp dụng kiểu dáng (\term{CSS styles}). CSS cung cấp nhiều loại selectors để bạn có thể chọn phần tử theo tên thẻ, ID, class, trạng thái, hoặc cấu trúc của chúng.
 
+\begin{browserWindow}[Lộ Trình Chuyên Đề: Bản Đồ Kiến Trúc CSS Selectors Toàn Diện]
+\centering
+\begin{tikzpicture}[
+    scale=0.96,
+    every node/.style={transform shape},
+    font=\sffamily,
+    node distance=6pt and 10pt
+]
+  % 1. MASTER ROOT NODE
+  \node[fill=primaryBlue, text=white, font=\sffamily\bfseries\small, rounded corners=4pt, inner xsep=18pt, inner ysep=5pt, drop shadow={opacity=0.15, shadow xshift=1pt, shadow yshift=-1pt}] (root) at (0, 0) {BẢN ĐỒ KIẾN TRÚC CSS SELECTORS TOÀN DIỆN};
+
+  % 2. BRANCH HEADERS
+  \node[fill=primaryBlue!12, draw=primaryBlue!70, line width=0.8pt, rounded corners=3pt, text=primaryBlue, font=\sffamily\bfseries\scriptsize, inner xsep=10pt, inner ysep=3.5pt] (branchA) at (-3.9, -0.85) {NHÁNH A: CẤU TRÚC DOM \& PHÂN CẤP};
+  \node[fill=accentPurple!12, draw=accentPurple!70, line width=0.8pt, rounded corners=3pt, text=accentPurple, font=\sffamily\bfseries\scriptsize, inner xsep=10pt, inner ysep=3.5pt] (branchB) at (3.9, -0.85) {NHÁNH B: TRẠNG THÁI \& ẢO HÓA};
+
+  % Connecting lines from Root
+  \draw[->, line width=1.1pt, draw=primaryBlue!60] (-1.6, -0.22) to[out=-135, in=90] (branchA.north);
+  \draw[->, line width=1.1pt, draw=accentPurple!60] (1.6, -0.22) to[out=-45, in=90] (branchB.north);
+
+  % 3. CARDS UNDER NHANH A (Left side)
+  % Card 1
+  \node[rectangle, rounded corners=4pt, draw=primaryBlue!35, fill=primaryBlue!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=6pt of branchA] (card1) {
+    \textcolor{primaryBlue}{\bfseries\scriptsize [Nhóm 1] Bộ Chọn Cơ Bản (Simple Selectors)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Type (Thẻ)}: \codeinline{p}, \codeinline{h1}, \codeinline{div} \hfill
+    $\bullet$ \textbf{Class}: \codeinline{.card}, \codeinline{.btn}\\
+    $\bullet$ \textbf{ID}: \codeinline{\#header}, \codeinline{\#main} \hfill
+    $\bullet$ \textbf{Universal}: \codeinline{*} (Toàn cục)
+    }
+  };
+  \draw[line width=2.5pt, primaryBlue, line cap=round] ($(card1.north west) + (1.2pt, -3pt)$) -- ($(card1.south west) + (1.2pt, 3pt)$);
+
+  % Card 2
+  \node[rectangle, rounded corners=4pt, draw=secondaryTeal!40, fill=secondaryTeal!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=6pt of card1] (card2) {
+    \textcolor{secondaryTeal}{\bfseries\scriptsize [Nhóm 2] Bộ Chọn Tổ Hợp (Combinators)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Hậu duệ} (\codeinline{A B}): Mọi cấp con cháu trong DOM\\
+    $\bullet$ \textbf{Con trực tiếp} (\codeinline{A > B}): Chỉ con cấp 1 trực tiếp\\
+    $\bullet$ \textbf{Liền kề} (\codeinline{A + B}): Phần tử anh em ngay sát phía sau\\
+    $\bullet$ \textbf{Anh em chung} (\codeinline{A \~{} B}): Tất cả anh em cùng cấp phía sau
+    }
+  };
+  \draw[line width=2.5pt, secondaryTeal, line cap=round] ($(card2.north west) + (1.2pt, -3pt)$) -- ($(card2.south west) + (1.2pt, 3pt)$);
+
+  % Card 3
+  \node[rectangle, rounded corners=4pt, draw=accentOrange!40, fill=accentOrange!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=6pt of card2] (card3) {
+    \textcolor{accentOrange}{\bfseries\scriptsize [Nhóm 3] Bộ Chọn Thuộc Tính (Attribute Selectors)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Khớp thuộc tính}: \codeinline{[attr]}, \codeinline{[attr="val"]}\\
+    $\bullet$ \textbf{Khớp chuỗi nâng cao}: \codeinline{\textasciicircum=} (Bắt đầu) $\cdot$ \codeinline{\$=} (Kết thúc)\\
+    $\bullet$ \textbf{Mẫu đa dạng}: \codeinline{*=} (Chứa chuỗi) $\cdot$ \codeinline{\~{}=} $\cdot$ \codeinline{|=}
+    }
+  };
+  \draw[line width=2.5pt, accentOrange, line cap=round] ($(card3.north west) + (1.2pt, -3pt)$) -- ($(card3.south west) + (1.2pt, 3pt)$);
+
+  % 4. CARDS UNDER NHANH B (Right side)
+  % Card 4
+  \node[rectangle, rounded corners=4pt, draw=accentPurple!40, fill=accentPurple!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=6pt of branchB] (card4) {
+    \textcolor{accentPurple}{\bfseries\scriptsize [Nhóm 4] Bộ Chọn Lớp Giả (Pseudo-Classes)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Trạng thái}: \codeinline{:hover}, \codeinline{:active}, \codeinline{:focus}, \codeinline{:target}\\
+    $\bullet$ \textbf{Vị trí DOM}: \codeinline{:first-child}, \codeinline{:last-child}, \codeinline{:nth-child(an+b)}, \codeinline{:empty}\\
+    $\bullet$ \textbf{Modern Logic}: \codeinline{:not()}, \codeinline{:is()}, \codeinline{:where()}, \codeinline{:has()}
+    }
+  };
+  \draw[line width=2.5pt, accentPurple, line cap=round] ($(card4.north west) + (1.2pt, -3pt)$) -- ($(card4.south west) + (1.2pt, 3pt)$);
+
+  % Card 5
+  \node[rectangle, rounded corners=4pt, draw=teal!60!black, fill=teal!2, line width=0.7pt, drop shadow={opacity=0.05, shadow xshift=1pt, shadow yshift=-1pt}, text width=7.1cm, inner sep=6pt, below=12pt of card4] (card5) {
+    \textcolor{teal!80!black}{\bfseries\scriptsize [Nhóm 5] Bộ Chọn Phần Tử Giả (Pseudo-Elements)}\\[3pt]
+    {\scriptsize\color{darkText}
+    $\bullet$ \textbf{Tạo phần tử đồ họa ảo}: \codeinline{::before}, \codeinline{::after}, \codeinline{::marker}\\
+    $\bullet$ \textbf{Nghệ thuật Typography}: \codeinline{::first-letter}, \codeinline{::first-line}\\
+    $\bullet$ \textbf{Tương tác người dùng}: \codeinline{::selection} (Vùng bôi đen)
+    }
+  };
+  \draw[line width=2.5pt, teal!80!black, line cap=round] ($(card5.north west) + (1.2pt, -3pt)$) -- ($(card5.south west) + (1.2pt, 3pt)$);
+
+  % 5. FOOTER SUMMARY BADGE
+  \node[fill=darkText!4, draw=darkText!15, line width=0.6pt, rounded corners=3pt, text width=14.5cm, inner sep=5pt, anchor=north, align=center] (footer) at ($(card3.south -| root) + (0, -8pt)$) {
+    {\scriptsize\sffamily\color{primaryBlue}\bfseries $\rightarrow$ Lộ trình làm chủ:}
+    {\scriptsize\sffamily\color{darkText} Đi từ nền tảng \textbf{Bộ chọn cơ bản \& Tổ hợp} $\rightarrow$ Nâng cao với \textbf{Thuộc tính} $\rightarrow$ Đỉnh cao tương tác với \textbf{Lớp giả \& Phần tử giả}.}
+  };
+\end{tikzpicture}
+\end{browserWindow}
+\vspace{4pt}
+
 \subsection{Phân Loại Hệ Thống: 5 Nhóm CSS Selectors Cốt Lõi}
 
 Trong tiêu chuẩn kỹ thuật W3C và kiến trúc hiển thị của trình duyệt, toàn bộ hệ thống bộ chọn CSS được phân loại một cách khoa học thành \textbf{5 nhóm chính} dựa trên cơ chế truy vấn phần tử:
