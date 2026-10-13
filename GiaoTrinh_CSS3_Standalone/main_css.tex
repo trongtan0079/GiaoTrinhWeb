@@ -23968,16 +23968,24 @@ none & (Trống) & Custom số thứ tự \\
 
 \begin{codeWindow}[Ví Dụ Thực Tế: Mã Nguồn HTML \& CSS Định Dạng list-style-type]
 \begin{lstlisting}[language=HTML5]
-<!-- HTML: Cac kieu danh sach khac nhau -->
-<ul class="disc-list">
-    <li>(*@Dấu tròn đặc (disc)@*)</li>
+<!-- 1. Danh sach khong thu tu ul (Hinh vuong va can le inside) -->
+<ul class="square-inside-list">
+    <li>(*@Mục 1@*)</li>
+    <li>(*@Mục 2@*)</li>
+    <li>(*@Mục 3@*)</li>
 </ul>
+
+<!-- 2. Danh sach co thu tu ol (Chu so La Ma in hoa) -->
+<ol class="roman-list">
+    <li>(*@Mục đầu tiên@*)</li>
+    <li>(*@Mục thứ hai@*)</li>
+    <li>(*@Mục thứ ba@*)</li>
+</ol>
+
+<!-- 3. Cac kieu danh sach bien the khac -->
 <ul class="circle-list">
     <li>(*@Dấu tròn rỗng (circle)@*)</li>
 </ul>
-<ol class="roman-list">
-    <li>(*@Số La Mã (upper-roman)@*)</li>
-</ol>
 <ol class="alpha-list">
     <li>(*@Chữ cái hoa (upper-alpha)@*)</li>
 </ol>
@@ -23986,28 +23994,46 @@ none & (Trống) & Custom số thứ tự \\
 
 \begin{codeWindow}[Mã Nguồn CSS Thiết Lập list-style-type]
 \begin{lstlisting}[language=CSS3]
-/* CSS dinh nghia cac kieu danh sach: */
-.disc-list {
-    list-style-type: disc;        /* (*@Mac dinh: Dau tron dac@*) */
+/* 1. Danh sach khong thu tu: Hinh vuong va can le inside */
+ul.square-inside-list {
+    list-style-type: square;
+    list-style-position: inside;
 }
+
+/* 2. Danh sach co thu tu: Chu so La Ma in hoa */
+ol.roman-list {
+    list-style-type: upper-roman;
+}
+
+/* 3. Dinh dang cac kieu dau dau dong khac */
 .circle-list {
-    list-style-type: circle;      /* (*@Dau tron rong@*) */
-}
-.roman-list {
-    list-style-type: upper-roman; /* (*@So La Ma in hoa: I, II, III@*) */
+    list-style-type: circle;
 }
 .alpha-list {
-    list-style-type: upper-alpha; /* (*@Chu cai in hoa: A, B, C@*) */
+    list-style-type: upper-alpha;
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Các Kiểu Dấu Đầu Dòng list-style-type]
-\begin{itemize}[leftmargin=2.0em, itemsep=3pt, parsep=0pt]
-    \item[$\bullet$] \textbf{Dấu tròn đặc} (\codeinline{list-style-type: disc})
-    \item[$\circ$] \textbf{Dấu tròn rỗng} (\codeinline{list-style-type: circle})
-    \item[\textbf{I.}] \textbf{Số La Mã in hoa} (\codeinline{list-style-type: upper-roman})
-    \item[\textbf{A.}] \textbf{Chữ cái viết hoa} (\codeinline{list-style-type: upper-alpha})
+\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế: Danh Sách Không Thứ Tự (ul) \& Có Thứ Tự (ol)]
+\textbf{\textcolor{primaryBlue}{\small 1. Danh sách không thứ tự (\codeinline{<ul>}): \codeinline{list-style-type: square; list-style-position: inside;}}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item[\rule{1.1ex}{1.1ex}] Mục 1
+    \item[\rule{1.1ex}{1.1ex}] Mục 2
+    \item[\rule{1.1ex}{1.1ex}] Mục 3
+\end{itemize}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small 2. Danh sách có thứ tự (\codeinline{<ol>}): \codeinline{list-style-type: upper-roman;}}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item[\textbf{I.}] Mục đầu tiên
+    \item[\textbf{II.}] Mục thứ hai
+    \item[\textbf{III.}] Mục thứ ba
+\end{itemize}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small 3. Các biến thể khác (\codeinline{circle} \& \codeinline{upper-alpha}):}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item[$\circ$] Dấu tròn rỗng (\codeinline{list-style-type: circle})
+    \item[\textbf{A.}] Chữ cái viết hoa (\codeinline{list-style-type: upper-alpha})
 \end{itemize}
 \end{browserWindow}
 
@@ -24178,11 +24204,31 @@ inside & Dấu đầu dòng nằm \textbf{bên trong} hộp nội dung của ph�
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Thực Nghiệm: Đối Chiếu Trực Quan list-style-position outside vs inside]
-\centering
-\textbf{\textcolor{primaryBlue}{\small 1. list-style-position: outside; (Mặc định --- Các dòng sau thụt lề thẳng hàng chữ):}}\par\vspace{3pt}
-\includegraphics[width=0.92\linewidth]{figures/list_style_position_outside.png}\par\vspace{8pt}
-\textbf{\textcolor{primaryBlue}{\small 2. list-style-position: inside; (Dấu trong hộp nội dung --- Các dòng sau thẳng hàng dưới dấu chấm):}}\par\vspace{3pt}
-\includegraphics[width=0.92\linewidth]{figures/list_style_position_inside.png}
+\textbf{\textcolor{primaryBlue}{\small 1. list-style-position: outside; (Mặc định --- Dấu bullet nằm ngoài, dòng sau thẳng hàng lề chữ):}}\par\vspace{4pt}
+\begin{tcolorbox}[
+    colback=primaryBlue!3, colframe=primaryBlue!30,
+    boxrule=0.6pt, arc=3pt, left=8pt, right=8pt, top=5pt, bottom=5pt
+]
+\sffamily\small
+\begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
+    \item[\textcolor{primaryBlue}{$\bullet$}] \textbf{Mục danh sách bên ngoài:} Dấu bullet nằm tách biệt bên ngoài khối văn bản.
+    \item[\textcolor{primaryBlue}{$\bullet$}] \textbf{Nội dung thụt vào:} Dòng chữ bắt đầu cách dấu đầu dòng một khoảng lề chuẩn.
+    \item[\textcolor{primaryBlue}{$\bullet$}] \textbf{Khi văn bản dài xuống dòng:} Toàn bộ các dòng tiếp theo tự động thụt lề thẳng tắp với dòng đầu tiên, không bị thụt lùi vào dưới dấu bullet.
+\end{itemize}
+\end{tcolorbox}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small 2. list-style-position: inside; (Dấu trong hộp nội dung --- Dòng sau thẳng hàng dưới dấu bullet):}}\par\vspace{4pt}
+\begin{tcolorbox}[
+    colback=primaryBlue!3, colframe=primaryBlue!30,
+    boxrule=0.6pt, arc=3pt, left=8pt, right=8pt, top=5pt, bottom=5pt
+]
+\sffamily\small
+\begin{itemize}[leftmargin=0pt, itemindent=1.2em, itemsep=3pt, parsep=0pt]
+    \item[\textcolor{primaryBlue}{$\bullet$}] \textbf{Mục danh sách bên trong:} Dấu bullet được tính như từ đầu tiên trong dòng.
+    \item[\textcolor{primaryBlue}{$\bullet$}] \textbf{Nội dung không thụt lề:} Toàn bộ khối văn bản bắt đầu ngay từ mép lề trong cùng.
+    \item[\textcolor{primaryBlue}{$\bullet$}] \textbf{Khi văn bản dài xuống dòng:} Các dòng tiếp theo sẽ bắt đầu sát mép lề trái, nằm thẳng hàng dọc ngay dưới vị trí của dấu bullet đầu dòng!
+\end{itemize}
+\end{tcolorbox}
 \end{browserWindow}
 
 \subsection{4. Chuyên Sâu Thuộc Tính list-style-image \& Kỹ Thuật Bullet Hiện Đại (\csshint{list-style-image})}
@@ -24242,6 +24288,22 @@ selector {
 </html>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế: Dấu Đầu Dòng Hình Ảnh list-style-image]
+\textbf{\textcolor{primaryBlue}{\small 1. Danh sách dấu đầu dòng hình sao (\codeinline{custom-bullet}):}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=3pt, parsep=0pt]
+    \item[\textcolor{accentOrange}{\large $\star$}] HTML5 \& Modern Markup
+    \item[\textcolor{accentOrange}{\large $\star$}] CSS3 Foundations \& Grid
+    \item[\textcolor{accentOrange}{\large $\star$}] JavaScript ES6+
+\end{itemize}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small 2. Danh sách dấu trái tim bên trong hộp (\codeinline{custom-bullet-inside}):}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=3pt, parsep=0pt]
+    \item[\textcolor{dangerRed}{\large $\heartsuit$}] Mục một với nội dung dài xem cách hình ảnh căn chỉnh bên trong dòng văn bản.
+    \item[\textcolor{dangerRed}{\large $\heartsuit$}] Mục hai
+    \item[\textcolor{dangerRed}{\large $\heartsuit$}] Mục ba
+\end{itemize}
+\end{browserWindow}
 
 \begin{prettyTableBox}[BẢNG CÁC LƯU Ý KỸ THUẬT QUAN TRỌNG KHI DÙNG LIST-STYLE-IMAGE]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -24365,6 +24427,22 @@ ul.svg-bullet-list li::before {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế: 2 Kỹ Thuật Dấu Đầu Dòng Hiện Đại Thay Thế Bằng ::before]
+\textbf{\textcolor{primaryBlue}{\small 1. Danh sách biểu tượng Checkmark Font Icon (\codeinline{li::before} \& Font Awesome \codeinline{\textbackslash f00c}):}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=4pt, parsep=0pt]
+    \item[\textcolor{successGreen}{\bfseries\small [$\surd$]}] Hoàn thành bài học HTML5 \& Semantic Markup chuẩn SEO
+    \item[\textcolor{successGreen}{\bfseries\small [$\surd$]}] Làm chủ hệ thống bố cục Modern CSS: Flexbox \& CSS Grid
+    \item[\textcolor{successGreen}{\bfseries\small [$\surd$]}] Xây dựng ứng dụng Web hoàn chỉnh với JavaScript ES6+
+\end{itemize}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small 2. Danh sách biểu tượng Vector SVG (\codeinline{li::before} \& \codeinline{background-image}):}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=4pt, parsep=0pt]
+    \item[\textcolor{primaryBlue}{\bfseries\small [$\triangleright$]}] Tối ưu hóa hiệu năng render mượt mà chuẩn 60 FPS
+    \item[\textcolor{primaryBlue}{\bfseries\small [$\triangleright$]}] Co giãn sắc nét trên mọi màn hình di động độ phân giải cao
+    \item[\textcolor{primaryBlue}{\bfseries\small [$\triangleright$]}] Tương thích hoàn hảo các tiêu chuẩn Web hiện đại
+\end{itemize}
+\end{browserWindow}
+
 \begin{tipBox}[Khi Nào list-style-image Vẫn Hữu Ích? \& Lời Khuyên Ngành Công Nghiệp]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Khi nào nên dùng \codeinline{list-style-image}}: Phù hợp trong các dự án học tập, tài liệu nội bộ cực kỳ đơn giản cần gắn nhanh một icon nhỏ và không yêu cầu căn chỉnh pixel-perfect, hoặc khi cần hỗ trợ các trình duyệt rất cũ không hiểu pseudo-elements.
@@ -24404,6 +24482,30 @@ ul.navbar {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế: list-style Shorthand \& Thanh Navigation Bar]
+\textbf{\textcolor{primaryBlue}{\small 1. Danh sách kết hợp \codeinline{list-style: square inside;}:}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=2.0em, itemsep=2pt, parsep=0pt]
+    \item[\rule{1.1ex}{1.1ex}] Mục danh sách hình vuông nằm bên trong hộp nội dung
+    \item[\rule{1.1ex}{1.1ex}] Khi văn bản xuống dòng, các dòng sau thẳng hàng với dấu vuông
+    \item[\rule{1.1ex}{1.1ex}] Tối ưu không gian hiển thị cho các màn hình kích thước nhỏ
+\end{itemize}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small 2. Thanh Menu điều hướng ngang ứng dụng kỹ thuật List Reset (\codeinline{list-style: none}):}}\par\vspace{4pt}
+\begin{tcolorbox}[
+    colback=primaryBlue!5,
+    colframe=primaryBlue!40,
+    arc=4pt, boxrule=0.8pt,
+    top=6pt, bottom=6pt, left=10pt, right=10pt
+]
+\sffamily\bfseries\small
+\textcolor{primaryBlue}{\underline{Trang Chủ}} \quad\textbar\quad
+\textcolor{darkText}{Giới Thiệu} \quad\textbar\quad
+\textcolor{darkText}{Khóa Học} \quad\textbar\quad
+\textcolor{darkText}{Blog Lập Trình} \quad\textbar\quad
+\textcolor{darkText}{Liên Hệ}
+\end{tcolorbox}
+\end{browserWindow}
+
 \subsection{6. Tùy Biến Dấu Đầu Dòng Đỉnh Cao Với Pseudo-Element ::marker (\csshint{::marker})}
 
 \begin{conceptBox}[Phần Tử Giả ::marker Trong CSS3/CSS4]
@@ -24414,8 +24516,8 @@ Bộ chọn phần tử giả \textbf{\codeinline{::marker}} nhắm trực tiế
 \begin{lstlisting}[language=CSS3]
 /* 1. Doi mau sac va phong to dau cham danh sach */
 li::marker {
-    color: #E65100;     /* (*@Mau cam noi bat@*) */
-    font-size: 1.4rem;  /* (*@Dau cham to hon chu@*) */
+    color: #FF5733;     /* (*@Mau cam/do noi bat@*) */
+    font-size: 20px;    /* (*@Dau cham phong to doc lap (20px hoac 1.4rem)@*) */
 }
 
 /* 2. Thay the dau cham bang ky tu tuy chinh */
@@ -24426,6 +24528,30 @@ ul.checklist li::marker {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế: Dấu Đầu Dòng Tùy Biến Bằng ::marker]
+\textbf{\textcolor{primaryBlue}{\small 1. Dấu chấm tròn phóng to \& đổi màu cam (\codeinline{color: \#FF5733; font-size: 20px}):}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=3pt, parsep=0pt]
+    \item[\textcolor{accentOrange}{\Huge $\bullet$}] \textbf{Mục 1:} Dấu chấm mang màu cam nổi bật độc lập hoàn toàn với văn bản
+    \item[\textcolor{accentOrange}{\Huge $\bullet$}] \textbf{Mục 2:} Cỡ chữ nội dung giữ nguyên kích thước chuẩn mà không bị to theo
+    \item[\textcolor{accentOrange}{\Huge $\bullet$}] \textbf{Mục 3:} Tối ưu hóa mã nguồn HTML không cần thẻ \codeinline{<span>} bọc ngoài!
+\end{itemize}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small 2. Danh sách checklist dấu tích xanh (\codeinline{content: "\textbackslash 2713 "; color: \#16A34A}):}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=3pt, parsep=0pt]
+    \item[\textcolor{successGreen}{\Large $\surd$}] Cài đặt môi trường phát triển VS Code, Node.js \& Git
+    \item[\textcolor{successGreen}{\Large $\surd$}] Nắm vững cấu trúc siêu văn bản Semantic HTML5
+    \item[\textcolor{successGreen}{\Large $\surd$}] Thực hành hoàn thiện dự án Web Frontend thực chiến
+\end{itemize}
+\end{browserWindow}
+
+\begin{warnBox}[Giới Hạn Thuộc Tính CSS Hợp Lệ Trên ::marker Theo Chuẩn W3C]
+Không giống như \codeinline{::before} hay \codeinline{::after}, phần tử giả \textbf{\codeinline{::marker}} chỉ chấp nhận một danh sách thuộc tính CSS rất giới hạn:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Được hỗ trợ}: \codeinline{color}, các thuộc tính họ \codeinline{font-*} (\codeinline{font-size}, \codeinline{font-family}, \codeinline{font-weight}), \codeinline{content}, \codeinline{text-combine-upright}, \codeinline{white-space}, và \codeinline{animation}/\codeinline{transition}.
+    \item \textbf{Bị bỏ qua hoàn toàn}: Các thuộc tính mô hình hộp (\codeinline{width}, \codeinline{height}, \codeinline{margin}, \codeinline{padding}, \codeinline{background}, \codeinline{border}, \codeinline{display}, \codeinline{position}). Nếu cần căn lề hộp, bo góc, hoặc chèn ảnh nền tùy biến vị trí pixel, bạn bắt buộc phải dùng \codeinline{li::before}.
+\end{itemize}
+\end{warnBox}
 
 
 % ==============================================================================
