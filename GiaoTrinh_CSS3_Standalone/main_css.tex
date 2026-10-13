@@ -10055,6 +10055,10 @@ body {
       {\color{gray!80!black}\scriptsize Đa tầng ảnh xếp lớp (Z-index ngầm)}\\[7pt]
       
       \tcbox[on line, arc=2.5pt, colback=accentPurple!15, colframe=accentPurple, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{accentPurple}\bfseries\scriptsize 10} & 
+      \textbf{\codeinline{backdrop-filter}}\newline
+      {\color{gray!80!black}\scriptsize Hiệu ứng kính mờ (Glassmorphism)}\\[7pt]
+      
+      \tcbox[on line, arc=2.5pt, colback=accentPurple!15, colframe=accentPurple, boxsep=0.5pt, left=3.5pt, right=3.5pt, top=1.5pt, bottom=1.5pt]{\color{accentPurple}\bfseries\scriptsize 11} & 
       \textbf{Cheatsheet \& UX Practices}\newline
       {\color{gray!80!black}\scriptsize Tối ưu WebP/AVIF \& Độ tương phản}
     \end{tabularx}
@@ -13965,10 +13969,532 @@ CSS3 hỗ trợ xếp chồng đồng thời nhiều hình ảnh nền trên cù
 \end{lstlisting}
 \end{codeWindow}
 
+
+\subsection{Hiệu Ứng Bộ Lọc Nền Phía Sau (\csshint{backdrop-filter} \& Nghệ Thuật Kính Mờ Glassmorphism)}
+\label{sec:css_backdrop_filter}
+
+\paragraph{1. backdrop-filter Là Gì?}
+
+\begin{conceptBox}[Định Nghĩa Thuộc Tính backdrop-filter Trong CSS]
+\textbf{\codeinline{backdrop-filter}} là thuộc tính CSS hiện đại dùng để áp dụng các hiệu ứng đồ họa (như làm mờ, tăng sáng, đảo màu, đổi tương phản...) lên \textbf{khu vực nằm phía sau một phần tử} -- cụ thể là phần nội dung hoặc cảnh nền nằm phía sau một lớp nền bán trong suốt, tạo nên hiệu ứng kính mờ nghệ thuật (\term{Frosted Glass} hay \term{Glassmorphism}).
+\par\vspace{5pt}
+\textbf{Điểm khác biệt cốt lõi giữa \codeinline{filter} và \codeinline{backdrop-filter}:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{filter} $\rightarrow$ Áp dụng trực tiếp lên \textbf{chính bản thân phần tử đó} (làm mờ hoặc biến đổi hình ảnh, văn bản và các phần tử con bên trong phần tử).
+    \item \codeinline{backdrop-filter} $\rightarrow$ Áp dụng lên \textbf{những gì nằm phía sau phần tử} (cảnh nền phía sau nó), trong khi chữ và nội dung bên trong phần tử vẫn giữ nguyên độ sắc nét hoàn toàn.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[BẢNG SO SÁNH BẢN CHẤT GIỮA FILTER VÀ BACKDROP-FILTER]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash\bfseries}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Tác dụng lên} & \thd{\sffamily Ảnh hưởng tới} \\
+\hline
+filter & Chính phần tử & Hình ảnh, nội dung, văn bản bên trong của nó. \\
+\hline
+backdrop-filter & Phần tử phía sau & Cảnh nền (\term{background}) nằm ngay phía sau nó. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{2. Cú Pháp Khai Báo \& Bảng Tra Cứu Các Hàm Lọc (\term{Filter Functions}):}
+
+\begin{conceptBox}[Cú Pháp Chuẩn W3C Của backdrop-filter]
+\begin{center}
+\tcbox[on line, arc=3pt, colback=primaryBlue!8, colframe=primaryBlue!40, boxsep=1pt, left=10pt, right=10pt, top=3pt, bottom=3pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue}
+  backdrop-filter: none | <filter-function>+;%
+}
+\end{center}
+\vspace{2pt}
+\noindent Bạn có thể áp dụng một hàm lọc đơn lẻ hoặc chuỗi liên tiếp nhiều hàm phân tách bởi khoảng trắng.
+\end{conceptBox}
+
+\begin{prettyTableBox}[BẢNG TỔNG HỢP CÁC HÀM FILTER-FUNCTION PHỔ BIẾN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Hàm lọc} & \thd{\sffamily Ý nghĩa thực tế} \\
+\hline
+blur(px) & Làm mờ nền phía sau (tạo hiệu ứng kính mờ nhòe). \\
+\hline
+brightness(\%) & Điều chỉnh độ sáng nền phía sau (làm sáng hơn hoặc tối hơn). \\
+\hline
+contrast(\%) & Tăng/giảm độ tương phản của nền phía sau. \\
+\hline
+drop-shadow(...) & Áp dụng hiệu ứng đổ bóng cho bản sao của nền. \\
+\hline
+grayscale(\%) & Chuyển nền phía sau thành ảnh thang xám (đen trắng). \\
+\hline
+hue-rotate(deg) & Xoay vòng phổ màu sắc (Hue) của nền phía sau. \\
+\hline
+invert(\%) & Đảo ngược màu sắc của nền phía sau (tạo hiệu ứng âm bản). \\
+\hline
+opacity(\%) & Điều chỉnh độ trong suốt của nền đã qua xử lý bộ lọc. \\
+\hline
+saturate(\%) & Tăng/giảm độ bão hòa màu sắc của nền phía sau (rực rỡ hoặc nhạt). \\
+\hline
+sepia(\%) & Hiệu ứng màu nâu đỏ cổ điển (hoài niệm vintage). \\
+\hline
+url(id) & Tham chiếu đến bộ lọc SVG tùy chỉnh định nghĩa trong tài liệu. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{3. Phân Tích Kỹ Thuật Chi Tiết 11 Hàm Lọc:}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{\codeinline{blur(<length>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Làm mờ (làm nhòe) khu vực nền phía sau phần tử.
+        \item \textbf{Giá trị}: Một giá trị độ dài (\codeinline{px}, \codeinline{em}, \codeinline{rem}, v.v.). Giá trị càng lớn $\rightarrow$ độ mờ càng cao.
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: blur(5px);} (làm mờ 5 pixel).
+    \end{itemize}
+
+    \item \textbf{\codeinline{brightness(<percentage> | <number>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Điều chỉnh độ sáng của nền phía sau.
+        \item \textbf{Giá trị}:
+        \begin{itemize}[leftmargin=1em, itemsep=1pt]
+            \item \codeinline{percentage}: \codeinline{100\%} là độ sáng gốc. Giá trị nhỏ hơn \codeinline{100\%} làm tối nền, \codeinline{0\%} biến nền thành màu đen hoàn toàn. Giá trị lớn hơn \codeinline{100\%} làm sáng nền.
+            \item \codeinline{number}: \codeinline{1} là độ sáng gốc. \codeinline{0} biến nền thành màu đen hoàn toàn. Giá trị $> 1$ làm sáng nền.
+        \end{itemize}
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: brightness(150\%);} (tăng độ sáng lên 50\%).
+    \end{itemize}
+
+    \item \textbf{\codeinline{contrast(<percentage> | <number>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Điều chỉnh độ tương phản của nền.
+        \item \textbf{Giá trị}:
+        \begin{itemize}[leftmargin=1em, itemsep=1pt]
+            \item \codeinline{percentage}: \codeinline{100\%} là độ tương phản gốc. \codeinline{0\%} biến nền thành một màu xám đồng nhất. Giá trị lớn hơn \codeinline{100\%} tăng độ tương phản.
+            \item \codeinline{number}: \codeinline{1} là độ tương phản gốc. \codeinline{0} biến nền thành màu xám đồng nhất. Giá trị $> 1$ tăng gấp đôi độ tương phản.
+        \end{itemize}
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: contrast(200\%);} (tăng gấp đôi độ tương phản).
+    \end{itemize}
+
+    \item \textbf{\codeinline{drop-shadow(<offset-x> <offset-y> <blur-radius> <color>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Áp dụng hiệu ứng đổ bóng cho bản sao của nền. Lưu ý rằng hiệu ứng này áp dụng lên hình ảnh được tạo ra từ nền, không phải lên chính phần tử.
+        \item \textbf{Giá trị}:
+        \begin{itemize}[leftmargin=1em, itemsep=1pt]
+            \item \codeinline{<offset-x>}: Khoảng cách bóng theo chiều ngang (bắt buộc).
+            \item \codeinline{<offset-y>}: Khoảng cách bóng theo chiều dọc (bắt buộc).
+            \item \codeinline{<blur-radius>}: Độ mờ của bóng (tùy chọn).
+            \item \codeinline{<color>}: Màu sắc của bóng (tùy chọn).
+        \end{itemize}
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));}
+    \end{itemize}
+
+    \item \textbf{\codeinline{grayscale(<percentage> | <number>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Chuyển đổi màu sắc của nền sang thang độ xám (ảnh đen trắng).
+        \item \textbf{Giá trị}:
+        \begin{itemize}[leftmargin=1em, itemsep=1pt]
+            \item \codeinline{percentage}: \codeinline{0\%} là giữ nguyên màu. \codeinline{100\%} biến nền thành hoàn toàn xám.
+            \item \codeinline{number}: \codeinline{0} là không đổi. \codeinline{1} biến nền thành hoàn toàn xám.
+        \end{itemize}
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: grayscale(100\%);} (chuyển nền sang đen trắng hoàn toàn).
+    \end{itemize}
+
+    \item \textbf{\codeinline{hue-rotate(<angle>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Xoay vòng phổ màu sắc (\term{Hue}) của nền theo góc hình học.
+        \item \textbf{Giá trị}: Một giá trị góc hợp lệ trong CSS (\codeinline{deg}, \codeinline{grad}, \codeinline{rad}, \codeinline{turn}).
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: hue-rotate(90deg);} (xoay dải màu 90 độ trên bánh xe màu).
+    \end{itemize}
+
+    \item \textbf{\codeinline{invert(<percentage> | <number>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Đảo ngược màu sắc của nền (tạo hiệu ứng ảnh âm bản / phim x-quang).
+        \item \textbf{Giá trị}:
+        \begin{itemize}[leftmargin=1em, itemsep=1pt]
+            \item \codeinline{percentage}: \codeinline{0\%} là không thay đổi. \codeinline{100\%} đảo ngược màu sắc hoàn toàn.
+            \item \codeinline{number}: \codeinline{0} là giữ nguyên. \codeinline{1} đảo ngược màu sắc triệt để.
+        \end{itemize}
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: invert(100\%);} (đảo ngược màu sắc hoàn toàn).
+    \end{itemize}
+
+    \item \textbf{\codeinline{opacity(<percentage> | <number>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Điều chỉnh độ trong suốt của phần nền đã được áp dụng bộ lọc (lưu ý: không phải độ trong suốt của chính phần tử).
+        \item \textbf{Giá trị}:
+        \begin{itemize}[leftmargin=1em, itemsep=1pt]
+            \item \codeinline{percentage}: \codeinline{100\%} là hoàn toàn mờ đục. \codeinline{0\%} là hoàn toàn trong suốt.
+            \item \codeinline{number}: \codeinline{1} là hoàn toàn mờ đục. \codeinline{0} là hoàn toàn trong suốt.
+        \end{itemize}
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: opacity(0.7);} (nền được lọc sẽ có độ trong suốt 70\%).
+    \end{itemize}
+
+    \item \textbf{\codeinline{saturate(<percentage> | <number>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Điều chỉnh độ bão hòa màu sắc của nền phía sau (làm màu rực rỡ tươi tắn hơn hoặc tái nhợt đi).
+        \item \textbf{Giá trị}:
+        \begin{itemize}[leftmargin=1em, itemsep=1pt]
+            \item \codeinline{percentage}: \codeinline{100\%} là độ bão hòa gốc. \codeinline{0\%} biến nền thành thang độ xám. Giá trị lớn hơn \codeinline{100\%} làm tăng độ rực màu.
+            \item \codeinline{number}: \codeinline{1} là độ bão hòa gốc. \codeinline{0} biến nền thành thang xám. Giá trị $> 1$ làm tăng mạnh độ bão hòa màu.
+        \end{itemize}
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: saturate(200\%);} (tăng gấp đôi độ bão hòa màu sắc).
+    \end{itemize}
+
+    \item \textbf{\codeinline{sepia(<percentage> | <number>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Áp dụng hiệu ứng ngả màu nâu đỏ cổ điển (\term{Sepia}) cho nền giống những bức ảnh thập niên cũ.
+        \item \textbf{Giá trị}:
+        \begin{itemize}[leftmargin=1em, itemsep=1pt]
+            \item \codeinline{percentage}: \codeinline{0\%} là không thay đổi. \codeinline{100\%} áp dụng hiệu ứng sepia hoàn toàn.
+            \item \codeinline{number}: \codeinline{0} là nguyên bản. \codeinline{1} chuyển đổi sepia $100\%$.
+        \end{itemize}
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: sepia(100\%);} (chuyển nền sang hiệu ứng sepia hoài niệm).
+    \end{itemize}
+
+    \item \textbf{\codeinline{url(<svg-filter-id>)}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Mô tả}: Tham chiếu đến một bộ lọc SVG (\codeinline{<filter>}) được định nghĩa trong tài liệu HTML/SVG. Điều này cho phép bạn tạo ra các hiệu ứng lọc tùy chỉnh ma mị và phức tạp hơn (như gợn sóng nước, biến dạng đa chiều).
+        \item \textbf{Giá trị}: Đường dẫn đến ID của bộ lọc SVG (ví dụ \codeinline{\#my-custom-filter}).
+        \item \textbf{Ví dụ}: \codeinline{backdrop-filter: url(\#my-custom-filter);}
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{4. Bộ Infographic Minh Họa Trực Quan 5 Hiệu Ứng backdrop-filter Tiêu Biểu:}
+
+Để hiểu rõ sự tác động thị giác cụ thể của từng hàm lọc trên nền thực tế, hãy xem qua bộ 5 infographic chuyên sâu dưới đây:
+
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/backdrop_filter_blur.jpg}
+\end{center}
+
+\begin{conceptBox}[Infographic 1: Cơ Chế \& Các Mức Độ Của backdrop-filter: blur()]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cơ chế}: \codeinline{blur(<length>)} làm mờ phần nền phía sau phần tử, tạo hiệu ứng kính mờ đặc trưng của phong cách thiết kế \term{Glassmorphism}.
+    \item \textbf{Quy luật}: Giá trị càng lớn $\rightarrow$ hiệu ứng mờ càng mạnh. Nội dung bên trong phần tử vẫn giữ nguyên độ sắc nét $100\%$.
+    \item \textbf{Các mức độ so sánh}: \codeinline{blur(0)} (rõ nét nguyên bản) $\rightarrow$ \codeinline{blur(4px)} $\rightarrow$ \codeinline{blur(8px)} $\rightarrow$ \codeinline{blur(12px)} (chuẩn Glass Card) $\rightarrow$ \codeinline{blur(16px)} (mờ đậm).
+\end{itemize}
+\end{conceptBox}
+
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/backdrop_filter_brightness.jpg}
+\end{center}
+
+\begin{conceptBox}[Infographic 2: Cơ Chế \& Các Mức Độ Của backdrop-filter: brightness()]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cơ chế}: \codeinline{brightness(<value>)} điều chỉnh độ sáng của phần nền phía sau phần tử, làm nền sáng hơn hoặc tối sẫm lại.
+    \item \textbf{Quy luật}: Giá trị \codeinline{1} là mặc định; Giá trị $> 1$ làm nền sáng lên; Giá trị $< 1$ làm nền tối sẫm đi. Nội dung chữ bên trong phần tử vẫn giữ màu hiển thị ban đầu.
+    \item \textbf{Các mức độ so sánh}: \codeinline{brightness(0.5)} (tối 50\%) $\rightarrow$ \codeinline{brightness(1)} (gốc) $\rightarrow$ \codeinline{brightness(1.5)} (sáng rạng rỡ) $\rightarrow$ \codeinline{brightness(2)} (sáng chói gấp đôi).
+\end{itemize}
+\end{conceptBox}
+
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/backdrop_filter_contrast.jpg}
+\end{center}
+
+\begin{conceptBox}[Infographic 3: Cơ Chế \& Các Mức Độ Của backdrop-filter: contrast()]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cơ chế}: \codeinline{contrast(<value>)} làm thay đổi độ tương phản của phần nền phía sau phần tử, giúp chi tiết nền rõ nét sắc cạnh hơn hoặc dịu êm mềm mại hơn.
+    \item \textbf{Quy luật}: Giá trị \codeinline{1} là mặc định; Giá trị $> 1$ tăng độ tương phản giữa vùng sáng và vùng tối; Giá trị $< 1$ thu hẹp độ tương phản về màu xám trung tính.
+    \item \textbf{Các mức độ so sánh}: \codeinline{contrast(0.5)} (tương phản thấp) $\rightarrow$ \codeinline{contrast(1)} (gốc) $\rightarrow$ \codeinline{contrast(1.5)} (tương phản cao ấn tượng) $\rightarrow$ \codeinline{contrast(2)} (tương phản cực độ).
+\end{itemize}
+\end{conceptBox}
+
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/backdrop_filter_grayscale.jpg}
+\end{center}
+
+\begin{conceptBox}[Infographic 4: Cơ Chế \& Các Mức Độ Của backdrop-filter: grayscale()]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cơ chế}: \codeinline{grayscale(<value>)} chuyển phần nền phía sau phần tử thành thang xám (đen trắng cổ điển).
+    \item \textbf{Quy luật}: Giá trị \codeinline{0} là giữ nguyên màu sắc; Giá trị \codeinline{1} là triệt tiêu toàn bộ màu sắc thành ảnh đen trắng $100\%$; Giá trị ở giữa tạo mức chuyển đổi màu sắc bán phần.
+    \item \textbf{Các mức độ so sánh}: \codeinline{grayscale(0)} (nền đầy đủ màu sắc) $\rightarrow$ \codeinline{grayscale(0.5)} (nửa xám phai màu) $\rightarrow$ \codeinline{grayscale(1)} (đen trắng thuần túy).
+\end{itemize}
+\end{conceptBox}
+
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/backdrop_filter_saturate.jpg}
+\end{center}
+
+\begin{conceptBox}[Infographic 5: Cơ Chế \& Các Mức Độ Của backdrop-filter: saturate()]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cơ chế}: \codeinline{saturate(<value>)} điều chỉnh độ bão hòa màu của phần nền phía sau, làm màu sắc phong cảnh rực rỡ sống động hơn hoặc nhạt màu trầm lắng.
+    \item \textbf{Quy luật}: Giá trị \codeinline{1} là mặc định; Giá trị $> 1$ làm màu đậm và rực rỡ hơn; Giá trị $< 1$ làm màu nhạt dần hướng về đơn sắc.
+    \item \textbf{Các mức độ so sánh}: \codeinline{saturate(0.5)} (màu sắc nhạt nhẹ) $\rightarrow$ \codeinline{saturate(1)} (gốc) $\rightarrow$ \codeinline{saturate(1.5)} (màu sắc đậm nét) $\rightarrow$ \codeinline{saturate(2)} (màu sắc rực rỡ nhiệt đới).
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{5. Điều Kiện Hoạt Động Bắt Buộc Của backdrop-filter:}
+
+\begin{warnBox}[Cảnh Báo: Điều Kiện Tiên Quyết Để Thấy Được Hiệu Ứng Nền]
+Để \codeinline{backdrop-filter} có thể hiển thị hiệu ứng lên màn hình, phần tử đó \textbf{bắt buộc phải có nền trong suốt (\codeinline{transparent}) hoặc bán trong suốt (\codeinline{rgba}, \codeinline{hsla}, \codeinline{opacity})}.
+\par\vspace{4pt}
+\textbf{Ví dụ đối chiếu:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{[Ví dụ đúng]}: \codeinline{background-color: rgba(255, 255, 255, 0.3);} $\rightarrow$ Nền bán trong suốt cho phép ánh sáng và hiệu ứng lọc của cảnh nền phía sau xuyên thấu qua bề mặt kính!
+    \item \textbf{[Ví dụ sai]}: \codeinline{background-color: white;} (màu đặc nguyên khối) $\rightarrow$ Màu đục che khuất $100\%$ toàn bộ khung cảnh phía sau, khiến hiệu ứng \codeinline{backdrop-filter} hoàn toàn vô tác dụng trên mắt nhìn!
+\end{itemize}
+\end{warnBox}
+
+\paragraph{6. Ví Dụ Đơn Giản: Thiết Kế Khung Kính Mờ Frosted Box Cơ Bản:}
+
+\begin{codeWindow}[Mã Nguồn HTML \& CSS Thẻ Kính Mờ Cơ Bản]
+\begin{lstlisting}[language=HTML5]
+<div class="container">
+  <div class="frosted-box">Nội dung</div>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Khai Báo CSS Frosted Glass]
+\begin{lstlisting}[language=CSS3]
+.container {
+  background: url('background.jpg') no-repeat center/cover;
+  height: 100vh;
+}
+
+.frosted-box {
+  width: 300px;
+  height: 200px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.3); /* Ban trong suot */
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Kết quả thực tế}: Hộp \codeinline{.frosted-box} hiển thị như một tấm kính mờ tinh xảo đặt trên mặt ảnh, làm mờ nhòe phần ảnh nền phong cảnh phía sau nó trong khi nội dung chữ bên trong hiển thị sắc sảo.
+
+\paragraph{7. Kỹ Thuật Kết Hợp Cùng Lúc Nhiều Hiệu Ứng Nền Trong CSS:}
+
+Trong thực tế thiết kế cao cấp, việc chỉ dùng đơn lẻ \codeinline{blur()} đôi khi chưa đủ tạo ra độ sâu điện ảnh. Bạn hoàn toàn có thể kết hợp nhiều hàm lọc cùng một lúc để tinh chỉnh ánh sáng, độ rực và độ tương phản:
+
+\begin{conceptBox}[Cú Pháp Kết Hợp Đa Hàm Lọc]
+\begin{center}
+\tcbox[on line, arc=3pt, colback=primaryBlue!8, colframe=primaryBlue!40, boxsep=1pt, left=8pt, right=8pt, top=3pt, bottom=3pt]{%
+  \ttfamily\small\bfseries\color{primaryBlue}
+  backdrop-filter: blur(5px) brightness(0.8) saturate(150\%);%
+}
+\end{center}
+\vspace{2pt}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Các hàm được viết liền nhau, cách nhau bằng \textbf{dấu cách}.
+    \item Thứ tự giữa các hàm không ảnh hưởng đến kết quả cuối cùng.
+    \item Mỗi hàm xử lý hoàn toàn độc lập với nhau.
+\end{itemize}
+\end{conceptBox}
+
+\begin{prettyTableBox}[BẢNG CÁC HÀM CÓ THỂ KẾT HỢP CÙNG NHAU TRONG BACKDROP-FILTER]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Hàm lọc} & \thd{\sffamily Tác dụng phối hợp} \\
+\hline
+blur(px) & Làm mờ phông nền phía sau. \\
+\hline
+brightness(\%) & Thay đổi độ sáng (100\% là gốc). \\
+\hline
+contrast(\%) & Thay đổi độ tương phản. \\
+\hline
+grayscale(\%) & Chuyển sang thang xám. \\
+\hline
+hue-rotate(deg) & Xoay màu. \\
+\hline
+invert(\%) & Đảo màu. \\
+\hline
+opacity(\%) & Làm mờ nền phía sau. \\
+\hline
+saturate(\%) & Tăng/giảm bão hòa màu. \\
+\hline
+sepia(\%) & Tạo hiệu ứng cổ điển. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Kết Hợp Đa Hiệu Ứng Thực Tế: Thẻ Frosted Đậm Chất Nghệ Thuật]
+\begin{lstlisting}[language=HTML5]
+<div class="frosted">
+  Nội dung nổi bật trên nền mờ
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[CSS Khai Báo Đa Hiệu Ứng Kính Mờ Hoàn Chỉnh]
+\begin{lstlisting}[language=CSS3]
+body {
+  background: url('https://picsum.photos/800/600') no-repeat center/cover;
+  height: 100vh;
+  margin: 0;
+}
+
+.frosted {
+  width: 300px;
+  padding: 30px;
+  margin: 50px auto;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px) brightness(0.7) saturate(200%);
+  -webkit-backdrop-filter: blur(8px) brightness(0.7) saturate(200%);
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Kết quả trực quan}: Hộp \codeinline{.frosted} đồng thời sở hữu cả 3 lớp hiệu ứng kỳ diệu:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Hộp có hiệu ứng kính mờ bí ẩn (\codeinline{blur(8px)}).
+    \item Làm tối bớt phần nền phía sau để tương phản rõ chữ màu trắng (\codeinline{brightness(0.7)}).
+    \item Tăng độ tươi tắn rực rỡ cho sắc màu ảnh nền bên dưới (\codeinline{saturate(200\%)}).
+\end{itemize}
+
+\begin{warnBox}[BẢNG LƯU Ý QUAN TRỌNG KHI DÙNG NHIỀU HIỆU ỨNG]
+\rowcolors{2}{white}{warnBg!60}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{accentOrange}}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{warnBorder!30} \thd{\sffamily Lưu ý} & \thd{\sffamily Chi tiết} \\
+\hline
+Thứ tự hàm không ảnh hưởng & Nhưng nên viết theo thứ tự dễ đọc: \codeinline{blur()} đặt trước tiên để dễ hình dung cấu trúc. \\
+\hline
+Nên kết hợp với background-color: rgba(...) & Giúp phân biệt ranh giới phần tử và thấy rõ hiệu ứng biến đổi nền phía sau. \\
+\hline
+Không hỗ trợ tốt ở IE/Edge cũ, Firefox cần bật thủ công & Luôn khai báo kèm \codeinline{-webkit-backdrop-filter} để hỗ trợ tối ưu Safari và các trình duyệt WebKit. \\
+\hline
+Có thể ảnh hưởng hiệu năng nếu dùng trên diện rộng & Tránh lạm dụng trên toàn trang web hoặc các container cuộn dài liên tục. \\
+\hline
+\end{tabularx}
+\end{warnBox}
+
+\paragraph{8. Tổng Kết Cú Pháp Mẫu Đầy Đủ:}
+
+\begin{codeWindow}[Cú Pháp Mẫu Đầy Đủ Tích Hợp Nhiều Hàm Lọc]
+\begin{lstlisting}[language=CSS3]
+/* Mau khai bao ket hop da hieu ung day du: */
+backdrop-filter: blur(10px) brightness(0.8) saturate(150%) contrast(120%);
+-webkit-backdrop-filter: blur(10px) brightness(0.8) saturate(150%) contrast(120%);
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{9. Khả Năng Hỗ Trợ Trình Duyệt (\term{Browser Support}):}
+
+\begin{prettyTableBox}[BẢNG HỖ TRỢ TRÌNH DUYỆT CỦA THUỘC TÍNH BACKDROP-FILTER]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Trình duyệt} & \thd{\sffamily Mức độ hỗ trợ backdrop-filter} \\
+\hline
+Chrome (Có) & Hỗ trợ tốt (cần nền trong suốt). \\
+\hline
+Safari (Có) & Hỗ trợ rất tốt (yêu cầu tiền tố \codeinline{-webkit-backdrop-filter}). \\
+\hline
+Firefox (Cần cấu hình) & Khả dụng trên bản mới; Trên bản cũ cần bật thủ công qua \codeinline{about:config} (\codeinline{layout.css.backdrop-filter.enabled}). \\
+\hline
+IE (Không hỗ trợ) & Hoàn toàn không hỗ trợ. \\
+\hline
+Edge (Có) & Hỗ trợ đầy đủ (phiên bản mới nền tảng Chromium). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{10. Các Lưu Ý Kỹ Thuật Quan Trọng Khi Áp Dụng Thực Tế:}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=5pt, parsep=0pt]
+    \item \textbf{Phần tử phải có nền trong suốt hoặc bán trong suốt}: \codeinline{backdrop-filter} chỉ hoạt động nếu phần tử không che khuất hoàn toàn phần nền phía sau.
+    \item \textbf{Cần thêm tiền tố \codeinline{-webkit-backdrop-filter} để tương thích tối đa}:
+\begin{lstlisting}[language=CSS3]
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px); /* Safari & iOS */
+\end{lstlisting}
+    \item \textbf{Hiệu ứng áp dụng cho nền phía sau, không phải nội dung bên trong}: Khác với \codeinline{filter} áp dụng trực tiếp lên phần tử, \codeinline{backdrop-filter} chỉ tác động lên cảnh nền phía sau. Nếu muốn nội dung chữ bên trong cũng bị mờ, hãy dùng \codeinline{filter: blur()} hoặc \codeinline{opacity}.
+    \item \textbf{Không hỗ trợ trong Internet Explorer và Firefox chưa bật}: Tránh dùng làm thành phần chức năng duy nhất bắt buộc người dùng phải xem nếu trang web cần tương thích $100\%$ các thiết bị cổ điển.
+    \item \textbf{Chi phí tài nguyên đồ họa \& Hiệu suất GPU}: \codeinline{backdrop-filter} đòi hỏi bộ xử lý đồ họa phải tính toán thuật toán ma trận điểm ảnh phức tạp. Tốt nhất chỉ áp dụng cho số lượng ít phần tử cố định (như thanh Navigation Bar dính, Modal Popup, Card nổi bật). Tuyệt đối tránh gán cho hàng trăm phần tử danh sách đang cuộn liên tục (\term{infinite scroll}).
+    \item \textbf{Cần kết hợp thuộc tính định vị}: Thường \codeinline{backdrop-filter} phát huy hiệu quả thị giác cao nhất khi phần tử được định vị độc lập bằng \codeinline{position: relative;}, \codeinline{position: absolute;} hoặc \codeinline{position: fixed;} kèm chỉ số lớp \codeinline{z-index: 1;} để xếp chồng nổi lên trên ảnh nền.
+    \item \textbf{Bộ ngũ phối hợp tạo giao diện Glassmorphism đỉnh cao}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \codeinline{background-color: rgba(...)}: Tạo lớp kính nền bán trong suốt.
+        \item \codeinline{backdrop-filter}: Làm mờ, tăng sáng, đổi bão hòa khung cảnh phía sau.
+        \item \codeinline{border-radius}: Bo tròn các góc hộp kính tạo cảm giác mềm mại.
+        \item \codeinline{box-shadow}: Đổ bóng nhẹ phía dưới tạo chiều sâu lơ lửng không gian.
+        \item \codeinline{border: 1px solid rgba(255, 255, 255, 0.4)}: Tạo đường viền phản chiếu ánh sáng thủy tinh tinh tế.
+    \end{itemize}
+    \item \textbf{Cạm bẫy \codeinline{overflow: hidden} của phần tử cha}: Nếu phần tử cha bên ngoài bị thiết lập \codeinline{overflow: hidden}, phần tử con sử dụng \codeinline{backdrop-filter} có thể bị che khuất hoặc không nhìn thấy hiệu ứng mờ nhòe rõ nét.
+\end{enumerate}
+
+\begin{prettyTableBox}[BẢNG TỔNG KẾT NHANH CÁC LƯU Ý KỸ THUẬT]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Lưu ý then chốt} & \thd{\sffamily Giải thích kỹ thuật} \\
+\hline
+Cần nền trong suốt (\codeinline{rgba}) & Để thấy được hình ảnh và màu sắc phía sau qua thấu kính. \\
+\hline
+Thêm \codeinline{-webkit-...} & Đảm bảo hỗ trợ hoàn hảo Safari và Chrome phiên bản cũ. \\
+\hline
+Không dùng với nền màu đặc (\codeinline{solid}) & Vì màu đục sẽ che lấp hoàn toàn phần cảnh nền phía sau. \\
+\hline
+Cẩn thận với hiệu năng GPU & Không áp dụng đại trà trên toàn bộ layout hoặc danh sách dài. \\
+\hline
+Không hỗ trợ IE & Và Firefox cũ cần bật thủ công qua \codeinline{about:config}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{11. Đọc Thêm: Kiến Trúc Browser Compositing \& Best Practices Chuyên Sâu:}
+
+\begin{conceptBox}[1. Cơ Chế Kết Xuất Bên Trong Trình Duyệt (Browser Compositing Pipeline)]
+Khi một phần tử có thuộc tính \codeinline{backdrop-filter}, trình duyệt sẽ thực hiện một quy trình phức tạp:
+\begin{enumerate}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Tách lớp Render Layer}: Trình duyệt tách phần tử đó thành một lớp đồ họa riêng biệt trên GPU.
+    \item \textbf{Sao chép Framebuffer}: Trình duyệt chụp lại nội dung các lớp phía sau nằm ngay dưới vùng bao phủ của phần tử.
+    \item \textbf{Áp dụng Shader GPU}: Bộ xử lý đồ họa (GPU Shader) áp dụng thuật toán lọc (ví dụ: giải thuật lọc mờ hai chiều \term{Two-Pass Gaussian Blur}).
+    \item \textbf{Hòa trộn (\term{Composite})}: GPU vẽ lại lớp kính mờ và chồng nội dung của phần tử lên trên cùng.
+\end{enumerate}
+Do các bước trên tiêu tốn băng thông bộ nhớ GPU, việc hạn chế kích thước vùng làm mờ là bí quyết hàng đầu để giữ tốc độ trang web luôn ở mức $60\,\mathrm{FPS}$.
+\end{conceptBox}
+
+\begin{tipBox}[2. Kỹ Thuật Fallback An Toàn Với CSS Feature Query @supports]
+Để đảm bảo người dùng trên trình duyệt cũ (không hỗ trợ \codeinline{backdrop-filter}) vẫn đọc được chữ rõ ràng mà không bị vỡ giao diện, hãy sử dụng truy vấn tính năng \codeinline{@supports}:
+\begin{lstlisting}[language=CSS3]
+/* 1. Gia tri mac dinh danh cho trinh duyet cu khong ho tro: */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.95); /* Mau toi dam che kin de de doc chu */
+  color: #ffffff;
+}
+
+/* 2. Chi khi trinh duyet ho tro backdrop-filter moi kich hoat do mo: */
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .glass-panel {
+    background: rgba(15, 23, 42, 0.4); /* Mo trong suot */
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+  }
+}
+\end{lstlisting}
+\end{tipBox}
+
+\begin{warnBox}[3. Bộ Câu Hỏi Phỏng Vấn Senior Frontend Về backdrop-filter]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Câu hỏi 1: Làm thế nào để phân biệt sự khác biệt cốt lõi giữa opacity, filter và backdrop-filter?} \par
+    $\rightarrow$ \textbf{Trả lời:} \codeinline{opacity} làm mờ đều toàn bộ phần tử và con của nó; \codeinline{filter} áp dụng hiệu ứng lên chính bề mặt phần tử; \codeinline{backdrop-filter} chỉ áp dụng hiệu ứng lọc lên phần cảnh nền nằm phía sau phần tử trong khi nội dung bên trong phần tử vẫn giữ nguyên độ nét.
+
+    \item \textbf{Câu hỏi 2: Tại sao backdrop-filter có thể gây hiện tượng tụt FPS (Jank) khi người dùng cuộn màn hình?} \par
+    $\rightarrow$ \textbf{Trả lời:} Khi cuộn trang, cảnh nền phía sau liên tục thay đổi tọa độ, buộc GPU phải liên tục chụp lại Framebuffer và tính toán lại thuật toán Gaussian Blur ở từng khung hình. Để khắc phục, chỉ nên dùng cho thanh Header dính cố định (\codeinline{position: sticky}/\codeinline{fixed}) với diện tích vừa phải.
+
+    \item \textbf{Câu hỏi 3: Thẻ con có z-index: 99 bên trong thẻ có backdrop-filter có tạo ra ngữ cảnh xếp chồng mới (Stacking Context) không?} \par
+    $\rightarrow$ \textbf{Trả lời:} Có. Bất kỳ giá trị \codeinline{backdrop-filter} nào khác \codeinline{none} đều tự động sinh ra một Stacking Context mới và một Khối chứa bao bọc (\term{Containing Block}) cho các phần tử con có \codeinline{position: fixed} và \codeinline{absolute}.
+\end{enumerate}
+\end{warnBox}
+
 \subsection{Bảng Cheatsheet Tổng Hợp \& Best Practices Tối Ưu Nền}
 \label{sec:css_bg_cheatsheet}
 
-\begin{prettyTableBox}[CHEATSHEET TRA CỨU NHANH TOÀN BỘ 9 THUỘC TÍNH BACKGROUND]
+\begin{prettyTableBox}[CHEATSHEET TRA CỨU NHANH TOÀN BỘ 10 THUỘC TÍNH NỀN \& HIỆU ỨNG TRỰC QUAN]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
 \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{4.2cm}|>{\centering\arraybackslash\ttfamily}p{2.6cm}|>{\raggedright\arraybackslash}X|}
@@ -13992,6 +14518,8 @@ background-origin & padding-box & Điểm mốc tọa độ bắt đầu vẽ �
 background-clip & border-box & Phạm vi hiển thị/cắt xén của lớp nền (\codeinline{text}, \codeinline{content-box}). \\
 \hline
 background & \textit{(Shorthand)} & Cú pháp viết tắt gộp tất cả các thuộc tính nền trên. \\
+\hline
+backdrop-filter & none & Áp dụng bộ lọc đồ họa (blur, brightness,...) lên vùng cảnh nền phía sau phần tử. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
