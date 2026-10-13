@@ -14927,6 +14927,30 @@ Bộ chọn (\term{Selector}) là cách để xác định các phần tử HTML
 \end{tcolorbox}
 \vspace{4pt}
 
+\subsection{Phân Loại Hệ Thống: 5 Nhóm CSS Selectors Cốt Lõi}
+
+Trong tiêu chuẩn kỹ thuật W3C và kiến trúc hiển thị của trình duyệt, toàn bộ hệ thống bộ chọn CSS được phân loại một cách khoa học thành \textbf{5 nhóm chính} dựa trên cơ chế truy vấn phần tử:
+
+\begin{prettyTableBox}[BẢNG PHÂN LOẠI 5 NHÓM CSS SELECTORS CHÍNH]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\bfseries\color{primaryBlue}}p{1.0cm}|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\ttfamily\bfseries\color{darkText}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily STT} & \thd{\sffamily Nhóm Selector} & \thd{\sffamily Cú pháp tiêu biểu} & \thd{\sffamily Chức năng \& Phạm vi áp dụng} \\
+\hline
+1 & Bộ chọn đơn giản\newline (\term{Simple Selectors}) & p, .box, \#header, * & Chọn phần tử trực tiếp dựa theo tên thẻ, class, ID hoặc bộ chọn toàn cục (\codeinline{*}). \\
+\hline
+2 & Bộ chọn tổ hợp\newline (\term{Combinator Selectors}) & div p, div > p,\newline h2 + p, h2 \textasciitilde{} p & Chọn phần tử dựa trên mối quan hệ phân cấp gia phả (hậu duệ, con trực tiếp, anh em liền kề, anh em chung) trong cây DOM. \\
+\hline
+3 & Bộ chọn lớp giả\newline (\term{Pseudo-class Selectors}) & :hover, :focus,\newline :first-child, :nth-child & Chọn phần tử dựa trên trạng thái tương tác động của người dùng hoặc vị trí cấu trúc của phần tử trong tài liệu. \\
+\hline
+4 & Bộ chọn phần tử giả\newline (\term{Pseudo-element Selectors}) & ::before, ::after,\newline ::first-letter, ::marker & Chọn và định dạng một phần nội dung cụ thể hoặc chèn thêm phần tử đồ họa ảo vào cây DOM. \\
+\hline
+5 & Bộ chọn thuộc tính\newline (\term{Attribute Selectors}) & [type="text"],\newline [required], [href\textasciicircum="https"] & Chọn phần tử dựa trên sự tồn tại hoặc giá trị cụ thể của các thuộc tính HTML. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
 \subsection{Bảng Tổng Quan Chi Tiết Các Bộ Chọn CSS Quan Trọng}
 
 \begin{prettyTableBox}[Bảng Tra Cứu Danh Sách Đầy Đủ Các Bộ Chọn CSS Quan Trọng]
