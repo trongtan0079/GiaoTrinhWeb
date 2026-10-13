@@ -13736,19 +13736,190 @@ text & Phủ chỉ bên trong nét chữ của văn bản. & Tạo hiệu ứng 
 \end{itemize}
 \end{tipBox}
 
-\subsection{Điểm Mốc Tọa Độ Bắt Đầu Vẽ Nền: background-origin (\csshint{background-origin})}
+\subsection{Vùng Tham Chiếu Ảnh Nền: Thuộc Tính background-origin (\csshint{background-origin})}
 \label{sec:css_bg_origin}
 
-Nếu như \codeinline{background-clip} đóng vai trò là chiếc kéo xác định ranh giới cắt xén thì \codeinline{background-origin} xác định \textbf{điểm mốc tọa độ ban đầu} ($0, 0$) để bắt đầu vẽ và định vị ảnh nền.
+\paragraph{1. Khái Niệm Thuộc Tính background-origin:}
 
-\begin{conceptBox}[Phân Biệt Cốt Lõi Giữa Origin Và Clip]
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{\codeinline{background-origin}}: Xác định \textbf{hộp tham chiếu tọa độ} ($0, 0$) mà từ đó thuộc tính \codeinline{background-position} bắt đầu tính toán khoảng cách.
-    \item \textbf{\codeinline{background-clip}}: Xác định \textbf{ranh giới cắt xén} mà màu nền hoặc ảnh nền được phép hiển thị ra bên ngoài (vùng nằm ngoài ranh giới sẽ bị ẩn đi).
-\end{itemize}
+\begin{conceptBox}[Định Nghĩa Thuộc Tính background-origin Trong CSS]
+Thuộc tính \textbf{\codeinline{background-origin}} trong CSS được sử dụng để xác định \textbf{vùng tham chiếu} dùng để định vị và tính kích thước của hình nền (\codeinline{background-image}) bên trong một phần tử HTML.
+\par\vspace{4pt}
+Nói cách khác, thuộc tính này giúp trình duyệt xác định hình nền được bố trí dựa trên vùng nào của phần tử: \textbf{vùng viền (Border)}, \textbf{vùng đệm (Padding)} hay \textbf{vùng nội dung (Content)}.
 \end{conceptBox}
 
-\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU CÁC VÙNG CỦA ORIGIN VÀ CLIP]
+\begin{codeWindow}[Cú Pháp Khai Báo background-origin]
+\begin{lstlisting}[language=CSS3]
+selector {
+    background-origin: padding-box | border-box | content-box;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent Trong đó, giá trị \codeinline{value} có thể nhận một trong ba giá trị cơ bản:
+
+\begin{prettyTableBox}[BẢNG CÁC GIÁ TRỊ CỦA THUỘC TÍNH BACKGROUND-ORIGIN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa vùng tham chiếu} \\
+\hline
+padding-box & Vùng tham chiếu bao gồm \term{Content} và \term{Padding}, không tính \term{Border}. Đây là \textbf{giá trị mặc định} của CSS. \\
+\hline
+border-box & Vùng tham chiếu bao gồm toàn bộ \term{Border}, \term{Padding} và \term{Content}. \\
+\hline
+content-box & Vùng tham chiếu chỉ bao gồm \term{Content}, không tính \term{Padding} và \term{Border}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{2. Tìm Hiểu Mô Hình Hộp (CSS Box Model) \& Vùng Tham Chiếu:}
+
+Trước khi sử dụng \codeinline{background-origin}, cần hiểu rõ cấu tạo của một phần tử HTML theo mô hình hộp (\term{CSS Box Model}). Một phần tử thường gồm bốn vùng đồng tâm tính từ trong ra ngoài:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Content (Vùng nội dung)}: Chứa nội dung thực tế của phần tử như văn bản, hình ảnh.
+    \item \textbf{Padding (Khoảng đệm)}: Khoảng cách đệm giữa nội dung và viền của phần tử.
+    \item \textbf{Border (Đường viền)}: Đường viền bao quanh toàn bộ vùng content và padding.
+    \item \textbf{Margin (Lề ngoài)}: Khoảng cách bên ngoài phần tử ngăn cách với các phần tử lân cận, \textbf{hoàn toàn không thuộc vùng tham chiếu} của \codeinline{background-origin}.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.92, every node/.style={font=\sffamily\small}]
+    % Margin
+    \draw[fill=orange!10, draw=orange!60, dashed, line width=1pt] (-5.2, -2.6) rectangle (5.2, 2.6);
+    \node[anchor=north west, color=orange!90!black, font=\sffamily\bfseries\footnotesize] at (-5.0, 2.45) {Margin (Khoảng cách bên ngoài -- Không thuộc vùng tham chiếu)};
+
+    % Border Box
+    \draw[fill=yellow!15, draw=accentOrange, line width=1.4pt] (-4.2, -1.95) rectangle (4.2, 1.95);
+    \node[anchor=north west, color=accentOrange, font=\sffamily\bfseries\footnotesize] at (-4.0, 1.8) {Border Box (border-box): Bao gồm Border + Padding + Content};
+
+    % Padding Box
+    \draw[fill=primaryBlue!10, draw=primaryBlue, line width=1.2pt] (-3.1, -1.35) rectangle (3.1, 1.35);
+    \node[anchor=north west, color=primaryBlue, font=\sffamily\bfseries\footnotesize] at (-2.9, 1.2) {Padding Box (padding-box): Mặc định của background-origin};
+
+    % Content Box
+    \draw[fill=green!15, draw=green!60!black, line width=1.2pt] (-1.9, -0.7) rectangle (1.9, 0.7);
+    \node[align=center, color=green!50!black, font=\sffamily\bfseries] at (0, 0) {Content Box (content-box)\\\footnotesize Vùng nội dung thuần túy};
+\end{tikzpicture}
+\end{center}
+
+\paragraph{3. Phân Tích Chuyên Sâu Các Giá Trị Của background-origin:}
+
+\subparagraph{3.1. Giá Trị background-origin: padding-box (Mặc Định)}
+\par\noindent\textbf{Nguyên lý}: Đây là giá trị mặc định của \codeinline{background-origin}. Hình nền được định vị dựa trên vùng bắt đầu từ \textbf{mép trong của border}, bao gồm cả \term{padding} và \term{content}.
+
+\begin{codeWindow}[Ví Dụ 1: Định Vị Hình Nền Theo padding-box (Mặc Định)]
+\begin{lstlisting}[language=CSS3]
+.box {
+    width: 320px;
+    height: 180px;
+    padding: 24px;
+    border: 8px solid green;
+
+    background-image: url("mountain.jpg");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Giải thích kỹ thuật}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Với \codeinline{padding-box}, trình duyệt sử dụng kích thước của vùng padding và content làm cơ sở để tính \codeinline{background-size: cover} và định vị ảnh nền.
+    \item Nếu sử dụng \codeinline{background-position: left top}, hình nền sẽ được căn theo góc trên bên trái của padding box.
+    \item \textbf{Ứng dụng thực tế}: Đây là giá trị thường được sử dụng khi thiết kế các phần tử thông thường như thẻ nội dung (\term{card}), khung giới thiệu và các thành phần giao diện phổ biến.
+\end{itemize}
+
+\subparagraph{3.2. Giá Trị background-origin: border-box}
+\par\noindent\textbf{Nguyên lý}: Hình nền được định vị dựa trên toàn bộ vùng của phần tử, tính từ \textbf{mép ngoài của border}. Vùng tham chiếu bao gồm:
+\begin{equation}
+\text{Border box} = \text{Border} + \text{Padding} + \text{Content}
+\end{equation}
+
+\begin{codeWindow}[Ví Dụ 2: Định Vị Mở Rộng Hình Nền Theo border-box]
+\begin{lstlisting}[language=CSS3]
+.box {
+    width: 320px;
+    height: 180px;
+    padding: 24px;
+    border: 8px solid rgba(0, 150, 80, 0.5);
+
+    background-image: url("mountain.jpg");
+    background-origin: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Giải thích kỹ thuật}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Vùng tham chiếu được mở rộng tối đa ra tận mép ngoài cùng của đường viền (\term{border}).
+    \item Khi dùng \codeinline{background-size: cover}, kích thước của bức ảnh được tính toán dựa trên toàn bộ diện tích của border box.
+    \item Ảnh nền có thể xuất hiện xuyên thấu bên dưới đường viền nếu \codeinline{background-clip} và đặc tính của đường viền (như viền bán trong suốt \codeinline{rgba(...)} hoặc viền nét đứt \codeinline{dashed}) cho phép hiển thị.
+    \item \textbf{Ứng dụng thực tế}: Phù hợp với các thiết kế cần căn chỉnh hình nền theo toàn bộ kích thước hình học của phần tử, kể cả vùng viền trang trí.
+\end{itemize}
+
+\subparagraph{3.3. Giá Trị background-origin: content-box}
+\par\noindent\textbf{Nguyên lý}: Hình nền được định vị và tính kích thước dựa trên \textbf{vùng nội dung (content)}, hoàn toàn không tính khoảng đệm \term{padding} và đường viền \term{border}.
+
+\begin{codeWindow}[Ví Dụ 3: Định Vị Hình Nền Thu Gọn Trong content-box]
+\begin{lstlisting}[language=CSS3]
+.box {
+    width: 320px;
+    height: 180px;
+    padding: 24px;
+    border: 8px solid red;
+
+    background-image: url("mountain.jpg");
+    background-origin: content-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Giải thích kỹ thuật}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Vùng tham chiếu chính là content box bên trong cùng.
+    \item Kích thước ảnh nền khi sử dụng \codeinline{background-size: cover} được tính toán thu hẹp vừa khít theo vùng content.
+    \item Các lớp đệm padding và đường viền border hoàn toàn không tham gia vào quá trình xác định vùng định vị ảnh.
+    \item \textbf{Ứng dụng thực tế}: Hữu ích khi cần căn ảnh nền theo vùng nội dung chính xác, thay vì căn theo kích thước của toàn bộ phần tử.
+    \item \textbf{Lưu ý đặc biệt}: Cần ghi nhớ rằng \codeinline{content-box} \textbf{không tự động cắt} hình nền ở mép content. Việc giới hạn vùng hiển thị cắt xén phụ thuộc hoàn toàn vào thuộc tính \codeinline{background-clip}.
+\end{itemize}
+
+\paragraph{4. So Sánh Ba Giá Trị Của background-origin:}
+
+\begin{prettyTableBox}[BẢNG SO SÁNH 3 GIÁ TRỊ CỦA BACKGROUND-ORIGIN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí so sánh} & \thd{\sffamily padding-box} & \thd{\sffamily border-box} & \thd{\sffamily content-box} \\
+\hline
+Bao gồm Content & Có & Có & Có \\
+\hline
+Bao gồm Padding & Có & Có & Không \\
+\hline
+Bao gồm Border & Không & Có & Không \\
+\hline
+Giá trị mặc định & \textbf{Có (Default)} & Không & Không \\
+\hline
+Vùng tham chiếu bắt đầu & Mép trong border & Mép ngoài border & Mép vùng content \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\paragraph{5. Phân Biệt Sâu Sắc Giữa background-origin Và background-clip:}
+
+Hai thuộc tính này rất thường bị các lập trình viên mới học nhầm lẫn vì chúng đều sử dụng cùng 3 từ khóa đại diện cho các vùng của CSS Box Model:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{background-origin}}: Quy định ảnh nền được \textbf{định vị và tính kích thước} dựa trên vùng nào.
+    \item \textbf{\codeinline{background-clip}}: Quy định vùng mà lớp nền \textbf{được phép hiển thị (cắt xén ranh giới)}.
+\end{itemize}
+
+\begin{prettyTableBox}[BẢNG ĐỐI CHIẾU CHI TIẾT CÁC VÙNG CỦA ORIGIN VÀ CLIP]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
 \begin{tabularx}{\linewidth}{|>{\centering\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{2.8cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}X|}
@@ -13765,6 +13936,106 @@ text & \textit{(Không hỗ trợ cho origin)} & Nền chỉ hiển thị bên t
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{conceptBox}[Kịch Bản Đối Chiếu 1: origin content-box Kết Hợp clip border-box]
+\begin{lstlisting}[language=CSS3]
+.box {
+    background-image: url("mountain.jpg");
+    background-origin: content-box;
+    background-clip: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+\end{lstlisting}
+\vspace{3pt}
+\textbf{Giải thích cơ chế}:
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{background-origin: content-box} quy định ảnh được tính kích thước và định vị dựa trên vùng content.
+    \item \codeinline{background-clip: border-box} cho phép nền hiển thị tới tận vùng viền border, nhưng \textbf{không khiến ảnh tự động phủ kín} vùng đó.
+\end{itemize}
+\end{conceptBox}
+
+\begin{conceptBox}[Kịch Bản Đối Chiếu 2: origin border-box Kết Hợp clip content-box (Ngược Lại)]
+\begin{lstlisting}[language=CSS3]
+.box {
+    background-image: url("mountain.jpg");
+    background-origin: border-box;
+    background-clip: content-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+\end{lstlisting}
+\vspace{3pt}
+\textbf{Giải thích cơ chế}:
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+    \item Ảnh được tính kích thước và định vị phóng to/thu nhỏ theo toàn bộ \term{border box}.
+    \item Tuy nhiên, do \codeinline{background-clip: content-box}, \textbf{chỉ phần ảnh nằm bên trong vùng content box mới được hiển thị}, phần nằm trong padding và border bị chiếc kéo cắt xén giấu đi hoàn toàn!
+    \item Đây chính là \textbf{điểm khác biệt quan trọng nhất} giữa hai thuộc tính.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{6. Những Lưu Ý Quan Trọng Khi Sử Dụng Thực Tế:}
+
+\begin{warnBox}[5 Quy Tắc Vàng Khi Làm Việc Với background-origin]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Không làm biến dạng Box Model}: \codeinline{background-origin} chỉ áp dụng cho hình nền, hoàn toàn không làm thay đổi kích thước của phần tử HTML hay khoảng cách padding và độ dày của border.
+    \item \textbf{Giá trị mặc định chuẩn W3C}: Giá trị mặc định là \codeinline{padding-box} (khác với \codeinline{background-clip} có giá trị mặc định là \codeinline{border-box}).
+    \item \textbf{Vô hiệu hóa với background-attachment: fixed}: Với ảnh nền cố định toàn màn hình (\codeinline{background-attachment: fixed}), \codeinline{background-origin} \textbf{hoàn toàn không có tác dụng} vì khi đó vùng tham chiếu đã bị chuyển sang khung nhìn trình duyệt (\term{Viewport}).
+    \item \textbf{Ảnh hưởng sâu sắc tới background-size: cover/contain}: Khi dùng \codeinline{background-size: cover}, việc thay đổi \codeinline{background-origin} sẽ làm thay đổi hộp cơ sở để thuật toán phóng to ảnh, dẫn đến phần ảnh được cắt tỉa hoặc phóng đại có thể khác nhau rất lớn.
+    \item \textbf{Không thay thế lẫn nhau}: Thuộc tính này không thay thế \codeinline{background-clip}. Trong thiết kế chuyên nghiệp, việc phối hợp nhuần nhuyễn cả hai thuộc tính là chìa khóa để xử lý hình nền phức tạp.
+\end{enumerate}
+\end{warnBox}
+
+\paragraph{7. Bài Tập Thực Hành \& Mô Phỏng Tương Tác:}
+
+\begin{tipBox}[Đề Bài Thực Hành: Khám Phá Sự Khác Biệt Của 3 Vùng Tham Chiếu]
+Hãy tạo một phần tử có kích thước chiều rộng \codeinline{320px}, chiều cao \codeinline{180px}, khoảng đệm \codeinline{padding: 24px} và đường viền \codeinline{border: 8px solid ...}. Sau đó lần lượt thay đổi \codeinline{background-origin} thành \codeinline{padding-box}, \codeinline{border-box}, \codeinline{content-box} để quan sát sự khác biệt rõ rệt về vị trí và kích thước của ảnh nền.
+\end{tipBox}
+
+\begin{codeWindow}[Mã Nguồn Thử Nghiệm Tương Tác Giữa background-origin \& background-clip]
+\begin{lstlisting}[language=HTML5]
+<div class="box">
+  <div class="content">Nội dung văn bản bên trong hộp</div>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[CSS Đang Chọn Trong Mô Phỏng Tương Tác]
+\begin{lstlisting}[language=CSS3]
+/* Thử thay đổi giá trị để quan sát vùng tham chiếu của ảnh nền */
+.box {
+  width: 320px;
+  height: 180px;
+  padding: 24px;
+  border: 8px dashed rgba(22, 101, 192, 0.6);
+  background-image: url("mountain.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  /* Cấu hình đang chọn: */
+  background-origin: padding-box; /* [Thử đổi sang border-box hoặc content-box] */
+  background-clip: border-box;   /* [Giữ riêng để quan sát vùng hiển thị] */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Giải Thích Giao Diện Mô Phỏng Tương Tác Trực Quan]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Cấu hình đang chọn}: \codeinline{background-origin: padding-box;} và \codeinline{background-clip: border-box;}.
+    \item \textbf{Hành vi thị giác}: Hình tương tác biểu diễn vùng tham chiếu. Thuộc tính \codeinline{background-clip} được giữ riêng vì nó thay đổi vùng hiển thị, không làm thay đổi vùng tham chiếu được tô màu xanh.
+    \item \textbf{Tiện ích}: Học viên có thể nhấn nút \term{Sao chép CSS} trong giao diện học trực tuyến để dán trực tiếp vào dự án thực hành cá nhân.
+\end{itemize}
+\end{conceptBox}
+
+\paragraph{8. Tổng Kết Kiến Thức Cốt Lõi:}
+
+Thuộc tính \codeinline{background-origin} cho phép nhà phát triển kiểm soát chính xác vùng tham chiếu dùng để định vị và tính kích thước ảnh nền trong phần tử HTML. Cần ghi nhớ ba giá trị bản lề:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{padding-box}}: Định vị theo vùng content và padding -- là giá trị mặc định chuẩn.
+    \item \textbf{\codeinline{border-box}}: Định vị theo toàn bộ phần tử, bao gồm cả đường viền border.
+    \item \textbf{\codeinline{content-box}}: Định vị chỉ theo vùng nội dung cốt lõi content.
+\end{itemize}
+Khi kết hợp đúng đắn bộ tứ thuộc tính: \codeinline{background-origin}, \codeinline{background-clip}, \codeinline{background-size} và \codeinline{background-position}, bạn hoàn toàn làm chủ mọi khía cạnh bố cục, kích thước và phạm vi hiển thị của hình nền trong CSS hiện đại.
 
 \subsection{Cú Pháp Shorthand background Toàn Diện: Quy Tắc Vàng \& Cạm Bẫy Trình Duyệt (\csshint{background})}
 \label{sec:css_bg_shorthand}
