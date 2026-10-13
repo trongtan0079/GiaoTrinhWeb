@@ -24460,62 +24460,393 @@ ul.svg-bullet-list li::before {
 \end{itemize}
 \end{tipBox}
 
+\newpage
 \subsection{5. Thuộc Tính Viết Tắt: list-style Shorthand (\csshint{list-style})}
 
-\begin{conceptBox}[Thuộc Tính Viết Tắt list-style]
-\codeinline{list-style} là thuộc tính viết tắt (\term{shorthand property}) cho phép thiết lập đồng thời cả ba thuộc tính danh sách theo thứ tự bất kỳ:
-\begin{equation}
-\text{\codeinline{list-style: [list-style-type] [list-style-position] [list-style-image];}}
-\end{equation}
+\paragraph{1. Khái Niệm Thuộc Tính list-style:}
+\begin{conceptBox}[Bản Chất Thuộc Tính Viết Tắt list-style]
+Trong CSS, \codeinline{list-style} là thuộc tính viết tắt (\term{shorthand property}), cho phép người lập trình thiết lập đồng thời toàn bộ các đặc tính nhận diện của ký hiệu đánh dấu (\term{marker}) trong danh sách chỉ trên một dòng khai báo duy nhất, bao gồm: \textbf{kiểu ký hiệu}, \textbf{vị trí ký hiệu} và \textbf{hình ảnh được sử dụng làm ký hiệu}.
+
+Thuộc tính \codeinline{list-style} thường được áp dụng cho các danh sách HTML như \codeinline{<ul>} (danh sách không có thứ tự), \codeinline{<ol>} (danh sách có thứ tự) và tất cả các phần tử sở hữu thuộc tính \codeinline{display: list-item}.
+
+Việc sử dụng \codeinline{list-style} giúp mã CSS trở nên ngắn gọn, dễ đọc và thuận tiện hơn rất nhiều trong quá trình thiết kế, tái cấu trúc và tối ưu hóa giao diện website.
 \end{conceptBox}
 
-\begin{codeWindow}[Mã Nguồn Mẫu: Cú Pháp Shorthand list-style \& Kỹ Thuật Reset Menu Bar]
+\paragraph{2. Các Thuộc Tính Thành Phần Của list-style:}
+Thuộc tính \codeinline{list-style} được cấu thành từ ba thuộc tính chính:
+
+\begin{prettyTableBox}[BẢNG CÁC THUỘC TÍNH THÀNH PHẦN CỦA LIST-STYLE]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Chức năng} \\
+\hline
+list-style-type & Xác định kiểu ký hiệu đánh dấu của các mục trong danh sách, chẳng hạn như dấu chấm tròn, hình vuông, số hoặc chữ cái. \\
+\hline
+list-style-position & Xác định vị trí của ký hiệu đánh dấu so với hộp nội dung chính của phần tử danh sách (\codeinline{inside} hoặc \codeinline{outside}). \\
+\hline
+list-style-image & Cho phép sử dụng hình ảnh thay thế cho ký hiệu đánh dấu thông thường thông qua hàm \codeinline{url()}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+Thay vì khai báo từng thuộc tính riêng lẻ, người lập trình có thể kết hợp chúng một cách đồng bộ thông qua thuộc tính \codeinline{list-style}.
+
+\paragraph{3. Cú Pháp Khai Báo \& Các Quy Tắc:}
+Cú pháp tổng quát:
+\begin{codeWindow}[Cú Pháp Tổng Quát Của list-style]
 \begin{lstlisting}[language=CSS3]
-/* Vi du 1: Thiet lap ket hop kieu hinh vuong va nam ben trong */
-ul.custom {
-    list-style: square inside;
-}
-
-/* Vi du 2: Thiet lap anh kem theo fallback kieu tron */
-ul.branded {
-    list-style: disc outside url('bullet.svg');
-}
-
-/* Vi du 3 (KINH DIEN): Ky thuat List Reset lam Navigation Bar / Menu */
-ul.navbar {
-    list-style: none; /* Xoa bo hoan toan dau dau dong mac dinh */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 1.5rem;
+selector {
+    list-style: type position image;
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{browserWindow}[Kết Quả Hiển Thị Thực Tế: list-style Shorthand \& Thanh Navigation Bar]
-\textbf{\textcolor{primaryBlue}{\small 1. Danh sách kết hợp \codeinline{list-style: square inside;}:}}\par\vspace{3pt}
-\begin{itemize}[leftmargin=2.0em, itemsep=2pt, parsep=0pt]
-    \item[\rule{1.1ex}{1.1ex}] Mục danh sách hình vuông nằm bên trong hộp nội dung
-    \item[\rule{1.1ex}{1.1ex}] Khi văn bản xuống dòng, các dòng sau thẳng hàng với dấu vuông
-    \item[\rule{1.1ex}{1.1ex}] Tối ưu không gian hiển thị cho các màn hình kích thước nhỏ
+Trong đó:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{type}: Giá trị của thuộc tính \codeinline{list-style-type}, xác định kiểu ký hiệu đánh dấu (như \codeinline{square}, \codeinline{disc}, \codeinline{circle}, \codeinline{decimal}, \codeinline{lower-alpha}, \codeinline{upper-roman}, v.v.).
+    \item \textbf{position}: Giá trị của thuộc tính \codeinline{list-style-position}, xác định vị trí ký hiệu, gồm \codeinline{inside} hoặc \codeinline{outside}.
+    \item \textbf{image}: Giá trị của thuộc tính \codeinline{list-style-image}, thường được khai báo bằng hàm \codeinline{url()} hoặc giá trị \codeinline{none}.
 \end{itemize}
-\vspace{6pt}
-\textbf{\textcolor{primaryBlue}{\small 2. Thanh Menu điều hướng ngang ứng dụng kỹ thuật List Reset (\codeinline{list-style: none}):}}\par\vspace{4pt}
+
+\begin{codeWindow}[Ví Dụ Khai Báo list-style Đầy Đủ]
+\begin{lstlisting}[language=CSS3]
+ul {
+    list-style: square inside none;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+Đoạn mã trên thiết lập danh sách không có thứ tự với các đặc điểm:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Sử dụng ký hiệu hình vuông (\codeinline{square}).
+    \item Đặt ký hiệu bên trong hộp nội dung chính của phần tử danh sách (\codeinline{inside}).
+    \item Không sử dụng hình ảnh làm ký hiệu (\codeinline{none}).
+\end{itemize}
+
+\subparagraph{Các Quy Tắc Khi Khai Báo:}
+Khi sử dụng thuộc tính \codeinline{list-style}, cần tuân thủ những quy tắc sau:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Không bắt buộc khai báo đủ 3 thành phần}: Có thể chỉ sử dụng một hoặc hai thành phần tùy theo yêu cầu thiết kế.
+    \item \textbf{Thứ tự thành phần linh hoạt}: Thứ tự của các thành phần có thể thay đổi, miễn là trình duyệt xác định được giá trị tương ứng với từng thuộc tính.
+    \item \textbf{Tự động nhận giá trị khởi tạo}: Những thành phần không được khai báo trong thuộc tính viết tắt sẽ tự động được thiết lập về giá trị khởi tạo (\term{initial value}) tương ứng.
+    \item \textbf{Loại bỏ toàn bộ marker}: Khi khai báo \codeinline{list-style: none}, trình duyệt sẽ loại bỏ cả ký hiệu mặc định và hình ảnh dùng làm ký hiệu.
+\end{enumerate}
+
+Các giá trị khởi tạo của ba thuộc tính thành phần:
+\begin{prettyTableBox}[BẢNG GIÁ TRỊ KHỞI TẠO CỦA CÁC THUỘC TÍNH THÀNH PHẦN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{5.0cm}|>{\ttfamily\bfseries\color{accentOrange}\centering\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Giá trị khởi tạo} & \thd{\sffamily Ý nghĩa mặc định} \\
+\hline
+list-style-type & disc & Dấu chấm tròn đặc mặc định. \\
+\hline
+list-style-position & outside & Dấu nằm ngoài hộp nội dung của phần tử. \\
+\hline
+list-style-image & none & Không sử dụng hình ảnh làm ký hiệu. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{noteBox}[Lưu Ý Về Hiển Thị Mặc Định Của Trình Duyệt]
+Giá trị khởi tạo của \codeinline{list-style-type} là \codeinline{disc}, nhưng cách hiển thị mặc định của danh sách HTML còn phụ thuộc vào kiểu trình duyệt áp dụng. Chẳng hạn, danh sách có thứ tự \codeinline{<ol>} thường được trình duyệt hiển thị bằng số thứ tự (\codeinline{decimal}).
+\end{noteBox}
+
+\paragraph{4. Các Cách Khai Báo Thuộc Tính list-style:}
+
+\subparagraph{4.1. Khai Báo Đầy Đủ Ba Thành Phần:}
+\begin{codeWindow}[Khai Báo Đầy Đủ 3 Thành Phần]
+\begin{lstlisting}[language=CSS3]
+ul {
+    list-style: square inside none;
+}
+\end{lstlisting}
+\end{codeWindow}
+Cách khai báo trên tương đương với:
+\begin{codeWindow}[Mã Nguồn Tương Đương Viết Tường Minh]
+\begin{lstlisting}[language=CSS3]
+ul {
+    list-style-type: square;
+    list-style-position: inside;
+    list-style-image: none;
+}
+\end{lstlisting}
+\end{codeWindow}
+\textbf{Giải thích:} Danh sách sử dụng dấu hình vuông, ký hiệu được đặt bên trong hộp nội dung chính của phần tử \codeinline{<li>} và không sử dụng hình ảnh thay thế.
+
+\subparagraph{4.2. Khai Báo Hai Thành Phần:}
+\begin{codeWindow}[Khai Báo 2 Thành Phần]
+\begin{lstlisting}[language=CSS3]
+ul {
+    list-style: circle outside;
+}
+\end{lstlisting}
+\end{codeWindow}
+\textbf{Giải thích:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{circle}: Hiển thị ký hiệu hình tròn rỗng.
+    \item \codeinline{outside}: Đặt ký hiệu bên ngoài hộp nội dung chính của phần tử danh sách.
+\end{itemize}
+Do không khai báo \codeinline{list-style-image}, thuộc tính này tự động nhận giá trị khởi tạo là \codeinline{none}.
+
+\subparagraph{4.3. Khai Báo Một Thành Phần:}
+\begin{codeWindow}[Khai Báo 1 Thành Phần]
+\begin{lstlisting}[language=CSS3]
+ol {
+    list-style: upper-roman;
+}
+\end{lstlisting}
+\end{codeWindow}
+\textbf{Giải thích:} Các mục trong danh sách được đánh dấu bằng chữ số La Mã viết hoa, chẳng hạn như I, II, III, IV... Hai thành phần còn lại được thiết lập về giá trị khởi tạo, tương đương với:
+\begin{codeWindow}[Mã Nguồn Tương Đương Với Giá Trị Khởi Tạo]
+\begin{lstlisting}[language=CSS3]
+ol {
+    list-style-type: upper-roman;
+    list-style-position: outside;
+    list-style-image: none;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{5. Ví Dụ Ứng Dụng Thực Tế:}
+
+\subparagraph{5.1. Tạo Danh Sách Sử Dụng Số La Mã:}
+\begin{codeWindow}[Mã Nguồn HTML Danh Sách Quy Trình]
+\begin{lstlisting}[language=HTML5]
+<ol class="steps">
+    <li>(*@Khởi tạo dự án@*)</li>
+    <li>(*@Thiết kế giao diện@*)</li>
+    <li>(*@Xây dựng chức năng@*)</li>
+    <li>(*@Kiểm tra và hoàn thiện@*)</li>
+</ol>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS Định Dạng Số La Mã]
+\begin{lstlisting}[language=CSS3]
+.steps {
+    list-style: upper-roman outside;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Danh Sách Các Bước Thực Hiện (Số La Mã)]
+\sffamily\small
+\begin{enumerate}[label=\textbf{\Roman*.}, leftmargin=2.5em, itemsep=3pt, parsep=0pt]
+    \item Khởi tạo dự án
+    \item Thiết kế giao diện
+    \item Xây dựng chức năng
+    \item Kiểm tra và hoàn thiện
+\end{enumerate}
+\par\vspace{3pt}
+{\scriptsize\textcolor{gray!60}{\textit{Giải thích: Trong ví dụ này, thuộc tính list-style được sử dụng để tạo danh sách các bước thực hiện công việc với số thứ tự La Mã viết hoa.}}}
+\end{browserWindow}
+
+\subparagraph{5.2. Tạo Menu Điều Hướng Không Có Ký Hiệu Đầu Dòng:}
+Trong thiết kế website, menu điều hướng thường được xây dựng bằng danh sách \codeinline{<ul>}. Tuy nhiên, ký hiệu đầu dòng mặc định thường không phù hợp với giao diện menu ngang. Để loại bỏ ký hiệu, có thể sử dụng thuộc tính \codeinline{list-style} với giá trị \codeinline{none}.
+
+\begin{codeWindow}[Mã Nguồn HTML Menu Điều Hướng]
+\begin{lstlisting}[language=HTML5]
+<ul class="nav">
+    <li><a href="#">(*@Trang chủ@*)</a></li>
+    <li><a href="#">(*@Giới thiệu@*)</a></li>
+    <li><a href="#">(*@Sản phẩm@*)</a></li>
+    <li><a href="#">(*@Liên hệ@*)</a></li>
+</ul>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS Reset Danh Sách \& Căn Ngang Bằng Flexbox]
+\begin{lstlisting}[language=CSS3]
+.nav {
+    list-style: none; /* Loai bo ky hieu dau dong */
+    margin: 0;        /* Loai bo khoang cach ben ngoai mac dinh */
+    padding: 0;       /* Loai bo khoang dem mac dinh cua danh sach */
+
+    display: flex;    /* Sap xep cac muc danh sach theo hang ngang */
+    gap: 20px;        /* Tao khoang cach 20px giua cac muc */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Thanh Menu Ngang Ứng Dụng list-style: none]
 \begin{tcolorbox}[
     colback=primaryBlue!5,
     colframe=primaryBlue!40,
     arc=4pt, boxrule=0.8pt,
-    top=6pt, bottom=6pt, left=10pt, right=10pt
+    top=8pt, bottom=8pt, left=12pt, right=12pt
 ]
 \sffamily\bfseries\small
-\textcolor{primaryBlue}{\underline{Trang Chủ}} \quad\textbar\quad
-\textcolor{darkText}{Giới Thiệu} \quad\textbar\quad
-\textcolor{darkText}{Khóa Học} \quad\textbar\quad
-\textcolor{darkText}{Blog Lập Trình} \quad\textbar\quad
-\textcolor{darkText}{Liên Hệ}
+\textcolor{primaryBlue}{\underline{Trang chủ}} \hspace{24pt}
+\textcolor{darkText}{Giới thiệu} \hspace{24pt}
+\textcolor{darkText}{Sản phẩm} \hspace{24pt}
+\textcolor{darkText}{Liên hệ}
 \end{tcolorbox}
+\par\vspace{3pt}
+{\scriptsize\textcolor{gray!60}{\textit{Giải thích: list-style: none loại bỏ ký hiệu; margin: 0 và padding: 0 loại bỏ khoảng cách; display: flex cùng gap: 20px sắp xếp thành thanh điều hướng (navigation bar) chuyên nghiệp.}}}
 \end{browserWindow}
 
+\subparagraph{5.3. Sử Dụng Hình Ảnh Làm Ký Hiệu Danh Sách:}
+Ngoài các kiểu ký hiệu thông thường, CSS cho phép sử dụng hình ảnh để tạo các ký hiệu đầu dòng tùy chỉnh.
+
+\begin{codeWindow}[Mã Nguồn HTML Danh Sách Tính Năng Công Nghệ]
+\begin{lstlisting}[language=HTML5]
+<ul class="custom-list">
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>JavaScript</li>
+</ul>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS Marker Hình Ảnh Kèm Phương Án Dự Phòng]
+\begin{lstlisting}[language=CSS3]
+.custom-list {
+    list-style: square outside url("star-icon.svg");
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Dấu Đầu Dòng Hình Ảnh Tùy Chỉnh Kèm Fallback]
+\sffamily\small
+\begin{itemize}[leftmargin=2.2em, itemsep=3pt, parsep=0pt]
+    \item[\textcolor{accentOrange}{\large $\star$}] \textbf{HTML} \quad {\scriptsize\textcolor{gray!60}{(Hiển thị hình ảnh biểu tượng ngôi sao \codeinline{star-icon.svg})}}
+    \item[\textcolor{accentOrange}{\large $\star$}] \textbf{CSS} \quad {\scriptsize\textcolor{gray!60}{(Hiển thị hình ảnh biểu tượng ngôi sao \codeinline{star-icon.svg})}}
+    \item[\textcolor{accentOrange}{\large $\star$}] \textbf{JavaScript} \quad {\scriptsize\textcolor{gray!60}{(Nếu ảnh không tải được $\rightarrow$ tự động dự phòng về hình vuông \codeinline{square})}}
+\end{itemize}
+\end{browserWindow}
+
+\textbf{Giải thích chi tiết:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{square}: Thiết lập ký hiệu hình vuông làm phương án dự phòng.
+    \item \codeinline{outside}: Đặt ký hiệu ngoài hộp nội dung chính của phần tử danh sách.
+    \item \codeinline{url("star-icon.svg")}: Sử dụng hình ảnh \codeinline{star-icon.svg} làm ký hiệu đầu dòng.
+\end{itemize}
+Khi hình ảnh được tải thành công và sử dụng được, trình duyệt sẽ hiển thị hình ảnh thay cho ký hiệu mặc định. Trong trường hợp hình ảnh không tải được hoặc không sử dụng được, trình duyệt có thể hiển thị ký hiệu hình vuông đã khai báo. Cách làm này phù hợp với các danh sách tính năng sản phẩm, danh sách tiện ích hoặc những thành phần giao diện cần ký hiệu riêng.
+
+\paragraph{6. Loại Bỏ Ký Hiệu Đầu Dòng Bằng list-style: none:}
+Một trong những cách sử dụng phổ biến nhất của thuộc tính \codeinline{list-style} là loại bỏ các ký hiệu đánh dấu mặc định.
+
+Cú pháp:
+\begin{codeWindow}[Cú Pháp Loại Bỏ Marker Bằng list-style: none]
+\begin{lstlisting}[language=CSS3]
+ul {
+    list-style: none;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+Cách khai báo này tương đương với:
+\begin{codeWindow}[Mã Nguồn Tương Đương Khi Bỏ Marker]
+\begin{lstlisting}[language=CSS3]
+ul {
+    list-style-type: none;
+    list-style-position: outside;
+    list-style-image: none;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+Khi áp dụng, ký hiệu đầu dòng sẽ không còn được hiển thị.
+
+\begin{warnBox}[Lưu Ý Cốt Lõi Về Margin \& Padding Khi Dùng list-style: none]
+Tuy nhiên, cần đặc biệt lưu ý rằng \textbf{\codeinline{list-style: none} CHỈ loại bỏ ký hiệu danh sách, KHÔNG tự động loại bỏ khoảng cách \codeinline{margin} và \codeinline{padding}} mặc định của phần tử.
+
+Vì vậy, khi muốn loại bỏ cả ký hiệu và khoảng cách mặc định của danh sách, bạn cần kết hợp cả ba thuộc tính:
+\end{warnBox}
+
+\begin{codeWindow}[Mã Nguồn Reset Danh Sách Toàn Diện Chuẩn Frontend]
+\begin{lstlisting}[language=CSS3]
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+\end{lstlisting}
+\end{codeWindow}
+Cách khai báo này đặc biệt hữu ích khi xây dựng menu điều hướng, danh sách liên kết, thanh công cụ hoặc các thành phần giao diện tùy chỉnh.
+
+\paragraph{7. Những Lưu Ý Khi Sử Dụng Thuộc Tính list-style:}
+Trong quá trình sử dụng thuộc tính \codeinline{list-style}, cần chú ý một số vấn đề sau:
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Thứ nhất}, \codeinline{list-style} chỉ kiểm soát các đặc điểm của ký hiệu danh sách, không trực tiếp quy định khoảng cách \codeinline{margin} và \codeinline{padding} của phần tử.
+    \item \textbf{Thứ hai}, \codeinline{list-style-position: inside} và \codeinline{list-style-position: outside} không chỉ tạo sự khác biệt về vị trí ký hiệu mà còn ảnh hưởng đến cách văn bản xuống dòng trong các mục danh sách có nội dung dài.
+    \item \textbf{Thứ ba}, khi sử dụng \codeinline{list-style-image}, nên lựa chọn hình ảnh có kích thước nhỏ, rõ ràng và phù hợp với chiều cao dòng văn bản. Thuộc tính \codeinline{list-style-image} không cung cấp cách trực tiếp để đặt chiều rộng và chiều cao của ảnh marker.
+    \item \textbf{Thứ tư}, khi sử dụng hình ảnh làm ký hiệu, nên khai báo thêm \codeinline{list-style-type} để cung cấp ký hiệu dự phòng trong trường hợp hình ảnh không sử dụng được.
+    \item \textbf{Thứ năm}, việc sử dụng \codeinline{list-style: none} để loại bỏ marker có thể ảnh hưởng đến cách một số công nghệ hỗ trợ nhận diện danh sách, đặc biệt trong những trường hợp nhất định với Safari và VoiceOver. Vì vậy, khi thiết kế giao diện, cần bảo đảm cấu trúc HTML vẫn phản ánh đúng ý nghĩa của nội dung và được kiểm tra về khả năng truy cập.
+\end{enumerate}
+
+\paragraph{8. Tổng Kết Thuộc Tính list-style:}
+Thuộc tính \codeinline{list-style} là một thuộc tính viết tắt quan trọng trong CSS, giúp đơn giản hóa việc thiết lập và quản lý ký hiệu đánh dấu của danh sách. Thông qua \codeinline{list-style}, người lập trình có thể thay đổi hình dạng ký hiệu, điều chỉnh vị trí ký hiệu và sử dụng hình ảnh tùy chỉnh để nâng cao tính trực quan của giao diện.
+
+\begin{prettyTableBox}[BẢNG TỔNG HỢP HỆ THỐNG THUỘC TÍNH LIST-STYLE VÀ CÁC THÀNH PHẦN]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}}p{4.8cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thành phần} & \thd{\sffamily Chức năng} & \thd{\sffamily Ví dụ} \\
+\hline
+list-style-type & Quy định kiểu ký hiệu đầu dòng & list-style-type: circle; \\
+\hline
+list-style-position & Quy định vị trí ký hiệu & list-style-position: inside; \\
+\hline
+list-style-image & Sử dụng hình ảnh làm ký hiệu & list-style-image: url("star.png"); \\
+\hline
+list-style & Khai báo viết tắt các thuộc tính thành phần & list-style: square inside; \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Ghi Nhớ Trọng Tâm Khi Sử Dụng list-style]
+\textbf{Ghi nhớ}: Sử dụng \codeinline{list-style} khi cần viết CSS ngắn gọn, định dạng các kiểu danh sách hoặc tùy chỉnh ký hiệu đánh dấu. Khi cần thay đổi khoảng cách và bố cục của toàn bộ danh sách, \textbf{phải kết hợp thêm các thuộc tính khác như \codeinline{margin}, \codeinline{padding} và \codeinline{display}}.
+\end{tipBox}
+
+\paragraph{9. Câu Hỏi Và Bài Tập Củng Cố:}
+
+\begin{conceptBox}[Hệ Thống Câu Hỏi Ôn Tập Lý Thuyết]
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Câu hỏi 1.} Thuộc tính \codeinline{list-style} được sử dụng để làm gì? Hãy kể tên ba thuộc tính thành phần của nó.
+    \item \textbf{Câu hỏi 2.} Giải thích ý nghĩa của đoạn mã CSS sau:
+\begin{lstlisting}[language=CSS3]
+ol {
+    list-style: lower-alpha inside;
+}
+\end{lstlisting}
+    \item \textbf{Câu hỏi 3.} Phân biệt công dụng của \codeinline{list-style: none} và \codeinline{padding: 0} khi áp dụng cho danh sách HTML.
+\end{itemize}
+\end{conceptBox}
+
+\begin{codeWindow}[Hệ Thống Bài Tập Thực Hành Chuẩn Frontend]
+\textbf{\textcolor{primaryBlue}{\small [Bài Tập 1]}} Tạo một danh sách không có thứ tự gồm năm ngôn ngữ lập trình. Sử dụng thuộc tính \codeinline{list-style} để hiển thị ký hiệu hình vuông và đặt ký hiệu bên ngoài nội dung.
+\begin{lstlisting}[language=CSS3]
+.programming-languages {
+    list-style: square outside;
+}
+\end{lstlisting}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small [Bài Tập 2]}} Tạo một danh sách có thứ tự gồm bốn bước thực hiện công việc. Sử dụng số La Mã viết hoa làm ký hiệu đánh dấu.
+\begin{lstlisting}[language=CSS3]
+.work-steps {
+    list-style: upper-roman outside;
+}
+\end{lstlisting}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small [Bài Tập 3]}} Xây dựng thanh menu ngang gồm bốn mục: Trang chủ, Giới thiệu, Sản phẩm và Liên hệ. Sử dụng \codeinline{list-style} để loại bỏ ký hiệu đầu dòng và kết hợp các thuộc tính CSS cần thiết để sắp xếp các mục theo hàng ngang.
+\begin{lstlisting}[language=CSS3]
+.navbar-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\newpage
 \subsection{6. Tùy Biến Dấu Đầu Dòng Đỉnh Cao Với Pseudo-Element ::marker (\csshint{::marker})}
 
 \begin{conceptBox}[Phần Tử Giả ::marker Trong CSS3/CSS4]
