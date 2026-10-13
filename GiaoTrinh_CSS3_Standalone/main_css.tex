@@ -13824,6 +13824,10 @@ Trước khi sử dụng \codeinline{background-origin}, cần hiểu rõ cấu 
 \subparagraph{3.1. Giá Trị background-origin: padding-box (Mặc Định)}
 \par\noindent\textbf{Nguyên lý}: Đây là giá trị mặc định của \codeinline{background-origin}. Hình nền được định vị dựa trên vùng bắt đầu từ \textbf{mép trong của border}, bao gồm cả \term{padding} và \term{content}.
 
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_origin_infographic_padding_box.png}
+\end{center}
+
 \begin{codeWindow}[Ví Dụ 1: Định Vị Hình Nền Theo padding-box (Mặc Định)]
 \begin{lstlisting}[language=CSS3]
 .box {
@@ -13853,6 +13857,10 @@ Trước khi sử dụng \codeinline{background-origin}, cần hiểu rõ cấu 
 \text{Border box} = \text{Border} + \text{Padding} + \text{Content}
 \end{equation}
 
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_origin_infographic_border_box.png}
+\end{center}
+
 \begin{codeWindow}[Ví Dụ 2: Định Vị Mở Rộng Hình Nền Theo border-box]
 \begin{lstlisting}[language=CSS3]
 .box {
@@ -13879,6 +13887,10 @@ Trước khi sử dụng \codeinline{background-origin}, cần hiểu rõ cấu 
 
 \subparagraph{3.3. Giá Trị background-origin: content-box}
 \par\noindent\textbf{Nguyên lý}: Hình nền được định vị và tính kích thước dựa trên \textbf{vùng nội dung (content)}, hoàn toàn không tính khoảng đệm \term{padding} và đường viền \term{border}.
+
+\begin{center}
+\includegraphics[width=0.96\linewidth]{figures/bg_origin_infographic_content_box.png}
+\end{center}
 
 \begin{codeWindow}[Ví Dụ 3: Định Vị Hình Nền Thu Gọn Trong content-box]
 \begin{lstlisting}[language=CSS3]
