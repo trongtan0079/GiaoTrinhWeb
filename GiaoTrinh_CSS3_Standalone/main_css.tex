@@ -13999,6 +13999,25 @@ backdrop-filter & Phần tử phía sau & Cảnh nền (\term{background}) nằm
 \end{tabularx}
 \end{prettyTableBox}
 
+\begin{prettyTableBox}[BẢNG TỔNG KẾT BẢN CHẤT CỐT LÕI CỦA BACKDROP-FILTER]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thành phần / Yêu cầu} & \thd{\sffamily Ý nghĩa thiết kế} \\
+\hline
+backdrop-filter & Áp dụng hiệu ứng bộ lọc lên cảnh nền phía sau phần tử. \\
+\hline
+Cần nền bán trong suốt & Để thấy được hình ảnh và màu sắc phía sau qua thấu kính. \\
+\hline
+Hiệu ứng phổ biến nhất & \codeinline{blur()}, \codeinline{brightness()}, \codeinline{saturate()}. \\
+\hline
+Không thay thế filter & Mỗi thuộc tính phục vụ mục đích thiết kế riêng biệt. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+
 \paragraph{2. Cú Pháp Khai Báo \& Bảng Tra Cứu Các Hàm Lọc (\term{Filter Functions}):}
 
 \begin{conceptBox}[Cú Pháp Chuẩn W3C Của backdrop-filter]
@@ -14407,6 +14426,8 @@ backdrop-filter: blur(10px) brightness(0.8) saturate(150%) contrast(120%);
 \end{lstlisting}
 \end{codeWindow}
 
+\par\noindent\textbf{Khả năng kết hợp}: Bạn có thể kết hợp bao nhiêu hiệu ứng tùy ý, miễn là đúng cú pháp và phù hợp với phong cách thiết kế giao diện.
+
 \paragraph{9. Khả Năng Hỗ Trợ Trình Duyệt (\term{Browser Support}):}
 
 \begin{prettyTableBox}[BẢNG HỖ TRỢ TRÌNH DUYỆT CỦA THUỘC TÍNH BACKDROP-FILTER]
@@ -14428,6 +14449,10 @@ Edge (Có) & Hỗ trợ đầy đủ (phiên bản mới nền tảng Chromium).
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{warnBox}[Khuyến Cáo Quan Trọng Về Tính Tương Thích Trình Duyệt]
+\textbf{Lưu ý quan trọng}: Tránh sử dụng \codeinline{backdrop-filter} làm thành phần chính hoặc quan trọng nếu dự án yêu cầu tương thích $100\%$ trình duyệt. Trong các trường hợp này, luôn chuẩn bị giải pháp dự phòng (\term{fallback}) với màu nền bán trong suốt \codeinline{rgba()} an toàn để chữ luôn đọc được.
+\end{warnBox}
 
 \paragraph{10. Các Lưu Ý Kỹ Thuật Quan Trọng Khi Áp Dụng Thực Tế:}
 
@@ -14453,6 +14478,24 @@ backdrop-filter: blur(10px);
     \item \textbf{Cạm bẫy \codeinline{overflow: hidden} của phần tử cha}: Nếu phần tử cha bên ngoài bị thiết lập \codeinline{overflow: hidden}, phần tử con sử dụng \codeinline{backdrop-filter} có thể bị che khuất hoặc không nhìn thấy hiệu ứng mờ nhòe rõ nét.
 \end{enumerate}
 
+\begin{prettyTableBox}[BẢNG CÁC THUỘC TÍNH NÊN PHỐI HỢP CÙNG BACKDROP-FILTER]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\ttfamily\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Mục đích phối hợp} \\
+\hline
+rgba(...) & Tạo lớp nền bán trong suốt để thấy được hình ảnh và màu sắc phía sau qua thấu kính. \\
+\hline
+border-radius & Bo góc hộp kính mềm mại hơn, loại bỏ cảm giác thô cứng. \\
+\hline
+box-shadow & Đổ bóng nhẹ phía dưới tạo chiều sâu 3D lơ lửng trong không gian. \\
+\hline
+backdrop-filter & Làm mờ nhòe và biến đổi cảnh nền phía sau phần tử. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
 \begin{prettyTableBox}[BẢNG TỔNG KẾT NHANH CÁC LƯU Ý KỸ THUẬT]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
@@ -14460,15 +14503,15 @@ backdrop-filter: blur(10px);
 \hline
 \rowcolor{primaryBlue} \thd{\sffamily Lưu ý then chốt} & \thd{\sffamily Giải thích kỹ thuật} \\
 \hline
-Cần nền trong suốt (\codeinline{rgba}) & Để thấy được hình ảnh và màu sắc phía sau qua thấu kính. \\
+Cần nền trong suốt (\codeinline{rgba}) & \codeinline{backdrop-filter} không hoạt động nếu phần tử có nền màu đặc không trong suốt. \\
 \hline
-Thêm \codeinline{-webkit-...} & Đảm bảo hỗ trợ hoàn hảo Safari và Chrome phiên bản cũ. \\
+Thêm \codeinline{-webkit-...} & Đảm bảo hỗ trợ hoàn hảo Safari và các hệ điều hành iOS. \\
 \hline
-Không dùng với nền màu đặc (\codeinline{solid}) & Vì màu đục sẽ che lấp hoàn toàn phần cảnh nền phía sau. \\
+Không áp dụng cho chữ bên trong & Hiệu ứng chỉ tác động lên cảnh nền phía sau, nội dung văn bản bên trong giữ nguyên độ sắc nét (muốn mờ nội dung thì dùng \codeinline{opacity} hoặc \codeinline{filter}). \\
 \hline
-Cẩn thận với hiệu năng GPU & Không áp dụng đại trà trên toàn bộ layout hoặc danh sách dài. \\
+Cẩn thận với hiệu năng GPU & Có thể tốn tài nguyên tính toán đồ họa, nên cân nhắc kỹ khi áp dụng trên diện rộng hoặc danh sách cuộn dài. \\
 \hline
-Không hỗ trợ IE & Và Firefox cũ cần bật thủ công qua \codeinline{about:config}. \\
+Không hỗ trợ IE & Internet Explorer không hỗ trợ; Firefox cũ cần bật thủ công qua \codeinline{about:config}. \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
