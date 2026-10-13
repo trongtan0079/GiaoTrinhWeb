@@ -24019,6 +24019,88 @@ none & (Trống) & Custom số thứ tự \\
 \end{itemize}
 \end{tipBox}
 
+\paragraph{Tùy Biến Nâng Cao: Hoán Đổi Kiểu Dấu Giữa ul và ol (Cross-type Customization)}
+Khi sử dụng thẻ danh sách \codeinline{<ul>} (không thứ tự) và \codeinline{<ol>} (có thứ tự), bạn hoàn toàn có thể kết hợp với các thuộc tính CSS để thay đổi hoàn toàn phong cách dấu đầu dòng --- thậm chí biến \codeinline{<ul>} thành có số thứ tự hoặc biến \codeinline{<ol>} thành danh sách không có số:
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Dùng \codeinline{<ul>} nhưng hiển thị số thứ tự}: Chỉ cần khai báo \codeinline{list-style-type: decimal;} (hoặc \codeinline{upper-roman}). Thẻ vẫn giữ cấu trúc danh sách không thứ tự nhưng mắt người dùng sẽ thấy số thứ tự $1, 2, 3...$
+    \item \textbf{Dùng \codeinline{<ol>} nhưng ẩn số thứ tự}: Thiết lập \codeinline{list-style-type: none;}. Trình duyệt sẽ ẩn toàn bộ số đếm nhưng cấu trúc ngữ nghĩa có thứ tự vẫn được bảo toàn cho SEO và trình đọc màn hình (\term{Screen Readers}).
+    \item \textbf{Dùng ký hiệu tự do hoặc Emoji với chuỗi String}: CSS hiện đại cho phép truyền trực tiếp một chuỗi văn bản tự do vào thuộc tính, ví dụ \codeinline{list-style-type: "\string\2605 ";} hoặc tinh chỉnh bằng \codeinline{li::marker}.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Thực Tế: Hoán Đổi Kiểu Dấu ul và ol Trong HTML \& CSS]
+\begin{lstlisting}[language=HTML5]
+<!-- 1. The ul nhung muon hien thi so thu tu -->
+<ul class="numbered-ul">
+    <li>(*@Mục 1@*)</li>
+    <li>(*@Mục 2@*)</li>
+    <li>(*@Mục 3@*)</li>
+</ul>
+
+<!-- 2. The ol nhung an hoan toan so thu tu -->
+<ol class="clean-ol">
+    <li>(*@Mục đầu tiên@*)</li>
+    <li>(*@Mục thứ hai@*)</li>
+    <li>(*@Mục thứ ba@*)</li>
+</ol>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS Thiết Lập Hoán Đổi \& Ký Tự Chuỗi Tự Do]
+\begin{lstlisting}[language=CSS3]
+/* 1. Bien ul thanh danh sach danh so thu tu */
+ul.numbered-ul {
+    list-style-type: decimal; /* (*@Chuyen thanh so thu tu: 1, 2, 3...@*) */
+}
+
+/* 2. An so thu tu tren ol */
+ol.clean-ol {
+    list-style-type: none;    /* (*@An hoan toan so thu tu mac dinh@*) */
+}
+
+/* 3. Dung ky tu chuoi tu do / Emoji lam dau dau dong */
+ul.custom-symbol {
+    list-style-type: "\2605 ";     /* (*@Dung ky tu sao Unicode: \string\2605@*) */
+}
+
+/* 4. Tuy bien nang cao mau sac va co chu bang ::marker */
+ul.custom-symbol li::marker {
+    color: #FF5733;           /* (*@Mau cam diem nhan@*) */
+    font-size: 1.25rem;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Hoán Đổi Kiểu Dấu Thực Nghiệm]
+\textbf{\textcolor{primaryBlue}{\small 1. Danh sách \codeinline{<ul>} có số thứ tự (list-style-type: decimal):}}\par\vspace{2pt}
+\begin{enumerate}[leftmargin=2.2em, itemsep=2pt, parsep=0pt]
+    \item Mục 1
+    \item Mục 2
+    \item Mục 3
+\end{enumerate}
+\vspace{4pt}
+\textbf{\textcolor{primaryBlue}{\small 2. Danh sách \codeinline{<ol>} bỏ số thứ tự (list-style-type: none):}}\par\vspace{2pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=2pt, parsep=0pt, label={}]
+    \item Mục đầu tiên
+    \item Mục thứ hai
+    \item Mục thứ ba
+\end{itemize}
+\vspace{4pt}
+\textbf{\textcolor{primaryBlue}{\small 3. Danh sách \codeinline{<ul>} tùy biến ký hiệu ngôi sao ($\star$) với màu sắc nổi bật:}}\par\vspace{2pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=2pt, parsep=0pt]
+    \item[\textcolor{accentOrange}{\Large $\star$}] Mục 1
+    \item[\textcolor{accentOrange}{\Large $\star$}] Mục 2
+    \item[\textcolor{accentOrange}{\Large $\star$}] Mục 3
+\end{itemize}
+\end{browserWindow}
+
+\begin{conceptBox}[Quy Tắc Vàng Về Tính Linh Hoạt \& Tài Liệu Chuẩn MDN Web Docs]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Linh hoạt hai chiều}: \codeinline{<ul>} có thể mang số thứ tự; \codeinline{<ol>} có thể bỏ số hoặc biến thành ký hiệu tượng hình. Cả hai đều biến hóa linh hoạt $100\%$ theo ý đồ giao diện.
+    \item \textbf{Tài liệu chuẩn MDN Web Docs}: Để tra cứu đầy đủ danh mục tất cả các hệ thống ký tự và chữ số trên thế giới (Hebrew, Japanese, CJK, Georgian...) cùng bảng hỗ trợ trình duyệt chi tiết, bạn có thể tham khảo tại: \url{https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type}.
+\end{itemize}
+\end{conceptBox}
+
 \subsection{3. Vị Trí Dấu Đầu Dòng: Thuộc Tính list-style-position (\csshint{list-style-position})}
 
 \begin{conceptBox}[Khái Niệm Thuộc Tính list-style-position]
@@ -24103,27 +24185,192 @@ inside & Dấu đầu dòng nằm \textbf{bên trong} hộp nội dung của ph�
 \includegraphics[width=0.92\linewidth]{figures/list_style_position_inside.png}
 \end{browserWindow}
 
-\subsection{4. Hình Ảnh Dấu Đầu Dòng: Thuộc Tính list-style-image (\csshint{list-style-image})}
+\subsection{4. Chuyên Sâu Thuộc Tính list-style-image \& Kỹ Thuật Bullet Hiện Đại (\csshint{list-style-image})}
 
-\begin{conceptBox}[Khái Niệm Thuộc Tính list-style-image]
-Thuộc tính \codeinline{list-style-image} cho phép bạn chỉ định một hình ảnh bitmap hoặc vector (thông qua hàm \codeinline{url()}) để thay thế dấu đầu dòng ký hiệu mặc định của danh sách.
+\begin{conceptBox}[Mục Đích \& Cú Pháp Hoạt Động Của list-style-image]
+\codeinline{list-style-image} là thuộc tính CSS cho phép bạn thay thế dấu đầu dòng hoặc số mặc định ($\bullet$, \codeinline{1.}, \codeinline{A.}) trong danh sách (\codeinline{<ul>}, \codeinline{<ol>}) bằng một hình ảnh bitmap hoặc vector tùy chỉnh của riêng bạn.
+\par\vspace{4pt}
+\textbf{Cú pháp khai báo:}
+\begin{lstlisting}[language=CSS3]
+selector {
+    list-style-image: url('duong-dan-den-hinh-anh');
+    /* Hoac: list-style-image: none; (Mac dinh - khong dung anh) */
+}
+\end{lstlisting}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{url('...')}: Đường dẫn tương đối hoặc tuyệt đối đến tệp hình ảnh biểu tượng.
+    \item \codeinline{none}: Không dùng ảnh tùy chỉnh; trình duyệt sẽ hiển thị kiểu của \codeinline{list-style-type}.
+\end{itemize}
 \end{conceptBox}
 
-\begin{codeWindow}[Cú Pháp \& Ví Dụ list-style-image]
+\begin{codeWindow}[Ví Dụ Thực Tế: Mã Nguồn HTML \& CSS Ứng Dụng list-style-image Đầy Đủ]
+\begin{lstlisting}[language=HTML5]
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>(*@Ví dụ List-Style-Image@*)</title>
+    <style>
+        /* Danh sach voi dau dau dong hinh ngoi sao */
+        ul.custom-bullet {
+            list-style-image: url('images/star.png');
+            padding-left: 35px; /* (*@Du phong khoang trong cho hinh anh@*) */
+        }
+        
+        /* Ket hop voi list-style-position: inside de can le trong hop */
+        ul.custom-bullet-inside {
+            list-style-image: url('images/heart.png');
+            list-style-position: inside;
+        }
+    </style>
+</head>
+<body>
+    <h2>(*@Danh sách dấu đầu dòng hình sao@*)</h2>
+    <ul class="custom-bullet">
+        <li>HTML5 & Modern Markup</li>
+        <li>CSS3 Foundations & Grid</li>
+        <li>JavaScript ES6+</li>
+    </ul>
+
+    <h2>(*@Danh sách dấu đầu dòng hình trái tim (inside)@*)</h2>
+    <ul class="custom-bullet-inside">
+        <li>(*@Mục một với nội dung dài xem cách hình ảnh căn chỉnh bên trong.@*)</li>
+        <li>(*@Mục hai@*)</li>
+        <li>(*@Mục ba@*)</li>
+    </ul>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[BẢNG CÁC LƯU Ý KỸ THUẬT QUAN TRỌNG KHI DÙNG LIST-STYLE-IMAGE]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Lưu ý kỹ thuật} & \thd{\sffamily Phân tích nguyên nhân \& Cách xử lý} \\
+\hline
+Kích thước ảnh phải nhỏ ($\sim 16 \times 16\text{px}$) & Thuộc tính không cung cấp tính năng co giãn kích thước ảnh. Nếu dùng ảnh lớn, nó hiển thị nguyên bản làm xô lệch vỡ nát layout! \\
+\hline
+Kết hợp với \codeinline{list-style-position} & Dùng \codeinline{inside} để hình ảnh nằm trong hộp nội dung, giúp kiểm soát tốt hơn các đoạn văn bản dài. \\
+\hline
+Không áp dụng cho \codeinline{display: flex / grid} & Khi thẻ \codeinline{<ul>} hoặc \codeinline{<li>} đổi sang flex/grid, đặc tính \codeinline{display: list-item} bản địa bị hủy, khiến ảnh dấu đầu dòng biến mất. \\
+\hline
+Không hỗ trợ fallback ảnh lỗi (404) & Nếu đường dẫn ảnh bị lỗi, trình duyệt tự động lùi về kiểu mặc định \codeinline{disc} (chấm tròn đen) mà không có cơ chế dự phòng ảnh khác. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[BẢNG ĐỐI ĐẦU SO SÁNH: LIST-STYLE-IMAGE VS ::BEFORE + CONTENT]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash\bfseries\color{primaryBlue}}p{3.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí đánh giá} & \thd{\sffamily Thuộc tính list-style-image} & \thd{\sffamily Kỹ thuật li::before + content / icon} \\
+\hline
+Độ dễ sử dụng & Cực kỳ dễ, chỉ cần đúng $1$ dòng CSS. & Cần viết thêm CSS căn chỉnh vị trí. \\
+\hline
+Kiểm soát vị trí \& kích thước & Rất kém (dính đường baseline, kích cỡ cố định). & Tuyệt đối (tùy biến \codeinline{width}, \codeinline{height}, \codeinline{position}). \\
+\hline
+Hiệu ứng tương tác (\codeinline{:hover}) & Không hỗ trợ đổi icon khi hover. & Toàn diện (đổi màu, phóng to, xoay tròn mượt mà). \\
+\hline
+Đổi màu sắc theo theme & Không thể đổi màu ảnh bitmap bằng CSS. & Dễ dàng đổi màu bằng thuộc tính \codeinline{color}. \\
+\hline
+Hiệu suất tải mạng & Mỗi dòng ảnh tạo thêm HTTP Request nếu chưa cache. & Tối ưu vượt bậc với SVG Sprite hoặc Font Icon. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{warnBox}[5 Hạn Chế Cốt Lõi Khiến list-style-image Ít Được Dùng Trong Dự Án Hiện Đại]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Không kiểm soát được kích thước hình ảnh}: CSS không có thuộc tính như \codeinline{list-style-size}. Ảnh có độ phân giải bao nhiêu sẽ hiển thị to bấy nhiêu, buộc bạn phải resize ảnh thủ công bằng Photoshop/Figma.
+    \item \textbf{Không kiểm soát được vị trí chính xác}: Ảnh bị neo cố định ở đường cơ sở (\term{baseline}) của chữ, không thể dùng \codeinline{top}, \codeinline{transform} hay \codeinline{margin} để căn giữa hoàn hảo theo chiều dọc.
+    \item \textbf{Không có trạng thái tương tác}: Không thể thay đổi hình ảnh dấu đầu dòng khi rê chuột (\codeinline{:hover}) hoặc khi mục được active.
+    \item \textbf{Hiệu suất tải trang}: Tệp ảnh tạo thêm request tải tài nguyên riêng lẻ trên đường truyền mạng.
+    \item \textbf{Cơ chế Fallback nghèo nàn}: Không thể chỉ định ảnh dự phòng thứ hai; nếu mất mạng, trang rơi về dấu chấm đen đơn điệu.
+\end{enumerate}
+\end{warnBox}
+
+\paragraph{2 Kỹ Thuật Hiện Đại Chuẩn Senior Frontend Thay Thế list-style-image Hoàn Hảo:}
+
+\begin{conceptBox}[Kỹ Thuật 1: list-style-type: none Kết Hợp Pseudo-element ::before \& Font Icon]
+Đây là phương pháp chuẩn mực ngành được các hệ thống UI Design System lớn (Bootstrap, Tailwind UI, Ant Design) sử dụng để tạo icon danh sách:
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn Mẫu: Tùy Biến Icon Danh Sách Hoàn Hảo Với ::before \& Font Awesome]
 \begin{lstlisting}[language=CSS3]
-ul {
-    list-style-image: url('icon.png');
+/* 1. Xoa bo dau dau dong mac dinh va padding */
+ul.custom-icon-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+/* 2. Tao khoang dem ben trai va lam moc toa do relative */
+ul.custom-icon-list li {
+    position: relative;
+    padding-left: 28px; /* Tao khoang trong chua icon */
+    margin-bottom: 8px;
+}
+
+/* 3. Chen icon truc tiep bang ::before voi toa do absolute */
+ul.custom-icon-list li::before {
+    content: "\f00c";                  /* Ma Unicode icon Checkmark cua Font Awesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;                  /* Style Solid */
+    position: absolute;
+    left: 0;
+    top: 2px;                          /* Can chinh truc doc tuy y chinh xac den tung pixel */
+    color: #16A34A;                    /* De dang doi mau xanh la cay bang CSS */
+    font-size: 15px;                   /* Tu do phong to / thu nho */
+    transition: transform 0.2s ease;
+}
+
+/* 4. Hieu ung hover tuong tac muot ma */
+ul.custom-icon-list li:hover::before {
+    transform: scale(1.2);             /* Phong to icon khi re chuot */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{warnBox}[Hạn Chế Thực Tiễn Của list-style-image \& Giải Pháp Thay Thế Hiện Đại]
+\begin{conceptBox}[Kỹ Thuật 2: Sử Dụng Vector SVG Làm Hình Nền Cho ::before]
+Nếu bạn muốn dùng biểu tượng đồ họa tùy biến không phụ thuộc font chữ, hãy sử dụng tệp SVG làm \codeinline{background-image} cho \codeinline{::before}. Cách này cho phép kiểm soát kích thước qua \codeinline{background-size} và căn chỉnh qua \codeinline{background-position} mà không bao giờ bị vỡ hạt:
+\end{conceptBox}
+
+\begin{codeWindow}[Mã Nguồn Mẫu: Nhúng Biểu Tượng Vector SVG Chuẩn Cho ::before]
+\begin{lstlisting}[language=CSS3]
+ul.svg-bullet-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul.svg-bullet-list li {
+    position: relative;
+    padding-left: 26px;
+    margin-bottom: 6px;
+}
+
+ul.svg-bullet-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);       /* Can giua hoan hao theo truc doc */
+    width: 16px;
+    height: 16px;
+    background-image: url('icon.svg'); /* Anh vector sieu sac net */
+    background-size: contain;          /* Co gian anh vua van khung 16x16 */
+    background-repeat: no-repeat;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Khi Nào list-style-image Vẫn Hữu Ích? \& Lời Khuyên Ngành Công Nghiệp]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Khó điều khiển kích thước}: Thuộc tính \codeinline{list-style-image} truyền thống không cung cấp cơ chế co giãn kích thước ảnh (không có thuộc tính tương tự như \codeinline{background-size}). Nếu tệp ảnh \codeinline{icon.png} có độ phân giải lớn, nó sẽ hiển thị to nguyên bản làm vỡ khung danh sách!
-    \item \textbf{Không đổi được màu sắc}: Không thể dùng CSS để đổi màu ảnh theo theme sáng/tối.
-    \item \textbf{Giải pháp hiện đại}: Các lập trình viên Frontend hiện đại thường sử dụng pseudo-element \codeinline{li::marker} hoặc \codeinline{li::before} kết hợp SVG/Font Icon (như Lucide, FontAwesome) để kiểm soát kích thước, màu sắc và căn lề linh hoạt $100\%$.
+    \item \textbf{Khi nào nên dùng \codeinline{list-style-image}}: Phù hợp trong các dự án học tập, tài liệu nội bộ cực kỳ đơn giản cần gắn nhanh một icon nhỏ và không yêu cầu căn chỉnh pixel-perfect, hoặc khi cần hỗ trợ các trình duyệt rất cũ không hiểu pseudo-elements.
+    \item \textbf{Khuyến nghị Senior Frontend}: Trong mọi ứng dụng Web hiện đại, hãy luôn dùng \codeinline{list-style-type: none;} kết hợp \codeinline{::before} hoặc pseudo-element \codeinline{::marker} để làm chủ hoàn toàn kích thước, màu sắc, vị trí và hiệu ứng chuyển động!
 \end{itemize}
-\end{warnBox}
+\end{tipBox}
 
 \subsection{5. Thuộc Tính Viết Tắt: list-style Shorthand (\csshint{list-style})}
 
