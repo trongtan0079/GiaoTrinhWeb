@@ -25191,47 +25191,282 @@ Khác với các thuộc tính định dạng thẩm mỹ (\codeinline{align}, \
 \newpage
 \subsection{3. Các Thuộc Tính CSS Quan Trọng Khi Định Dạng Bảng}
 
-CSS tách biệt hoàn toàn giữa cấu trúc dữ liệu và giao diện hiển thị. Dưới đây là bảng tổng hợp đầy đủ các thuộc tính CSS quan trọng nhất chuyên dùng để kiểm soát bảng:
+CSS tách biệt hoàn toàn giữa cấu trúc ngữ nghĩa dữ liệu (HTML) và giao diện hiển thị thị giác. Để kiểm soát toàn diện bảng, CSS cung cấp hệ thống thuộc tính phong phú được phân cấp theo từng đối tượng thành phần:
 
-\begin{prettyTableBox}[BẢNG CÁC THUỘC TÍNH CSS ĐỊNH DẠNG BẢNG QUAN TRỌNG]
+\subsubsection{a) Thuộc Tính Dành Riêng Cho Bảng (\codeinline{<table>})}
+
+\begin{prettyTableBox}[HỆ THỐNG THUỘC TÍNH CSS CHO THẺ TABLE]
 \rowcolors{2}{white}{primaryBlue!4}
 \sffamily\small
-\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|}
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}\bfseries}p{4.6cm}|}
 \hline
-\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính CSS} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Giá trị phổ biến} \\
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Ví dụ cú pháp} \\
 \hline
-border & Xác định viền của bảng hoặc ô. & 1px solid \#000; \\
+width & Độ rộng của bảng & width: 100\%; \\
 \hline
-border-collapse & Quyết định viền bảng có gộp lại hay tách riêng. & collapse, separate; \\
+height & Chiều cao của bảng & height: 400px; \\
 \hline
-border-spacing & Khoảng cách giữa các ô (khi dùng separate). & 10px, 0, 20px 5px; \\
+border & Độ dày, kiểu, và màu của viền bao ngoài & border: 1px solid \#ccc; \\
 \hline
-width & Độ rộng của bảng hoặc từng cột. & 100\%, auto, 500px; \\
+border-collapse & Gộp viền hoặc tách viền giữa các ô & border-collapse: collapse; \\
 \hline
-height & Chiều cao của bảng hoặc ô. & auto, 300px; \\
+border-spacing & Khoảng cách giữa các ô (nếu không gộp viền) & border-spacing: 10px; \\
 \hline
-padding & Khoảng cách giữa nội dung và viền ô. & 10px, 5px 10px; \\
+background-color & Màu nền tổng thể của bảng & background-color: \#f9f9f9; \\
 \hline
-text-align & Canh lề nội dung trong ô theo phương ngang. & left, center, right; \\
+box-shadow & Đổ bóng tạo chiều sâu cho bảng & box-shadow: 0 2px 10px \#ccc; \\
 \hline
-vertical-align & Canh lề theo chiều dọc trong ô. & top, middle, bottom; \\
+border-radius & Bo góc đường viền ngoài bảng & border-radius: 10px; \\
 \hline
-background-color & Màu nền cho bảng, hàng hoặc từng ô. & \#f2f2f2, transparent, red; \\
+caption-side & Vị trí của tiêu đề bảng (\codeinline{<caption>}) & caption-side: bottom; \\
 \hline
-caption-side & Vị trí hiển thị tiêu đề bảng (\codeinline{<caption>}). & top, bottom; \\
+empty-cells & Kiểm soát việc hiển thị ô trống không có dữ liệu & empty-cells: hide; \\
 \hline
-empty-cells & Xử lý hiển thị ô trống (khi không có nội dung). & show, hide; \\
+table-layout & Kiểm soát cách bảng tính toán phân bổ độ rộng & table-layout: fixed; \\
 \hline
-table-layout & Xác định cách trình duyệt phân bổ độ rộng cột. & auto, fixed; \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{b) Thuộc Tính Cho Ô Bảng (\codeinline{<th>} \& \codeinline{<td>})}
+
+\begin{prettyTableBox}[HỆ THỐNG THUỘC TÍNH CSS CHO THẺ TH VÀ TD]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}\bfseries}p{4.6cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Ví dụ cú pháp} \\
+\hline
+padding & Khoảng cách đệm giữa nội dung và viền ô & padding: 10px; \\
+\hline
+text-align & Căn lề ngang cho nội dung văn bản & text-align: center; \\
+\hline
+vertical-align & Căn lề dọc cho nội dung trong ô & vertical-align: middle; \\
+\hline
+border & Viền bao quanh từng ô dữ liệu & border: 1px solid \#ddd; \\
+\hline
+background-color & Màu nền của riêng từng ô & background-color: \#ffffff; \\
+\hline
+color & Màu chữ hiển thị trong ô & color: \#333; \\
+\hline
+font-size & Kích thước font chữ & font-size: 16px; \\
+\hline
+font-weight & Độ đậm của chữ (thường dùng cho \codeinline{<th>}) & font-weight: bold; \\
+\hline
+text-transform & Chuyển đổi chữ hoa / chữ thường & text-transform: uppercase; \\
+\hline
+white-space & Kiểm soát hành vi xuống dòng trong ô & white-space: nowrap; \\
+\hline
+word-wrap & Tự động bẻ gãy từ xuống dòng khi chữ quá dài & word-wrap: break-word; \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{c) Thuộc Tính Cho Hàng (\codeinline{<tr>}) \& Hiệu Ứng Đặc Biệt}
+
+\begin{prettyTableBox}[HỆ THỐNG THUỘC TÍNH CHO THẺ TR VÀ CÁC HIỆU ỨNG TƯƠNG TÁC]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}\bfseries}p{4.6cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính / Bộ chọn} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Ví dụ minh họa} \\
+\hline
+background-color & Màu nền cho toàn bộ một hàng & background-color: \#f2f2f2; \\
+\hline
+height & Chiều cao tối thiểu của hàng & height: 50px; \\
+\hline
+border & Viền hàng (hiệu lực khi dùng border-collapse) & border: 1px solid \#ddd; \\
+\hline
+transition & Hiệu ứng chuyển đổi màu mượt mà & transition: background 0.3s; \\
+\hline
+:hover & Thay đổi style động khi người dùng trỏ chuột & tr:hover \{ background: \#e2e6ea; \} \\
+\hline
+:nth-child() & Chọn hàng hoặc ô theo quy luật chẵn/lẻ, thứ tự & tr:nth-child(odd) \{ color: red; \} \\
+\hline
+:first-child & Chọn phần tử hàng hoặc ô đầu tiên & td:first-child \{ font-weight: bold; \} \\
 \hline
 \end{tabularx}
 \end{prettyTableBox}
 
 \subsection{4. Phân Tích Chuyên Sâu Các Thuộc Tính CSS Trọng Tâm}
 
-\subsubsection{1. Thuộc Tính \csshint{border-collapse} \& \csshint{border-spacing}}
+\subsubsection{1. Thuộc Tính \csshint{border} (Viền Bảng Và Ô)}
 
-Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế viền tách biệt (\codeinline{border-collapse: separate}). Điều này tạo ra hai lớp viền bao quanh mỗi ô với một khoảng cách hở ở giữa:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Giá trị mặc định}: \codeinline{none} (không có viền).
+    \item Nếu nhà phát triển không thiết lập CSS, mặc định bảng và ô sẽ không hiển thị bất kỳ đường viền nào.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Bảng Khi Không Khai Báo Viền (Mặc Định)]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<table>
+    <tr>
+        <th>(*@Sản Phẩm@*)</th>
+        <th>(*@Giá cả@*)</th>
+    </tr>
+    <tr>
+        <td>(*@Sản phẩm A@*)</td>
+        <td>100.000(*@đ@*)</td>
+    </tr>
+</table>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+table, th, td {
+    border: none; /* (*@Không hiển thị bất kỳ viền nào@*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Muốn viền hiển thị rõ ràng}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Dùng thuộc tính cũ trong HTML: \codeinline{<table border="1">}.
+    \item Hoặc sử dụng CSS tùy chỉnh chuyên sâu và hiện đại hơn:
+\begin{lstlisting}[language=CSS3]
+table, th, td {
+    border: 1px solid #ccc;
+}
+\end{lstlisting}
+\end{itemize}
+
+\begin{warnBox}[So Sánh Chuyên Sâu: Thuộc Tính border Giữa HTML và CSS]
+Cả thuộc tính \codeinline{border} trong HTML và CSS đều dùng để tạo viền, nhưng phương thức ứng dụng và mức độ kiểm soát khác nhau hoàn toàn:
+
+\sffamily\small
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.0cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí so sánh} & \thd{\sffamily HTML (Thuộc tính border)} & \thd{\sffamily CSS (Thuộc tính border)} \\
+\hline
+Cách sử dụng & Dùng trực tiếp trong thẻ \codeinline{<table>} hoặc inline trong từng phần tử. & Dùng trong file CSS bên ngoài hoặc thẻ \codeinline{<style>}. \\
+\hline
+Cú pháp & \codeinline{border="1"} (chỉ quy định độ dày viền dạng pixel số nguyên, không kiểm soát kiểu). & \codeinline{border: 1px solid \#000;} (kiểm soát toàn diện đồng thời độ dày, kiểu dáng, màu sắc). \\
+\hline
+Mức độ linh hoạt & \textbf{Thấp} --- chỉ tạo viền thô sơ với độ dày đơn giản. & \textbf{Cao} --- tự do điều chỉnh màu sắc, kiểu nét, độ dày, góc bo cong, khoảng cách. \\
+\hline
+Kiểu viền hỗ trợ & Không hỗ trợ chọn kiểu viền (chỉ có nét viền bevel nổi cũ kỹ). & Hỗ trợ phong phú: \codeinline{solid}, \codeinline{dashed}, \codeinline{dotted}, \codeinline{double}, \codeinline{groove},... \\
+\hline
+Áp dụng cho phần tử & Chủ yếu dùng cho \codeinline{<table>}. & Áp dụng cho mọi phần tử HTML: \codeinline{<div>}, \codeinline{<p>}, \codeinline{<button>}, \codeinline{<img>},... \\
+\hline
+Kiểm soát từng cạnh & Không hỗ trợ tách biệt từng cạnh. & Hỗ trợ chi tiết từng cạnh: \codeinline{border-top}, \codeinline{border-right}, \codeinline{border-bottom}, \codeinline{border-left}. \\
+\hline
+Bo góc viền & Hoàn toàn không hỗ trợ bo góc. & Hỗ trợ bo góc mượt mà với \codeinline{border-radius}. \\
+\hline
+Khả năng bảo trì & \textbf{Thấp} --- phải sửa lặp đi lặp lại trên từng thẻ, dễ sót lỗi. & \textbf{Cao} --- thay đổi toàn bộ giao diện bảng trong hệ thống chỉ bằng một dòng code trong file CSS. \\
+\hline
+Ví dụ điển hình & \codeinline{<table border="1">...</table>} & \codeinline{table \{ border: 1px solid \#000; \}} \\
+\hline
+\end{tabularx}
+\end{warnBox}
+
+\noindent\textbf{Cú pháp chuẩn của thuộc tính viết tắt (Shorthand) trong CSS}:
+\begin{lstlisting}[language=CSS3]
+border: <độ dày> <kiểu viền> <màu sắc>;
+\end{lstlisting}
+
+\noindent\textbf{Các thuộc tính thành phần liên quan}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{border-width}: Xác định độ dày của viền (ví dụ: \codeinline{1px}, \codeinline{2px}, \codeinline{thin}, \codeinline{thick}).
+    \item \codeinline{border-style}: Xác định kiểu nét vẽ của viền.
+    \item \codeinline{border-color}: Xác định mã màu của viền (HEX, RGB, HSL hoặc tên màu).
+\end{itemize}
+
+\noindent\textbf{Kiểm soát viền từng cạnh riêng biệt}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{border-top}: Thiết lập viền ở cạnh trên.
+    \item \codeinline{border-bottom}: Thiết lập viền ở cạnh đáy.
+    \item \codeinline{border-left}: Thiết lập viền ở cạnh bên trái.
+    \item \codeinline{border-right}: Thiết lập viền ở cạnh bên phải.
+\end{itemize}
+
+\noindent\textbf{Các giá trị kiểu viền (\codeinline{border-style}) phổ biến}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{solid}: Viền nét liền mạch (phổ biến nhất trong thiết kế hiện đại).
+    \item \codeinline{dashed}: Viền nét đứt gạch ngang.
+    \item \codeinline{dotted}: Viền tạo bởi các dấu chấm tròn nối tiếp.
+    \item \codeinline{double}: Viền đôi song song gồm hai đường kẻ mỏng.
+    \item \codeinline{groove}: Viền rãnh khắc chìm dạng 3D vào mặt phẳng trang.
+    \item \codeinline{ridge}: Viền gờ dập nổi dạng 3D nhô lên khỏi mặt phẳng trang.
+    \item \codeinline{inset}: Viền tạo cảm giác toàn bộ khối ô bị chìm lõm vào trong.
+    \item \codeinline{outset}: Viền tạo cảm giác toàn bộ khối ô nổi gồ hẳn lên trên.
+    \item \codeinline{none}: Không hiển thị viền (độ dày tự động xem như bằng 0).
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Minh Họa Đối Chiếu HTML Cũ vs CSS Hiện Đại]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<!-- 1. HTML Cũ (ít linh hoạt, không tối ưu cho giao diện lớn) -->
+<table border="1">
+    <tr>
+        <td>(*@Sản phẩm A@*)</td>
+        <td>100.000(*@đ@*)</td>
+    </tr>
+</table>
+
+<!-- 2. CSS Hiện Đại (linh hoạt tối đa, dễ bảo trì, giao diện sắc nét) -->
+<style>
+    table {
+        border: 2px solid #007bff;
+        border-collapse: collapse;
+    }
+    td {
+        border: 1px dashed #ff0000;
+        padding: 10px;
+    }
+</style>
+<table>
+    <tr>
+        <td>(*@Sản phẩm B@*)</td>
+        <td>200.000(*@đ@*)</td>
+    </tr>
+</table>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Kết Luận Thực Chiến Khi Dùng Border Cho Bảng]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Kết quả mang lại}: CSS giúp bạn kiểm soát hoàn toàn viền của từng ô, từng cạnh và cả góc bo tròn, tạo nên giao diện hiện đại và chuyên nghiệp vượt trội so với thuộc tính HTML thô sơ.
+    \item \textbf{Khi nào dùng HTML \codeinline{border="1"}}? Chỉ khi cần phác thảo siêu tốc, chạy thử dữ liệu nguyên bản tạm thời, hoặc làm bản tin email HTML thuần cũ.
+    \item \textbf{Khi nào dùng CSS \codeinline{border}}? Trong tất cả các dự án website thực tế, chuyên nghiệp, cần giao diện đẹp mắt, linh hoạt và dễ bảo trì đồng bộ!
+\end{itemize}
+\end{tipBox}
+
+\subsubsection{2. Thuộc Tính \csshint{border-collapse} \& \csshint{border-spacing} (Gộp Hoặc Tách Viền)}
+
+Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế viền tách biệt:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Giá trị mặc định}: \codeinline{separate} (viền của từng ô tách biệt nhau độc lập).
+    \item Khi ở chế độ \codeinline{separate}, mỗi ô có một đường viền riêng biệt và sẽ xuất hiện khe hở giữa các viền ô. Ta có thể dùng thuộc tính \codeinline{border-spacing} để điều chỉnh chính xác khoảng cách hở này. Kiểu dựng hình này xem mỗi ô dữ liệu như một khối hộp hoàn toàn riêng rẽ.
+\end{itemize}
+
+\begin{codeWindow}[Khai Báo Bảng Ở Chế Độ Tách Viền (separate)]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+table {
+    border: 2px solid #007bff;
+    border-collapse: separate; /* (*@Giữ viền tách biệt độc lập@*) */
+    border-spacing: 2px;       /* (*@Khoảng cách giữa các viền ô@*) */
+}   
+td, th {
+    border: 2px solid #007bff;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Hành vi dựng hình trong chế độ \codeinline{separate}}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Bản thân thẻ bảng (\codeinline{<table>}) sở hữu một khung viền bao quanh riêng biệt.
+    \item Mỗi ô tiêu đề (\codeinline{<th>}) và ô dữ liệu (\codeinline{<td>}) bên trong cũng sở hữu đường viền riêng biệt bao quanh chính nó, cách nhau một khoảng bằng \codeinline{border-spacing}.
+\end{itemize}
+
+\noindent\textbf{Khi chuyển sang chế độ Gộp viền (\codeinline{collapse})}:
+\begin{codeWindow}[Khai Báo Bảng Ở Chế Độ Gộp Viền (collapse)]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+table {
+    border: 2px solid #007bff;
+    border-collapse: collapse; /* (*@Gộp viền sát nhau thành 1 đường@*) */
+}   
+td, th {
+    border: 2px solid #007bff;
+}
+\end{lstlisting}
+\end{codeWindow}
 
 \begin{browserWindow}[So Sánh Kỹ Thuật: border-collapse separate vs collapse]
 \centering
@@ -25244,7 +25479,6 @@ Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế vi
   % ============================================================================
   % 1. PANEL TRÁI: BORDER-COLLAPSE: SEPARATE (MẶC ĐỊNH)
   % ============================================================================
-  % Khung nền Panel Trái
   \node[
       rectangle, rounded corners=7pt, 
       draw=primaryBlue!35, fill=primaryBlue!2, 
@@ -25254,31 +25488,25 @@ Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế vi
       inner sep=8pt
   ] (cardLeft) at (-3.7, 0) {};
   
-  % Dải accent trái
   \draw[line width=3.5pt, primaryBlue, line cap=round] 
       ($(cardLeft.north west) + (1.5pt, -6pt)$) -- ($(cardLeft.south west) + (1.5pt, 6pt)$);
 
-  % Header Panel Trái
   \node[
       fill=primaryBlue!12, draw=primaryBlue!70, 
       text=primaryBlue, font=\sffamily\bfseries\scriptsize, 
       rounded corners=3pt, inner xsep=8pt, inner ysep=3.5pt
   ] (headLeft) at (-3.7, 1.75) {border-collapse: separate; (Mặc định)};
 
-  % Các ô bảng riêng rẽ (Cell nodes)
-  % Header cells (Hàng 1)
   \node[draw=primaryBlue!70, fill=primaryBlue!12, rounded corners=4pt, font=\sffamily\bfseries\small, text=primaryBlue, minimum width=2.6cm, minimum height=0.75cm, align=center] 
       (c11) at (-5.25, 0.65) {Tiêu đề 1};
   \node[draw=primaryBlue!70, fill=primaryBlue!12, rounded corners=4pt, font=\sffamily\bfseries\small, text=primaryBlue, minimum width=2.6cm, minimum height=0.75cm, align=center] 
       (c12) at (-2.15, 0.65) {Tiêu đề 2};
 
-  % Data cells (Hàng 2)
   \node[draw=gray!50, fill=white, rounded corners=4pt, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center] 
       (c21) at (-5.25, -0.30) {Dữ liệu 1};
   \node[draw=gray!50, fill=white, rounded corners=4pt, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center] 
       (c22) at (-2.15, -0.30) {Dữ liệu 2};
 
-  % Chỉ báo khoảng cách border-spacing
   \node[fill=accentOrange, text=white, font=\sffamily\tiny\bfseries, rounded corners=2pt, inner xsep=5pt, inner ysep=2pt] 
       (spacingTag) at (-3.7, 1.18) {border-spacing};
   \draw[->, line width=0.8pt, draw=accentOrange] 
@@ -25286,14 +25514,12 @@ Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế vi
   \draw[draw=accentOrange, line width=1.1pt, <->] 
       ($(c11.east) + (2pt, -14pt)$) -- ($(c12.west) + (-2pt, -14pt)$);
 
-  % Chú thích chân Panel Trái
   \node[text=codeComment, font=\sffamily\scriptsize, align=center] 
       at (-3.7, -1.45) {$\bullet$ Từng ô mang viền độc lập (viền kép)\\$\bullet$ Tồn tại khe hở \codeinline{border-spacing} giữa các ô};
 
   % ============================================================================
   % 2. PANEL PHẢI: BORDER-COLLAPSE: COLLAPSE (KHUYÊN DÙNG)
   % ============================================================================
-  % Khung nền Panel Phải
   \node[
       rectangle, rounded corners=7pt, 
       draw=successGreen!40, fill=successGreen!2, 
@@ -25303,42 +25529,34 @@ Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế vi
       inner sep=8pt
   ] (cardRight) at (3.7, 0) {};
   
-  % Dải accent phải
   \draw[line width=3.5pt, successGreen, line cap=round] 
       ($(cardRight.north west) + (1.5pt, -6pt)$) -- ($(cardRight.south west) + (1.5pt, 6pt)$);
 
-  % Header Panel Phải
   \node[
       fill=successGreen!15, draw=successGreen!80!black, 
       text=successGreen!80!black, font=\sffamily\bfseries\scriptsize, 
       rounded corners=3pt, inner xsep=8pt, inner ysep=3.5pt
   ] (headRight) at (3.7, 1.75) {border-collapse: collapse; (Khuyên dùng)};
 
-  % Bảng viền gộp phẳng hoàn hảo (Table grid liền mạch)
-  % Header cells
   \node[draw=primaryBlue!80, fill=primaryBlue, font=\sffamily\bfseries\small, text=white, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=south east] 
       (m11) at (3.7, 0.175) {Tiêu đề 1};
   \node[draw=primaryBlue!80, fill=primaryBlue, font=\sffamily\bfseries\small, text=white, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=south west] 
       (m12) at (3.7, 0.175) {Tiêu đề 2};
 
-  % Data cells (Dính liền, giáp ranh phẳng)
   \node[draw=gray!50, fill=white, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=north east] 
       (m21) at (3.7, 0.175) {Dữ liệu 1};
   \node[draw=gray!50, fill=white, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=north west] 
       (m22) at (3.7, 0.175) {Dữ liệu 2};
 
-  % Viền bao quanh sắc nét
   \draw[draw=primaryBlue!90, line width=1.1pt] (m11.north west) rectangle (m12.south east);
   \draw[draw=gray!60, line width=0.9pt] (m21.north west) rectangle (m22.south east);
   \draw[draw=gray!60, line width=0.9pt] (m21.north east) -- (m21.south east);
 
-  % Chỉ báo viền gộp phẳng
   \node[fill=successGreen, text=white, font=\sffamily\tiny\bfseries, rounded corners=2pt, inner xsep=6pt, inner ysep=2.5pt] 
       (badgeMerge) at (3.7, 1.15) {Viền giáp ranh gộp phẳng};
   \draw[->, line width=0.8pt, successGreen!80!black] 
       (badgeMerge.south) -- (3.7, 0.175);
 
-  % Chú thích chân Panel Phải
   \node[text=successGreen!80!black, font=\sffamily\scriptsize, align=center] 
       at (3.7, -1.45) {$\bullet$ Các đường viền giáp ranh gộp thành 1 viền đơn\\$\bullet$ Bảng thanh mảnh, hiện đại, không có khe hở};
 
@@ -25356,13 +25574,31 @@ Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế vi
 \end{tikzpicture}
 \end{browserWindow}
 
+\begin{prettyTableBox}[MA TRẬN SO SÁNH TRỰC QUAN: COLLAPSE VS SEPARATE]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính / Tiêu chí} & \thd{\sffamily Gộp viền (collapse)} & \thd{\sffamily Tách viền (separate)} \\
+\hline
+Viền giữa các ô & Chỉ có 1 đường viền duy nhất giữa các ô liền kề. & Mỗi ô có viền riêng biệt (tạo cảm giác viền bị nhân đôi). \\
+\hline
+Khoảng cách giữa các ô & Tuyệt đối không có khoảng cách giữa các viền. & Có thể tùy chỉnh khoảng cách linh hoạt bằng \codeinline{border-spacing}. \\
+\hline
+Kết nối góc ô & Góc nối sắc nét, vuông vắn và dính liền giữa các ô. & Góc nối cách xa nhau tùy vào khoảng cách của \codeinline{border-spacing}. \\
+\hline
+Độ phức tạp khi thiết kế & Đơn giản, trực quan, dễ quản lý hệ thống viền chung. & Linh hoạt, phù hợp khi thiết kế bảng kiểu lưới độc lập hoặc card giao diện. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{border-collapse: collapse}: Gộp các đường viền giáp ranh giữa các ô thành một đường viền đơn sắc nét duy nhất. Đây là thuộc tính gần như bắt buộc trong mọi bảng dữ liệu hiện đại để tạo giao diện thanh thoát và gọn gàng.
-    \item \codeinline{border-spacing}: Đặt khoảng cách giữa các ô (khoảng cách viền). Cú pháp có thể nhận 1 giá trị (\codeinline{border-spacing: 10px;}) hoặc 2 giá trị (\codeinline{border-spacing: 20px 5px;} tương ứng ngang 20px, dọc 5px).
-    \item \textbf{Lưu ý sống còn}: \codeinline{border-spacing} chỉ có tác dụng khi \codeinline{border-collapse: separate}. Khi đã bật \codeinline{border-collapse: collapse}, giá trị \codeinline{border-spacing} sẽ bị trình duyệt bỏ qua hoàn toàn.
+    \item \codeinline{border-collapse: collapse}: Gộp các đường viền giáp ranh giữa các ô thành một đường viền đơn duy nhất, giúp bảng trông cực kỳ gọn gàng, sắc nét và tiết kiệm diện tích.
+    \item \codeinline{border-collapse: separate}: Giữ viền riêng biệt cho từng ô, có thể tạo khoảng cách hở giữa các ô thông qua \codeinline{border-spacing}.
+    \item \textbf{Lời khuyên thực chiến}: Đa số trường hợp thiết kế bảng biểu dữ liệu (\term{Data Table}), bạn nên dùng \codeinline{collapse} vì bảng sẽ dễ đọc, tinh tế và dễ quản lý lề viền. Nhưng nếu bạn cần xây dựng layout dạng lưới, phong cách thẻ (\term{Card UI}), hoặc bảng có khoảng cách tách rời giữa các ô, thì \codeinline{separate} là giải pháp lý tưởng.
 \end{itemize}
 
-\subsubsection{2. Thuộc Tính \csshint{table-layout} (Tối Ưu Hiệu Năng Phân Bố Cột)}
+\subsubsection{3. Thuộc Tính \csshint{table-layout} (Tối Ưu Hiệu Năng Phân Bố Cột)}
 
 Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệt sử dụng để tính toán độ rộng các cột trong bảng:
 
@@ -25371,7 +25607,7 @@ Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệ
     \item \codeinline{table-layout: fixed} (\term{Hiệu năng cao}): Trình duyệt phân bổ độ rộng cột ngay lập tức dựa trên độ rộng được chỉ định ở hàng đầu tiên (thường là \codeinline{<th>}). Quá trình hiển thị diễn ra tức thì mà không cần chờ tải xong toàn bộ dữ liệu bên dưới. Bắt buộc kết hợp với \codeinline{width: 100\%;} trên \codeinline{<table>}.
 \end{itemize}
 
-\subsubsection{3. Thuộc Tính \csshint{caption-side} \& \csshint{empty-cells}}
+\subsubsection{4. Thuộc Tính \csshint{caption-side} \& \csshint{empty-cells}}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \codeinline{caption-side}: Điều khiển vị trí hiển thị của tiêu đề bảng \codeinline{<caption>}. Giá trị mặc định là \codeinline{top} (nằm trên đầu bảng); có thể chuyển thành \codeinline{bottom} để đặt tiêu đề ở chân bảng (thường dùng cho chú thích nguồn dữ liệu).
