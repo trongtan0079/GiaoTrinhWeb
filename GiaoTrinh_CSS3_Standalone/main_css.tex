@@ -23867,6 +23867,14 @@ list-style-image & Dùng hình ảnh làm dấu đầu dòng thay vì các ký h
 \end{tabularx}
 \end{prettyTableBox}
 
+\begin{noteBox}[Cơ Chế Kế Thừa \& Bản Chất display: list-item Trong CSS]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Tính kế thừa tự nhiên (\term{Inheritance})}: Các thuộc tính danh sách như \codeinline{list-style}, \codeinline{list-style-type}, \codeinline{list-style-position} có đặc tính kế thừa tự động. Khi bạn khai báo chúng trên thẻ cha \codeinline{<ul>} hoặc \codeinline{<ol>}, tất cả các thẻ con \codeinline{<li>} bên trong đều tự động kế thừa kiểu dáng đó mà không cần khai báo lặp lại.
+    \item \textbf{Bản chất \codeinline{display: list-item}}: Thẻ \codeinline{<li>} mặc định có giá trị \codeinline{display: list-item}. Thuộc tính này yêu cầu trình duyệt sinh ra hai hộp phần tử: một \textbf{hộp khối chính} (\term{principal block box}) chứa nội dung văn bản và một \textbf{hộp đánh dấu phụ} (\term{marker box}) chứa dấu đầu dòng. Bất kỳ thẻ HTML nào (như \codeinline{<div>} hay \codeinline{<p>}) nếu được gán \codeinline{display: list-item} cũng đều có thể mang dấu đầu dòng giống hệt thẻ \codeinline{<li>}!
+    \item \textbf{Nguyên tắc thực hành vàng}: Luôn ưu tiên khai báo thuộc tính danh sách trên thẻ cha (\codeinline{<ul>}/\codeinline{<ol>}) để tận dụng tối đa tính kế thừa, giúp mã nguồn CSS gọn gàng và dễ bảo trì trên toàn hệ thống giao diện.
+\end{itemize}
+\end{noteBox}
+
 \newpage
 \subsection{2. Kiểu Dấu Đầu Dòng: Thuộc Tính list-style-type (\csshint{list-style-type})}
 
@@ -24175,6 +24183,13 @@ inside & Dấu đầu dòng nằm \textbf{bên trong} hộp nội dung của ph�
         \item \textbf{Trường hợp sử dụng}: Hữu ích khi bạn muốn văn bản của tất cả các mục danh sách được căn lề hoàn toàn về bên trái mà không có khoảng thụt lề thêm do dấu đầu dòng. Điều này giúp tiết kiệm không gian hoặc tạo ra một bố cục khác biệt.
     \end{itemize}
 \end{itemize}
+
+\begin{warnBox}[Cảnh Báo Lỗi Kinh Điển: Bẫy Mất Marker Do overflow: hidden]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cơ chế biến mất bullet khi dùng \codeinline{outside}}: Do dấu marker của \codeinline{outside} nằm hoàn toàn bên ngoài hộp nội dung (\term{content box}), nếu phần tử cha \codeinline{<ul>} hoặc thẻ bọc ngoài có thuộc tính \codeinline{overflow: hidden} hoặc bị co hẹp \codeinline{padding-left}, dấu đầu dòng sẽ bị cắt xén mất tích khỏi màn hình!
+    \item \textbf{Giải pháp khắc phục}: Luôn bảo đảm phần tử danh sách có đủ lề đệm \codeinline{padding-left} (thông thường từ \codeinline{1.5rem} đến \codeinline{2rem} hoặc tối thiểu \codeinline{24px}) để chứa trọn vẹn marker, hoặc chủ động chuyển sang \codeinline{list-style-position: inside} khi không gian hiển thị bị giới hạn.
+\end{itemize}
+\end{warnBox}
 
 \begin{codeWindow}[Ví Dụ Thực Tế: Đối Chiếu Mã Nguồn HTML \& CSS Của outside và inside]
 \begin{lstlisting}[language=HTML5]
@@ -24787,6 +24802,21 @@ Trong quá trình sử dụng thuộc tính \codeinline{list-style}, cần chú 
     \item \textbf{Thứ năm}, việc sử dụng \codeinline{list-style: none} để loại bỏ marker có thể ảnh hưởng đến cách một số công nghệ hỗ trợ nhận diện danh sách, đặc biệt trong những trường hợp nhất định với Safari và VoiceOver. Vì vậy, khi thiết kế giao diện, cần bảo đảm cấu trúc HTML vẫn phản ánh đúng ý nghĩa của nội dung và được kiểm tra về khả năng truy cập.
 \end{enumerate}
 
+\begin{noteBox}[Khả Năng Tiếp Cận (Accessibility) \& Lỗi Trình Đọc Màn Hình Trên Safari (VoiceOver)]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Vấn đề kỹ thuật (WebKit Heuristic)}: Trên trình duyệt Safari (cả macOS và iOS), khi một danh sách \codeinline{<ul>} hoặc \codeinline{<ol>} được gán \codeinline{list-style: none;}, WebKit mặc định cho rằng danh sách này đã được chuyển hóa thành phần tử trang trí thị giác (như menu hoặc layout thẻ) và \textbf{tự động tước bỏ vai trò ngữ nghĩa} (\term{list semantics}) trong cây trợ năng (\term{Accessibility Tree}). Hậu quả là người dùng khiếm thị dùng VoiceOver sẽ không nghe thấy thông báo số lượng mục (ví dụ: \textit{"List, 5 items"}).
+    \item \textbf{Giải pháp chuẩn W3C WAI-ARIA}: Nếu danh sách vẫn mang ý nghĩa cấu trúc liệt kê nội dung, bạn chỉ cần bổ sung thuộc tính ARIA \codeinline{role="list"} trực tiếp vào thẻ HTML:
+\begin{lstlisting}[language=HTML5]
+<ul class="nav" role="list">
+    <li><a href="#home">(*@Trang chủ@*)</a></li>
+    <li><a href="#about">(*@Giới thiệu@*)</a></li>
+    <li><a href="#contact">(*@Liên hệ@*)</a></li>
+</ul>
+\end{lstlisting}
+    Thuộc tính này ép buộc VoiceOver khôi phục lại toàn bộ ngữ nghĩa danh sách mà không ảnh hưởng gì đến phong cách thị giác của CSS!
+\end{itemize}
+\end{noteBox}
+
 \paragraph{8. Tổng Kết Thuộc Tính list-style:}
 Thuộc tính \codeinline{list-style} là một thuộc tính viết tắt quan trọng trong CSS, giúp đơn giản hóa việc thiết lập và quản lý ký hiệu đánh dấu của danh sách. Thông qua \codeinline{list-style}, người lập trình có thể thay đổi hình dạng ký hiệu, điều chỉnh vị trí ký hiệu và sử dụng hình ảnh tùy chỉnh để nâng cao tính trực quan của giao diện.
 
@@ -24853,6 +24883,14 @@ ol {
 }
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{conceptBox}[Tài Liệu Tham Khảo \& Đọc Thêm Chuẩn Quốc Tế (Further Reading)]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{W3C Recommendation}: \textit{CSS Lists and Counters Module Level 3} --- Đặc tả kỹ thuật chuẩn về thuật toán dựng hình marker và hệ thống bộ đếm CSS (\url{https://www.w3.org/TR/css-lists-3/}).
+    \item \textbf{MDN Web Docs}: \textit{CSS Lists \& ::marker} --- Hướng dẫn chi tiết, cú pháp và bảng tra cứu tương thích trình duyệt (\url{https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Styling_lists}).
+    \item \textbf{WebAIM}: \textit{CSS in Action --- Invisible Content and Accessibility} --- Hướng dẫn chuẩn hóa danh sách cho công nghệ trợ năng màn hình (\url{https://webaim.org/techniques/css/invisiblecontent/}).
+\end{itemize}
+\end{conceptBox}
 
 \newpage
 \subsection{6. Tùy Biến Dấu Đầu Dòng Đỉnh Cao Với Pseudo-Element ::marker (\csshint{::marker})}
