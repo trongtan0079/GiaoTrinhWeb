@@ -25311,22 +25311,118 @@ transition & Hiệu ứng chuyển đổi màu mượt mà & transition: backgro
 \end{lstlisting}
 \begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
 table, th, td {
-    border: none; /* (*@Không hiển thị bất kỳ viền nào@*) */
+    border: none; /* (*@Mặc định: không hiển thị bất kỳ đường viền nào@*) */
 }
 \end{lstlisting}
 \end{codeWindow}
 
-\noindent\textbf{Muốn viền hiển thị rõ ràng}:
+\begin{browserWindow}[Kết Quả Trình Duyệt Render: Bảng Khi Chưa Bật Viền (border: none)]
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  \node[rectangle, rounded corners=6pt, draw=codeBorder, fill=white, minimum width=9.2cm, minimum height=2.2cm, line width=0.8pt] (box) at (0, 0) {};
+  
+  % Hàng Header
+  \node[font=\sffamily\bfseries\small, text=darkText, minimum width=3.8cm, align=left] at (-2.0, 0.45) {Sản Phẩm};
+  \node[font=\sffamily\bfseries\small, text=darkText, minimum width=3.8cm, align=left] at (2.0, 0.45) {Giá cả};
+  
+  % Hàng Data
+  \node[font=\sffamily\small, text=darkText, minimum width=3.8cm, align=left] at (-2.0, -0.35) {Sản phẩm A};
+  \node[font=\sffamily\small, text=darkText, minimum width=3.8cm, align=left] at (2.0, -0.35) {100.000đ};
+  
+  % Ghi chú chân bảng
+  \node[font=\sffamily\scriptsize\itshape, text=codeComment] at (0, -0.85) {$\rightarrow$ Dữ liệu gióng hàng ngay ngắn nhưng hoàn toàn không có đường viền bao bọc.};
+\end{tikzpicture}
+\end{browserWindow}
+
+\noindent\textbf{Muốn viền hiển thị rõ ràng, ta có hai cách tiếp cận}:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item Dùng thuộc tính cũ trong HTML: \codeinline{<table border="1">}.
-    \item Hoặc sử dụng CSS tùy chỉnh chuyên sâu và hiện đại hơn:
-\begin{lstlisting}[language=CSS3]
+    \item \textbf{Cách cũ trong HTML}: Sử dụng thuộc tính \codeinline{border="1"} trực tiếp trong thẻ \codeinline{<table>}:
+\begin{codeWindow}[Khai Báo Viền Kiểu Cũ Trong HTML]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<table border="1">
+    <tr>
+        <th>(*@Sản Phẩm@*)</th>
+        <th>(*@Giá cả@*)</th>
+    </tr>
+    <tr>
+        <td>(*@Sản phẩm A@*)</td>
+        <td>100.000(*@đ@*)</td>
+    </tr>
+</table>
+\end{lstlisting}
+\end{codeWindow}
+    \item \textbf{Cách hiện đại trong CSS}: Áp dụng thuộc tính \codeinline{border} linh hoạt cho thẻ bảng và từng ô:
+\begin{codeWindow}[Thiết Lập Viền Hiện Đại Bằng CSS]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
 table, th, td {
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; /* (*@Thiết lập viền nét liền màu xám nhạt@*) */
 }
 \end{lstlisting}
+\end{codeWindow}
 \end{itemize}
 
+\begin{browserWindow}[Kết Quả Trình Duyệt Render: Bảng Đã Bật Viền (border: 1px solid \#ccc)]
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  \node[rectangle, rounded corners=6pt, draw=codeBorder, fill=white, minimum width=9.2cm, minimum height=2.2cm, line width=0.8pt] (box) at (0, 0) {};
+  
+  % Ô Header 1 & 2
+  \node[draw=gray!50, fill=primaryBlue!8, font=\sffamily\bfseries\small, text=primaryBlue, minimum width=4cm, minimum height=0.65cm, align=center] at (-2.1, 0.4) {Sản Phẩm};
+  \node[draw=gray!50, fill=primaryBlue!8, font=\sffamily\bfseries\small, text=primaryBlue, minimum width=4cm, minimum height=0.65cm, align=center] at (2.1, 0.4) {Giá cả};
+  
+  % Ô Data 1 & 2
+  \node[draw=gray!50, fill=white, font=\sffamily\small, text=darkText, minimum width=4cm, minimum height=0.65cm, align=center] at (-2.1, -0.35) {Sản phẩm A};
+  \node[draw=gray!50, fill=white, font=\sffamily\small, text=darkText, minimum width=4cm, minimum height=0.65cm, align=center] at (2.1, -0.35) {100.000đ};
+\end{tikzpicture}
+\end{browserWindow}
+
+\noindent\textbf{Cú pháp chuẩn của thuộc tính viết tắt (Shorthand) trong CSS}:
+
+\begin{center}
+\begin{tcolorbox}[
+    colback=codeBg,
+    colframe=primaryBlue!50,
+    arc=4pt,
+    boxrule=0.8pt,
+    top=7pt, bottom=7pt, left=12pt, right=12pt,
+    drop shadow={opacity=0.04, shadow xshift=1pt, shadow yshift=-1pt}
+]
+\centering\sffamily
+{\bfseries\color{primaryBlue}Cú pháp Shorthand:} \quad
+\codeinline{border: } \textbf{\color{accentOrange}<độ\_dày>} \ \textbf{\color{secondaryTeal}<kiểu\_viền>} \ \textbf{\color{accentPurple}<màu\_sắc>}; \\[4pt]
+{\footnotesize\color{darkText!70}(Ví dụ thực tế: \codeinline{border: 1px solid \#ccc;} hoặc \codeinline{border: 2px dashed \#007bff;})}
+\end{tcolorbox}
+\end{center}
+
+\noindent\textbf{Các thuộc tính thành phần liên quan}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{border-width}: Xác định độ dày của viền (ví dụ: \codeinline{1px}, \codeinline{2px}, \codeinline{thin}, \codeinline{thick}).
+    \item \codeinline{border-style}: Xác định kiểu nét vẽ của viền.
+    \item \codeinline{border-color}: Xác định mã màu của viền (HEX, RGB, HSL hoặc tên màu).
+\end{itemize}
+
+\noindent\textbf{Kiểm soát viền từng cạnh riêng biệt}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{border-top}: Thiết lập viền ở cạnh trên.
+    \item \codeinline{border-bottom}: Thiết lập viền ở cạnh đáy.
+    \item \codeinline{border-left}: Thiết lập viền ở cạnh bên trái.
+    \item \codeinline{border-right}: Thiết lập viền ở cạnh bên phải.
+\end{itemize}
+
+\noindent\textbf{Các giá trị kiểu viền (\codeinline{border-style}) phổ biến}:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{solid}: Viền nét liền mạch (phổ biến nhất trong thiết kế hiện đại).
+    \item \codeinline{dashed}: Viền nét đứt gạch ngang.
+    \item \codeinline{dotted}: Viền tạo bởi các dấu chấm tròn nối tiếp.
+    \item \codeinline{double}: Viền đôi song song gồm hai đường kẻ mỏng.
+    \item \codeinline{groove}: Viền rãnh khắc chìm dạng 3D vào mặt phẳng trang.
+    \item \codeinline{ridge}: Viền gờ dập nổi dạng 3D nhô lên khỏi mặt phẳng trang.
+    \item \codeinline{inset}: Viền tạo cảm giác toàn bộ khối ô bị chìm lõm vào trong.
+    \item \codeinline{outset}: Viền tạo cảm giác toàn bộ khối ô nổi gồ hẳn lên trên.
+    \item \codeinline{none}: Không hiển thị viền (độ dày tự động xem như bằng 0).
+\end{itemize}
+
+\newpage
 \begin{warnBox}[So Sánh Chuyên Sâu: Thuộc Tính border Giữa HTML và CSS]
 Cả thuộc tính \codeinline{border} trong HTML và CSS đều dùng để tạo viền, nhưng phương thức ứng dụng và mức độ kiểm soát khác nhau hoàn toàn:
 
@@ -25357,42 +25453,9 @@ Ví dụ điển hình & \codeinline{<table border="1">...</table>} & \codeinlin
 \end{tabularx}
 \end{warnBox}
 
-\noindent\textbf{Cú pháp chuẩn của thuộc tính viết tắt (Shorthand) trong CSS}:
-\begin{lstlisting}[language=CSS3]
-border: <độ dày> <kiểu viền> <màu sắc>;
-\end{lstlisting}
-
-\noindent\textbf{Các thuộc tính thành phần liên quan}:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \codeinline{border-width}: Xác định độ dày của viền (ví dụ: \codeinline{1px}, \codeinline{2px}, \codeinline{thin}, \codeinline{thick}).
-    \item \codeinline{border-style}: Xác định kiểu nét vẽ của viền.
-    \item \codeinline{border-color}: Xác định mã màu của viền (HEX, RGB, HSL hoặc tên màu).
-\end{itemize}
-
-\noindent\textbf{Kiểm soát viền từng cạnh riêng biệt}:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \codeinline{border-top}: Thiết lập viền ở cạnh trên.
-    \item \codeinline{border-bottom}: Thiết lập viền ở cạnh đáy.
-    \item \codeinline{border-left}: Thiết lập viền ở cạnh bên trái.
-    \item \codeinline{border-right}: Thiết lập viền ở cạnh bên phải.
-\end{itemize}
-
-\noindent\textbf{Các giá trị kiểu viền (\codeinline{border-style}) phổ biến}:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
-    \item \codeinline{solid}: Viền nét liền mạch (phổ biến nhất trong thiết kế hiện đại).
-    \item \codeinline{dashed}: Viền nét đứt gạch ngang.
-    \item \codeinline{dotted}: Viền tạo bởi các dấu chấm tròn nối tiếp.
-    \item \codeinline{double}: Viền đôi song song gồm hai đường kẻ mỏng.
-    \item \codeinline{groove}: Viền rãnh khắc chìm dạng 3D vào mặt phẳng trang.
-    \item \codeinline{ridge}: Viền gờ dập nổi dạng 3D nhô lên khỏi mặt phẳng trang.
-    \item \codeinline{inset}: Viền tạo cảm giác toàn bộ khối ô bị chìm lõm vào trong.
-    \item \codeinline{outset}: Viền tạo cảm giác toàn bộ khối ô nổi gồ hẳn lên trên.
-    \item \codeinline{none}: Không hiển thị viền (độ dày tự động xem như bằng 0).
-\end{itemize}
-
 \begin{codeWindow}[Ví Dụ Minh Họa Đối Chiếu HTML Cũ vs CSS Hiện Đại]
 \begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
-<!-- 1. HTML Cũ (ít linh hoạt, không tối ưu cho giao diện lớn) -->
+<!-- 1. (*@HTML Cũ (Cách tiếp cận lạc hậu: dùng thuộc tính border trong thẻ)@*) -->
 <table border="1">
     <tr>
         <td>(*@Sản phẩm A@*)</td>
@@ -25400,7 +25463,7 @@ border: <độ dày> <kiểu viền> <màu sắc>;
     </tr>
 </table>
 
-<!-- 2. CSS Hiện Đại (linh hoạt tối đa, dễ bảo trì, giao diện sắc nét) -->
+<!-- 2. (*@CSS Hiện Đại (Linh hoạt, thẩm mỹ cao, dễ tái sử dụng và bảo trì)@*) -->
 <style>
     table {
         border: 2px solid #007bff;
@@ -25419,6 +25482,36 @@ border: <độ dày> <kiểu viền> <màu sắc>;
 </table>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị So Sánh: Bảng HTML border="1" vs Bảng CSS Hiện Đại]
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % 1. BÊN TRÁI: HTML border="1"
+  \node[rectangle, rounded corners=6pt, draw=gray!40, fill=gray!3, minimum width=6.7cm, minimum height=3.5cm, line width=0.7pt] (boxHtml) at (-3.65, 0) {};
+  \node[fill=gray!20, text=gray!80!black, font=\sffamily\bfseries\scriptsize, rounded corners=3pt, inner xsep=8pt, inner ysep=3pt] at (-3.65, 1.35) {1. Trình duyệt render HTML: <table border="1">};
+  
+  % Khung bảng HTML cũ (viền xám nổi bevel, dính sát chữ)
+  \draw[draw=gray!70, line width=1.6pt, fill=white] (-5.8, 0.45) rectangle (-1.5, -0.45);
+  \draw[draw=gray!60, line width=0.9pt] (-3.65, 0.45) -- (-3.65, -0.45);
+  \node[font=\sffamily\small, text=darkText] at (-4.72, 0.0) {Sản phẩm A};
+  \node[font=\sffamily\small, text=darkText] at (-2.57, 0.0) {100.000đ};
+  
+  \node[text=codeComment, font=\sffamily\scriptsize, align=center] at (-3.65, -1.05) {$\bullet$ Viền bevel xám thô sơ, không có padding\\$\bullet$ Chữ dính sát mép, không tạo được điểm nhấn};
+
+  % 2. BÊN PHẢI: CSS Hiện Đại
+  \node[rectangle, rounded corners=6pt, draw=primaryBlue!35, fill=primaryBlue!2, minimum width=6.7cm, minimum height=3.5cm, line width=0.7pt] (boxCss) at (3.65, 0) {};
+  \node[fill=primaryBlue!15, text=primaryBlue, font=\sffamily\bfseries\scriptsize, rounded corners=3pt, inner xsep=8pt, inner ysep=3pt] at (3.65, 1.35) {2. Trình duyệt render CSS Hiện Đại (Khuyên dùng)};
+  
+  % Khung bảng CSS (viền xanh, gộp viền, ô nét đứt đỏ, padding rộng rãi)
+  \draw[draw=primaryBlue, line width=2pt, fill=white] (1.45, 0.55) rectangle (5.85, -0.55);
+  \draw[draw=red!80, line width=1pt, dashed, fill=red!2] (1.55, 0.45) rectangle (3.6, -0.45);
+  \draw[draw=red!80, line width=1pt, dashed, fill=red!2] (3.7, 0.45) rectangle (5.75, -0.45);
+  \node[font=\sffamily\bfseries\small, text=darkText] at (2.57, 0.0) {Sản phẩm B};
+  \node[font=\sffamily\bfseries\small, text=primaryBlue] at (4.72, 0.0) {200.000đ};
+  
+  \node[text=successGreen!80!black, font=\sffamily\scriptsize\bfseries, align=center] at (3.65, -1.05) {$\bullet$ Gộp viền phẳng, padding 10px thoáng đãng\\$\bullet$ Màu sắc và kiểu nét tùy biến sắc nét, chuyên nghiệp};
+\end{tikzpicture}
+\end{browserWindow}
 
 \begin{tipBox}[Kết Luận Thực Chiến Khi Dùng Border Cho Bảng]
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
