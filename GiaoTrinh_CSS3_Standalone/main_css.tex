@@ -24985,6 +24985,457 @@ Không giống như \codeinline{::before} hay \codeinline{::after}, phần tử 
 
 
 % ==============================================================================
+% CHUYÊN ĐỀ ĐỊNH DẠNG BẢNG TRONG CSS (CSS TABLES MASTERCLASS)
+% ==============================================================================
+\Needspace*{80pt}
+\section{Chuyên Đề Định Dạng Bảng Trong CSS (CSS Tables Masterclass)}
+\label{sec:css_tables_masterclass}
+
+Trong thiết kế và xây dựng giao diện Web, \term{Bảng (Table)} là cấu trúc dữ liệu hai chiều được sử dụng để hiển thị thông tin dạng ma trận hàng và cột (chẳng hạn như bảng giá, thống kê tài chính, danh sách sản phẩm, danh sách sinh viên, lịch trình...). Việc hiểu rõ cú pháp HTML, các thuộc tính di sản cổ điển cần tránh, cũng như làm chủ toàn diện hệ thống thuộc tính CSS chuyên dụng cho bảng là kiến thức nền tảng bắt buộc đối với mọi lập trình viên Frontend chuyên nghiệp.
+
+\subsection{1. Cấu Trúc Cơ Bản Của Bảng \& Sơ Đồ Cấu Trúc HTML5}
+
+Về mặt HTML, một bảng được khởi tạo bằng thẻ \codeinline{<table>}. Các thẻ thành phần cấu trúc cốt lõi bao gồm:
+\begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{<table>}: Thẻ gốc khởi tạo bảng dữ liệu.
+    \item \codeinline{<caption>}: Tiêu đề mô tả nội dung và ngữ cảnh của bảng (thường hiển thị ở đỉnh bảng).
+    \item \codeinline{<tr>} (\textit{Table Row}): Xác định một hàng ngang trong bảng.
+    \item \codeinline{<th>} (\textit{Table Header}): Ô tiêu đề của cột hoặc hàng (mặc định in đậm và căn giữa).
+    \item \codeinline{<td>} (\textit{Table Data}): Ô chứa dữ liệu thông thường trong bảng (mặc định căn lề trái).
+\end{itemize}
+
+\paragraph{Sơ đồ trực quan hóa phân cấp cấu trúc bảng trong DOM:}
+
+\begin{center}
+\begin{tcolorbox}[
+    enhanced,
+    colback=codeBg,
+    colframe=primaryBlue!30,
+    arc=6pt,
+    boxrule=0.8pt,
+    drop shadow=black!4!white,
+    top=12pt, bottom=12pt, left=10pt, right=10pt
+]
+\centering
+\begin{tikzpicture}[
+    font=\sffamily\small,
+    node distance=6pt and 8pt,
+    cellCol1/.style={draw=primaryBlue, fill=white, rounded corners=3pt, minimum width=3.4cm, minimum height=0.75cm, align=center, font=\sffamily\small, line width=0.8pt},
+    cellCol2/.style={draw=primaryBlue, fill=white, rounded corners=3pt, minimum width=2.6cm, minimum height=0.75cm, align=center, font=\sffamily\small, line width=0.8pt},
+    cellCol3/.style={draw=primaryBlue, fill=white, rounded corners=3pt, minimum width=2.4cm, minimum height=0.75cm, align=center, font=\sffamily\small, line width=0.8pt},
+    headCol1/.style={draw=primaryBlue, fill=primaryBlue!15, rounded corners=3pt, minimum width=3.4cm, minimum height=0.75cm, align=center, font=\sffamily\bfseries\color{primaryBlue}, line width=0.8pt},
+    headCol2/.style={draw=primaryBlue, fill=primaryBlue!15, rounded corners=3pt, minimum width=2.6cm, minimum height=0.75cm, align=center, font=\sffamily\bfseries\color{primaryBlue}, line width=0.8pt},
+    headCol3/.style={draw=primaryBlue, fill=primaryBlue!15, rounded corners=3pt, minimum width=2.4cm, minimum height=0.75cm, align=center, font=\sffamily\bfseries\color{primaryBlue}, line width=0.8pt},
+    captionNode/.style={draw=accentOrange, fill=accentOrange!10, rounded corners=4pt, minimum width=8.8cm, minimum height=0.8cm, font=\sffamily\bfseries\color{accentOrange}, line width=0.9pt}
+]
+
+% Row 1: Header
+\node[headCol1] (r1c1) at (0,0) {<th> Tên sản phẩm};
+\node[headCol2, right=8pt of r1c1] (r1c2) {<th> Giá};
+\node[headCol3, right=8pt of r1c2] (r1c3) {<th> Số lượng};
+
+% Caption placed centered above header row
+\node[captionNode, above=12pt of r1c2] (cap) {<caption> Danh sách sản phẩm </caption>};
+
+% Row 2: Data 1
+\node[cellCol1, below=10pt of r1c1] (r2c1) {<td> Sản phẩm A};
+\node[cellCol2, below=10pt of r1c2] (r2c2) {<td> 100.000đ};
+\node[cellCol3, below=10pt of r1c3] (r2c3) {<td> 5};
+
+% Row 3: Data 2
+\node[cellCol1, below=10pt of r2c1] (r3c1) {<td> Sản phẩm B};
+\node[cellCol2, below=10pt of r2c2] (r3c2) {<td> 200.000đ};
+\node[cellCol3, below=10pt of r2c3] (r3c3) {<td> 3};
+
+% Group boxes for rows with dashed borders
+\node[draw=primaryBlue!50, dashed, rounded corners=4pt, fit=(r1c1) (r1c3), inner sep=5pt, label={[font=\sffamily\tiny\bfseries\color{primaryBlue}, align=left]right:\ \codeinline{<tr>} (Hàng 1 - Header)}] {};
+\node[draw=primaryBlue!50, dashed, rounded corners=4pt, fit=(r2c1) (r2c3), inner sep=5pt, label={[font=\sffamily\tiny\bfseries\color{primaryBlue}, align=left]right:\ \codeinline{<tr>} (Hàng 2 - Data)}] {};
+\node[draw=primaryBlue!50, dashed, rounded corners=4pt, fit=(r3c1) (r3c3), inner sep=5pt, label={[font=\sffamily\tiny\bfseries\color{primaryBlue}, align=left]right:\ \codeinline{<tr>} (Hàng 3 - Data)}] {};
+
+\end{tikzpicture}
+\end{tcolorbox}
+\end{center}
+
+\paragraph{Ví dụ 1: Mã nguồn tạo bảng danh sách sản phẩm cơ bản (HTML thô):}
+\begin{codeWindow}[Mã Nguồn Cấu Trúc Bảng HTML Cơ Bản]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<table>
+    <caption>(*@Danh sách sản phẩm@*)</caption>
+    <tr>
+        <th>(*@Tên sản phẩm@*)</th>
+        <th>(*@Giá@*)</th>
+        <th>(*@Số lượng@*)</th>
+    </tr>
+    <tr>
+        <td>(*@Sản phẩm A@*)</td>
+        <td>100.000(*@đ@*)</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>(*@Sản phẩm B@*)</td>
+        <td>200.000(*@đ@*)</td>
+        <td>3</td>
+    </tr>
+</table>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Bảng HTML Mặc Định (Trình Duyệt Render Khi Chưa Có CSS)]
+\centering
+\vspace{4pt}
+{\sffamily\bfseries\color{darkText} Danh sách sản phẩm}\\[6pt]
+\bgroup
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{22pt}
+\begin{tabular}{ccc}
+\textbf{Tên sản phẩm} & \textbf{Giá} & \textbf{Số lượng} \\
+Sản phẩm A & 100.000đ & 5 \\
+Sản phẩm B & 200.000đ & 3 \\
+\end{tabular}
+\egroup
+\vspace{4pt}
+\end{browserWindow}
+
+\begin{noteBox}[Quy Tắc Mặc Định Của Trình Duyệt Đối Với Ô Bảng]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Chiều rộng của ô (\codeinline{<td>} và \codeinline{<th>})}: Sẽ \textbf{tự động mở rộng theo nội dung bên trong}. Ô chứa nội dung dài hơn sẽ chiếm không gian lớn hơn.
+    \item \textbf{Chiều cao của ô}: Cũng sẽ \textbf{tự động tăng nếu nội dung có nhiều dòng} (\term{auto content expansion}).
+    \item \textbf{Đường viền}: Mặc định là \codeinline{none} (không hiển thị bất kỳ viền ngăn cách nào).
+    \item \textbf{Căn lề}: Thẻ \codeinline{<th>} căn giữa và in đậm, thẻ \codeinline{<td>} căn trái và chữ bình thường; cả hai đều căn giữa theo phương dọc (\codeinline{vertical-align: middle}).
+\end{itemize}
+\end{noteBox}
+
+\newpage
+\subsection{2. Thuộc Tính Bảng Trong HTML (Di Sản Kế Thừa Cổ Điển)}
+
+Trước khi CSS trở thành tiêu chuẩn định kiểu giao diện web, các phiên bản HTML cũ (HTML 3.2, HTML 4.01) từng cung cấp nhiều thuộc tính trực tiếp bên trong thẻ để chỉnh sửa viền, màu sắc và kích thước. Ngày nay, \textbf{toàn bộ các thuộc tính này đều đã lỗi thời (deprecated)} và được khuyến cáo thay thế hoàn toàn bằng CSS. Tuy nhiên, lập trình viên vẫn cần nắm vững để đọc hiểu và nâng cấp các dự án web kế thừa (\term{legacy systems}).
+
+\subsubsection{1. Thuộc Tính Cơ Bản Của Thẻ \codeinline{<table>}}
+
+\begin{prettyTableBox}[BẢNG TRA CỨU THUỘC TÍNH HTML CỔ ĐIỂN CỦA THẺ <table>]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính HTML} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Cú pháp ví dụ} \\
+\hline
+border & Đặt độ dày của viền bảng (đã lỗi thời, nên dùng CSS). & <table border="1"> \\
+\hline
+cellpadding & Khoảng cách bên trong ô, giữa nội dung và viền. & <table cellpadding="10"> \\
+\hline
+cellspacing & Khoảng cách giữa các ô (khoảng cách viền). & <table cellspacing="5"> \\
+\hline
+width & Độ rộng bảng (có thể là pixel hoặc \%). & <table width="80\%"> \\
+\hline
+height & Chiều cao bảng (ít dùng, thay bằng CSS). & <table height="300px"> \\
+\hline
+align & Canh lề bảng (trái, phải, giữa) --- đã lỗi thời, nên dùng CSS. & <table align="center"> \\
+\hline
+bgcolor & Màu nền bảng (đã lỗi thời, dùng CSS). & <table bgcolor="\#f0f0f0"> \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{2. Thuộc Tính Của Hàng \codeinline{<tr>} (\textit{Table Row})}
+
+\begin{prettyTableBox}[BẢNG TRA CỨU THUỘC TÍNH HTML CỦA THẺ <tr>]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính HTML} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Cú pháp ví dụ} \\
+\hline
+align & Căn lề nội dung hàng (trái, phải, giữa). & <tr align="center"> \\
+\hline
+valign & Căn lề dọc nội dung (top, middle, bottom). & <tr valign="top"> \\
+\hline
+bgcolor & Màu nền của hàng (lỗi thời, dùng CSS). & <tr bgcolor="\#ffcccb"> \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{3. Thuộc Tính Của Ô \codeinline{<td>} Và \codeinline{<th>}}
+
+\begin{prettyTableBox}[BẢNG TRA CỨU THUỘC TÍNH HTML CỦA THẺ <td> VÀ <th>]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính HTML} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Cú pháp ví dụ} \\
+\hline
+colspan & Gộp nhiều cột thành một ô duy nhất. & <td colspan="2"> \\
+\hline
+rowspan & Gộp nhiều hàng thành một ô duy nhất. & <td rowspan="3"> \\
+\hline
+align & Căn lề ngang nội dung ô (left, center, right). & <td align="left"> \\
+\hline
+valign & Căn lề dọc nội dung ô (top, middle, bottom). & <td valign="bottom"> \\
+\hline
+bgcolor & Màu nền của ô (lỗi thời, dùng CSS). & <td bgcolor="\#ffff99"> \\
+\hline
+width & Độ rộng của ô (thay bằng CSS width). & <td width="200px"> \\
+\hline
+height & Chiều cao của ô (thay bằng CSS height). & <td height="50px"> \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Hai Thuộc Tính HTML Vẫn Được Sử Dụng Rộng Rãi: colspan \& rowspan]
+Khác với các thuộc tính định dạng thẩm mỹ (\codeinline{align}, \codeinline{bgcolor}, \codeinline{border}) đã bị CSS thay thế, hai thuộc tính \codeinline{colspan} và \codeinline{rowspan} phản ánh \textbf{cấu trúc ngữ nghĩa của dữ liệu} nên vẫn được duy trì tiêu chuẩn trong HTML5:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{colspan="N"}: Kéo dài ô sang bên phải $N$ cột. Lưu ý: các hàng chứa ô này cần bớt đi $N-1$ thẻ \codeinline{<td>} tương ứng để không làm tràn cấu trúc bảng.
+    \item \codeinline{rowspan="M"}: Kéo dài ô xuống dưới $M$ hàng. Các hàng phía dưới bị ô này chiếm chỗ bắt buộc phải bỏ đi một thẻ \codeinline{<td>} tại vị trí tương ứng.
+\end{itemize}
+\end{tipBox}
+
+\newpage
+\subsection{3. Các Thuộc Tính CSS Quan Trọng Khi Định Dạng Bảng}
+
+CSS tách biệt hoàn toàn giữa cấu trúc dữ liệu và giao diện hiển thị. Dưới đây là bảng tổng hợp đầy đủ các thuộc tính CSS quan trọng nhất chuyên dùng để kiểm soát bảng:
+
+\begin{prettyTableBox}[BẢNG CÁC THUỘC TÍNH CSS ĐỊNH DẠNG BẢNG QUAN TRỌNG]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\ttfamily\color{accentOrange}\bfseries}p{4.2cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính CSS} & \thd{\sffamily Ý nghĩa \& Chức năng} & \thd{\sffamily Giá trị phổ biến} \\
+\hline
+border & Xác định viền của bảng hoặc ô. & 1px solid \#000; \\
+\hline
+border-collapse & Quyết định viền bảng có gộp lại hay tách riêng. & collapse, separate; \\
+\hline
+border-spacing & Khoảng cách giữa các ô (khi dùng separate). & 10px, 0, 20px 5px; \\
+\hline
+width & Độ rộng của bảng hoặc từng cột. & 100\%, auto, 500px; \\
+\hline
+height & Chiều cao của bảng hoặc ô. & auto, 300px; \\
+\hline
+padding & Khoảng cách giữa nội dung và viền ô. & 10px, 5px 10px; \\
+\hline
+text-align & Canh lề nội dung trong ô theo phương ngang. & left, center, right; \\
+\hline
+vertical-align & Canh lề theo chiều dọc trong ô. & top, middle, bottom; \\
+\hline
+background-color & Màu nền cho bảng, hàng hoặc từng ô. & \#f2f2f2, transparent, red; \\
+\hline
+caption-side & Vị trí hiển thị tiêu đề bảng (\codeinline{<caption>}). & top, bottom; \\
+\hline
+empty-cells & Xử lý hiển thị ô trống (khi không có nội dung). & show, hide; \\
+\hline
+table-layout & Xác định cách trình duyệt phân bổ độ rộng cột. & auto, fixed; \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{4. Phân Tích Chuyên Sâu Các Thuộc Tính CSS Trọng Tâm}
+
+\subsubsection{1. Thuộc Tính \csshint{border-collapse} \& \csshint{border-spacing}}
+
+Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế viền tách biệt (\codeinline{border-collapse: separate}). Điều này tạo ra hai lớp viền bao quanh mỗi ô với một khoảng cách hở ở giữa:
+
+\begin{center}
+\begin{tikzpicture}[font=\sffamily\small]
+    % Model 1: Separate
+    \node[draw=primaryBlue, fill=primaryBlue!5, rounded corners=6pt, inner sep=10pt, minimum width=6.5cm] (sepBox) at (0,0) {
+        \begin{tikzpicture}[node distance=6pt]
+            \node[font=\bfseries\color{primaryBlue}] at (2.2, 1.2) {border-collapse: separate (mặc định)};
+            \node[draw=primaryBlue!70, fill=white, minimum width=2cm, minimum height=0.7cm] (c1) at (0,0) {Ô 1};
+            \node[draw=primaryBlue!70, fill=white, minimum width=2cm, minimum height=0.7cm, right=8pt of c1] (c2) {Ô 2};
+            \draw[draw=accentOrange, line width=0.8pt, <->] ($(c1.east)!0.5!(c2.west)+(0,0.6)$) -- ++(0,-1.2) node[below, font=\scriptsize\bfseries\color{accentOrange}] {border-spacing};
+            \node[draw=primaryBlue!70, fill=white, minimum width=2cm, minimum height=0.7cm, below=8pt of c1] (c3) {Ô 3};
+            \node[draw=primaryBlue!70, fill=white, minimum width=2cm, minimum height=0.7cm, right=8pt of c3] (c4) {Ô 4};
+        \end{tikzpicture}
+    };
+    
+    % Model 2: Collapse
+    \node[draw=successGreen, fill=successGreen!5, rounded corners=6pt, inner sep=10pt, minimum width=6.5cm, right=20pt of sepBox] (colBox) {
+        \begin{tikzpicture}
+            \node[font=\bfseries\color{successGreen!80!black}] at (2.0, 1.2) {border-collapse: collapse (khuyên dùng)};
+            \draw[draw=successGreen, fill=white, line width=1pt] (0,0) grid[step=2cm] (4,-1.4);
+            \node at (1,-0.35) {Ô 1};
+            \node at (3,-0.35) {Ô 2};
+            \node at (1,-1.05) {Ô 3};
+            \node at (3,-1.05) {Ô 4};
+            \node[font=\scriptsize\color{codeComment}] at (2.0, -1.7) {Viền giáp ranh gộp thành 1 đường đơn};
+        \end{tikzpicture}
+    };
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{border-collapse: collapse}: Gộp các đường viền giáp ranh giữa các ô thành một đường viền đơn sắc nét duy nhất. Đây là thuộc tính gần như bắt buộc trong mọi bảng dữ liệu hiện đại để tạo giao diện thanh thoát và gọn gàng.
+    \item \codeinline{border-spacing}: Đặt khoảng cách giữa các ô (khoảng cách viền). Cú pháp có thể nhận 1 giá trị (\codeinline{border-spacing: 10px;}) hoặc 2 giá trị (\codeinline{border-spacing: 20px 5px;} tương ứng ngang 20px, dọc 5px).
+    \item \textbf{Lưu ý sống còn}: \codeinline{border-spacing} chỉ có tác dụng khi \codeinline{border-collapse: separate}. Khi đã bật \codeinline{border-collapse: collapse}, giá trị \codeinline{border-spacing} sẽ bị trình duyệt bỏ qua hoàn toàn.
+\end{itemize}
+
+\subsubsection{2. Thuộc Tính \csshint{table-layout} (Tối Ưu Hiệu Năng Phân Bố Cột)}
+
+Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệt sử dụng để tính toán độ rộng các cột trong bảng:
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{table-layout: auto} (\term{Mặc định}): Trình duyệt phải duyệt qua toàn bộ dữ liệu của tất cả các ô trong bảng để xác định ô có độ rộng lớn nhất rồi mới bắt đầu dựng hình (\term{rendering}). Với các bảng lớn chứa hàng ngàn hàng, thuật toán này gây tốn CPU và tạo độ trễ giật khung hình lớn (\term{layout thrashing}).
+    \item \codeinline{table-layout: fixed} (\term{Hiệu năng cao}): Trình duyệt phân bổ độ rộng cột ngay lập tức dựa trên độ rộng được chỉ định ở hàng đầu tiên (thường là \codeinline{<th>}). Quá trình hiển thị diễn ra tức thì mà không cần chờ tải xong toàn bộ dữ liệu bên dưới. Bắt buộc kết hợp với \codeinline{width: 100\%;} trên \codeinline{<table>}.
+\end{itemize}
+
+\subsubsection{3. Thuộc Tính \csshint{caption-side} \& \csshint{empty-cells}}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{caption-side}: Điều khiển vị trí hiển thị của tiêu đề bảng \codeinline{<caption>}. Giá trị mặc định là \codeinline{top} (nằm trên đầu bảng); có thể chuyển thành \codeinline{bottom} để đặt tiêu đề ở chân bảng (thường dùng cho chú thích nguồn dữ liệu).
+    \item \codeinline{empty-cells}: Xử lý viền và màu nền của các ô trống không có nội dung. Giá trị \codeinline{show} (mặc định) hiển thị viền bình thường; giá trị \codeinline{hide} sẽ ẩn viền của các ô trống này. \textit{Lưu ý: Chỉ áp dụng khi bảng dùng \codeinline{border-collapse: separate}}.
+\end{itemize}
+
+\newpage
+\subsection{5. Ví Dụ CSS Hoàn Chỉnh \& Trực Quan Hóa Kết Quả}
+
+Dưới đây là một ví dụ CSS hoàn chỉnh chuẩn mực, kết hợp các thuộc tính viền gộp, cố định cột, căn lề và kỹ thuật tô màu xen kẽ dòng:
+
+\begin{codeWindow}[Mã Nguồn CSS Định Dạng Bảng Chuẩn Mực]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+table {
+    width: 100%;
+    border-collapse: collapse; /* (*@Gộp viền thành một đường duy nhất@*) */
+    table-layout: fixed;       /* (*@Cố định độ rộng cột, tăng tốc render@*) */
+    background-color: #f9f9f9;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+}
+
+caption {
+    caption-side: top;
+    font-weight: bold;
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* (*@Tô màu xen kẽ cho hàng chẵn@*) */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn HTML Bảng Danh Sách Sản Phẩm Đi Kèm]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<table>
+    <caption>(*@Danh sách sản phẩm@*)</caption>
+    <tr>
+        <th>(*@Tên sản phẩm@*)</th>
+        <th>(*@Giá@*)</th>
+        <th>(*@Số lượng@*)</th>
+    </tr>
+    <tr>
+        <td>(*@Sản phẩm A@*)</td>
+        <td>100.000(*@đ@*)</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>(*@Sản phẩm B@*)</td>
+        <td>200.000(*@đ@*)</td>
+        <td>3</td>
+    </tr>
+</table>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Bảng Sản Phẩm Render Chuẩn CSS (border-collapse, table-layout, nth-child)]
+\centering
+\vspace{4pt}
+{\sffamily\bfseries\large\color{darkText} Danh sách sản phẩm}\\[8pt]
+\bgroup
+\renewcommand{\arraystretch}{1.5}
+\setlength{\tabcolsep}{14pt}
+\begin{tabularx}{0.96\linewidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{TÊN SẢN PHẨM}} & \textcolor{white}{\textbf{GIÁ}} & \textcolor{white}{\textbf{SỐ LƯỢNG}} \\
+\hline
+\rowcolor{gray!6}
+Sản phẩm A & 100.000đ & 5 \\
+\hline
+\rowcolor{gray!16}
+Sản phẩm B & 200.000đ & 3 \\
+\hline
+\end{tabularx}
+\egroup
+\vspace{6pt}
+\end{browserWindow}
+
+\newpage
+\subsection{6. 4 Mẹo Hay Khi Làm Việc Với Bảng (Tips \& Tricks)}
+
+Để xây dựng các bảng dữ liệu chuyên nghiệp, dễ đọc và tối ưu trên mọi màn hình, lập trình viên nên nắm vững 4 mẹo thực chiến sau:
+
+\begin{enumerate}[leftmargin=1.8em, itemsep=8pt, parsep=0pt]
+    \item \textbf{Viền rõ ràng}: Luôn khai báo \codeinline{border-collapse: collapse;} trên thẻ \codeinline{<table>}. Kỹ thuật này giúp các viền ô liền kề tự động hợp nhất thành một đường mảnh duy nhất, loại bỏ hoàn toàn khoảng trống thừa mứa và mang lại diện mạo hiện đại, sạch sẽ.
+    \item \textbf{Tô màu xen kẽ (\term{Zebra Striping})}: Khi bảng có nhiều dòng dữ liệu, mắt người đọc rất dễ bị lệch dòng khi di chuyển từ trái sang phải. Sử dụng bộ chọn giả lớp \codeinline{tr:nth-child(even)} hoặc \codeinline{tr:nth-child(odd)} để tô màu nền nhạt cho các hàng chẵn/lẻ giúp người dùng theo dõi dữ liệu ma trận dễ dàng hơn gấp nhiều lần. Kết hợp thêm \codeinline{tr:hover \{ background-color: \#e2e6ea; \}} để phản hồi tương tác mượt mà.
+    \item \textbf{Cố định Header (\term{Sticky Header})}: Với các bảng báo cáo dài có thanh cuộn trang, hãy áp dụng thuộc tính \codeinline{position: sticky; top: 0;} cho thẻ \codeinline{<th>}. Điều này giữ cho hàng tiêu đề luôn cố định ở đỉnh màn hình trong khi người dùng cuộn xem hàng trăm bản ghi phía dưới:
+\begin{codeWindow}[Khai Báo Header Cố Định Bằng CSS Sticky]
+\begin{lstlisting}[language=CSS3]
+th {
+    position: sticky;
+    top: 0;
+    background-color: #007bff;
+    color: white;
+    z-index: 10;
+}
+\end{lstlisting}
+\end{codeWindow}
+    \item \textbf{Thiết kế đáp ứng (\term{Responsive Table})}: Trên màn hình điện thoại di động nhỏ hẹp, bảng nhiều cột sẽ làm vỡ giao diện nếu không được xử lý cẩn thận. Hai giải pháp chuẩn công nghiệp gồm:
+        \begin{itemize}[itemsep=3pt]
+            \item \textbf{Giải pháp 1 (Khung cuộn ngang)}: Bọc bảng trong một thẻ \codeinline{<div class="table-container">} và đặt CSS \codeinline{overflow-x: auto; -webkit-overflow-scrolling: touch;}. Bảng sẽ giữ nguyên tỷ lệ và cho phép người dùng vuốt ngón tay để cuộn ngang.
+            \item \textbf{Giải pháp 2 (Chuyển bảng thành Card)}: Dùng Media Query trên màn hình nhỏ để đặt \codeinline{display: block} cho toàn bộ các phần tử bảng, biến mỗi hàng \codeinline{<tr>} thành một tấm thẻ (Card) độc lập và dùng thuộc tính CSS \codeinline{content: attr(data-label)} để chèn nhãn cột tự động.
+        \end{itemize}
+\end{enumerate}
+
+\subsection{7. Đọc Thêm: Cấu Trúc Ngữ Nghĩa Semantics, Responsive Matrix \& Accessibility}
+
+\subsubsection{1. Bộ Thẻ Mở Rộng Ngữ Nghĩa: \codeinline{<thead>}, \codeinline{<tbody>}, \codeinline{<tfoot>}}
+
+Khi xây dựng bảng dữ liệu chuyên sâu cho hệ thống doanh nghiệp, việc phân tách cấu trúc thành ba khối ngữ nghĩa chính là tiêu chuẩn bắt buộc:
+
+\begin{prettyTableBox}[BẢNG BỘ BA THẺ NGỮ NGHĨA PHÂN KHỐI DỮ LIỆU HTML5]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\ttfamily\bfseries\color{primaryBlue}}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.8cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thẻ ngữ nghĩa} & \thd{\sffamily Vai trò trong tài liệu} & \thd{\sffamily Ứng dụng thực tế} \\
+\hline
+<thead> & Gom nhóm toàn bộ hàng tiêu đề chính của bảng. & Luôn in lại ở đầu mỗi trang khi người dùng in ấn tài liệu ra giấy. \\
+\hline
+<tbody> & Gom nhóm toàn bộ các hàng chứa dữ liệu nội dung cốt lõi. & Có thể kết hợp thuộc tính \codeinline{height} và \codeinline{overflow-y: auto} để cuộn nội dung độc lập. \\
+\hline
+<tfoot> & Gom nhóm các hàng tổng kết, số lượng hoặc ghi chú đáy. & Đảm bảo phần tổng kết luôn nằm ở cuối bảng dữ liệu. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{2. Tối Ưu Khả Năng Tiếp Cận (\term{Accessibility \& Screen Readers})}
+
+Để người khiếm thị sử dụng phần mềm đọc màn hình (Screen Readers như NVDA, VoiceOver) có thể hiểu chính xác dữ liệu bảng:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Luôn khai báo thuộc tính \codeinline{scope="col"} trên \codeinline{<th>} tiêu đề cột và \codeinline{scope="row"} trên \codeinline{<th>} tiêu đề hàng.
+    \item Luôn cung cấp thẻ \codeinline{<caption>} để mô tả tóm tắt nội dung bảng giúp người dùng định hình ngữ cảnh dữ liệu trước khi duyệt từng ô.
+\end{itemize}
+
+\begin{warnBox}[Cảnh Báo Quan Trọng: Tuyệt Đối Không Dùng Thẻ Table Để Dàn Trang Website]
+Trong kỷ nguyên Web 1.0 (những năm 1990 -- 2000), lập trình viên từng lạm dụng thẻ \codeinline{<table>} để chia cột, dựng khung banner và chân trang của website. Ngày nay:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Thẻ \codeinline{<table>} chỉ được phép dùng cho dữ liệu ma trận hai chiều (Tabular Data)}.
+    \item \textbf{Bố cục toàn trang bắt buộc phải sử dụng CSS Flexbox hoặc CSS Grid}. Dùng \codeinline{<table>} để làm layout sẽ phá hủy hoàn toàn khả năng tiếp cận (Accessibility), gây hại cho điểm SEO và khiến trang web không thể Responsive thích ứng trên thiết bị di động.
+\end{itemize}
+\end{warnBox}
+
+
+% ==============================================================================
 % CHƯƠNG 7: BỐ CỤC MODERN CSS: FLEXBOX & CSS GRID
 % ==============================================================================
 \chapter{Bố Cục Modern CSS: Flexbox \& CSS Grid}
