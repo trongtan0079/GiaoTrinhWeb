@@ -24209,7 +24209,11 @@ inside & Dấu đầu dòng nằm \textbf{bên trong} hộp nội dung của ph�
 \end{codeWindow}
 
 \begin{browserWindow}[Kết Quả Thực Nghiệm: Đối Chiếu Trực Quan list-style-position outside vs inside]
-\textbf{\textcolor{primaryBlue}{\small 1. list-style-position: outside; (Mặc định --- Dấu bullet nằm ngoài, dòng sau thẳng hàng lề chữ):}}\par\vspace{4pt}
+\textbf{\textcolor{primaryBlue}{\small 1. list-style-position: outside; (Mặc định --- Dấu bullet nằm ngoài, dòng sau thẳng hàng lề chữ):}}\par\vspace{3pt}
+\begin{center}
+\includegraphics[width=0.92\linewidth]{figures/list_style_position_outside.png}
+\end{center}
+\vspace{-4pt}
 \begin{tcolorbox}[
     colback=primaryBlue!3, colframe=primaryBlue!30,
     boxrule=0.6pt, arc=3pt, left=8pt, right=8pt, top=5pt, bottom=5pt
@@ -24222,7 +24226,11 @@ inside & Dấu đầu dòng nằm \textbf{bên trong} hộp nội dung của ph�
 \end{itemize}
 \end{tcolorbox}
 \vspace{6pt}
-\textbf{\textcolor{primaryBlue}{\small 2. list-style-position: inside; (Dấu trong hộp nội dung --- Dòng sau thẳng hàng dưới dấu bullet):}}\par\vspace{4pt}
+\textbf{\textcolor{primaryBlue}{\small 2. list-style-position: inside; (Dấu trong hộp nội dung --- Dòng sau thẳng hàng dưới dấu bullet):}}\par\vspace{3pt}
+\begin{center}
+\includegraphics[width=0.92\linewidth]{figures/list_style_position_inside.png}
+\end{center}
+\vspace{-4pt}
 \begin{tcolorbox}[
     colback=primaryBlue!3, colframe=primaryBlue!30,
     boxrule=0.6pt, arc=3pt, left=8pt, right=8pt, top=5pt, bottom=5pt
@@ -24853,6 +24861,26 @@ ol {
 Bộ chọn phần tử giả \textbf{\codeinline{::marker}} nhắm trực tiếp vào chính chiếc dấu đầu dòng (dấu chấm, số thứ tự, chữ cái) của phần tử \codeinline{<li>}. Nó cho phép bạn áp dụng các thuộc tính CSS như \codeinline{color}, \codeinline{font-size}, \codeinline{content} độc lập hoàn toàn với phần văn bản nội dung!
 \end{conceptBox}
 
+\begin{prettyTableBox}[SO SÁNH ĐẶC TÍNH: PHẦN TỬ GIẢ ::MARKER VS ::BEFORE]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\bfseries\color{primaryBlue}}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily Pseudo-element ::marker} & \thd{\sffamily Pseudo-element ::before} \\
+\hline
+Ngữ nghĩa chuẩn & Dành riêng cho dấu đầu dòng của danh sách (\codeinline{<li>}). & Tạo phần tử con trừu tượng đứng trước nội dung. \\
+\hline
+Thuộc tính hỗ trợ & Giới hạn (\codeinline{color}, \codeinline{font-*}, \codeinline{content}, \codeinline{animation}). & Tự do $100\%$ (\codeinline{box-model}, \codeinline{background}, \codeinline{border}...). \\
+\hline
+Định vị layout & Tự động nằm đúng vị trí marker theo \codeinline{list-style-position}. & Phải căn chỉnh thủ công bằng Flexbox, Padding hoặc Absolute. \\
+\hline
+Hiệu năng render & Cực nhanh, dựng hình cấp trình duyệt gốc không tốn tài nguyên. & Tạo thêm một Box trong cây DOM của trình duyệt. \\
+\hline
+Khi nào nên chọn? & Đổi màu/cỡ dấu chấm, số La Mã, icon Unicode nhanh gọn. & Marker phức tạp có khung viền, đổ bóng, background hoặc icon ảnh SVG. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
 \begin{codeWindow}[Mã Nguồn Mẫu: Tùy Biến Màu Sắc, Cỡ Chữ \& Ký Tự Với ::marker]
 \begin{lstlisting}[language=CSS3]
 /* 1. Doi mau sac va phong to dau cham danh sach */
@@ -24861,15 +24889,23 @@ li::marker {
     font-size: 20px;    /* (*@Dau cham phong to doc lap (20px hoac 1.4rem)@*) */
 }
 
-/* 2. Thay the dau cham bang ky tu tuy chinh */
+/* 2. Thay the dau cham bang ky tu tuy chinh (danh sach checklist) */
 ul.checklist li::marker {
     content: "\2713 "; /* (*@Ky tu tich xanh (Unicode: \string\2713)@*) */
     color: #16A34A;
     font-size: 1.2rem;
 }
+
+/* 3. Dau ngoi sao vang hoac ky tu dac biet */
+ul.star-list li::marker {
+    content: "\2605 "; /* (*@Ngoi sao vang (Unicode: \string\2605)@*) */
+    color: #F59E0B;     /* (*@Mau vang ho phach ruc ro@*) */
+    font-size: 1.25rem;
+}
 \end{lstlisting}
 \end{codeWindow}
 
+\newpage
 \begin{browserWindow}[Kết Quả Hiển Thị Thực Tế: Dấu Đầu Dòng Tùy Biến Bằng ::marker]
 \textbf{\textcolor{primaryBlue}{\small 1. Dấu chấm tròn phóng to \& đổi màu cam (\codeinline{color: \#FF5733; font-size: 20px}):}}\par\vspace{3pt}
 \begin{itemize}[leftmargin=2.2em, itemsep=3pt, parsep=0pt]
@@ -24884,6 +24920,13 @@ ul.checklist li::marker {
     \item[\textcolor{successGreen}{\Large $\surd$}] Nắm vững cấu trúc siêu văn bản Semantic HTML5
     \item[\textcolor{successGreen}{\Large $\surd$}] Thực hành hoàn thiện dự án Web Frontend thực chiến
 \end{itemize}
+\vspace{6pt}
+\textbf{\textcolor{primaryBlue}{\small 3. Danh sách biểu tượng ngôi sao vàng (\codeinline{content: "\textbackslash 2605 "; color: \#F59E0B}):}}\par\vspace{3pt}
+\begin{itemize}[leftmargin=2.2em, itemsep=3pt, parsep=0pt]
+    \item[\textcolor{codeKeyword}{\Large $\star$}] Khóa học lập trình Web Frontend từ cơ bản đến chuyên sâu
+    \item[\textcolor{codeKeyword}{\Large $\star$}] Kiến trúc CSS hiện đại: Grid, Flexbox, Animations \& Transforms
+    \item[\textcolor{codeKeyword}{\Large $\star$}] Tối ưu hóa hiệu năng và trải nghiệm người dùng chuẩn quốc tế
+\end{itemize}
 \end{browserWindow}
 
 \begin{warnBox}[Giới Hạn Thuộc Tính CSS Hợp Lệ Trên ::marker Theo Chuẩn W3C]
@@ -24893,6 +24936,14 @@ Không giống như \codeinline{::before} hay \codeinline{::after}, phần tử 
     \item \textbf{Bị bỏ qua hoàn toàn}: Các thuộc tính mô hình hộp (\codeinline{width}, \codeinline{height}, \codeinline{margin}, \codeinline{padding}, \codeinline{background}, \codeinline{border}, \codeinline{display}, \codeinline{position}). Nếu cần căn lề hộp, bo góc, hoặc chèn ảnh nền tùy biến vị trí pixel, bạn bắt buộc phải dùng \codeinline{li::before}.
 \end{itemize}
 \end{warnBox}
+
+\begin{tipBox}[Kinh Nghiệm Thực Chiến Khi Tùy Biến Danh Sách Hiện Đại]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Ưu tiên \codeinline{::marker}}: Khi chỉ cần đổi màu, cỡ chữ hoặc chèn ký tự Unicode ngắn gọn, hãy dùng \codeinline{::marker} để giữ mã CSS thanh mảnh và tối ưu hóa hiệu năng render.
+    \item \textbf{Chuyển sang \codeinline{::before}}: Khi cần marker là icon SVG động, badge hình tròn có màu nền, bo góc hoặc căn chỉnh khoảng cách pixel tuyệt đối, hãy ẩn marker gốc (\codeinline{list-style: none}) và tạo hình bằng \codeinline{li::before}.
+    \item \textbf{Luôn kiểm tra mã Unicode}: Hãy chú ý dấu gạch chéo ngược (\codeinline{\textbackslash}) khi khai báo mã Hex Unicode trong CSS (ví dụ \codeinline{\textbackslash 2713} cho dấu tích, \codeinline{\textbackslash 2605} cho ngôi sao).
+\end{itemize}
+\end{tipBox}
 
 
 % ==============================================================================
