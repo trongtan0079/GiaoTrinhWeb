@@ -25233,34 +25233,128 @@ table-layout & Xác định cách trình duyệt phân bổ độ rộng cột. 
 
 Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế viền tách biệt (\codeinline{border-collapse: separate}). Điều này tạo ra hai lớp viền bao quanh mỗi ô với một khoảng cách hở ở giữa:
 
-\begin{center}
-\begin{tikzpicture}[font=\sffamily\small]
-    % Model 1: Separate
-    \node[draw=primaryBlue, fill=primaryBlue!5, rounded corners=6pt, inner sep=10pt, minimum width=6.5cm] (sepBox) at (0,0) {
-        \begin{tikzpicture}[node distance=6pt]
-            \node[font=\bfseries\color{primaryBlue}] at (2.2, 1.2) {border-collapse: separate (mặc định)};
-            \node[draw=primaryBlue!70, fill=white, minimum width=2cm, minimum height=0.7cm] (c1) at (0,0) {Ô 1};
-            \node[draw=primaryBlue!70, fill=white, minimum width=2cm, minimum height=0.7cm, right=8pt of c1] (c2) {Ô 2};
-            \draw[draw=accentOrange, line width=0.8pt, <->] ($(c1.east)!0.5!(c2.west)+(0,0.6)$) -- ++(0,-1.2) node[below, font=\scriptsize\bfseries\color{accentOrange}] {border-spacing};
-            \node[draw=primaryBlue!70, fill=white, minimum width=2cm, minimum height=0.7cm, below=8pt of c1] (c3) {Ô 3};
-            \node[draw=primaryBlue!70, fill=white, minimum width=2cm, minimum height=0.7cm, right=8pt of c3] (c4) {Ô 4};
-        \end{tikzpicture}
-    };
-    
-    % Model 2: Collapse
-    \node[draw=successGreen, fill=successGreen!5, rounded corners=6pt, inner sep=10pt, minimum width=6.5cm, right=20pt of sepBox] (colBox) {
-        \begin{tikzpicture}
-            \node[font=\bfseries\color{successGreen!80!black}] at (2.0, 1.2) {border-collapse: collapse (khuyên dùng)};
-            \draw[draw=successGreen, fill=white, line width=1pt] (0,0) grid[step=2cm] (4,-1.4);
-            \node at (1,-0.35) {Ô 1};
-            \node at (3,-0.35) {Ô 2};
-            \node at (1,-1.05) {Ô 3};
-            \node at (3,-1.05) {Ô 4};
-            \node[font=\scriptsize\color{codeComment}] at (2.0, -1.7) {Viền giáp ranh gộp thành 1 đường đơn};
-        \end{tikzpicture}
-    };
+\begin{browserWindow}[So Sánh Kỹ Thuật: border-collapse separate vs collapse]
+\centering
+\begin{tikzpicture}[
+    scale=0.98,
+    every node/.style={transform shape},
+    font=\sffamily,
+    node distance=6pt
+]
+  % ============================================================================
+  % 1. PANEL TRÁI: BORDER-COLLAPSE: SEPARATE (MẶC ĐỊNH)
+  % ============================================================================
+  % Khung nền Panel Trái
+  \node[
+      rectangle, rounded corners=7pt, 
+      draw=primaryBlue!35, fill=primaryBlue!2, 
+      line width=0.8pt, 
+      drop shadow={opacity=0.06, shadow xshift=1pt, shadow yshift=-1pt}, 
+      minimum width=6.8cm, minimum height=4.4cm, 
+      inner sep=8pt
+  ] (cardLeft) at (-3.7, 0) {};
+  
+  % Dải accent trái
+  \draw[line width=3.5pt, primaryBlue, line cap=round] 
+      ($(cardLeft.north west) + (1.5pt, -6pt)$) -- ($(cardLeft.south west) + (1.5pt, 6pt)$);
+
+  % Header Panel Trái
+  \node[
+      fill=primaryBlue!12, draw=primaryBlue!70, 
+      text=primaryBlue, font=\sffamily\bfseries\scriptsize, 
+      rounded corners=3pt, inner xsep=8pt, inner ysep=3.5pt
+  ] (headLeft) at (-3.7, 1.75) {border-collapse: separate; (Mặc định)};
+
+  % Các ô bảng riêng rẽ (Cell nodes)
+  % Header cells (Hàng 1)
+  \node[draw=primaryBlue!70, fill=primaryBlue!12, rounded corners=4pt, font=\sffamily\bfseries\small, text=primaryBlue, minimum width=2.6cm, minimum height=0.75cm, align=center] 
+      (c11) at (-5.25, 0.65) {Tiêu đề 1};
+  \node[draw=primaryBlue!70, fill=primaryBlue!12, rounded corners=4pt, font=\sffamily\bfseries\small, text=primaryBlue, minimum width=2.6cm, minimum height=0.75cm, align=center] 
+      (c12) at (-2.15, 0.65) {Tiêu đề 2};
+
+  % Data cells (Hàng 2)
+  \node[draw=gray!50, fill=white, rounded corners=4pt, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center] 
+      (c21) at (-5.25, -0.30) {Dữ liệu 1};
+  \node[draw=gray!50, fill=white, rounded corners=4pt, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center] 
+      (c22) at (-2.15, -0.30) {Dữ liệu 2};
+
+  % Chỉ báo khoảng cách border-spacing
+  \node[fill=accentOrange, text=white, font=\sffamily\tiny\bfseries, rounded corners=2pt, inner xsep=5pt, inner ysep=2pt] 
+      (spacingTag) at (-3.7, 1.18) {border-spacing};
+  \draw[->, line width=0.8pt, draw=accentOrange] 
+      (spacingTag.south) -- (-3.7, 0.70);
+  \draw[draw=accentOrange, line width=1.1pt, <->] 
+      ($(c11.east) + (2pt, -14pt)$) -- ($(c12.west) + (-2pt, -14pt)$);
+
+  % Chú thích chân Panel Trái
+  \node[text=codeComment, font=\sffamily\scriptsize, align=center] 
+      at (-3.7, -1.45) {$\bullet$ Từng ô mang viền độc lập (viền kép)\\$\bullet$ Tồn tại khe hở \codeinline{border-spacing} giữa các ô};
+
+  % ============================================================================
+  % 2. PANEL PHẢI: BORDER-COLLAPSE: COLLAPSE (KHUYÊN DÙNG)
+  % ============================================================================
+  % Khung nền Panel Phải
+  \node[
+      rectangle, rounded corners=7pt, 
+      draw=successGreen!40, fill=successGreen!2, 
+      line width=0.8pt, 
+      drop shadow={opacity=0.06, shadow xshift=1pt, shadow yshift=-1pt}, 
+      minimum width=6.8cm, minimum height=4.4cm, 
+      inner sep=8pt
+  ] (cardRight) at (3.7, 0) {};
+  
+  % Dải accent phải
+  \draw[line width=3.5pt, successGreen, line cap=round] 
+      ($(cardRight.north west) + (1.5pt, -6pt)$) -- ($(cardRight.south west) + (1.5pt, 6pt)$);
+
+  % Header Panel Phải
+  \node[
+      fill=successGreen!15, draw=successGreen!80!black, 
+      text=successGreen!80!black, font=\sffamily\bfseries\scriptsize, 
+      rounded corners=3pt, inner xsep=8pt, inner ysep=3.5pt
+  ] (headRight) at (3.7, 1.75) {border-collapse: collapse; (Khuyên dùng)};
+
+  % Bảng viền gộp phẳng hoàn hảo (Table grid liền mạch)
+  % Header cells
+  \node[draw=primaryBlue!80, fill=primaryBlue, font=\sffamily\bfseries\small, text=white, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=south east] 
+      (m11) at (3.7, 0.175) {Tiêu đề 1};
+  \node[draw=primaryBlue!80, fill=primaryBlue, font=\sffamily\bfseries\small, text=white, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=south west] 
+      (m12) at (3.7, 0.175) {Tiêu đề 2};
+
+  % Data cells (Dính liền, giáp ranh phẳng)
+  \node[draw=gray!50, fill=white, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=north east] 
+      (m21) at (3.7, 0.175) {Dữ liệu 1};
+  \node[draw=gray!50, fill=white, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=north west] 
+      (m22) at (3.7, 0.175) {Dữ liệu 2};
+
+  % Viền bao quanh sắc nét
+  \draw[draw=primaryBlue!90, line width=1.1pt] (m11.north west) rectangle (m12.south east);
+  \draw[draw=gray!60, line width=0.9pt] (m21.north west) rectangle (m22.south east);
+  \draw[draw=gray!60, line width=0.9pt] (m21.north east) -- (m21.south east);
+
+  % Chỉ báo viền gộp phẳng
+  \node[fill=successGreen, text=white, font=\sffamily\tiny\bfseries, rounded corners=2pt, inner xsep=6pt, inner ysep=2.5pt] 
+      (badgeMerge) at (3.7, 1.15) {Viền giáp ranh gộp phẳng};
+  \draw[->, line width=0.8pt, successGreen!80!black] 
+      (badgeMerge.south) -- (3.7, 0.175);
+
+  % Chú thích chân Panel Phải
+  \node[text=successGreen!80!black, font=\sffamily\scriptsize, align=center] 
+      at (3.7, -1.45) {$\bullet$ Các đường viền giáp ranh gộp thành 1 viền đơn\\$\bullet$ Bảng thanh mảnh, hiện đại, không có khe hở};
+
+  % ============================================================================
+  % 3. FOOTER SUMMARY BADGE
+  % ============================================================================
+  \node[
+      fill=slateBg, draw=codeBorder, line width=0.7pt, 
+      rounded corners=4pt, text width=13.8cm, inner xsep=10pt, inner ysep=6pt, 
+      anchor=north, align=center
+  ] (footer) at (0, -2.45) {
+      {\scriptsize\sffamily\color{primaryBlue}\bfseries $\rightarrow$ Nguyên tắc thiết kế:}
+      {\scriptsize\sffamily\color{darkText} Luôn khai báo \codeinline{border-collapse: collapse} cho mọi bảng dữ liệu chuẩn. Chỉ dùng \codeinline{separate} khi muốn tạo khoảng cách giữa các ô hoặc làm bảng dạng lưới thẻ \term{Card Grid} bo góc.}
+  };
 \end{tikzpicture}
-\end{center}
+\end{browserWindow}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \codeinline{border-collapse: collapse}: Gộp các đường viền giáp ranh giữa các ô thành một đường viền đơn sắc nét duy nhất. Đây là thuộc tính gần như bắt buộc trong mọi bảng dữ liệu hiện đại để tạo giao diện thanh thoát và gọn gàng.
