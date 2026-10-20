@@ -24261,7 +24261,7 @@ inside & Dấu đầu dòng nằm \textbf{bên trong} hộp nội dung của ph�
 \end{browserWindow}
 
 \newpage
-\subsection{4. Chuyên Sâu Thuộc Tính list-style-image \& Kỹ Thuật Bullet Hiện Đại (\csshint{list-style-image})}
+\subsection[4. Thuộc Tính Hình Ảnh Đầu Dòng (\csshint{list-style-image})]{4. Chuyên Sâu Thuộc Tính list-style-image \& Kỹ Thuật Bullet Hiện Đại (\csshint{list-style-image})}
 
 \begin{conceptBox}[Mục Đích \& Cú Pháp Hoạt Động Của list-style-image]
 \codeinline{list-style-image} là thuộc tính CSS cho phép bạn thay thế dấu đầu dòng hoặc số mặc định ($\bullet$, \codeinline{1.}, \codeinline{A.}) trong danh sách (\codeinline{<ul>}, \codeinline{<ol>}) bằng một hình ảnh bitmap hoặc vector tùy chỉnh của riêng bạn.
@@ -25288,9 +25288,9 @@ transition & Hiệu ứng chuyển đổi màu mượt mà & transition: backgro
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{4. Phân Tích Chuyên Sâu Các Thuộc Tính CSS Trọng Tâm}
-
-\subsubsection{1. Thuộc Tính \csshint{border} (Viền Bảng Và Ô)}
+\newpage
+\subsection{4. Thuộc Tính Viền Bảng \& Ô Dữ Liệu (\csshint{border})}
+\label{subsec:table_border}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Giá trị mặc định}: \codeinline{none} (không có viền).
@@ -25522,7 +25522,9 @@ Ví dụ điển hình & \codeinline{<table border="1">...</table>} & \codeinlin
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{2. Thuộc Tính \csshint{border-collapse} \& \csshint{border-spacing} (Gộp Hoặc Tách Viền)}
+\newpage
+\subsection{5. Cơ Chế Gộp Hoặc Tách Viền Bảng (\csshint{border-collapse})}
+\label{subsec:table_border_collapse}
 
 Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế viền tách biệt:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
@@ -25672,7 +25674,9 @@ Kết nối góc ô & Góc nối sắc nét, vuông vắn và dính liền giữ
     \item \textbf{Lời khuyên thực chiến}: Đa số trường hợp thiết kế bảng biểu dữ liệu (\term{Data Table}), bạn nên dùng \codeinline{collapse} vì bảng sẽ dễ đọc, tinh tế và dễ quản lý lề viền. Nhưng nếu bạn cần xây dựng layout dạng lưới, phong cách thẻ (\term{Card UI}), hoặc bảng có khoảng cách tách rời giữa các ô, thì \codeinline{separate} là giải pháp lý tưởng.
 \end{itemize}
 
-\subsubsection{3. Thuộc Tính \csshint{border-spacing} (Kiểm Soát Khoảng Cách Giữa Các Ô)}
+\newpage
+\subsection{6. Kiểm Soát Khoảng Cách Giữa Các Ô (\csshint{border-spacing})}
+\label{subsec:table_border_spacing}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Khái niệm}: \codeinline{border-spacing} xác định khoảng cách giữa các ô trong bảng khi sử dụng kiểu viền tách biệt (\codeinline{border-collapse: separate;}).
@@ -25750,7 +25754,9 @@ table {
 \end{itemize}
 \end{tipBox}
 
-\subsubsection{4. Thuộc Tính \csshint{table-layout} (Cách Trình Duyệt Phân Bổ Độ Rộng Cột)}
+\newpage
+\subsection{7. Thuật Toán Dựng Hình \& Phân Bổ Cột (\csshint{table-layout})}
+\label{subsec:table_layout}
 Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệt sử dụng để tính toán độ rộng các cột trong bảng:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \codeinline{table-layout: auto} (\term{Mặc định}): Độ rộng cột tính toán dựa trên nội dung từng ô. Khi nội dung dài, ô tự động mở rộng theo nội dung. Tuy nhiên, với bảng lớn hàng ngàn dòng, trình duyệt phải duyệt qua toàn bộ dữ liệu mới bắt đầu dựng hình (\term{layout thrashing}).
@@ -25768,7 +25774,8 @@ table {
 \end{lstlisting}
 \end{itemize}
 
-\subsubsection{5. Thuộc Tính \csshint{width} \& \csshint{height} (Kích Thước Bảng)}
+\subsection{8. Kiểm Soát Kích Thước Bảng (\csshint{width} \& \csshint{height})}
+\label{subsec:table_width_height}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
     \item \textbf{Mặc định}: \codeinline{auto} (độ rộng và chiều cao bảng hoàn toàn phụ thuộc vào nội dung các ô).
 \begin{lstlisting}[language=CSS3]
@@ -25791,7 +25798,8 @@ table {
 \includegraphics[width=0.88\linewidth]{figures/table_width_height.png}
 \end{browserWindow}
 
-\subsubsection{6. Các Thuộc Tính Định Dạng Ô Bảng Chi Tiết (Padding, Alignment, Colors)}
+\subsection{9. Định Dạng Ô Bảng Chi Tiết (\csshint{padding}, \csshint{text-align}, \csshint{vertical-align})}
+\label{subsec:table_cell_styling}
 Để bảng dữ liệu trực quan và chuyên nghiệp, lập trình viên kết hợp các thuộc tính sau:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{\codeinline{padding} (Khoảng cách nội dung và viền ô)}: Mặc định khoảng \codeinline{0.5em} ($\sim$8px tùy trình duyệt). Ta có thể tăng lề để tạo khoảng thở:
@@ -25829,7 +25837,7 @@ th {
 \end{tipBox}
 
 \newpage
-\subsection{5. Ví Dụ CSS Hoàn Chỉnh \& Trực Quan Hóa Kết Quả}
+\subsection{10. Ví Dụ CSS Hoàn Chỉnh \& Trực Quan Hóa Kết Quả}
 
 Dưới đây là một ví dụ CSS hoàn chỉnh chuẩn mực, kết hợp các thuộc tính viền gộp, cố định cột, căn lề và kỹ thuật tô màu xen kẽ dòng:
 
@@ -25914,7 +25922,7 @@ Sản phẩm B & 200.000đ & 3 \\
 \end{browserWindow}
 
 \newpage
-\subsection{6. 4 Mẹo Hay Khi Làm Việc Với Bảng (Tips \& Tricks)}
+\subsection{11. 4 Mẹo Hay Khi Làm Việc Với Bảng (Tips \& Tricks)}
 
 Để xây dựng các bảng dữ liệu chuyên nghiệp, dễ đọc và tối ưu trên mọi màn hình, lập trình viên nên nắm vững 4 mẹo thực chiến sau:
 
@@ -25940,7 +25948,7 @@ th {
         \end{itemize}
 \end{enumerate}
 
-\subsection{7. Đọc Thêm: Cấu Trúc Ngữ Nghĩa Semantics, Responsive Matrix \& Accessibility}
+\subsection[12. Cấu Trúc Ngữ Nghĩa \& Accessibility (\taghint{<thead>}, \taghint{<tbody>}, \taghint{<tfoot>})]{12. Đọc Thêm: Cấu Trúc Ngữ Nghĩa Semantics \& Accessibility (\taghint{<thead>}, \taghint{<tbody>}, \taghint{<tfoot>})}
 
 \subsubsection{1. Bộ Thẻ Mở Rộng Ngữ Nghĩa: \codeinline{<thead>}, \codeinline{<tbody>}, \codeinline{<tfoot>}}
 
