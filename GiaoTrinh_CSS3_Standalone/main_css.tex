@@ -2940,7 +2940,7 @@ Khi một phần tử sử dụng đơn vị \codeinline{em}, trình duyệt s�
 \paragraph{Trường Hợp 8: Mô Hình Thực Nghiệm 4 Cấp div Lồng Nhau (Ông -- Bố -- Con -- Cháu):}
 Dưới đây là một ví dụ thực tế với 4 cấp \codeinline{div} lồng nhau: Ông $\rightarrow$ Bố $\rightarrow$ Con $\rightarrow$ Cháu, tất cả đều dùng \codeinline{font-size: 1.5em} để thấy rõ hiệu ứng kích thước bị phóng đại lũy tiến:
 
-\begin{codeWindow}[Ví Dụ 8: 4 Cấp div Lồng Nhau Với font-size Dùng em]
+\begin{codeWindowBreakable}[Ví Dụ 8: 4 Cấp div Lồng Nhau Với font-size Dùng em]
 \begin{lstlisting}[language=HTML5]
 <div class="grandparent">
   Ong (grandparent)
@@ -2982,7 +2982,7 @@ Dưới đây là một ví dụ thực tế với 4 cấp \codeinline{div} lồ
   }
 </style>
 \end{lstlisting}
-\end{codeWindow}
+\end{codeWindowBreakable}
 
 \begin{prettyTableBox}[Bảng Tính Toán Phóng Đại Lũy Tiến Qua 4 Cấp Lồng Nhau]
 \rowcolors{2}{white}{primaryBlue!4}
@@ -7769,9 +7769,10 @@ clamp() & Hàm Responsive & Kết hợp min, val, max làm chữ co giãn linh h
 \end{tabularx}
 \end{prettyTableBox}
 
+\needspace{6\baselineskip}
 \paragraph*{IV. Minh Họa Mã Nguồn \& So Sánh Thực Tế Các Đơn Vị}
 
-\begin{codeWindow}[Mã Nguồn HTML \& CSS Minh Họa font-size Với Các Đơn Vị]
+\begin{codeWindowBreakable}[Mã Nguồn HTML \& CSS Minh Họa font-size Với Các Đơn Vị]
 \begin{lstlisting}[language=HTML5]
 <!DOCTYPE html>
 <html lang="vi">
@@ -7835,7 +7836,7 @@ clamp() & Hàm Responsive & Kết hợp min, val, max làm chữ co giãn linh h
 </body>
 </html>
 \end{lstlisting}
-\end{codeWindow}
+\end{codeWindowBreakable}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Mô Phỏng Các Loại Đơn Vị font-size]
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
@@ -9743,7 +9744,7 @@ Tự động nén tối ưu CDN & Google tự động phát hiện trình duyệ
 
 Khi tự host nhiều phông chữ trên máy chủ riêng, bạn phải tạo từng khối \codeinline{@font-face} độc lập tương ứng với từng họ font và từng biến thể trọng lượng (\codeinline{font-weight}) / kiểu dáng (\codeinline{font-style}).
 
-\begin{codeWindow}[File style.css -- Khai Báo Nhiều Khối @font-face Độc Lập]
+\begin{codeWindowBreakable}[File style.css -- Khai Báo Nhiều Khối @font-face Độc Lập]
 \begin{lstlisting}[language=CSS3]
 /* 1. Khai bao cho font MyBrandFont - Bien the Regular (400) */
 @font-face {
@@ -9790,7 +9791,7 @@ strong {
   font-weight: 700; /* Trinh duyet tu dong chon tesp MyBrandFont-Bold */
 }
 \end{lstlisting}
-\end{codeWindow}
+\end{codeWindowBreakable}
 
 \begin{browserWindow}[Kết Quả Hiển Thị: Áp Dụng Nhiều Custom Font Tự Host]
 \begin{tcolorbox}[arc=4pt, colback=white, colframe=primaryBlue!30, boxrule=0.8pt, top=10pt, bottom=10pt, left=12pt, right=12pt]
@@ -10632,7 +10633,7 @@ Khi kết hợp \codeinline{background-color} với bộ chọn giả \codeinlin
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{codeWindow}[2. Định Kiểu CSS: Phối Hợp Đa Định Dạng Màu Nền (style.css)]
+\begin{codeWindowBreakable}[2. Định Kiểu CSS: Phối Hợp Đa Định Dạng Màu Nền (style.css)]
 \begin{lstlisting}[language=CSS3]
 /* 1. Nen toan trang: Ma Hex 6 ky tu */
 body {
@@ -10676,7 +10677,7 @@ body {
   border: 1px solid #cbd5e1; border-radius: 6px; text-align: center;
 }
 \end{lstlisting}
-\end{codeWindow}
+\end{codeWindowBreakable}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Trình Duyệt: Giao Diện Hoàn Chỉnh Card Component \& Hộp Bán Trong Suốt]
 \sffamily\small
@@ -25532,12 +25533,12 @@ Theo chuẩn mặc định của trình duyệt, bảng sử dụng cơ chế vi
 \begin{codeWindow}[Khai Báo Bảng Ở Chế Độ Tách Viền (separate)]
 \begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
 table {
-    border: 2px solid #007bff;
-    border-collapse: separate; /* (*@Giữ viền tách biệt độc lập@*) */
+    border: 1px solid #000000;
+    border-collapse: separate; /* (*@Giữ viền tách biệt độc lập (mặc định)@*) */
     border-spacing: 2px;       /* (*@Khoảng cách giữa các viền ô@*) */
 }   
-td, th {
-    border: 2px solid #007bff;
+th, td {
+    border: 1px solid #000000;
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -25552,11 +25553,11 @@ td, th {
 \begin{codeWindow}[Khai Báo Bảng Ở Chế Độ Gộp Viền (collapse)]
 \begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
 table {
-    border: 2px solid #007bff;
-    border-collapse: collapse; /* (*@Gộp viền sát nhau thành 1 đường@*) */
+    border: 1px solid #000000;
+    border-collapse: collapse; /* (*@Gộp viền sát nhau thành 1 đường duy nhất@*) */
 }   
-td, th {
-    border: 2px solid #007bff;
+th, td {
+    border: 1px solid #000000;
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -25590,22 +25591,13 @@ td, th {
       rounded corners=3pt, inner xsep=8pt, inner ysep=3.5pt
   ] (headLeft) at (-3.7, 1.75) {border-collapse: separate; (Mặc định)};
 
-  \node[draw=primaryBlue!70, fill=primaryBlue!12, rounded corners=4pt, font=\sffamily\bfseries\small, text=primaryBlue, minimum width=2.6cm, minimum height=0.75cm, align=center] 
-      (c11) at (-5.25, 0.65) {Tiêu đề 1};
-  \node[draw=primaryBlue!70, fill=primaryBlue!12, rounded corners=4pt, font=\sffamily\bfseries\small, text=primaryBlue, minimum width=2.6cm, minimum height=0.75cm, align=center] 
-      (c12) at (-2.15, 0.65) {Tiêu đề 2};
+  \node[
+      draw=primaryBlue!30, fill=white, line width=0.7pt, rounded corners=3pt, 
+      inner sep=3pt, drop shadow={opacity=0.08, shadow xshift=0.5pt, shadow yshift=-0.5pt}
+  ] (imgLeft) at (-3.7, 0.40) {\includegraphics[width=4.3cm]{figures/table_border_collapse_separate.png}};
 
-  \node[draw=gray!50, fill=white, rounded corners=4pt, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center] 
-      (c21) at (-5.25, -0.30) {Dữ liệu 1};
-  \node[draw=gray!50, fill=white, rounded corners=4pt, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center] 
-      (c22) at (-2.15, -0.30) {Dữ liệu 2};
-
-  \node[fill=accentOrange, text=white, font=\sffamily\tiny\bfseries, rounded corners=2pt, inner xsep=5pt, inner ysep=2pt] 
-      (spacingTag) at (-3.7, 1.18) {border-spacing};
-  \draw[->, line width=0.8pt, draw=accentOrange] 
-      (spacingTag.south) -- (-3.7, 0.70);
-  \draw[draw=accentOrange, line width=1.1pt, <->] 
-      ($(c11.east) + (2pt, -14pt)$) -- ($(c12.west) + (-2pt, -14pt)$);
+  \node[fill=accentOrange!15, draw=accentOrange!60, text=accentOrange!90!black, font=\sffamily\tiny\bfseries, rounded corners=2pt, inner xsep=6pt, inner ysep=2.5pt] 
+      (tagLeft) at (-3.7, -0.65) {Tách viền: Xuất hiện khe hở border-spacing};
 
   \node[text=codeComment, font=\sffamily\scriptsize, align=center] 
       at (-3.7, -1.45) {$\bullet$ Từng ô mang viền độc lập (viền kép)\\$\bullet$ Tồn tại khe hở \codeinline{border-spacing} giữa các ô};
@@ -25631,24 +25623,13 @@ td, th {
       rounded corners=3pt, inner xsep=8pt, inner ysep=3.5pt
   ] (headRight) at (3.7, 1.75) {border-collapse: collapse; (Khuyên dùng)};
 
-  \node[draw=primaryBlue!80, fill=primaryBlue, font=\sffamily\bfseries\small, text=white, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=south east] 
-      (m11) at (3.7, 0.175) {Tiêu đề 1};
-  \node[draw=primaryBlue!80, fill=primaryBlue, font=\sffamily\bfseries\small, text=white, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=south west] 
-      (m12) at (3.7, 0.175) {Tiêu đề 2};
-
-  \node[draw=gray!50, fill=white, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=north east] 
-      (m21) at (3.7, 0.175) {Dữ liệu 1};
-  \node[draw=gray!50, fill=white, font=\sffamily\small, text=darkText, minimum width=2.6cm, minimum height=0.75cm, align=center, anchor=north west] 
-      (m22) at (3.7, 0.175) {Dữ liệu 2};
-
-  \draw[draw=primaryBlue!90, line width=1.1pt] (m11.north west) rectangle (m12.south east);
-  \draw[draw=gray!60, line width=0.9pt] (m21.north west) rectangle (m22.south east);
-  \draw[draw=gray!60, line width=0.9pt] (m21.north east) -- (m21.south east);
+  \node[
+      draw=successGreen!40, fill=white, line width=0.7pt, rounded corners=3pt, 
+      inner sep=3pt, drop shadow={opacity=0.08, shadow xshift=0.5pt, shadow yshift=-0.5pt}
+  ] (imgRight) at (3.7, 0.40) {\includegraphics[width=4.3cm]{figures/table_border_collapse.png}};
 
   \node[fill=successGreen, text=white, font=\sffamily\tiny\bfseries, rounded corners=2pt, inner xsep=6pt, inner ysep=2.5pt] 
-      (badgeMerge) at (3.7, 1.15) {Viền giáp ranh gộp phẳng};
-  \draw[->, line width=0.8pt, successGreen!80!black] 
-      (badgeMerge.south) -- (3.7, 0.175);
+      (badgeMerge) at (3.7, -0.65) {Viền giáp ranh gộp phẳng};
 
   \node[text=successGreen!80!black, font=\sffamily\scriptsize, align=center] 
       at (3.7, -1.45) {$\bullet$ Các đường viền giáp ranh gộp thành 1 viền đơn\\$\bullet$ Bảng thanh mảnh, hiện đại, không có khe hở};
