@@ -25189,6 +25189,60 @@ Khác với các thuộc tính định dạng thẩm mỹ (\codeinline{align}, \
 \end{itemize}
 \end{tipBox}
 
+\paragraph{Ví dụ minh họa cấu trúc gộp ô với colspan và rowspan:}
+
+\begin{codeWindow}[Mã Nguồn Bảng Sử Dụng Thuộc Tính colspan \& rowspan]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<table border="1" cellpadding="8">
+    <tr>
+        <th rowspan="2">(*@Sinh Viên@*)</th>
+        <th colspan="2">(*@Điểm Số Đánh Giá@*)</th>
+    </tr>
+    <tr>
+        <th>(*@Lý Thuyết@*)</th>
+        <th>(*@Thực Hành@*)</th>
+    </tr>
+    <tr>
+        <td>(*@Nguyễn Văn A@*)</td>
+        <td>8.5</td>
+        <td>9.0</td>
+    </tr>
+    <tr>
+        <td>(*@Trần Thị B@*)</td>
+        <td>9.0</td>
+        <td>9.5</td>
+    </tr>
+    <tr>
+        <th colspan="2">(*@Điểm Trung Bình Chung@*)</th>
+        <td>9.0</td>
+    </tr>
+</table>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Render: Bảng Gộp Ô Bằng Thuộc Tính colspan \& rowspan]
+\centering
+\vspace{4pt}
+\bgroup
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{18pt}
+\begin{tabular}{|l|c|c|}
+\hline
+\multirow{2}{*}{\textbf{Sinh Viên (\codeinline{rowspan="2"})}} & \multicolumn{2}{c|}{\textbf{Điểm Số Đánh Giá (\codeinline{colspan="2"})}} \\
+\cline{2-3}
+ & \textbf{Lý Thuyết} & \textbf{Thực Hành} \\
+\hline
+Nguyễn Văn A & 8.5 & 9.0 \\
+\hline
+Trần Thị B & 9.0 & 9.5 \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Điểm Trung Bình Chung (\codeinline{colspan="2"})}} & \textbf{9.0} \\
+\hline
+\end{tabular}
+\egroup
+\vspace{4pt}
+\end{browserWindow}
+
 \newpage
 \subsection{3. Các Thuộc Tính CSS Quan Trọng Khi Định Dạng Bảng}
 
@@ -25760,19 +25814,86 @@ table {
 Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệt sử dụng để tính toán độ rộng các cột trong bảng:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \codeinline{table-layout: auto} (\term{Mặc định}): Độ rộng cột tính toán dựa trên nội dung từng ô. Khi nội dung dài, ô tự động mở rộng theo nội dung. Tuy nhiên, với bảng lớn hàng ngàn dòng, trình duyệt phải duyệt qua toàn bộ dữ liệu mới bắt đầu dựng hình (\term{layout thrashing}).
-\begin{lstlisting}[language=CSS3]
-table {
-    table-layout: auto; /* Mac dinh */
-}
-\end{lstlisting}
-    \item \codeinline{table-layout: fixed} (\term{Hiệu năng cao - Cố định độ rộng}): Trình duyệt phân bổ độ rộng cột ngay lập tức dựa trên hàng đầu tiên mà không cần chờ tải hết dữ liệu bên dưới:
-\begin{lstlisting}[language=CSS3]
-table {
-    table-layout: fixed;
-    width: 100%;
-}
-\end{lstlisting}
+    \item \codeinline{table-layout: fixed} (\term{Hiệu năng cao - Cố định độ rộng}): Trình duyệt phân bổ độ rộng cột ngay lập tức dựa trên hàng đầu tiên mà không cần chờ tải hết dữ liệu bên dưới. Khóa cứng độ rộng cột theo giá trị khai báo, rất lý tưởng khi kết hợp với thuộc tính \codeinline{text-overflow: ellipsis}.
 \end{itemize}
+
+\paragraph{Ví dụ thực tế so sánh cấu hình table-layout: auto và fixed:}
+
+\begin{codeWindow}[Mã Nguồn CSS So Sánh Thuật Toán table-layout]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<!-- Bang 1: table-layout: auto (Cot tu co gian theo do dai van ban) -->
+<table class="tbl-auto">
+    <tr>
+        <th style="width: 20%;">ID</th>
+        <th style="width: 50%;">(*@Mo ta chi tiet san pham@*)</th>
+        <th style="width: 30%;">(*@Trang thai@*)</th>
+    </tr>
+    <tr>
+        <td>01</td>
+        <td>Chuoi_Ky_Tu_Lien_Tuc_Sieu_Dai_Khong_Ngat_Dong</td>
+        <td>(*@Còn hàng@*)</td>
+    </tr>
+</table>
+
+<!-- Bang 2: table-layout: fixed (Khoa chat dung ty le 20% - 50% - 30%) -->
+<table class="tbl-fixed">
+    <tr>
+        <th style="width: 20%;">ID</th>
+        <th style="width: 50%;">(*@Mô tả chi tiết sản phẩm@*)</th>
+        <th style="width: 30%;">(*@Trạng thái@*)</th>
+    </tr>
+    <tr>
+        <td>01</td>
+        <td class="ellipsis">Chuoi_Ky_Tu_Lien_Tuc_Sieu_Dai_Khong_Ngat_Dong</td>
+        <td>(*@Còn hàng@*)</td>
+    </tr>
+</table>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3]
+.tbl-auto { table-layout: auto; width: 100%; border-collapse: collapse; }
+.tbl-fixed { table-layout: fixed; width: 100%; border-collapse: collapse; }
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: So Sánh Hành Vi Render table-layout: auto vs fixed]
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  % Auto panel
+  \node[rectangle, rounded corners=6pt, draw=accentOrange!50, fill=white, minimum width=6.8cm, minimum height=3.6cm, line width=0.8pt] (boxAuto) at (-3.7, 0) {};
+  \node[fill=accentOrange!15, text=accentOrange!90!black, font=\sffamily\bfseries\scriptsize, rounded corners=3pt, inner xsep=8pt, inner ysep=3pt] at (-3.7, 1.45) {table-layout: auto; (Mặc định)};
+  
+  \node[draw=gray!50, fill=primaryBlue!10, font=\sffamily\tiny\bfseries, minimum width=1.0cm, minimum height=0.5cm] at (-6.1, 0.7) {ID (20\%)};
+  \node[draw=gray!50, fill=primaryBlue!10, font=\sffamily\tiny\bfseries, minimum width=4.3cm, minimum height=0.5cm] at (-3.25, 0.7) {Mô tả (50\% $\rightarrow$ Bị đẩy dãn to)};
+  \node[draw=gray!50, fill=primaryBlue!10, font=\sffamily\tiny\bfseries, minimum width=0.9cm, minimum height=0.5cm] at (-0.85, 0.7) {TT};
+
+  \node[draw=gray!40, font=\sffamily\tiny, minimum width=1.0cm, minimum height=0.55cm] at (-6.1, 0.1) {01};
+  \node[draw=gray!40, font=\sffamily\tiny, text=dangerRed, minimum width=4.3cm, minimum height=0.55cm] at (-3.25, 0.1) {Chuoi\_Sieu\_Dai\_Khong\_Ngat...};
+  \node[draw=gray!40, font=\sffamily\tiny, minimum width=0.9cm, minimum height=0.55cm] at (-0.85, 0.1) {Còn};
+
+  \node[font=\sffamily\tiny\itshape, text=codeComment, text width=6.2cm, align=center] at (-3.7, -0.95) {$\bullet$ Cột bị dãn không đều, phá vỡ thiết kế\\$\bullet$ Trình duyệt phải chờ đọc hết dữ liệu mới render};
+
+  % Fixed panel
+  \node[rectangle, rounded corners=6pt, draw=successGreen!50, fill=white, minimum width=6.8cm, minimum height=3.6cm, line width=0.8pt] (boxFixed) at (3.7, 0) {};
+  \node[fill=successGreen!15, text=successGreen!80!black, font=\sffamily\bfseries\scriptsize, rounded corners=3pt, inner xsep=8pt, inner ysep=3pt] at (3.7, 1.45) {table-layout: fixed; (Khuyên dùng)};
+
+  \node[draw=gray!50, fill=primaryBlue!10, font=\sffamily\tiny\bfseries, minimum width=1.3cm, minimum height=0.5cm] at (1.45, 0.7) {ID (20\%)};
+  \node[draw=gray!50, fill=primaryBlue!10, font=\sffamily\tiny\bfseries, minimum width=3.3cm, minimum height=0.5cm] at (3.9, 0.7) {Mô tả chi tiết (50\%)};
+  \node[draw=gray!50, fill=primaryBlue!10, font=\sffamily\tiny\bfseries, minimum width=1.8cm, minimum height=0.5cm] at (6.45, 0.7) {Trạng thái (30\%)};
+
+  \node[draw=gray!40, font=\sffamily\tiny, minimum width=1.3cm, minimum height=0.55cm] at (1.45, 0.1) {01};
+  \node[draw=gray!40, font=\sffamily\tiny, text=successGreen!80!black, minimum width=3.3cm, minimum height=0.55cm] at (3.9, 0.1) {Chuoi\_Sieu\_Dai...};
+  \node[draw=gray!40, font=\sffamily\tiny, minimum width=1.8cm, minimum height=0.55cm] at (6.45, 0.1) {Còn hàng};
+
+  \node[font=\sffamily\tiny\itshape, text=codeComment, text width=6.2cm, align=center] at (3.7, -0.95) {$\bullet$ Khóa cứng chuẩn xác tỷ lệ các cột\\$\bullet$ Dựng hình tức thì ngay từ hàng đầu tiên};
+\end{tikzpicture}
+\end{browserWindow}
+
+\newpage
 
 \subsection{8. Kiểm Soát Kích Thước Bảng (\csshint{width} \& \csshint{height})}
 \label{subsec:table_width_height}
@@ -25784,13 +25905,29 @@ table {
     height: auto; /* Chieu cao bang noi dung */
 }
 \end{lstlisting}
-    \item \textbf{Tùy chỉnh kích thước cố định}:
-\begin{lstlisting}[language=CSS3]
-table {
-    width: 100%;   /* Chieu rong 100% khung chua */
-    height: 300px; /* Chieu cao co dinh 300px */
-}
+    \item \textbf{Tùy chỉnh kích thước cố định}: Thiết lập độ rộng chiếm trọn khung chứa và chiều cao tối thiểu:
+\begin{codeWindow}[Mã Nguồn Thiết Lập Kích Thước Bảng (width: 100\%, height: 300px)]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<style>
+  table {
+    width: 100%;   /* (*@Chiem tron 100% chieu rong phan tu cha@*) */
+    height: 300px; /* (*@Khoa chieu cao co dinh 300px@*) */
+    border: 2px solid #007bff;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+  }
+  th { background-color: #007bff; color: white; }
+</style>
+<table>
+  <tr><th>(*@Cột 1@*)</th><th>(*@Cột 2@*)</th><th>(*@Cột 3@*)</th></tr>
+  <tr><td>(*@Hàng 2 Cột 1@*)</td><td>(*@Hàng 2 Cột 2@*)</td><td>(*@Hàng 2 Cột 3@*)</td></tr>
+</table>
 \end{lstlisting}
+\end{codeWindow}
 \end{itemize}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Bảng Với width: 100\% và height: 300px]
@@ -25827,6 +25964,82 @@ th {
     \item \textbf{\codeinline{caption-side} (Vị trí tiêu đề bảng)}: Mặc định là \codeinline{top} (trên đầu bảng). Có thể chuyển xuống chân bảng bằng \codeinline{caption-side: bottom;}.
     \item \textbf{\codeinline{empty-cells} (Xử lý ô trống)}: Mặc định là \codeinline{show} (hiển thị viền). Muốn ẩn viền các ô không chứa dữ liệu, dùng \codeinline{empty-cells: hide;} (chỉ có tác dụng khi bảng dùng \codeinline{border-collapse: separate;}).
 \end{itemize}
+
+\paragraph{Ví dụ kết hợp toàn diện các thuộc tính định dạng ô trong thực tế:}
+
+\begin{codeWindow}[Mã Nguồn Tinh Chỉnh Ô: padding, text-align, vertical-align \& background-color]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<table class="styled-table">
+    <caption>(*@Báo Cáo Tiến Độ Dự Án Frontend@*)</caption>
+    <tr>
+        <th>(*@Mã Task@*)</th>
+        <th>(*@Tên Công Việc@*)</th>
+        <th>(*@Trạng Thái@*)</th>
+        <th>(*@Ngân Sách@*)</th>
+    </tr>
+    <tr>
+        <td>#TK-101</td>
+        <td>(*@Thiết kế Layout Bảng Dữ Liệu@*)</td>
+        <td class="text-center"><span class="badge success">(*@Hoàn thành@*)</span></td>
+        <td class="text-right">5.000.000(*@đ@*)</td>
+    </tr>
+    <tr>
+        <td>#TK-102</td>
+        <td>(*@Tối ưu Responsive Trên Mobile@*)</td>
+        <td class="text-center"><span class="badge warning">(*@Đang làm@*)</span></td>
+        <td class="text-right">3.500.000(*@đ@*)</td>
+    </tr>
+</table>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3]
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    caption-side: top;
+}
+.styled-table caption {
+    font-weight: bold;
+    padding: 8px;
+    font-size: 1.05em;
+    color: #333;
+}
+.styled-table th {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: middle;
+}
+.styled-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+}
+.text-center { text-align: center; }
+.text-right { text-align: right; font-weight: bold; }
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Bảng Dữ Liệu Được Tinh Chỉnh Chi Tiết Ô Hoàn Hảo]
+\centering
+\vspace{4pt}
+{\sffamily\bfseries\color{darkText} Báo Cáo Tiến Độ Dự Án Frontend}\\[6pt]
+\bgroup
+\renewcommand{\arraystretch}{1.4}
+\setlength{\tabcolsep}{12pt}
+\begin{tabularx}{0.96\linewidth}{|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{3.0cm}|>{\raggedleft\arraybackslash}p{2.8cm}|}
+\hline
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{MÃ TASK}} & \textcolor{white}{\textbf{TÊN CÔNG VIỆC}} & \textcolor{white}{\textbf{TRẠNG THÁI}} & \textcolor{white}{\textbf{NGÂN SÁCH}} \\
+\hline
+\#TK-101 & Thiết kế Layout Bảng Dữ Liệu & \colorbox{successGreen!15}{\textcolor{successGreen!80!black}{\sffamily\scriptsize\bfseries Hoàn thành}} & \textbf{5.000.000đ} \\
+\hline
+\#TK-102 & Tối ưu Responsive Trên Mobile & \colorbox{accentOrange!15}{\textcolor{accentOrange!90!black}{\sffamily\scriptsize\bfseries Đang làm}} & \textbf{3.500.000đ} \\
+\hline
+\end{tabularx}
+\egroup
+\vspace{6pt}
+\end{browserWindow}
 
 \begin{tipBox}[Kết Luận \& Bí Quyết Thiết Kế Bảng Chuyên Nghiệp]
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
@@ -25969,6 +26182,83 @@ Khi xây dựng bảng dữ liệu chuyên sâu cho hệ thống doanh nghiệp,
 \hline
 \end{tabularx}
 \end{prettyTableBox}
+
+\paragraph{Ví dụ cấu trúc bảng HTML5 ngữ nghĩa hoàn chỉnh với thead, tbody và tfoot:}
+
+\begin{codeWindow}[Mã Nguồn Bảng Dữ Liệu Ngữ Nghĩa thead, tbody, tfoot]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<table class="invoice-table">
+    <thead>
+        <tr>
+            <th>(*@Khoản Mục / Sản Phẩm@*)</th>
+            <th>(*@Đơn Giá@*)</th>
+            <th>(*@Số Lượng@*)</th>
+            <th>(*@Thành Tiền@*)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>(*@Khóa Học HTML5 \& CSS3 Masterclass@*)</td>
+            <td>1.200.000(*@đ@*)</td>
+            <td>1</td>
+            <td>1.200.000(*@đ@*)</td>
+        </tr>
+        <tr>
+            <td>(*@Giáo Trình Frontend Chuyên Sâu (Bản in)@*)</td>
+            <td>350.000(*@đ@*)</td>
+            <td>2</td>
+            <td>700.000(*@đ@*)</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="3">(*@Tổng Cộng Thanh Toán@*)</th>
+            <th>1.900.000(*@đ@*)</th>
+        </tr>
+    </tfoot>
+</table>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3]
+.invoice-table { width: 100%; border-collapse: collapse; }
+.invoice-table thead th {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+}
+.invoice-table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.invoice-table tfoot th {
+    background-color: #f2f4f8;
+    color: #007bff;
+    padding: 12px 10px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả: Bảng Ngữ Nghĩa thead, tbody, tfoot Render Chuẩn Trình Duyệt]
+\centering
+\vspace{4pt}
+\bgroup
+\renewcommand{\arraystretch}{1.4}
+\setlength{\tabcolsep}{12pt}
+\begin{tabularx}{0.96\linewidth}{|>{\raggedright\arraybackslash}X|>{\raggedleft\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.2cm}|>{\raggedleft\arraybackslash}p{2.8cm}|}
+\hline
+\rowcolor{primaryBlue}
+\textcolor{white}{\textbf{KHOẢN MỤC / SẢN PHẨM}} & \textcolor{white}{\textbf{ĐƠN GIÁ}} & \textcolor{white}{\textbf{SỐ LƯỢNG}} & \textcolor{white}{\textbf{THÀNH TIỀN}} \\
+\hline
+Khóa Học HTML5 \& CSS3 Masterclass & 1.200.000đ & 1 & 1.200.000đ \\
+\hline
+Giáo Trình Frontend Chuyên Sâu (Bản in) & 350.000đ & 2 & 700.000đ \\
+\hline
+\rowcolor{primaryBlue!10}
+\multicolumn{3}{|l|}{\textbf{\textcolor{primaryBlue}{TỔNG CỘNG THANH TOÁN}}} & \textbf{\textcolor{primaryBlue}{1.900.000đ}} \\
+\hline
+\end{tabularx}
+\egroup
+\vspace{4pt}
+\end{browserWindow}
 
 \subsubsection{2. Tối Ưu Khả Năng Tiếp Cận (\term{Accessibility \& Screen Readers})}
 
