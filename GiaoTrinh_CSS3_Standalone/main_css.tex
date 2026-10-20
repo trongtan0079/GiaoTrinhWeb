@@ -25672,21 +25672,161 @@ Kết nối góc ô & Góc nối sắc nét, vuông vắn và dính liền giữ
     \item \textbf{Lời khuyên thực chiến}: Đa số trường hợp thiết kế bảng biểu dữ liệu (\term{Data Table}), bạn nên dùng \codeinline{collapse} vì bảng sẽ dễ đọc, tinh tế và dễ quản lý lề viền. Nhưng nếu bạn cần xây dựng layout dạng lưới, phong cách thẻ (\term{Card UI}), hoặc bảng có khoảng cách tách rời giữa các ô, thì \codeinline{separate} là giải pháp lý tưởng.
 \end{itemize}
 
-\subsubsection{3. Thuộc Tính \csshint{table-layout} (Tối Ưu Hiệu Năng Phân Bố Cột)}
+\subsubsection{3. Thuộc Tính \csshint{border-spacing} (Kiểm Soát Khoảng Cách Giữa Các Ô)}
 
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Khái niệm}: \codeinline{border-spacing} xác định khoảng cách giữa các ô trong bảng khi sử dụng kiểu viền tách biệt (\codeinline{border-collapse: separate;}).
+    \item \textbf{Giá trị mặc định}: \codeinline{0.625em} (hoặc $\sim$2px tùy trình duyệt). Nếu bạn không khai báo, trình duyệt sẽ giữ khoảng cách mặc định này.
+    \item \textbf{Cú pháp}:
+\begin{lstlisting}[language=CSS3]
+table {
+    border-spacing: <khoảng cách ngang> <khoảng cách dọc>;
+}
+\end{lstlisting}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \codeinline{<khoảng cách ngang>}: Khoảng cách giữa các cột theo chiều ngang.
+        \item \codeinline{<khoảng cách dọc>}: Khoảng cách giữa các hàng theo chiều dọc.
+        \item \textit{Nếu chỉ viết 1 giá trị}: Cả khoảng cách ngang và dọc đều bằng nhau.
+    \end{itemize}
+    \item \textbf{Lưu ý sống còn}: Tuyệt đối \textbf{không hoạt động} khi dùng \codeinline{border-collapse: collapse}. Ngoài ra, cần phân biệt rõ: \codeinline{padding} là khoảng cách từ nội dung đến viền ô, còn \codeinline{border-spacing} là khoảng cách giữa các ô với nhau.
+\end{itemize}
+
+\paragraph{Ví dụ 1: Tách ô với khoảng cách đều nhau (border-spacing: 10px)}
+\begin{codeWindow}[Mã Nguồn Ví Dụ 1: border-spacing Đều Nhau]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<style>
+  table {
+    border: 2px solid #007bff;
+    border-collapse: separate;
+    border-spacing: 10px; /* (*@Khoảng cách ngang và dọc đều là 10px@*) */
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+</style>
+<table>
+  <tr><th>(*@Cột 1@*)</th><th>(*@Cột 2@*)</th><th>(*@Cột 3@*)</th></tr>
+  <tr><td>(*@Hàng 2 Cột 1@*)</td><td>(*@Hàng 2 Cột 2@*)</td><td>(*@Hàng 2 Cột 3@*)</td></tr>
+</table>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Ví Dụ 1: border-spacing 10px]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/table_border_spacing_equal.png}
+\end{browserWindow}
+
+\paragraph{Ví dụ 2: Khoảng cách ngang và dọc khác nhau (Ngang 20px, Dọc 5px)}
+\begin{codeWindow}[Mã Nguồn Ví Dụ 2: border-spacing Khác Nhau]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<style>
+  table {
+    border: 2px solid #007bff;
+    border-collapse: separate;
+    border-spacing: 20px 5px; /* (*@Ngang 20px, dọc 5px@*) */
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+</style>
+<table>
+  <tr><th>(*@Cột 1@*)</th><th>(*@Cột 2@*)</th><th>(*@Cột 3@*)</th></tr>
+  <tr><td>(*@Hàng 2 Cột 1@*)</td><td>(*@Hàng 2 Cột 2@*)</td><td>(*@Hàng 2 Cột 3@*)</td></tr>
+</table>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Ví Dụ 2: border-spacing 20px 5px]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/table_border_spacing_different.png}
+\end{browserWindow}
+
+\begin{tipBox}[Tóm Tắt Phân Biệt Gộp Viền vs Tách Viền]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Gộp viền (\codeinline{collapse})}: Viền dính liền, bảng phẳng gọn gàng, không cần và không nhận \codeinline{border-spacing}.
+    \item \textbf{Tách viền (\codeinline{separate})}: Viền rời nhau độc lập, bắt buộc dùng \codeinline{border-spacing} để kiểm soát khoảng cách giữa các ô.
+\end{itemize}
+\end{tipBox}
+
+\subsubsection{4. Thuộc Tính \csshint{table-layout} (Cách Trình Duyệt Phân Bổ Độ Rộng Cột)}
 Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệt sử dụng để tính toán độ rộng các cột trong bảng:
-
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{table-layout: auto} (\term{Mặc định}): Trình duyệt phải duyệt qua toàn bộ dữ liệu của tất cả các ô trong bảng để xác định ô có độ rộng lớn nhất rồi mới bắt đầu dựng hình (\term{rendering}). Với các bảng lớn chứa hàng ngàn hàng, thuật toán này gây tốn CPU và tạo độ trễ giật khung hình lớn (\term{layout thrashing}).
-    \item \codeinline{table-layout: fixed} (\term{Hiệu năng cao}): Trình duyệt phân bổ độ rộng cột ngay lập tức dựa trên độ rộng được chỉ định ở hàng đầu tiên (thường là \codeinline{<th>}). Quá trình hiển thị diễn ra tức thì mà không cần chờ tải xong toàn bộ dữ liệu bên dưới. Bắt buộc kết hợp với \codeinline{width: 100\%;} trên \codeinline{<table>}.
+    \item \codeinline{table-layout: auto} (\term{Mặc định}): Độ rộng cột tính toán dựa trên nội dung từng ô. Khi nội dung dài, ô tự động mở rộng theo nội dung. Tuy nhiên, với bảng lớn hàng ngàn dòng, trình duyệt phải duyệt qua toàn bộ dữ liệu mới bắt đầu dựng hình (\term{layout thrashing}).
+\begin{lstlisting}[language=CSS3]
+table {
+    table-layout: auto; /* Mac dinh */
+}
+\end{lstlisting}
+    \item \codeinline{table-layout: fixed} (\term{Hiệu năng cao - Cố định độ rộng}): Trình duyệt phân bổ độ rộng cột ngay lập tức dựa trên hàng đầu tiên mà không cần chờ tải hết dữ liệu bên dưới:
+\begin{lstlisting}[language=CSS3]
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+\end{lstlisting}
 \end{itemize}
 
-\subsubsection{4. Thuộc Tính \csshint{caption-side} \& \csshint{empty-cells}}
-
-\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{caption-side}: Điều khiển vị trí hiển thị của tiêu đề bảng \codeinline{<caption>}. Giá trị mặc định là \codeinline{top} (nằm trên đầu bảng); có thể chuyển thành \codeinline{bottom} để đặt tiêu đề ở chân bảng (thường dùng cho chú thích nguồn dữ liệu).
-    \item \codeinline{empty-cells}: Xử lý viền và màu nền của các ô trống không có nội dung. Giá trị \codeinline{show} (mặc định) hiển thị viền bình thường; giá trị \codeinline{hide} sẽ ẩn viền của các ô trống này. \textit{Lưu ý: Chỉ áp dụng khi bảng dùng \codeinline{border-collapse: separate}}.
+\subsubsection{5. Thuộc Tính \csshint{width} \& \csshint{height} (Kích Thước Bảng)}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Mặc định}: \codeinline{auto} (độ rộng và chiều cao bảng hoàn toàn phụ thuộc vào nội dung các ô).
+\begin{lstlisting}[language=CSS3]
+table {
+    width: auto;  /* Chieu rong bang noi dung */
+    height: auto; /* Chieu cao bang noi dung */
+}
+\end{lstlisting}
+    \item \textbf{Tùy chỉnh kích thước cố định}:
+\begin{lstlisting}[language=CSS3]
+table {
+    width: 100%;   /* Chieu rong 100% khung chua */
+    height: 300px; /* Chieu cao co dinh 300px */
+}
+\end{lstlisting}
 \end{itemize}
+
+\begin{browserWindow}[Kết Quả Hiển Thị Bảng Với width: 100\% và height: 300px]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/table_width_height.png}
+\end{browserWindow}
+
+\subsubsection{6. Các Thuộc Tính Định Dạng Ô Bảng Chi Tiết (Padding, Alignment, Colors)}
+Để bảng dữ liệu trực quan và chuyên nghiệp, lập trình viên kết hợp các thuộc tính sau:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{padding} (Khoảng cách nội dung và viền ô)}: Mặc định khoảng \codeinline{0.5em} ($\sim$8px tùy trình duyệt). Ta có thể tăng lề để tạo khoảng thở:
+\begin{lstlisting}[language=CSS3]
+th, td {
+    padding: 10px 15px; /* Tren-duoi 10px, trai-phai 15px */
+}
+\end{lstlisting}
+    \item \textbf{\codeinline{text-align} (Căn chỉnh nội dung ngang)}: Mặc định thẻ \codeinline{<th>} căn giữa (\codeinline{center}), thẻ \codeinline{<td>} căn trái (\codeinline{left}):
+\begin{lstlisting}[language=CSS3]
+th { text-align: center; } /* Can giua tieu de */
+td { text-align: left; }   /* Can trai du lieu */
+\end{lstlisting}
+    \item \textbf{\codeinline{vertical-align} (Căn chỉnh nội dung dọc)}: Mặc định là \codeinline{middle} (căn giữa theo chiều dọc). Có thể tùy chỉnh lên trên hoặc xuống dưới:
+\begin{lstlisting}[language=CSS3]
+td { vertical-align: top; } /* Can len dinh o */
+\end{lstlisting}
+    \item \textbf{\codeinline{background-color} (Màu nền)}: Mặc định là \codeinline{transparent} (trong suốt). Khi thiết kế, thường tô màu nổi bật cho tiêu đề:
+\begin{lstlisting}[language=CSS3]
+th {
+    background-color: #007bff; /* Nen xanh dam */
+    color: #ffffff;            /* Chu trang tuong phan */
+}
+\end{lstlisting}
+    \item \textbf{\codeinline{caption-side} (Vị trí tiêu đề bảng)}: Mặc định là \codeinline{top} (trên đầu bảng). Có thể chuyển xuống chân bảng bằng \codeinline{caption-side: bottom;}.
+    \item \textbf{\codeinline{empty-cells} (Xử lý ô trống)}: Mặc định là \codeinline{show} (hiển thị viền). Muốn ẩn viền các ô không chứa dữ liệu, dùng \codeinline{empty-cells: hide;} (chỉ có tác dụng khi bảng dùng \codeinline{border-collapse: separate;}).
+\end{itemize}
+
+\begin{tipBox}[Kết Luận \& Bí Quyết Thiết Kế Bảng Chuyên Nghiệp]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Trình duyệt luôn có sẵn các giá trị mặc định giúp bảng hiển thị thô sơ mà không bắt buộc có CSS.
+    \item Tuy nhiên, để bảng đạt độ thẩm mỹ cao, sắc nét và nâng cao trải nghiệm đọc (UX), bạn nên chủ động tinh chỉnh đồng bộ các thuộc tính \codeinline{border}, \codeinline{padding}, \codeinline{background-color} và \codeinline{text-align}.
+    \item \textbf{Bí quyết thực chiến}: Luôn kết hợp bộ ba \codeinline{border-collapse: collapse;} + \codeinline{table-layout: fixed;} + \codeinline{width: 100\%;} để bảng gọn gàng, tăng tốc độ render; kết hợp thêm pseudo-class \codeinline{:nth-child(even)} để tạo sọc ngựa vằn (\term{Zebra Striping}) giúp mắt người đọc dễ dàng theo dõi dữ liệu trên từng dòng!
+\end{itemize}
+\end{tipBox}
 
 \newpage
 \subsection{5. Ví Dụ CSS Hoàn Chỉnh \& Trực Quan Hóa Kết Quả}
