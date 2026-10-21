@@ -23835,6 +23835,262 @@ Trên thiết bị di động (Smartphone/Tablet):
 \end{tipBox}
 
 % ==============================================================================
+% CHUYÊN ĐỀ: THUỘC TÍNH CLIP-PATH TRONG CSS (CSS MASKING & SHAPES MASTERCLASS)
+% ==============================================================================
+\section{Chuyên Đề Thuộc Tính \csshint{clip-path} Trong CSS (CSS Masking \& Shapes Masterclass)}
+\label{sec:css_clip_path_masterclass}
+
+Trong thiết kế giao diện hiện đại, \codeinline{clip-path} là một trong những thuộc tính đồ họa mạnh mẽ bậc nhất của CSS. Nó cho phép lập trình viên tạo ra các mặt nạ cắt (\term{Clipping Mask}) đa hình học, biến các khối hộp vuông vức mặc định của HTML thành những hình khối thị giác độc đáo như hình tròn, hình elip, tam giác, đa giác đa góc cạnh hoặc các đường cong vector phức tạp mà không cần dùng đến phần mềm chỉnh sửa ảnh.
+
+\subsection{1. Bản Chất \& Nguyên Lý Hoạt Động Của \csshint{clip-path}}
+\begin{conceptBox}[Khái Niệm Thuộc Tính clip-path Là Gì?]
+\textbf{\codeinline{clip-path}} là thuộc tính CSS dùng để xác định một \textbf{vùng cắt hình học (Clipping Region)}. 
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Hiển thị có chọn lọc}: Phần tử HTML chỉ hiển thị phần nội dung nằm \textbf{bên trong} đường biên cắt.
+    \item \textbf{Ẩn hoàn toàn vùng thừa}: Tất cả các điểm ảnh và nội dung nằm \textbf{bên ngoài} đường viền cắt sẽ hoàn toàn bị ẩn đi.
+    \item \textbf{Vô hiệu hóa tương tác vùng cắt}: Người dùng không thể nhấp chuột (\codeinline{click}), chọn chữ hay kích hoạt sự kiện chuột trên vùng bị ẩn bên ngoài ranh giới cắt.
+    \item \textbf{Hình dung thực tế}: Tưởng tượng bạn cầm một chiếc kéo thủ công để cắt gọt một tờ giấy hình chữ nhật HTML theo bất kỳ hình dạng nào bạn mong muốn.
+\end{itemize}
+\end{conceptBox}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan: 4 Dạng Hình Học Cốt Lõi Của clip-path]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.92]
+  % 1. Circle
+  \node[rectangle, rounded corners=6pt, draw=gray!30, fill=codeBg, minimum width=3.4cm, minimum height=3.2cm] at (-5.4, 0) {};
+  \node[font=\sffamily\scriptsize\bfseries\color{primaryBlue}] at (-5.4, 1.25) {circle()};
+  \fill[primaryBlue!20] (-5.4, -0.1) circle (1.0cm);
+  \draw[primaryBlue, line width=1.5pt] (-5.4, -0.1) circle (1.0cm);
+  \fill[accentOrange] (-5.4, -0.1) circle (2.5pt);
+  \node[font=\sffamily\tiny\color{accentOrange}] at (-5.4, -0.45) {Tâm (50\% 50\%)};
+
+  % 2. Ellipse
+  \node[rectangle, rounded corners=6pt, draw=gray!30, fill=codeBg, minimum width=3.4cm, minimum height=3.2cm] at (-1.8, 0) {};
+  \node[font=\sffamily\scriptsize\bfseries\color{primaryBlue}] at (-1.8, 1.25) {ellipse()};
+  \fill[secondaryTeal!20] (-1.8, -0.1) ellipse (1.2cm and 0.75cm);
+  \draw[secondaryTeal, line width=1.5pt] (-1.8, -0.1) ellipse (1.2cm and 0.75cm);
+  \fill[accentOrange] (-1.8, -0.1) circle (2.5pt);
+  \node[font=\sffamily\tiny\color{accentOrange}] at (-1.8, -0.45) {rx=60\%, ry=40\%};
+
+  % 3. Polygon
+  \node[rectangle, rounded corners=6pt, draw=gray!30, fill=codeBg, minimum width=3.4cm, minimum height=3.2cm] at (1.8, 0) {};
+  \node[font=\sffamily\scriptsize\bfseries\color{primaryBlue}] at (1.8, 1.25) {polygon()};
+  \fill[accentOrange!20] (1.8, 0.85) -- (0.75, -0.9) -- (2.85, -0.9) -- cycle;
+  \draw[accentOrange, line width=1.5pt] (1.8, 0.85) -- (0.75, -0.9) -- (2.85, -0.9) -- cycle;
+  \fill[primaryBlue] (1.8, 0.85) circle (2pt);
+  \fill[primaryBlue] (0.75, -0.9) circle (2pt);
+  \fill[primaryBlue] (2.85, -0.9) circle (2pt);
+  \node[font=\sffamily\tiny\color{darkText}] at (1.8, -0.3) {Nút Play Tam Giác};
+
+  % 4. Inset
+  \node[rectangle, rounded corners=6pt, draw=gray!30, fill=codeBg, minimum width=3.4cm, minimum height=3.2cm] at (5.4, 0) {};
+  \node[font=\sffamily\scriptsize\bfseries\color{primaryBlue}] at (5.4, 1.25) {inset()};
+  \draw[dashed, gray!60, line width=0.8pt] (4.0, -1.0) rectangle (6.8, 0.8);
+  \fill[accentPurple!20, rounded corners=4pt] (4.3, -0.8) rectangle (6.5, 0.6);
+  \draw[accentPurple, line width=1.5pt, rounded corners=4pt] (4.3, -0.8) rectangle (6.5, 0.6);
+  \node[font=\sffamily\tiny\color{accentPurple}] at (5.4, -0.1) {Cắt co lề 4 phía};
+\end{tikzpicture}
+\end{browserWindow}
+
+\subsection{2. Cú Pháp Cơ Bản \& Định Dạng Giá Trị}
+
+Cú pháp tổng quát của thuộc tính \codeinline{clip-path}:
+\begin{codeWindow}[Cú Pháp Khai Báo Thuộc Tính clip-path]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+/* (*@Cú pháp chuẩn tổng quát@*) */
+clip-path: <shape-function> | <url> | none;
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{<shape-function>}: Các hàm hình học tích hợp sẵn (\codeinline{circle()}, \codeinline{ellipse()}, \codeinline{inset()}, \codeinline{polygon()}, \codeinline{path()}).
+    \item \codeinline{<url>}: Đường dẫn tham chiếu đến thẻ \codeinline{<clipPath>} được định nghĩa sẵn trong thẻ SVG nhúng (\codeinline{clip-path: url(\#my-clip);}).
+    \item \codeinline{none}: Giá trị mặc định, hủy bỏ hoàn toàn hiệu ứng cắt và hiển thị trọn vẹn toàn bộ khối hộp ban đầu.
+    \item \textbf{Đơn vị hỗ trợ}: Hỗ trợ linh hoạt đơn vị phần trăm (\codeinline{\%}) theo kích thước phần tử, đơn vị tuyệt đối (\codeinline{px}, \codeinline{rem}, \codeinline{em}), cùng các từ khóa tọa độ chuẩn (\codeinline{top}, \codeinline{left}, \codeinline{center}, \codeinline{bottom}, \codeinline{right}).
+\end{itemize}
+
+\subsection{3. Bảng Tra Cứu Các Hàm Hình Dạng Phổ Biến}
+
+\begin{prettyTableBox}[BẢNG TỔNG HỢP CÁC HÀM HÌNH HỌC TRONG CLIP-PATH]
+\begin{tabularx}{\linewidth}{K{3.2cm} L{4.5cm} Z}
+\rowcolor{primaryBlue} \thd{Hàm Hình Học} & \thd{Ý Nghĩa Thị Giác} & \thd{Trường Hợp Ứng Dụng Thực Chiến} \\
+\midrule
+circle() & Cắt phần tử thành hình tròn hoàn hảo hoặc elip tròn. & Avatar đại diện, nút tròn biểu tượng, hiệu ứng spotlight rọi sáng. \\
+\rowcolor{slateBg} ellipse() & Cắt theo hình elip (bầu dục) với 2 bán kính ngang/dọc độc lập. & Banner hình vòm, hiệu ứng viên thuốc capsule bo dẹp, nền cong nghệ thuật. \\
+polygon() & Cắt đa giác tùy biến kết nối chuỗi tọa độ $(x, y)$. & Nút tam giác Play, huy hiệu ngôi sao, góc vát chéo Cyberpunk, banner chéo. \\
+\rowcolor{slateBg} inset() & Cắt lùi vào bên trong theo 4 cạnh (giống padding), có hỗ trợ bo góc. & Khung viền ảnh lọt lòng, bo góc nghệ thuật nhiều mức, hiệu ứng khung cửa sổ. \\
+path() & Cắt tự do theo chuỗi mã lệnh vector chuẩn SVG ($d$). & Logo thương hiệu, họa tiết sóng nước tự do, giọt nước, hình vẽ phức tạp. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{4. Chi Tiết Cú Pháp \& Ví Dụ Minh Họa Từng Hàm Hình Học}
+
+\paragraph{1. Hàm circle() --- Cắt Hình Tròn Hoàn Hảo:}
+\begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm circle()]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+/* (*@Cú pháp: circle(bán-kính at tọa-độ-tâm-x tọa-độ-tâm-y);@*) */
+.avatar {
+    /* (*@Bán kính 50\%, tâm đặt tại chính giữa (50\% 50\%)@*) */
+    clip-path: circle(50% at 50% 50%);
+}
+
+.spotlight-corner {
+    /* (*@Bán kính 120px đặt tại góc trên bên trái (0 0)@*) */
+    clip-path: circle(120px at 0 0);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{2. Hàm ellipse() --- Cắt Hình Bầu Dục (Elip):}
+\begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm ellipse()]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+/* (*@Cú pháp: ellipse(bán-kính-ngang bán-kính-dọc at tâm-x tâm-y);@*) */
+.badge-ellipse {
+    /* (*@Rộng 60\%, cao 40\%, tâm đặt tại chính giữa phần tử@*) */
+    clip-path: ellipse(60% 40% at 50% 50%);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{3. Hàm inset() --- Cắt Co Lùi Vào Trong (Hình Chữ Nhật Bo Góc):}
+\begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm inset()]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+/* (*@Cú pháp: inset(top right bottom left round border-radius);@*) */
+.card-inset-simple {
+    /* (*@Cắt thụt lề 20px trên/dưới và 30px trái/phải@*) */
+    clip-path: inset(20px 30px 20px 30px);
+}
+
+.card-inset-rounded {
+    /* (*@Cắt thụt vào 15px và bo tròn góc 12px với từ khóa round@*) */
+    clip-path: inset(15px round 12px);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{4. Hàm polygon() --- Cắt Đa Giác Tùy Biến Tọa Độ:}
+Hàm \codeinline{polygon()} là hàm linh hoạt và được ưa chuộng bậc nhất trong thiết kế UI. Bạn định nghĩa danh sách các đỉnh tọa độ $(X_n\; Y_n)$ ngăn cách bởi dấu phẩy:
+\begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm polygon()]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+/* (*@Cú pháp: polygon(x1 y1, x2 y2, x3 y3, ...);@*) */
+
+/* 1. Nút Play tam giác cân hướng sang phải */
+.btn-play {
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+}
+
+/* 2. Banner vạt chéo góc phong cách hiện đại */
+.hero-banner {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+/* 3. Hình ngôi sao 5 cánh tinh tế */
+.star-rating {
+    clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%, 
+        79% 91%, 50% 70%, 21% 91%, 32% 57%, 
+        2% 35%, 39% 35%
+    );
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\paragraph{5. Hàm path() --- Cắt Theo Đường Dẫn Vector SVG:}
+\begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm path()]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+/* (*@Dùng chuỗi cú pháp vector chuẩn d trong SVG (Move, Line, Cubic Bezier, Close)@*) */
+.organic-shape {
+    clip-path: path('M0,0 L100,0 L100,50 C50,100 0,100 0,50 Z');
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{5. Ví Dụ Ứng Dụng Hoàn Chỉnh: Hiệu Ứng Chuyển Động Hover (Morphing Effect)}
+
+Khi kết hợp \codeinline{clip-path} với thuộc tính \codeinline{transition}, bạn có thể tạo nên hiệu ứng chuyển đổi hình dạng (\term{Shape Morphing}) cực kỳ mượt mà mà không làm tốn tài nguyên GPU:
+
+\begin{codeWindow}[Mã Nguồn Ví Dụ: Hiệu Ứng Hover Chuyển Từ Hình Tròn Sang Hình Vuông]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<!-- (*@Cấu trúc HTML@*) -->
+<div class="clipped-box"></div>
+
+<style>
+.clipped-box {
+  width: 280px;
+  height: 280px;
+  background: url('https://picsum.photos/300') no-repeat center/cover;
+  
+  /* (*@Ban đầu: Cắt thành hình tròn 50\%@*) */
+  clip-path: circle(50% at 50% 50%);
+  
+  /* (*@Khai báo transition mượt mà cho hiệu ứng cắt@*) */
+  transition: clip-path 0.4s ease-in-out;
+}
+
+/* (*@Khi rê chuột: Mở rộng thành hình vuông trọn vẹn 100\%@*) */
+.clipped-box:hover {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{6. Bảng Độ Tương Thích Trình Duyệt (Browser Compatibility)}
+
+\begin{prettyTableBox}[BẢNG ĐỘ TƯƠNG THÍCH TRÌNH DUYỆT CỦA THUỘC TÍNH CLIP-PATH]
+\begin{tabularx}{\linewidth}{C{3.2cm} C{3.8cm} C{3.8cm} Z}
+\rowcolor{primaryBlue} \thd{Trình Duyệt} & \thd{Hàm Hình Học Cơ Bản} & \thd{Hàm Vector path()} & \thd{Đánh Giá Thực Tế} \\
+\midrule
+Google Chrome & \textcolor{successGreen}{\textbf{Tốt (Version 55+)}} & \textcolor{successGreen}{\textbf{Tốt (Version 88+)}} & Hỗ trợ toàn diện và tối ưu phần cứng. \\
+\rowcolor{slateBg} Apple Safari & \textcolor{successGreen}{\textbf{Tốt (Version 13.1+)}} & \textcolor{successGreen}{\textbf{Tốt (Version 13.1+)}} & Cần kiểm tra kỹ với một số phiên bản iOS cũ. \\
+Mozilla Firefox & \textcolor{successGreen}{\textbf{Tốt (Version 54+)}} & \textcolor{successGreen}{\textbf{Tốt (Version 71+)}} & Hỗ trợ chuẩn xác và ổn định. \\
+\rowcolor{slateBg} Microsoft Edge & \textcolor{successGreen}{\textbf{Tốt (Version 79+)}} & \textcolor{successGreen}{\textbf{Tốt (Version 88+)}} & Đồng nhất tuyệt đối theo nhân Chromium. \\
+Internet Explorer & \textcolor{dangerRed}{\textbf{Không hỗ trợ ($\times$)}} & \textcolor{dangerRed}{\textbf{Không hỗ trợ ($\times$)}} & Cần cung cấp giải pháp thay thế (\term{fallback}). \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{7. 4 Lưu Ý Sống Còn Khi Sử Dụng \csshint{clip-path} Trong Thực Tế}
+
+\begin{warnBox}[4 Lưu Ý Kỹ Thuật Quan Trọng Về clip-path]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Không làm biến dạng Layout (\term{Layout Box Integrity})}: Khác với việc ẩn bằng \codeinline{display: none}, vùng bị cắt bởi \codeinline{clip-path} chỉ bị che khuất về mặt hiển thị thị giác. \textbf{Diện tích chiếm chỗ của phần tử trên trang web vẫn giữ nguyên 100\%}, không làm xô lệch các phần tử nằm cạnh nhau.
+    \item \textbf{Không hoạt động trên phần tử inline bản địa}: Thuộc tính \codeinline{clip-path} không áp dụng cho phần tử có \codeinline{display: inline} (như thẻ \codeinline{<span>} thuần túy). Bạn bắt buộc phải chuyển sang \codeinline{display: inline-block} hoặc \codeinline{block}.
+    \item \textbf{Khả năng kết hợp Animation mượt mà}: \codeinline{clip-path} hỗ trợ chuyển động (\codeinline{transition}, \codeinline{@keyframes}) rất tốt \textbf{với điều kiện số lượng đỉnh trong polygon phải tương đồng nhau} giữa trạng thái bắt đầu và kết thúc (ví dụ: biến đổi từ 4 đỉnh sang 4 đỉnh).
+    \item \textbf{Hạn chế trên trình duyệt lỗi thời}: Internet Explorer 11 hoàn toàn không hỗ trợ. Đối với các dự án yêu cầu hỗ trợ hệ thống cũ, hãy sử dụng ảnh SVG hoặc thuộc tính bo góc \codeinline{border-radius} để làm phương án thay thế an toàn.
+\end{enumerate}
+\end{warnBox}
+
+\subsection{8. Công Cụ Trực Tuyến Hữu Ích: Clippy Generator}
+
+Để tiết kiệm thời gian tính toán thủ công từng tọa độ điểm cho các đa giác phức tạp, lập trình viên thường sử dụng công cụ tạo đường cắt trực quan:
+\begin{tipBox}[Công Cụ Trực Tuyến Hỗ Trợ Tạo Nhanh clip-path]
+\textbf{Clippy -- CSS clip-path Maker} của tác giả Bennett Feely:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Đường dẫn}: \url{https://bennettfeely.com/clippy/}
+    \item \textbf{Tính năng}: Cung cấp hơn 30 mẫu hình dạng sẵn có (hình bình hành, chevron, ngôi sao, bong bóng thoại, hình thang, lục giác...) và cho phép kéo thả trực tiếp các điểm mút $(X, Y)$ để sao chép mã nguồn CSS tức thì.
+\end{itemize}
+\end{tipBox}
+
+\subsection{9. Bảng Tổng Kết Ghi Nhớ Cú Pháp Nhanh (Cheat Sheet)}
+
+\begin{prettyTableBox}[TỔNG KẾT NHANH CÁCH DÙNG CLIP-PATH TRONG MỌI TÌNH HUỐNG]
+\begin{tabularx}{\linewidth}{K{4.2cm} L{4.5cm} Z}
+\rowcolor{primaryBlue} \thd{Mục Tiêu Thiết Kế} & \thd{Cú Pháp Khuyên Dùng} & \thd{Mẫu Code Mẫu Điển Hình} \\
+\midrule
+Cắt ảnh hình tròn / Avatar & \codeinline{circle(bán-kính at tâm)} & \codeinline{clip-path: circle(50\% at center);} \\
+\rowcolor{slateBg} Cắt hình bầu dục / Viên thuốc & \codeinline{ellipse(rx ry at cx cy)} & \codeinline{clip-path: ellipse(50\% 30\% at 50\% 50\%);} \\
+Tạo nút tam giác Play / Mũi tên & \codeinline{polygon(tọa-độ các đỉnh)} & \codeinline{clip-path: polygon(0 0, 100\% 50\%, 0 100\%);} \\
+\rowcolor{slateBg} Cắt khung lùi vào trong & \codeinline{inset(khoảng-cách round r)} & \codeinline{clip-path: inset(20px 30px round 10px);} \\
+Đường vẽ cong vector tự do & \codeinline{path('chuỗi lệnh SVG')} & \codeinline{clip-path: path('M10 10 L100 10 L100 100 Z');} \\
+\rowcolor{slateBg} Tham chiếu thẻ SVG ngoài & \codeinline{url(\#id)} & \codeinline{clip-path: url(\#clip-1);} \\
+Hủy bỏ mặt nạ cắt & \codeinline{none} & \codeinline{clip-path: none;} \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+% ==============================================================================
 % CHUYÊN ĐỀ: ĐỊNH DẠNG DANH SÁCH TRONG CSS (CSS LISTS MASTERCLASS)
 % ==============================================================================
 \section{Chuyên Đề Định Dạng Danh Sách Trong CSS (CSS Lists Masterclass)}
