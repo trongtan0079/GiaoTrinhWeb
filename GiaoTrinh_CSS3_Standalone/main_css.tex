@@ -4508,21 +4508,21 @@ Hero Section, Layout full màn hình & vw, vh (hoặc dvh) & Dễ dàng tạo hi
 Trong thực tế, một trang web chuyên nghiệp không bao giờ chỉ dùng một loại đơn vị duy nhất mà là sự kết hợp có chủ đích của nhiều đơn vị khác nhau:
 
 \begin{codeWindow}[Ví Dụ Thực Chiến: Phối Hợp Đa Đơn Vị (rem, em, vw, vh, px)]
-\begin{lstlisting}[language=CSS3]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
 html {
-  font-size: 16px;       /* 1rem = 16px (Mo neo co so toan trang) */
+  font-size: 16px;       /* 1rem = 16px (*@(Mỏ neo cơ sở toàn trang)@*) */
 }
 
 .container {
-  width: 80vw;           /* (*@ Chiếm 80% chiều rộng màn hình @*) */
-  height: 100vh;         /* Chieu cao bang 100% man hinh trinh duyet */
-  padding: 2em;          /* Khoang dem ti le theo font-size cua container */
-  font-size: 1.2rem;     /* 1.2 x 16px = 19.2px (Ti le theo the goc html) */
-  border-radius: 8px;    /* Bo goc co dinh sac net bang pixel */
+  width: 80vw;           /* (*@Chiếm 80\% chiều rộng màn hình@*) */
+  height: 100vh;         /* (*@Chiều cao bằng 100\% màn hình trình duyệt@*) */
+  padding: 2em;          /* (*@Khoảng đệm tỷ lệ theo font-size của container@*) */
+  font-size: 1.2rem;     /* 1.2 x 16px = 19.2px (*@(Tỷ lệ theo thẻ gốc html)@*) */
+  border-radius: 8px;    /* (*@Bo góc cố định sắc nét bằng pixel@*) */
 }
 
 .button {
-  padding: 0.5em 1.5em;  /* Tu dong phong to/thu nho theo co chu cua button */
+  padding: 0.5em 1.5em;  /* (*@Tự động co giãn theo cỡ chữ của button@*) */
   font-size: 1rem;       /* 1rem = 16px */
 }
 \end{lstlisting}
@@ -24267,10 +24267,10 @@ inside & Dấu đầu dòng nằm \textbf{bên trong} hộp nội dung của ph�
 \codeinline{list-style-image} là thuộc tính CSS cho phép bạn thay thế dấu đầu dòng hoặc số mặc định ($\bullet$, \codeinline{1.}, \codeinline{A.}) trong danh sách (\codeinline{<ul>}, \codeinline{<ol>}) bằng một hình ảnh bitmap hoặc vector tùy chỉnh của riêng bạn.
 \par\vspace{4pt}
 \textbf{Cú pháp khai báo:}
-\begin{lstlisting}[language=CSS3]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
 selector {
     list-style-image: url('duong-dan-den-hinh-anh');
-    /* Hoac: list-style-image: none; (Mac dinh - khong dung anh) */
+    /* (*@Hoặc: list-style-image: none; (Mặc định: không dùng ảnh)@*) */
 }
 \end{lstlisting}
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
@@ -24849,7 +24849,7 @@ list-style & Khai báo viết tắt các thuộc tính thành phần & list-styl
 \begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
     \item \textbf{Câu hỏi 1.} Thuộc tính \codeinline{list-style} được sử dụng để làm gì? Hãy kể tên ba thuộc tính thành phần của nó.
     \item \textbf{Câu hỏi 2.} Giải thích ý nghĩa của đoạn mã CSS sau:
-\begin{lstlisting}[language=CSS3]
+\begin{lstlisting}[language=CSS3, numbers=none]
 ol {
     list-style: lower-alpha inside;
 }
@@ -24860,21 +24860,21 @@ ol {
 
 \begin{codeWindow}[Hệ Thống Bài Tập Thực Hành Chuẩn Frontend]
 \textbf{\textcolor{primaryBlue}{\small [Bài Tập 1]}} Tạo một danh sách không có thứ tự gồm năm ngôn ngữ lập trình. Sử dụng thuộc tính \codeinline{list-style} để hiển thị ký hiệu hình vuông và đặt ký hiệu bên ngoài nội dung.
-\begin{lstlisting}[language=CSS3]
+\begin{lstlisting}[language=CSS3, numbers=none]
 .programming-languages {
     list-style: square outside;
 }
 \end{lstlisting}
 \vspace{6pt}
 \textbf{\textcolor{primaryBlue}{\small [Bài Tập 2]}} Tạo một danh sách có thứ tự gồm bốn bước thực hiện công việc. Sử dụng số La Mã viết hoa làm ký hiệu đánh dấu.
-\begin{lstlisting}[language=CSS3]
+\begin{lstlisting}[language=CSS3, numbers=none]
 .work-steps {
     list-style: upper-roman outside;
 }
 \end{lstlisting}
 \vspace{6pt}
 \textbf{\textcolor{primaryBlue}{\small [Bài Tập 3]}} Xây dựng thanh menu ngang gồm bốn mục: Trang chủ, Giới thiệu, Sản phẩm và Liên hệ. Sử dụng \codeinline{list-style} để loại bỏ ký hiệu đầu dòng và kết hợp các thuộc tính CSS cần thiết để sắp xếp các mục theo hàng ngang.
-\begin{lstlisting}[language=CSS3]
+\begin{lstlisting}[language=CSS3, numbers=none]
 .navbar-nav {
     list-style: none;
     margin: 0;
@@ -25732,20 +25732,24 @@ Kết nối góc ô & Góc nối sắc nét, vuông vắn và dính liền giữ
 \subsection{6. Kiểm Soát Khoảng Cách Giữa Các Ô (\csshint{border-spacing})}
 \label{subsec:table_border_spacing}
 
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Khái niệm}: \codeinline{border-spacing} xác định khoảng cách giữa các ô trong bảng khi sử dụng kiểu viền tách biệt (\codeinline{border-collapse: separate;}).
     \item \textbf{Giá trị mặc định}: \codeinline{0.625em} (hoặc $\sim$2px tùy trình duyệt). Nếu bạn không khai báo, trình duyệt sẽ giữ khoảng cách mặc định này.
-    \item \textbf{Cú pháp}:
-\begin{lstlisting}[language=CSS3]
+    \item \textbf{Cú pháp khai báo chuẩn}:
+\end{itemize}
+
+\begin{codeWindow}[Cú Pháp Khai Báo Thuộc Tính border-spacing Trong CSS]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
 table {
-    border-spacing: <khoảng cách ngang> <khoảng cách dọc>;
+    border-spacing: <(*@\textcolor{accentOrange}{\textbf{khoảng cách ngang}}@*)> <(*@\textcolor{secondaryTeal}{\textbf{khoảng cách dọc}}@*)>;
 }
 \end{lstlisting}
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
-        \item \codeinline{<khoảng cách ngang>}: Khoảng cách giữa các cột theo chiều ngang.
-        \item \codeinline{<khoảng cách dọc>}: Khoảng cách giữa các hàng theo chiều dọc.
-        \item \textit{Nếu chỉ viết 1 giá trị}: Cả khoảng cách ngang và dọc đều bằng nhau.
-    \end{itemize}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\color{accentOrange}<khoảng cách ngang>}: Khoảng cách giữa các cột theo chiều ngang.
+    \item \textbf{\color{secondaryTeal}<khoảng cách dọc>}: Khoảng cách giữa các hàng theo chiều dọc.
+    \item \textit{Nếu chỉ viết 1 giá trị}: Cả khoảng cách ngang và dọc đều bằng nhau (ví dụ: \codeinline{border-spacing: 10px;}).
     \item \textbf{Lưu ý sống còn}: Tuyệt đối \textbf{không hoạt động} khi dùng \codeinline{border-collapse: collapse}. Ngoài ra, cần phân biệt rõ: \codeinline{padding} là khoảng cách từ nội dung đến viền ô, còn \codeinline{border-spacing} là khoảng cách giữa các ô với nhau.
 \end{itemize}
 
@@ -25817,25 +25821,33 @@ Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệ
     \item \codeinline{table-layout: fixed} (\term{Hiệu năng cao - Cố định độ rộng}): Trình duyệt phân bổ độ rộng cột ngay lập tức dựa trên hàng đầu tiên mà không cần chờ tải hết dữ liệu bên dưới. Khóa cứng độ rộng cột theo giá trị khai báo, rất lý tưởng khi kết hợp với thuộc tính \codeinline{text-overflow: ellipsis}.
 \end{itemize}
 
+\begin{codeWindow}[Cú Pháp Khai Báo Thuộc Tính table-layout Trong CSS]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+table {
+    table-layout: auto | fixed;
+}
+\end{lstlisting}
+\end{codeWindow}
+
 \paragraph{Ví dụ thực tế so sánh cấu hình table-layout: auto và fixed:}
 
-\begin{codeWindow}[Mã Nguồn CSS So Sánh Thuật Toán table-layout]
+\begin{codeWindow}[Mã Nguồn HTML So Sánh Thuật Toán table-layout]
 \begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
-<!-- Bang 1: table-layout: auto (Cot tu co gian theo do dai van ban) -->
+<!-- (*@Bảng 1: table-layout: auto (Cột tự co giãn theo độ dài văn bản)@*) -->
 <table class="tbl-auto">
     <tr>
         <th style="width: 20%;">ID</th>
-        <th style="width: 50%;">(*@Mo ta chi tiet san pham@*)</th>
-        <th style="width: 30%;">(*@Trang thai@*)</th>
+        <th style="width: 50%;">(*@Mô tả chi tiết sản phẩm@*)</th>
+        <th style="width: 30%;">(*@Trạng thái@*)</th>
     </tr>
     <tr>
         <td>01</td>
-        <td>Chuoi_Ky_Tu_Lien_Tuc_Sieu_Dai_Khong_Ngat_Dong</td>
+        <td>Chuoi-Ky-Tu-Lien-Tuc-Sieu-Dai-Khong-Ngat-Dong</td>
         <td>(*@Còn hàng@*)</td>
     </tr>
 </table>
 
-<!-- Bang 2: table-layout: fixed (Khoa chat dung ty le 20% - 50% - 30%) -->
+<!-- (*@Bảng 2: table-layout: fixed (Khóa chặt đúng tỷ lệ 20\% - 50\% - 30\%)@*) -->
 <table class="tbl-fixed">
     <tr>
         <th style="width: 20%;">ID</th>
@@ -25844,14 +25856,25 @@ Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệ
     </tr>
     <tr>
         <td>01</td>
-        <td class="ellipsis">Chuoi_Ky_Tu_Lien_Tuc_Sieu_Dai_Khong_Ngat_Dong</td>
+        <td class="ellipsis">Chuoi-Ky-Tu-Lien-Tuc-Sieu-Dai-Khong-Ngat-Dong</td>
         <td>(*@Còn hàng@*)</td>
     </tr>
 </table>
 \end{lstlisting}
-\begin{lstlisting}[language=CSS3]
-.tbl-auto { table-layout: auto; width: 100%; border-collapse: collapse; }
-.tbl-fixed { table-layout: fixed; width: 100%; border-collapse: collapse; }
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS Thiết Lập Thuật Toán table-layout \& Cắt Chữ]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+.tbl-auto { 
+    table-layout: auto;  /* (*@Mặc định: co giãn theo nội dung@*) */
+    width: 100%; 
+    border-collapse: collapse; 
+}
+.tbl-fixed { 
+    table-layout: fixed; /* (*@Cố định độ rộng cột, tăng tốc độ render@*) */
+    width: 100%; 
+    border-collapse: collapse; 
+}
 .ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -25897,21 +25920,28 @@ Thuộc tính \codeinline{table-layout} kiểm soát thuật toán trình duyệ
 
 \subsection{8. Kiểm Soát Kích Thước Bảng (\csshint{width} \& \csshint{height})}
 \label{subsec:table_width_height}
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Mặc định}: \codeinline{auto} (độ rộng và chiều cao bảng hoàn toàn phụ thuộc vào nội dung các ô).
-\begin{lstlisting}[language=CSS3]
+\end{itemize}
+
+\begin{codeWindow}[Cú Pháp Kích Thước Mặc Định Của Bảng (width \& height: auto)]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
 table {
-    width: auto;  /* Chieu rong bang noi dung */
-    height: auto; /* Chieu cao bang noi dung */
+    width: auto;  /* (*@Chiều rộng tự động co giãn theo nội dung@*) */
+    height: auto; /* (*@Chiều cao tự động co giãn theo nội dung@*) */
 }
 \end{lstlisting}
-    \item \textbf{Tùy chỉnh kích thước cố định}: Thiết lập độ rộng chiếm trọn khung chứa và chiều cao tối thiểu:
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Tùy chỉnh kích thước cố định}: Thiết lập độ rộng chiếm trọn khung chứa (\codeinline{width: 100\%;}) và chiều cao tối thiểu hoặc cố định (\codeinline{height: 300px;}):
+\end{itemize}
 \begin{codeWindow}[Mã Nguồn Thiết Lập Kích Thước Bảng (width: 100\%, height: 300px)]
 \begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
 <style>
   table {
-    width: 100%;   /* (*@Chiem tron 100% chieu rong phan tu cha@*) */
-    height: 300px; /* (*@Khoa chieu cao co dinh 300px@*) */
+    width: 100%;   /* (*@Chiếm trọn 100\% chiều rộng phần tử cha@*) */
+    height: 300px; /* (*@Khóa chiều cao cố định 300px@*) */
     border: 2px solid #007bff;
     border-collapse: collapse;
   }
@@ -25928,7 +25958,6 @@ table {
 </table>
 \end{lstlisting}
 \end{codeWindow}
-\end{itemize}
 
 \begin{browserWindow}[Kết Quả Hiển Thị Bảng Với width: 100\% và height: 300px]
 \centering
@@ -25939,28 +25968,52 @@ table {
 \label{subsec:table_cell_styling}
 Để bảng dữ liệu trực quan và chuyên nghiệp, lập trình viên kết hợp các thuộc tính sau:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{\codeinline{padding} (Khoảng cách nội dung và viền ô)}: Mặc định khoảng \codeinline{0.5em} ($\sim$8px tùy trình duyệt). Ta có thể tăng lề để tạo khoảng thở:
-\begin{lstlisting}[language=CSS3]
+    \item \textbf{\codeinline{padding} (Khoảng cách nội dung và viền ô)}: Mặc định khoảng \codeinline{0.5em} ($\sim$8px tùy trình duyệt). Ta có thể tăng lề để tạo khoảng thở thoáng đãng:
+\end{itemize}
+
+\begin{codeWindow}[Thiết Lập padding Tạo Khoảng Thở Cho Ô Bảng]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
 th, td {
-    padding: 10px 15px; /* Tren-duoi 10px, trai-phai 15px */
+    padding: 10px 15px; /* (*@Trên-dưới 10px, trái-phải 15px@*) */
 }
 \end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{\codeinline{text-align} (Căn chỉnh nội dung ngang)}: Mặc định thẻ \codeinline{<th>} căn giữa (\codeinline{center}), thẻ \codeinline{<td>} căn trái (\codeinline{left}):
-\begin{lstlisting}[language=CSS3]
-th { text-align: center; } /* Can giua tieu de */
-td { text-align: left; }   /* Can trai du lieu */
+\end{itemize}
+
+\begin{codeWindow}[Căn Chỉnh Nội Dung Ngang Với text-align]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+th { text-align: center; } /* (*@Căn giữa tiêu đề cột@*) */
+td { text-align: left; }   /* (*@Căn trái dữ liệu văn bản@*) */
 \end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{\codeinline{vertical-align} (Căn chỉnh nội dung dọc)}: Mặc định là \codeinline{middle} (căn giữa theo chiều dọc). Có thể tùy chỉnh lên trên hoặc xuống dưới:
-\begin{lstlisting}[language=CSS3]
-td { vertical-align: top; } /* Can len dinh o */
+\end{itemize}
+
+\begin{codeWindow}[Căn Chỉnh Trục Dọc Với vertical-align]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+td { vertical-align: top; } /* (*@Căn sát mép đỉnh ô@*) */
 \end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{\codeinline{background-color} (Màu nền)}: Mặc định là \codeinline{transparent} (trong suốt). Khi thiết kế, thường tô màu nổi bật cho tiêu đề:
-\begin{lstlisting}[language=CSS3]
+\end{itemize}
+
+\begin{codeWindow}[Tô Màu Nền Tiêu Đề Nổi Bật Với background-color]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
 th {
-    background-color: #007bff; /* Nen xanh dam */
-    color: #ffffff;            /* Chu trang tuong phan */
+    background-color: #007bff; /* (*@Nền xanh dương chủ đạo@*) */
+    color: #ffffff;            /* (*@Chữ trắng tương phản cao@*) */
 }
 \end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{\codeinline{caption-side} (Vị trí tiêu đề bảng)}: Mặc định là \codeinline{top} (trên đầu bảng). Có thể chuyển xuống chân bảng bằng \codeinline{caption-side: bottom;}.
     \item \textbf{\codeinline{empty-cells} (Xử lý ô trống)}: Mặc định là \codeinline{show} (hiển thị viền). Muốn ẩn viền các ô không chứa dữ liệu, dùng \codeinline{empty-cells: hide;} (chỉ có tác dụng khi bảng dùng \codeinline{border-collapse: separate;}).
 \end{itemize}
@@ -26144,13 +26197,13 @@ Sản phẩm B & 200.000đ & 3 \\
     \item \textbf{Tô màu xen kẽ (\term{Zebra Striping})}: Khi bảng có nhiều dòng dữ liệu, mắt người đọc rất dễ bị lệch dòng khi di chuyển từ trái sang phải. Sử dụng bộ chọn giả lớp \codeinline{tr:nth-child(even)} hoặc \codeinline{tr:nth-child(odd)} để tô màu nền nhạt cho các hàng chẵn/lẻ giúp người dùng theo dõi dữ liệu ma trận dễ dàng hơn gấp nhiều lần. Kết hợp thêm \codeinline{tr:hover \{ background-color: \#e2e6ea; \}} để phản hồi tương tác mượt mà.
     \item \textbf{Cố định Header (\term{Sticky Header})}: Với các bảng báo cáo dài có thanh cuộn trang, hãy áp dụng thuộc tính \codeinline{position: sticky; top: 0;} cho thẻ \codeinline{<th>}. Điều này giữ cho hàng tiêu đề luôn cố định ở đỉnh màn hình trong khi người dùng cuộn xem hàng trăm bản ghi phía dưới:
 \begin{codeWindow}[Khai Báo Header Cố Định Bằng CSS Sticky]
-\begin{lstlisting}[language=CSS3]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
 th {
     position: sticky;
     top: 0;
-    background-color: #007bff;
+    background-color: #007bff; /* (*@Nền xanh đậm che phủ nội dung khi cuộn@*) */
     color: white;
-    z-index: 10;
+    z-index: 10;                /* (*@Nổi lên trên các hàng dữ liệu bên dưới@*) */
 }
 \end{lstlisting}
 \end{codeWindow}
@@ -26185,7 +26238,7 @@ Khi xây dựng bảng dữ liệu chuyên sâu cho hệ thống doanh nghiệp,
 
 \paragraph{Ví dụ cấu trúc bảng HTML5 ngữ nghĩa hoàn chỉnh với thead, tbody và tfoot:}
 
-\begin{codeWindow}[Mã Nguồn Bảng Dữ Liệu Ngữ Nghĩa thead, tbody, tfoot]
+\begin{codeWindow}[Mã Nguồn HTML5: Cấu Trúc Bảng thead, tbody, tfoot]
 \begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
 <table class="invoice-table">
     <thead>
@@ -26218,8 +26271,14 @@ Khi xây dựng bảng dữ liệu chuyên sâu cho hệ thống doanh nghiệp,
     </tfoot>
 </table>
 \end{lstlisting}
-\begin{lstlisting}[language=CSS3]
-.invoice-table { width: 100%; border-collapse: collapse; }
+\end{codeWindow}
+
+\begin{codeWindow}[Mã Nguồn CSS: Định Dạng Phân Tầng Bảng Ngữ Nghĩa]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+.invoice-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+}
 .invoice-table thead th {
     background-color: #007bff;
     color: white;

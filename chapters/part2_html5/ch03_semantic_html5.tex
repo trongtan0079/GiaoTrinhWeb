@@ -3703,15 +3703,15 @@ Dữ liệu ô số 3 & Dữ liệu ô số 4 \\
 Biểu mẫu HTML (\term{HTML Form}) là thành phần cốt lõi trên trang web cho phép người dùng nhập và gửi dữ liệu lên máy chủ (đăng nhập, đăng ký, tìm kiếm, phản hồi, tải lên tệp tin...). Một biểu mẫu cơ bản được định nghĩa bởi cặp thẻ \codeinline{<form>} đi kèm các ô điều khiển nhập liệu (\codeinline{<input>}) và nút gửi dữ liệu (\codeinline{<button>} hoặc \codeinline{<input type="submit">}).
 
 \begin{codeWindow}[Mã Nguồn Khai Báo Biểu Mẫu HTML Đăng Nhập Cơ Bản]
-\begin{lstlisting}[language=HTML5]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
 <form action="/login" method="POST">
-  <label for="username">Tên người dùng:</label>
+  <label for="username">(*@Tên người dùng:@*)</label>
   <input type="text" id="username" name="username" required>
 
-  <label for="password">Mật khẩu:</label>
+  <label for="password">(*@Mật khẩu:@*)</label>
   <input type="password" id="password" name="password" required>
 
-  <button type="submit">Đăng Nhập</button>
+  <button type="submit">(*@Đăng Nhập@*)</button>
 </form>
 \end{lstlisting}
 \end{codeWindow}
