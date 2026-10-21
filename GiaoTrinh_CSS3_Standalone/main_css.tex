@@ -23926,18 +23926,162 @@ path() & Cắt tự do theo chuỗi mã lệnh vector chuẩn SVG ($d$). & Logo 
 
 \subsection{4. Chi Tiết Cú Pháp \& Ví Dụ Minh Họa Từng Hàm Hình Học}
 
-\paragraph{1. Hàm circle() --- Cắt Hình Tròn Hoàn Hảo:}
-\begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm circle()]
+\paragraph{1. Chuyên Sâu Hàm circle() --- Cắt Hình Tròn Hoàn Hảo (Circle Deep Dive):}
+
+\begin{conceptBox}[Cú Pháp Đầy Đủ Của clip-path: circle()]
+Cú pháp chuẩn W3C của hàm cắt hình tròn:
+\begin{center}
+\codeinline{clip-path: circle(<radius> at <position> [reference-box]);}
+\end{center}
+Nếu không chỉ định \codeinline{at <position>}, trình duyệt mặc định đặt tâm tại chính giữa: \codeinline{at 50\% 50\%}.
+\end{conceptBox}
+
+\begin{prettyTableBox}[BẢNG PHÂN TÍCH THÀNH PHẦN CỦA HÀM CIRCLE()]
+\begin{tabularx}{\linewidth}{K{3.0cm} L{3.5cm} Z}
+\rowcolor{primaryBlue} \thd{Thành Phần} & \thd{Kiểu Dữ Liệu} & \thd{Ý Nghĩa \& Cơ Chế Tính Toán} \\
+\midrule
+<radius> & \codeinline{px}, \codeinline{\%}, \codeinline{em}, \codeinline{calc()}, \codeinline{closest-side}, \codeinline{farthest-side} & Bán kính của hình tròn. Giá trị \codeinline{\%} được tính dựa trên kích thước của hộp tham chiếu. \\
+\rowcolor{slateBg} at <position> & \codeinline{\%}, \codeinline{px}, hoặc từ khóa (\codeinline{center}, \codeinline{top}, \codeinline{left}...) & Tọa độ tâm hình tròn $(X, Y)$. Mặc định là \codeinline{50\% 50\%} (chính giữa phần tử). \\
+reference-box & \codeinline{padding-box} (mặc định), \codeinline{border-box}, \codeinline{content-box} & Khung hộp CSS dùng làm hệ quy chiếu tọa độ và kích thước cho hình tròn. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{A. 6 Bước Trong Cơ Chế Hoạt Động Cốt Lõi Của Trình Duyệt:}
+Khi bạn khai báo \codeinline{clip-path: circle(<radius> at <position>);}, trình duyệt tiến hành quy trình xử lý 6 giai đoạn:
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Xác định Hộp Tham Chiếu (Reference Box)}:
+    Mặc định, các hàm hình học sử dụng \term{padding-box} (vùng bao gồm nội dung và phần đệm padding, không tính border). Tọa độ gốc $(0, 0)$ là góc trên bên trái của padding-box. Bạn có thể chủ động đổi sang \codeinline{border-box} hoặc \codeinline{content-box}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \codeinline{clip-path: circle(50\% at center) border-box;}
+        \item \codeinline{clip-path: circle(50\% at center) content-box;}
+    \end{itemize}
+
+    \item \textbf{Tính toán Vị Trí Tâm Hình Tròn (\codeinline{at <position>})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \emph{Mặc định}: Tâm nằm tại tọa độ $(50\%, 50\%)$ của hộp tham chiếu.
+        \item \emph{Dùng đơn vị \codeinline{\%}} (ví dụ: \codeinline{at 25\% 75\%}): Tọa độ $X$ bằng $25\%$ chiều rộng, $Y$ bằng $75\%$ chiều cao của hộp tham chiếu tính từ góc trên trái.
+        \item \emph{Dùng từ khóa} (\codeinline{top}, \codeinline{bottom}, \codeinline{left}, \codeinline{right}, \codeinline{center}): Được tự động quy đổi tương ứng (ví dụ: \codeinline{at top left} tương đương \codeinline{0\% 0\%}).
+        \item \emph{Dùng đơn vị độ dài} (ví dụ: \codeinline{at 50px 100px}): Tâm cách mép trái $50\text{px}$, cách mép trên $100\text{px}$.
+    \end{itemize}
+
+    \item \textbf{Tính toán Bán Kính Hình Tròn (\codeinline{<radius>})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \emph{Đơn vị tuyệt đối}: Bán kính cố định chính xác (ví dụ: $75\text{px}$).
+        \item \emph{Đơn vị phần trăm}: Bán kính tỷ lệ theo kích thước hộp tham chiếu theo chuẩn W3C:
+        $$R = \text{percentage} \times \sqrt{\frac{W^2 + H^2}{2}} \quad \text{hoặc theo cạnh tham chiếu (với hình vuông: } R = \text{percentage} \times W\text{)}$$
+        \item \codeinline{closest-side}: Bán kính bằng khoảng cách từ tâm đến cạnh gần nhất của hộp tham chiếu (đảm bảo hình tròn trọn vẹn bên trong).
+        \item \codeinline{farthest-side}: Bán kính bằng khoảng cách từ tâm đến cạnh xa nhất của hộp tham chiếu.
+    \end{itemize}
+
+    \item \textbf{Tạo Mặt Nạ Ảo (Virtual Clipping Mask)}:
+    Dựa trên tọa độ tâm và bán kính đã tính, bộ dựng hình của trình duyệt vẽ một hình tròn mặt nạ vector trong bộ nhớ đệm đồ họa.
+
+    \item \textbf{Quy Trình Cắt Bỏ Điểm Ảnh (Pixel Clipping Execution)}:
+    Trình duyệt quét qua từng pixel của phần tử:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+        \item \emph{Nằm trong mặt nạ}: Được giữ lại và hiển thị bình thường.
+        \item \emph{Nằm ngoài mặt nạ}: Bị loại bỏ hoàn toàn, trở nên trong suốt và \textbf{không nhận bất kỳ sự kiện chuột nào} (không click, không hover).
+    \end{itemize}
+
+    \item \textbf{Ảnh Hưởng Đến Rendering \& Layout}:
+    Thuộc tính \codeinline{clip-path} \textbf{không làm thay đổi kích thước hay vị trí của phần tử trong luồng bố cục (Layout Flow)}. Khối hộp vẫn chiếm trọn diện tích ban đầu, các phần tử xung quanh không bị xô đẩy.
+\end{enumerate}
+
+\subparagraph{B. Bảng Tra Cứu Từ Khóa Vị Trí Tâm (\codeinline{<position>}):}
+\begin{prettyTableBox}[TỪ KHÓA ĐỊNH VỊ TÂM HÌNH TRÒN TRONG CLIP-PATH]
+\begin{tabularx}{\linewidth}{K{2.8cm} C{3.2cm} Z}
+\rowcolor{primaryBlue} \thd{Từ Khóa} & \thd{Tọa Độ Tương Đương} & \thd{Hiệu Ứng Vị Trí Tâm} \\
+\midrule
+center & \codeinline{50\% 50\%} & Tâm đặt tại chính giữa khối hộp. \\
+\rowcolor{slateBg} top & \codeinline{50\% 0\%} & Tâm nằm tại trung điểm cạnh trên. \\
+bottom & \codeinline{50\% 100\%} & Tâm nằm tại trung điểm cạnh đáy dưới. \\
+\rowcolor{slateBg} left & \codeinline{0\% 50\%} & Tâm nằm tại trung điểm cạnh mép trái. \\
+right & \codeinline{100\% 50\%} & Tâm nằm tại trung điểm cạnh mép phải. \\
+\rowcolor{slateBg} left top & \codeinline{0\% 0\%} & Tâm đặt ngay tại góc trên cùng bên trái. \\
+right bottom & \codeinline{100\% 100\%} & Tâm đặt ngay tại góc dưới cùng bên phải. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{C. Các Kịch Bản Ví Dụ Thực Chiến:}
+\begin{codeWindow}[Ví Dụ Đa Dạng Các Vị Trí Cắt Hình Tròn]
 \begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
-/* (*@Cú pháp: circle(bán-kính at tọa-độ-tâm-x tọa-độ-tâm-y);@*) */
-.avatar {
-    /* (*@Bán kính 50\%, tâm đặt tại chính giữa (50\% 50\%)@*) */
-    clip-path: circle(50% at 50% 50%);
+/* 1. Hình tròn nằm chính giữa phần tử */
+.circle-center {
+    clip-path: circle(50% at 50% 50%); /* (*@Hoặc viết gọn: circle(50%)@*) */
 }
 
-.spotlight-corner {
-    /* (*@Bán kính 120px đặt tại góc trên bên trái (0 0)@*) */
-    clip-path: circle(120px at 0 0);
+/* 2. Hình tròn nhỏ 40px đặt tại góc trên bên trái */
+.circle-top-left {
+    clip-path: circle(40px at 0 0);
+}
+
+/* 3. Hình tròn lớn 75% đặt tại góc dưới bên phải */
+.circle-bottom-right {
+    clip-path: circle(75% at 100% 100%);
+}
+
+/* 4. Hình tròn kết hợp từ khóa góc chéo */
+.circle-diagonal {
+    clip-path: circle(35% at right top);
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subparagraph{D. Ví Dụ Tương Tác: Hiệu Ứng Phóng To Bán Kính Khi Hover:}
+\begin{codeWindow}[Mã Nguồn Hiệu Ứng Hover Phóng To Vòng Tròn (Interactive Circle Hover)]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<div class="circle-demo">(*@Hình tròn tương tác@*)</div>
+
+<style>
+.circle-demo {
+  width: 300px;
+  height: 300px;
+  background: url('https://picsum.photos/300') no-repeat center/cover;
+  
+  /* (*@Trạng thái bình thường: Bán kính 50\% tại tâm@*) */
+  clip-path: circle(50% at center);
+  transition: clip-path 0.3s ease;
+}
+
+/* (*@Trạng thái Hover: Bán kính mở rộng lên 75\%@*) */
+.circle-demo:hover {
+  clip-path: circle(75% at center);
+}
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\subparagraph{E. Bảng So Sánh Chuyên Sâu: clip-path: circle() vs background-size:}
+Nhiều lập trình viên mới học hay nhầm lẫn giữa việc định kích thước ảnh nền và việc cắt hình khối hiển thị. Bảng so sánh dưới đây phân định rõ hai khái niệm:
+
+\begin{prettyTableBox}[SO SÁNH BẢN CHẤT GIỮA BACKGROUND-SIZE VÀ CLIP-PATH: CIRCLE()]
+\begin{tabularx}{\linewidth}{L{4.2cm} C{3.8cm} Z}
+\rowcolor{primaryBlue} \thd{Tiêu Chí So Sánh} & \thd{\codeinline{background-size}} & \thd{\codeinline{clip-path: circle()}} \\
+\midrule
+Tác động đối tượng & Tác động đến kích thước tệp ảnh nền. & Tác động đến \textbf{vùng hiển thị của toàn bộ phần tử}. \\
+\rowcolor{slateBg} Thay đổi tỷ lệ ảnh & Có (\codeinline{cover}, \codeinline{contain}). & \textbf{Không} (giữ nguyên tỷ lệ, chỉ che phần thừa). \\
+Ẩn vùng ngoài rìa & Không (vùng ngoài ảnh vẫn hiển thị nền/viền). & \textbf{Có} (cắt đứt dứt khoát mọi pixel ngoài vòng tròn). \\
+\rowcolor{slateBg} Vị trí tâm / mốc tọa độ & Tùy chỉnh qua \codeinline{background-position}. & Tùy chỉnh trực tiếp qua cú pháp \codeinline{at <position>}. \\
+Khả năng tương tác chuột & Vùng trống vẫn nhận click/hover bình thường. & Vùng bị cắt \textbf{hoàn toàn không nhận sự kiện chuột}. \\
+\rowcolor{slateBg} Sức mạnh Animation & Chuyển động kích thước ảnh nền tương đối nặng. & Hiệu ứng biến đổi bán kính cực nhẹ nhờ GPU ($60\text{fps}$). \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{F. Kỹ Thuật Phối Hợp Hoàn Hảo Giữa Cả Hai:}
+Trong thực tế thiết kế Card người dùng, Avatar hay Banner tròn, lập trình viên luôn phối hợp cả hai thuộc tính để đạt kết quả thị giác chuẩn xác nhất:
+\begin{codeWindow}[Kỹ Thuật Phối Hợp background-size: cover \& clip-path: circle()]
+\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
+.user-avatar {
+    width: 200px;
+    height: 200px;
+    /* 1. background-size: cover giúp ảnh phủ kín khung, không méo tỷ lệ */
+    background: url('./avatar.png') center/cover no-repeat;
+    
+    /* 2. clip-path: circle() tạo mặt nạ tròn hoàn hảo bán kính 40% (80px) */
+    clip-path: circle(40% at 50% 50%);
 }
 \end{lstlisting}
 \end{codeWindow}
