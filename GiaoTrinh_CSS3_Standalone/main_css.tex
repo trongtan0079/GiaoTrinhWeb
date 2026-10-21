@@ -13083,6 +13083,49 @@ Khoảng trống? & Không bao giờ (luôn phủ kín). & Có thể (khoảng t
 \end{tabularx}
 \end{prettyTableBox}
 
+\subparagraph{Công Thức Toán Học \& Thuật Toán Phân Định Kích Thước contain vs cover:}
+Để hiểu cặn kẽ cách trình duyệt render và phóng to/thu nhỏ hình ảnh nền, chúng ta cần nắm vững mô hình giải thuật toán học phía sau:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Gọi kích thước phần tử chứa (\term{Container}): Chiều rộng $W_{\text{box}}$, Chiều cao $H_{\text{box}}$. Tỷ lệ khung hộp: $R_{\text{box}} = \frac{W_{\text{box}}}{H_{\text{box}}}$.
+    \item Gọi kích thước tự nhiên của ảnh gốc (\term{Natural Image}): Chiều rộng $W_{\text{img}}$, Chiều cao $H_{\text{img}}$. Tỷ lệ ảnh gốc: $R = \frac{W_{\text{img}}}{H_{\text{img}}}$.
+\end{itemize}
+
+\textbf{1. Giải thuật \codeinline{background-size: contain}:}
+Mục tiêu là hiển thị trọn vẹn $100\%$ bức ảnh bên trong phần tử mà không làm méo tỷ lệ (giới hạn theo cạnh ngắn hơn, chấp nhận có khoảng trống nền thừa):
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nếu $R > R_{\text{box}}$} (Ảnh bè rộng hơn hộp): Giới hạn theo chiều rộng. Chiều rộng co về vừa khít hộp, chiều cao tính co theo tỷ lệ:
+    $$W_{\text{result}} = W_{\text{box}}, \qquad H_{\text{result}} = \frac{H_{\text{img}}}{W_{\text{img}}} \times W_{\text{box}}$$
+    \item \textbf{Nếu $R < R_{\text{box}}$} (Ảnh thon cao hơn hộp): Giới hạn theo chiều cao. Chiều cao co về vừa khít hộp, chiều rộng tính theo tỷ lệ:
+    $$H_{\text{result}} = H_{\text{box}}, \qquad W_{\text{result}} = \frac{W_{\text{img}}}{H_{\text{img}}} \times H_{\text{box}}$$
+\end{itemize}
+
+\textbf{2. Giải thuật \codeinline{background-size: cover}:}
+Mục tiêu là phóng to ảnh sao cho phủ kín $100\%$ diện tích phần tử, không để lộ khoảng trống nền (giới hạn theo cạnh dài hơn, chấp nhận cắt xén phần ảnh dư thừa):
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nếu $R > R_{\text{box}}$} (Ảnh bè rộng hơn hộp): Giới hạn theo chiều cao để phủ kín đáy hộp, phần chiều ngang dư thừa sẽ bị xén bớt hai bên:
+    $$H_{\text{result}} = H_{\text{box}}, \qquad W_{\text{result}} = \frac{W_{\text{img}}}{H_{\text{img}}} \times H_{\text{box}}$$
+    \item \textbf{Nếu $R < R_{\text{box}}$} (Ảnh thon cao hơn hộp): Giới hạn theo chiều rộng để phủ kín hai mép, phần chiều dọc dư thừa sẽ bị xén đỉnh/đáy:
+    $$W_{\text{result}} = W_{\text{box}}, \qquad H_{\text{result}} = \frac{H_{\text{img}}}{W_{\text{img}}} \times W_{\text{box}}$$
+\end{itemize}
+
+\begin{prettyTableBox}[TỔNG HỢP NGUYÊN TẮC TÍNH TOÁN KÍCH THƯỚC COVER \& CONTAIN]
+\begin{tabularx}{\linewidth}{K{2.4cm} L{4.0cm} L{3.5cm} Z}
+\rowcolor{primaryBlue} \thd{Trường Hợp} & \thd{Mục Tiêu Thị Giác} & \thd{Hệ Quả Thực Tế} & \thd{Công Thức Rút Gọn} \\
+\midrule
+\codeinline{contain} & Ảnh nằm trọn vẹn trong khung & Có thể có khoảng trống nền & Giới hạn theo chiều \textbf{ngắn hơn} của khung. \\
+\rowcolor{slateBg} \codeinline{cover} & Ảnh phủ kín toàn bộ khung & Có thể bị cắt xén ảnh rìa & Giới hạn theo chiều \textbf{dài hơn} của khung. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{conceptBox}[Ví Dụ Tính Toán Thực Tế: Ảnh $600 \times 300\text{px}$ Trên Hộp Vuông $300 \times 300\text{px}$]
+Giả sử có ảnh gốc $W_{\text{img}} = 600\text{px}, H_{\text{img}} = 300\text{px}$ (Tỷ lệ $R = 600/300 = 2$), gán vào khung chứa vuông $W_{\text{box}} = 300\text{px}, H_{\text{box}} = 300\text{px}$ (Tỷ lệ $R_{\text{box}} = 1$):
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Khi dùng \codeinline{contain}} ($R > R_{\text{box}}$): Giới hạn theo chiều rộng $\rightarrow W_{\text{result}} = 300\text{px}$, $H_{\text{result}} = (300/600) \times 300 = 150\text{px}$. Ảnh hiển thị $300 \times 150\text{px}$, thừa $150\text{px}$ chiều dọc để lộ màu nền.
+    \item \textbf{Khi dùng \codeinline{cover}} ($R > R_{\text{box}}$): Giới hạn theo chiều cao $\rightarrow H_{\text{result}} = 300\text{px}$, $W_{\text{result}} = (600/300) \times 300 = 600\text{px}$. Ảnh được scale lên thành $600 \times 300\text{px}$, rồi bị cắt xén $300\text{px}$ chiều ngang (mỗi bên $150\text{px}$ nếu căn giữa).
+\end{itemize}
+\end{conceptBox}
+
 \paragraph{5. Chuyên Đề D: Thiết Lập Kích Thước Cụ Thể (px, \%, em, rem):}
 Bạn có thể tự do đặt kích thước cụ thể bằng các đơn vị đo lường tuyệt đối (\codeinline{px}, \codeinline{pt}) hoặc tương đối (\codeinline{em}, \codeinline{rem}, \codeinline{\%}):
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
@@ -24097,48 +24140,247 @@ Trong thực tế thiết kế Card người dùng, Avatar hay Banner tròn, l�
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{3. Hàm inset() --- Cắt Co Lùi Vào Trong (Hình Chữ Nhật Bo Góc):}
-\begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm inset()]
-\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
-/* (*@Cú pháp: inset(top right bottom left round border-radius);@*) */
-.card-inset-simple {
-    /* (*@Cắt thụt lề 20px trên/dưới và 30px trái/phải@*) */
-    clip-path: inset(20px 30px 20px 30px);
+\paragraph{3. Chuyên Sâu Hàm inset() --- Cắt Co Lùi Vào Trong \& Bo Tròn Góc (Inset Masterclass):}
+
+\subparagraph{A. Cú Pháp Chuẩn \& Quy Tắc Viết Tắt (Shorthand):}
+Hàm \codeinline{inset()} định nghĩa một hình chữ nhật cắt co lùi từ các mép biên của phần tử vào bên trong, với cú pháp đầy đủ:
+\begin{conceptBox}[Cú Pháp Chuẩn Toàn Diện Của clip-path: inset()]
+\codeinline{clip-path: inset(<top> <right> <bottom> <left> round <border-radius>);}
+\end{conceptBox}
+
+Các giá trị khoảng cách (\codeinline{top}, \codeinline{right}, \codeinline{bottom}, \codeinline{left}) đại diện cho khoảng cách cắt từ mép ngoài của phần tử lùi vào tâm. Trình duyệt hỗ trợ cách viết tắt theo chiều kim đồng hồ hoàn toàn tương tự thuộc tính \codeinline{padding} hoặc \codeinline{margin}:
+
+\begin{prettyTableBox}[CÁC CÁCH KHAI BÁO VIẾT TẮT THÔNG DỤNG CỦA HÀM INSET()]
+\begin{tabularx}{\linewidth}{K{3.8cm} L{4.2cm} Z}
+\rowcolor{primaryBlue} \thd{Cách Viết} & \thd{Quy Cách Cạnh Tác Động} & \thd{Diễn Giải Chi Tiết} \\
+\midrule
+\codeinline{inset(20px)} & 1 giá trị & Cắt đều đặn $20\text{px}$ từ cả 4 phía (Trên, Phải, Dưới, Trái). \\
+\rowcolor{slateBg} \codeinline{inset(20px 10px)} & 2 giá trị & Trên/Dưới: $20\text{px}$ --- Trái/Phải: $10\text{px}$. \\
+\codeinline{inset(20px 15px 10px)} & 3 giá trị & Cạnh Trên: $20\text{px}$ --- Trái/Phải: $15\text{px}$ --- Cạnh Dưới: $10\text{px}$. \\
+\rowcolor{slateBg} \codeinline{inset(20px 10px 30px 5px)} & 4 giá trị & Theo thứ tự kim đồng hồ: Trên ($20\text{px}$), Phải ($10\text{px}$), Dưới ($30\text{px}$), Trái ($5\text{px}$). \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{B. Bản Chất Hoạt Động \& Giải Thuật Tính Toán Tọa Độ:}
+\codeinline{inset()} cắt bỏ toàn bộ phần bên ngoài của phần tử và chỉ giữ lại diện tích nằm bên trong hình chữ nhật lọt lòng. Trình duyệt tính toán các tọa độ cắt theo hệ trục Descart:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Cạnh Trên ($Top$): Giới hạn tung độ tối thiểu $Y_{\min} = Top$.
+    \item Cạnh Trái ($Left$): Giới hạn hoành độ tối thiểu $X_{\min} = Left$.
+    \item Cạnh Phải ($Right$): Giới hạn hoành độ tối đa $X_{\max} = W_{\text{element}} - Right$.
+    \item Cạnh Dưới ($Bottom$): Giới hạn tung độ tối đa $Y_{\max} = H_{\text{element}} - Bottom$.
+\end{itemize}
+
+\begin{conceptBox}[Ví Dụ Tính Toán Tọa Độ Thực Tế Trên Phần Tử $300 \times 200\text{px}$]
+Giả sử có phần tử: \codeinline{.box \{ width: 300px; height: 200px; clip-path: inset(20px 30px 10px 40px); \}}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Cạnh Trên}: Cắt $20\text{px}$ từ trên xuống $\rightarrow Y_{\min} = 20\text{px}$.
+    \item \textbf{Cạnh Phải}: Cắt $30\text{px}$ từ phải vào $\rightarrow X_{\max} = 300 - 30 = 270\text{px}$.
+    \item \textbf{Cạnh Dưới}: Cắt $10\text{px}$ từ dưới lên $\rightarrow Y_{\max} = 200 - 10 = 190\text{px}$.
+    \item \textbf{Cạnh Trái}: Cắt $40\text{px}$ từ trái vào $\rightarrow X_{\min} = 40\text{px}$.
+\end{itemize}
+$\rightarrow$ \textbf{Vùng hiển thị thực tế}: Hình chữ nhật trải dài từ tọa độ $(40, 20)$ đến $(270, 190)$, có kích thước thực là:
+$$W_{\text{visible}} = 270 - 40 = 230\text{px}, \qquad H_{\text{visible}} = 190 - 20 = 170\text{px}$$
+\end{conceptBox}
+
+\subparagraph{C. Tùy Biến Bo Tròn Góc Nghệ Thuật Với Từ Khóa round:}
+Thêm từ khóa \codeinline{round <border-radius>} vào sau danh sách khoảng cách giúp bo tròn các góc của mặt nạ chữ nhật:
+\begin{prettyTableBox}[TÙY CHỈNH THAM SỐ ROUND TRONG HÀM INSET]
+\begin{tabularx}{\linewidth}{K{3.4cm} L{4.5cm} Z}
+\rowcolor{primaryBlue} \thd{Tham Số Khai Báo} & \thd{Quy Cách Bo Góc} & \thd{Ứng Dụng Thực Tiễn} \\
+\midrule
+\codeinline{round 30px} & 1 giá trị: Bo đều cả 4 góc $30\text{px}$. & Khung ảnh chân dung, ảnh thẻ cá nhân, card mềm mại. \\
+\rowcolor{slateBg} \codeinline{round 30px 10px} & 2 giá trị: Góc trên-trái \& dưới-phải $30\text{px}$; trên-phải \& dưới-trái $10\text{px}$. & Khung thẻ bất đối xứng phong cách thiết kế hiện đại. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{browserWindow}[Đối Chiếu Trực Quan: Cắt Ảnh Bằng Hàm clip-path: inset()]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.92]
+  % Panel 1: Original
+  \begin{scope}[shift={(0,0)}]
+    \draw[dashed, gray!40, fill=codeBg, line width=0.8pt] (0,0) rectangle (4.4, 2.4);
+    \node[anchor=south west, inner sep=0, draw=gray!30, line width=0.8pt] at (0,0) {\includegraphics[width=4.4cm, height=2.4cm]{figures/clip_path_landscape.jpg}};
+    \node[font=\scriptsize\bfseries\color{primaryBlue}, fill=white, rounded corners=2pt, inner sep=2pt] at (2.2, 2.65) {Ảnh Gốc (Chưa Cắt)};
+    \node[font=\tiny\color{darkText!70}] at (2.2, -0.25) {Kích thước nguyên vẹn};
+  \end{scope}
+
+  % Panel 2: inset(14px 20px 10px 24px)
+  \begin{scope}[shift={(5.1,0)}]
+    \draw[dashed, gray!40, fill=codeBg, line width=0.8pt] (0,0) rectangle (4.4, 2.4);
+    \begin{scope}
+      \clip (0.4, 0.2) rectangle (3.9, 2.1);
+      \node[anchor=south west, inner sep=0] at (0,0) {\includegraphics[width=4.4cm, height=2.4cm]{figures/clip_path_landscape.jpg}};
+    \end{scope}
+    \draw[accentPurple, line width=1.2pt] (0.4, 0.2) rectangle (3.9, 2.1);
+    \node[font=\scriptsize\bfseries\color{accentPurple}, fill=white, rounded corners=2pt, inner sep=2pt] at (2.2, 2.65) {inset(14px 20px 10px 24px)};
+    \node[font=\tiny\color{accentPurple!90}] at (2.2, -0.25) {Vùng hiển thị co lùi từ 4 mép};
+  \end{scope}
+
+  % Panel 3: inset(10px round 15pt)
+  \begin{scope}[shift={(10.2,0)}]
+    \draw[dashed, gray!40, fill=codeBg, line width=0.8pt] (0,0) rectangle (4.4, 2.4);
+    \begin{scope}
+      \clip[rounded corners=10pt] (0.3, 0.2) rectangle (4.1, 2.2);
+      \node[anchor=south west, inner sep=0] at (0,0) {\includegraphics[width=4.4cm, height=2.4cm]{figures/clip_path_landscape.jpg}};
+    \end{scope}
+    \draw[secondaryTeal, line width=1.2pt, rounded corners=10pt] (0.3, 0.2) rectangle (4.1, 2.2);
+    \node[font=\scriptsize\bfseries\color{secondaryTeal}, fill=white, rounded corners=2pt, inner sep=2pt] at (2.2, 2.65) {inset(10px round 15pt)};
+    \node[font=\tiny\color{secondaryTeal!90}] at (2.2, -0.25) {Khung bo góc tròn mềm mại};
+  \end{scope}
+\end{tikzpicture}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Minh họa thực nghiệm trên cùng tệp ảnh phong cảnh: Ảnh gốc (trái), cắt co lùi 4 mép (giữa), và phối hợp bo tròn góc \codeinline{round} (phải).}
+\end{browserWindow}
+
+\subparagraph{D. Các Cảnh Báo Kỹ Thuật Quan Trọng:}
+\begin{prettyTableBox}[CẢNH BÁO KỸ THUẬT KHI SỬ DỤNG HÀM INSET]
+\begin{tabularx}{\linewidth}{K{3.8cm} Z}
+\rowcolor{primaryBlue} \thd{Vấn Đề Kỹ Thuật} & \thd{Giải Thích \& Lời Khuyên Khắc Phục} \\
+\midrule
+Tương thích trình duyệt & Không hỗ trợ trên Internet Explorer và các bản Edge cũ (Legacy). Hỗ trợ hoàn hảo từ Chrome, Firefox, Safari, Edge Chromium. \\
+\rowcolor{slateBg} Ảnh hưởng của \codeinline{overflow} & Nếu phần tử cha khai báo \codeinline{overflow: hidden}, vùng hiển thị của \codeinline{inset} vẫn có thể bị cắt tiếp nếu vượt ra ngoài khung cha. \\
+Không thay đổi luồng tài liệu & Khối hộp vẫn giữ nguyên kích thước chiếm chỗ vật lý trên trang, chỉ thay đổi điểm ảnh hiển thị ra màn hình. \\
+\rowcolor{slateBg} Hiệu năng hoạt họa cao & Các thuộc tính \codeinline{top}, \codeinline{right}, \codeinline{bottom}, \codeinline{left} và \codeinline{round} được GPU nội suy cực mượt mà trong \codeinline{transition}. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{E. Mã Nguồn Hoàn Chỉnh: Hiệu Ứng Mở Rộng Khung Hình Khi Hover:}
+\begin{codeWindow}[Ví Dụ Tương Tác: Khung Hình Mở Rộng \& Bo Tròn Khi Rê Chuột]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<div class="inset-card"></div>
+
+<style>
+.inset-card {
+  width: 320px;
+  height: 220px;
+  background: url('figures/clip_path_landscape.jpg') center/cover no-repeat;
+  
+  /* (*@Trạng thái tĩnh: Cắt thụt lề 20px trên/dưới, 30px trái/phải, bo tròn góc 20px@*) */
+  clip-path: inset(20px 30px 20px 30px round 20px);
+  transition: clip-path 0.5s ease;
 }
 
-.card-inset-rounded {
-    /* (*@Cắt thụt vào 15px và bo tròn góc 12px với từ khóa round@*) */
-    clip-path: inset(15px round 12px);
+/* (*@Khi hover: Khung ảnh mở rộng ra gần hết viền (5px) và bo tròn mạnh hơn (50px)@*) */
+.inset-card:hover {
+  clip-path: inset(5px 5px 5px 5px round 50px);
 }
+</style>
 \end{lstlisting}
 \end{codeWindow}
 
-\paragraph{4. Hàm polygon() --- Cắt Đa Giác Tùy Biến Tọa Độ:}
-Hàm \codeinline{polygon()} là hàm linh hoạt và được ưa chuộng bậc nhất trong thiết kế UI. Bạn định nghĩa danh sách các đỉnh tọa độ $(X_n\; Y_n)$ ngăn cách bởi dấu phẩy:
-\begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm polygon()]
-\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
-/* (*@Cú pháp: polygon(x1 y1, x2 y2, x3 y3, ...);@*) */
+\paragraph{4. Chuyên Sâu Hàm polygon() --- Cắt Đa Giác Đa Điểm Tùy Biến (Polygon Masterclass):}
 
-/* 1. Nút Play tam giác cân hướng sang phải */
-.btn-play {
-    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-}
+\subparagraph{A. Tổng Quan Cú Pháp \& Cơ Chế Nối Điểm Vector:}
+Hàm \codeinline{polygon()} cho phép bạn tạo ra bất kỳ hình đa giác đóng kín nào bằng cách kết nối tuần tự một tập hợp các tọa độ hai chiều $(X_n\; Y_n)$:
+\begin{conceptBox}[Cú Pháp Chuẩn Của clip-path: polygon()]
+\codeinline{clip-path: polygon(x1 y1, x2 y2, x3 y3, ..., xn yn);}
+\end{conceptBox}
+Mỗi cặp tọa độ biểu thị một đỉnh của đa giác, ngăn cách nhau bằng dấu phẩy. Trình duyệt tự động nối điểm cuối cùng $x_n\; y_n$ về lại điểm đầu tiên $x_1\; y_1$ để khép kín hình học. Tất cả pixel bên trong đa giác được giữ lại, bên ngoài bị che khuất dứt khoát.
 
-/* 2. Banner vạt chéo góc phong cách hiện đại */
-.hero-banner {
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-}
+\subparagraph{B. Hệ Trục Tọa Độ \& Tỷ Lệ Phần Trăm (\%):}
+Hệ tọa độ $2\text{D}$ của \codeinline{polygon} tính từ góc trên cùng bên trái của phần tử:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{0\% 0\%}: Góc trên cùng bên trái (\term{Top-Left}).
+    \item \codeinline{100\% 0\%}: Góc trên cùng bên phải (\term{Top-Right}).
+    \item \codeinline{100\% 100\%}: Góc dưới cùng bên phải (\term{Bottom-Right}).
+    \item \codeinline{0\% 100\%}: Góc dưới cùng bên trái (\term{Bottom-Left}).
+\end{itemize}
 
-/* 3. Hình ngôi sao 5 cánh tinh tế */
-.star-rating {
-    clip-path: polygon(
-        50% 0%, 61% 35%, 98% 35%, 68% 57%, 
-        79% 91%, 50% 70%, 21% 91%, 32% 57%, 
-        2% 35%, 39% 35%
-    );
-}
-\end{lstlisting}
-\end{codeWindow}
+\subparagraph{C. Các Mẫu Hình Đa Giác Phổ Biến Nhất:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Hình Tam Giác Cân Hướng Lên}:
+    \codeinline{clip-path: polygon(50\% 0\%, 0\% 100\%, 100\% 100\%);} \\
+    (Đỉnh giữa trên $\rightarrow$ góc đáy trái $\rightarrow$ góc đáy phải).
+    \item \textbf{Hình Thoi Đối Xứng}:
+    \codeinline{clip-path: polygon(50\% 0\%, 100\% 50\%, 50\% 100\%, 0\% 50\%);} \\
+    (Nối 4 trung điểm của 4 cạnh hộp).
+    \item \textbf{Hình Ngũ Giác Đều (Pentagon)}:
+    \codeinline{clip-path: polygon(50\% 0\%, 100\% 38\%, 82\% 100\%, 18\% 100\%, 0\% 38\%);}
+\end{itemize}
+
+\begin{browserWindow}[Đối Chiếu Trực Quan: Cắt Ảnh Thành Các Khối Đa Giác Bằng polygon()]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.92]
+  % Panel 1: Triangle
+  \begin{scope}[shift={(0,0)}]
+    \draw[dashed, gray!40, fill=codeBg, line width=0.8pt] (0,0) rectangle (4.4, 2.7);
+    \begin{scope}
+      \clip (2.2, 2.7) -- (0, 0) -- (4.4, 0) -- cycle;
+      \node[anchor=south west, inner sep=0] at (0,0) {\includegraphics[width=4.4cm, height=2.7cm]{figures/clip_path_landscape.jpg}};
+    \end{scope}
+    \draw[accentOrange, line width=1.4pt] (2.2, 2.7) -- (0, 0) -- (4.4, 0) -- cycle;
+    \fill[primaryBlue] (2.2, 2.7) circle (2.5pt);
+    \fill[primaryBlue] (0, 0) circle (2.5pt);
+    \fill[primaryBlue] (4.4, 0) circle (2.5pt);
+    \node[font=\scriptsize\bfseries\color{accentOrange}, fill=white, rounded corners=2pt, inner sep=2pt] at (2.2, 3.0) {Tam Giác polygon(50\% 0\%, ...)};
+    \node[font=\tiny\color{darkText!70}] at (2.2, -0.25) {Đỉnh trên giữa $\rightarrow$ 2 góc đáy};
+  \end{scope}
+
+  % Panel 2: Diamond / Rhombus
+  \begin{scope}[shift={(5.1,0)}]
+    \draw[dashed, gray!40, fill=codeBg, line width=0.8pt] (0,0) rectangle (4.4, 2.7);
+    \begin{scope}
+      \clip (2.2, 2.7) -- (4.4, 1.35) -- (2.2, 0) -- (0, 1.35) -- cycle;
+      \node[anchor=south west, inner sep=0] at (0,0) {\includegraphics[width=4.4cm, height=2.7cm]{figures/clip_path_landscape.jpg}};
+    \end{scope}
+    \draw[secondaryTeal, line width=1.4pt] (2.2, 2.7) -- (4.4, 1.35) -- (2.2, 0) -- (0, 1.35) -- cycle;
+    \fill[primaryBlue] (2.2, 2.7) circle (2.5pt);
+    \fill[primaryBlue] (4.4, 1.35) circle (2.5pt);
+    \fill[primaryBlue] (2.2, 0) circle (2.5pt);
+    \fill[primaryBlue] (0, 1.35) circle (2.5pt);
+    \node[font=\scriptsize\bfseries\color{secondaryTeal}, fill=white, rounded corners=2pt, inner sep=2pt] at (2.2, 3.0) {Hình Thoi polygon(...)};
+    \node[font=\tiny\color{darkText!70}] at (2.2, -0.25) {Nối 4 trung điểm 4 cạnh};
+  \end{scope}
+
+  % Panel 3: Pentagon
+  \begin{scope}[shift={(10.2,0)}]
+    \draw[dashed, gray!40, fill=codeBg, line width=0.8pt] (0,0) rectangle (4.4, 2.7);
+    \begin{scope}
+      \clip (2.2, 2.7) -- (4.4, 1.67) -- (3.61, 0) -- (0.79, 0) -- (0, 1.67) -- cycle;
+      \node[anchor=south west, inner sep=0] at (0,0) {\includegraphics[width=4.4cm, height=2.7cm]{figures/clip_path_landscape.jpg}};
+    \end{scope}
+    \draw[primaryBlue, line width=1.4pt] (2.2, 2.7) -- (4.4, 1.67) -- (3.61, 0) -- (0.79, 0) -- cycle;
+    \fill[accentOrange] (2.2, 2.7) circle (2.5pt);
+    \fill[accentOrange] (4.4, 1.67) circle (2.5pt);
+    \fill[accentOrange] (3.61, 0) circle (2.5pt);
+    \fill[accentOrange] (0.79, 0) circle (2.5pt);
+    \fill[accentOrange] (0, 1.67) circle (2.5pt);
+    \node[font=\scriptsize\bfseries\color{primaryBlue}, fill=white, rounded corners=2pt, inner sep=2pt] at (2.2, 3.0) {Ngũ Giác polygon(...)};
+    \node[font=\tiny\color{darkText!70}] at (2.2, -0.25) {5 đỉnh góc đều đẹp mắt};
+  \end{scope}
+\end{tikzpicture}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Minh họa hiệu ứng cắt đa giác trên cùng bức ảnh thiên nhiên: Hình tam giác (trái), hình thoi đối xứng (giữa), và hình ngũ giác đều (phải).}
+\end{browserWindow}
+
+\subparagraph{D. Công Cụ Sinh Mã Đa Giác Trực Quan (GUI Tools):}
+Thay vì tự tính tọa độ thủ công, các kỹ sư Frontend hiện đại sử dụng các công cụ trực quan để kéo thả điểm mút và xuất mã:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Clippy (bởi Bennett Feely)}: \url{https://bennettfeely.com/clippy/} --- Thư viện hơn $30$ hình dạng đa giác mẫu, cho phép kéo thả điểm mốc tự do.
+    \item \textbf{CSS clip-path Generator}: \url{https://cssclip-pathgenerator.com/} --- Trình tạo đa giác responsive hỗ trợ xem trước trên ảnh tùy chọn.
+\end{itemize}
+
+\subparagraph{E. Lưu Ý Kỹ Thuật Khi Sử Dụng polygon():}
+\begin{prettyTableBox}[LƯU Ý CỐT TỬ KHI KHAI BÁO HÀM POLYGON]
+\begin{tabularx}{\linewidth}{K{3.8cm} Z}
+\rowcolor{primaryBlue} \thd{Tiêu Chí} & \thd{Quy Chuẩn Bắt Buộc \& Giải Thích} \\
+\midrule
+Đa giác phải đóng kín & Các điểm nối tuần tự phải bao quanh một diện tích đóng kín. \\
+\rowcolor{slateBg} Ưu tiên đơn vị phần trăm & Dùng \codeinline{\%} giúp đa giác tự động co giãn chính xác theo Responsive Web Design. Dùng \codeinline{px} làm hình bị lệch khi khung đổi cỡ. \\
+Quy tắc Morphing Animation & \textbf{Bắt buộc hai trạng thái trước và sau phải có CÙNG SỐ LƯỢNG ĐỈNH TỌA ĐỘ}. Nếu biến đổi tam giác (3 đỉnh) thành tứ giác (4 đỉnh), trình duyệt sẽ giật cục và không thể nội suy mượt mà. \\
+\rowcolor{slateBg} Thứ tự khai báo đỉnh & Điểm ảnh hưởng đến đường cắt. Khai báo lộn xộn sẽ khiến các cạnh tự cắt chéo qua nhau (\term{Self-intersecting polygon}). \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{F. Các Ý Tưởng Ứng Dụng Thực Tế Trong UI/UX:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Card sản phẩm vát góc chéo}: Tạo cảm giác công nghệ Cyberpunk hoặc Gaming sắc nét.
+    \item \textbf{Nút Call to Action hình mũi tên}: \codeinline{polygon(0 0, 80\% 0, 100\% 50\%, 80\% 100\%, 0 100\%)}.
+    \item \textbf{Avatar hình giọt nước hoặc huy hiệu}: Cắt hình ngũ giác, lục giác hoặc huy hiệu sao $5$ cánh.
+    \item \textbf{Hiệu ứng mở màn (Curtain Reveal)}: Sử dụng hover để kéo dãn các đỉnh tọa độ của đa giác ra $4$ góc $100\%$.
+\end{itemize}
 
 \paragraph{5. Hàm path() --- Cắt Theo Đường Dẫn Vector SVG:}
 \begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm path()]
