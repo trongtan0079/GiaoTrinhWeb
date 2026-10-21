@@ -24090,6 +24090,33 @@ Hủy bỏ mặt nạ cắt & \codeinline{none} & \codeinline{clip-path: none;} 
 \end{tabularx}
 \end{prettyTableBox}
 
+\subsection{10. Góc Chuyên Gia: Hiệu Năng GPU, Câu Hỏi Phỏng Vấn \& Tài Liệu Đọc Thêm}
+
+\begin{noteBox}[Hiệu Năng Render: Tại Sao Animation Với clip-path Đạt Chuẩn 60fps Mượt Mà?]
+Trong tối ưu hóa hiệu năng render (\term{Browser Rendering Pipeline}), việc thay đổi các thuộc tính hình học truyền thống như \codeinline{width}, \codeinline{height}, \codeinline{top}, \codeinline{left} sẽ buộc trình duyệt phải tính toán lại toàn bộ vị trí các phần tử trên trang web (\term{Reflow / Layout Recalculation}), gây tiêu tốn tài nguyên CPU và hiện tượng giật khung hình (\term{Jank}). 
+
+Ngược lại, \codeinline{clip-path} được các trình duyệt hiện đại (Chrome, Safari, Firefox, Edge) đẩy trực tiếp xuống xử lý trên \textbf{Bộ tăng tốc đồ họa phần cứng (GPU)} tại tầng \term{Compositor Layer}. Nhờ đó, các hiệu ứng chuyển đổi hình khối (\term{Morphing Animation}) diễn ra cực kỳ mượt mà, đạt tốc độ khung hình lý tưởng $60\text{fps}$ mà không ảnh hưởng đến luồng xử lý chính (\term{Main Thread}) của trang web.
+\end{noteBox}
+
+\begin{tipBox}[Câu Hỏi Phỏng Vấn Senior Frontend: Phân Biệt clip-path vs mask-image]
+\textbf{Câu hỏi:} Sự khác biệt cốt lõi giữa thuộc tính \codeinline{clip-path} và \codeinline{mask-image} trong CSS là gì? Khi nào nên sử dụng loại nào?
+\par\vspace{4pt}
+\textbf{Trả lời chuẩn phỏng vấn:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{clip-path} (Mặt nạ cắt hình học nhị phân --- Binary Geometry Mask)}: Hoạt động dựa trên các đường biên vector dứt khoát. Một điểm ảnh hoặc nằm hoàn toàn bên trong (hiển thị $100\%$) hoặc nằm bên ngoài (ẩn hoàn toàn $0\%$). Không hỗ trợ vùng chuyển tiếp mờ dần bán trong suốt. Thích hợp cho việc cắt hình tròn, avatar, đa giác, nút bấm và chuyển đổi hình dạng.
+    \item \textbf{\codeinline{mask-image} (Mặt nạ điểm ảnh theo kênh Alpha/Luminance)}: Cho phép sử dụng hình ảnh hoặc dải màu chuyển sắc (\codeinline{linear-gradient}) để làm mặt nạ. Nó hỗ trợ độ trong suốt đa mức từ $0\%$ đến $100\%$. Thích hợp khi bạn muốn làm mờ dần một góc ảnh, tạo hiệu ứng phát sáng mờ ảo hoặc mặt nạ hòa trộn nghệ thuật phức tạp.
+\end{itemize}
+\end{tipBox}
+
+\begin{noteBox}[Tài Liệu Đọc Thêm \& Tham Chiếu Chuẩn W3C Chính Thức]
+Để đào sâu hơn nữa về các chuẩn đặc tả kỹ thuật và khám phá thêm các thuộc tính mở rộng:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Đặc tả chuẩn W3C}: \emph{CSS Masking Module Level 1} -- Chuẩn định nghĩa chính thức của World Wide Web Consortium về cơ chế Clipping \& Masking trên web (\url{https://www.w3.org/TR/css-masking-1/}).
+    \item \textbf{Tài liệu kỹ thuật MDN Web Docs}: Tra cứu chuyên sâu về các hàm hình dạng của \codeinline{clip-path} và module hình học \emph{CSS Shapes} (\url{https://developer.mozilla.org/en-US/docs/Web/CSS/clip-path}).
+    \item \textbf{CSS Shapes Editor (Chrome Extension)}: Tiện ích mở rộng trên Chrome DevTools cho phép bạn tương tác kéo thả các điểm mút của \codeinline{clip-path} trực tiếp trên giao diện thực tế.
+\end{itemize}
+\end{noteBox}
+
 % ==============================================================================
 % CHUYÊN ĐỀ: ĐỊNH DẠNG DANH SÁCH TRONG CSS (CSS LISTS MASTERCLASS)
 % ==============================================================================
