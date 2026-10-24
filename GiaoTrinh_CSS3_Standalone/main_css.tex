@@ -14630,6 +14630,10 @@ background: url('./ava.png') center/cover;
 {\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Bộ sưu tập 4 trạng thái render thực tế: Từ góc trên trái (1), trung tâm ảnh gốc (2), thu nhỏ vừa khung contain (3), đến bao phủ kín mít cover (4).}
 \end{browserWindow}
 
+\begin{tipBox}[Xem Tiếp Thực Nghiệm Nâng Cao Phối Hợp clip-path: circle()]
+Sau khi nắm vững các kỹ thuật căn chỉnh kích thước ảnh nền \codeinline{background: center/cover}, bạn có thể xem tiếp các thực nghiệm phối hợp cắt mặt nạ hình học tròn \textbf{Mã 5, Mã 6, Mã 7} (\codeinline{clip-path: circle()}) trực tiếp trên bức ảnh \codeinline{ava.png} này tại Mục~\ref{sec:clip_path_ava_experiment} (trang~\pageref{sec:clip_path_ava_experiment}).
+\end{tipBox}
+
 \subsubsection{Đọc Thêm: Chuyên Sâu Thực Chiến Về Background Shorthand, Kỹ Thuật Render \& Góc Phỏng Vấn (Mở Rộng Kiến Thức)}
 \label{sec:bg_shorthand_deep_dive}
 
@@ -24572,21 +24576,359 @@ Khả năng tương tác chuột & Vùng trống vẫn nhận click/hover bình 
 \end{tabularx}
 \end{prettyTableBox}
 
-\subparagraph{F. Kỹ Thuật Phối Hợp Hoàn Hảo Giữa Cả Hai:}
-Trong thực tế thiết kế Card người dùng, Avatar hay Banner tròn, lập trình viên luôn phối hợp cả hai thuộc tính để đạt kết quả thị giác chuẩn xác nhất:
-\begin{codeWindow}[Kỹ Thuật Phối Hợp background-size: cover \& clip-path: circle()]
-\begin{lstlisting}[language=CSS3, numbers=none, escapeinside={(*@}{@*)}]
-.user-avatar {
+\subparagraph{F. Nghiên Cứu Thực Nghiệm Toàn Diện: Phối Hợp background: center/cover \& clip-path: circle() Với Ảnh ava.png (Mã 5, Mã 6, Mã 7):}
+\label{sec:clip_path_ava_experiment}
+
+Trong thực tế phát triển giao diện hiện đại, kỹ thuật cắt mặt nạ hình học \codeinline{clip-path: circle()} thường xuyên được kết hợp cùng thuộc tính nền \codeinline{background: url(...) center/cover} để tạo ra các khối Avatar người dùng, huy hiệu tròn, hay hiệu ứng chuyển động tương tác độc đáo. 
+
+Để làm chủ trọn vẹn sự tương tác giữa hai thuộc tính này, ta hãy tiếp tục thực nghiệm với phần tử \codeinline{.box} ($200\text{px} \times 200\text{px}$) và tệp ảnh chân dung \codeinline{ava.png} ($538\text{px} \times 497\text{px}$):
+
+% ------------------------------------------------------------------------------
+% MÃ 5: CIRCLE MẶC ĐỊNH / CLOSEST-SIDE
+% ------------------------------------------------------------------------------
+\paragraph{1. Mã HTML + CSS (Mã 5): Cắt Mặt Nạ Hình Tròn Tâm Chính Diện}
+
+\noindent\textbf{Thông số đầu vào thực nghiệm:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Phần tử \codeinline{.box}: \codeinline{width: 200px; height: 200px;} (khung hình vuông).
+    \item Ảnh nền: \codeinline{background: url('./ava.png') center/cover;}.
+    \item Tệp ảnh \codeinline{ava.png}: Kích thước gốc $538\text{px} \times 497\text{px}$. Dùng \codeinline{cover} $\rightarrow$ ảnh sẽ phóng/thu để phủ kín khung $200 \times 200$, giữ nguyên tỉ lệ (sẽ bị cắt xén nếu cần).
+    \item Mặt nạ cắt: \codeinline{clip-path: circle();}. Không khai báo bán kính, trình duyệt sẽ dùng giá trị mặc định chuẩn W3C:
+    \begin{center}
+    \codeinline{clip-path: circle(closest-side at 50\% 50\%);}
+    \end{center}
+\end{itemize}
+
+\begin{codeWindow}[Mã Nguồn HTML + CSS (Mã 5)]
+\begin{lstlisting}[language=HTML5]
+<div class="box"></div>
+
+<style>
+  .box {
     width: 200px;
     height: 200px;
-    /* 1. background-size: cover giúp ảnh phủ kín khung, không méo tỷ lệ */
-    background: url('./avatar.png') center/cover no-repeat;
-    
-    /* 2. clip-path: circle() tạo mặt nạ tròn hoàn hảo bán kính 40% (80px) */
-    clip-path: circle(40% at 50% 50%);
-}
+    background: url('./ava.png') center/cover;
+    clip-path: circle(closest-side at 50% 50%);
+    /* hoac don gian: circle() */
+  }
+</style>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{center}
+\begin{tikzpicture}[font=\sffamily]
+  \node[inner sep=0, draw=codeBorder, rounded corners=6pt] (codeImg) at (0, 0) {\includegraphics[width=7.5cm]{figures/clip_path_code_m5.png}};
+\end{tikzpicture}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Hình chụp mã nguồn thực tế (Mã 5)}: Cấu trúc HTML \& CSS thiết lập phần tử \codeinline{.box} và mặt nạ \codeinline{clip-path: circle()}.}
+\end{center}
+
+\noindent\textbf{Giải thích chi tiết từng phần:}
+\begin{enumerate}[leftmargin=1.8em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Cơ chế \codeinline{background: url('./ava.png') center/cover}:}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Ảnh gốc $538 \times 497\text{px} \rightarrow$ tỷ lệ khung hình: $\frac{538}{497} \approx 1.082$.
+        \item Khung \codeinline{.box} vuông $\rightarrow$ tỷ lệ $1.0 \rightarrow$ dùng \codeinline{cover} $\rightarrow$ giới hạn theo chiều cao $200\text{px}$:
+        \begin{equation*}
+        \text{chiều rộng mới} = \frac{538}{497} \times 200 \approx 216.4\text{px}, \qquad \text{chiều cao mới} = 200\text{px}
+        \end{equation*}
+        \item Ảnh phóng to thành $216.4\text{px} \times 200\text{px}$, căn giữa, và bị cắt mất $\approx 8.2\text{px}$ ở mỗi bên hông ngang để vừa khít trong \codeinline{.box}.
+    \end{itemize}
+
+    \item \textbf{Cơ chế \codeinline{clip-path: circle();}:}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Khi không truyền tham số, hàm tương đương: \codeinline{clip-path: circle(closest-side at 50\% 50\%)} hay \codeinline{clip-path: circle(50\%);}.
+        \item Từ khóa \codeinline{closest-side}: Bán kính hình tròn bằng khoảng cách ngắn nhất từ tâm đến cạnh gần nhất của \codeinline{.box}.
+        \item Do \codeinline{.box} là hình vuông $200 \times 200\text{px}$, khoảng cách từ tâm (chính giữa) đến cạnh gần nhất là:
+        \begin{equation*}
+        \min\left(\frac{200\text{px}}{2}, \frac{200\text{px}}{2}\right) = 100\text{px}
+        \end{equation*}
+        \item $\rightarrow$ \textbf{Ý nghĩa}: \codeinline{clip-path} tạo một hình tròn bán kính $100\text{px}$ (đường kính $200\text{px}$), nằm chính giữa \codeinline{.box}, nội tiếp hoàn hảo bên trong \codeinline{.box}.
+    \end{itemize}
+\end{enumerate}
+
+\noindent\textbf{Kết quả cuối cùng:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Phần tử \codeinline{.box} trở thành một hình tròn hoàn hảo bán kính $100\text{px}$, có ảnh nền bên trong.
+    \item Ảnh nền được căn giữa và phóng vừa khung tròn nhờ \codeinline{background-size: cover}.
+    \item Ảnh bị cắt xén nhẹ 2 bên hông (do ảnh hình chữ nhật không trùng tỉ lệ vuông).
+\end{itemize}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Mã 5: Avatar Tròn Hoàn Hảo circle(50\%) Bán Kính 100px]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.95]
+  \node[inner sep=0, draw=primaryBlue!30, rounded corners=6pt] (img5) at (0, 0) {\includegraphics[width=5.0cm]{figures/clip_path_circle_center_50pct.png}};
+\end{tikzpicture}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Mã 5}: Hình tròn đường kính $200\text{px}$ (bán kính $50\% = 100\text{px}$ tính từ tâm), hiển thị trọn vẹn avatar tròn chính diện chuẩn UI/UX.}
+\end{browserWindow}
+
+\begin{tipBox}[2 Lưu Ý Quan Trọng Khi Thiết Kế Avatar Tròn]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cắt trọn vẹn vs Cắt nhỏ hơn}: Vì \codeinline{clip-path: circle(closest-side at center)} có bán kính đúng bằng nửa chiều rộng/chiều cao ($50\% = 100\text{px}$) nên nó cắt phần tử thành hình tròn trọn vẹn tiếp xúc 4 cạnh. Nếu bạn dùng \codeinline{clip-path: circle(40\%)}, hình tròn sẽ nhỏ hơn ($80\text{px}$) $\rightarrow$ chỉ hiển thị phần trung tâm ảnh và thu hẹp diện tích hiển thị.
+    \item \textbf{Kỹ thuật Avatar tròn không mất chi tiết}: Nếu bạn muốn hiển thị ảnh dạng avatar tròn đẹp và ảnh co vừa trọn vẹn không bị cắt xén hai bên hông, bạn nên kết hợp \codeinline{contain}:
+    \begin{center}
+    \codeinline{background: url('./ava.png') center/contain no-repeat; \quad clip-path: circle(50\%);}
+    \end{center}
+    $\rightarrow$ Mọi chi tiết hình ảnh sẽ hiển thị trọn vẹn, cân đối trong hình tròn mà không bị xén mất pixel nào.
+\end{itemize}
+\end{tipBox}
+
+% ------------------------------------------------------------------------------
+% MÃ 6: CIRCLE 50% AT 0 50%
+% ------------------------------------------------------------------------------
+\paragraph{2. Mã HTML + CSS (Mã 6): Cắt Bán Nguyệt Lệch Tâm Sát Cạnh Trái}
+Ta thay thế thuộc tính mặt nạ cắt:
+\begin{codeWindow}[Mã Nguồn CSS (Mã 6)]
+\begin{lstlisting}[language=CSS3]
+clip-path: circle(50% at 0 50%);
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent Cùng phân tích chi tiết từng phần dựa trên phần tử \codeinline{.box} có kích thước $200\text{px} \times 200\text{px}$:
+\begin{enumerate}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cú pháp tổng quát}: \codeinline{clip-path: circle(<bán kính> at <x> <y>);}. Ở đây:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \codeinline{50\%} là bán kính hình tròn.
+        \item \codeinline{0 50\%} là tọa độ tâm hình tròn: \codeinline{0} (hay $0\text{px}$) theo chiều ngang $\rightarrow$ sát cạnh trái; \codeinline{50\%} theo chiều dọc $\rightarrow$ nằm ở chính giữa chiều cao.
+    \end{itemize}
+    \item \textbf{Diễn giải cụ thể cho \codeinline{.box} $200 \times 200$}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Bán kính $50\%$: $\text{radius} = 50\% \times 200\text{px} = 100\text{px}$.
+        \item Tâm đặt tại tọa độ $(0, 100\text{px})$: nằm ngay trên mép cạnh trái, ở giữa chiều cao.
+    \end{itemize}
+\end{enumerate}
+
+\noindent\textbf{Kết quả trực quan:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Trình duyệt cắt ra một hình tròn bán kính $100\text{px}$, tâm nằm sát mép trái của phần tử.
+    \item Phần tử \codeinline{.box} lúc này \textbf{chỉ hiển thị một nửa hình tròn} (nửa bán nguyệt bên phải của đường tròn), do nửa bên trái của hình tròn nằm ngoài phạm vi $X < 0$ của \codeinline{.box} nên bị ẩn hoàn toàn!
+\end{itemize}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Mã 6: Nửa Hình Tròn Sát Mép Trái (circle(50\% at 0 50\%))]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.95]
+  \node[inner sep=0, draw=primaryBlue!30, rounded corners=6pt] (img6) at (0, 0) {\includegraphics[width=3.6cm]{figures/clip_path_circle_0_50pct.png}};
+\end{tikzpicture}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Mã 6}: Tâm đặt tại $X = 0, Y = 50\%$ (đường viền đỏ đánh dấu $0x, 50\%y$); tạo ra nửa hình tròn bán nguyệt áp sát cạnh trái.}
+\end{browserWindow}
+
+\begin{codeWindow}[Mã Nguồn Đầy Đủ Của Mã 6]
+\begin{lstlisting}[language=HTML5]
+<div class="box"></div>
+
+<style>
+  .box {
+    width: 200px;
+    height: 200px;
+    background: url('./ava.png') center/cover;
+    clip-path: circle(50% at 0 50%);
+    background-repeat: no-repeat;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Gợi Ý Ứng Dụng Thực Tế Cho Mã 6]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Tạo các hiệu ứng hình tròn nửa trái (avatar hình tròn nửa, tab menu nhô ra từ mép màn hình), hoặc viền bo lệch tâm.
+    \item Kết hợp với gradient, CSS Animation, hoặc transition để tạo hiệu ứng rọi đèn xoay hoặc bung mở mặt nạ từ mép trái sang phải.
+\end{itemize}
+\end{tipBox}
+
+% ------------------------------------------------------------------------------
+% TRƯỜNG HỢP MỞ RỘNG: CIRCLE AT 0 0 (GÓC 1/4 TRÊN TRÁI)
+% ------------------------------------------------------------------------------
+\paragraph{3. Trường Hợp Mở Rộng: Đặt Tâm Tại Góc Đỉnh Trên Trái (circle(50\% at 0 0))}
+Khi dịch chuyển tâm về góc trên cùng bên trái:
+\begin{center}
+\codeinline{clip-path: circle(50\% at 0 0);}
+\end{center}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Tọa độ tâm}: Nằm tại đỉnh $(0, 0)$ của phần tử \codeinline{.box}.
+    \item \textbf{Bán kính}: $50\% \times 200\text{px} = 100\text{px}$.
+    \item \textbf{Kết quả thị giác}: Chỉ có $1/4$ góc phần tư phía dưới bên phải của hình tròn nằm bên trong \codeinline{.box}. Do đó, phần tử được cắt gọt thành \textbf{hình quạt $1/4$ tròn bo tròn góc trên trái}, tạo nên một đường cong lượn góc cực kỳ thẩm mỹ!
+\end{itemize}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Trường Hợp Mở Rộng: Góc 1/4 Hình Tròn (circle(50\% at 0 0))]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.95]
+  \node[inner sep=0, draw=primaryBlue!30, rounded corners=6pt] (img6b) at (0, 0) {\includegraphics[width=4.0cm]{figures/clip_path_circle_0_0.png}};
+\end{tikzpicture}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Mở rộng}: Tâm nằm tại tọa độ đỉnh $0x\; 0y$ (hộp đỏ); tạo thành hình quạt $1/4$ hình tròn ở góc trên cùng bên trái.}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% MÃ 7: CIRCLE 50% AT 40% 70%
+% ------------------------------------------------------------------------------
+\paragraph{4. Mã HTML + CSS (Mã 7): Mặt Nạ Cắt Hình Tròn Lệch Tâm Đa Hướng}
+Áp dụng trên phần tử \codeinline{.box} có kích thước $200\text{px} \times 200\text{px}$:
+\begin{codeWindow}[Mã Nguồn CSS (Mã 7)]
+\begin{lstlisting}[language=CSS3]
+clip-path: circle(50% at 40% 70%);
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Giải thích chi tiết từng phần:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{circle(50\%)}}: Bán kính $= 50\%$ chiều rộng phần tử $\rightarrow$ bán kính:
+    \begin{equation*}
+    50\% \times 200\text{px} = 100\text{px}
+    \end{equation*}
+    \item \textbf{\codeinline{at 40\% 70\%}}: Tâm hình tròn được đặt tại:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item $40\%$ theo chiều ngang $\rightarrow 0.4 \times 200\text{px} = 80\text{px}$ tính từ mép trái sang.
+        \item $70\%$ theo chiều dọc $\rightarrow 0.7 \times 200\text{px} = 140\text{px}$ tính từ mép trên xuống.
+    \end{itemize}
+    $\rightarrow$ Tâm hình tròn nằm chính xác tại tọa độ $(80\text{px}, 140\text{px})$ bên trong không gian phần tử.
+\end{itemize}
+
+\noindent\textbf{Hình dung trực quan \& Kết quả:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Hình tròn có bán kính $100\text{px}$, nhưng tâm bị kéo lệch sang trái ($80\text{px}$) và lệch sâu xuống dưới ($140\text{px}$).
+    \item Khoảng cách từ tâm $(80, 140)$ đến mép đáy là $200 - 140 = 60\text{px} < 100\text{px}$, và đến mép trái là $80\text{px} < 100\text{px}$. Do bán kính ($100\text{px}$) lớn hơn khoảng cách đến cạnh, đường tròn sẽ \textbf{vượt ra khỏi mép trái và mép đáy} của \codeinline{.box}.
+    \item Phần tử \codeinline{.box} chỉ hiển thị phần diện tích nằm bên trong cung tròn lệch tâm đó, toàn bộ phần góc trên bên phải bị che khuất dứt khoát!
+\end{itemize}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Mã 7: Hình Tròn Lệch Tâm Tọa Độ (80px, 140px)]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.95]
+  \node[inner sep=0, draw=primaryBlue!30, rounded corners=6pt] (img7) at (0, 0) {\includegraphics[width=4.8cm]{figures/clip_path_circle_40_70pct.png}};
+\end{tikzpicture}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Mã 7}: Tâm tại $(80\text{px}, 140\text{px})$ tạo vết cắt lượn sóng bất đối xứng độc đáo, tập trung điểm nhìn vào vùng môi và cằm của avatar.}
+\end{browserWindow}
+
+\begin{codeWindow}[Mã Nguồn Đầy Đủ Của Mã 7]
+\begin{lstlisting}[language=HTML5]
+<div class="box"></div>
+
+<style>
+  .box {
+    width: 200px;
+    height: 200px;
+    background: url('./ava.png') center/cover;
+    clip-path: circle(50% at 40% 70%);
+    background-repeat: no-repeat;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{noteBox}[Mục Đích Ứng Dụng Thực Chiến Của Mã 7]
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Tạo hiệu ứng bo cong bất đối xứng nghệ thuật cho hình khối UI hiện đại.
+    \item Áp dụng làm hiệu ứng che mờ ảnh theo điểm nhấn (\term{Focal Point Masking}).
+    \item Kết hợp với hiệu ứng Hover, Animation biến đổi tâm tọa độ từ $(40\%, 70\%) \rightarrow (50\%, 50\%)$ tạo chuyển động rọi sáng (Spotlight Reveal) cực kỳ mãn nhãn.
+\end{itemize}
+\end{noteBox}
+
+% ------------------------------------------------------------------------------
+% BẢNG TỔNG KẾT & GALLERY 4 TRẠNG THÁI CIRCLE
+% ------------------------------------------------------------------------------
+\begin{prettyTableBox}[BẢNG TỔNG HỢP CÁC KỊCH BẢN ĐỊNH VỊ TÂM VÀ HIỆU ỨNG CỦA CLIP-PATH CIRCLE]
+\begin{tabularx}{\linewidth}{K{4.2cm} L{3.5cm} L{3.2cm} Z}
+\rowcolor{primaryBlue} \thd{Cú Pháp Khai Báo} & \thd{Tọa Độ Tâm $(X, Y)$} & \thd{Bán Kính Thực Tế} & \thd{Hiệu Ứng Thị Giác Đạt Được} \\
+\midrule
+\codeinline{circle()} & $(100\text{px}, 100\text{px})$ & $100\text{px}$ ($50\%$) & Cắt hình tròn hoàn hảo nội tiếp giữa khung. \\
+\rowcolor{slateBg} \codeinline{circle(50\% at 0 50\%)} & $(0\text{px}, 100\text{px})$ & $100\text{px}$ ($50\%$) & Bán nguyệt nửa hình tròn nằm sát mép trái. \\
+\codeinline{circle(50\% at 0 0)} & $(0\text{px}, 0\text{px})$ & $100\text{px}$ ($50\%$) & Hình quạt $1/4$ góc tròn ở góc trên cùng bên trái. \\
+\rowcolor{slateBg} \codeinline{circle(50\% at 40\% 70\%)} & $(80\text{px}, 140\text{px})$ & $100\text{px}$ ($50\%$) & Vùng cắt tròn lệch tâm bất đối xứng nghệ thuật. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{browserWindow}[Bộ Sưu Tập Đối Chiếu Toàn Cảnh: 4 Kịch Bản clip-path: circle() Trên Ảnh ava.png]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.92]
+  % Panel 1: Center 50%
+  \node[inner sep=0, draw=primaryBlue!40, rounded corners=3pt, line width=0.8pt] (c1) at (0, 0) {\includegraphics[width=3.2cm, height=3.2cm]{figures/clip_path_circle_center_50pct.png}};
+  \node[font=\scriptsize\bfseries\color{primaryBlue}, below=4pt of c1] {1. circle() (Tâm giữa)};
+  \node[font=\tiny\color{codeComment}, below=13pt of c1] {at 50\% 50\% (R=100px)};
+
+  % Panel 2: Semicircle Left
+  \node[inner sep=0, draw=secondaryTeal!40, rounded corners=3pt, line width=0.8pt] (c2) at (4.0, 0) {\includegraphics[width=3.2cm, height=3.2cm]{figures/clip_path_circle_0_50pct.png}};
+  \node[font=\scriptsize\bfseries\color{secondaryTeal}, below=4pt of c2] {2. at 0 50\% (Bán nguyệt)};
+  \node[font=\tiny\color{codeComment}, below=13pt of c2] {at mép trái, giữa cao};
+
+  % Panel 3: Quarter Circle 0 0
+  \node[inner sep=0, draw=accentOrange!40, rounded corners=3pt, line width=0.8pt] (c3) at (8.0, 0) {\includegraphics[width=3.2cm, height=3.2cm]{figures/clip_path_circle_0_0.png}};
+  \node[font=\scriptsize\bfseries\color{accentOrange}, below=4pt of c3] {3. at 0 0 (1/4 Góc đỉnh)};
+  \node[font=\tiny\color{codeComment}, below=13pt of c3] {at góc trên cùng bên trái};
+
+  % Panel 4: Off-center 40% 70%
+  \node[inner sep=0, draw=accentPurple!40, rounded corners=3pt, line width=0.8pt] (c4) at (12.0, 0) {\includegraphics[width=3.2cm, height=3.2cm]{figures/clip_path_circle_40_70pct.png}};
+  \node[font=\scriptsize\bfseries\color{accentPurple}, below=4pt of c4] {4. at 40\% 70\% (Lệch tâm)};
+  \node[font=\tiny\color{codeComment}, below=13pt of c4] {at (80px, 140px)};
+\end{tikzpicture}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Bộ sưu tập 4 trạng thái mặt nạ cắt \codeinline{circle()}: Hình tròn trung tâm (1), bán nguyệt mép trái (2), góc một phần tư (3), và hình tròn lệch tâm (4).}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% 5. PHẦN ĐỌC THÊM & LÝ THUYẾT NÂNG CAO CHO KỸ SƯ FRONTEND (CLIP-PATH DEEP DIVE)
+% ------------------------------------------------------------------------------
+\paragraph{5. Kiến Thức Chuyên Sâu \& Đọc Thêm Về clip-path (Deep Dive for Frontend Engineers):}
+\label{sec:clip_path_deep_dive}
+
+Nhằm trang bị nền tảng tư duy vững chắc và kiến trúc giao diện cấp cao, phần đọc thêm này phân tích chi tiết cơ chế hoạt động tầng sâu của bộ công cụ \codeinline{clip-path} trong trình duyệt Web:
+
+\subparagraph{a. So Sánh Toàn Diện: border-radius: 50\% vs clip-path: circle() vs mask-image:}
+Dù cả ba kỹ thuật đều có thể tạo ra avatar hoặc khối tròn trên giao diện, bản chất xử lý trong Render Tree của trình duyệt hoàn toàn khác biệt:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{border-radius: 50\%}}: Chỉ thay đổi đường viền bao quanh (Border Edge) của phần tử. Hộp chữ nhật (Box Model) vẫn chiếm trọn không gian, các phần tử con chỉ bị ẩn nếu có thêm \codeinline{overflow: hidden}. Điểm mạnh là dễ tạo viền (\codeinline{border}) và bóng (\codeinline{box-shadow}), nhưng không thể di dời tâm tự do hoặc cắt theo các hình dạng phức tạp.
+    \item \textbf{\codeinline{clip-path: circle()}}: Cắt lớp vẽ trực tiếp (Geometry Clipping) ở cấp độ pixel. Loại bỏ triệt để mọi phần tử con và nền nằm ngoài đường cắt; thay đổi trực tiếp vùng nhận diện chuột (Hit-testing area). Hiệu năng cực cao nhờ GPU Compositor, nhưng sẽ cắt mất cả \codeinline{border} và \codeinline{box-shadow} truyền thống.
+    \item \textbf{\codeinline{mask-image}}: Áp dụng mặt nạ độ mờ dựa trên kênh Alpha hoặc Luminance. Hỗ trợ làm mờ viền mềm (Feathering / Gradient fade) mà \codeinline{clip-path} không làm được, nhưng tiêu tốn nhiều VRAM và tài nguyên tính toán rasterization hơn.
+\end{itemize}
+
+\begin{prettyTableBox}[SO SÁNH KỸ THUẬT: BORDER-RADIUS VS CLIP-PATH VS MASK-IMAGE]
+\begin{tabularx}{\linewidth}{L{3.2cm} K{3.5cm} K{3.8cm} Z}
+\rowcolor{primaryBlue} \thd{Tiêu Chí Đánh Giá} & \thd{border-radius: 50\%} & \thd{clip-path: circle()} & \thd{mask-image: radial-...} \\
+\midrule
+Bản chất đồ họa & Bo tròn Border Edge & Geometry Clipping (Vector) & Alpha Masking (Raster/SVG) \\
+\rowcolor{slateBg} Cắt bỏ nội dung con & Cần thêm \codeinline{overflow:hidden} & \textbf{Tự động cắt sạch sẽ} & Tự động che mờ theo alpha \\
+Hit-Testing (Chuột) & Vẫn nhận click góc vuông nếu ko che & \textbf{Chỉ nhận click trong vòng tròn} & Nhận diện theo ngưỡng alpha \\
+\rowcolor{slateBg} Hỗ trợ Border thông thường & Rất tốt (\codeinline{border}) & Bị cắt mất (cần \codeinline{filter}) & Bị che mất \\
+Bóng đổ (Box Shadow) & \codeinline{box-shadow} hoạt động tốt & Bị cắt (phải dùng \codeinline{drop-shadow}) & Cần \codeinline{drop-shadow} \\
+\rowcolor{slateBg} Viền mờ (Feathering) & Không hỗ trợ & Không (mép cắt cứng 100\%) & \textbf{Hỗ trợ hoàn hảo} \\
+Chi phí Render / GPU & Rất nhẹ (Layout/Paint) & \textbf{Cực nhẹ (GPU Compositor)} & Trung bình - Nặng (Raster) \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\subparagraph{b. Cơ Chế Hit-Testing (Pointer Events \& Vùng Bắt Chuột Chuẩn W3C):}
+Theo tài liệu chuẩn hóa \textbf{W3C CSS Masking Module Level 1}:
+\begin{quote}
+\itshape ``By default, pointer events must not be dispatched on the clipped-out (non-visible) regions of a shape.''
+\end{quote}
+Khi bạn cắt phần tử \codeinline{.box} ($200\text{px} \times 200\text{px}$) bằng \codeinline{clip-path: circle(50\% at 0 50\%)}, chỉ có nửa bán nguyệt bên phải nằm trong phạm vi hiển thị mới nhận các sự kiện người dùng (\codeinline{click}, \codeinline{hover}, \codeinline{mousemove}). Toàn bộ khoảng không gian còn lại trong khung $200 \times 200$ sẽ trở nên hoàn toàn trong suốt đối với chuột: các cú nhấp chuột sẽ \textbf{xuyên thấu dứt khoát} (\term{pass-through}) xuống các liên kết, nút bấm nằm ở lớp giao diện phía dưới!
+
+\subparagraph{c. Xử Lý Hiện Tượng Răng Cưa (Anti-Aliasing) \& Đổ Bóng Cho clip-path:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Cạm bẫy mất Box-Shadow}: Khi khai báo \codeinline{box-shadow: 0 8px 16px rgba(0,0,0,0.3);}, bóng đổ nằm ở ngoài khung viền nên bị \codeinline{clip-path} cắt mất $100\%$.
+    \item \textbf{Giải pháp}: Sử dụng thuộc tính bộ lọc \codeinline{filter: drop-shadow()} trên chính phần tử hoặc trên thẻ cha:
+    \begin{center}
+    \codeinline{filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));}
+    \end{center}
+    Bộ lọc \codeinline{drop-shadow} sẽ ôm khít theo đường viền cắt hình học \codeinline{circle()} thực tế của phần tử!
+    \item \textbf{Khử răng cưa mép cắt (Sub-pixel Anti-aliasing)}: Trên một số màn hình độ phân giải tiêu chuẩn (1x DPR), mép cong của \codeinline{clip-path} có thể có cảm giác răng cưa nhẹ. Thêm một bộ lọc tinh vi: \codeinline{filter: drop-shadow(0 0 1px rgba(0,0,0,0.15));} hoặc kết hợp \codeinline{transform: translateZ(0);} sẽ kích hoạt GPU khử răng cưa mượt mà.
+\end{itemize}
+
+\subparagraph{d. Quy Tắc Nội Suy Hình Học Trong CSS Transitions \& Animations (Shape Interpolation):}
+Để chuyển động \codeinline{clip-path} đạt chuẩn $60\text{fps}$ trên GPU:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Cùng họ hàm hình học}: Hai trạng thái chuyển tiếp phải cùng là \codeinline{circle()}, trình duyệt sẽ thực hiện phép nội suy tuyến tính (\term{linear interpolation}) giữa bán kính $R_1 \rightarrow R_2$ và tọa độ tâm $(X_1, Y_1) \rightarrow (X_2, Y_2)$.
+    \item \textbf{Khác họ hàm}: Nếu chuyển từ \codeinline{circle()} sang \codeinline{polygon()}, trình duyệt không thể tính toán các điểm mốc tương thích nên sẽ tạo bước nhảy gián đoạn (\term{discrete jump}) lúc $50\%$ thời lượng.
+\end{itemize}
+
+\subparagraph{e. Bộ Câu Hỏi Phỏng Vấn Frontend Kỹ Sư Chuyên Sâu (Interview Q\&A):}
+\begin{enumerate}[leftmargin=1.8em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Câu hỏi}: Làm thế nào để tạo viền tròn (Border) màu trắng dày $4\text{px}$ cho một khối Avatar đã áp dụng \codeinline{clip-path: circle()}?
+    \item \textbf{Trả lời}: Do \codeinline{border} thông thường bị cắt mất, có 2 giải pháp chuẩn công nghiệp:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \emph{Cách 1 (Thẻ bọc Wrapper)}: Tạo thẻ cha có viền tròn \codeinline{border-radius: 50\%; padding: 4px; background: white;} và đặt thẻ con có \codeinline{clip-path} bên trong.
+        \item \emph{Cách 2 (Filter Drop-Shadow kép)}: Dùng chuỗi bộ lọc không nhòe \codeinline{filter: drop-shadow(0 0 0 4px white);}.
+    \end{itemize}
+    \item \textbf{Câu hỏi}: \codeinline{clip-path} có tạo ra Stacking Context mới không?
+    \item \textbf{Trả lời}: \textbf{Có}. Theo chuẩn W3C, bất kỳ giá trị \codeinline{clip-path} nào khác \codeinline{none} đều tự động thiết lập một Stacking Context mới trên phần tử, cô lập chỉ số \codeinline{z-index} của các phần tử con và làm phần tử trở thành mốc tham chiếu cho \codeinline{position: fixed} của con.
+\end{enumerate}
 
 \paragraph{2. Hàm ellipse() --- Cắt Hình Bầu Dục (Elip):}
 \begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm ellipse()]
