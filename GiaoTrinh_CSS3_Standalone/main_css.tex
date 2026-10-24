@@ -14278,6 +14278,358 @@ background: #0f172a url('banner.jpg') center/cover no-repeat;
 \end{lstlisting}
 \end{codeWindow}
 
+\subsubsection{Ví Dụ Thực Tế Chuyên Sâu: Đối Chiếu 4 Cấu Hình background Shorthand \& Giải Thuật Toán Học (contain vs cover)}
+\label{sec:bg_shorthand_real_case}
+
+Để làm sáng tỏ cơ chế hoạt động thực tế của trình duyệt đối với cú pháp rút gọn \codeinline{background}, ta hãy tiến hành một nghiên cứu thực nghiệm chuyên sâu trên một phần tử hộp vuông cố định và một bức ảnh chân dung cụ thể:
+
+\begin{conceptBox}[Thông Số Dữ Kiện Thực Nghiệm]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Phần tử hộp (\term{.box})}: Kích thước cố định $200\text{px} \times 200\text{px}$ (khung hình vuông, tỷ lệ $1.0$).
+    \item \textbf{Tệp ảnh nền (\term{ava.png})}: Kích thước ảnh gốc là $538\text{px} \times 497\text{px}$ (khung hình chữ nhật, chiều ngang dài hơn chiều cao, tỷ lệ khung hình $\frac{538}{497} \approx 1.0823$).
+\end{itemize}
+\end{conceptBox}
+
+\begin{center}
+\begin{tcolorbox}[
+    enhanced, width=0.72\linewidth,
+    colback=white, colframe=primaryBlue!30, arc=6pt, boxrule=0.8pt,
+    title={\small\sffamily\bfseries\color{primaryBlue} [Hình Ảnh Nền Thực Nghiệm Gốc]\quad ava.png ($538\text{px} \times 497\text{px}$)},
+    coltitle=primaryBlue, toptitle=4pt, bottomtitle=4pt, top=6pt, bottom=6pt, left=8pt, right=8pt
+]
+\centering
+\includegraphics[width=5.0cm]{figures/ava_original.png}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Ảnh gốc chân dung \codeinline{ava.png} ($538\text{px} \times 497\text{px}$): Chiều ngang lớn hơn chiều cao ($538 > 497$).}
+\end{tcolorbox}
+\end{center}
+
+% ------------------------------------------------------------------------------
+% MÃ 1: DEFAULT
+% ------------------------------------------------------------------------------
+\paragraph{1. Mã HTML + CSS (Mã 1): Cấu Hình Mặc Định Cơ Bản Nhất}
+
+\begin{codeWindow}[Mã Nguồn HTML + CSS (Mã 1)]
+\begin{lstlisting}[language=HTML5]
+<div class="box"></div>
+<style>
+  .box {
+    width: 200px;
+    height: 200px;
+    background: url('./ava.png');
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Phân tích CSS \codeinline{.box}:}
+\begin{enumerate}[leftmargin=1.8em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{width: 200px; height: 200px;} $\rightarrow$ Xác định kích thước cố định của phần tử: rộng $200\text{px}$, cao $200\text{px}$.
+    \item \codeinline{background: url('./ava.png');} $\rightarrow$ Gán ảnh nền \codeinline{ava.png} (kích thước gốc của ảnh là $538\text{px} \times 497\text{px}$) cho phần tử.
+\end{enumerate}
+
+Vì bạn không chỉ định thêm thuộc tính nào, nên trình duyệt dùng các giá trị mặc định cho các thuộc tính liên quan đến background:
+
+\begin{prettyTableBox}[CÁC GIÁ TRỊ MẶC ĐỊNH ÁP DỤNG TRONG MÃ 1]
+\begin{tabularx}{\linewidth}{K{4.2cm} L{3.5cm} Z}
+\rowcolor{primaryBlue} \thd{Thuộc tính} & \thd{Mặc định} & \thd{Ý nghĩa mặc định} \\
+\midrule
+\codeinline{background-repeat} & \codeinline{repeat} & Ảnh sẽ lặp lại nếu không vừa với phần tử. \\
+\rowcolor{slateBg} \codeinline{background-position} & \codeinline{0\% 0\%} & Ảnh bắt đầu từ góc trên trái. \\
+\codeinline{background-size} & \codeinline{auto} & Ảnh giữ nguyên kích thước gốc ($538 \times 497$). \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\noindent\textbf{Kết quả khi hiển thị:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Phần tử \codeinline{.box} có kích thước nhỏ hơn ảnh gốc.
+    \item Ảnh không bị co giãn $\rightarrow$ phần tử chỉ hiển thị góc trên trái của ảnh.
+    \item Nếu ảnh lớn hơn box (như trong trường hợp này), phần dư sẽ bị cắt đi, không hiển thị, và không có hiệu ứng thu nhỏ.
+\end{itemize}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Mã 1: Hiển Thị Góc Trên Trái Ảnh Gốc (0\% 0\%)]
+\centering
+\includegraphics[width=4.6cm]{figures/bg_ava_case1_default.png}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Mã 1}: Khung $200\text{px} \times 200\text{px}$ chỉ bao trọn phần góc trên cùng bên trái của ảnh \codeinline{ava.png}; phần mái tóc và nền bên phải bị cắt biến mất hoàn toàn.}
+\end{browserWindow}
+
+\begin{tipBox}[Tóm Lại Cốt Lõi Về Mã 1]
+Phần tử \codeinline{.box} có kích thước cố định $200 \times 200\text{px}$, và hiển thị phần góc trên trái của ảnh \codeinline{ava.png} (kích thước ảnh là $538 \times 497$), vì ảnh được giữ nguyên kích thước (\codeinline{background-size: auto}) và không lặp (\codeinline{background-repeat: repeat}, nhưng không cần vì ảnh lớn hơn khung).
+\end{tipBox}
+
+% ------------------------------------------------------------------------------
+% MÃ 2: CENTER
+% ------------------------------------------------------------------------------
+\paragraph{2. Mã HTML + CSS (Mã 2): Căn Giữa Ảnh Với background: url('...') center}
+Ta thay đổi khai báo CSS:
+\begin{codeWindow}[Mã Nguồn CSS (Mã 2)]
+\begin{lstlisting}[language=CSS3]
+background: url('./ava.png') center;
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Giải thích chi tiết:} Đây là cú pháp rút gọn của thuộc tính \codeinline{background}, trong đó:
+
+\begin{prettyTableBox}[PHÂN TÍCH CÚ PHÁP RÚT GỌN MÃ 2]
+\begin{tabularx}{\linewidth}{K{4.2cm} Z}
+\rowcolor{primaryBlue} \thd{Thành phần} & \thd{Ý nghĩa} \\
+\midrule
+\codeinline{url('./ava.png')} & Gán ảnh nền từ đường dẫn \codeinline{'./ava.png'} \\
+\rowcolor{slateBg} \codeinline{center} & Rút gọn của \codeinline{background-position: center} $\rightarrow$ căn giữa ảnh (cả ngang và dọc) \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\noindent\textbf{Tương đương đầy đủ:}
+\begin{codeWindow}[Khai Báo Tương Đương Đầy Đủ Của Mã 2]
+\begin{lstlisting}[language=CSS3]
+background-image: url('./ava.png');
+background-position: center center;   /* hoac center */
+background-repeat: repeat;
+background-size: auto;
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent Trình duyệt sẽ căn giữa ảnh theo chiều ngang và dọc, nhưng vẫn giữ nguyên kích thước ảnh gốc (trong trường hợp ảnh lớn hơn box, nó sẽ bị cắt -- không tự co giãn).
+
+\begin{noteBox}[Phân Tích Hiện Tượng Trên Ví Dụ Thực Tế]
+Nếu \codeinline{.box} có kích thước $200 \times 200\text{px}$, còn ảnh là $538 \times 497\text{px}$, thì:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Ảnh giữ nguyên kích thước gốc.
+    \item Trình duyệt sẽ căn giữa ảnh theo box.
+    \item Bạn sẽ chỉ thấy \textbf{phần trung tâm} của ảnh (khuôn mặt nhân vật) --- phần ngoài kích thước box sẽ bị ẩn đi (cắt mất).
+\end{itemize}
+\end{noteBox}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Mã 2: Căn Giữa Ảnh Gốc (center center)]
+\centering
+\includegraphics[width=4.6cm]{figures/bg_ava_case2_center.png}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Mã 2}: Khung $200\text{px} \times 200\text{px}$ đặt vào đúng trung tâm bức ảnh \codeinline{ava.png}; chỉ nhìn thấy ngũ quan chính diện, toàn bộ viền ngoài ảnh bị cắt xén.}
+\end{browserWindow}
+
+\noindent$\rightarrow$ \textbf{Kết luận}: Đây là cách rút gọn để hiển thị ảnh nền ở giữa phần tử, nhưng ảnh vẫn giữ kích thước gốc và có thể bị cắt nếu lớn hơn phần tử. Nếu muốn ảnh co lại để vừa khung, bạn cần thêm: \codeinline{background-size: contain;} (hoặc \codeinline{cover;}).
+
+% ------------------------------------------------------------------------------
+% MÃ 3: CENTER/CONTAIN
+% ------------------------------------------------------------------------------
+\paragraph{3. Mã HTML + CSS (Mã 3): Thu Nhỏ Trọn Vẹn Ảnh Với center/contain}
+Dựa trên thông tin đã cung cấp:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Phần tử \codeinline{.box}: $200\text{px} \times 200\text{px}$
+    \item Ảnh \codeinline{ava.png}: $538\text{px} \times 497\text{px}$
+\end{itemize}
+
+\begin{codeWindow}[Mã Nguồn CSS (Mã 3)]
+\begin{lstlisting}[language=CSS3]
+background: url('./ava.png') center/contain;
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Giải thích chi tiết cú pháp:}
+\codeinline{background: url('./ava.png') center / contain;} là cú pháp rút gọn chuẩn CSS3 với cấu trúc:
+\begin{center}
+\codeinline{background: <image> <position> / <size>;}
+\end{center}
+
+\begin{prettyTableBox}[PHÂN TÍCH CÚ PHÁP RÚT GỌN MÃ 3 (CENTER/CONTAIN)]
+\begin{tabularx}{\linewidth}{K{4.2cm} Z}
+\rowcolor{primaryBlue} \thd{Thành phần} & \thd{Diễn giải} \\
+\midrule
+\codeinline{url('./ava.png')} & Ảnh nền \\
+\rowcolor{slateBg} \codeinline{center} & Căn giữa ảnh theo chiều ngang và dọc (\codeinline{background-position: center center}) \\
+\codeinline{contain} & Co ảnh lại để vừa toàn bộ trong phần tử, giữ nguyên tỉ lệ, không bị cắt ảnh \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\noindent\textbf{Trình duyệt sẽ làm gì?}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Giữ nguyên tỷ lệ ảnh (tỉ lệ $538:497 \approx 1.082$).
+    \item Tính toán kích thước lớn nhất có thể để ảnh vẫn nằm trọn vẹn trong khung $200 \times 200$.
+    \item Vì tỉ lệ ảnh không vuông, nên ảnh sẽ:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Giảm kích thước xuống còn $\sim 200\text{px}$ chiều rộng.
+        \item Chiều cao ảnh lúc đó sẽ là $\sim 184.8\text{px}$ (vẫn nhỏ hơn $200\text{px}$).
+    \end{itemize}
+    \item Ảnh sẽ hiển thị trọn vẹn trong \codeinline{.box}.
+    \item Khoảng trống dư sẽ xuất hiện ở trên/dưới hoặc trái/phải tùy theo tỉ lệ. Do chưa thiết lập \codeinline{no-repeat}, trình duyệt mặc định lặp (\codeinline{repeat}) khiến mép ảnh lặp lại ở khoảng trống trên/dưới!
+\end{itemize}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Mã 3: Co Toàn Bộ Ảnh Vừa Khung Vuông (center/contain)]
+\centering
+\includegraphics[width=4.6cm]{figures/bg_ava_case3_contain.png}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Mã 3}: Ảnh được thu nhỏ trọn vẹn ngang $200\text{px}$, chiều cao còn $\approx 184.8\text{px}$. Do mặc định \codeinline{background-repeat: repeat}, viền trên và dưới lặp dải ảnh phụ như hình minh họa.}
+\end{browserWindow}
+
+\begin{prettyTableBox}[SO SÁNH 3 TRƯỜNG HỢP BACKGROUND-SIZE]
+\begin{tabularx}{\linewidth}{K{4.8cm} Z}
+\rowcolor{primaryBlue} \thd{Trường hợp} & \thd{Hiệu ứng} \\
+\midrule
+\codeinline{background-size: contain} & Ảnh luôn vừa khung, không bị cắt, có thể dư khoảng trống \\
+\rowcolor{slateBg} \codeinline{background-size: cover} & Ảnh phủ kín khung, có thể bị cắt mất phần ảnh \\
+\codeinline{background-size: auto} (mặc định) & Ảnh giữ nguyên kích thước, có thể tràn ra ngoài, bị ẩn bớt nếu quá lớn \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\noindent$\rightarrow$ \textbf{Kết luận Mã 3}: \codeinline{background: url('./ava.png') center / contain;} sẽ căn giữa ảnh \codeinline{ava.png} và thu nhỏ ảnh để vừa hoàn toàn trong khung $200 \times 200$, không bị cắt, giữ đúng tỉ lệ ảnh gốc, và có thể có khoảng trắng ở trên hoặc dưới (do ảnh hình chữ nhật nằm trong khung vuông).
+
+% ------------------------------------------------------------------------------
+% MÃ 4: CENTER/COVER
+% ------------------------------------------------------------------------------
+\paragraph{4. Mã HTML + CSS (Mã 4): Phủ Kín Toàn Bộ Khung Với center/cover}
+
+\begin{codeWindow}[Mã Nguồn CSS (Mã 4)]
+\begin{lstlisting}[language=CSS3]
+background: url('./ava.png') center/cover;
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{Dữ kiện:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \codeinline{.box}: $200\text{px} \times 200\text{px}$ (phần tử vuông)
+    \item \codeinline{ava.png}: $538\text{px} \times 497\text{px}$ (ảnh chữ nhật, ngang dài hơn cao)
+\end{itemize}
+
+\begin{prettyTableBox}[PHÂN TÍCH CÚ PHÁP RÚT GỌN MÃ 4 (CENTER/COVER)]
+\begin{tabularx}{\linewidth}{K{4.2cm} Z}
+\rowcolor{primaryBlue} \thd{Thành phần} & \thd{Ý nghĩa} \\
+\midrule
+\codeinline{url('./ava.png')} & Gán ảnh nền \codeinline{ava.png} vào phần tử \\
+\rowcolor{slateBg} \codeinline{center} & Căn giữa ảnh theo cả chiều ngang và chiều dọc \\
+\codeinline{cover} & Phóng to hoặc thu nhỏ ảnh sao cho phủ kín toàn bộ phần tử, giữ nguyên tỷ lệ ảnh \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\noindent\textbf{Cách trình duyệt xử lý:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Ảnh $538 \times 497$ có tỷ lệ $\sim 1.082$.
+    \item \codeinline{.box} là vuông ($200 \times 200$) $\rightarrow$ tỷ lệ $1.0$.
+    \item Do tỷ lệ ảnh không bằng tỷ lệ phần tử, nên:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Ảnh sẽ được phóng to hoặc co nhỏ sao cho bao phủ toàn bộ \codeinline{.box}.
+        \item Có thể bị cắt mất một phần ảnh ở cạnh trái/phải hoặc trên/dưới.
+        \item Ảnh vẫn giữ nguyên tỷ lệ, không bị méo.
+    \end{itemize}
+\end{itemize}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Mã 4: Phủ Kín Hoàn Toàn Khung Vuông (center/cover)]
+\centering
+\includegraphics[width=4.6cm]{figures/bg_ava_case4_cover.png}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Mã 4}: Ảnh phóng/co phủ kín hoàn toàn khung $200\text{px} \times 200\text{px}$ không còn kẽ hở nào; mỗi bên hông trái và phải bị cắt bớt $\approx 8.2\text{px}$.}
+\end{browserWindow}
+
+\begin{prettyTableBox}[SO SÁNH TRỰC TIẾP CONTAIN VS COVER]
+\begin{tabularx}{\linewidth}{K{4.5cm} Z}
+\rowcolor{primaryBlue} \thd{Thuộc tính} & \thd{Kết quả hiển thị} \\
+\midrule
+\codeinline{background-size: contain} & Ảnh vừa trong khung, không bị cắt, có khoảng trắng \\
+\rowcolor{slateBg} \codeinline{background-size: cover} & Ảnh phủ kín khung, có thể bị cắt, không có khoảng trắng \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\noindent$\rightarrow$ \textbf{Kết luận Mã 4}: \codeinline{background: url('./ava.png') center / cover;} khiến trình duyệt:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt, parsep=0pt]
+    \item Căn ảnh vào giữa khung $200 \times 200$.
+    \item Phóng to hoặc thu nhỏ ảnh để bao phủ toàn bộ phần tử.
+    \item Giữ nguyên tỷ lệ ảnh, ảnh có thể bị cắt bớt nếu tỷ lệ không trùng khớp.
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+% GIẢI THUẬT TOÁN HỌC TÍNH TOÁN
+% ------------------------------------------------------------------------------
+\paragraph{5. Cách Tính Toán Khi Dùng contain / cover Trong Ví Dụ (Giải Thuật Toán Học)}
+
+\noindent\textbf{Dữ kiện đầu vào:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Kích thước phần tử \codeinline{.box}: $200\text{px} \times 200\text{px}$
+    \item Kích thước ảnh \codeinline{ava.png}: $538\text{px} \times 497\text{px}$
+    \item Tỷ lệ khung hình gốc của ảnh (\term{Aspect Ratio}):
+    \begin{equation*}
+    \frac{538}{497} \approx 1.0823
+    \end{equation*}
+\end{itemize}
+
+\subparagraph{A. Phép Tính Cho background-size: contain}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Nguyên lý}: \codeinline{contain} $\rightarrow$ co ảnh lại sao cho vừa toàn bộ phần tử, giữ nguyên tỉ lệ ảnh. Ảnh sẽ được thu nhỏ sao cho không vượt quá kích thước \codeinline{.box}.
+    \item \textbf{So sánh}: \codeinline{.box} có tỷ lệ $1.000$; ảnh có tỷ lệ $1.082 \rightarrow$ ảnh ngang hơn, nên bị giới hạn theo chiều rộng.
+    \item \textbf{Tính toán}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Chiều rộng của \codeinline{.box} là $200\text{px} \Rightarrow$ ảnh sẽ được co lại còn $200\text{px}$ chiều rộng.
+        \item Tỷ lệ gốc suy ra chiều cao mới:
+        \begin{equation*}
+        \text{chiều cao mới} = \frac{497}{538} \times 200 \approx 184.8\text{px}
+        \end{equation*}
+    \end{itemize}
+    \item \textbf{Kết luận}: Kích thước hiển thị ảnh (\codeinline{contain}):
+    \begin{center}
+    \badge{200px $\times$ $\approx$184.8px}
+    \end{center}
+    $\rightarrow$ Ảnh vừa trong khung, còn dư khoảng trắng $\approx 15.2\text{px}$ ở phía trên và dưới ($200 - 184.8 = 15.2\text{px}$, chia đều mỗi phía $\approx 7.6\text{px}$).
+\end{itemize}
+
+\subparagraph{B. Phép Tính Cho background-size: cover}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item \textbf{Nguyên lý}: \codeinline{cover} $\rightarrow$ phóng/co ảnh sao cho phủ kín hoàn toàn \codeinline{.box}, giữ nguyên tỉ lệ.
+    \item \textbf{So sánh}: Trường hợp này ảnh ngang hơn $\Rightarrow$ giới hạn phủ kín phụ thuộc vào chiều cao ($497\text{px}$). Do \codeinline{.box} cao $200\text{px} \Rightarrow$ ảnh sẽ được co lại sao cho chiều cao đúng bằng $200\text{px}$.
+    \item \textbf{Tính toán}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Chiều cao mới gán bằng $200\text{px}$.
+        \item Tỷ lệ gốc suy ra chiều rộng mới:
+        \begin{equation*}
+        \text{chiều rộng mới} = \frac{538}{497} \times 200 \approx 216.4\text{px}
+        \end{equation*}
+    \end{itemize}
+    \item \textbf{Kết luận}: Kích thước hiển thị ảnh (\codeinline{cover}):
+    \begin{center}
+    \badge{$\approx$216.4px $\times$ 200px}
+    \end{center}
+    $\rightarrow$ Ảnh phủ kín toàn bộ khung, nhưng sẽ bị cắt mất $\approx 8.2\text{px}$ ở mỗi bên trái và phải (tổng phần bị cắt ngoài khung là $\approx 16.4\text{px}$ chiều ngang, $216.4 - 200 = 16.4\text{px}$).
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+% BẢNG TỔNG KẾT VÀ BỘ SƯU TẬP 4 ẢNH ĐỐI CHIẾU
+% ------------------------------------------------------------------------------
+\begin{prettyTableBox}[BẢNG TỔNG HỢP SO SÁNH GIỮA CÁC THUỘC TÍNH CSS BACKGROUND-SIZE]
+\begin{tabularx}{\linewidth}{K{4.2cm} L{3.8cm} L{3.5cm} Z}
+\rowcolor{primaryBlue} \thd{Thuộc tính CSS} & \thd{Kích thước ảnh hiển thị} & \thd{Trạng thái ảnh} & \thd{Phần bị cắt hoặc thừa} \\
+\midrule
+\codeinline{background-size: contain} & $200\text{px} \times \approx 184.8\text{px}$ & Ảnh vừa trong khung & Thừa $\approx 15\text{px}$ trên dưới \\
+\rowcolor{slateBg} \codeinline{background-size: cover} & $\approx 216.4\text{px} \times 200\text{px}$ & Ảnh phủ toàn bộ, bị cắt chiều ngang & Mất $\approx 16.4\text{px}$ hai bên \\
+\codeinline{background-size: auto} & $538\text{px} \times 497\text{px}$ (Ảnh gốc) & Ảnh quá lớn so với khung & Bị cắt mất phần dư ngoài $200 \times 200$ \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{browserWindow}[Đối Chiếu Toàn Cảnh: 4 Trạng Thái Hiển Thị Thực Tế Của ava.png Trong Khung 200x200]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.92]
+  % Panel 1: Default
+  \node[inner sep=0, draw=primaryBlue!40, rounded corners=3pt, line width=0.8pt] (p1) at (0, 0) {\includegraphics[width=3.3cm, height=3.3cm]{figures/bg_ava_case1_default.png}};
+  \node[font=\scriptsize\bfseries\color{primaryBlue}, below=4pt of p1] {1. Default (url)};
+  \node[font=\tiny\color{codeComment}, below=13pt of p1] {0\% 0\% / auto};
+
+  % Panel 2: Center
+  \node[inner sep=0, draw=primaryBlue!40, rounded corners=3pt, line width=0.8pt] (p2) at (4.0, 0) {\includegraphics[width=3.3cm, height=3.3cm]{figures/bg_ava_case2_center.png}};
+  \node[font=\scriptsize\bfseries\color{secondaryTeal}, below=4pt of p2] {2. center};
+  \node[font=\tiny\color{codeComment}, below=13pt of p2] {center / auto};
+
+  % Panel 3: Contain
+  \node[inner sep=0, draw=primaryBlue!40, rounded corners=3pt, line width=0.8pt] (p3) at (8.0, 0) {\includegraphics[width=3.3cm, height=3.3cm]{figures/bg_ava_case3_contain.png}};
+  \node[font=\scriptsize\bfseries\color{accentOrange}, below=4pt of p3] {3. center/contain};
+  \node[font=\tiny\color{codeComment}, below=13pt of p3] {vừa trọn / lặp mép};
+
+  % Panel 4: Cover
+  \node[inner sep=0, draw=primaryBlue!40, rounded corners=3pt, line width=0.8pt] (p4) at (12.0, 0) {\includegraphics[width=3.3cm, height=3.3cm]{figures/bg_ava_case4_cover.png}};
+  \node[font=\scriptsize\bfseries\color{accentPurple}, below=4pt of p4] {4. center/cover};
+  \node[font=\tiny\color{codeComment}, below=13pt of p4] {phủ kín / cắt hông};
+\end{tikzpicture}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Bộ sưu tập 4 trạng thái render thực tế: Từ góc trên trái (1), trung tâm ảnh gốc (2), thu nhỏ vừa khung contain (3), đến bao phủ kín mít cover (4).}
+\end{browserWindow}
+
 \subsection{Kỹ Thuật Đa Ảnh Nền (\csshint{Multiple Backgrounds})}
 \label{sec:css_bg_multiple}
 
