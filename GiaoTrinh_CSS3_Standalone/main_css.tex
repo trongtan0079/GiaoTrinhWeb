@@ -25068,8 +25068,158 @@ Không thay đổi luồng tài liệu & Khối hộp vẫn giữ nguyên kích 
   clip-path: inset(5px 5px 5px 5px round 50px);
 }
 </style>
+\end{codeWindow}
+
+\subparagraph{F. Nghiên Cứu Thực Nghiệm Toàn Diện Với Ảnh ava.png (Mã 8):}
+\label{sec:clip_path_inset_experiment}
+
+Tiếp nối chuỗi thực nghiệm chuyên sâu trên phần tử \codeinline{.box} ($200\text{px} \times 200\text{px}$) cùng tệp ảnh \codeinline{ava.png} ($538\text{px} \times 497\text{px}$), ta hãy phân tích cơ chế phối hợp giữa thuộc tính nền \codeinline{background: url(...) center/cover} và hàm cắt co lùi mép \codeinline{clip-path: inset()}:
+
+\paragraph{1. Mã HTML + CSS (Mã 8): Cắt Đều 20px Từ 4 Cạnh}
+\noindent\textbf{Thông số đầu vào thực nghiệm:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Phần tử \codeinline{.box} có kích thước: $200\text{px} \times 200\text{px}$.
+    \item Tệp ảnh \codeinline{ava.png} có kích thước gốc: $538\text{px} \times 497\text{px}$.
+    \item Thuộc tính nền: \codeinline{background: url(...) center/cover;} $\Rightarrow$ ảnh được phóng để phủ kín \codeinline{.box}, có thể bị cắt.
+    \item Thuộc tính cắt: \codeinline{clip-path: inset(20px);} $\Rightarrow$ cắt $20\text{px}$ mỗi cạnh.
+\end{itemize}
+
+\begin{codeWindow}[Mã Nguồn HTML + CSS (Mã 8)]
+\begin{lstlisting}[language=HTML5]
+<div class="box"></div>
+
+<style>
+  .box {
+    width: 200px;
+    height: 200px;
+    background: url('./ava.png') center/cover;
+    clip-path: inset(20px);
+  }
+</style>
 \end{lstlisting}
 \end{codeWindow}
+
+\noindent\textbf{Phân tích chi tiết từng phần:}
+\begin{enumerate}[leftmargin=1.8em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Cơ chế \codeinline{background: ... center/cover}:}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Ảnh $538 \times 497\text{px}$ có tỷ lệ khung hình: $\frac{538}{497} \approx 1.082$.
+        \item Phần tử \codeinline{.box} là hình vuông $200 \times 200\text{px} \rightarrow$ để ảnh phủ kín khung mà không bị méo hình, giá trị \codeinline{cover} sẽ:
+        \begin{itemize}[leftmargin=1.0em, itemsep=2pt, parsep=0pt]
+            \item Giữ chiều cao ảnh đúng bằng chiều cao khung: $200\text{px}$.
+            \item Tính lại chiều rộng ảnh:
+            \begin{equation*}
+            \text{new width} = \frac{538}{497} \times 200 \approx 216.5\text{px}
+            \end{equation*}
+        \end{itemize}
+        \item $\rightarrow$ Ảnh sẽ được resize phóng to thành $\approx 216.5\text{px} \times 200\text{px}$.
+        \item $\rightarrow$ Do \codeinline{.box} chỉ rộng $200\text{px}$, ảnh được căn giữa và bị cắt ngang 2 bên khoảng $\approx 8.25\text{px}$ mỗi bên.
+    \end{itemize}
+
+    \item \textbf{Cơ chế \codeinline{clip-path: inset(20px)}:}
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Cú pháp viết tắt 1 giá trị tương đương với:
+        \begin{center}
+        \codeinline{clip-path: inset(20px 20px 20px 20px);}
+        \end{center}
+        \item Tức là: Cắt thụt lề $20\text{px}$ từ cả 4 cạnh: trên, phải, dưới, trái.
+        \item Kết quả tính toán kích thước vùng hiển thị:
+        \begin{align*}
+        W_{\text{visible}} &= 200\text{px} - (20\text{px} + 20\text{px}) = 160\text{px} \\
+        H_{\text{visible}} &= 200\text{px} - (20\text{px} + 20\text{px}) = 160\text{px}
+        \end{align*}
+        $\rightarrow$ Chỉ phần trung tâm diện tích $160\text{px} \times 160\text{px}$ còn hiển thị trên màn hình.
+    \end{itemize}
+\end{enumerate}
+
+\noindent\textbf{Tổng kết kết quả cuối cùng:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Phần tử \codeinline{.box} là một hình vuông kích thước $200 \times 200\text{px}$.
+    \item Ảnh nền được căn giữa, phóng to thành $216.5 \times 200\text{px}$, bị cắt ngang 2 bên.
+    \item Sau đó, \codeinline{clip-path} cắt tiếp $20\text{px}$ mỗi cạnh, chỉ giữ lại vùng $160 \times 160\text{px}$ ở giữa.
+    \item Do đó: Phần bạn thấy chỉ là trung tâm của ảnh, và đã bị cắt thêm bởi \codeinline{clip-path}.
+    \item Nếu muốn thấy nhiều ảnh hơn, bạn có thể:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Giảm khoảng cách \codeinline{clip-path} (ví dụ: \codeinline{10px}).
+        \item Dùng \codeinline{background-size: contain} để ảnh không bị cắt xén hai bên.
+    \end{itemize}
+\end{itemize}
+
+\begin{tipBox}[Gợi Ý Nếu Muốn Hiển Thị Trọn Vẹn Hơn]
+\begin{lstlisting}[language=CSS3]
+.box {
+  width: 200px;
+  height: 200px;
+  background: url('./ava.png') center/contain no-repeat;
+  clip-path: inset(10px);
+}
+\end{lstlisting}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Với \codeinline{contain}, ảnh sẽ co lại để vừa khít trong \codeinline{.box}, không bị cắt mất pixel nào.
+    \item Với \codeinline{clip-path: inset(10px);}, chỉ cắt nhẹ viền ngoài $10\text{px}$, giữ gần như trọn vẹn toàn bộ khuôn mặt và chân dung.
+\end{itemize}
+\end{tipBox}
+
+\paragraph{2. Ba Kịch Bản Mở Rộng Chuyên Sâu Của clip-path: inset()}
+Trong thực tế, hàm \codeinline{inset()} cung cấp khả năng điều biến linh hoạt qua việc khai báo 4 khoảng cách riêng biệt và phối hợp từ khóa bo tròn góc \codeinline{round}:
+
+\begin{enumerate}[leftmargin=1.8em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Kịch bản 1 --- Cắt lùi bất đối xứng}:
+    \begin{center}
+    \codeinline{clip-path: inset(10px 20px 30px 40px);}
+    \end{center}
+    Cắt từ 4 cạnh theo chiều kim đồng hồ: trên ($10\text{px}$), phải ($20\text{px}$), dưới ($30\text{px}$), trái ($40\text{px}$). Vùng hiển thị là hình chữ nhật lệch tâm có kích thước $(200 - 20 - 40) \times (200 - 10 - 30) = 140\text{px} \times 160\text{px}$.
+    
+    \item \textbf{Kịch bản 2 --- Cắt lùi kết hợp bo tròn đều 4 góc}:
+    \begin{center}
+    \codeinline{clip-path: inset(10px 20px 30px 40px round 10px);}
+    \end{center}
+    Vừa cắt lùi theo tỷ lệ $(10, 20, 30, 40\text{px})$, vừa bo cong tròn cả $4$ góc với bán kính góc cong $R = 10\text{px}$, tạo khung ảnh bo viền mềm mại hiện đại.
+
+    \item \textbf{Kịch bản 3 --- Bo góc bất đối xứng với 2 tham số round}:
+    \begin{center}
+    \codeinline{clip-path: inset(10px 20px 30px 40px round 10px 30px);}
+    \end{center}
+    Bo cong góc theo cặp đối xứng: góc trên-trái \& dưới-phải có bán kính $10\text{px}$; góc trên-phải \& dưới-trái có bán kính $30\text{px}$, tạo thành khối hình chiếc lá hoặc giọt nước bất đối xứng mang phong cách nghệ thuật UI/UX đỉnh cao.
+\end{enumerate}
+
+\begin{prettyTableBox}[TỔNG HỢP CÁC KỊCH BẢN THỰC NGHIỆM HÀM INSET() TRÊN KHUNG 200x200PX]
+\begin{tabularx}{\linewidth}{K{4.8cm} L{3.2cm} L{3.5cm} Z}
+\rowcolor{primaryBlue} \thd{Cú Pháp Khai Báo} & \thd{Khoảng Cắt (T-R-B-L)} & \thd{Bo Góc (round)} & \thd{Kích Thước Vùng Nhìn} \\
+\midrule
+\codeinline{inset(20px)} & $20, 20, 20, 20\text{px}$ & Không bo (góc vuông) & $160\text{px} \times 160\text{px}$ (Căn giữa) \\
+\rowcolor{slateBg} \codeinline{inset(10px 20px 30px 40px)} & $10, 20, 30, 40\text{px}$ & Không bo (góc vuông) & $140\text{px} \times 160\text{px}$ (Lệch tâm) \\
+\codeinline{inset(... round 10px)} & $10, 20, 30, 40\text{px}$ & Đều $4$ góc $10\text{px}$ & $140\text{px} \times 160\text{px}$ (Bo tròn mềm) \\
+\rowcolor{slateBg} \codeinline{inset(... round 10px 30px)} & $10, 20, 30, 40\text{px}$ & Đối xứng $10\text{px} / 30\text{px}$ & $140\text{px} \times 160\text{px}$ (Dáng lá bất đối xứng) \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{browserWindow}[Bộ Sưu Tập Đối Chiếu Toàn Cảnh: 4 Kịch Bản clip-path: inset() Trên Ảnh ava.png]
+\centering
+\begin{tikzpicture}[font=\sffamily, scale=0.92]
+  % Panel 1: inset(20px)
+  \node[inner sep=0, draw=primaryBlue!40, rounded corners=3pt, line width=0.8pt] (i1) at (0, 0) {\includegraphics[width=3.2cm, height=3.2cm]{figures/clip_path_inset_20px.png}};
+  \node[font=\scriptsize\bfseries\color{primaryBlue}, below=4pt of i1] {1. inset(20px)};
+  \node[font=\tiny\color{codeComment}, below=13pt of i1] {Cắt đều 4 cạnh 20px};
+
+  % Panel 2: inset(10px 20px 30px 40px)
+  \node[inner sep=0, draw=secondaryTeal!40, rounded corners=3pt, line width=0.8pt] (i2) at (4.0, 0) {\includegraphics[width=3.2cm, height=3.2cm]{figures/clip_path_inset_asymmetric.png}};
+  \node[font=\scriptsize\bfseries\color{secondaryTeal}, below=4pt of i2] {2. inset(10 20 30 40)};
+  \node[font=\tiny\color{codeComment}, below=13pt of i2] {Cắt 4 cạnh lệch tâm};
+
+  % Panel 3: inset(... round 10px)
+  \node[inner sep=0, draw=accentOrange!40, rounded corners=3pt, line width=0.8pt] (i3) at (8.0, 0) {\includegraphics[width=3.2cm, height=3.2cm]{figures/clip_path_inset_round_10px.png}};
+  \node[font=\scriptsize\bfseries\color{accentOrange}, below=4pt of i3] {3. round 10px};
+  \node[font=\tiny\color{codeComment}, below=13pt of i3] {Bo tròn đều 4 góc 10px};
+
+  % Panel 4: inset(... round 10px 30px)
+  \node[inner sep=0, draw=accentPurple!40, rounded corners=3pt, line width=0.8pt] (i4) at (12.0, 0) {\includegraphics[width=3.2cm, height=3.2cm]{figures/clip_path_inset_round_asymmetric.png}};
+  \node[font=\scriptsize\bfseries\color{accentPurple}, below=4pt of i4] {4. round 10px 30px};
+  \node[font=\tiny\color{codeComment}, below=13pt of i4] {Bo bất đối xứng 10/30px};
+\end{tikzpicture}\par\vspace{4pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ Đối chiếu trực quan 4 trạng thái hàm \codeinline{inset()}: Cắt đều góc vuông (1), cắt lệch tỷ lệ (2), bo tròn đều mép góc (3), và bo cong bất đối xứng phong cách thiết kế hiện đại (4).}
+\end{browserWindow}
 
 \paragraph{4. Chuyên Sâu Hàm polygon() --- Cắt Đa Giác Đa Điểm Tùy Biến (Polygon Masterclass):}
 
@@ -25182,6 +25332,164 @@ Quy tắc Morphing Animation & \textbf{Bắt buộc hai trạng thái trước v
     \item \textbf{Avatar hình giọt nước hoặc huy hiệu}: Cắt hình ngũ giác, lục giác hoặc huy hiệu sao $5$ cánh.
     \item \textbf{Hiệu ứng mở màn (Curtain Reveal)}: Sử dụng hover để kéo dãn các đỉnh tọa độ của đa giác ra $4$ góc $100\%$.
 \end{itemize}
+
+\subparagraph{G. Nghiên Cứu Thực Nghiệm Toàn Diện: Cắt Đa Giác Nghệ Thuật (Mã 9 \& Mã 10):}
+\label{sec:clip_path_polygon_experiment}
+
+Để hiểu sâu sắc về cách định vị vector trong \codeinline{polygon()}, trước hết ta cần nắm vững cơ chế chuẩn hóa tọa độ $2\text{D}$ từ không gian phối cảnh gốc sang không gian chuẩn hóa (\term{Normalized Coordinate System}):
+
+\begin{browserWindow}[Mô Hình Chuẩn Hóa Hệ Tọa Độ Vector Trong Trình Duyệt Web]
+\centering
+\begin{tikzpicture}[font=\sffamily]
+  \node[inner sep=0, draw=primaryBlue!30, rounded corners=6pt] (coordImg) at (0, 0) {\includegraphics[width=12.2cm]{figures/clip_path_polygon_coordinate_system.png}};
+\end{tikzpicture}\par\vspace{3pt}
+{\scriptsize\sffamily\color{darkText!80} $\rightarrow$ \textbf{Sơ đồ chuyển đổi vector}: Từ hình ảnh phối cảnh gốc (Source Image) chuyển đổi sang hệ tọa độ $2\text{D}$ chuẩn hóa (Normalized Image) với $4$ góc mốc: $(0\% 0\%)$ đỉnh trên trái, $(100\% 0\%)$ đỉnh trên phải, $(100\% 100\%)$ đáy phải, $(0\% 100\%)$ đáy trái cùng trục $X$ ngang và trục $Y$ dọc.}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% MÃ 9: TỨ GIÁC BẤT ĐỐI XỨNG VÁT GÓC
+% ------------------------------------------------------------------------------
+\paragraph{1. Mã HTML + CSS (Mã 9): Tứ Giác Bất Đối Xứng Vát Góc Chân Trái}
+
+\begin{codeWindow}[Khai Báo Thuộc Tính CSS (Mã 9)]
+\begin{lstlisting}[language=CSS3]
+clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 100%);
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{1. Phân tích các điểm (tọa độ):} \\
+Mỗi điểm trong \codeinline{polygon()} là một cặp $(X, Y)$ theo thứ tự từ trái sang phải, trên xuống dưới:
+
+\begin{prettyTableBox}[TỌA ĐỘ VÀ GIẢI THÍCH VỊ TRÍ CÁC ĐỈNH TRONG MÃ 9]
+\begin{tabularx}{\linewidth}{C{1.8cm} C{3.2cm} Z}
+\rowcolor{primaryBlue} \thd{Điểm} & \thd{Tọa Độ} & \thd{Giải Thích Vị Trí} \\
+\midrule
+1 & \codeinline{0 0} & Góc trên bên trái (\term{Top-Left}). \\
+\rowcolor{slateBg} 2 & \codeinline{100\% 0} & Góc trên bên phải (\term{Top-Right}). \\
+3 & \codeinline{100\% 100\%} & Góc dưới bên phải (\term{Bottom-Right}). \\
+\rowcolor{slateBg} 4 & \codeinline{30\% 100\%} & Điểm ở cạnh dưới, lệch về bên trái $30\%$. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+$\rightarrow$ \textbf{Cơ chế đóng kín}: Sau khi đi qua điểm thứ $4$, trình duyệt sẽ \textbf{tự động nối về điểm đầu tiên $(0, 0)$} bằng một đường chéo dốc để khép kín hình học!
+
+\noindent\textbf{2. Hình dạng tạo ra:} \\
+Bạn đang tạo ra một \textbf{tứ giác bất đối xứng}, hình dạng gần giống một banner vát góc dưới trái:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Phần bị cắt bỏ: Vùng tam giác từ góc đáy trái $(0\%, 100\%)$ tiến lên điểm $(30\%, 100\%)$ và nối ngược lên $(0, 0)$ $\rightarrow$ đường chéo lệch góc sắc nét.
+    \item Kết quả: Khối hộp có góc dưới bên trái vát nghiêng lên một cách nghệ thuật và hiện đại.
+\end{itemize}
+
+\noindent\textbf{3. Ứng dụng thực tế:} \\
+Rất hữu ích khi:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Tạo banner quảng cáo hoặc card sản phẩm vát góc phong cách Gaming / FinTech.
+    \item Làm hình nền phân đoạn (section header/hero) có chân vát chéo chia ranh giới.
+    \item Tạo bố cục (layout) bất đối xứng hiện đại, phá vỡ sự nhàm chán của các khối chữ nhật truyền thống.
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Đầy Đủ Của Mã 9 Với Gradient Hiện Đại]
+\begin{lstlisting}[language=HTML5]
+<div class="box"></div>
+
+<style>
+  .box {
+    width: 300px;
+    height: 200px;
+    background: linear-gradient(to right, #f06, gold);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 100%);
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Mẹo Sáng Tạo Cho Mã 9]
+Muốn phần tử vát góc bên phải thay vì bên trái:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Đổi điểm thứ tư từ \codeinline{30\% 100\%} thành \codeinline{70\% 100\%} hoặc đổi thứ tự tọa độ đáy.
+    \item Hoặc cắt góc trên: \codeinline{clip-path: polygon(0 0, 70\% 0, 100\% 100\%, 0 100\%);}.
+\end{itemize}
+\end{tipBox}
+
+% ------------------------------------------------------------------------------
+% MÃ 10: NGŨ GIÁC LÕM ĐÁY MŨI NHỌN NGƯỢC
+% ------------------------------------------------------------------------------
+\paragraph{2. Mã HTML + CSS (Mã 10): Ngũ Giác Đáy Hình Mũi Nhọn Ngược (Inverted Notch Banner)}
+
+\begin{codeWindow}[Khai Báo Thuộc Tính CSS (Mã 10)]
+\begin{lstlisting}[language=CSS3]
+clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{1. Cấu trúc đa giác ngũ giác 5 điểm:}
+
+\begin{prettyTableBox}[CẤU TRÚC 5 ĐỈNH TỌA ĐỘ VÀ Ý NGHĨA HÌNH HỌC TRONG MÃ 10]
+\begin{tabularx}{\linewidth}{C{1.5cm} C{2.8cm} Z}
+\rowcolor{primaryBlue} \thd{STT} & \thd{Tọa Độ} & \thd{Ý Nghĩa Vị Trí} \\
+\midrule
+(1) & \codeinline{0 0} & Góc trên cùng bên trái. \\
+\rowcolor{slateBg} (2) & \codeinline{100\% 0} & Góc trên cùng bên phải. \\
+(3) & \codeinline{100\% 100\%} & Góc dưới cùng bên phải. \\
+\rowcolor{slateBg} (4) & \codeinline{50\% 80\%} & \textbf{Chính giữa phần dưới, nhưng nhô cao hơn ($80\%$ thay vì $100\%$).} \\
+(5) & \codeinline{0 100\%} & Góc dưới cùng bên trái. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
+
+$\rightarrow$ \textbf{Điểm nhấn cốt lõi}: Điểm thứ (4) \codeinline{50\% 80\%} tạo ra một \textbf{vết lõm hình chữ V ngược} ở chính giữa cạnh đáy!
+
+\noindent\textbf{Hình dạng tạo ra:} \\
+Bạn tạo ra một hình khối đặc biệt gần giống như:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Một tấm bảng / banner quảng cáo có đáy hình mũi nhọn ngược lên.
+    \item Một hộp hội thoại, dải băng ribbon hoặc đuôi cờ lễ hội (\term{Flag / Swallowtail Banner}).
+\end{itemize}
+
+\noindent\textbf{2. Ứng dụng thực tế:} \\
+Rất hữu ích để tạo:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Banner quảng cáo có chân mũi nhọn chỉ điểm vào nội dung bên dưới.
+    \item Khung thuyết trình, slide, section có điểm nhấn thị giác.
+    \item Ruy băng (ribbon) bay, nhãn giảm giá (sale tag).
+    \item Tooltip thông báo hoặc khung bong bóng hội thoại chat (kết hợp mũi tên nhô lên/xuống).
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Đầy Đủ Của Mã 10 Với Gradient Tím-Xanh]
+\begin{lstlisting}[language=HTML5]
+<div class="box"></div>
+
+<style>
+  .box {
+    width: 300px;
+    height: 200px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    color: white;
+    padding: 20px;
+    font-weight: bold;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\noindent\textbf{4. Hiểu thêm về điểm ``mũi nhọn'':}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, parsep=0pt]
+    \item Điểm \codeinline{50\% 80\%} có tọa độ $Y = 80\%$ thấp hơn đáy $100\%$, tức nằm cách mép trên $80\%$ và cách mép dưới $20\%$, do đó nó nhô lên, tạo cảm giác đáy lõm lên như hình mũi nhọn ngược.
+    \item \textbf{Muốn vết lõm sâu hơn}: Giảm $80\%$ xuống thành $70\%$, $60\%$ hoặc thấp hơn.
+    \item \textbf{Muốn vết lõm nông nhẹ}: Tăng lên thành $85\%$, $90\%$, $95\%$.
+\end{itemize}
+
+\begin{prettyTableBox}[MẸO SÁNG TẠO ĐIỀU BIẾN TỌA ĐỘ CHO HÀM POLYGON()]
+\begin{tabularx}{\linewidth}{K{4.2cm} K{4.5cm} Z}
+\rowcolor{primaryBlue} \thd{Mục Đích Tạo Hình} & \thd{Gợi Ý Tọa Độ Đỉnh} & \thd{Hiệu Ứng Trực Quan} \\
+\midrule
+Mũi nhọn đâm xuống dưới & Thêm điểm như \codeinline{50\% 120\%} & Mũi tên tooltip chỉ xuống phần tử kế tiếp. \\
+\rowcolor{slateBg} Hình lượn sóng mềm & Nhiều điểm: \codeinline{40\% 90\%, 60\% 90\%} & Đáy nhấp nhô lượn sóng đa tầng. \\
+Hình răng cưa / ziczac & Các cặp điểm xen kẽ $100\%$ và $90\%$ & Viền hóa đơn, vé xem phim hoặc tem thư cổ điển. \\
+\bottomrule
+\end{tabularx}
+\end{prettyTableBox}
 
 \paragraph{5. Hàm path() --- Cắt Theo Đường Dẫn Vector SVG:}
 \begin{codeWindow}[Cú Pháp \& Ví Dụ Hàm path()]
