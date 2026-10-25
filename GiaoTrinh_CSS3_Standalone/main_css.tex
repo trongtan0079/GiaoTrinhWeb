@@ -24398,7 +24398,7 @@ Trong thiết kế giao diện hiện đại, \codeinline{clip-path} là một t
 \end{tikzpicture}
 \end{browserWindow}
 
-\subsection{2. Cú Pháp Cơ Bản \& Định Dạng Giá Trị}
+\subsection{2. Cú Pháp Cơ Bản \& Định Dạng Giá Trị (\csshint{<shape-function>}, \csshint{url()}, \csshint{none})}
 
 Cú pháp tổng quát của thuộc tính \codeinline{clip-path}:
 \begin{codeWindow}[Cú Pháp Khai Báo Thuộc Tính clip-path]
@@ -24415,7 +24415,7 @@ clip-path: <shape-function> | <url> | none;
     \item \textbf{Đơn vị hỗ trợ}: Hỗ trợ linh hoạt đơn vị phần trăm (\codeinline{\%}) theo kích thước phần tử, đơn vị tuyệt đối (\codeinline{px}, \codeinline{rem}, \codeinline{em}), cùng các từ khóa tọa độ chuẩn (\codeinline{top}, \codeinline{left}, \codeinline{center}, \codeinline{bottom}, \codeinline{right}).
 \end{itemize}
 
-\subsection{3. Bảng Tra Cứu Các Hàm Hình Dạng Phổ Biến}
+\subsection{3. Bảng Tra Cứu Các Hàm Hình Dạng Phổ Biến (\csshint{Basic Shapes})}
 
 \begin{prettyTableBox}[BẢNG TỔNG HỢP CÁC HÀM HÌNH HỌC TRONG CLIP-PATH]
 \begin{tabularx}{\linewidth}{K{3.2cm} L{4.5cm} Z}
@@ -24430,7 +24430,7 @@ path() & Cắt tự do theo chuỗi mã lệnh vector chuẩn SVG ($d$). & Logo 
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{4. Chi Tiết Cú Pháp \& Ví Dụ Minh Họa Từng Hàm Hình Học}
+\subsection{4. Chi Tiết Cú Pháp \& Thực Nghiệm Từng Hàm (\csshint{circle()}, \csshint{ellipse()}, \csshint{inset()}, \csshint{polygon()}, \csshint{path()})}
 
 \paragraph{1. Chuyên Sâu Hàm circle() --- Cắt Hình Tròn Hoàn Hảo (Circle Deep Dive):}
 
@@ -25501,7 +25501,7 @@ Hình răng cưa / ziczac & Các cặp điểm xen kẽ $100\%$ và $90\%$ & Vi�
 \end{lstlisting}
 \end{codeWindow}
 
-\subsection{5. Ví Dụ Ứng Dụng Hoàn Chỉnh: Hiệu Ứng Chuyển Động Hover (Morphing Effect)}
+\subsection{5. Ứng Dụng Chuyển Động Hover (\csshint{transition}, \csshint{hover} Morphing Effect)}
 
 Khi kết hợp \codeinline{clip-path} với thuộc tính \codeinline{transition}, bạn có thể tạo nên hiệu ứng chuyển đổi hình dạng (\term{Shape Morphing}) cực kỳ mượt mà mà không làm tốn tài nguyên GPU:
 
@@ -25531,7 +25531,7 @@ Khi kết hợp \codeinline{clip-path} với thuộc tính \codeinline{transitio
 \end{lstlisting}
 \end{codeWindow}
 
-\subsection{6. Bảng Độ Tương Thích Trình Duyệt (Browser Compatibility)}
+\subsection{6. Bảng Độ Tương Thích Trình Duyệt (\csshint{Browser Compatibility})}
 
 \begin{prettyTableBox}[BẢNG ĐỘ TƯƠNG THÍCH TRÌNH DUYỆT CỦA THUỘC TÍNH CLIP-PATH]
 \begin{tabularx}{\linewidth}{C{3.2cm} C{3.8cm} C{3.8cm} Z}
@@ -25557,7 +25557,7 @@ Internet Explorer & \textcolor{dangerRed}{\textbf{Không hỗ trợ ($\times$)}}
 \end{enumerate}
 \end{warnBox}
 
-\subsection{8. Công Cụ Trực Tuyến Hữu Ích: Clippy Generator}
+\subsection{8. Công Cụ Trực Tuyến Hữu Ích (\csshint{Clippy Generator})}
 
 Để tiết kiệm thời gian tính toán thủ công từng tọa độ điểm cho các đa giác phức tạp, lập trình viên thường sử dụng công cụ tạo đường cắt trực quan:
 \begin{tipBox}[Công Cụ Trực Tuyến Hỗ Trợ Tạo Nhanh clip-path]
@@ -25568,7 +25568,7 @@ Internet Explorer & \textcolor{dangerRed}{\textbf{Không hỗ trợ ($\times$)}}
 \end{itemize}
 \end{tipBox}
 
-\subsection{9. Bảng Tổng Kết Ghi Nhớ Cú Pháp Nhanh (Cheat Sheet)}
+\subsection{9. Bảng Tổng Kết Ghi Nhớ Cú Pháp Nhanh (\csshint{Cheat Sheet})}
 
 \begin{prettyTableBox}[TỔNG KẾT NHANH CÁCH DÙNG CLIP-PATH TRONG MỌI TÌNH HUỐNG]
 \begin{tabularx}{\linewidth}{K{4.2cm} L{4.5cm} Z}
@@ -25585,7 +25585,7 @@ Hủy bỏ mặt nạ cắt & \codeinline{none} & \codeinline{clip-path: none;} 
 \end{tabularx}
 \end{prettyTableBox}
 
-\subsection{10. Góc Chuyên Gia: Hiệu Năng GPU, Câu Hỏi Phỏng Vấn \& Tài Liệu Đọc Thêm}
+\subsection{10. Góc Chuyên Gia: Hiệu Năng GPU, Phỏng Vấn (\csshint{GPU Compositor}, \csshint{mask-image})}
 
 \begin{noteBox}[Hiệu Năng Render: Tại Sao Animation Với clip-path Đạt Chuẩn 60fps Mượt Mà?]
 Trong tối ưu hóa hiệu năng render (\term{Browser Rendering Pipeline}), việc thay đổi các thuộc tính hình học truyền thống như \codeinline{width}, \codeinline{height}, \codeinline{top}, \codeinline{left} sẽ buộc trình duyệt phải tính toán lại toàn bộ vị trí các phần tử trên trang web (\term{Reflow / Layout Recalculation}), gây tiêu tốn tài nguyên CPU và hiện tượng giật khung hình (\term{Jank}). 
@@ -25620,7 +25620,7 @@ Ngược lại, \codeinline{clip-path} được các trình duyệt hiện đạ
 
 Trong thiết kế giao diện web, danh sách (\term{List} --- \codeinline{<ul>}, \codeinline{<ol>}, \codeinline{<li>}) là một trong những thành phần cấu trúc HTML được sử dụng thường xuyên nhất. Từ việc hiển thị các đoạn liệt kê nội dung, bảng tính năng, menu điều hướng (\term{Navigation Bar}), danh sách bài viết cho đến các thanh mục lục phức tạp, CSS cung cấp một bộ thuộc tính chuyên dụng để kiểm soát toàn diện kiểu dáng, vị trí và hình ảnh của dấu đầu dòng (\term{marker}).
 
-\subsection{1. Tổng Quan Hệ Thống Thuộc Tính Định Dạng Danh Sách (CSS Lists)}
+\subsection{1. Tổng Quan Hệ Thống Thuộc Tính Danh Sách (\csshint{list-style}, \csshint{::marker})}
 
 \begin{conceptBox}[Hệ Thống Thuộc Tính CSS Lists]
 CSS cung cấp 4 thuộc tính cốt lõi cùng 1 phần tử giả (\term{pseudo-element}) để bạn có thể tùy biến linh hoạt toàn bộ dấu đầu dòng và khoảng cách của danh sách HTML:
