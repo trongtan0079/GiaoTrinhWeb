@@ -645,12 +645,604 @@
 \begin{conceptBox}[Khởi Tạo Tài Liệu CSS Tập 2]
 Tập 2 của bộ giáo trình CSS3 chuyên sâu tập trung vào các chủ đề nâng cao và kiến trúc giao diện hiện đại:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Mô hình hộp (\term{CSS Box Model})}: Cấu trúc 4 lớp, thuật toán \codeinline{box-sizing}, hiện tượng sập lề (\term{margin collapsing}) và ranh giới \codeinline{outline} vs \codeinline{border}.
+    \item \textbf{Kích thước \& Mô hình hộp (\term{CSS Sizing \& Box Model})}: Bản chất \codeinline{width}, \codeinline{height}, cấu trúc 4 lớp, thuật toán \codeinline{box-sizing}, hiện tượng sập lề (\term{margin collapsing}) và ranh giới \codeinline{outline} vs \codeinline{border}.
     \item \textbf{Bố cục một chiều (\term{CSS Flexbox})}: Trục chính, trục phụ, phân bổ không gian và kỹ thuật căn chỉnh hoàn hảo.
     \item \textbf{Bố cục hai chiều (\term{CSS Grid})}: Lưới đa chiều, vùng lưới (\term{grid-template-areas}), đơn vị phân số \codeinline{fr} và thuật toán tự động co giãn \codeinline{auto-fit} / \codeinline{auto-fill}.
     \item \textbf{Thiết kế thích ứng (\term{Responsive Design})}: Tư duy Mobile-First, Container Queries, Fluid Typography với \codeinline{clamp()}.
     \item \textbf{Chuyển động mượt mà (\term{Transitions \& Keyframe Animations})}: Tương tác vi mô (\term{micro-interactions}) và hoạt họa UI sinh động.
 \end{itemize}
 \end{conceptBox}
+
+% ==============================================================================
+% MỤC 1: TỔNG QUAN THUỘC TÍNH WIDTH & HEIGHT
+% ==============================================================================
+\section{Tổng Quan Thuộc Tính \csshint{width} \& \csshint{height} Trong CSS}
+\label{sec:overview_width_height}
+
+\codeinline{width} và \codeinline{height} là hai thuộc tính CSS cơ bản và cực kỳ quan trọng, dùng để thiết lập chiều rộng và chiều cao của một phần tử HTML. Chúng là nền tảng để kiểm soát kích thước và bố cục của mọi thứ trên trang web của bạn.
+
+\begin{conceptBox}[Bản Chất Của width \& height Trong Thiết Kế Web]
+Mọi thành phần hiển thị trên trang web (khung bài viết, nút bấm, hình ảnh, thanh điều hướng, ô nhập liệu) đều cần được định hình không gian rõ ràng. \codeinline{width} và \codeinline{height} đóng vai trò là chiếc thước đo cơ bản nhất để lập trình viên xác định diện tích mà một khối nội dung sẽ chiếm giữ trên mặt phẳng giao diện hai chiều.
+\end{conceptBox}
+
+% ------------------------------------------------------------------------------
+% 1.1 THUỘC TÍNH WIDTH
+% ------------------------------------------------------------------------------
+\subsection{1. Thuộc Tính \csshint{width} (Chiều Rộng)}
+\label{subsec:property_width}
+
+Thuộc tính \codeinline{width} xác định chiều rộng của vùng nội dung (\term{content area}) của một phần tử.
+
+\subsubsection{Các Giá Trị Phổ Biến Của width}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{\codeinline{auto} (Mặc định)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+        \item \textbf{Mô tả}: Trình duyệt sẽ tự động tính toán chiều rộng.
+        \item \textbf{Hành vi chi tiết}:
+        \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+            \item Đối với các phần tử khối (\term{block-level} như \codeinline{<div>}, \codeinline{<p>}, \codeinline{<h1>}--\codeinline{<h6>}): \codeinline{width: auto;} thường khiến phần tử chiếm toàn bộ chiều rộng có sẵn của phần tử cha nó, trừ đi \codeinline{margin}, \codeinline{padding}, và \codeinline{border}.
+            \item Đối với các phần tử nội dòng khối (\term{inline-block}) hoặc phần tử trôi nổi (\term{float}): \codeinline{width: auto;} sẽ khiến chiều rộng co lại (\term{shrink-wrap}) để vừa khít với nội dung bên trong nó.
+        \end{itemize}
+        \item \textbf{Khi sử dụng}: Khi bạn muốn trình duyệt tự quản lý kích thước dựa trên nội dung hoặc không gian có sẵn.
+    \end{itemize}
+
+    \item \textbf{\codeinline{length} (Giá trị cụ thể)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+        \item \textbf{Mô tả}: Đặt một chiều rộng cố định bằng các đơn vị đo lường CSS.
+        \item \textbf{Hệ thống đơn vị phổ biến}:
+        \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+            \item \codeinline{px} (\term{pixels}): Đơn vị cố định, không thay đổi theo môi trường hay tỷ lệ phông chữ. Ví dụ: \codeinline{width: 200px;}.
+            \item \codeinline{em}: Tương đối so với kích thước phông chữ (\codeinline{font-size}) của phần tử cha (hoặc chính nó nếu có khai báo \codeinline{font-size}). Ví dụ: \codeinline{width: 10em;} (nếu \codeinline{font-size} của phần tử cha là $16\text{px}$, thì $10\text{em} = 10 \times 16\text{px} = 160\text{px}$).
+            \item \codeinline{rem}: Tương đối so với kích thước phông chữ gốc của tài liệu (thẻ \codeinline{<html>}, mặc định $16\text{px}$). Ví dụ: \codeinline{width: 10rem;} (tương đương $10 \times 16\text{px} = 160\text{px}$).
+            \item \codeinline{vw} (\term{viewport width}): Tương đối so với chiều rộng của khung nhìn trình duyệt (\term{viewport}). $1\text{vw} = 1\%$ chiều rộng viewport. Ví dụ: \codeinline{width: 50vw;} (chiếm chính xác $50\%$ chiều rộng màn hình thiết bị).
+            \item \codeinline{\%} (\term{percentage}): Tương đối so với chiều rộng của phần tử cha trực tiếp. Ví dụ: \codeinline{width: 80\%;} (chiếm $80\%$ chiều rộng vùng đệm/nội dung của cha).
+        \end{itemize}
+        \item \textbf{Khi sử dụng}: Khi bạn cần kiểm soát chính xác kích thước theo bản vẽ thiết kế (UI/UX wireframe) hoặc yêu cầu bố cục nghiêm ngặt.
+    \end{itemize}
+
+    \item \textbf{\codeinline{initial}}: Đặt thuộc tính về giá trị mặc định của nó theo đặc tả W3C (\codeinline{auto}).
+    \item \textbf{\codeinline{inherit}}: Kế thừa giá trị chiều rộng cụ thể từ phần tử cha trực tiếp.
+\end{enumerate}
+
+\begin{codeWindow}[Minh Họa Khai Báo Các Giá Trị Của Thuộc Tính width]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+/* 1. Gia tri mac dinh tu dong tinh toan */
+.card-auto {
+    width: auto;
+}
+
+/* 2. Don vi tuyet doi pixel */
+.sidebar {
+    width: 280px;
+}
+
+/* 3. Don vi tuong doi theo font chu */
+.text-column-em {
+    width: 25em;   /* Co gian theo co chu */
+}
+
+.text-column-rem {
+    width: 40rem;  /* Co gian theo co chu goc html */
+}
+
+/* 4. Don vi phan tram va viewport */
+.main-content {
+    width: 75%;    /* Chiay 75% be rong phan tu cha */
+}
+
+.hero-banner {
+    width: 100vw;  /* Phu kin 100% chieu rong man hinh */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+% 1.2 THUỘC TÍNH HEIGHT
+% ------------------------------------------------------------------------------
+\subsection{2. Thuộc Tính \csshint{height} (Chiều Cao)}
+\label{subsec:property_height}
+
+Thuộc tính \codeinline{height} xác định chiều cao của vùng nội dung (\term{content area}) của một phần tử.
+
+\subsubsection{Các Giá Trị Phổ Biến Của height}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{\codeinline{auto} (Mặc định)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+        \item \textbf{Mô tả}: Trình duyệt sẽ tự động tính toán chiều cao dựa trên dòng chảy nội dung bên trong.
+        \item \textbf{Hành vi chi tiết}: Chiều cao của phần tử sẽ co lại hoặc giãn ra linh hoạt để vừa khít với toàn bộ lượng nội dung bên trong nó (chữ, hình ảnh, khối con).
+        \item \textbf{Khi sử dụng}: Đây là hành vi mong muốn trong hầu hết các trường hợp xây dựng trang web, giúp nội dung không bao giờ bị cắt cụt và phần tử tự động thích ứng với mọi độ dài văn bản hoặc kích thước màn hình.
+    \end{itemize}
+
+    \item \textbf{\codeinline{length} (Giá trị cụ thể)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+        \item \textbf{Mô tả}: Đặt một chiều cao cố định bằng các đơn vị đo lường CSS.
+        \item \textbf{Hệ thống đơn vị}: Tương tự như \codeinline{width}, bao gồm \codeinline{px}, \codeinline{em}, \codeinline{rem}, \codeinline{vh} (\term{viewport height}), và \codeinline{\%}:
+        \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+            \item \codeinline{vh} (\term{viewport height}): Tương đối so với chiều cao của khung nhìn trình duyệt. $1\text{vh} = 1\%$ chiều cao viewport. Ví dụ: \codeinline{height: 100vh;} (chiếm trọn vẹn $100\%$ chiều cao màn hình trình duyệt).
+        \end{itemize}
+        \item \textbf{Khi sử dụng}: Khi bạn cần một chiều cao chính xác, ví dụ: tạo một banner cố định, ảnh avatar, thanh điều hướng (\term{header bar}), hoặc các phần tử trong bố cục dạng lưới (\term{grid layout}) hoặc \term{flexbox}.
+    \end{itemize}
+
+    \item \textbf{\codeinline{initial}}: Đặt thuộc tính về giá trị mặc định của nó theo quy chuẩn (\codeinline{auto}).
+    \item \textbf{\codeinline{inherit}}: Kế thừa giá trị chiều cao từ phần tử cha trực tiếp.
+\end{enumerate}
+
+\begin{codeWindow}[Minh Họa Khai Báo Các Giá Trị Của Thuộc Tính height]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+/* 1. Tu dong co gian theo noi dung (Khuyen nghi cho khoi chua van ban) */
+.article-body {
+    height: auto;
+}
+
+/* 2. Chieu cao co dinh cho thanh tieu de (Navigation Bar) */
+.navbar {
+    height: 64px;
+}
+
+/* 3. Man hinh chao phu tron 100% chieu cao viewport */
+.hero-fullscreen {
+    height: 100vh;
+}
+
+/* 4. Khung anh vuong ti le dong */
+.avatar-thumb {
+    width: 80px;
+    height: 80px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+% 1.3 CÁC THUỘC TÍNH LIÊN QUAN VÀ QUAN TRỌNG
+% ------------------------------------------------------------------------------
+\subsection{3. Các Thuộc Tính Liên Quan và Quan Trọng}
+\label{subsec:related_sizing_properties}
+
+Để kiểm soát kích thước một cách linh hoạt, an toàn và chống vỡ giao diện trên nhiều thiết bị, bạn sẽ thường xuyên sử dụng kết hợp các thuộc tính sau:
+
+\begin{prettyTableBox}[Bảng Tra Cứu Các Thuộc Tính Kiểm Soát Kích Thước Liên Quan]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}K{3.2cm}|Z|>{\ttfamily\small}K{3.8cm}|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Mục đích \& Hành vi cốt lõi} & \thd{\sffamily Cú pháp mẫu} \\
+\hline
+min-width \par min-height & Thiết lập ngưỡng kích thước tối thiểu. Phần tử không thể co nhỏ hơn ngưỡng này dù không gian bị thu hẹp. & min-width: 300px; \par min-height: 40px; \\
+\hline
+max-width \par max-height & Thiết lập ngưỡng kích thước tối đa. Phần tử không thể phình to hơn ngưỡng này dù màn hình rất rộng. & max-width: 1200px; \par max-height: 300px; \\
+\hline
+box-sizing & Quyết định thuật toán tính \codeinline{width}/\codeinline{height} có gộp cả \codeinline{padding} và \codeinline{border} vào hay không. & box-sizing: border-box; \\
+\hline
+overflow & Xử lý hành vi hiển thị khi nội dung bên trong vượt quá kích thước \codeinline{width}/\codeinline{height} đã định. & overflow: auto; \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{Chi Tiết Từng Thuộc Tính Bổ Trợ}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{\codeinline{min-width} / \codeinline{min-height}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Đặt chiều rộng/chiều cao tối thiểu mà một phần tử có thể có. Phần tử sẽ không nhỏ hơn giá trị này, ngay cả khi không gian bị hạn chế.
+        \item Rất hữu ích trong thiết kế đáp ứng (\term{responsive design}) để ngăn phần tử bị quá nhỏ dẫn đến méo mó hoặc không đọc được chữ.
+        \item \textbf{Ví dụ}: \codeinline{min-width: 300px;}.
+    \end{itemize}
+
+    \item \textbf{\codeinline{max-width} / \codeinline{max-height}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Đặt chiều rộng/chiều cao tối đa mà một phần tử có thể có. Phần tử sẽ không lớn hơn giá trị này, ngay cả khi có nhiều không gian trống.
+        \item Cũng rất hữu ích trong thiết kế đáp ứng, ví dụ: \codeinline{max-width: 100\%;} cho hình ảnh để chúng tự co lại linh hoạt và không bao giờ tràn ra ngoài phần tử cha.
+        \item \textbf{Ví dụ}: \codeinline{max-width: 600px;}.
+    \end{itemize}
+
+    \item \textbf{\codeinline{box-sizing}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Đây là một thuộc tính cực kỳ quan trọng ảnh hưởng trực tiếp đến cách \codeinline{width} và \codeinline{height} được tính toán.
+        \item \codeinline{content-box} (\textbf{Mặc định}): \codeinline{width} và \codeinline{height} chỉ áp dụng cho vùng nội dung của phần tử. \codeinline{padding} và \codeinline{border} được thêm vào bên ngoài kích thước này, làm cho phần tử thực tế lớn hơn so với con số khai báo.
+        \item \codeinline{border-box}: \codeinline{width} và \codeinline{height} bao gồm cả \codeinline{padding} và \codeinline{border}. Đây là mô hình hộp trực quan hơn và dễ làm việc hơn trong bố cục. Nó được khuyến nghị sử dụng trong hầu hết các dự án hiện đại.
+    \end{itemize}
+
+    \item \textbf{\codeinline{overflow}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Kiểm soát những gì xảy ra khi nội dung của một phần tử tràn ra khỏi kích thước \codeinline{width} và \codeinline{height} đã định.
+        \item Các giá trị phổ biến:
+        \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+            \item \codeinline{visible} (Mặc định): Nội dung tràn hẳn ra ngoài phần tử và đè lên các thành phần xung quanh.
+            \item \codeinline{hidden}: Cắt bỏ phần nội dung thừa vượt ra ngoài khung chứa và ẩn nó đi.
+            \item \codeinline{scroll}: Luôn luôn hiển thị thanh cuộn (cả ngang lẫn dọc), cho phép người dùng cuộn xem phần bị tràn.
+            \item \codeinline{auto}: Chỉ hiển thị thanh cuộn khi nội dung thực sự vượt quá kích thước khung chứa.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\begin{codeWindow}[Ví Dụ So Sánh Kích Thước Với box-sizing: content-box vs border-box]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+/* Ap dung cho tat ca cac phan tu de thong nhat cach tinh toan */
+* {
+    box-sizing: border-box;
+}
+
+.box {
+    width: 200px;
+    padding: 10px;
+    border: 2px solid black;
+    /* Voi border-box, chieu rong tong cong van la dung 200px. */
+    /* Voi content-box, chieu rong tong cong se la: 200 + 10*2 + 2*2 = 224px. */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+% 1.4 CHIẾN LƯỢC: KHI NÀO DÙNG AUTO VS KHI NÀO DÙNG GIÁ TRỊ CỤ THỂ
+% ------------------------------------------------------------------------------
+\subsection{4. Khi Nào Nên Dùng auto Và Khi Nào Nên Dùng Giá Trị Cố Định?}
+\label{subsec:when_to_use_auto_vs_fixed}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{Khi nên sử dụng \codeinline{width: auto;} và \codeinline{height: auto;}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+        \item \textbf{Trong hầu hết các trường hợp, đặc biệt là với \codeinline{height}}: Bạn thường muốn phần tử tự động điều chỉnh chiều cao theo lượng nội dung để tránh nội dung bị cắt cụt (\term{clipping}) khi văn bản dài ra hoặc đổi ngôn ngữ.
+        \item \textbf{Khi bạn muốn phần tử khối (block) chiếm toàn bộ chiều rộng có sẵn}: Tận dụng cơ chế lấp đầy tự nhiên của trình duyệt mà không cần khai báo cứng \codeinline{width: 100\%}.
+        \item \textbf{Khi bạn muốn phần tử \codeinline{inline-block} co lại vừa với nội dung}: Tạo các nút bấm (\term{button}), nhãn (\term{badge}) hay thẻ (\term{tag}) vừa vặn với chiều dài từ ngữ bên trong.
+    \end{itemize}
+
+    \item \textbf{Khi nên sử dụng \codeinline{width} và \codeinline{height} với giá trị cụ thể (\codeinline{px}, \codeinline{\%}, \codeinline{vw}, \codeinline{vh}\dots)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+        \item Khi bạn cần kiểm soát kích thước chính xác cho một thiết kế cụ thể (ví dụ: kích thước logo, hình ảnh đại diện avatar, khung chứa cố định).
+        \item Để tạo các cột có chiều rộng nhất định (ví dụ: sidebar rộng $280\text{px}$) hoặc các vùng có chiều cao tối thiểu/tối đa.
+        \item Khi làm việc với mô hình bố cục hiện đại như \term{Flexbox} hoặc \term{CSS Grid} để định hình các phần tử con (\term{flex/grid items}).
+    \end{itemize}
+\end{enumerate}
+
+\begin{conceptBox}[Viên Gạch Đầu Tiên Của Bố Cục Giao Diện Web]
+\codeinline{width} và \codeinline{height} là những viên gạch đầu tiên trong việc xây dựng bố cục web. Kết hợp chúng một cách thông minh với các thuộc tính liên quan như \codeinline{min-width}, \codeinline{max-width}, \codeinline{box-sizing}, và \codeinline{overflow} sẽ giúp bạn tạo ra những giao diện linh hoạt, đáp ứng (\term{responsive}) và đẹp mắt trên mọi thiết bị.
+\end{conceptBox}
+
+% ==============================================================================
+% MỤC 2: CÁCH HOẠT ĐỘNG CỦA WIDTH/HEIGHT VÀ CSS BOX MODEL
+% ==============================================================================
+\section{Cách Hoạt Động Của \csshint{width} / \csshint{height} \& CSS Box Model}
+\label{sec:box_model_mechanism}
+
+Khi bạn đặt \codeinline{width} và \codeinline{height} cho một phần tử trong CSS, bạn đang thiết lập kích thước của \textbf{vùng nội dung (content area)} của phần tử đó. Tuy nhiên, kích thước thực tế mà phần tử chiếm trên trang (gọi là \term{layout width/height}) lại phức tạp hơn một chút, vì nó còn bị ảnh hưởng bởi \codeinline{padding}, \codeinline{border}, và \codeinline{margin}. Đây chính là lúc \textbf{CSS Box Model (Mô hình hộp)} phát huy vai trò quyết định.
+
+% ------------------------------------------------------------------------------
+% 2.1 CSS BOX MODEL
+% ------------------------------------------------------------------------------
+\subsection{1. CSS Box Model (Mô Hình Hộp)}
+\label{subsec:css_box_model_concept}
+
+Mọi phần tử HTML trên trang web đều được xem như một chiếc hộp hình chữ nhật, bao gồm bốn lớp xếp chồng lên nhau từ trong ra ngoài:
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Content (Nội dung)}: Vùng chứa nội dung thực tế của phần tử (văn bản, hình ảnh, video, danh sách). Đây chính là vùng mà \codeinline{width} và \codeinline{height} trực tiếp tác động khi sử dụng mô hình chuẩn.
+    \item \textbf{Padding (Vùng đệm)}: Khoảng không gian đệm trong suốt nằm giữa nội dung và đường viền (\codeinline{border}) của phần tử. \codeinline{padding} có màu nền trùng với màu nền của phần tử.
+    \item \textbf{Border (Đường viền)}: Đường viền bao bọc xung quanh vùng đệm (\codeinline{padding}) và nội dung (\codeinline{content}). Đường viền có thể được định dạng độ dày, màu sắc và kiểu nét vẽ.
+    \item \textbf{Margin (Lề ngoài)}: Khoảng không gian trống hoàn toàn trong suốt bên ngoài đường viền, dùng để tạo khoảng cách tách biệt giữa phần tử này với các phần tử khác xung quanh.
+\end{enumerate}
+
+\subsubsection{Sơ Đồ Hình Học CSS Box Model Phân Tầng}
+
+Dưới đây là sơ đồ ASCII nguyên bản thể hiện cấu trúc lồng nhau của 4 lớp Box Model:
+
+\begin{codeWindow}[Sơ Đồ Mô Phỏng 4 Lớp Mô Hình Hộp (ASCII Diagram)]
+\begin{verbatim}
++------------------------------------------+
+|                 Margin                   |
+|   +----------------------------------+   |
+|   |              Border              |   |
+|   |   +--------------------------+   |   |
+|   |   |         Padding          |   |   |
+|   |   |   +------------------+   |   |   |
+|   |   |   |     Content      |   |   |   | <-- width & height áp dụng ở đây
+|   |   |   +------------------+   |   |   |
+|   |   +--------------------------+   |   |
+|   +----------------------------------+   |
++------------------------------------------+
+\end{verbatim}
+\end{codeWindow}
+
+\begin{browserWindow}[Sơ Đồ Trực Quan Hóa 4 Lớp CSS Box Model (Chuẩn Browser DevTools)]
+\sffamily\small
+\centering
+\begin{tikzpicture}[scale=0.92, every node/.style={font=\sffamily}]
+  % 1. LỚP MARGIN (Ngoài cùng - Cam nhạt)
+  \draw[fill=accentOrange!14, draw=accentOrange!70, line width=1.2pt, rounded corners=6pt] (-5.8, -3.2) rectangle (5.8, 3.2);
+  \node[anchor=north west, font=\small\bfseries\color{accentOrange!90!black}] at (-5.6, 3.05) {MARGIN (Lề ngoài - Trong suốt, tạo khoảng cách)};
+  
+  % 2. LỚP BORDER (Lớp viền - Vàng/Hổ phách)
+  \draw[fill=codeKeyword!18, draw=codeKeyword!80, line width=1.2pt, rounded corners=5pt] (-4.6, -2.4) rectangle (4.6, 2.4);
+  \node[anchor=north west, font=\small\bfseries\color{codeKeyword!95!black}] at (-4.4, 2.25) {BORDER (Đường viền - Độ dày, màu viền)};
+  
+  % 3. LỚP PADDING (Vùng đệm - Xanh lá nhạt)
+  \draw[fill=tipBorder!16, draw=tipBorder!80, line width=1.2pt, rounded corners=4pt] (-3.4, -1.6) rectangle (3.4, 1.6);
+  \node[anchor=north west, font=\small\bfseries\color{tipBorder!90!black}] at (-3.2, 1.45) {PADDING (Vùng đệm - Khoảng cách tới viền)};
+  
+  % 4. LỚP CONTENT (Vùng nội dung - Xanh dương đậm)
+  \draw[fill=primaryBlue!20, draw=primaryBlue, line width=1.5pt, rounded corners=3pt] (-2.2, -0.8) rectangle (2.2, 0.8);
+  \node[anchor=center, font=\normalsize\bfseries\color{primaryBlue!90!black}, align=center] at (0, 0) {
+    \textbf{CONTENT}\\
+    {\scriptsize \ttfamily width $\times$ height trực tiếp áp dụng ở đây}
+  };
+
+  % Mũi tên chỉ thị kích thước
+  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, primaryBlue, line width=1pt] (-2.2, -1.05) -- (2.2, -1.05);
+  \node[anchor=north, font=\tiny\bfseries\color{primaryBlue}] at (0, -1.05) {width (Content Area)};
+
+  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, primaryBlue, line width=1pt] (2.45, -0.8) -- (2.45, 0.8);
+  \node[anchor=west, font=\tiny\bfseries\color{primaryBlue}] at (2.45, 0) {height};
+\end{tikzpicture}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% 2.2 THUỘC TÍNH BOX-SIZING
+% ------------------------------------------------------------------------------
+\subsection{2. Thuộc Tính \csshint{box-sizing} (Thay Đổi Cách Tính Toán Kích Thước)}
+\label{subsec:box_sizing_deep_dive}
+
+Đây là thuộc tính quan trọng nhất ảnh hưởng trực tiếp đến cách trình duyệt tính toán \codeinline{width} và \codeinline{height} thực tế của phần tử trên trang.
+
+\subsubsection{Mô Thức 1: \csshint{box-sizing: content-box;} (Mặc Định Chuẩn W3C)}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{width} và \codeinline{height} chỉ bao gồm kích thước của \textbf{Content Area (Vùng nội dung)}.
+    \item \codeinline{padding} và \codeinline{border} sẽ được \textbf{cộng thêm vào bên ngoài} kích thước đã đặt của \codeinline{width} và \codeinline{height}.
+    \item \textbf{Ví dụ tính toán thực tế}: Nếu bạn có một thẻ \codeinline{<div>} với:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Khai báo: \codeinline{width: 200px; padding: 10px; border: 2px solid;}
+        \item Chiều rộng nội dung là: $200\text{px}$.
+        \item Chiều rộng thực tế mà phần tử chiếm trên trang (\term{layout width}) sẽ là:
+        \[
+        \text{Layout Width} = 200\text{px (content)} + 10\text{px (left pad)} + 10\text{px (right pad)} + 2\text{px (left bor)} + 2\text{px (right bor)} = \mathbf{224\text{px}}
+        \]
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Mô Thức 2: \csshint{box-sizing: border-box;} (Rất Được Khuyến Nghị)}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{width} và \codeinline{height} bao gồm toàn bộ kích thước của \textbf{Content Area + Padding + Border}.
+    \item \codeinline{padding} và \codeinline{border} sẽ được \textbf{tính gộp vào bên trong} kích thước \codeinline{width} và \codeinline{height} đã đặt. Vùng nội dung (Content Area) sẽ tự động co lại để nhường chỗ cho \codeinline{padding} và \codeinline{border}.
+    \item \textbf{Ví dụ tính toán thực tế}: Nếu bạn có một thẻ \codeinline{<div>} với:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Khai báo: \codeinline{width: 200px; padding: 10px; border: 2px solid; box-sizing: border-box;}
+        \item Chiều rộng thực tế mà phần tử chiếm trên trang (\term{layout width}) sẽ là: đúng $\mathbf{200\text{px}}$.
+        \item Chiều rộng nội dung còn lại sẽ là:
+        \[
+        \text{Content Width} = 200\text{px} - (10\text{px} \times 2)\text{ (padding)} - (2\text{px} \times 2)\text{ (border)} = \mathbf{176\text{px}}
+        \]
+    \end{itemize}
+    \item \textbf{Lợi ích vượt trội}: Điều này giúp việc tính toán bố cục dễ dàng và trực quan hơn rất nhiều, vì tổng kích thước của phần tử luôn luôn đúng với con số \codeinline{width} và \codeinline{height} mà bạn đã đặt trong mã nguồn. Đây là lý do tại sao nhiều khung làm việc (\term{framework}) CSS như Bootstrap, TailwindCSS và mọi dự án web hiện đại đều đặt \codeinline{box-sizing: border-box;} cho tất cả các phần tử (thường là với bộ chọn toàn cục \codeinline{* \{ box-sizing: border-box; \}}).
+\end{itemize}
+
+\begin{browserWindow}[So Sánh Trực Quan Giữa content-box (Phình To) Và border-box (Cố Định)]
+\sffamily\small
+\centering
+\begin{tikzpicture}[scale=0.88, every node/.style={font=\sffamily}]
+  % KHỐI 1: CONTENT-BOX (224px)
+  \begin{scope}[shift={(-4.2, 0)}]
+    \draw[fill=white, draw=gray!30, rounded corners=6pt] (-2.8, -2.4) rectangle (2.8, 2.7);
+    \node[anchor=north, font=\small\bfseries\color{dangerRed}] at (0, 2.5) {box-sizing: content-box; (224px)};
+    
+    % Vỏ ngoài (Border 2px + Padding 10px + Content 200px)
+    \draw[fill=tipBorder!15, draw=black, line width=1.5pt] (-2.24, -1.0) rectangle (2.24, 1.0);
+    \draw[fill=primaryBlue!20, draw=primaryBlue!60, line width=0.8pt] (-2.0, -0.76) rectangle (2.0, 0.76);
+    
+    \node[font=\footnotesize\bfseries\color{primaryBlue}] at (0, 0) {Content: 200px};
+    \node[font=\tiny\color{darkText!80}] at (0, -0.4) {Pad: $10\text{px} \times 2$ | Bor: $2\text{px} \times 2$};
+
+    % Thước đo tổng thể
+    \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, dangerRed, line width=1pt] (-2.24, -1.4) -- (2.24, -1.4);
+    \node[anchor=north, font=\scriptsize\bfseries\color{dangerRed}] at (0, -1.4) {Tổng chiếm chỗ: 224px (Bị phình ra!)};
+    \node[font=\tiny\color{codeComment}, align=center] at (0, -2.0) {Khai báo 200px nhưng chiếm 224px\\Dễ gây vỡ layout và tràn ngang};
+  \end{scope}
+
+  % KHỐI 2: BORDER-BOX (200px)
+  \begin{scope}[shift={(4.2, 0)}]
+    \draw[fill=white, draw=gray!30, rounded corners=6pt] (-2.8, -2.4) rectangle (2.8, 2.7);
+    \node[anchor=north, font=\small\bfseries\color{successGreen!90!black}] at (0, 2.5) {box-sizing: border-box; (200px)};
+    
+    % Vỏ ngoài cố định 200px
+    \draw[fill=tipBorder!15, draw=black, line width=1.5pt] (-2.0, -1.0) rectangle (2.0, 1.0);
+    \draw[fill=primaryBlue!20, draw=primaryBlue!60, line width=0.8pt] (-1.76, -0.76) rectangle (1.76, 0.76);
+    
+    \node[font=\footnotesize\bfseries\color{primaryBlue}] at (0, 0) {Content: 176px};
+    \node[font=\tiny\color{darkText!80}] at (0, -0.4) {Pad: $10\text{px} \times 2$ | Bor: $2\text{px} \times 2$};
+
+    % Thước đo tổng thể
+    \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, successGreen!80!black, line width=1pt] (-2.0, -1.4) -- (2.0, -1.4);
+    \node[anchor=north, font=\scriptsize\bfseries\color{successGreen!80!black}] at (0, -1.4) {Tổng chiếm chỗ: Đúng chuẩn 200px};
+    \node[font=\tiny\color{codeComment}, align=center] at (0, -2.0) {Nội dung tự co lại để giữ nguyên 200px\\Bố cục ổn định, không bao giờ vỡ};
+  \end{scope}
+\end{tikzpicture}
+\end{browserWindow}
+
+% ==============================================================================
+% MỤC 3: LƯU Ý CHI TIẾT KHI SỬ DỤNG WIDTH VÀ HEIGHT
+% ==============================================================================
+\section{Lưu Ý Chi Tiết Khi Sử Dụng \csshint{width} \& \csshint{height}}
+\label{sec:detailed_width_height_caveats}
+
+Trong quá trình xây dựng giao diện thực tế, việc sử dụng \codeinline{width} và \codeinline{height} có thể dẫn đến nhiều lỗi hiển thị khó lường nếu không nắm chắc 5 nguyên lý cơ bản sau đây.
+
+% ------------------------------------------------------------------------------
+% 3.1 GIÁ TRỊ AUTO VÀ HÀNH VI KHÁC BIỆT
+% ------------------------------------------------------------------------------
+\subsection{1. Giá Trị auto Và Hành Vi Khác Biệt Giữa Các Loại Phần Tử}
+\label{subsec:auto_behavior_by_display}
+
+\subsubsection{a) Đối Với \csshint{width: auto;}}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Phần tử khối (\term{Block-level elements}, mặc định \codeinline{display: block})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Sẽ \textbf{chiếm toàn bộ chiều rộng có sẵn} của phần tử cha (trừ đi \codeinline{margin}, \codeinline{padding}, \codeinline{border} của chính nó).
+        \item Đây chính là lý do tại sao các thẻ \codeinline{<div>}, \codeinline{<p>}, \codeinline{<section>} luôn tự động giãn ra chiếm hết chiều ngang dòng chữ dù nội dung của chúng rất ngắn.
+    \end{itemize}
+
+    \item \textbf{Phần tử nội dòng (\term{Inline-level elements}, mặc định \codeinline{display: inline})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Hoàn toàn KHÔNG nhận giá trị \codeinline{width} cố định}. Mọi khai báo như \codeinline{span \{ width: 300px; \}} đều bị trình duyệt bỏ qua!
+        \item Chiều rộng của phần tử nội dòng luôn luôn được xác định duy nhất bởi độ dài văn bản hoặc kích thước phần tử con bên trong nó.
+    \end{itemize}
+
+    \item \textbf{Phần tử nội dòng khối (\codeinline{display: inline-block}) hoặc Phần tử trôi nổi (\codeinline{float: left/right})}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Sẽ tự động co lại (\term{shrink-wrap}) để vừa khít với nội dung bên trong nó, trừ khi bạn chỉ định tường minh một giá trị \codeinline{width} cụ thể.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{b) Đối Với \csshint{height: auto;} (Rất Phổ Biến \& Quan Trọng)}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item Hầu hết các phần tử HTML đều có giá trị mặc định là \codeinline{height: auto;}. Điều này có nghĩa là chiều cao của chúng sẽ tự động co giãn một cách hoàn hảo theo lượng nội dung bên trong.
+    \item Đây là hành vi thường mong muốn nhất để tránh nội dung bị cắt cụt (khi kết hợp với \codeinline{overflow: hidden}) hoặc xuất hiện thanh cuộn không đẹp mắt (khi dùng \codeinline{overflow: auto/scroll}).
+\end{itemize}
+
+\begin{warnBox}[Cạm Bẫy Kinh Điển: Thuộc Tính height: 100\% Không Hoạt Động!]
+Một phần tử con với khai báo \codeinline{height: 100\%;} sẽ \textbf{chỉ hoạt động nếu phần tử cha trực tiếp của nó có chiều cao được định nghĩa rõ ràng bằng một con số cụ thể} (ví dụ: \codeinline{height: 500px;} hoặc \codeinline{height: 100vh;}), chứ KHÔNG PHẢI là \codeinline{height: auto;}.\\
+Nếu phần tử cha cũng để mặc định \codeinline{height: auto;}, thì phần tử con sẽ \textbf{hoàn toàn không biết $100\%$ của bao nhiêu} để tính toán, dẫn đến việc \codeinline{height: 100\%;} bị trình duyệt bỏ qua và phần tử con tự co lại theo nội dung của chính nó!
+\end{warnBox}
+
+\begin{codeWindow}[Ví Dụ Xử Lý Cạm Bẫy height: 100\%]
+\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+<!-- TRUONG HOP LOI: .child khong the dat 100% chieu cao vi .parent la auto -->
+<div class="parent" style="height: auto;">
+    <div class="child" style="height: 100%; background: lightcoral;">
+        (*@Con bi teo lai vi cha khong co chieu cao xac dinh!@*)
+    </div>
+</div>
+
+<!-- GIAI PHAP CHUAN: Xac dinh chieu cao cho cha hoac dung viewport unit -->
+<div class="parent-fixed" style="height: 300px;">
+    <div class="child" style="height: 100%; background: lightgreen;">
+        (*@Con nhan du 100% cua 300px = 300px hoan hao!@*)
+    </div>
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+% 3.2 ĐƠN VỊ TƯƠNG ĐỐI VÀ TUYỆT ĐỐI
+% ------------------------------------------------------------------------------
+\subsection{2. Đơn Vị Tương Đối Và Đơn Vị Tuyệt Đối}
+\label{subsec:units_relative_vs_absolute}
+
+\subsubsection{a) Đơn Vị Tuyệt Đối (Absolute Units): \csshint{px}, \csshint{pt}, \csshint{cm}, \csshint{in}...}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Cố định, không thay đổi theo kích thước màn hình thiết bị hay kích cỡ phông chữ của người dùng.
+    \item \textbf{Lưu ý thực chiến}: Việc lạm dụng và sử dụng \codeinline{px} quá nhiều cho \codeinline{width} và \codeinline{height} của các container lớn có thể làm cho trang web trở nên cứng nhắc, kém linh hoạt và cực kỳ khó khăn khi chuyển đổi giao diện đáp ứng (\term{responsive}) trên màn hình điện thoại di động hoặc máy tính bảng.
+\end{itemize}
+
+\subsubsection{b) Đơn Vị Tương Đối (Relative Units): \csshint{\%}, \csshint{em}, \csshint{rem}, \csshint{vw}, \csshint{vh}...}
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{\codeinline{\%} (Phần trăm)}: Luôn luôn tương đối so với kích thước của phần tử cha trực tiếp. Nếu phần tử cha không có kích thước rõ ràng hoặc đang để \codeinline{height: auto;}, đơn vị \codeinline{\%} có thể không hoạt động như mong đợi.
+    \item \textbf{\codeinline{em}}: Tương đối so với \codeinline{font-size} của chính phần tử đó (hoặc của phần tử cha nếu \codeinline{font-size} không được định nghĩa trên chính nó). Rất hữu ích cho các thành phần UI có kích thước tỷ lệ thuận với văn bản (ví dụ: nút bấm có \codeinline{padding} và \codeinline{width} giãn nở nhịp nhàng theo cỡ chữ).
+    \item \textbf{\codeinline{rem}}: Tương đối so với \codeinline{font-size} của phần tử gốc \codeinline{<html>}. Giúp duy trì tỷ lệ kích thước hài hòa và đồng nhất trên toàn bộ hệ thống trang web.
+    \item \textbf{\codeinline{vw} (\term{Viewport Width}) / \codeinline{vh} (\term{Viewport Height})}: Tương đối so với kích thước thực của cửa sổ trình duyệt (\term{viewport}). $1\text{vw}$ là $1\%$ chiều rộng viewport, $1\text{vh}$ là $1\%$ chiều cao viewport. Đây là lựa chọn tuyệt vời cho các phần tử cần chiếm một tỷ lệ cố định của màn hình thiết bị, ví dụ: \codeinline{height: 100vh;} để tạo một \term{Hero Section} tràn đầy trọn vẹn màn hình mở đầu.
+    \item \textbf{Lưu ý}: Các đơn vị tương đối giúp tạo ra thiết kế linh hoạt, co giãn mượt mà và đáp ứng tốt hơn trên mọi thiết bị hiện đại.
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+% 3.3 MIN/MAX WIDTH & HEIGHT
+% ------------------------------------------------------------------------------
+\subsection{3. Kiểm Soát Giới Hạn: \csshint{min-width}, \csshint{max-width}, \csshint{min-height}, \csshint{max-height}}
+\label{subsec:min_max_sizing}
+
+Đây là nhóm bốn thuộc tính cực kỳ quan trọng và không thể thiếu trong kỹ thuật thiết kế giao diện đáp ứng (\term{Responsive Web Design}):
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{\codeinline{max-width: 100\%;} (Quy chuẩn vàng tối thượng cho hình ảnh)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Giúp hình ảnh không bao giờ tràn ra khỏi vùng chứa của nó, tự động co lại một cách linh hoạt khi màn hình thu hẹp hơn kích thước gốc của ảnh.
+        \item Khối quy tắc kinh điển mà mọi lập trình viên Frontend đều phải thuộc lòng:
+        \begin{codeWindow}[Bộ Quy Tắc Ảnh Responsive Chuẩn Công Nghiệp]
+\begin{lstlisting}[language=CSS3]
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+\end{lstlisting}
+        \end{codeWindow}
+        \item Thuộc tính \codeinline{height: auto;} đi kèm đảm bảo tỷ lệ khung hình (\term{aspect ratio}) của bức ảnh được bảo toàn nguyên vẹn, không bao giờ bị méo mó hình ảnh.
+    \end{itemize}
+
+    \item \textbf{\codeinline{min-width} / \codeinline{min-height}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Ngăn không cho một phần tử bị co lại quá nhỏ, đảm bảo người dùng luôn đọc được nội dung hoặc bấm trúng mục tiêu cảm ứng (\term{touch target}) trên điện thoại.
+        \item \textbf{Ví dụ}: \codeinline{button \{ min-width: 120px; min-height: 40px; \}} giúp nút bấm luôn đạt chuẩn tiếp cận (\term{Accessibility - a11y}).
+    \end{itemize}
+
+    \item \textbf{\codeinline{max-height}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Cực kỳ hữu ích khi bạn muốn giới hạn chiều cao tối đa của một khối nội dung để tránh nó kéo dài trang web quá mức (ví dụ: khung bình luận, danh sách thông báo, hộp thoại điều khoản).
+        \item Thường được kết hợp với \codeinline{overflow-y: auto;} để sinh ra thanh cuộn dọc mượt mà khi lượng nội dung vượt quá giới hạn chiều cao cho phép.
+        \item \textbf{Ví dụ}: \codeinline{max-height: 300px; overflow-y: auto;}.
+    \end{itemize}
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+% 3.4 ẢNH HƯỞNG TỪ DISPLAY VÀ POSITION
+% ------------------------------------------------------------------------------
+\subsection{4. Mối Tương Quan \& Ảnh Hưởng Từ \csshint{display} Và \csshint{position}}
+\label{subsec:display_position_impact}
+
+Hành vi của \codeinline{width} và \codeinline{height} phụ thuộc mật thiết vào cách phần tử được định kiểu hiển thị và định vị:
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
+    \item \textbf{\codeinline{display: inline;}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Các phần tử nội dòng (như \codeinline{<a>}, \codeinline{<span>}, \codeinline{<strong>}, \codeinline{<em>}) sẽ \textbf{hoàn toàn không nhận} các thuộc tính \codeinline{width}, \codeinline{height}, \codeinline{margin-top}, \codeinline{margin-bottom}, \codeinline{padding-top}, và \codeinline{padding-bottom} theo cách thông thường.
+        \item Chiều rộng và chiều cao của chúng được xác định hoàn toàn bởi dung lượng chữ bên trong.
+    \end{itemize}
+
+    \item \textbf{\codeinline{display: inline-block;}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Các phần tử này thừa hưởng khả năng thiết lập \codeinline{width} và \codeinline{height} độc lập như một khối (\term{block}), nhưng đồng thời vẫn nằm thẳng hàng trên cùng một dòng với các phần tử nội dòng khác.
+    \end{itemize}
+
+    \item \textbf{\codeinline{position: absolute;} / \codeinline{position: fixed;}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Khi một phần tử được định vị tuyệt đối hoặc cố định, nó sẽ \textbf{bị rút hoàn toàn khỏi dòng chảy tài liệu thông thường} (\term{normal document flow}).
+        \item \codeinline{width} và \codeinline{height} của chúng có thể được thiết lập độc lập hoặc có thể dùng đồng thời cặp thuộc tính vị trí \codeinline{top: 0; bottom: 0;} và \codeinline{left: 0; right: 0;} để tự động kéo giãn phủ kín không gian.
+        \item \textbf{Ví dụ điển hình}: Khai báo \codeinline{width: 100\%; height: 100\%; position: absolute; top: 0; left: 0;} sẽ làm cho lớp phủ (\term{overlay}) lấp đầy toàn bộ phần tử cha gần nhất có khai báo \codeinline{position} khác \codeinline{static}.
+    \end{itemize}
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+% 3.5 TƯƠNG TÁC GIỮA OVERFLOW VÀ KÍCH THƯỚC CỐ ĐỊNH
+% ------------------------------------------------------------------------------
+\subsection{5. Tương Tác Giữa \csshint{overflow} Và Kích Thước \csshint{width} / \csshint{height}}
+\label{subsec:overflow_interaction}
+
+Khi bạn thiết lập \codeinline{width} hoặc \codeinline{height} cố định cho một phần tử và khối lượng nội dung bên trong lại lớn hơn không gian kích thước đó, thuộc tính \codeinline{overflow} sẽ quyết định cách thức trình duyệt xử lý phần nội dung bị tràn:
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{\codeinline{overflow: visible;}} (\textbf{Mặc định}): Nội dung bị tràn sẽ không bị cắt bỏ mà tràn ra ngoài đường biên của phần tử, đè lên các khối giao diện khác ở phía dưới.
+    \item \textbf{\codeinline{overflow: hidden;}}: Phần nội dung bị tràn ra ngoài kích thước hộp sẽ bị cắt bỏ thẳng tay và hoàn toàn ẩn đi, người dùng không thể xem được.
+    \item \textbf{\codeinline{overflow: scroll;}}: Luôn luôn hiển thị thanh cuộn (dù nội dung có bị tràn hay không), cho phép người dùng cuộn xem toàn bộ dữ liệu.
+    \item \textbf{\codeinline{overflow: auto;}}: Trình duyệt thông minh chỉ hiển thị thanh cuộn khi nội dung thực sự bị tràn vượt quá giới hạn của hộp chứa.
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+% 3.6 LỜI KHUYÊN QUAN TRỌNG VÀ RESET TOÀN CỤC CHUẨN
+% ------------------------------------------------------------------------------
+\subsection{6. Lời Khuyên Quan Trọng \& Thiết Lập Reset Toàn Cục Chuẩn}
+\label{subsec:global_box_sizing_recommendation}
+
+\begin{tipBox}[Quy Tắc Vàng Khởi Đầu Cho Mọi Dự Án Web Hiện Đại]
+Trong hầu hết mọi dự án web hiện đại (từ website cá nhân cho tới các ứng dụng doanh nghiệp quy mô lớn), bạn nên \textbf{luôn luôn bắt đầu bằng việc thiết lập \codeinline{box-sizing: border-box;} cho tất cả các phần tử} trong tệp tin CSS reset hoặc stylesheet toàn cục:
+
+\begin{lstlisting}[language=CSS3]
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+\end{lstlisting}
+
+\textbf{Lợi ích thực tế}: Thiết lập này sẽ giúp bạn quản lý kích thước các phần tử một cách trực quan và dễ dàng hơn rất nhiều. Mọi con số \codeinline{width} và \codeinline{height} bạn đặt ra sẽ luôn đúng tuyệt đối với diện tích chiếm chỗ trên màn hình, loại bỏ vĩnh viễn những lỗi tính toán sai lệch kích thước gây vỡ bố cục khi thêm \codeinline{padding} và \codeinline{border}.
+\end{tipBox}
 
 \end{document}
