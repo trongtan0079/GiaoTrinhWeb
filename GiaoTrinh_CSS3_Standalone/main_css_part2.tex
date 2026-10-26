@@ -1245,4 +1245,352 @@ Trong hầu hết mọi dự án web hiện đại (từ website cá nhân cho t
 \textbf{Lợi ích thực tế}: Thiết lập này sẽ giúp bạn quản lý kích thước các phần tử một cách trực quan và dễ dàng hơn rất nhiều. Mọi con số \codeinline{width} và \codeinline{height} bạn đặt ra sẽ luôn đúng tuyệt đối với diện tích chiếm chỗ trên màn hình, loại bỏ vĩnh viễn những lỗi tính toán sai lệch kích thước gây vỡ bố cục khi thêm \codeinline{padding} và \codeinline{border}.
 \end{tipBox}
 
+% ==============================================================================
+% MỤC 4: CHUYÊN ĐỀ THỰC CHIẾN: LÀM CHỦ THUỘC TÍNH MAX-WIDTH
+% ==============================================================================
+\newpage
+\section{Chuyên Đề Thực Chiến: Làm Chủ Thuộc Tính \csshint{max-width} (Responsive Masterclass)}
+\label{sec:max_width_masterclass}
+
+Trong thiết kế web hiện đại, \term{Responsive Web Design} (thiết kế thích ứng đa thiết bị) là tiêu chuẩn bắt buộc. Nếu như \codeinline{width} đại diện cho sự áp đặt kích thước cố định, thì \codeinline{max-width} chính là chìa khóa mở ra sự linh hoạt và giải phóng trang web khỏi nguy cơ vỡ khung bố cục trên các màn hình nhỏ.
+
+% ------------------------------------------------------------------------------
+% 4.1 KHÁI NIỆM & Ý NGHĨA
+% ------------------------------------------------------------------------------
+\subsection{1. Khái Niệm \& Ý Nghĩa Cốt Lõi Của \csshint{max-width}}
+\label{subsec:max_width_concept}
+
+Thuộc tính \codeinline{max-width} dùng để \textbf{giới hạn chiều rộng tối đa} mà một phần tử HTML có thể đạt tới. Nếu nội dung hoặc kích thước màn hình hiển thị nhỏ hơn giá trị \codeinline{max-width}, phần tử sẽ tự động co lại để vừa khít với không gian có sẵn.
+
+\begin{codeWindow}[Cú Pháp Thiết Lập max-width Cơ Bản]
+\begin{lstlisting}[language=CSS3]
+.element {
+    max-width: 500px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Cơ Chế Hoạt Động 2 Trạng Thái Của max-width]
+Khi thiết lập \codeinline{max-width: 500px;}, trình duyệt sẽ tuân thủ nghiêm ngặt 2 nguyên tắc sau:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nếu phần tử rộng hơn $500\text{px}$}: Nó sẽ bị chặn lại ở ngưỡng trần tối đa đúng bằng $500\text{px}$, không bao giờ vượt qua.
+    \item \textbf{Nếu phần tử nhỏ hơn $500\text{px}$}: Nó vẫn giữ nguyên kích thước tự nhiên của mình mà không bị ép buộc phải phình to ra $500\text{px}$.
+\end{enumerate}
+\end{conceptBox}
+
+\subsubsection{Ý Nghĩa Then Chốt Trong Thiết Kế UI/UX}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Giới hạn chiều rộng tối đa của phần tử}: Giữ cho các khối nội dung không bị bè quá rộng trên màn hình Desktop lớn hoặc màn hình Ultra-Wide, duy trì độ dài dòng đọc lý tưởng theo công thái học thị giác.
+    \item \textbf{Tăng cường tính linh hoạt}: Giúp giao diện hiển thị xuất sắc, mượt mà trên mọi kích cỡ màn hình từ điện thoại bỏ túi, máy tính bảng cho đến màn hình tivi lớn.
+    \item \textbf{Bộ đôi hoàn hảo với \codeinline{width: 100\%}}: Đây là công thức phối hợp kinh điển nhất trong kỹ nghệ dựng layout responsive hiện đại.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{figures/max_width_infographic_overview.jpg}
+\caption{Infographic Toàn Diện: Khái Niệm, Cơ Chế Hiển Thị Đa Thiết Bị \& Cú Pháp max-width}
+\label{fig:max_width_infographic_overview}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+% 4.2 SỰ KHÁC BIỆT GIỮA WIDTH VÀ MAX-WIDTH
+% ------------------------------------------------------------------------------
+\subsection{2. Sự Khác Biệt Giữa \csshint{width} Và \csshint{max-width}}
+\label{subsec:diff_width_vs_max_width}
+
+Sự nhầm lẫn giữa \codeinline{width} và \codeinline{max-width} là một trong những nguyên nhân hàng đầu gây ra lỗi thanh cuộn ngang (\term{Horizontal Scrollbar}) trên các thiết bị di động.
+
+\begin{prettyTableBox}[Bảng So Sánh Cơ Chế Hoạt Động: width: 500px vs max-width: 500px]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}K{3.4cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Cách thức hoạt động của trình duyệt} \\
+\hline
+width: 500px; & Phần tử \textbf{luôn luôn bị khóa cứng} ở chiều rộng đúng $500\text{px}$ bất kể kích thước màn hình thiết bị hay phần tử cha lớn hay nhỏ. \\
+\hline
+max-width: 500px; & Phần tử \textbf{có thể nhỏ hơn $500\text{px}$} khi không gian bị thu hẹp, nhưng \textbf{tuyệt đối không bao giờ lớn hơn $500\text{px}$}. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{Ví Dụ Mã Nguồn So Sánh Trực Tiếp}
+
+\begin{codeWindow}[Ví Dụ So Sánh Hai Khối: .box1 (width) vs .box2 (max-width)]
+\begin{lstlisting}[language=CSS3, escapeinside={(*@}{@*)}]
+/* Khoi 1: Dung width co dinh */
+.box1 {
+    width: 500px;
+    background: #e53935; /* Do */
+    color: white;
+    padding: 12px;
+}
+
+/* Khoi 2: Dung max-width linh hoat */
+.box2 {
+    max-width: 500px;
+    background: #1e88e5; /* Xanh duong */
+    color: white;
+    padding: 12px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{warnBox}[Hành Vi Hiển Thị Khi Cửa Sổ Trình Duyệt Nhỏ Hơn 500px (Ví dụ Mobile 375px)]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Đối với \codeinline{.box1} (\codeinline{width: 500px;})}: Phần tử \textbf{vẫn giữ nguyên $500\text{px}$}, vượt quá kích thước $375\text{px}$ của màn hình. Kết quả: \textbf{Xuất hiện thanh cuộn ngang}, nội dung bị tràn ra ngoài rìa màn hình, gây vỡ hoàn toàn layout website!
+    \item \textbf{Đối với \codeinline{.box2} (\codeinline{max-width: 500px;})}: Phần tử \textbf{tự động co lại bằng đúng $375\text{px}$} để vừa vặn hoàn hảo với màn hình điện thoại. Giao diện mượt mà, không sinh thanh cuộn ngang, bố cục được bảo toàn nguyên vẹn.
+\end{itemize}
+\end{warnBox}
+
+\begin{browserWindow}[Mô Phỏng Trực Quan Sự Khác Biệt Giữa width Cố Định Và max-width Co Giãn]
+\sffamily\small
+\centering
+\begin{tikzpicture}[scale=0.88, every node/.style={font=\sffamily}]
+  % KHUNG MÔ PHỎNG TRÌNH DUYỆT MOBILE (Chiều rộng giả lập 380px -> scale 3.8cm x 2)
+  \draw[fill=slateBg, draw=primaryBlue!50, line width=1.2pt, rounded corners=6pt] (-4.5, -2.8) rectangle (4.5, 2.5);
+  
+  % Header bar của Viewport Mobile
+  \fill[primaryBlue!12, rounded corners=5pt] (-4.4, 1.9) rectangle (4.4, 2.4);
+  \node[anchor=west, font=\scriptsize\ttfamily\color{primaryBlue!90!black}\bfseries] at (-4.2, 2.15) {Mobile Viewport: Width = 380px};
+  \draw[dashed, draw=dangerRed, line width=0.8pt] (2.8, -2.8) -- (2.8, 2.5);
+  \node[anchor=north east, font=\tiny\bfseries\color{dangerRed}, align=right] at (2.75, 1.85) {Ranh giới màn hình (380px)};
+
+  % KHỐI 1: .box1 (width: 500px -> scale 5.0cm) BỊ TRÀN
+  \draw[fill=dangerRed!20, draw=dangerRed, line width=1.2pt, rounded corners=3pt] (-4.0, 0.4) rectangle (1.8, 1.4);
+  \node[anchor=west, font=\scriptsize\bfseries\color{dangerRed!90!black}] at (-3.8, 0.9) {.box1 \{ width: 500px; \} $\rightarrow$ \textbf{Tràn ra ngoài 120px!}};
+  
+  % Chỉ báo vùng tràn lỗi
+  \draw[fill=dangerRed!40, draw=dangerRed, line width=1pt, dashed] (2.8, 0.4) rectangle (4.2, 1.4);
+  \node[anchor=center, font=\tiny\bfseries\color{dangerRed!90!black}] at (3.5, 0.9) {TRÀN KHUNG!};
+
+  % KHỐI 2: .box2 (max-width: 500px) TỰ CO VỀ 380px
+  \draw[fill=primaryBlue!20, draw=primaryBlue, line width=1.2pt, rounded corners=3pt] (-4.0, -1.3) rectangle (2.6, -0.3);
+  \node[anchor=west, font=\scriptsize\bfseries\color{primaryBlue!90!black}] at (-3.8, -0.8) {.box2 \{ max-width: 500px; \} $\rightarrow$ \textbf{Tự co về 380px vừa vặn!}};
+
+  % Chú thích chân trang
+  \node[anchor=south, font=\tiny\color{codeComment}, align=center] at (0, -2.6) {
+    $\bullet$ \codeinline{width: 500px;} phá vỡ giới hạn màn hình nhỏ sinh thanh cuộn ngang lỗi.\\
+    $\bullet$ \codeinline{max-width: 500px;} tự động thích ứng với mọi kích thước màn hình mà không cần media query phức tạp.
+  };
+\end{tikzpicture}
+\end{browserWindow}
+
+% ------------------------------------------------------------------------------
+% 4.3 CÁC VÍ DỤ ỨNG DỤNG THỰC TẾ
+% ------------------------------------------------------------------------------
+\subsection{3. Các Ví Dụ Ứng Dụng Thực Tế Của \csshint{max-width}}
+\label{subsec:practical_max_width_applications}
+
+\subsubsection{Ứng Dụng 1: Giới Hạn Chiều Rộng Tối Đa Cho Hình Ảnh (Responsive Images)}
+
+Đây là đoạn mã quan trọng hàng đầu trong mọi stylesheet CSS hiện đại để bảo đảm hình ảnh hiển thị hoàn hảo:
+
+\begin{codeWindow}[Quy Tắc Hình Ảnh Đáp Ứng Chuẩn Công Nghiệp]
+\begin{lstlisting}[language=CSS3]
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Tác Dụng Kỹ Thuật]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Không bao giờ vượt quá kích thước gốc}: Bức ảnh giữ nguyên độ nét, không bị kéo vỡ hạt (\term{pixelated}) khi container quá lớn.
+    \item \textbf{Tự động co nhỏ}: Khi kích thước màn hình nhỏ hơn chiều rộng thực của ảnh, \codeinline{max-width: 100\%;} ép ảnh co nhỏ lại đúng bằng chiều rộng phần tử cha.
+    \item \textbf{\codeinline{height: auto;}}: Đảm bảo tỷ lệ khung hình (\term{aspect ratio}) luôn được khóa chuẩn, ảnh không bao giờ bị méo mó hình học.
+\end{itemize}
+\end{conceptBox}
+
+\subsubsection{Ứng Dụng 2: Tạo Khung Chứa Nội Dung Trung Tâm (Responsive Container)}
+
+Trong thiết kế giao diện website, các lập trình viên thường dùng lớp \codeinline{.container} để bao bọc toàn bộ nội dung của trang:
+
+\begin{codeWindow}[Mẫu Responsive Container Kinh Điển]
+\begin{lstlisting}[language=CSS3]
+.container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Cơ Chế Thích Ứng Của Lớp .container Trên Các Môi Trường Màn Hình]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \sffamily\bfseries\color{primaryBlue}}K{3.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Môi trường hiển thị} & \thd{\sffamily Hành vi hiển thị thực tế của .container} \\
+\hline
+Màn hình lớn (Desktop / 4K \newline Width $> 1333\text{px}$) & \codeinline{max-width: 1200px;} kích hoạt. Trang web được giữ cố định ở bề rộng tối đa $1200\text{px}$, căn giữa màn hình nhờ \codeinline{margin: 0 auto;}, không bị kéo dãn quá đà. \\
+\hline
+Màn hình nhỏ hơn \newline (Laptop / Tablet / Mobile) & \codeinline{width: 90\%;} chiếm ưu thế. Khung chứa tự động chiếm trọn $90\%$ chiều rộng màn hình, để lại $5\%$ khoảng đệm ở mỗi bên lề trái/phải cực kỳ thanh lịch. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{Ứng Dụng 3: Khung Đọc Văn Bản Công Thái Học (Blog \& Báo Điện Tử)}
+
+\begin{codeWindow}[Khung Chứa Nội Dung Đọc Tiêu Chuẩn 800px]
+\begin{lstlisting}[language=CSS3]
+.article-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+% 4.4 KẾT HỢP MAX-WIDTH VÀ MIN-WIDTH
+% ------------------------------------------------------------------------------
+\subsection{4. Kỹ Thuật Phối Hợp: \csshint{max-width} Kết Hợp Với \csshint{min-width}}
+\label{subsec:combine_min_max_width}
+
+Khi cần kiểm soát kích thước trong một dải biên độ an toàn tuyệt đối, việc kết hợp đồng thời \codeinline{min-width} và \codeinline{max-width} là kỹ thuật tối thượng.
+
+\begin{prettyTableBox}[Ý Nghĩa Cặp Thuộc Tính Giới Hạn Biên Độ]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}K{3.4cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Thuộc tính} & \thd{\sffamily Ý nghĩa \& Ngưỡng giới hạn} \\
+\hline
+max-width & Giới hạn \textbf{ngưỡng trần tối đa} của phần tử (không thể to hơn). \\
+\hline
+min-width & Giới hạn \textbf{ngưỡng sàn tối thiểu} của phần tử (không thể nhỏ hơn). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Ví Dụ Phối Hợp 3 Cấp Độ Kích Thước Hoàn Hảo]
+\begin{lstlisting}[language=CSS3]
+.box {
+    min-width: 300px;
+    max-width: 600px;
+    width: 80%;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{conceptBox}[Cơ Chế Phân Bổ Kích Thước 3 Kịch Bản Theo Độ Rộng Màn Hình ($W$)]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khi màn hình rất hẹp ($W < 375\text{px}$)}: $80\% \times W < 300\text{px}$, thuộc tính \codeinline{min-width: 300px;} sẽ can thiệp để giữ kích thước tối thiểu là $300\text{px}$, bảo đảm các nút bấm hay văn bản bên trong không bị dồn nén đến mức mất chữ.
+    \item \textbf{Khi màn hình nằm trong khoảng lý tưởng ($375\text{px} \le W \le 750\text{px}$)}: Khối co giãn mượt mà đúng bằng $80\%$ độ rộng màn hình ($80\% \times W$), tạo cảm giác thoáng đãng và tự nhiên.
+    \item \textbf{Khi màn hình rất rộng ($W > 750\text{px}$)}: $80\% \times W > 600\text{px}$, thuộc tính \codeinline{max-width: 600px;} sẽ chặn đứng kích thước tại ngưỡng $600\text{px}$, ngăn chặn phần tử bị phình to bất thường.
+\end{enumerate}
+\end{conceptBox}
+
+% ------------------------------------------------------------------------------
+% 4.5 THỰC NGHIỆM THỰC TẾ VỚI LỚP .MAX VÀ DEVTOOLS
+% ------------------------------------------------------------------------------
+\subsection{5. Thực Nghiệm Thực Tế Với Lớp \csshint{.MAX} \& Đối Chiếu Chrome DevTools}
+\label{subsec:experiment_class_max}
+
+Để kiểm chứng bản chất tính toán của trình duyệt, chúng ta cùng phân tích một thực nghiệm cụ thể với lớp CSS \codeinline{.MAX}:
+
+\begin{codeWindow}[Mã Nguồn Thực Nghiệm Lớp .MAX]
+\begin{lstlisting}[language=CSS3]
+.MAX {
+    background: red;
+    max-width: 500px;
+    height: 300px;
+    font-size: 20px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsubsection{Phân Tích Cách Hoạt Động Cốt Lõi}
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{\codeinline{max-width: 500px;}}: Phần tử có chiều rộng tối đa là $500\text{px}$. Nếu trình duyệt nhỏ hơn $500\text{px}$, phần tử co lại theo kích thước của nó; nếu trình duyệt lớn hơn $500\text{px}$, phần tử không vượt quá $500\text{px}$.
+    \item \textbf{\codeinline{height: 300px;}}: Chiều cao của phần tử luôn là $300\text{px}$, không thay đổi dù viewport rộng hay hẹp.
+    \item \textbf{\codeinline{font-size: 20px;}}: Cỡ chữ của nội dung văn bản bên trong được thiết lập cố định $20\text{px}$.
+\end{enumerate}
+
+\subsubsection{Điều Gì Sẽ Xảy Ra Khi Viewport Nhỏ Hơn 500px?}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nếu màn hình thu hẹp còn khoảng $400\text{px}$}: Khối \codeinline{.MAX} sẽ tự động co lại bằng khoảng $400\text{px}$ (cụ thể trên thực nghiệm Chrome DevTools đo được chính xác là $\mathbf{398.4\text{px} \times 300\text{px}}$ do trừ viền mép cửa sổ).
+    \item \textbf{Nếu màn hình mở rộng ra $600\text{px}$ hoặc hơn}: Khối \codeinline{.MAX} vẫn chỉ rộng đúng $\mathbf{500\text{px} \times 300\text{px}}$, không hề tăng thêm.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/max_width_devtools_narrow_398px.png}
+    \caption{Viewport hẹp ($< 500\text{px}$): Phần tử tự co lại thành $398.4\text{px} \times 300\text{px}$}
+    \label{subfig:devtools_narrow}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/max_width_devtools_wide_500px.png}
+    \caption{Viewport rộng ($> 500\text{px}$): Phần tử bị chặn lại ở đúng $500\text{px} \times 300\text{px}$}
+    \label{subfig:devtools_wide}
+\end{subfigure}
+\caption{Hình Ảnh Chụp Thực Tế Chrome DevTools: Đối Chiếu Kích Thước Tính Toán Của Lớp .MAX}
+\label{fig:max_width_devtools_comparison}
+\end{figure}
+
+\subsubsection{Cải Tiến Hoàn Hảo Cho Responsive}
+Nếu bạn muốn phần tử khối co giãn mượt mà hơn và luôn bám dính $100\%$ không gian khi màn hình nhỏ, hãy kết hợp thêm thuộc tính \codeinline{width: 100\%;}:
+
+\begin{codeWindow}[Mẫu Thiết Kế .MAX Hoàn Thiện Tối Ưu Cho Responsive]
+\begin{lstlisting}[language=CSS3]
+.MAX {
+    background: red;
+    width: 100%;        /* Chiay 100% khi man hinh nho hon 500px */
+    max-width: 500px;   /* Chan lai khong cho lon hon 500px tren man hinh lon */
+    height: 300px;
+    font-size: 20px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+% 4.6 KHI NÀO DÙNG MAX-WIDTH & TỔNG KẾT
+% ------------------------------------------------------------------------------
+\subsection{6. Khi Nào Dùng max-width? \& Bảng Tổng Hợp Giá Trị Thường Dùng}
+\label{subsec:when_to_use_max_width}
+
+\begin{prettyTableBox}[Bảng Tra Cứu Các Giá Trị Thường Dùng Của Thuộc Tính max-width]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}K{2.8cm}|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Giá trị} & \thd{\sffamily Ý nghĩa \& Ngữ cảnh sử dụng} \\
+\hline
+px & Giới hạn chiều rộng tối đa theo đơn vị pixel tuyệt đối (ví dụ: \codeinline{max-width: 800px;}). Rất phổ biến cho card, form đăng nhập, container. \\
+\hline
+\% & Giới hạn theo tỷ lệ phần trăm so với phần tử cha (ví dụ: \codeinline{max-width: 100\%;}). Tiêu chuẩn vàng để chống tràn cho ảnh và video. \\
+\hline
+em, rem & Giới hạn kích thước theo độ lớn phông chữ. Cực kỳ tối ưu cho các cột đọc báo để giữ độ dài dòng từ 65 đến 75 ký tự. \\
+\hline
+vw & Giới hạn theo tỷ lệ phần trăm chiều rộng của màn hình (\term{viewport}). \\
+\hline
+none & Giá trị mặc định của CSS. Phần tử không có bất kỳ giới hạn chiều rộng tối đa nào. \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{Khi Nào Bắt Buộc Phải Dùng max-width?}
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khi muốn giới hạn phần tử không quá lớn nhưng vẫn tự co lại nếu cần}: Tránh làm mất cân đối thị giác trên các màn hình máy tính để bàn có độ phân giải cao.
+    \item \textbf{Khi thiết kế giao diện responsive trên nhiều kích thước màn hình}: Đảm bảo trải nghiệm đồng nhất trên cả Desktop, Tablet và Mobile.
+    \item \textbf{Khi muốn nội dung tự động thu nhỏ trên màn hình nhỏ mà không bị vỡ}: Loại bỏ vĩnh viễn nguy cơ sinh thanh cuộn ngang gây ức chế cho người dùng.
+\end{enumerate}
+
+\begin{tipBox}[Lưu Ý Vàng Khi Sử Dụng Thuộc Tính max-width]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Luôn kết hợp với \codeinline{width: 100\%;}}: Để phần tử tự do co giãn linh hoạt khi không gian nhỏ hơn giá trị \codeinline{max-width}.
+    \item \textbf{Không làm phần tử nhỏ hơn}: Giá trị \codeinline{max-width} chỉ giới hạn kích thước trần lớn nhất, không ép phần tử phải co lại nếu nội dung tự nhiên của nó vốn đã nhỏ.
+    \item \textbf{Kết hợp với \codeinline{margin: 0 auto;}}: Để đưa khối giao diện vào chính giữa màn hình một cách cân đối và chuyên nghiệp.
+    \item \textbf{Đối tượng áp dụng thường xuyên}: Khung chứa nội dung (\codeinline{.container}), hình ảnh (\codeinline{<img>}), biểu mẫu nhập liệu (\codeinline{<form>}), thẻ bài viết (\codeinline{.card}), và hộp thoại pop-up (\codeinline{.modal}).
+\end{itemize}
+\end{tipBox}
+
 \end{document}
