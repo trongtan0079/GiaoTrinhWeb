@@ -1310,6 +1310,14 @@ Cơ chế của \codeinline{min-width} được thể hiện qua 3 trường h�
 \end{itemize}
 \end{noteBox}
 
+\begin{tipBox}[Góc Đọc Thêm \& Mẹo Phỏng Vấn: Thuật Toán W3C (min > max) \& Cạm Bẫy Flexbox min-width: 0]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
+    \item \textbf{Xung đột hiếm gặp giữa min và max (Chuẩn W3C Sizing Algorithm)}: Nếu bạn vô tình đặt \codeinline{min-width: 300px;} nhưng lại khai báo \codeinline{max-width: 200px;}, thuộc tính nào sẽ thắng? Theo đặc tả chuẩn W3C: \textbf{\codeinline{min-*} luôn luôn chiến thắng tuyệt đối!} Trình duyệt sẽ tự động cưỡng chế nâng \codeinline{max-width} lên bằng mức \codeinline{min-width} ($300\text{px}$) để đảm bảo ngưỡng an toàn sàn không bao giờ bị phá vỡ.
+    \item \textbf{Cạm bẫy Flexbox \& Grid (\codeinline{min-width: auto;})}: Mặc định trong CSS Flexbox và CSS Grid, các phần tử con trực tiếp (\term{Flex/Grid items}) sở hữu giá trị mặc định là \codeinline{min-width: auto;} chứ không phải là $0$. Điều này khiến phần tử con từ chối co lại nhỏ hơn nội dung văn bản bên trong, dẫn đến việc tràn khung và vỡ layout khi chứa chuỗi văn bản dài không ngắt dòng (\term{nowrap}) hoặc bảng dữ liệu rộng.
+    \item \textbf{Mẹo cứu nguy thần thánh}: Luôn thiết lập khai báo \codeinline{min-width: 0;} cho phần tử con trực tiếp của Flexbox/Grid khi bạn muốn nó tự do co giãn theo đúng tỷ lệ \codeinline{flex-shrink} hoặc kích hoạt thành công hiệu ứng cắt chữ ba chấm (\codeinline{text-overflow: ellipsis;}).
+\end{enumerate}
+\end{tipBox}
+
 % ------------------------------------------------------------------------------
 % 3.3.2 NHÓM CHỐT CHẶN TRẦN
 % ------------------------------------------------------------------------------
