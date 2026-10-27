@@ -1017,47 +1017,12 @@ Dưới đây là sơ đồ ASCII nguyên bản thể hiện cấu trúc lồng 
     \item \textbf{Lợi ích vượt trội}: Điều này giúp việc tính toán bố cục dễ dàng và trực quan hơn rất nhiều, vì tổng kích thước của phần tử luôn luôn đúng với con số \codeinline{width} và \codeinline{height} mà bạn đã đặt trong mã nguồn. Đây là lý do tại sao nhiều khung làm việc (\term{framework}) CSS như Bootstrap, TailwindCSS và mọi dự án web hiện đại đều đặt \codeinline{box-sizing: border-box;} cho tất cả các phần tử (thường là với bộ chọn toàn cục \codeinline{* \{ box-sizing: border-box; \}}).
 \end{itemize}
 
-\begin{browserWindow}[So Sánh Trực Quan Giữa content-box (Phình To) Và border-box (Cố Định)]
-\sffamily\small
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.88, every node/.style={font=\sffamily}]
-  % KHỐI 1: CONTENT-BOX (224px)
-  \begin{scope}[shift={(-4.2, 0)}]
-    \draw[fill=white, draw=gray!30, rounded corners=6pt] (-2.8, -2.4) rectangle (2.8, 2.7);
-    \node[anchor=north, font=\small\bfseries\color{dangerRed}] at (0, 2.5) {box-sizing: content-box; (224px)};
-    
-    % Vỏ ngoài (Border 2px + Padding 10px + Content 200px)
-    \draw[fill=tipBorder!15, draw=black, line width=1.5pt] (-2.24, -1.0) rectangle (2.24, 1.0);
-    \draw[fill=primaryBlue!20, draw=primaryBlue!60, line width=0.8pt] (-2.0, -0.76) rectangle (2.0, 0.76);
-    
-    \node[font=\footnotesize\bfseries\color{primaryBlue}] at (0, 0) {Content: 200px};
-    \node[font=\tiny\color{darkText!80}] at (0, -0.4) {Pad: $10\text{px} \times 2$ | Bor: $2\text{px} \times 2$};
-
-    % Thước đo tổng thể
-    \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, dangerRed, line width=1pt] (-2.24, -1.4) -- (2.24, -1.4);
-    \node[anchor=north, font=\scriptsize\bfseries\color{dangerRed}] at (0, -1.4) {Tổng chiếm chỗ: 224px (Bị phình ra!)};
-    \node[font=\tiny\color{codeComment}, align=center] at (0, -2.0) {Khai báo 200px nhưng chiếm 224px\\Dễ gây vỡ layout và tràn ngang};
-  \end{scope}
-
-  % KHỐI 2: BORDER-BOX (200px)
-  \begin{scope}[shift={(4.2, 0)}]
-    \draw[fill=white, draw=gray!30, rounded corners=6pt] (-2.8, -2.4) rectangle (2.8, 2.7);
-    \node[anchor=north, font=\small\bfseries\color{successGreen!90!black}] at (0, 2.5) {box-sizing: border-box; (200px)};
-    
-    % Vỏ ngoài cố định 200px
-    \draw[fill=tipBorder!15, draw=black, line width=1.5pt] (-2.0, -1.0) rectangle (2.0, 1.0);
-    \draw[fill=primaryBlue!20, draw=primaryBlue!60, line width=0.8pt] (-1.76, -0.76) rectangle (1.76, 0.76);
-    
-    \node[font=\footnotesize\bfseries\color{primaryBlue}] at (0, 0) {Content: 176px};
-    \node[font=\tiny\color{darkText!80}] at (0, -0.4) {Pad: $10\text{px} \times 2$ | Bor: $2\text{px} \times 2$};
-
-    % Thước đo tổng thể
-    \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, successGreen!80!black, line width=1pt] (-2.0, -1.4) -- (2.0, -1.4);
-    \node[anchor=north, font=\scriptsize\bfseries\color{successGreen!80!black}] at (0, -1.4) {Tổng chiếm chỗ: Đúng chuẩn 200px};
-    \node[font=\tiny\color{codeComment}, align=center] at (0, -2.0) {Nội dung tự co lại để giữ nguyên 200px\\Bố cục ổn định, không bao giờ vỡ};
-  \end{scope}
-\end{tikzpicture}
-\end{browserWindow}
+\includegraphics[width=\linewidth]{figures/box_sizing_content_vs_border_box.png}
+\caption{So Sánh Cơ Chế Chiếm Chỗ: \codeinline{content-box} (Phình To Ra 224px) vs \codeinline{border-box} (Bảo Toàn Kích Thước 200px)}
+\label{fig:box_sizing_content_vs_border_box}
+\end{figure}
 
 % ==============================================================================
 % MỤC 3: LƯU Ý CHI TIẾT KHI SỬ DỤNG WIDTH VÀ HEIGHT
@@ -1331,77 +1296,12 @@ Hành vi của \codeinline{width} và \codeinline{height} phụ thuộc mật th
 
 Khi bạn thiết lập \codeinline{width} hoặc \codeinline{height} cố định cho một phần tử và khối lượng nội dung bên trong lại lớn hơn không gian kích thước đó, thuộc tính \codeinline{overflow} sẽ quyết định cách thức trình duyệt xử lý phần nội dung bị tràn:
 
-\begin{browserWindow}[Mô Phỏng Trực Quan 4 Cơ Chế Xử Lý Của overflow]
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.92, every node/.style={transform shape}]
-  % 1. overflow: visible
-  \begin{scope}[shift={(0, 0)}]
-    \draw[fill=gray!5, draw=gray!30, rounded corners=5pt] (-1.8, -1.9) rectangle (1.8, 1.6);
-    \node[anchor=north, font=\scriptsize\bfseries\color{dangerRed}] at (0, 1.45) {overflow: visible;};
-    
-    % Khung hộp kích thước cố định
-    \draw[fill=white, draw=gray!40, line width=0.8pt] (-1.5, -0.4) rectangle (1.5, 0.8);
-    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\color{darkText!75}] at (0, 0.7) {Văn bản trong hộp};
-    
-    % Phần tràn ra ngoài
-    \fill[dangerRed!12, draw=dangerRed, dashed, line width=0.7pt] (-1.5, -0.9) rectangle (1.5, -0.4);
-    \node[anchor=center, font=\fontsize{6pt}{7pt}\selectfont\bfseries\color{dangerRed}] at (0, -0.65) {Nội dung trào ra ngoài!};
-    
-    \node[anchor=south, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{dangerRed}, fill=dangerRed!10, rounded corners=2pt, inner sep=2pt] at (0, -1.75) {[MẶC ĐỊNH] Tràn đè khối khác};
-  \end{scope}
-
-  % 2. overflow: hidden
-  \begin{scope}[shift={(4.1, 0)}]
-    \draw[fill=gray!5, draw=gray!30, rounded corners=5pt] (-1.8, -1.9) rectangle (1.8, 1.6);
-    \node[anchor=north, font=\scriptsize\bfseries\color{accentOrange!90!black}] at (0, 1.45) {overflow: hidden;};
-    
-    % Khung hộp kích thước cố định
-    \draw[fill=white, draw=gray!40, line width=0.8pt] (-1.5, -0.4) rectangle (1.5, 0.8);
-    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\color{darkText!75}] at (0, 0.7) {Văn bản trong hộp};
-    \node[anchor=center, font=\fontsize{5.5pt}{6.5pt}\selectfont\color{gray!50}] at (0, -0.2) {[Phần tràn bị xén mất]};
-    
-    % Đường xén cắt
-    \draw[dashed, draw=accentOrange, line width=1pt] (-1.5, -0.4) -- (1.5, -0.4);
-    
-    \node[anchor=south, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{accentOrange!90!black}, fill=accentOrange!12, rounded corners=2pt, inner sep=2pt] at (0, -1.75) {[CẮT BỎ] Ẩn hoàn toàn};
-  \end{scope}
-
-  % 3. overflow: scroll
-  \begin{scope}[shift={(8.2, 0)}]
-    \draw[fill=gray!5, draw=gray!30, rounded corners=5pt] (-1.8, -1.9) rectangle (1.8, 1.6);
-    \node[anchor=north, font=\scriptsize\bfseries\color{primaryBlue}] at (0, 1.45) {overflow: scroll;};
-    
-    % Khung hộp kích thước cố định
-    \draw[fill=white, draw=gray!40, line width=0.8pt] (-1.5, -0.4) rectangle (1.5, 0.8);
-    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\color{darkText!75}] at (-0.1, 0.7) {Văn bản cuộn...};
-    
-    % Thanh cuộn dọc luôn hiện
-    \fill[primaryBlue!20] (1.2, -0.4) rectangle (1.5, 0.8);
-    \fill[primaryBlue!70, rounded corners=1pt] (1.25, 0.1) rectangle (1.45, 0.6);
-    % Thanh cuộn ngang luôn hiện
-    \fill[primaryBlue!20] (-1.5, -0.4) rectangle (1.2, -0.2);
-    \fill[primaryBlue!70, rounded corners=1pt] (-0.8, -0.38) rectangle (0.2, -0.22);
-    
-    \node[anchor=south, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{primaryBlue}, fill=primaryBlue!12, rounded corners=2pt, inner sep=2pt] at (0, -1.75) {[CỐ ĐỊNH] Luôn hiện thanh cuộn};
-  \end{scope}
-
-  % 4. overflow: auto
-  \begin{scope}[shift={(12.3, 0)}]
-    \draw[fill=gray!5, draw=gray!30, rounded corners=5pt] (-1.8, -1.9) rectangle (1.8, 1.6);
-    \node[anchor=north, font=\scriptsize\bfseries\color{successGreen!85!black}] at (0, 1.45) {overflow: auto;};
-    
-    % Khung hộp kích thước cố định
-    \draw[fill=white, draw=gray!40, line width=0.8pt] (-1.5, -0.4) rectangle (1.5, 0.8);
-    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\color{darkText!75}] at (-0.1, 0.7) {Văn bản tràn dọc};
-    
-    % Chỉ hiện thanh cuộn dọc khi cần
-    \fill[successGreen!20] (1.2, -0.4) rectangle (1.5, 0.8);
-    \fill[successGreen!80, rounded corners=1pt] (1.25, 0.0) rectangle (1.45, 0.5);
-    
-    \node[anchor=south, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{successGreen!85!black}, fill=successGreen!12, rounded corners=2pt, inner sep=2pt] at (0, -1.75) {[THÔNG MINH] Chỉ cuộn khi tràn};
-  \end{scope}
-\end{tikzpicture}
-\end{browserWindow}
+\includegraphics[width=\linewidth]{figures/css_overflow_four_modes_cards.png}
+\caption{Mô Phỏng Trực Quan 4 Cơ Chế Xử Lý Của Thuộc Tính \codeinline{overflow} (visible, hidden, scroll, auto)}
+\label{fig:css_overflow_four_modes}
+\end{figure}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
     \item \textbf{\codeinline{overflow: visible;}} (\textbf{Mặc định}): Nội dung bị tràn sẽ không bị cắt bỏ mà tràn ra ngoài đường biên của phần tử, đè lên các khối giao diện khác ở phía dưới.
@@ -1526,132 +1426,17 @@ max-width: 500px; & Phần tử \textbf{có thể nhỏ hơn $500\text{px}$} khi
 \end{itemize}
 \end{warnBox}
 
-\begin{browserWindow}[So Sánh Trực Quan: width Cố Định vs max-width Co Giãn]
-\sffamily\small
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.92, every node/.style={font=\sffamily}]
-  % ============================================================================
-  % THIẾT BỊ 1: TRÁI - LỖI TRÀN MÀN HÌNH VỚI width: 500px
-  % ============================================================================
-  \begin{scope}[shift={(-3.9, 0)}]
-    % Vỏ điện thoại iPhone viền titan hiện đại
-    \draw[fill=white, draw=gray!40, line width=1.5pt, rounded corners=18pt] 
-      (-2.4, -3.2) rectangle (2.4, 3.2);
-    
-    % Dynamic Island & Thanh trạng thái
-    \fill[gray!85, rounded corners=3pt] (-0.55, 2.76) rectangle (0.55, 2.92);
-    \fill[gray!60] (0.35, 2.84) circle (1.2pt);
-    \node[font=\fontsize{5.5pt}{6.5pt}\selectfont\bfseries\color{gray!75}] at (-1.5, 2.84) {09:41};
-    \node[font=\fontsize{5.5pt}{6.5pt}\selectfont\bfseries\color{gray!75}] at (1.5, 2.84) {5G \quad 100\%};
-    
-    % Màn hình hiển thị nội dung (Viewport 375px)
-    \draw[fill=gray!3, draw=gray!25, line width=0.8pt, rounded corners=10pt] 
-      (-2.15, -2.85) rectangle (2.15, 2.65);
-    
-    % Thanh địa chỉ URL trình duyệt di động
-    \fill[white, draw=gray!25, line width=0.6pt, rounded corners=4pt] (-1.95, 2.15) rectangle (1.95, 2.52);
-    \node[anchor=west, font=\tiny\bfseries\color{darkText!80}] at (-1.85, 2.33) {m.shop.vn/detail};
-    \node[anchor=east, font=\tiny\bfseries\color{dangerRed}, fill=dangerRed!12, rounded corners=2pt, inner sep=1.5pt] at (1.85, 2.33) {375px};
-    
-    % Vạch đứt ranh giới mép màn hình điện thoại (Phải)
-    \draw[dashed, draw=dangerRed!90, line width=1.2pt] (2.15, -2.85) -- (2.15, 2.65);
-    
-    % Khối .box1 (500px) bên trong màn hình
-    \draw[fill=dangerRed!12, draw=dangerRed, line width=1.2pt, rounded corners=3pt] 
-      (-1.95, 0.85) rectangle (2.15, 1.95);
-    \node[anchor=west, font=\fontsize{7.5pt}{9pt}\selectfont\bfseries\color{dangerRed!90!black}] at (-1.85, 1.60) {.box1 \{ width: 500px; \}};
-    \node[anchor=west, font=\fontsize{6.5pt}{8pt}\selectfont\color{darkText!75}] at (-1.85, 1.15) {Bị khóa cứng 500px};
-    
-    % Vùng cảnh báo tràn ra ngoài vỏ máy
-    \fill[dangerRed!28, rounded corners=3pt] (2.15, 0.85) rectangle (3.35, 1.95);
-    \draw[dangerRed!90, line width=1.1pt, dashed] (2.15, 0.85) rectangle (3.35, 1.95);
-    \node[anchor=center, font=\fontsize{6.5pt}{7.5pt}\selectfont\bfseries\color{dangerRed!95!black}, align=center] at (2.75, 1.40) {TRÀN\\+125px};
-    
-    % Thước đo tổng chiều rộng 500px
-    \draw[{Stealth[length=3.5pt]}-{Stealth[length=3.5pt]}, dangerRed, line width=1pt] 
-      (-1.95, 0.45) -- (3.35, 0.45)
-      node[midway, fill=white, inner sep=1.5pt, font=\fontsize{6pt}{7pt}\selectfont\bfseries\color{dangerRed}] {Tổng bề rộng: 500px (Vượt mép 125px)};
-
-    % Khung cảnh báo vỡ layout bên trong màn hình
-    \draw[fill=dangerRed!6, draw=dangerRed!35, line width=0.8pt, rounded corners=4pt] 
-      (-1.95, -1.55) rectangle (1.95, 0.05);
-    \node[anchor=north, font=\fontsize{7pt}{8.5pt}\selectfont\bfseries\color{dangerRed}] at (0, -0.10) {[HẬU QUẢ VỠ LAYOUT]};
-    \node[anchor=north, font=\fontsize{6.5pt}{8.5pt}\selectfont\color{darkText!85}, align=center] at (0, -0.45) {
-      Tràn viền màn hình +125px\\
-      Bị che khuất nút mua hàng\\
-      Buộc người dùng phải cuộn ngang
-    };
-
-    % Thanh cuộn ngang xuất hiện ở đáy màn hình
-    \fill[gray!25, rounded corners=2pt] (-1.85, -2.15) rectangle (1.85, -1.95);
-    \fill[dangerRed, rounded corners=2pt] (-0.4, -2.15) rectangle (1.3, -1.95);
-    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\bfseries\color{dangerRed}] at (0, -2.28) {Thanh cuộn ngang sinh ra do lỗi tràn};
-
-    % Nhãn trạng thái bên dưới điện thoại
-    \node[anchor=north, font=\footnotesize\bfseries\color{white}, fill=dangerRed, rounded corners=3pt, inner sep=3.5pt] at (0, -3.45) {[LỖI] TRÀN MÀN HÌNH MOBILE};
-    \node[anchor=north, font=\scriptsize\color{darkText!75}, align=center] at (0, -3.95) {width cố định không thể co nhỏ\\Layout bị phá vỡ hoàn toàn};
-  \end{scope}
-
-  % ============================================================================
-  % THIẾT BỊ 2: PHẢI - HOÀN HẢO VỚI max-width: 500px
-  % ============================================================================
-  \begin{scope}[shift={(3.9, 0)}]
-    % Vỏ điện thoại iPhone viền titan hiện đại
-    \draw[fill=white, draw=gray!40, line width=1.5pt, rounded corners=18pt] 
-      (-2.4, -3.2) rectangle (2.4, 3.2);
-    
-    % Dynamic Island & Thanh trạng thái
-    \fill[gray!85, rounded corners=3pt] (-0.55, 2.76) rectangle (0.55, 2.92);
-    \fill[gray!60] (0.35, 2.84) circle (1.2pt);
-    \node[font=\fontsize{5.5pt}{6.5pt}\selectfont\bfseries\color{gray!75}] at (-1.5, 2.84) {09:41};
-    \node[font=\fontsize{5.5pt}{6.5pt}\selectfont\bfseries\color{gray!75}] at (1.5, 2.84) {5G \quad 100\%};
-    
-    % Màn hình hiển thị nội dung (Viewport 375px)
-    \draw[fill=gray!3, draw=gray!25, line width=0.8pt, rounded corners=10pt] 
-      (-2.15, -2.85) rectangle (2.15, 2.65);
-    
-    % Thanh địa chỉ URL trình duyệt di động
-    \fill[white, draw=gray!25, line width=0.6pt, rounded corners=4pt] (-1.95, 2.15) rectangle (1.95, 2.52);
-    \node[anchor=west, font=\tiny\bfseries\color{darkText!80}] at (-1.85, 2.33) {m.shop.vn/detail};
-    \node[anchor=east, font=\tiny\bfseries\color{primaryBlue}, fill=primaryBlue!12, rounded corners=2pt, inner sep=1.5pt] at (1.85, 2.33) {375px};
-    
-    % Khối .box2 (tự co lại theo màn hình 375px)
-    \draw[fill=primaryBlue!12, draw=primaryBlue, line width=1.2pt, rounded corners=3pt] 
-      (-1.95, 0.85) rectangle (1.95, 1.95);
-    \node[anchor=center, font=\fontsize{7.5pt}{9pt}\selectfont\bfseries\color{primaryBlue}] at (0, 1.60) {.box2 \{ max-width: 500px; \}};
-    \node[anchor=center, font=\fontsize{6.5pt}{8pt}\selectfont\bfseries\color{successGreen!85!black}] at (0, 1.15) {Tự co về 375px vừa vặn};
-    
-    % Thước đo kích thước co giãn
-    \draw[{Stealth[length=3.5pt]}-{Stealth[length=3.5pt]}, successGreen!85!black, line width=1pt] 
-      (-1.95, 0.45) -- (1.95, 0.45)
-      node[midway, fill=white, inner sep=1.5pt, font=\fontsize{6pt}{7pt}\selectfont\bfseries\color{successGreen!85!black}] {Thực tế: 375px ($\le 500\text{px}$)};
-
-    % Vùng minh họa nội dung văn bản chảy tự nhiên
-    \draw[fill=successGreen!6, draw=successGreen!35, line width=0.8pt, rounded corners=4pt] 
-      (-1.95, -1.55) rectangle (1.95, 0.05);
-    \node[anchor=north, font=\fontsize{7pt}{8.5pt}\selectfont\bfseries\color{successGreen!85!black}] at (0, -0.10) {[ĐẠT CHUẨN RESPONSIVE]};
-    \node[anchor=north, font=\fontsize{6.5pt}{8.5pt}\selectfont\color{darkText!85}, align=center] at (0, -0.45) {
-      Nội dung tự co giãn 100\%\\
-      Khung viền ôm sát vừa vặn\\
-      Trải nghiệm vuốt chạm mượt mà
-    };
-
-    % Đáy màn hình sạch sẽ, không có thanh cuộn ngang
-    \fill[successGreen!12, draw=successGreen!40, line width=0.8pt, rounded corners=3pt] 
-      (-1.85, -2.15) rectangle (1.85, -1.90);
-    \node[anchor=center, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{successGreen!85!black}] at (0, -2.02) {[CHUẨN] Không sinh thanh cuộn ngang};
-
-    % Nhãn trạng thái bên dưới điện thoại
-    \node[anchor=north, font=\footnotesize\bfseries\color{white}, fill=successGreen, rounded corners=3pt, inner sep=3.5pt] at (0, -3.45) {[CHUẨN] 100\% RESPONSIVE MOBILE};
-    \node[anchor=north, font=\scriptsize\color{darkText!75}, align=center] at (0, -3.95) {max-width tự thích ứng linh hoạt\\Hiển thị hoàn hảo trên mọi smartphone};
-  \end{scope}
-\end{tikzpicture}
-\end{browserWindow}
+\includegraphics[width=0.96\linewidth]{figures/width_vs_max_width_mobile_comparison.png}
+\caption{Đối Chiếu Trực Quan Trên Thiết Bị Di Động: \codeinline{width: 500px} (Gây Tràn 125px) vs \codeinline{max-width: 500px} (Tự Co Giãn Vừa Vặn)}
+\label{fig:width_vs_max_width_mobile_comparison}
+\end{figure}
 
 % ------------------------------------------------------------------------------
 % 4.3 CÁC VÍ DỤ ỨNG DỤNG THỰC TẾ
 % ------------------------------------------------------------------------------
-\subsection{3. Các Ví Dụ Ứng Dụng Thực Tế Của \csshint{max-width}}
+\subsection{Các Ví Dụ Ứng Dụng Thực Tế Của \csshint{max-width}}
 \label{subsec:practical_max_width_applications}
 
 \subsubsection{Ứng Dụng 1: Giới Hạn Chiều Rộng Tối Đa Cho Hình Ảnh (Responsive Images)}
@@ -1704,74 +1489,12 @@ Màn hình nhỏ hơn \newline (Laptop / Tablet / Mobile) & \codeinline{width: 9
 \end{tabularx}
 \end{prettyTableBox}
 
-\begin{browserWindow}[Mô Phỏng .container: Desktop (1200px) vs Mobile (90\%)]
-\sffamily\small
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.92, every node/.style={font=\sffamily}]
-  % KHUNG 1: TRÊN DESKTOP RỘNG (Ví dụ 1920px)
-  \begin{scope}[shift={(0, 2.7)}]
-    % Cửa sổ Desktop
-    \draw[fill=white, draw=gray!35, line width=1pt, rounded corners=8pt] (-6.8, -1.65) rectangle (6.8, 1.65);
-    \fill[gray!12, rounded corners=4pt] (-6.65, 1.15) rectangle (6.65, 1.55);
-    \fill[dangerRed!80] (-6.4, 1.35) circle (2.2pt);
-    \fill[accentOrange!80] (-6.15, 1.35) circle (2.2pt);
-    \fill[successGreen!80] (-5.9, 1.35) circle (2.2pt);
-    \node[anchor=west, font=\tiny\bfseries\color{darkText!75}] at (-5.6, 1.35) {https://company.vn \quad (Desktop Viewport: 1920px)};
-    \node[anchor=east, font=\tiny\bfseries\color{primaryBlue}, fill=primaryBlue!12, rounded corners=2pt, inner sep=1.5pt] at (6.5, 1.35) {max-width: 1200px};
-    
-    % Hai khoảng lề margin: auto
-    \fill[accentOrange!8, draw=accentOrange!35, dashed, rounded corners=3pt] (-6.5, -1.45) rectangle (-3.8, 0.45);
-    \node[anchor=center, font=\scriptsize\bfseries\color{accentOrange!90!black}, align=center] at (-5.15, -0.50) {margin-left:\\auto\\{\tiny (360px)}};
-    
-    \fill[accentOrange!8, draw=accentOrange!35, dashed, rounded corners=3pt] (3.8, -1.45) rectangle (6.5, 0.45);
-    \node[anchor=center, font=\scriptsize\bfseries\color{accentOrange!90!black}, align=center] at (5.15, -0.50) {margin-right:\\auto\\{\tiny (360px)}};
-
-    % Thước đo 1200px phía trên khối
-    \draw[{Stealth[length=3.5pt]}-{Stealth[length=3.5pt]}, primaryBlue, line width=1pt] (-3.6, 0.80) -- (3.6, 0.80);
-    \node[anchor=south, font=\scriptsize\bfseries\color{primaryBlue}] at (0, 0.82) {Khối cố định: 1200px (Chặn bởi max-width)};
-
-    % Vùng Container 1200px nằm chính giữa
-    \draw[fill=primaryBlue!12, draw=primaryBlue, line width=1.2pt, rounded corners=4pt] (-3.6, -1.45) rectangle (3.6, 0.45);
-    % Nội dung bên trong container
-    \node[anchor=north, font=\small\bfseries\color{primaryBlue}] at (0, 0.35) {.container};
-    \node[anchor=north, font=\tiny\ttfamily\bfseries\color{primaryBlue!90!black}, fill=white, draw=primaryBlue!35, rounded corners=2pt, inner sep=3pt] at (0, -0.10) {max-width: 1200px; \quad width: 90\%; \quad margin: 0 auto;};
-    \node[anchor=north, font=\tiny\color{darkText!75}, align=center, text width=6.6cm] at (0, -0.65) {
-      Nội dung website gom gọn gàng ở giữa, tối ưu tầm mắt đọc\\
-      Màn hình 2K hay 4K cũng không bị dãn bè ngang quá đà
-    };
-  \end{scope}
-
-  % KHUNG 2: TRÊN MOBILE HẸP (Ví dụ 375px)
-  \begin{scope}[shift={(0, -2.1)}]
-    % Cửa sổ Mobile
-    \draw[fill=white, draw=gray!35, line width=1pt, rounded corners=8pt] (-4.6, -1.60) rectangle (4.6, 1.55);
-    \fill[gray!12, rounded corners=4pt] (-4.45, 1.05) rectangle (4.45, 1.45);
-    \node[anchor=west, font=\tiny\bfseries\color{darkText!75}] at (-4.3, 1.25) {m.company.vn \quad (Mobile Viewport: 375px)};
-    \node[anchor=east, font=\tiny\bfseries\color{primaryBlue}, fill=primaryBlue!12, rounded corners=2pt, inner sep=1.5pt] at (4.3, 1.25) {width: 90\%};
-    
-    % Hai khoảng lề 5%
-    \fill[accentOrange!10, draw=accentOrange!35, dashed, rounded corners=2pt] (-4.3, -1.40) rectangle (-3.6, 0.40);
-    \node[anchor=center, font=\tiny\bfseries\color{accentOrange!90!black}] at (-3.95, -0.50) {5\%};
-    
-    \fill[accentOrange!10, draw=accentOrange!35, dashed, rounded corners=2pt] (3.6, -1.40) rectangle (4.3, 0.40);
-    \node[anchor=center, font=\tiny\bfseries\color{accentOrange!90!black}] at (3.95, -0.50) {5\%};
-
-    % Thước đo 90% phía trên khối
-    \draw[{Stealth[length=3.5pt]}-{Stealth[length=3.5pt]}, primaryBlue, line width=1pt] (-3.4, 0.70) -- (3.4, 0.70);
-    \node[anchor=south, font=\scriptsize\bfseries\color{primaryBlue}] at (0, 0.72) {Chiều rộng khối: 90\% = 337.5px (width: 90\% kích hoạt)};
-
-    % Vùng Container chiếm 90%
-    \draw[fill=primaryBlue!12, draw=primaryBlue, line width=1.2pt, rounded corners=4pt] (-3.4, -1.40) rectangle (3.4, 0.40);
-    % Nội dung bên trong container
-    \node[anchor=north, font=\small\bfseries\color{primaryBlue}] at (0, 0.30) {.container};
-    \node[anchor=north, font=\tiny\ttfamily\bfseries\color{primaryBlue!90!black}, fill=white, draw=primaryBlue!35, rounded corners=2pt, inner sep=3pt] at (0, -0.15) {width: 90\%; \quad margin: 0 auto;};
-    \node[anchor=north, font=\tiny\color{darkText!75}, align=center, text width=6.2cm] at (0, -0.65) {
-      Khối tự co lại theo màn hình điện thoại\\
-      Chừa đúng 5\% đệm mỗi bên, chữ không dính mép kính
-    };
-  \end{scope}
-\end{tikzpicture}
-\end{browserWindow}
+\includegraphics[width=\linewidth]{figures/max_width_container_desktop_mobile.png}
+\caption{Mô Phỏng Thực Tế Lớp \codeinline{.container}: Cố Định 1200px Trên Desktop \& Co Giãn 90\% Trên Mobile}
+\label{fig:max_width_container_desktop_mobile}
+\end{figure}
 
 \subsubsection{Ứng Dụng 3: Khung Đọc Văn Bản Công Thái Học (Blog \& Báo Điện Tử)}
 
@@ -1826,83 +1549,17 @@ min-width & Giới hạn \textbf{ngưỡng sàn tối thiểu} của phần tử
 \end{enumerate}
 \end{conceptBox}
 
-\begin{browserWindow}[Đồ Thị Trực Quan: Cơ Chế Clamping Kích Thước Ba Cấp Độ]
-\sffamily\small
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.92, every node/.style={font=\sffamily}]
-  % 3 VÙNG MÀU NỀN TỔNG THỂ
-  % Vùng 1: Sàn (W < 375px)
-  \fill[accentOrange!8, rounded corners=3pt] (-6.2, 0.4) rectangle (-2.5, 3.2);
-  % Vùng 2: Co giãn (375px <= W <= 750px)
-  \fill[primaryBlue!8, rounded corners=3pt] (-2.5, 0.4) rectangle (2.5, 3.2);
-  % Vùng 3: Trần (W > 750px)
-  \fill[tipBorder!8, rounded corners=3pt] (2.5, 0.4) rectangle (6.2, 3.2);
-
-  % CÁC ĐƯỜNG PHÂN CÁCH RANH GIỚI
-  \draw[dashed, draw=gray!40, line width=0.8pt] (-2.5, 0) -- (-2.5, 3.2);
-  \draw[dashed, draw=gray!40, line width=0.8pt] (2.5, 0) -- (2.5, 3.2);
-
-  % TRỤC TỌA ĐỘ
-  % Trục hoành W (Độ rộng màn hình)
-  \draw[->, line width=1.1pt, draw=gray!70] (-6.4, 0) -- (6.3, 0) node[right, font=\scriptsize\bfseries\color{primaryBlue}] {$W$};
-  \node[anchor=south east, font=\tiny\bfseries\color{primaryBlue}] at (6.2, 0.12) {Độ rộng màn hình};
-  % Trục tung w (Chiều rộng thực tế phần tử)
-  \draw[->, line width=1.1pt, draw=gray!70] (-6.4, 0) -- (-6.4, 3.4) node[above, font=\scriptsize\bfseries\color{primaryBlue}] {Kích thước phần tử ($w$)};
-
-  % CÁC ĐIỂM MỐC TRỤC HOÀNH
-  \draw[line width=1pt, draw=gray!80] (-2.5, -0.15) -- (-2.5, 0.15);
-  \node[anchor=north, font=\scriptsize\ttfamily\bfseries\color{accentOrange!90!black}] at (-2.5, -0.2) {$W = 375\text{px}$};
-  
-  \draw[line width=1pt, draw=gray!80] (2.5, -0.15) -- (2.5, 0.15);
-  \node[anchor=north, font=\scriptsize\ttfamily\bfseries\color{tipBorder!90!black}] at (2.5, -0.2) {$W = 750\text{px}$};
-
-  % CÁC ĐIỂM MỐC TRỤC TUNG
-  \draw[line width=0.8pt, draw=gray!60] (-6.55, 1.1) -- (-6.25, 1.1);
-  \node[anchor=east, font=\tiny\bfseries\color{accentOrange}] at (-6.5, 1.1) {$300\text{px}$};
-
-  \draw[line width=0.8pt, draw=gray!60] (-6.55, 2.2) -- (-6.25, 2.2);
-  \node[anchor=east, font=\tiny\bfseries\color{tipBorder}] at (-6.5, 2.2) {$600\text{px}$};
-
-  % ĐƯỜNG ĐỒ THỊ KÍCH THƯỚC CLAMPING
-  % Đoạn 1: Bằng phẳng sàn 300px
-  \draw[accentOrange, line width=2.4pt] (-6.4, 1.1) -- (-2.5, 1.1);
-  % Đoạn 2: Dốc tăng dần 80% W
-  \draw[primaryBlue, line width=2.4pt] (-2.5, 1.1) -- (2.5, 2.2);
-  % Đoạn 3: Bằng phẳng trần 600px
-  \draw[tipBorder, line width=2.4pt] (2.5, 2.2) -- (6.1, 2.2);
-
-  % CÁC ĐIỂM NÚT TỌA ĐỘ
-  \fill[accentOrange] (-2.5, 1.1) circle (3pt);
-  \fill[tipBorder] (2.5, 2.2) circle (3pt);
-
-  % THẺ THÔNG TIN 3 VÙNG TRÊN ĐẦU
-  % Thẻ Vùng 1
-  \node[anchor=center, font=\scriptsize\bfseries\color{accentOrange!90!black}, fill=white, draw=accentOrange!60, rounded corners=3pt, inner sep=3pt, align=center] at (-4.35, 2.65) {
-    VÙNG KHÓA SÀN\\
-    \codeinline{min-width: 300px}
-  };
-  \node[anchor=center, font=\tiny\color{accentOrange!85!black}] at (-4.35, 1.6) {$w = 300\text{px}$ (Cố định)};
-
-  % Thẻ Vùng 2
-  \node[anchor=center, font=\scriptsize\bfseries\color{primaryBlue}, fill=white, draw=primaryBlue!60, rounded corners=3pt, inner sep=3pt, align=center] at (0, 2.65) {
-    VÙNG CO GIÃN LINH HOẠT\\
-    \codeinline{width: 80\%}
-  };
-  \node[anchor=center, font=\tiny\color{primaryBlue!85!black}] at (0, 1.3) {$w = 80\% \times W$};
-
-  % Thẻ Vùng 3
-  \node[anchor=center, font=\scriptsize\bfseries\color{tipBorder!90!black}, fill=white, draw=tipBorder!60, rounded corners=3pt, inner sep=3pt, align=center] at (4.35, 2.65) {
-    VÙNG CHẶN TRẦN\\
-    \codeinline{max-width: 600px}
-  };
-  \node[anchor=center, font=\tiny\color{tipBorder!85!black}] at (4.35, 1.6) {$w = 600\text{px}$ (Cố định)};
-\end{tikzpicture}
-\end{browserWindow}
+\includegraphics[width=\linewidth]{figures/clamp_min_max_width_graph.png}
+\caption{Đồ Thị Trực Quan: Cơ Chế Clamping Ba Cấp Độ Kết Hợp \codeinline{min-width}, \codeinline{width} Và \codeinline{max-width}}
+\label{fig:clamp_min_max_width_graph}
+\end{figure}
 
 % ------------------------------------------------------------------------------
 % 4.5 THỰC NGHIỆM THỰC TẾ VỚI LỚP .MAX VÀ DEVTOOLS
 % ------------------------------------------------------------------------------
-\subsection{5. Thực Nghiệm Thực Tế Với Lớp \csshint{.MAX} \& Đối Chiếu Chrome DevTools}
+\subsection{Thực Nghiệm Thực Tế Với Lớp \csshint{.MAX} \& Đối Chiếu Chrome DevTools}
 \label{subsec:experiment_class_max}
 
 Để kiểm chứng bản chất tính toán của trình duyệt, chúng ta cùng phân tích một thực nghiệm cụ thể với lớp CSS \codeinline{.MAX}:
