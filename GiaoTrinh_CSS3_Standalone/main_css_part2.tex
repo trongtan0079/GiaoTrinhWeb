@@ -1057,6 +1057,13 @@ Khi lập trình viên \textbf{không khai báo \codeinline{height}}, trình duy
 
 \begin{figure}[H]
 \centering
+\includegraphics[width=\linewidth]{figures/css_auto_vs_undeclared_box_comparison.png}
+\caption{Thực Nghiệm Bố Cục: Không Khai Báo vs Khai Báo \codeinline{width: auto; height: auto;} Cho Cùng Kết Quả Trong Khung Chứa 600px}
+\label{fig:css_auto_vs_undeclared_box_comparison}
+\end{figure}
+
+\begin{figure}[H]
+\centering
 \includegraphics[width=\linewidth]{figures/css_auto_vs_fixed_image_comparison.png}
 \caption{Đối Chiếu Trực Quan: \codeinline{width: auto; height: auto;} Bảo Toàn Kích Thước Gốc vs Kích Thước Cố Định Làm Méo Ảnh}
 \label{fig:css_auto_vs_fixed_image_comparison}
@@ -1176,7 +1183,93 @@ img {
 \end{itemize}
 \end{tipBox}
 
-\clearpage
+% ------------------------------------------------------------------------------
+% 3.3.1 SỰ KẾT HỢP GIỮA MAX-WIDTH, MAX-HEIGHT VÀ WIDTH, HEIGHT
+% ------------------------------------------------------------------------------
+\subsubsection{Sự Kết Hợp Giữa max-width, max-height Và width, height: Quy Luật Hoạt Động \& Trạng Thái Vô Hiệu Hóa}
+\label{subsubsec:combination_max_and_dimensions}
+
+Trong thực tế xây dựng giao diện đáp ứng (\term{Responsive}), nhóm thuộc tính đo lường cơ bản (\codeinline{width}, \codeinline{height}) và nhóm giới hạn trần (\codeinline{max-width}, \codeinline{max-height}) thường xuyên được kết hợp với nhau. Tuy nhiên, nếu lập trình viên không hiểu rõ thứ tự ưu tiên của thuật toán CSS, các thuộc tính này có thể \textbf{triệt tiêu lẫn nhau} hoặc gây ra lỗi méo mó giao diện nghiêm trọng.
+
+\paragraph{1. Bản Chất Đối Lập Giữa Kích Thước Cơ Sở Và Giới Hạn Trần:}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{width} / \codeinline{height}: Xác định kích thước cơ sở mà phần tử muốn đạt được (có thể là cố định bằng \codeinline{px} hoặc co giãn theo \codeinline{auto}/\codeinline{\%}).
+    \item \codeinline{max-width} / \codeinline{max-height}: Thiết lập \textbf{ranh giới trần tuyệt đối}. Phần tử có thể co nhỏ hơn ngưỡng này, nhưng \textbf{tuyệt đối không bao giờ được phép vượt quá}.
+\end{itemize}
+
+\paragraph{2. Hai Trạng Thái Tương Tác Sống Còn:}
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Trạng thái 1: Khi \codeinline{max-width} hoặc \codeinline{max-height} hoạt động đúng hiệu lực}\\
+    Bạn \textbf{không đặt kích thước cố định}, mà để kích thước tự do co giãn theo nội dung bằng cách sử dụng \codeinline{width: auto;} hoặc \codeinline{height: auto;}:
+    \begin{codeWindow}[Thiết Lập Co Giãn Linh Hoạt Đúng Chuẩn]
+\begin{lstlisting}[language=CSS3]
+.box {
+    max-width: 500px; /* Chieu rong toi da khong vuot qua 500px */
+    width: auto;       /* Chieu rong co gian tu nhien theo noi dung */
+}
+\end{lstlisting}
+    \end{codeWindow}
+    \textbf{Cơ chế hoạt động}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item Nếu nội dung bên trong ngắn ($< 500\text{px}$) $\rightarrow$ Khối hộp tự động thu nhỏ vừa khít nội dung.
+        \item Nếu nội dung bên trong rất dài ($> 500\text{px}$) $\rightarrow$ Khối hộp tự động dừng lại ở ngưỡng $500\text{px}$, không bao giờ vượt quá.
+    \end{itemize}
+
+    \item \textbf{Trạng thái 2: Khi \codeinline{max-width} hoặc \codeinline{max-height} bị vô hiệu hóa (Bị khóa cứng)}\\
+    Nếu bạn vô tình hoặc cố ý thiết lập \codeinline{width} hoặc \codeinline{height} bằng một con số cố định nhỏ hơn giới hạn trần:
+    \begin{codeWindow}[Cạm Bẫy Vo Hieu Hoa max-width]
+\begin{lstlisting}[language=CSS3]
+.box {
+    width: 400px;     /* Chieu rong bi khoa cung o 400px */
+    max-width: 500px; /* HOAN TOAN BI VO HIEU HOA! */
+}
+\end{lstlisting}
+    \end{codeWindow}
+    \textbf{Hậu quả}: Khối hộp luôn luôn có bề ngang đúng $400\text{px}$, bất kể nội dung bên trong nhiều hay ít. Khai báo \codeinline{max-width: 500px;} trở nên hoàn toàn vô nghĩa và bị lãng phí vì \codeinline{width} đã khóa chết kích thước ở mức thấp hơn.\\
+    \textbf{Quy tắc ưu tiên của CSS}: Thuộc tính \codeinline{max-width} chỉ phát huy tác dụng ghi đè khi kích thước tính toán của \codeinline{width} có xu hướng \textbf{vượt quá} giá trị trần (ví dụ: \codeinline{width: 600px; max-width: 500px;} $\rightarrow$ kết quả hiển thị thực tế sẽ bị ép xuống $500\text{px}$).
+\end{enumerate}
+
+\paragraph{3. Thực Chiến 8 Trường Hợp Phối Hợp Kích Thước Hình Ảnh:}
+Hình ảnh (\codeinline{<img>}) là ví dụ điển hình và trực quan nhất minh họa sự tương tác giữa các thuộc tính này. Xét một bức ảnh có kích thước gốc $1200 \times 800\text{px}$ (tỷ lệ chuẩn $3:2$) đặt trong một khung chứa rộng $600\text{px}$:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_combination_max_dimensions_image.jpg}
+\caption{Infographic Toàn Cảnh: Sự Kết Hợp Giữa \codeinline{max-width}, \codeinline{max-height} Và \codeinline{width}, \codeinline{height} Qua 8 Trường Hợp Thực Chiến}
+\label{fig:css_combination_max_dimensions_image}
+\end{figure}
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
+    \item \textbf{Trường hợp 1 (Không khai báo)}: Ảnh lấy kích thước gốc $1200\text{px}$, tràn toang khung chứa $600\text{px}$ và gây thanh cuộn ngang khó chịu.
+    \item \textbf{Trường hợp 2 (Dùng \codeinline{width: auto; height: auto;})}: Cho kết quả tương tự Trường hợp 1 (vì \codeinline{auto} trên ảnh là giữ nguyên kích thước pixel gốc của tệp tin).
+    \item \textbf{Trường hợp 3 (Dùng \codeinline{max-width: 100\%; height: auto;})}: \term{Chuẩn mực vàng Responsive}: Ảnh tự động thu nhỏ vừa khít chiều rộng khung chứa ($600\text{px}$), chiều cao tự điều chỉnh theo đúng tỷ lệ $3:2$ thành $400\text{px}$.
+    \item \textbf{Trường hợp 4 (Dùng \codeinline{width: 300px; height: auto;})}: Chiều rộng bị cố định ở $300\text{px}$, chiều cao tự động tính toán theo tỷ lệ thành $200\text{px}$.
+    \item \textbf{Trường hợp 5 (Dùng \codeinline{max-width: 400px; max-height: 300px;} kèm \codeinline{auto})}: Giới hạn kích thước theo cả 2 chiều; ảnh tự động dừng ở $400 \times 267\text{px}$, không vượt quá bất kỳ chiều nào và giữ trọn vẹn tỷ lệ.
+    \item \textbf{Trường hợp 6 (Đặt cả \codeinline{width} và \codeinline{height} cố định $300 \times 300\text{px}$)}: \textbf{Lỗi méo ảnh nghiêm trọng}! Tỷ lệ gốc $3:2$ bị bóp méo thành hình vuông $1:1$.
+    \item \textbf{Trường hợp 7 (Dùng \codeinline{max-width: 300px; max-height: 300px;} kèm \codeinline{auto})}: Thu nhỏ linh hoạt để không vượt quá $300\text{px}$ ở bất kỳ chiều nào, kết quả đạt $300 \times 200\text{px}$ hoàn hảo.
+    \item \textbf{Trường hợp 8 (Dùng \codeinline{width: 100\%; max-height: 300px;})}: Ảnh luôn bung đầy $100\%$ khung chứa ($600\text{px}$), nhưng chiều cao bị chặn đứng ở trần $300\text{px}$.
+\end{enumerate}
+
+\begin{prettyTableBox}[Bảng So Sánh Nhanh Tác Dụng Của 4 Thuộc Tính Kích Thước]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{2.2cm} Z C{2.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thuộc Tính} & \thd{Tác Dụng Bố Cục} & \thd{Ví Dụ Giá Trị} & \thd{Hành Vi Thực Tế} \\
+\codeinline{width} & Đặt chiều rộng cơ sở & \codeinline{300px}, \codeinline{100\%}, \codeinline{auto} & Cố định hoặc co giãn; có thể làm méo ảnh nếu đi cùng height cố định. \\
+\codeinline{height} & Đặt chiều cao cơ sở & \codeinline{200px}, \codeinline{auto} & Tự điều chỉnh khi đặt auto (và có width phù hợp). \\
+\codeinline{max-width} & Thiết lập trần chiều rộng tối đa & \codeinline{500px}, \codeinline{100\%} & Phần tử không bao giờ nở rộng vượt quá giá trị này. \\
+\codeinline{max-height} & Thiết lập trần chiều cao tối đa & \codeinline{300px} & Khóa trần chiều cao, ngăn nội dung kéo dài trang vô tận. \\
+\codeinline{auto} & Ủy quyền tính toán cho trình duyệt & \codeinline{auto} & Với ảnh: giữ nguyên tỷ lệ gốc khi chỉ đặt 1 chiều cố định. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{noteBox}[Quy Tắc Vàng Khi Kết Hợp max-width / max-height]
+\begin{itemize}[leftmargin=1.2em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Nguyên tắc 1}: Luôn sử dụng \codeinline{max-width} hoặc \codeinline{max-height} khi bạn muốn phần tử \textbf{co giãn mềm dẻo theo nội dung} nhưng không được phép phá vỡ giới hạn khung chứa.
+    \item \textbf{Nguyên tắc 2}: \textbf{Tuyệt đối không đặt đồng thời \codeinline{width} và \codeinline{height} cố định} cho các phần tử hình ảnh/video, vì hành động này sẽ phá hủy tỷ lệ khung hình tự nhiên và làm méo mó nội dung.
+    \item \textbf{Nguyên tắc 3}: Muốn \codeinline{max-width} hoặc \codeinline{max-height} phát huy toàn bộ sức mạnh responsive, hãy luôn kết hợp chúng với giá trị cơ sở \codeinline{width: auto;} hoặc \codeinline{height: auto;}.
+\end{itemize}
+\end{noteBox}
 
 % ------------------------------------------------------------------------------
 % 3.4 ẢNH HƯỞNG TỪ DISPLAY VÀ POSITION
