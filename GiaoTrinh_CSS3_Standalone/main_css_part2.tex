@@ -992,33 +992,58 @@ Trong quá trình xây dựng giao diện thực tế, việc sử dụng \codei
 \subsection{Giá Trị auto Và Hành Vi Khác Biệt Giữa Các Loại Phần Tử}
 \label{subsec:auto_behavior_by_display}
 
+Khi bạn thiết lập \codeinline{width: auto;} hoặc \codeinline{height: auto;} (hoặc không khai báo gì cả), bạn đang giao quyền quyết định kích thước cho trình duyệt tự động tính toán dựa trên:
+\begin{enumerate}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Loại phần tử}: Phần tử khối (\term{block-level}) hay phần tử nội dòng (\term{inline-level}).
+    \item \textbf{Nội dung bên trong}: Chiều dài văn bản, số dòng, kích thước ảnh/video tự nhiên.
+    \item \textbf{Không gian khả dụng của phần tử cha}: Giới hạn biên hoặc các thuộc tính bố cục bao ngoài (\codeinline{flex}, \codeinline{grid}).
+    \item \textbf{Các thuộc tính kiểm soát đi kèm}: \codeinline{box-sizing}, \codeinline{padding}, \codeinline{border}, \codeinline{min-*}, \codeinline{max-*}.
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_auto_dimensions_overview.png}
+\caption{Infographic Tổng Quan: Cơ Chế Tự Động Tính Toán Kích Thước Của \codeinline{width: auto;} \& \codeinline{height: auto;}}
+\label{fig:css_auto_dimensions_overview}
+\end{figure}
+
 \subsubsection{a) Đối Với \csshint{width: auto;}}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
     \item \textbf{Phần tử khối (\term{Block-level elements}, mặc định \codeinline{display: block})}:
     \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-        \item Sẽ \textbf{chiếm toàn bộ chiều rộng có sẵn} của phần tử cha (trừ đi \codeinline{margin}, \codeinline{padding}, \codeinline{border} của chính nó).
-        \item Đây chính là lý do tại sao các thẻ \codeinline{<div>}, \codeinline{<p>}, \codeinline{<section>} luôn tự động giãn ra chiếm hết chiều ngang dòng chữ dù nội dung của chúng rất ngắn.
+        \item Sẽ \textbf{tự động chiếm toàn bộ chiều rộng có sẵn} ($100\%$ không gian) của phần tử cha (trừ đi \codeinline{margin}, \codeinline{padding}, \codeinline{border} của chính nó).
+        \item Đây chính là lý do tại sao các thẻ \codeinline{<div>}, \codeinline{<p>}, \codeinline{<section>} luôn tự động giãn ra chiếm trọn dòng chữ dù nội dung rất ngắn.
     \end{itemize}
 
     \item \textbf{Phần tử nội dòng (\term{Inline-level elements}, mặc định \codeinline{display: inline})}:
     \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
         \item \textbf{Hoàn toàn KHÔNG nhận giá trị \codeinline{width} cố định}. Mọi khai báo như \codeinline{span \{ width: 300px; \}} đều bị trình duyệt bỏ qua!
-        \item Chiều rộng của phần tử nội dòng luôn luôn được xác định duy nhất bởi độ dài văn bản hoặc kích thước phần tử con bên trong nó.
+        \item Chiều rộng của phần tử nội dòng luôn luôn bằng đúng độ dài văn bản hoặc kích thước nội dung con bên trong nó.
     \end{itemize}
 
     \item \textbf{Phần tử nội dòng khối (\codeinline{display: inline-block}) hoặc Phần tử trôi nổi (\codeinline{float: left/right})}:
     \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-        \item Sẽ tự động co lại (\term{shrink-wrap}) để vừa khít với nội dung bên trong nó, trừ khi bạn chỉ định tường minh một giá trị \codeinline{width} cụ thể.
+        \item Sẽ tự động co lại (\term{shrink-wrap}) ôm sát nội dung bên trong, trừ khi bạn chỉ định tường minh một giá trị \codeinline{width} cụ thể.
     \end{itemize}
 \end{itemize}
 
-\subsubsection{b) Đối Với \csshint{height: auto;} (Rất Phổ Biến \& Quan Trọng)}
+\subsubsection{b) Đối Với \csshint{height: auto;} \& Hành Vi Khi Không Khai Báo height}
 
-\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
-    \item Hầu hết các phần tử HTML đều có giá trị mặc định là \codeinline{height: auto;}. Điều này có nghĩa là chiều cao của chúng sẽ tự động co giãn một cách hoàn hảo theo lượng nội dung bên trong.
-    \item Đây là hành vi thường mong muốn nhất để tránh nội dung bị cắt cụt (khi kết hợp với \codeinline{overflow: hidden}) hoặc xuất hiện thanh cuộn không đẹp mắt (khi dùng \codeinline{overflow: auto/scroll}).
+Khi bạn \textbf{không khai báo \codeinline{height}}, trình duyệt sẽ mặc định thiết lập là \codeinline{height: auto;}. Cơ chế cụ thể như sau:
+\begin{itemize}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
+    \item \textbf{Nếu không có nội dung} (thẻ rỗng, không có padding hay min-height): Chiều cao mặc định bằng $0$, phần tử sẽ vô hình trên trang.
+    \item \textbf{Nếu có nội dung}: Chiều cao tự động mở rộng tương ứng với lượng nội dung (1 dòng chữ sẽ mỏng, nhiều dòng chữ sẽ cao hơn).
+    \item \textbf{Nếu có padding}: Chiều cao phần tử bằng $\text{Nội dung} + \text{Padding}$ (nếu nội dung rỗng, phần tử vẫn giữ độ cao do padding tạo ra).
+    \item \textbf{Khi kết hợp với \codeinline{max-height}}: Chiều cao co giãn tự do theo nội dung nhưng không bao giờ vượt qua ngưỡng trần (và sinh thanh cuộn nếu có \codeinline{overflow: auto;}).
 \end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_auto_vs_fixed_image_comparison.png}
+\caption{Đối Chiếu Trực Quan: \codeinline{width: auto; height: auto;} Bảo Toàn Kích Thước Gốc vs Kích Thước Cố Định Làm Méo Ảnh}
+\label{fig:css_auto_vs_fixed_image_comparison}
+\end{figure}
 
 \begin{warnBox}[Cạm Bẫy Kinh Điển: Thuộc Tính height: 100\% Không Hoạt Động!]
 Một phần tử con với khai báo \codeinline{height: 100\%;} sẽ \textbf{chỉ hoạt động nếu phần tử cha trực tiếp của nó có chiều cao được định nghĩa rõ ràng bằng một con số cụ thể} (ví dụ: \codeinline{height: 500px;} hoặc \codeinline{height: 100vh;}), chứ KHÔNG PHẢI là \codeinline{height: auto;}.\\
@@ -1414,6 +1439,13 @@ img {
     \item \textbf{\codeinline{height: auto;}}: Đảm bảo tỷ lệ khung hình (\term{aspect ratio}) luôn được khóa chuẩn, ảnh không bao giờ bị méo mó hình học.
 \end{itemize}
 \end{conceptBox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_image_auto_vs_max_width_comparison.jpg}
+\caption{Ví Dụ Thực Tế Ảnh Trong CSS: So Sánh 3 Trường Hợp (Không Khai Báo, Dùng auto Và Dùng max-width: 100\%; height: auto;)}
+\label{fig:css_image_auto_vs_max_width_comparison}
+\end{figure}
 
 \subsubsection{Ứng Dụng 2: Tạo Khung Chứa Nội Dung Trung Tâm (Responsive Container)}
 
