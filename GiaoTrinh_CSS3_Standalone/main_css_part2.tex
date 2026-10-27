@@ -652,9 +652,25 @@ Mọi phần tử HTML trên trang web (khung bài viết, nút bấm, hình ả
 \section{Bản Chất Của Khái Niệm "Box" \& Cấu Trúc CSS Box Model}
 \label{sec:css_box_model_concept}
 
-Trong tư duy thiết kế web của trình duyệt, \textbf{Box (Hộp)} là toàn bộ khối hình chữ nhật được dựng ra để bao bọc và hiển thị một phần tử HTML. Bất kể là phần tử khối lớn (\codeinline{<div>}, \codeinline{<section>}), đoạn văn (\codeinline{<p>}), hay phần tử nội dòng (\codeinline{<span>}, \codeinline{<a>}), tất cả đều tuân thủ mô hình hộp.
+\subsection{1. Khái Niệm Cốt Lõi: Mọi Phần Tử Đều Là Chiếc Hộp}
 
-Một chiếc hộp CSS chuẩn mực không chỉ đơn giản là vùng chứa văn bản, mà được cấu thành từ chính xác \textbf{bốn lớp không gian đồng tâm} xếp chồng từ trong ra ngoài:
+Trong tư duy thiết kế web của trình duyệt, \textbf{CSS Box Model (Mô hình hộp)} là cơ chế dựng hình nền tảng cho từng phần tử HTML: mỗi phần tử đều được xem như một chiếc hộp hình chữ nhật, gồm nhiều lớp đồng tâm bao quanh nội dung.
+
+\begin{noteBox}[Triết Lý Nền Tảng Của CSS Layout]
+\textbf{Mọi phần tử HTML đều là một "box"} — bất kể bạn có nhìn thấy viền của nó hay không! Từ các phần tử khối lớn (\codeinline{<div>}, \codeinline{<section>}), khối văn bản (\codeinline{<p>}, \codeinline{<h1>}), cho đến các phần tử nội dòng (\codeinline{<span>}, \codeinline{<a>}, \codeinline{<img>}), trình duyệt đều áp dụng cùng một mô hình hộp chữ nhật để tính toán vị trí và diện tích hiển thị.
+\end{noteBox}
+
+\subsection{2. Bản Chất Hoạt Động Khi Trình Duyệt Vẽ (Render)}
+
+Khi trình duyệt tiến hành vẽ (\term{render}) một phần tử lên màn hình, bộ máy hiển thị (\term{rendering engine}) sẽ thực hiện tính toán qua 4 bước logic tuần tự:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nội dung gì cần hiển thị? (\term{Content})}: Đo lường kích thước chữ viết, hình ảnh hoặc các phần tử con bên trong.
+    \item \textbf{Có khoảng đệm không? (\term{Padding})}: Kiểm tra khoảng cách đệm từ nội dung đến đường viền.
+    \item \textbf{Có viền bao quanh không? (\term{Border})}: Tính toán độ dày và kiểu dáng của đường viền bao quanh.
+    \item \textbf{Có khoảng cách với phần tử khác không? (\term{Margin})}: Xác định cự ly đẩy ra xa các phần tử lân cận.
+\end{enumerate}
+$\Longrightarrow$ \textbf{Kết luận}: Trình duyệt sẽ cộng dồn các lớp không gian này lại với nhau để định hình chính xác kích thước thực tế và tọa độ hiển thị của phần tử trên trang web.
+
 \begin{equation}
 \mathbf{Box = Content + Padding + Border + Margin}
 \end{equation}
@@ -685,8 +701,186 @@ Một chiếc hộp CSS chuẩn mực không chỉ đơn giản là vùng chứa
 \label{fig:css_box_model_3d_perspective}
 \end{figure}
 
+\subsection{3. Box Model Giúp Điều Khiển Những Yếu Tố Nào?}
+
+Nắm vững Box Model cho phép bạn kiểm soát hoàn toàn 4 khía cạnh giao diện then chốt:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Kích thước hiển thị thực tế}: Xác định chính xác số pixel chiều rộng và chiều cao phần tử chiếm dụng.
+    \item \textbf{Khoảng cách giữa các phần tử}: Dùng \codeinline{margin} để tạo nhịp thở thoáng đãng và cự ly khoa học giữa các khối.
+    \item \textbf{Không gian nội bộ giữa nội dung và viền}: Dùng \codeinline{padding} giúp chữ viết không bị dính sát vào đường viền gây tức mắt.
+    \item \textbf{Khả năng thích ứng khi co giãn màn hình}: Kiểm soát cách phần tử co giãn linh hoạt khi thay đổi kích thước trình duyệt.
+\end{itemize}
+
+\subsection{4. Tại Sao Bắt Buộc Phải Hiểu Rõ CSS Box Model?}
+
+\begin{tipBox}[4 Lý Do Sống Còn Để Làm Chủ Box Model]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Kiểm soát layout chuẩn xác $100\%$}: Tránh hoàn toàn các lỗi kinh điển như tràn khung (\term{layout overflow}), vỡ dòng, lệch vị trí, hoặc kích thước bị phình to không đúng ý.
+    \item \textbf{Tối ưu hóa thiết kế đáp ứng (\term{Responsive Layout})}: Tính toán chính xác tỷ lệ phần trăm và kích thước linh hoạt trên mọi độ phân giải.
+    \item \textbf{Nền tảng của mọi hệ thống bố cục cao cấp}: Box Model là nền tảng cốt lõi của CSS Flexbox, CSS Grid, kỹ thuật định vị (\codeinline{position}), và hiệu ứng hoạt họa (\codeinline{animation}).
+\end{enumerate}
+\end{tipBox}
+
+\begin{codeWindow}[Ví Dụ Đối Chiếu Kích Thước Giữa content-box Và border-box]
+\begin{lstlisting}[language=HTML]
+<div class="box">Noi dung</div>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3]
+.box {
+    width: 200px;
+    padding: 10px;
+    border: 5px solid black;
+    margin: 20px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nếu dùng \codeinline{box-sizing: content-box} (mặc định)}:
+    \[
+    \text{Tổng chiều rộng thực tế} = 200\text{px} + (10\text{px} \times 2) + (5\text{px} \times 2) = \mathbf{230\text{px}}
+    \]
+    \item \textbf{Nếu dùng \codeinline{box-sizing: border-box} (chuẩn hiện đại)}:
+    \[
+    \text{Tổng chiều rộng thực tế} = \mathbf{200\text{px}} \quad \text{(đã bao trọn cả padding và border bên trong)}
+    \]
+\end{itemize}
+
 % ==============================================================================
-% 1.2 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
+% 1.2 CHUYÊN SÂU TẦNG CONTENT (VÙNG NỘI DUNG CỐT LÕI)
+% ==============================================================================
+\section{Chuyên Sâu Tầng Content (Vùng Nội Dung Cốt Lõi)}
+\label{sec:box_model_content_deep_dive}
+
+\subsection{1. Content Là Gì?}
+
+\textbf{Content (Nội dung)} là phần trung tâm nằm ở vị trí sâu nhất trong chiếc hộp CSS. Đây là nơi chứa đựng các giá trị thông tin thực tế mà người dùng nhìn thấy và tương tác: văn bản, hình ảnh, video, trường nhập dữ liệu (\codeinline{input}), hoặc các phần tử con.
+
+\begin{noteBox}[Đặc Điểm Cốt Lõi Của Vùng Content]
+Theo chuẩn mặc định của W3C, khi bạn đặt thuộc tính \codeinline{width} và \codeinline{height} cho một phần tử, bạn đang trực tiếp ấn định kích thước cho \textbf{riêng vùng content này} (trừ khi chuyển sang mô thức \codeinline{box-sizing: border-box}).
+\end{noteBox}
+
+\subsection{2. Kích Thước Của Vùng Content Dưới 2 Chế Độ Box-Sizing}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Chế độ mặc định \codeinline{box-sizing: content-box}}:
+    \begin{codeWindow}[Khai Báo Với content-box]
+\begin{lstlisting}[language=CSS3]
+div {
+    width: 200px;   /* Chi tinh rieng cho vung content */
+    padding: 10px;
+    border: 5px solid black;
+}
+\end{lstlisting}
+    \end{codeWindow}
+    $\Longrightarrow$ \textbf{Tổng chiều rộng thực tế}: $200\text{px (content)} + 2 \times 10\text{px (padding)} + 2 \times 5\text{px (border)} = \mathbf{230\text{px}}$.
+
+    \item \textbf{Chế độ khuyến nghị \codeinline{box-sizing: border-box}}:
+    \begin{codeWindow}[Khai Báo Với border-box]
+\begin{lstlisting}[language=CSS3]
+div {
+    box-sizing: border-box;
+    width: 200px;   /* Tong kich thuoc toan bo gom content + padding + border */
+    padding: 10px;
+    border: 5px solid black;
+}
+\end{lstlisting}
+    \end{codeWindow}
+    $\Longrightarrow$ Con số $200\text{px}$ là kích thước tổng. Vùng \codeinline{content} bên trong sẽ \textbf{tự động co nhỏ lại} chỉ còn:
+    \[
+    200\text{px} - (10\text{px} \times 2) - (5\text{px} \times 2) = \mathbf{170\text{px}} \quad \text{để nhường chỗ cho đệm và viền.}
+    \]
+\end{itemize}
+
+\subsection{3. Content Có Thể Hiển Thị Những Gì?}
+
+Tất cả các thành phần nằm bên trong vùng Content sẽ được bảo vệ, hiển thị trọn vẹn và không bao giờ bị che khuất bởi padding hay border:
+
+\begin{prettyTableBox}[Các Loại Dữ Liệu Phổ Biến Hiển Thị Trong Vùng Content]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{2.8cm} L{5.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Loại Nội Dung} & \thd{Mã Nguồn Ví Dụ} & \thd{Đặc Điểm Hiển Thị Trong Content} \\
+Văn bản (\term{Text}) & \codeinline{<p>Hello CSS</p>} & Chữ viết tự động xuống dòng khi chạm mép phải của content. \\
+Hình ảnh (\term{Images}) & \codeinline{<img src="..." />} & Chiếm diện tích theo kích thước nội tại hoặc thuộc tính kích thước. \\
+Ô nhập liệu (\term{Form Input}) & \codeinline{<input type="text" />} & Các thành phần biểu mẫu tương tác người dùng. \\
+Đa phương tiện (\term{Media}) & \codeinline{<video>}, \codeinline{<audio>} & Trình phát âm thanh, video nhúng. \\
+Các phần tử con & \codeinline{<div><span>Text</span></div>} & Cây phân cấp DOM lồng nhau bên trong khối cha. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_box_model_content_deep_dive.jpg}
+\caption{Chuyên Đề Toàn Diện Về Content Trong CSS Box Model: 4 Đặc Điểm Cốt Lõi Cùng 3 Kịch Bản Hiển Thị (Văn Bản, Hình Ảnh Và Co Giãn Tự Động auto)}
+\label{fig:css_box_model_content_deep_dive}
+\end{figure}
+
+\subsection{4. Cách \csshint{width} \& \csshint{height} Điều Chỉnh Vùng Content}
+
+\begin{codeWindow}[Thiết Lập Kích Thước Vùng Content]
+\begin{lstlisting}[language=CSS3]
+.box {
+    width: 300px;
+    height: 150px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+Vùng \codeinline{content} sẽ được ấn định chính xác chiều rộng $300\text{px}$ và chiều cao $150\text{px}$.
+
+\begin{warnBox}[2 Lưu Ý Quan Trọng Khi Điều Chỉnh Kích Thước Content]
+\begin{itemize}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
+    \item \textbf{Khi không khai báo \codeinline{width} hoặc \codeinline{height}}: Kích thước của vùng content sẽ \textbf{tự động co giãn theo khối lượng nội dung bên trong} (hành vi mặc định \codeinline{auto}).
+    \item \textbf{Khi nội dung quá nhiều vượt quá sức chứa của Content}: Nội dung sẽ bị tràn khung (\term{overflow}). Lúc này bạn cần điều khiển bằng thuộc tính \codeinline{overflow}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \codeinline{overflow: hidden;} $\rightarrow$ Cắt bỏ và ẩn toàn bộ phần nội dung bị tràn ra ngoài.
+        \item \codeinline{overflow: scroll;} $\rightarrow$ Luôn luôn hiển thị thanh cuộn (kể cả khi nội dung chưa tràn).
+        \item \codeinline{overflow: auto;} $\rightarrow$ Tự động sinh thanh cuộn mượt mà chỉ khi lượng nội dung thực sự vượt quá kích thước hộp.
+    \end{itemize}
+\end{itemize}
+\end{warnBox}
+
+\subsection{5. Ví Dụ Cụ Thể Phân Tích Đầy Đủ Các Lớp}
+
+Xét ví dụ cụ thể sau để quan sát cách 4 lớp phối hợp nhịp nhàng:
+
+\begin{codeWindow}[Ví Dụ Phân Tách Chi Tiết 4 Lớp Box Model]
+\begin{lstlisting}[language=HTML]
+<div class="box">Day la phan content</div>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3]
+.box {
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+    border: 2px solid blue;
+    margin: 20px;
+    background-color: lightyellow;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Vùng Content}: Chứa chuỗi văn bản \texttt{"Day la phan content"}, kích thước rộng $200\text{px}$ và cao $100\text{px}$.
+    \item \textbf{Vùng Padding}: Tạo khoảng trống đệm $10\text{px}$ xung quanh nội dung, mang màu nền vàng nhạt (\codeinline{lightyellow}).
+    \item \textbf{Vùng Border}: Đường viền màu xanh dương (\codeinline{blue}) dày $2\text{px}$ bao bọc lấy padding và content.
+    \item \textbf{Vùng Margin}: Khoảng cách cách ly $20\text{px}$ hoàn toàn trong suốt đẩy cách xa các phần tử lân cận.
+\end{itemize}
+
+\begin{prettyTableBox}[Bảng Tổng Kết: Mối Tương Quan Giữa Content, Kích Thước Và Box-Sizing]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thành Phần / Thuộc Tính} & \thd{Mục Đích Chính Trong Bố Cục} \\
+\codeinline{Content} & Chứa đựng nội dung thực tế hiển thị đến người dùng (chữ, ảnh, video...). \\
+\codeinline{width, height} & Xác định kích thước chiều rộng và chiều cao cho vùng content. \\
+\codeinline{box-sizing} & Điều chỉnh phạm vi ảnh hưởng của \codeinline{width}/\codeinline{height} (chỉ tính riêng content hay gộp cả border + padding). \\
+\end{tabularx}
+\end{prettyTableBox}
+
+% ==============================================================================
+% 1.3 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
 % ==============================================================================
 \section{Thuộc Tính \csshint{box-sizing} \& Công Thức Tính Tổng Kích Thước Hộp}
 \label{sec:box_sizing_deep_dive}
