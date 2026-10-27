@@ -1674,6 +1674,13 @@ Trong đó, \codeinline{value} có thể nhận các giá trị:
     \item Nếu khối chứa lượng nội dung đồ sộ vượt quá $300\text{px}$, phần tử sẽ dừng lại ở đúng ngưỡng $300\text{px}$.
 \end{itemize}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_max_height_overview_infographic.jpg}
+\caption{Infographic Tổng Quan Thuộc Tính CSS \codeinline{max-height}: Cú Pháp, Bảng Giá Trị, Mã Mẫu \& Đối Chiếu Bố Cục}
+\label{fig:css_max_height_overview_infographic}
+\end{figure}
+
 % ------------------------------------------------------------------------------
 % 5.2 SO SÁNH HEIGHT VS MAX-HEIGHT
 % ------------------------------------------------------------------------------
@@ -1794,16 +1801,25 @@ Một lỗi rất phổ biến mà nhiều lập trình viên mới gặp phải
 \subsection{Các Ứng Dụng Thực Tế Tiêu Biểu Của \csshint{max-height}}
 \label{subsec:practical_apps_max_height}
 
-\subsubsection{Ứng Dụng 1: Kết Hợp Với \csshint{overflow} Tạo Khung Cuộn Nội Dung}
+\subsubsection{Ứng Dụng 1: Kết Hợp Với \csshint{overflow} Tạo Khung Cuộn Danh Sách Thông Báo}
 
-Khi xây dựng các thành phần như khung bình luận, danh sách thông báo hay điều khoản dịch vụ:
+Khi xây dựng giao diện bảng điều khiển (\term{Dashboard}), danh sách thông báo hoặc khung bình luận thường có độ dài biến động. Nếu không giới hạn chiều cao, danh sách dài sẽ đẩy toàn bộ nội dung khác xuống dưới làm vỡ bố cục trang:
 
-\begin{codeWindow}[Khung Cuộn Nội Dung Thông Minh Với max-height]
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/max_height_notification_dashboard.png}
+\caption{Ví Dụ Thực Tế: Ứng Dụng \codeinline{max-height: 320px;} Giữ Khung Thông Báo Luôn Gọn Gàng \& Ổn Định Bố Cục Trang}
+\label{fig:max_height_notification_dashboard}
+\end{figure}
+
+\begin{codeWindow}[Mã Nguồn Khung Thông Báo Chuẩn Dashboard Với max-height]
 \begin{lstlisting}[language=CSS3]
-.comment-box {
-    max-height: 250px;
-    width: 100%;
-    overflow-y: auto;   /* Chi sinh thanh cuon doc khi noi dung vuot qua 250px */
+.notifications {
+    max-height: 320px;
+    overflow: auto;
+    padding: 16px;
+    border: 1px solid #dbe3f0;
+    border-radius: 12px;
 }
 \end{lstlisting}
 \end{codeWindow}
