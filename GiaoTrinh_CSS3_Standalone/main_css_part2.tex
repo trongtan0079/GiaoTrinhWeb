@@ -1150,110 +1150,165 @@ Trong kỹ thuật thiết kế giao diện đáp ứng hiện đại (\term{Res
 \subsubsection{a) Nhóm Chốt Chặn Sàn: \csshint{min-width} Và \csshint{min-height}}
 \label{subsubsec:min_dimensions_floor}
 
-\codeinline{min-width} và \codeinline{min-height} là hai thuộc tính CSS chuyên dụng giúp thiết lập \textbf{giới hạn tối thiểu} cho kích thước của một phần tử:
+\codeinline{min-width} và \codeinline{min-height} là hai thuộc tính CSS giúp thiết lập \textbf{ngưỡng kích thước sàn tối thiểu} cho phần tử:
 \begin{itemize}[leftmargin=1.2em, itemsep=2.5pt, parsep=0pt]
-    \item \codeinline{min-width}: Xác định chiều rộng nhỏ nhất cho phép. Phần tử tuyệt đối không được co nhỏ hơn giá trị này. Nếu nội dung bên trong đòi hỏi không gian lớn hơn, phần tử sẽ tự do mở rộng ra ngoài.
-    \item \codeinline{min-height}: Xác định chiều cao nhỏ nhất cho phép. Phần tử tuyệt đối không được thấp hơn giá trị này. Khi nội dung con phát triển nhiều dòng hơn, phần tử sẽ tự động giãn cao theo nội dung.
+    \item \codeinline{min-width}: Định nghĩa chiều rộng tối thiểu của phần tử. Nếu nội dung bên trong yêu cầu không gian lớn hơn giá trị này, phần tử sẽ tự động mở rộng theo nội dung.
+    \item \codeinline{min-height}: Định nghĩa chiều cao tối thiểu của phần tử. Nếu nội dung bên trong cần chiều cao lớn hơn, phần tử sẽ tự động mở rộng tương ứng.
 \end{itemize}
+
+\begin{warnBox}[Nguyên Lý Ưu Tiên Tối Cao Của Nhóm min-*]
+Nếu một phần tử được khai báo giá trị kích thước cơ sở \codeinline{width} hoặc \codeinline{height} \textbf{nhỏ hơn} \codeinline{min-width} hoặc \codeinline{min-height}, thì trình duyệt sẽ \textbf{luôn ưu tiên áp dụng giá trị min-*}, còn giá trị cơ sở nhỏ hơn kia hoàn toàn bị vô hiệu hóa!
+\end{warnBox}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{figures/css_min_width_min_height_overview.png}
-\caption{Infographic Toàn Cảnh: Cơ Chế Giới Hạn Kích Thước Tối Thiểu Của \codeinline{min-width} \& \codeinline{min-height}}
+\caption{Infographic Toàn Cảnh: Cơ Chế Giới Hạn Kích Thước Tối Thiểu \& Các Trạng Thái Thực Nghiệm Của \codeinline{min-width} \& \codeinline{min-height}}
 \label{fig:css_min_width_min_height_overview}
 \end{figure}
 
-\paragraph{1. Cách hoạt động của \codeinline{min-width} \& Thí nghiệm thực chứng DevTools:}
-Xét ví dụ kinh điển khi \codeinline{width} cố định xung đột trực tiếp với \codeinline{min-width}:
-\begin{codeWindow}[Thực Nghiệm min-width Đè Bẹp width Cố Định]
+\paragraph{1. Cách Hoạt Động Cụ Thể Của \codeinline{min-width}:}
+Cơ chế của \codeinline{min-width} được thể hiện qua 3 trường hợp kinh điển:
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Trường hợp 1 (\codeinline{min-width} lớn hơn \codeinline{width} cơ sở)}:
+    \begin{codeWindow}[min-width Đè Bẹp width Nhỏ Hơn]
 \begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
-<style>
 .box {
     background: lightblue;
+    width: 100px;
     min-width: 300px;
-    width: 100px; /* Khong co tac dung vi nho hon min-width! */
 }
-</style>
 <div class="box">Noi dung BOX</div>
 \end{lstlisting}
-\end{codeWindow}
+    \end{codeWindow}
+    \textbf{Kết quả}: Phần tử luôn có ít nhất $300\text{px}$ chiều rộng, dù \codeinline{width} chỉ đặt $100\text{px}$. Nếu nội dung dài hơn $300\text{px}$, phần tử tự động dãn ra theo nội dung.
 
-\textbf{Kiểm chứng thực tế trên Chrome DevTools}:
-\begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
-    \item \textbf{Khi nội dung ngắn}: Dù lập trình viên đã viết \codeinline{width: 100px;}, nhưng cửa sổ Inspect của trình duyệt vẫn hiển thị chính xác kích thước hộp là $\mathbf{300 \times 17.6\text{px}}$ (Hình~\ref{fig:devtools_min_width_override}). Giá trị \codeinline{min-width: 300px;} đã hoàn toàn áp đảo và đè bẹp khai báo \codeinline{width: 100px;}.
-    \item \textbf{Khi nội dung dài hơn}: Nếu ta thay đổi nội dung thành chuỗi văn bản dài: \codeinline{<div class="box">Nếu nội dung nhiều hơn thì box giản ra theo nội dung</div>}, văn bản sẽ tự động rớt xuống 2 dòng, chiều cao tăng vọt từ $17.6\text{px}$ lên $\mathbf{35.2\text{px}}$ (Hình~\ref{fig:devtools_min_width_expand_height}), trong khi bề ngang vẫn được bảo toàn nguyên vẹn ở mức $300\text{px}$.
-\end{itemize}
+    \textbf{Kiểm chứng thực tế trên Chrome DevTools}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2.5pt, parsep=0pt]
+        \item Cửa sổ Inspect hiển thị chính xác kích thước thực tế là $\mathbf{300 \times 17.6\text{px}}$ (Hình~\ref{fig:devtools_min_width_override}).
+        \item Khi tăng độ dài văn bản (\textit{``Nếu nội dung nhiều hơn thì box giản ra theo nội dung''}), văn bản rớt xuống 2 dòng, chiều cao tự nở ra $\mathbf{35.2\text{px}}$ (Hình~\ref{fig:devtools_min_width_expand_height}), còn bề ngang vẫn giữ nguyên $300\text{px}$.
+    \end{itemize}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.48\linewidth}
+    \begin{figure}[H]
     \centering
-    \includegraphics[width=0.88\linewidth]{figures/devtools_min_width_override.png}
-    \caption{DevTools: \codeinline{min-width: 300px} Đè Bẹp \codeinline{width: 100px}}
-    \label{fig:devtools_min_width_override}
-\end{minipage}\hfill
-\begin{minipage}{0.48\linewidth}
-    \centering
-    \includegraphics[width=0.88\linewidth]{figures/devtools_min_width_expand_height.png}
-    \caption{DevTools: Khi Thêm Chữ, Chiều Cao Tự Nở Ra Đạt $35.2\text{px}$}
-    \label{fig:devtools_min_width_expand_height}
-\end{minipage}
-\end{figure}
+    \begin{minipage}{0.48\linewidth}
+        \centering
+        \includegraphics[width=0.88\linewidth]{figures/devtools_min_width_override.png}
+        \caption{DevTools: \codeinline{min-width: 300px} Đè Bẹp \codeinline{width: 100px}}
+        \label{fig:devtools_min_width_override}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\linewidth}
+        \centering
+        \includegraphics[width=0.88\linewidth]{figures/devtools_min_width_expand_height.png}
+        \caption{DevTools: Khi Thêm Chữ, Chiều Cao Tự Nở Ra Đạt $35.2\text{px}$}
+        \label{fig:devtools_min_width_expand_height}
+    \end{minipage}
+    \end{figure}
 
-\textbf{Cơ chế khi kết hợp \codeinline{min-width} với đơn vị phần trăm (\%)}:\\
-Khi ta thiết lập \codeinline{.box \{ width: 50\%; min-width: 300px; \}}:
-\begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-    \item \textbf{Trong khung cha $800\text{px}$}: Chiều rộng tính toán là $50\% \times 800\text{px} = 400\text{px} > 300\text{px} \rightarrow$ Hiển thị $400\text{px}$.
-    \item \textbf{Trong khung cha $500\text{px}$}: Chiều rộng tính toán là $50\% \times 500\text{px} = 250\text{px} < 300\text{px} \rightarrow$ Bị chốt chặn dừng lại ở $300\text{px}$.
-    \item \textbf{Lưu ý rủi ro}: Nếu khung cha nhỏ hơn $300\text{px}$ (ví dụ màn hình di động hẹp), phần tử sẽ không thể thu nhỏ hơn $300\text{px}$ nữa và sẽ \textbf{bị tràn khung ngang}.
-\end{itemize}
-
-\paragraph{2. Cách hoạt động của \codeinline{min-height}:}
-Tương tự như chiều rộng, \codeinline{min-height} giải quyết triệt để bài toán chống sụp xẹp giao diện:
-\begin{codeWindow}[Ví Dụ min-height Bảo Toàn Chiều Cao Tối Thiểu]
-\begin{lstlisting}[language=HTML5, escapeinside={(*@}{@*)}]
+    \item \textbf{Trường hợp 2 (\codeinline{min-width} nhỏ hơn \codeinline{width} cơ sở)}:
+    \begin{codeWindow}[width Cơ Sở Lớn Hơn Chiếm Quyền Ưu Tiên]
+\begin{lstlisting}[language=CSS3]
 .box {
     background: lightgreen;
-    min-height: 200px;
-    height: 50px; /* Bi vo hieu hoa boi min-height! */
+    width: 400px;     /* Lon hon min-width */
+    min-width: 200px;
 }
 \end{lstlisting}
-\end{codeWindow}
-\begin{itemize}[leftmargin=1.2em, itemsep=2.5pt, parsep=0pt]
-    \item Khi phần tử có ít chữ: Khối vẫn đứng sừng sững với chiều cao $200\text{px}$, giữ vững bố cục lưới (\term{Grid/Flex card}) không bị chênh lệch so với các thẻ lân cận.
-    \item Khi phần tử nhận nhiều dữ liệu từ API: Chiều cao tự động bung lớn hơn $200\text{px}$ để bao trọn toàn bộ nội dung, không bao giờ xảy ra tình trạng cắt cụt chữ.
-\end{itemize}
+    \end{codeWindow}
+    \textbf{Kết quả}: Vì \codeinline{width: 400px;} lớn hơn ngưỡng sàn \codeinline{min-width: 200px;}, nên kích thước thực tế hiển thị sẽ là $400\text{px}$.
 
-\paragraph{3. Nghệ thuật kết hợp 4 cực kích thước: \codeinline{min-width}, \codeinline{max-width}, \codeinline{min-height}, \codeinline{max-height}:}
-Bằng cách kết hợp đồng thời cả 4 thuộc tính giới hạn, lập trình viên tạo ra một \textbf{hộp co giãn trong dải an toàn tuyệt đối}:
-\begin{codeWindow}[Hộp Kích Thước Co Giãn Trong Khoảng An Toàn]
+    \item \textbf{Trường hợp 3 (\codeinline{min-width} kết hợp \codeinline{max-width})}:
+    \begin{codeWindow}[Giới Hạn Trong Khoảng Bề Ngang An Toàn]
 \begin{lstlisting}[language=CSS3]
 .box {
     background: orange;
     min-width: 200px;
     max-width: 400px;
-    min-height: 150px;
-    max-height: 300px;
+}
+\end{lstlisting}
+    \end{codeWindow}
+    \textbf{Kết quả}: Phần tử không bao giờ nhỏ hơn $200\text{px}$ và không bao giờ lớn hơn $400\text{px}$. Nếu nội dung ít, phần tử rộng $200\text{px}$. Nếu nội dung dài, phần tử dừng lại ở $400\text{px}$.
+
+    \item \textbf{Thực nghiệm kết hợp với đơn vị phần trăm (\%)} (Đối chiếu Hình~\ref{fig:css_min_width_min_height_overview}):\\
+    Với khai báo \codeinline{.box \{ width: 50\%; min-width: 300px; \}}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Khung cha $800\text{px}$}: $50\% = 400\text{px} > 300\text{px} \rightarrow$ Hiển thị $400\text{px}$.
+        \item \textbf{Khung cha $500\text{px}$}: $50\% = 250\text{px} < 300\text{px} \rightarrow$ Bị chặn lại ở $300\text{px}$.
+        \item \textbf{Khung cha $260\text{px}$}: $50\% = 130\text{px} < 300\text{px} \rightarrow$ Phần tử vẫn giữ $300\text{px} \rightarrow$ \textbf{Bị tràn ra ngoài khung cha} (minh họa viền đỏ trong Infographic).
+    \end{itemize}
+\end{itemize}
+
+\paragraph{2. Cách Hoạt Động Cụ Thể Của \codeinline{min-height}:}
+\codeinline{min-height} đảm bảo chiều cao tối thiểu cho khối hộp, trải qua 3 trường hợp:
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Trường hợp 1 (\codeinline{min-height} lớn hơn \codeinline{height} cơ sở)}:
+    \begin{codeWindow}[min-height Đè Bẹp height Nhỏ Hơn]
+\begin{lstlisting}[language=CSS3]
+.box {
+    background: lightcoral;
+    height: 100px;     /* Nho hon min-height */
+    min-height: 300px;
+}
+\end{lstlisting}
+    \end{codeWindow}
+    \textbf{Kết quả}: Chiều cao phần tử luôn đạt ít nhất $300\text{px}$, hoàn toàn bỏ qua giá trị $100\text{px}$.
+
+    \item \textbf{Trường hợp 2 (\codeinline{min-height} nhỏ hơn \codeinline{height} cơ sở)}:
+    \begin{codeWindow}[height Cơ Sở Lớn Hơn Chiếm Quyền Ưu Tiên]
+\begin{lstlisting}[language=CSS3]
+.box {
+    background: violet;
+    height: 400px;     /* Lon hon min-height */
+    min-height: 200px;
+}
+\end{lstlisting}
+    \end{codeWindow}
+    \textbf{Kết quả}: Vì \codeinline{height: 400px;} lớn hơn ngưỡng tối thiểu $200\text{px}$, nên phần tử hiển thị chính xác $400\text{px}$.
+
+    \item \textbf{Trường hợp 3 (\codeinline{min-height} kết hợp \codeinline{max-height})}:
+    \begin{codeWindow}[Dải Chiều Cao An Toàn Kèm Thanh Cuộn]
+\begin{lstlisting}[language=CSS3]
+.box {
+    background: lightgray;
+    min-height: 200px;
+    max-height: 400px;
     overflow: auto;
 }
 \end{lstlisting}
-\end{codeWindow}
-\begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-    \item Bề ngang dao động an toàn trong dải $[200\text{px}, 400\text{px}]$.
-    \item Bề dọc dao động an toàn trong dải $[150\text{px}, 300\text{px}]$; nếu nội dung vượt trần $300\text{px}$, thanh cuộn nội bộ tự động xuất hiện nhờ \codeinline{overflow: auto;}.
+    \end{codeWindow}
+    \textbf{Kết quả}: Chiều cao phần tử luôn dao động trong khoảng $[200\text{px}, 400\text{px}]$. Nếu lượng văn bản vượt trần $400\text{px}$, thanh cuộn tự động xuất hiện nhờ \codeinline{overflow: auto;}.
+
+    \item \textbf{Ba cấp độ co giãn theo nội dung} (Đối chiếu Hình~\ref{fig:css_min_width_min_height_overview} với thẻ \codeinline{.card \{ min-height: 160px; \}}):
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \textbf{Ít nội dung}: Thẻ vẫn cao tối thiểu đúng $160\text{px}$, không bao giờ bị teo nhỏ xẹp lép.
+        \item \textbf{Nội dung vừa}: Chiều cao vẫn duy trì $160\text{px}$ chuẩn mực.
+        \item \textbf{Nhiều nội dung}: Thẻ tự động nở cao vượt mốc $160\text{px}$ để bao trọn văn bản con mà không cắt chữ.
+    \end{itemize}
 \end{itemize}
 
-\begin{prettyTableBox}[Ma Trận 4 Thuộc Tính Ranh Giới Kích Thước Trong CSS]
+\begin{prettyTableBox}[Bảng So Sánh Toàn Diện 6 Thuộc Tính Kích Thước Trong CSS]
 \rowcolors{2}{white}{primaryBlue!4}
 \begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{2.5cm} Z Z}
 \rowcolor{primaryBlue}
-\thd{Thuộc Tính} & \thd{Ý Nghĩa Ranh Giới} & \thd{Ứng Dụng Thực Chiến} \\
-\codeinline{min-width} & Đảm bảo phần tử không bao giờ nhỏ hơn giá trị này. & Bảo vệ nút bấm, thẻ Card, Sidebar không bị thu nhỏ quá mức trên mobile. \\
-\codeinline{min-height} & Đảm bảo phần tử không bao giờ thấp hơn giá trị này. & Giữ thẻ Card sản phẩm bằng nhau, chống xẹp khung khi dữ liệu chưa load. \\
-\codeinline{max-width} & Đảm bảo phần tử không bao giờ lớn hơn giá trị này. & Giữ độ dài dòng đọc lý tưởng, chống tràn ảnh responsive (\codeinline{max-width: 100\%}). \\
-\codeinline{max-height} & Đảm bảo phần tử không bao giờ cao hơn giá trị này. & Khóa trần hộp chat, danh sách bình luận, popup modal kèm \codeinline{overflow: auto}. \\
+\thd{Thuộc Tính} & \thd{Mô Tả Chức Năng} & \thd{Hành Vi Chi Tiết Khi Nội Dung Co Giãn} \\
+\codeinline{min-width} & Giữ chiều rộng tối thiểu & Nếu nội dung cần rộng hơn, phần tử tự động mở rộng theo nội dung. \\
+\codeinline{min-height} & Giữ chiều cao tối thiểu & Nếu nội dung cần cao hơn, phần tử tự động giãn cao theo nội dung. \\
+\codeinline{max-width} & Giữ chiều rộng tối đa & Nếu nội dung rộng hơn, phần tử bị giới hạn (tránh tràn khung). \\
+\codeinline{max-height} & Giữ chiều cao tối đa & Nếu nội dung cao hơn, phần tử bị khóa trần (sinh cuộn nếu có overflow). \\
+\codeinline{width: auto;} & Chiều rộng tự động & Block: bung $100\%$ khung cha. Inline: vừa khít chữ. Replaced: ảnh gốc. \\
+\codeinline{height: auto;} & Chiều cao tự động & Ôm khít theo nội dung; bằng $0$ nếu rỗng và không có padding. \\
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{noteBox}[Tóm Tắt Ứng Dụng Thực Chiến Của min-width \& min-height]
+\begin{itemize}[leftmargin=1.2em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Ứng dụng min-width}: Giữ layout không bị co rúm trên mobile; đảm bảo nút bấm (\codeinline{button}), ô nhập liệu (\codeinline{input}), thanh trượt luôn có diện tích chạm ngón tay (\term{touch target $\ge 44\text{px}$}) theo chuẩn tiếp cận (a11y).
+    \item \textbf{Ứng dụng min-height}: Đảm bảo khối giao diện luôn có chiều cao cố định tối thiểu (Hero banner, Card sản phẩm), giữ cấu trúc dạng lưới đồng đều ngay cả khi dữ liệu chưa tải xong hoặc có ít chữ.
+    \item \textbf{Nguyên tắc ghi nhớ}: Khi nội dung nhỏ hơn $\rightarrow$ Kích thước giữ nguyên ở mức \codeinline{min-*}; Khi nội dung lớn hơn $\rightarrow$ Phần tử tự động mở rộng theo nội dung (trừ khi bị chặn bởi \codeinline{max-*}).
+\end{itemize}
+\end{noteBox}
 
 % ------------------------------------------------------------------------------
 % 3.3.2 NHÓM CHỐT CHẶN TRẦN
