@@ -911,75 +911,29 @@ Khi bạn đặt \codeinline{width} và \codeinline{height} cho một phần t�
 % ------------------------------------------------------------------------------
 % 2.1 CSS BOX MODEL
 % ------------------------------------------------------------------------------
-\subsection{1. CSS Box Model (Mô Hình Hộp)}
+\subsection{CSS Box Model (Mô Hình Hộp)}
 \label{subsec:css_box_model_concept}
 
 Mọi phần tử HTML trên trang web đều được xem như một chiếc hộp hình chữ nhật, bao gồm bốn lớp xếp chồng lên nhau từ trong ra ngoài:
 
-\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
     \item \textbf{Content (Nội dung)}: Vùng chứa nội dung thực tế của phần tử (văn bản, hình ảnh, video, danh sách). Đây chính là vùng mà \codeinline{width} và \codeinline{height} trực tiếp tác động khi sử dụng mô hình chuẩn.
     \item \textbf{Padding (Vùng đệm)}: Khoảng không gian đệm trong suốt nằm giữa nội dung và đường viền (\codeinline{border}) của phần tử. \codeinline{padding} có màu nền trùng với màu nền của phần tử.
     \item \textbf{Border (Đường viền)}: Đường viền bao bọc xung quanh vùng đệm (\codeinline{padding}) và nội dung (\codeinline{content}). Đường viền có thể được định dạng độ dày, màu sắc và kiểu nét vẽ.
     \item \textbf{Margin (Lề ngoài)}: Khoảng không gian trống hoàn toàn trong suốt bên ngoài đường viền, dùng để tạo khoảng cách tách biệt giữa phần tử này với các phần tử khác xung quanh.
 \end{enumerate}
 
-\subsubsection{Sơ Đồ Hình Học CSS Box Model Phân Tầng}
-
-Dưới đây là sơ đồ ASCII nguyên bản thể hiện cấu trúc lồng nhau của 4 lớp Box Model:
-
-\begin{codeWindow}[Sơ Đồ Mô Phỏng 4 Lớp Mô Hình Hộp (ASCII Diagram)]
-\begin{verbatim}
-+------------------------------------------+
-|                 Margin                   |
-|   +----------------------------------+   |
-|   |              Border              |   |
-|   |   +--------------------------+   |   |
-|   |   |         Padding          |   |   |
-|   |   |   +------------------+   |   |   |
-|   |   |   |     Content      |   |   |   | <-- width & height áp dụng ở đây
-|   |   |   +------------------+   |   |   |
-|   |   +--------------------------+   |   |
-|   +----------------------------------+   |
-+------------------------------------------+
-\end{verbatim}
-\end{codeWindow}
-
-\begin{browserWindow}[Sơ Đồ Trực Quan Hóa 4 Lớp CSS Box Model (Chuẩn Browser DevTools)]
-\sffamily\small
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.92, every node/.style={font=\sffamily}]
-  % 1. LỚP MARGIN (Ngoài cùng - Cam nhạt)
-  \draw[fill=accentOrange!14, draw=accentOrange!70, line width=1.2pt, rounded corners=6pt] (-5.8, -3.2) rectangle (5.8, 3.2);
-  \node[anchor=north west, font=\small\bfseries\color{accentOrange!90!black}] at (-5.6, 3.05) {MARGIN (Lề ngoài - Trong suốt, tạo khoảng cách)};
-  
-  % 2. LỚP BORDER (Lớp viền - Vàng/Hổ phách)
-  \draw[fill=codeKeyword!18, draw=codeKeyword!80, line width=1.2pt, rounded corners=5pt] (-4.6, -2.4) rectangle (4.6, 2.4);
-  \node[anchor=north west, font=\small\bfseries\color{codeKeyword!95!black}] at (-4.4, 2.25) {BORDER (Đường viền - Độ dày, màu viền)};
-  
-  % 3. LỚP PADDING (Vùng đệm - Xanh lá nhạt)
-  \draw[fill=tipBorder!16, draw=tipBorder!80, line width=1.2pt, rounded corners=4pt] (-3.4, -1.6) rectangle (3.4, 1.6);
-  \node[anchor=north west, font=\small\bfseries\color{tipBorder!90!black}] at (-3.2, 1.45) {PADDING (Vùng đệm - Khoảng cách tới viền)};
-  
-  % 4. LỚP CONTENT (Vùng nội dung - Xanh dương đậm)
-  \draw[fill=primaryBlue!20, draw=primaryBlue, line width=1.5pt, rounded corners=3pt] (-2.2, -0.8) rectangle (2.2, 0.8);
-  \node[anchor=center, font=\normalsize\bfseries\color{primaryBlue!90!black}, align=center] at (0, 0) {
-    \textbf{CONTENT}\\
-    {\scriptsize \ttfamily width $\times$ height trực tiếp áp dụng ở đây}
-  };
-
-  % Mũi tên chỉ thị kích thước
-  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, primaryBlue, line width=1pt] (-2.2, -1.05) -- (2.2, -1.05);
-  \node[anchor=north, font=\tiny\bfseries\color{primaryBlue}] at (0, -1.05) {width (Content Area)};
-
-  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]}, primaryBlue, line width=1pt] (2.45, -0.8) -- (2.45, 0.8);
-  \node[anchor=west, font=\tiny\bfseries\color{primaryBlue}] at (2.45, 0) {height};
-\end{tikzpicture}
-\end{browserWindow}
+\includegraphics[width=0.82\linewidth]{figures/css_box_model_four_layers.png}
+\caption{Sơ Đồ Trực Quan Hóa Mô Hình Hộp CSS (CSS Box Model) Với 4 Phân Tầng: Margin, Border, Padding Và Content}
+\label{fig:css_box_model_four_layers}
+\end{figure}
 
 % ------------------------------------------------------------------------------
 % 2.2 THUỘC TÍNH BOX-SIZING
 % ------------------------------------------------------------------------------
-\subsection{2. Thuộc Tính \csshint{box-sizing} (Thay Đổi Cách Tính Toán Kích Thước)}
+\subsection{Thuộc Tính \csshint{box-sizing} (Thay Đổi Cách Tính Toán Kích Thước)}
 \label{subsec:box_sizing_deep_dive}
 
 Đây là thuộc tính quan trọng nhất ảnh hưởng trực tiếp đến cách trình duyệt tính toán \codeinline{width} và \codeinline{height} thực tế của phần tử trên trang.
@@ -1035,7 +989,7 @@ Trong quá trình xây dựng giao diện thực tế, việc sử dụng \codei
 % ------------------------------------------------------------------------------
 % 3.1 GIÁ TRỊ AUTO VÀ HÀNH VI KHÁC BIỆT
 % ------------------------------------------------------------------------------
-\subsection{1. Giá Trị auto Và Hành Vi Khác Biệt Giữa Các Loại Phần Tử}
+\subsection{Giá Trị auto Và Hành Vi Khác Biệt Giữa Các Loại Phần Tử}
 \label{subsec:auto_behavior_by_display}
 
 \subsubsection{a) Đối Với \csshint{width: auto;}}
@@ -1092,7 +1046,7 @@ Nếu phần tử cha cũng để mặc định \codeinline{height: auto;}, thì
 % ------------------------------------------------------------------------------
 % 3.2 ĐƠN VỊ TƯƠNG ĐỐI VÀ TUYỆT ĐỐI
 % ------------------------------------------------------------------------------
-\subsection{2. Đơn Vị Tương Đối Và Đơn Vị Tuyệt Đối}
+\subsection{Đơn Vị Tương Đối Và Đơn Vị Tuyệt Đối}
 \label{subsec:units_relative_vs_absolute}
 
 \subsubsection{a) Đơn Vị Tuyệt Đối (Absolute Units): \csshint{px}, \csshint{pt}, \csshint{cm}, \csshint{in}...}
@@ -1113,7 +1067,7 @@ Nếu phần tử cha cũng để mặc định \codeinline{height: auto;}, thì
 % ------------------------------------------------------------------------------
 % 3.3 MIN/MAX WIDTH & HEIGHT
 % ------------------------------------------------------------------------------
-\subsection{3. Kiểm Soát Giới Hạn: \csshint{min-width}, \csshint{max-width}, \csshint{min-height}, \csshint{max-height}}
+\subsection{Kiểm Soát Giới Hạn: \csshint{min-width}, \csshint{max-width}, \csshint{min-height}, \csshint{max-height}}
 \label{subsec:min_max_sizing}
 
 Đây là nhóm bốn thuộc tính cực kỳ quan trọng và không thể thiếu trong kỹ thuật thiết kế giao diện đáp ứng (\term{Responsive Web Design}):
