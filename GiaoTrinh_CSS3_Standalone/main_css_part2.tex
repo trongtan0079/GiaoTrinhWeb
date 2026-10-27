@@ -1184,41 +1184,224 @@ img {
     \end{itemize}
 \end{enumerate}
 
+\begin{tipBox}[Chiến Lược Thực Chiến Khi Sử Dụng min-width \& max-width]
+\begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Khóa biên dưới an toàn (\codeinline{min-width})}: Thiết lập cho các nút bấm hành động (button, input, badge) để tránh bị co rúm trên thiết bị di động màn hình hẹp ($< 360\text{px}$).
+    \item \textbf{Khóa trần thị giác (\codeinline{max-width})}: Thiết lập cho các khối văn bản đọc (\codeinline{max-width: 700px} đến \codeinline{800px}) nhằm giữ độ dài dòng đọc ở mức lý tưởng (khoảng 60--75 ký tự/dòng theo chuẩn Ergonomics).
+    \item \textbf{Cặp bài trùng Responsive}: Luôn ưu tiên công thức \codeinline{width: 100\%; max-width: 1200px; margin: 0 auto;} để tạo khối khung chứa trung tâm hoàn hảo cho mọi trang web.
+\end{itemize}
+\end{tipBox}
+
+\clearpage
+
 % ------------------------------------------------------------------------------
 % 3.4 ẢNH HƯỞNG TỪ DISPLAY VÀ POSITION
 % ------------------------------------------------------------------------------
-\subsection{4. Mối Tương Quan \& Ảnh Hưởng Từ \csshint{display} Và \csshint{position}}
+\subsection{Mối Tương Quan \& Ảnh Hưởng Từ \csshint{display} Và \csshint{position}}
 \label{subsec:display_position_impact}
 
-Hành vi của \codeinline{width} và \codeinline{height} phụ thuộc mật thiết vào cách phần tử được định kiểu hiển thị và định vị:
+Hành vi của \codeinline{width} và \codeinline{height} phụ thuộc mật thiết vào cách phần tử được định kiểu hiển thị (\term{display mode}) và định vị (\term{positioning context}).
 
-\begin{enumerate}[leftmargin=1.5em, itemsep=6pt, parsep=0pt]
-    \item \textbf{\codeinline{display: inline;}}:
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-        \item Các phần tử nội dòng (như \codeinline{<a>}, \codeinline{<span>}, \codeinline{<strong>}, \codeinline{<em>}) sẽ \textbf{hoàn toàn không nhận} các thuộc tính \codeinline{width}, \codeinline{height}, \codeinline{margin-top}, \codeinline{margin-bottom}, \codeinline{padding-top}, và \codeinline{padding-bottom} theo cách thông thường.
-        \item Chiều rộng và chiều cao của chúng được xác định hoàn toàn bởi dung lượng chữ bên trong.
-    \end{itemize}
+\begin{browserWindow}[Mô Phỏng Trực Quan 3 Chế Độ Hiển Thị \& Định Vị]
+\centering
+\begin{tikzpicture}[scale=0.96, every node/.style={transform shape}]
+  % KHỐI 1: display: inline
+  \begin{scope}[shift={(0, 0)}]
+    \draw[fill=gray!4, draw=gray!25, rounded corners=6pt] (-2.25, -2.25) rectangle (2.25, 2.05);
+    \node[anchor=north, font=\small\bfseries\color{accentOrange!90!black}] at (0, 1.85) {1. display: inline;};
+    \node[anchor=north, font=\fontsize{7.5pt}{9pt}\selectfont\color{gray!70}] at (0, 1.35) {Thẻ nội dòng (span, a, em)};
+    
+    \draw[fill=white, draw=gray!25, rounded corners=4pt] (-1.95, -1.4) rectangle (1.95, 0.8);
+    \node[anchor=north west, font=\fontsize{7.5pt}{9pt}\selectfont\color{darkText!75}] at (-1.8, 0.65) {Dòng văn bản:};
+    
+    % Thẻ inline thực tế
+    \draw[fill=accentOrange!15, draw=accentOrange, line width=1pt, rounded corners=3pt] (-1.8, -0.25) rectangle (-0.45, 0.3);
+    \node[anchor=center, font=\fontsize{7pt}{8.5pt}\selectfont\bfseries\color{accentOrange!90!black}] at (-1.125, 0.025) {inline text};
+    \node[anchor=west, font=\fontsize{7pt}{8.5pt}\selectfont\color{darkText!50}] at (-0.35, 0.025) {văn bản...};
+    
+    % Khung bị lờ đi
+    \draw[dashed, draw=dangerRed!90!black, line width=0.9pt] (-1.8, -0.8) rectangle (0.6, 0.3);
+    \node[anchor=north, font=\fontsize{6.5pt}{7.5pt}\selectfont\bfseries\color{dangerRed!90!black}] at (-0.6, -0.82) {Khung 90x32px bị lờ đi!};
+    
+    \node[anchor=center, font=\fontsize{7pt}{8.5pt}\selectfont\bfseries\color{dangerRed}, fill=dangerRed!10, draw=dangerRed!30, rounded corners=3pt, inner sep=3pt] at (0, -1.82) {[BỊ LỜ ĐI] Không nhận size};
+  \end{scope}
 
-    \item \textbf{\codeinline{display: inline-block;}}:
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-        \item Các phần tử này thừa hưởng khả năng thiết lập \codeinline{width} và \codeinline{height} độc lập như một khối (\term{block}), nhưng đồng thời vẫn nằm thẳng hàng trên cùng một dòng với các phần tử nội dòng khác.
-    \end{itemize}
+  % KHỐI 2: display: inline-block
+  \begin{scope}[shift={(4.9, 0)}]
+    \draw[fill=gray!4, draw=gray!25, rounded corners=6pt] (-2.25, -2.25) rectangle (2.25, 2.05);
+    \node[anchor=north, font=\small\bfseries\color{successGreen!85!black}] at (0, 1.85) {2. display: inline-block;};
+    \node[anchor=north, font=\fontsize{7.5pt}{9pt}\selectfont\color{gray!70}] at (0, 1.35) {Khối lai đứng cùng dòng};
+    
+    \draw[fill=white, draw=gray!25, rounded corners=4pt] (-1.95, -1.4) rectangle (1.95, 0.8);
+    \node[anchor=north west, font=\fontsize{7.5pt}{9pt}\selectfont\color{darkText!75}] at (-1.8, 0.65) {Dòng văn bản:};
+    
+    \draw[fill=successGreen!15, draw=successGreen!90!black, line width=1.1pt, rounded corners=3pt] (-1.8, -0.6) rectangle (0.6, 0.3);
+    \node[anchor=center, font=\fontsize{6.8pt}{8pt}\selectfont\bfseries\color{successGreen!85!black}] at (-0.6, -0.15) {inline-block (90x32px)};
+    \node[anchor=west, font=\fontsize{7pt}{8.5pt}\selectfont\color{darkText!50}] at (0.75, -0.15) {văn bản...};
+    
+    \draw[{Stealth[length=3pt]}-{Stealth[length=3pt]}, successGreen!85!black, line width=0.6pt] (-1.8, -0.9) -- (0.6, -0.9);
+    \node[anchor=north, font=\fontsize{6.5pt}{7.5pt}\selectfont\bfseries\color{successGreen!85!black}] at (-0.6, -0.92) {Rộng thực tế: đúng 90px};
+    
+    \node[anchor=center, font=\fontsize{7pt}{8.5pt}\selectfont\bfseries\color{successGreen!85!black}, fill=successGreen!12, draw=successGreen!35, rounded corners=3pt, inner sep=3pt] at (0, -1.82) {[CHUẨN] Nhận size đầy đủ};
+  \end{scope}
 
-    \item \textbf{\codeinline{position: absolute;} / \codeinline{position: fixed;}}:
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-        \item Khi một phần tử được định vị tuyệt đối hoặc cố định, nó sẽ \textbf{bị rút hoàn toàn khỏi dòng chảy tài liệu thông thường} (\term{normal document flow}).
-        \item \codeinline{width} và \codeinline{height} của chúng có thể được thiết lập độc lập hoặc có thể dùng đồng thời cặp thuộc tính vị trí \codeinline{top: 0; bottom: 0;} và \codeinline{left: 0; right: 0;} để tự động kéo giãn phủ kín không gian.
-        \item \textbf{Ví dụ điển hình}: Khai báo \codeinline{width: 100\%; height: 100\%; position: absolute; top: 0; left: 0;} sẽ làm cho lớp phủ (\term{overlay}) lấp đầy toàn bộ phần tử cha gần nhất có khai báo \codeinline{position} khác \codeinline{static}.
-    \end{itemize}
-\end{enumerate}
+  % KHỐI 3: position: absolute
+  \begin{scope}[shift={(9.8, 0)}]
+    \draw[fill=gray!4, draw=gray!25, rounded corners=6pt] (-2.25, -2.25) rectangle (2.25, 2.05);
+    \node[anchor=north, font=\small\bfseries\color{primaryBlue}] at (0, 1.85) {3. position: absolute;};
+    \node[anchor=north, font=\fontsize{7.5pt}{9pt}\selectfont\color{gray!70}] at (0, 1.35) {Tách khỏi normal flow};
+    
+    \draw[fill=white, draw=gray!25, rounded corners=4pt] (-1.95, -1.4) rectangle (1.95, 0.8);
+    
+    \draw[fill=slateBg!70, draw=gray!40, dashed, line width=0.8pt, rounded corners=3pt] (-1.8, -1.2) rectangle (1.8, 0.65);
+    \node[anchor=north west, font=\fontsize{6.5pt}{7.5pt}\selectfont\color{gray!60}] at (-1.7, 0.6) {Parent (.relative)};
+    
+    \draw[fill=primaryBlue!20, draw=primaryBlue, line width=1.1pt, rounded corners=2pt] (-1.8, -1.2) rectangle (1.8, 0.15);
+    \node[anchor=center, font=\fontsize{7pt}{8.5pt}\selectfont\bfseries\color{primaryBlue}] at (0, -0.3) {Overlay (100\% $\times$ 100\%)};
+    \node[anchor=north, font=\fontsize{5.8pt}{7pt}\selectfont\color{primaryBlue!85!black}] at (0, -0.58) {top:0; bottom:0; left:0; right:0;};
+    
+    \node[anchor=center, font=\fontsize{7pt}{8.5pt}\selectfont\bfseries\color{primaryBlue}, fill=primaryBlue!12, draw=primaryBlue!35, rounded corners=3pt, inner sep=3pt] at (0, -1.82) {[TÁCH LUỒNG] Tự do phủ kín};
+  \end{scope}
+\end{tikzpicture}
+\end{browserWindow}
+
+\vspace{2pt}
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=accentOrange!70!black,
+    arc=4pt,
+    boxrule=0.8pt,
+    leftrule=3.5pt,
+    top=4pt, bottom=4pt, left=8pt, right=8pt,
+    before=\par\vspace{3pt}\noindent,
+    after=\par\vspace{3pt}
+]
+{\bfseries\color{accentOrange!90!black}\normalsize 1. Chế độ hiển thị nội dòng (\codeinline{display: inline;}):}
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt, topsep=2pt]
+    \item Các phần tử nội dòng (như \codeinline{<a>}, \codeinline{<span>}, \codeinline{<strong>}, \codeinline{<em>}) sẽ \textbf{hoàn toàn không nhận} các thuộc tính \codeinline{width}, \codeinline{height}, \codeinline{margin-top}, \codeinline{margin-bottom}, \codeinline{padding-top}, và \codeinline{padding-bottom} theo cách thông thường.
+    \item Chiều rộng và chiều cao của chúng được xác định hoàn toàn bởi dung lượng chữ bên trong.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=successGreen!75!black,
+    arc=4pt,
+    boxrule=0.8pt,
+    leftrule=3.5pt,
+    top=4pt, bottom=4pt, left=8pt, right=8pt,
+    before=\par\vspace{3pt}\noindent,
+    after=\par\vspace{3pt}
+]
+{\bfseries\color{successGreen!85!black}\normalsize 2. Chế độ khối nội dòng (\codeinline{display: inline-block;}):}
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt, topsep=2pt]
+    \item Các phần tử này thừa hưởng khả năng thiết lập \codeinline{width} và \codeinline{height} độc lập như một khối (\term{block}), nhưng đồng thời vẫn nằm thẳng hàng trên cùng một dòng với các phần tử nội dòng khác.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=primaryBlue,
+    arc=4pt,
+    boxrule=0.8pt,
+    leftrule=3.5pt,
+    top=4pt, bottom=4pt, left=8pt, right=8pt,
+    before=\par\vspace{3pt}\noindent,
+    after=\par\vspace{3pt}
+]
+{\bfseries\color{primaryBlue}\normalsize 3. Chế độ định vị thoát luồng (\codeinline{position: absolute;} / \codeinline{position: fixed;}):}
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt, topsep=2pt]
+    \item Khi một phần tử được định vị tuyệt đối hoặc cố định, nó sẽ \textbf{bị rút hoàn toàn khỏi dòng chảy tài liệu thông thường} (\term{normal document flow}).
+    \item \codeinline{width} và \codeinline{height} của chúng có thể được thiết lập độc lập hoặc có thể dùng đồng thời cặp thuộc tính vị trí \codeinline{top: 0; bottom: 0;} và \codeinline{left: 0; right: 0;} để tự động kéo giãn phủ kín không gian.
+    \item \textbf{Ví dụ điển hình}: Khai báo \codeinline{width: 100\%; height: 100\%; position: absolute; top: 0; left: 0;} sẽ làm cho lớp phủ (\term{overlay}) lấp đầy toàn bộ phần tử cha gần nhất có khai báo \codeinline{position} khác \codeinline{static}.
+\end{itemize}
+\end{tcolorbox}
+
+\clearpage
 
 % ------------------------------------------------------------------------------
 % 3.5 TƯƠNG TÁC GIỮA OVERFLOW VÀ KÍCH THƯỚC CỐ ĐỊNH
 % ------------------------------------------------------------------------------
-\subsection{5. Tương Tác Giữa \csshint{overflow} Và Kích Thước \csshint{width} / \csshint{height}}
+\subsection{Tương Tác Giữa \csshint{overflow} Và Kích Thước \csshint{width} / \csshint{height}}
 \label{subsec:overflow_interaction}
 
 Khi bạn thiết lập \codeinline{width} hoặc \codeinline{height} cố định cho một phần tử và khối lượng nội dung bên trong lại lớn hơn không gian kích thước đó, thuộc tính \codeinline{overflow} sẽ quyết định cách thức trình duyệt xử lý phần nội dung bị tràn:
+
+\begin{browserWindow}[Mô Phỏng Trực Quan 4 Cơ Chế Xử Lý Của overflow]
+\centering
+\begin{tikzpicture}[scale=0.92, every node/.style={transform shape}]
+  % 1. overflow: visible
+  \begin{scope}[shift={(0, 0)}]
+    \draw[fill=gray!5, draw=gray!30, rounded corners=5pt] (-1.8, -1.9) rectangle (1.8, 1.6);
+    \node[anchor=north, font=\scriptsize\bfseries\color{dangerRed}] at (0, 1.45) {overflow: visible;};
+    
+    % Khung hộp kích thước cố định
+    \draw[fill=white, draw=gray!40, line width=0.8pt] (-1.5, -0.4) rectangle (1.5, 0.8);
+    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\color{darkText!75}] at (0, 0.7) {Văn bản trong hộp};
+    
+    % Phần tràn ra ngoài
+    \fill[dangerRed!12, draw=dangerRed, dashed, line width=0.7pt] (-1.5, -0.9) rectangle (1.5, -0.4);
+    \node[anchor=center, font=\fontsize{6pt}{7pt}\selectfont\bfseries\color{dangerRed}] at (0, -0.65) {Nội dung trào ra ngoài!};
+    
+    \node[anchor=south, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{dangerRed}, fill=dangerRed!10, rounded corners=2pt, inner sep=2pt] at (0, -1.75) {[MẶC ĐỊNH] Tràn đè khối khác};
+  \end{scope}
+
+  % 2. overflow: hidden
+  \begin{scope}[shift={(4.1, 0)}]
+    \draw[fill=gray!5, draw=gray!30, rounded corners=5pt] (-1.8, -1.9) rectangle (1.8, 1.6);
+    \node[anchor=north, font=\scriptsize\bfseries\color{accentOrange!90!black}] at (0, 1.45) {overflow: hidden;};
+    
+    % Khung hộp kích thước cố định
+    \draw[fill=white, draw=gray!40, line width=0.8pt] (-1.5, -0.4) rectangle (1.5, 0.8);
+    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\color{darkText!75}] at (0, 0.7) {Văn bản trong hộp};
+    \node[anchor=center, font=\fontsize{5.5pt}{6.5pt}\selectfont\color{gray!50}] at (0, -0.2) {[Phần tràn bị xén mất]};
+    
+    % Đường xén cắt
+    \draw[dashed, draw=accentOrange, line width=1pt] (-1.5, -0.4) -- (1.5, -0.4);
+    
+    \node[anchor=south, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{accentOrange!90!black}, fill=accentOrange!12, rounded corners=2pt, inner sep=2pt] at (0, -1.75) {[CẮT BỎ] Ẩn hoàn toàn};
+  \end{scope}
+
+  % 3. overflow: scroll
+  \begin{scope}[shift={(8.2, 0)}]
+    \draw[fill=gray!5, draw=gray!30, rounded corners=5pt] (-1.8, -1.9) rectangle (1.8, 1.6);
+    \node[anchor=north, font=\scriptsize\bfseries\color{primaryBlue}] at (0, 1.45) {overflow: scroll;};
+    
+    % Khung hộp kích thước cố định
+    \draw[fill=white, draw=gray!40, line width=0.8pt] (-1.5, -0.4) rectangle (1.5, 0.8);
+    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\color{darkText!75}] at (-0.1, 0.7) {Văn bản cuộn...};
+    
+    % Thanh cuộn dọc luôn hiện
+    \fill[primaryBlue!20] (1.2, -0.4) rectangle (1.5, 0.8);
+    \fill[primaryBlue!70, rounded corners=1pt] (1.25, 0.1) rectangle (1.45, 0.6);
+    % Thanh cuộn ngang luôn hiện
+    \fill[primaryBlue!20] (-1.5, -0.4) rectangle (1.2, -0.2);
+    \fill[primaryBlue!70, rounded corners=1pt] (-0.8, -0.38) rectangle (0.2, -0.22);
+    
+    \node[anchor=south, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{primaryBlue}, fill=primaryBlue!12, rounded corners=2pt, inner sep=2pt] at (0, -1.75) {[CỐ ĐỊNH] Luôn hiện thanh cuộn};
+  \end{scope}
+
+  % 4. overflow: auto
+  \begin{scope}[shift={(12.3, 0)}]
+    \draw[fill=gray!5, draw=gray!30, rounded corners=5pt] (-1.8, -1.9) rectangle (1.8, 1.6);
+    \node[anchor=north, font=\scriptsize\bfseries\color{successGreen!85!black}] at (0, 1.45) {overflow: auto;};
+    
+    % Khung hộp kích thước cố định
+    \draw[fill=white, draw=gray!40, line width=0.8pt] (-1.5, -0.4) rectangle (1.5, 0.8);
+    \node[anchor=north, font=\fontsize{6pt}{7pt}\selectfont\color{darkText!75}] at (-0.1, 0.7) {Văn bản tràn dọc};
+    
+    % Chỉ hiện thanh cuộn dọc khi cần
+    \fill[successGreen!20] (1.2, -0.4) rectangle (1.5, 0.8);
+    \fill[successGreen!80, rounded corners=1pt] (1.25, 0.0) rectangle (1.45, 0.5);
+    
+    \node[anchor=south, font=\fontsize{6pt}{7.5pt}\selectfont\bfseries\color{successGreen!85!black}, fill=successGreen!12, rounded corners=2pt, inner sep=2pt] at (0, -1.75) {[THÔNG MINH] Chỉ cuộn khi tràn};
+  \end{scope}
+\end{tikzpicture}
+\end{browserWindow}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
     \item \textbf{\codeinline{overflow: visible;}} (\textbf{Mặc định}): Nội dung bị tràn sẽ không bị cắt bỏ mà tràn ra ngoài đường biên của phần tử, đè lên các khối giao diện khác ở phía dưới.
@@ -1230,7 +1413,7 @@ Khi bạn thiết lập \codeinline{width} hoặc \codeinline{height} cố đị
 % ------------------------------------------------------------------------------
 % 3.6 LỜI KHUYÊN QUAN TRỌNG VÀ RESET TOÀN CỤC CHUẨN
 % ------------------------------------------------------------------------------
-\subsection{6. Lời Khuyên Quan Trọng \& Thiết Lập Reset Toàn Cục Chuẩn}
+\subsection{Lời Khuyên Quan Trọng \& Thiết Lập Reset Toàn Cục Chuẩn}
 \label{subsec:global_box_sizing_recommendation}
 
 \begin{tipBox}[Quy Tắc Vàng Khởi Đầu Cho Mọi Dự Án Web Hiện Đại]
@@ -1248,7 +1431,7 @@ Trong hầu hết mọi dự án web hiện đại (từ website cá nhân cho t
 % ==============================================================================
 % MỤC 4: CHUYÊN ĐỀ THỰC CHIẾN: LÀM CHỦ THUỘC TÍNH MAX-WIDTH
 % ==============================================================================
-\newpage
+\clearpage
 \section{Chuyên Đề Thực Chiến: Làm Chủ Thuộc Tính \csshint{max-width} (Responsive Masterclass)}
 \label{sec:max_width_masterclass}
 
@@ -1257,7 +1440,7 @@ Trong thiết kế web hiện đại, \term{Responsive Web Design} (thiết kế
 % ------------------------------------------------------------------------------
 % 4.1 KHÁI NIỆM & Ý NGHĨA
 % ------------------------------------------------------------------------------
-\subsection{1. Khái Niệm \& Ý Nghĩa Cốt Lõi Của \csshint{max-width}}
+\subsection{Khái Niệm \& Ý Nghĩa Cốt Lõi Của \csshint{max-width}}
 \label{subsec:max_width_concept}
 
 Thuộc tính \codeinline{max-width} dùng để \textbf{giới hạn chiều rộng tối đa} mà một phần tử HTML có thể đạt tới. Nếu nội dung hoặc kích thước màn hình hiển thị nhỏ hơn giá trị \codeinline{max-width}, phần tử sẽ tự động co lại để vừa khít với không gian có sẵn.
@@ -1295,7 +1478,7 @@ Khi thiết lập \codeinline{max-width: 500px;}, trình duyệt sẽ tuân th�
 % ------------------------------------------------------------------------------
 % 4.2 SỰ KHÁC BIỆT GIỮA WIDTH VÀ MAX-WIDTH
 % ------------------------------------------------------------------------------
-\subsection{2. Sự Khác Biệt Giữa \csshint{width} Và \csshint{max-width}}
+\subsection{Sự Khác Biệt Giữa \csshint{width} Và \csshint{max-width}}
 \label{subsec:diff_width_vs_max_width}
 
 Sự nhầm lẫn giữa \codeinline{width} và \codeinline{max-width} là một trong những nguyên nhân hàng đầu gây ra lỗi thanh cuộn ngang (\term{Horizontal Scrollbar}) trên các thiết bị di động.
