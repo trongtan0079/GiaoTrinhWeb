@@ -909,74 +909,135 @@ overflow & Xử lý hành vi hiển thị khi nội dung bên trong vượt quá
 Khi bạn đặt \codeinline{width} và \codeinline{height} cho một phần tử trong CSS, bạn đang thiết lập kích thước của \textbf{vùng nội dung (content area)} của phần tử đó. Tuy nhiên, kích thước thực tế mà phần tử chiếm trên trang (gọi là \term{layout width/height}) lại phức tạp hơn một chút, vì nó còn bị ảnh hưởng bởi \codeinline{padding}, \codeinline{border}, và \codeinline{margin}. Đây chính là lúc \textbf{CSS Box Model (Mô hình hộp)} phát huy vai trò quyết định.
 
 % ------------------------------------------------------------------------------
-% 2.1 CSS BOX MODEL
+% 2.1 CSS BOX MODEL & KHÁI NIỆM "BOX"
 % ------------------------------------------------------------------------------
-\subsection{CSS Box Model (Mô Hình Hộp)}
+\subsection{Bản Chất Của Khái Niệm "Box" \& Cấu Trúc CSS Box Model}
 \label{subsec:css_box_model_concept}
 
-Mọi phần tử HTML trên trang web đều được xem như một chiếc hộp hình chữ nhật, bao gồm bốn lớp xếp chồng lên nhau từ trong ra ngoài:
+Trong tư duy thiết kế web của trình duyệt, \textbf{Box (Hộp)} là toàn bộ khối hình chữ nhật được dựng ra để bao bọc và hiển thị một phần tử HTML. Bất kể là phần tử khối lớn (\codeinline{<div>}, \codeinline{<section>}), đoạn văn (\codeinline{<p>}), hay phần tử nội dòng (\codeinline{<span>}, \codeinline{<a>}), tất cả đều tuân thủ mô hình hộp.
 
-\begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
-    \item \textbf{Content (Nội dung)}: Vùng chứa nội dung thực tế của phần tử (văn bản, hình ảnh, video, danh sách). Đây chính là vùng mà \codeinline{width} và \codeinline{height} trực tiếp tác động khi sử dụng mô hình chuẩn.
-    \item \textbf{Padding (Vùng đệm)}: Khoảng không gian đệm trong suốt nằm giữa nội dung và đường viền (\codeinline{border}) của phần tử. \codeinline{padding} có màu nền trùng với màu nền của phần tử.
-    \item \textbf{Border (Đường viền)}: Đường viền bao bọc xung quanh vùng đệm (\codeinline{padding}) và nội dung (\codeinline{content}). Đường viền có thể được định dạng độ dày, màu sắc và kiểu nét vẽ.
-    \item \textbf{Margin (Lề ngoài)}: Khoảng không gian trống hoàn toàn trong suốt bên ngoài đường viền, dùng để tạo khoảng cách tách biệt giữa phần tử này với các phần tử khác xung quanh.
-\end{enumerate}
+Một chiếc hộp CSS chuẩn mực không chỉ đơn giản là vùng chứa văn bản, mà được cấu thành từ chính xác \textbf{bốn lớp không gian đồng tâm} xếp chồng từ trong ra ngoài:
+\begin{equation}
+\mathbf{Box = Content + Padding + Border + Margin}
+\end{equation}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\linewidth]{figures/css_box_model_four_layers.png}
-\caption{Sơ Đồ Trực Quan Hóa Mô Hình Hộp CSS (CSS Box Model) Với 4 Phân Tầng: Margin, Border, Padding Và Content}
-\label{fig:css_box_model_four_layers}
+\includegraphics[width=0.96\linewidth]{figures/css_box_model_2d_layers_breakdown.jpg}
+\caption{Sơ Đồ 2D Trực Diện Của CSS Box Model: Phân Tách 4 Phân Tầng Cùng 4 Hướng Không Gian (Top, Right, Bottom, Left)}
+\label{fig:css_box_model_2d_breakdown}
+\end{figure}
+
+\begin{prettyTableBox}[Bảng Chi Tiết 4 Thành Phần Cốt Lõi Của CSS Box Model]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{2.4cm} L{3.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thành Phần} & \thd{Vị Trí Không Gian} & \thd{Ý Nghĩa Chức Năng \& Quy Tắc Kỹ Thuật} \\
+\codeinline{content} & Lõi trong cùng & Vùng chứa nội dung thực sự (chữ viết, hình ảnh, video...). Kích thước cốt lõi được điều khiển bởi \codeinline{width} và \codeinline{height}. \\
+\codeinline{padding} & Đệm giữa nội dung và viền & Khoảng trống trong suốt bao quanh nội dung. Mang màu nền (\codeinline{background-color}) của phần tử. \textbf{Tuyệt đối không nhận giá trị âm}. \\
+\codeinline{border} & Đường bao quanh đệm & Đường viền bao bọc toàn bộ \codeinline{padding} và \codeinline{content}. Có thể định dạng nét vẽ (\codeinline{solid}, \codeinline{dashed}), độ dày và màu sắc. \\
+\codeinline{margin} & Lớp ngoài cùng & Khoảng cách từ viền ngoài của phần tử đến các phần tử lân cận. Hoàn toàn trong suốt. \textbf{Có thể nhận giá trị âm} để kéo đè phần tử. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\linewidth]{figures/css_box_model_3d_perspective_structure.jpg}
+\caption{Mô Hình Phối Cảnh 3D Đa Tầng Của CSS Box Model \& Công Thức Kích Thước Hiển Thị Thực Tế Trên Trình Duyệt}
+\label{fig:css_box_model_3d_perspective}
 \end{figure}
 
 % ------------------------------------------------------------------------------
-% 2.2 THUỘC TÍNH BOX-SIZING
+% 2.2 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
 % ------------------------------------------------------------------------------
-\subsection{Thuộc Tính \csshint{box-sizing} (Thay Đổi Cách Tính Toán Kích Thước)}
+\subsection{Thuộc Tính \csshint{box-sizing} \& Công Thức Tính Tổng Kích Thước Hộp}
 \label{subsec:box_sizing_deep_dive}
 
-Đây là thuộc tính quan trọng nhất ảnh hưởng trực tiếp đến cách trình duyệt tính toán \codeinline{width} và \codeinline{height} thực tế của phần tử trên trang.
+Thuộc tính \codeinline{box-sizing} quyết định trực tiếp công thức toán học mà trình duyệt dùng để tính toán kích thước hiển thị của phần tử trên màn hình:
 
 \subsubsection{Mô Thức 1: \csshint{box-sizing: content-box;} (Mặc Định Chuẩn W3C)}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{width} và \codeinline{height} chỉ bao gồm kích thước của \textbf{Content Area (Vùng nội dung)}.
-    \item \codeinline{padding} và \codeinline{border} sẽ được \textbf{cộng thêm vào bên ngoài} kích thước đã đặt của \codeinline{width} và \codeinline{height}.
-    \item \textbf{Ví dụ tính toán thực tế}: Nếu bạn có một thẻ \codeinline{<div>} với:
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-        \item Khai báo: \codeinline{width: 200px; padding: 10px; border: 2px solid;}
-        \item Chiều rộng nội dung là: $200\text{px}$.
-        \item Chiều rộng thực tế mà phần tử chiếm trên trang (\term{layout width}) sẽ là:
-        \[
-        \text{Layout Width} = 200\text{px (content)} + 10\text{px (left pad)} + 10\text{px (right pad)} + 2\text{px (left bor)} + 2\text{px (right bor)} = \mathbf{224\text{px}}
-        \]
-    \end{itemize}
+    \item \codeinline{width} và \codeinline{height} chỉ đại diện duy nhất cho kích thước của vùng lõi \textbf{Content Area}.
+    \item Toàn bộ \codeinline{padding} và \codeinline{border} sẽ bị \textbf{cộng dồn ra phía ngoài}, khiến kích thước phần tử bị phình to hơn con số định sẵn trong CSS.
+    \item \textbf{Công thức tính kích thước layout thực tế (\term{Layout Box})}:
+    \begin{align}
+    \text{Layout Width} &= \text{width} + \text{padding-left} + \text{padding-right} + \text{border-left} + \text{border-right} \\
+    \text{Layout Height} &= \text{height} + \text{padding-top} + \text{padding-bottom} + \text{border-top} + \text{border-bottom}
+    \end{align}
+    \item \textbf{Tổng không gian chiếm chỗ (\term{Outer Space})}: Nếu tính cả cự ly lề ngoài \codeinline{margin}:
+    \begin{equation}
+    \text{Outer Width} = \text{Layout Width} + \text{margin-left} + \text{margin-right}
+    \end{equation}
+    \item \textbf{Thực nghiệm số}: Với khai báo \codeinline{width: 200px; padding: 10px; border: 2px solid;}:
+    \[
+    \text{Layout Width} = 200\text{px} + (10\text{px} \times 2) + (2\text{px} \times 2) = \mathbf{224\text{px}}
+    \]
 \end{itemize}
 
-\subsubsection{Mô Thức 2: \csshint{box-sizing: border-box;} (Rất Được Khuyến Nghị)}
+\subsubsection{Mô Thức 2: \csshint{box-sizing: border-box;} (Quy Chuẩn Vàng Hiện Đại)}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
-    \item \codeinline{width} và \codeinline{height} bao gồm toàn bộ kích thước của \textbf{Content Area + Padding + Border}.
-    \item \codeinline{padding} và \codeinline{border} sẽ được \textbf{tính gộp vào bên trong} kích thước \codeinline{width} và \codeinline{height} đã đặt. Vùng nội dung (Content Area) sẽ tự động co lại để nhường chỗ cho \codeinline{padding} và \codeinline{border}.
-    \item \textbf{Ví dụ tính toán thực tế}: Nếu bạn có một thẻ \codeinline{<div>} với:
-    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
-        \item Khai báo: \codeinline{width: 200px; padding: 10px; border: 2px solid; box-sizing: border-box;}
-        \item Chiều rộng thực tế mà phần tử chiếm trên trang (\term{layout width}) sẽ là: đúng $\mathbf{200\text{px}}$.
-        \item Chiều rộng nội dung còn lại sẽ là:
-        \[
-        \text{Content Width} = 200\text{px} - (10\text{px} \times 2)\text{ (padding)} - (2\text{px} \times 2)\text{ (border)} = \mathbf{176\text{px}}
-        \]
-    \end{itemize}
-    \item \textbf{Lợi ích vượt trội}: Điều này giúp việc tính toán bố cục dễ dàng và trực quan hơn rất nhiều, vì tổng kích thước của phần tử luôn luôn đúng với con số \codeinline{width} và \codeinline{height} mà bạn đã đặt trong mã nguồn. Đây là lý do tại sao nhiều khung làm việc (\term{framework}) CSS như Bootstrap, TailwindCSS và mọi dự án web hiện đại đều đặt \codeinline{box-sizing: border-box;} cho tất cả các phần tử (thường là với bộ chọn toàn cục \codeinline{* \{ box-sizing: border-box; \}}).
+    \item \codeinline{width} và \codeinline{height} bao hàm trọn vẹn toàn bộ \textbf{Content + Padding + Border}.
+    \item Khi tăng \codeinline{padding} hoặc \codeinline{border}, vùng nội dung (\term{Content Area}) sẽ \textbf{tự động co thắt lại bên trong} để bảo vệ tổng kích thước hộp không bị đội lên:
+    \begin{align}
+    \text{Layout Width} &= \text{width} \quad (\text{bất biến, không bị phình to}) \\
+    \text{Content Width} &= \text{width} - (\text{padding-left} + \text{padding-right}) - (\text{border-left} + \text{border-right})
+    \end{align}
+    \item \textbf{Thực nghiệm số}: Với \codeinline{width: 200px; padding: 10px; border: 2px solid; box-sizing: border-box;}:
+    \[
+    \text{Content Width} = 200\text{px} - 20\text{px} - 4\text{px} = \mathbf{176\text{px}}, \quad \text{Layout Width} = \mathbf{200\text{px}}
+    \]
 \end{itemize}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{figures/box_sizing_content_vs_border_box.png}
-\caption{So Sánh Cơ Chế Chiếm Chỗ: \codeinline{content-box} (Phình To Ra 224px) vs \codeinline{border-box} (Bảo Toàn Kích Thước 200px)}
+\caption{So Sánh Trực Quan Cơ Chế Chiếm Chỗ: \codeinline{content-box} (Phình To Ra 224px) vs \codeinline{border-box} (Bảo Toàn Kích Thước 200px)}
 \label{fig:box_sizing_content_vs_border_box}
 \end{figure}
+
+\begin{codeWindow}[Ví Dụ Đo Đạc Toàn Diện Hộp Với border-box]
+\begin{lstlisting}[language=CSS3]
+div {
+    width: 200px;
+    height: 120px;
+    padding: 10px;
+    border: 5px solid black;
+    margin: 20px;
+    box-sizing: border-box;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Chiều rộng layout (gồm viền \& đệm)}: Đúng $200\text{px}$.
+    \item \textbf{Chiều rộng vùng chữ thực tế}: $200\text{px} - (10\text{px} \times 2) - (5\text{px} \times 2) = 170\text{px}$.
+    \item \textbf{Tổng khoảng chiếm dụng trên trang}: $200\text{px} + (20\text{px} \times 2) = 240\text{px}$ (tính cả margin).
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+% 2.3 BA LƯU Ý SỐNG CÒN CỦA CSS BOX MODEL
+% ------------------------------------------------------------------------------
+\subsection{Ba Lưu Ý Sống Còn Khi Làm Việc Với CSS Box Model}
+\label{subsec:box_model_vital_notes}
+
+\begin{warnBox}[3 Lưu Ý Sống Còn Về Box Model Trong Lập Trình Frontend]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Quy tắc giá trị âm (Negative Values)}:
+    \begin{itemize}[leftmargin=1.2em, itemsep=2pt, parsep=0pt]
+        \item \codeinline{margin} \textbf{hoàn toàn có thể nhận giá trị âm} (ví dụ: \codeinline{margin-top: -20px;}). Thuộc tính này thường được dùng để kéo phần tử dịch chuyển đè lên trên khối khác hoặc mở rộng hình ảnh tràn khỏi lề container.
+        \item Ngược lại, \codeinline{padding} \textbf{TUYỆT ĐỐI KHÔNG ĐƯỢC ÂM}! Theo chuẩn W3C, mọi giá trị âm cho padding đều bị coi là lỗi cú pháp và trình duyệt sẽ bỏ qua toàn bộ giá trị đó.
+    \end{itemize}
+    \item \textbf{Hiện tượng hợp nhất lề dọc (Margin Collapsing)}: Khi hai phần tử khối (\term{block-level}) đứng kề nhau theo phương dọc, lề dưới của phần tử trên và lề trên của phần tử dưới sẽ \textbf{không cộng dồn}, mà bị gộp lại và chỉ lấy giá trị lề lớn nhất!
+    \item \textbf{Chuẩn thiết lập Reset toàn cầu}: Để việc tính toán kích thước giao diện luôn nhất quán và không bị lỗi vỡ layout khi thêm padding hay border, quy tắc bắt buộc trong mọi dự án công nghiệp là đặt reset ngay đầu file CSS:
+\begin{lstlisting}[language=CSS3]
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+\end{lstlisting}
+\end{enumerate}
+\end{warnBox}
 
 % ==============================================================================
 % MỤC 3: LƯU Ý CHI TIẾT KHI SỬ DỤNG WIDTH VÀ HEIGHT
