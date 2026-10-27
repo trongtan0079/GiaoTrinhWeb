@@ -1620,4 +1620,234 @@ none & Giá trị mặc định của CSS. Phần tử không có bất kỳ gi�
 \end{itemize}
 \end{tipBox}
 
+% ==============================================================================
+% MỤC 5: CHUYÊN ĐỀ THỰC CHIẾN: LÀM CHỦ THUỘC TÍNH MAX-HEIGHT
+% ==============================================================================
+\clearpage
+\section{Chuyên Đề Thực Chiến: Làm Chủ Thuộc Tính \csshint{max-height}}
+\label{sec:max_height_masterclass}
+
+Trong thiết kế giao diện web hiện đại, việc kiểm soát chiều cao của phần tử luôn tiềm ẩn nhiều thách thức hơn so với chiều rộng. Nội dung văn bản có thể dài ngắn bất định tùy thuộc vào dữ liệu động hoặc ngôn ngữ người dùng. Thuộc tính \codeinline{max-height} chính là công cụ đắc lực giúp lập trình viên vừa giới hạn được kích thước trần an toàn, vừa bảo toàn tính co giãn linh hoạt tự nhiên theo nội dung.
+
+% ------------------------------------------------------------------------------
+% 5.1 KHÁI NIỆM & CƠ CHẾ HOẠT ĐỘNG
+% ------------------------------------------------------------------------------
+\subsection{Bản Chất \& Cơ Chế Hoạt Động Của \csshint{max-height}}
+\label{subsec:max_height_concept}
+
+\begin{conceptBox}[Định Nghĩa Chuẩn: Thuộc Tính max-height]
+Thuộc tính \codeinline{max-height} trong CSS dùng để \textbf{giới hạn chiều cao tối đa} mà một phần tử có thể đạt được:
+\begin{itemize}[leftmargin=1.2em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nếu nội dung ít hơn giới hạn}: Phần tử sẽ tự động co lại đúng bằng chiều cao tự nhiên của nội dung (với điều kiện \codeinline{height: auto;}).
+    \item \textbf{Nếu nội dung vượt quá giới hạn}: Chiều cao phần tử bị chặn cứng tại giá trị \codeinline{max-height}. Phần nội dung tràn ra ngoài sẽ được xử lý tùy theo thuộc tính \codeinline{overflow} đi kèm (cắt bỏ, tràn đè hoặc sinh thanh cuộn).
+\end{itemize}
+\end{conceptBox}
+
+\subsubsection{Cú Pháp Khai Báo \& Đơn Vị}
+
+\begin{codeWindow}[Cú Pháp Cơ Bản Thuộc Tính max-height]
+\begin{lstlisting}[language=CSS3]
+selector {
+    max-height: value;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+Trong đó, \codeinline{value} có thể nhận các giá trị:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Đơn vị đo lường}: \codeinline{px}, \codeinline{em}, \codeinline{rem}, \codeinline{vh}, \codeinline{vw}, \codeinline{\%}.
+    \item \textbf{Từ khóa đặc biệt}: \codeinline{none} (mặc định -- không giới hạn chiều cao tối đa).
+\end{itemize}
+
+\begin{codeWindow}[Ví Dụ Cơ Bản Thiết Lập max-height]
+\begin{lstlisting}[language=CSS3]
+.box {
+    background: #e74c3c;
+    max-height: 300px;
+    width: 500px;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item Nếu khối \codeinline{.box} chứa lượng nội dung ngắn có chiều cao dưới $300\text{px}$, nó sẽ tự co lại ôm sát nội dung.
+    \item Nếu khối chứa lượng nội dung đồ sộ vượt quá $300\text{px}$, phần tử sẽ dừng lại ở đúng ngưỡng $300\text{px}$.
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+% 5.2 SO SÁNH HEIGHT VS MAX-HEIGHT
+% ------------------------------------------------------------------------------
+\subsection{So Sánh Toàn Diện Giữa \csshint{height} Và \csshint{max-height}}
+\label{subsec:height_vs_max_height}
+
+Sự khác biệt căn bản giữa hai thuộc tính này nằm ở \textbf{tính linh hoạt đối với dung lượng nội dung}:
+
+\begin{prettyTableBox}[Bảng So Sánh Chi Tiết: height vs max-height]
+\rowcolors{2}{white}{primaryBlue!4}
+\sffamily\small
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash \ttfamily\color{primaryBlue}\bfseries}K{2.8cm}|Z|Z|}
+\hline
+\rowcolor{primaryBlue} \thd{\sffamily Tiêu chí} & \thd{\sffamily height} & \thd{\sffamily max-height} \\
+\hline
+Cơ chế cốt lõi & Khóa cứng chiều cao của phần tử tại một kích thước cố định. & Thiết lập ngưỡng trần tối đa; phần tử vẫn tự do co giãn nhỏ hơn. \\
+\hline
+Khi nội dung ít & Phần tử \textbf{vẫn giữ nguyên} kích thước cố định, tạo ra khoảng trống thừa thãi lãng phí. & Phần tử \textbf{tự co lại} vừa vặn theo nội dung, tiết kiệm không gian giao diện. \\
+\hline
+Khi nội dung nhiều & Phần tử bị tràn (\term{overflow}) ra ngoài hoặc bị che khuất nội dung. & Phần tử đạt ngưỡng chặn trần, dễ dàng kết hợp \codeinline{overflow: auto;} để cuộn. \\
+\hline
+Mức độ linh hoạt & Kém linh hoạt, dễ gây vỡ bố cục trên màn hình nhỏ. & Cực kỳ linh hoạt, chuẩn mực vàng cho thiết kế đáp ứng (\term{Responsive}). \\
+\hline
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Mã Nguồn So Sánh .box1 (height) vs .box2 (max-height)]
+\begin{lstlisting}[language=CSS3]
+/* Hop 1: Luon luon cao dung 300px bat ke noi dung chi co 1 dong chu */
+.box1 {
+    height: 300px;
+    background: #3498db;
+}
+
+/* Hop 2: Co gian linh hoat theo chu, toi da chi dat 300px */
+.box2 {
+    max-height: 300px;
+    height: auto;
+    background: #2ecc71;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+% 5.3 MINH HỌA THỰC NGHIỆM: MAX-HEIGHT CO GIÃN THEO NỘI DUNG
+% ------------------------------------------------------------------------------
+\subsection{Thực Nghiệm Thực Tế: \csshint{max-height} Phụ Thuộc Vào Nội Dung}
+\label{subsec:max_height_content_dependency}
+
+Khi sử dụng \codeinline{max-height}, phần tử sẽ co giãn nhịp nhàng theo lượng chữ bên trong. Hãy cùng đối chiếu hai trường hợp thực tế dưới đây:
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{\linewidth}
+    \centering
+    \setlength{\fboxsep}{1pt}\setlength{\fboxrule}{0.8pt}
+    \fcolorbox{gray!30}{white}{\includegraphics[width=0.95\linewidth]{figures/max_height_content_short.png}}
+    \caption{Trường hợp 1: Nội dung ít (1 dòng chữ) $\rightarrow$ Khối tự co lại siêu mỏng ôm sát dòng chữ.}
+    \label{subfig:max_height_short}
+\end{subfigure}\\[0.4cm]
+\begin{subfigure}[b]{\linewidth}
+    \centering
+    \setlength{\fboxsep}{1pt}\setlength{\fboxrule}{0.8pt}
+    \fcolorbox{gray!30}{white}{\includegraphics[width=0.95\linewidth]{figures/max_height_content_long.png}}
+    \caption{Trường hợp 2: Bổ sung thêm dòng nội dung $\rightarrow$ Khối tự động nới rộng chiều cao theo nội dung.}
+    \label{subfig:max_height_long}
+\end{subfigure}
+\caption{Thực Nghiệm Trực Quan: Chiều Cao Thực Tế Của Khối Co Giãn Theo Nội Dung Dù Đang Đặt \codeinline{max-height: 300px;}}
+\label{fig:max_height_real_experiment}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+% 5.4 CẠM BẪY THỰC CHIẾN: XUNG ĐỘT GIỮA HEIGHT VÀ MAX-HEIGHT
+% ------------------------------------------------------------------------------
+\subsection{Cạm Bẫy Thực Chiến: Xung Đột Giữa \csshint{height} Cố Định Và \csshint{max-height}}
+\label{subsec:conflict_height_max_height}
+
+Một lỗi rất phổ biến mà nhiều lập trình viên mới gặp phải là khai báo đồng thời cả \codeinline{height} và \codeinline{max-height} cùng một con số:
+
+\begin{warnBox}[Cạm Bẫy: Vô Hiệu Hóa max-height Khi Dùng Chung Với height Cố Định]
+\begin{lstlisting}[language=CSS3]
+.MAX {
+    background: red;
+    width: 500px;
+    height: 300px;      /* Khoa cung chieu cao 300px */
+    max-height: 300px;  /* Gioi han tran 300px -> HOAN TOAN VO TAC DUNG! */
+    font-size: 20px;
+}
+\end{lstlisting}
+\textbf{Nguyên nhân}: Khi bạn đã ấn định \codeinline{height: 300px;}, phần tử đã bị khóa cứng ở $300\text{px}$. Do đó, việc đặt thêm \codeinline{max-height: 300px;} là hoàn toàn dư thừa vì phần tử không còn khả năng co giãn nữa!
+\end{warnBox}
+
+\subsubsection{Giải Pháp Chuẩn Kỹ Thuật: Sử Dụng \csshint{height: auto;}}
+
+Để \codeinline{max-height} phát huy toàn bộ sức mạnh, bạn phải cho phép phần tử được tự do co giãn bằng cách thiết lập \codeinline{height: auto;} (hoặc không khai báo thuộc tính \codeinline{height}):
+
+\begin{codeWindow}[Giải Pháp Khắc Phục Chuẩn Kỹ Thuật]
+\begin{lstlisting}[language=CSS3]
+.MAX {
+    background: red;
+    width: 500px;
+    max-height: 300px;  /* Tran chieu cao toi da 300px */
+    height: auto;       /* Co gian tu do theo noi dung */
+    font-size: 20px;
+    overflow: auto;     /* Tu dong cuon neu vuot qua 300px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Nếu nội dung ít}: Khối \codeinline{.MAX} sẽ nhỏ hơn $300\text{px}$, ôm sát chữ.
+    \item \textbf{Nếu nội dung nhiều}: Khối \codeinline{.MAX} dừng lại ở $300\text{px}$ và sinh thanh cuộn dọc mượt mà.
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+% 5.5 CÁC ỨNG DỤNG THỰC TẾ CỦA MAX-HEIGHT
+% ------------------------------------------------------------------------------
+\subsection{Các Ứng Dụng Thực Tế Tiêu Biểu Của \csshint{max-height}}
+\label{subsec:practical_apps_max_height}
+
+\subsubsection{Ứng Dụng 1: Kết Hợp Với \csshint{overflow} Tạo Khung Cuộn Nội Dung}
+
+Khi xây dựng các thành phần như khung bình luận, danh sách thông báo hay điều khoản dịch vụ:
+
+\begin{codeWindow}[Khung Cuộn Nội Dung Thông Minh Với max-height]
+\begin{lstlisting}[language=CSS3]
+.comment-box {
+    max-height: 250px;
+    width: 100%;
+    overflow-y: auto;   /* Chi sinh thanh cuon doc khi noi dung vuot qua 250px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsubsection{Ứng Dụng 2: Tạo Hiệu Ứng Mở Rộng / Thu Gọn Mượt Mà (Accordion Transition)}
+
+Trong CSS, bạn \textbf{không thể} áp dụng hiệu ứng chuyển động (\codeinline{transition}) trực tiếp từ \codeinline{height: 0;} lên \codeinline{height: auto;}. Cách giải quyết kinh điển là kết hợp \codeinline{max-height} và \codeinline{transition}:
+
+\begin{codeWindow}[Tạo Hiệu Ứng Accordion Mượt Mà Không Cần JavaScript]
+\begin{lstlisting}[language=CSS3]
+.accordion-content {
+    max-height: 0;                          /* Ban dau thu gon hoan toan */
+    overflow: hidden;                       /* An phan noi dung bi thu gon */
+    transition: max-height 0.4s ease-in-out;/* Hieu ung chuyen dong muot ma */
+}
+
+/* Khi hover hoac khi co class kich hoat */
+.accordion-item:hover .accordion-content {
+    max-height: 400px;                      /* Mo rong den nguong du chua noi dung */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+% ------------------------------------------------------------------------------
+% 5.6 KHI NÀO NÊN DÙNG & LƯU Ý VÀNG
+% ------------------------------------------------------------------------------
+\subsection{Khi Nào Nên Dùng \csshint{max-height} \& Lưu Ý Thực Chiến}
+\label{subsec:when_to_use_max_height}
+
+\begin{tipBox}[4 Trường Hợp Vàng Nên Sử Dụng max-height]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Giới hạn chiều cao an toàn}: Không làm mất đi tính co giãn linh hoạt tự nhiên của phần tử.
+    \item \textbf{Hiển thị thanh cuộn tự động}: Xử lý các khối nội dung người dùng sinh ra (\term{User Generated Content}) có độ dài khó lường.
+    \item \textbf{Hiệu ứng chuyển động}: Làm Accordion, Dropdown Menu, Collapsible Panels bằng CSS thuần.
+    \item \textbf{Tối ưu hóa Responsive}: Giữ các khối hình ảnh/video không vượt quá độ cao màn hình điện thoại (ví dụ: \codeinline{max-height: 80vh;}).
+\end{enumerate}
+\end{tipBox}
+
+\begin{warnBox}[3 Lưu Ý Sống Còn Khi Dùng max-height]
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Không đặt \codeinline{max-height: none;}} nếu đang muốn hạn chế chiều cao, vì \codeinline{none} là giá trị hủy bỏ giới hạn.
+    \item \textbf{Cẩn thận với \codeinline{overflow: hidden;}}: Nếu nội dung dài hơn \codeinline{max-height}, toàn bộ phần tràn sẽ bị cắt cụt vĩnh viễn và người dùng không thể đọc được nếu không có cơ chế mở rộng.
+    \item \textbf{Khi làm hiệu ứng transition}: Tránh chuyển từ \codeinline{max-height: 0} sang \codeinline{none}; thay vào đó hãy đặt một giá trị cụ thể ước lượng vừa đủ lớn (ví dụ: \codeinline{500px} hoặc \codeinline{1000px}).
+\end{itemize}
+\end{warnBox}
+
 \end{document}
