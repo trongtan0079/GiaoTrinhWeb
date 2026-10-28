@@ -53,6 +53,10 @@
 \definecolor{conceptBorder}{HTML}{7C3AED}
 \definecolor{successGreen}{HTML}{16A34A}
 \definecolor{dangerRed}{HTML}{DC2626}
+\definecolor{bannerDarkTeal}{HTML}{00626C}
+\definecolor{bannerShadow}{HTML}{003C42}
+\definecolor{bannerLightBg}{HTML}{ECF8F8}
+\definecolor{bannerStripe}{HTML}{97D4DC}
 
 \usepackage{graphicx}
 \usepackage{float}
@@ -409,20 +413,66 @@
 \titlespacing*{\section}{0pt}{14pt}{7pt}
 \titlespacing*{name=\section,numberless}{0pt}{14pt}{7pt}
 
-\titleformat{\subsection}
-  {\normalfont\large\sffamily\bfseries\color{secondaryTeal}}
-  {\textcolor{secondaryTeal}{\rule[-0.15ex]{2.5pt}{1.05em}}\hspace{7pt}\thesubsection}
-  {7pt}
-  {}
+% ==============================================================================
+% CẤU HÌNH BANNER TIÊU ĐỀ SUBSECTION HIỆN ĐẠI (RIBBON & TECH STRIPES)
+% ==============================================================================
+\newcommand{\drawSubsectionBanner}[2]{%
+\Needspace{5\baselineskip}%
+\noindent\makebox[\linewidth][l]{%
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+  % 1. Thanh nền xanh ngọc nhạt trải dài (chiều cao 1.28cm)
+  \fill[bannerLightBg, rounded corners=4pt] (0, 0) -- (\linewidth-30pt, 0) [sharp corners] -- (\linewidth-23pt, 1.28cm) -- (0, 1.28cm) [rounded corners=4pt] -- cycle;
+  
+  % 2. Hai vạch chéo song song trang trí bên phải
+  \fill[bannerStripe] (\linewidth-20pt, 0) -- (\linewidth-16pt, 0) -- (\linewidth-9pt, 1.28cm) -- (\linewidth-13pt, 1.28cm) -- cycle;
+  \fill[bannerStripe] (\linewidth-10pt, 0) -- (\linewidth-6pt, 0) -- (\linewidth+1pt, 1.28cm) -- (\linewidth-3pt, 1.28cm) -- cycle;
+  
+  % 3. Khối Badge số thứ tự bên trái (bo góc trái, vát chéo cạnh phải)
+  \fill[bannerDarkTeal, rounded corners=4pt] (0, 0) -- (2.05cm, 0) [sharp corners] -- (2.62cm, 1.28cm) -- (0, 1.28cm) [rounded corners=4pt] -- cycle;
+  
+  % 4. Số thứ tự mục
+  \node[anchor=center, text=white, font=\sffamily\bfseries\Large] at (1.05cm, 0.64cm) {#1};
+  
+  % 5. Văn bản tiêu đề (đệm an toàn từ 2.80cm tránh đè lên góc vát badge)
+  \node[anchor=west, text=bannerDarkTeal, font=\sffamily\bfseries\large, text width=\linewidth-4.0cm, align=left] at (2.80cm, 0.64cm) {#2};
+\end{tikzpicture}%
+}%
+}
 
-\titleformat{name=\subsection,numberless}
-  {\normalfont\large\sffamily\bfseries\color{secondaryTeal}}
-  {\textcolor{secondaryTeal}{\rule[-0.15ex]{2.5pt}{1.05em}}}
-  {7pt}
-  {}
+\newcommand{\drawSubsectionBannerNumberless}[1]{%
+\Needspace{5\baselineskip}%
+\noindent\makebox[\linewidth][l]{%
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+  \fill[bannerLightBg, rounded corners=4pt] (0, 0) -- (\linewidth-30pt, 0) [sharp corners] -- (\linewidth-23pt, 1.28cm) -- (0, 1.28cm) [rounded corners=4pt] -- cycle;
+  \fill[bannerStripe] (\linewidth-20pt, 0) -- (\linewidth-16pt, 0) -- (\linewidth-9pt, 1.28cm) -- (\linewidth-13pt, 1.28cm) -- cycle;
+  \fill[bannerStripe] (\linewidth-10pt, 0) -- (\linewidth-6pt, 0) -- (\linewidth+1pt, 1.28cm) -- (\linewidth-3pt, 1.28cm) -- cycle;
+  \fill[bannerDarkTeal, rounded corners=3pt] (0, 0) -- (14pt, 0) [sharp corners] -- (18pt, 1.28cm) -- (0, 1.28cm) [rounded corners=3pt] -- cycle;
+  \node[anchor=west, text=bannerDarkTeal, font=\sffamily\bfseries\large, text width=\linewidth-2.0cm, align=left] at (26pt, 0.64cm) {#1};
+\end{tikzpicture}%
+}%
+}
 
-\titlespacing*{\subsection}{0pt}{10pt}{5pt}
-\titlespacing*{name=\subsection,numberless}{0pt}{10pt}{5pt}
+\newcommand{\subsectionFormatNumbered}[1]{%
+  \drawSubsectionBanner{\thesubsection}{#1}%
+}
+\newcommand{\subsectionFormatNumberless}[1]{%
+  \drawSubsectionBannerNumberless{#1}%
+}
+
+\titleformat{\subsection}[block]
+  {\normalfont}
+  {}
+  {0pt}
+  {\subsectionFormatNumbered}
+
+\titleformat{name=\subsection,numberless}[block]
+  {\normalfont}
+  {}
+  {0pt}
+  {\subsectionFormatNumberless}
+
+\titlespacing*{\subsection}{0pt}{16pt}{8pt}
+\titlespacing*{name=\subsection,numberless}{0pt}{16pt}{8pt}
 
 % ==============================================================================
 % 5. CẤU HÌNH HEADER & FOOTER
