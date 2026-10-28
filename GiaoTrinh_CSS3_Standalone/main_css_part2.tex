@@ -880,7 +880,271 @@ Xét ví dụ cụ thể sau để quan sát cách 4 lớp phối hợp nhịp n
 \end{prettyTableBox}
 
 % ==============================================================================
-% 1.3 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
+% 1.3 CHUYÊN SÂU TẦNG PADDING (VÙNG ĐỆM NỘI BỘ & KIỂM SOÁT KHÔNG GIAN)
+% ==============================================================================
+\section{Chuyên Sâu Tầng Padding (Vùng Đệm Nội Bộ \& Khoảng Cách Lõi)}
+\label{sec:box_model_padding_deep_dive}
+
+\subsection{1. Bản Chất Của Padding: Vùng Đệm Thở Của Nội Dung}
+
+Trong mô hình hộp CSS, \textbf{Padding (Vùng đệm nội bộ)} là lớp không gian nằm giữa phần nội dung cốt lõi (\codeinline{content}) và đường viền bao quanh (\codeinline{border}):
+\[
+\mathbf{Content \longleftrightarrow Padding \longleftrightarrow Border}
+\]
+
+Nhiệm vụ trọng tâm của padding là tạo ra một khoảng trống an toàn bao bọc xung quanh nội dung, giúp khối văn bản hoặc hình ảnh có một ``khoảng thở'' tự nhiên, tuyệt đối không bị dính sát vào đường viền gây tức mắt và khó chịu cho người đọc.
+
+\begin{conceptBox}[Ẩn Dụ Kiến Trúc Về Lớp Padding]
+Nếu ví phần tử HTML như một gian phòng khép kín:
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Border} chính là các bức tường nhà bao bọc xung quanh.
+    \item \textbf{Content} là đồ nội thất đặt ở trung tâm gian phòng (bàn ghế, giường tủ, máy tính).
+    \item \textbf{Padding} chính là khoảng cách hành lang lưu thông từ đồ nội thất đến các bức tường. Khoảng cách này càng rộng rãi, hợp lý thì căn phòng trông càng thoáng đãng, sang trọng và tiện nghi.
+\end{itemize}
+\end{conceptBox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_box_model_padding_infographic_overview.png}
+\caption{Tổng Quan Toàn Diện Về CSS Padding: Vị Trí Không Gian Trong Box Model, 4 Đặc Điểm Cốt Lõi, Công Thức Kích Thước Hiển Thị Thực Tế \& Ứng Dụng Với Văn Bản, Hình Ảnh}
+\label{fig:css_box_model_padding_infographic}
+\end{figure}
+
+\subsection{2. Hệ Thống Thuộc Tính Đơn Lẻ \& Quy Tắc Viết Tắt (Shorthand TRouBLe)}
+
+CSS cung cấp 4 thuộc tính đơn lẻ để bạn kiểm soát cự ly đệm độc lập cho từng phía của chiếc hộp:
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \codeinline{padding-top}: Khoảng cách từ đỉnh nội dung đến mép viền trên.
+    \item \codeinline{padding-right}: Khoảng cách từ mép phải nội dung đến mép viền phải.
+    \item \codeinline{padding-bottom}: Khoảng cách từ đáy nội dung đến mép viền dưới.
+    \item \codeinline{padding-left}: Khoảng cách từ mép trái nội dung đến mép viền trái.
+\end{itemize}
+
+\begin{tipBox}[Quy Tắc Vàng Ghi Nhớ Thứ Tự Viết Tắt: Thuật Nhớ TRouBLe]
+Để tối ưu hóa mã nguồn, lập trình viên frontend luôn sử dụng thuộc tính viết tắt \codeinline{padding} theo chiều quay của kim đồng hồ bắt đầu từ vị trí 12 giờ (Đỉnh):
+\[
+\mathbf{T \longrightarrow R \longrightarrow B \longrightarrow L} \quad \text{(\textbf{T}op -- \textbf{R}ight -- \textbf{B}ottom -- \textbf{L}eft \ $\Longrightarrow$ \ Thuật nhớ: \textbf{TRouBLe})}
+\]
+\end{tipBox}
+
+\begin{prettyTableBox}[Ma Trận Cú Pháp Viết Tắt (Shorthand) Của Thuộc Tính Padding]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{2.2cm} L{3.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Số Giá Trị} & \thd{Cú Pháp Mẫu} & \thd{Ý Nghĩa Phân Bổ Không Gian} \\
+1 giá trị & \codeinline{padding: 10px;} & Áp dụng đồng nhất cho \textbf{cả 4 phía}: Trên, Phải, Dưới, Trái đều bằng $10\text{px}$. \\
+2 giá trị & \codeinline{padding: 10px 20px;} & Giá trị 1 cho \textbf{Trên \& Dưới} ($10\text{px}$); Giá trị 2 cho \textbf{Trái \& Phải} ($20\text{px}$). \\
+3 giá trị & \codeinline{padding: 10px 20px 5px;} & Giá trị 1: \textbf{Trên} ($10\text{px}$); Giá trị 2: \textbf{Trái \& Phải} ($20\text{px}$); Giá trị 3: \textbf{Dưới} ($5\text{px}$). \\
+4 giá trị & \codeinline{padding: 10px 20px 5px 15px;} & Phân bổ theo chiều kim đồng hồ (\term{TRouBLe}): \textbf{Trên} $10\text{px}$, \textbf{Phải} $20\text{px}$, \textbf{Dưới} $5\text{px}$, \textbf{Trái} $15\text{px}$. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Minh Họa Khai Báo Chi Tiết Từng Phía vs Viết Gọn Shorthand]
+\begin{lstlisting}[language=CSS3]
+/* Cach 1: Khai bao chi tiet tung thuoc tinh don le */
+.box-detailed {
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+}
+
+/* Cach 2: Viet gon tuong duong 100% theo quy tac TRouBLe */
+.box-shorthand {
+    padding: 10px 20px 5px 15px; /* Top | Right | Bottom | Left */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{3. Cơ Chế Tương Tác Giữa Padding Và Mô Thức Box-Sizing}
+
+Bản chất hoạt động của padding phụ thuộc trực tiếp vào mô thức tính toán kích thước mà bạn đang thiết lập cho phần tử:
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Khi sử dụng chế độ mặc định (\codeinline{box-sizing: content-box})}:
+    Padding sẽ \textbf{cộng dồn ra phía ngoài}, đẩy đường viền \codeinline{border} ra xa và làm tăng trực tiếp kích thước hiển thị tổng thể của chiếc hộp:
+    \[
+    \textbf{Layout Width} = \text{width} + \text{padding-left} + \text{padding-right} + \text{border-left} + \text{border-right}
+    \]
+
+    \item \textbf{Khi sử dụng quy chuẩn hiện đại (\codeinline{box-sizing: border-box})}:
+    Padding \textbf{không làm tăng kích thước tổng thể} của phần tử. Thay vào đó, vùng nội dung (\term{Content Area}) sẽ \textbf{tự động co thắt lại} bên trong để nhường không gian cho các lớp đệm:
+    \[
+    \textbf{Content Width} = \text{width} - (\text{padding-left} + \text{padding-right}) - (\text{border-left} + \text{border-right})
+    \]
+\end{itemize}
+
+\subsection{4. Những Lưu Ý Kỹ Thuật Sống Còn Khi Sử Dụng Padding}
+
+\begin{warnBox}[4 Quy Tắc Kỹ Thuật Bắt Buộc Phải Ghi Nhớ Khi Dùng Padding]
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+    \item \textbf{Tuyệt đối không nhận giá trị âm}:
+    Khác với thuộc tính \codeinline{margin} có thể nhận giá trị âm để kéo các phần tử chèn đè lên nhau, \codeinline{padding} \textbf{luôn luôn phải $\ge 0$}. Khai báo \codeinline{padding: -10px;} là hoàn toàn sai cú pháp W3C; trình duyệt sẽ bỏ qua giá trị này hoặc báo lỗi.
+
+    \item \textbf{Quy tắc tính toán đơn vị phần trăm (\%)}:
+    Khi bạn khai báo padding theo đơn vị \codeinline{\%}:
+    \begin{center}
+    \textcolor{primaryBlue}{\textbf{Tất cả 4 hướng (kể cả padding-top và padding-bottom) đều được tính theo CHIỀU RỘNG (width) của phần tử cha!}}
+    \end{center}
+    Ví dụ: Khối cha có \codeinline{width: 500px;}. Khối con đặt \codeinline{padding: 10\%;} thì cả 4 phía trên, dưới, trái, phải đều sẽ nhận cự ly đệm chính xác là:
+    \[
+    500\text{px} \times 10\% = \mathbf{50\text{px}}
+    \]
+    (Quy tắc này giúp đảm bảo tỷ lệ co giãn hình học đồng dạng và tránh vòng lặp tính toán đệ quy vô tận giữa chiều cao con và chiều cao cha).
+
+    \item \textbf{Màu nền (\codeinline{background}) mặc định phủ kín trọn vẹn cả vùng Padding}:
+    Vùng padding hoàn toàn trong suốt về mặt dữ liệu, nhưng về mặt đồ họa, màu nền (\codeinline{background-color}) và hình nền (\codeinline{background-image}) của phần tử sẽ \textbf{tự động trải rộng bao phủ trùm lên cả vùng Content và Padding} (chỉ dừng lại trước mép trong của viền \codeinline{border}).
+
+    \item \textbf{Tăng diện tích bấm (\term{Touch Target}) cho thành phần tương tác}:
+    Padding là vũ khí tối thượng trong thiết kế UX/UI cho các nút bấm (\codeinline{<button>}), thẻ liên kết (\codeinline{<a>}), và ô nhập liệu (\codeinline{<input>}). Bằng cách tăng padding, ta mở rộng đáng kể diện tích tiếp xúc ngón tay trên màn hình cảm ứng mà không làm vỡ kích thước phông chữ:
+\begin{lstlisting}[language=CSS3]
+button {
+    font-size: 14px;
+    padding: 10px 20px; /* Mo rong dien tich bam thoai mai */
+}
+\end{lstlisting}
+\end{enumerate}
+\end{warnBox}
+
+\subsection{5. Thực Nghiệm Kỹ Thuật Số: Đo Đạc Chiều Rộng \& Chiều Cao Trên DevTools}
+
+Để thấu hiểu sâu sắc từng con số được trình duyệt tính toán ngầm bên dưới, chúng ta cùng phân tích 3 thực nghiệm kinh điển sau:
+
+\subsubsection{Thực nghiệm 1: Padding đơn giản với mô thức mặc định \codeinline{content-box}}
+
+\begin{codeWindow}[Thực Nghiệm 1: Padding Gây Phình To Hộp]
+\begin{lstlisting}[language=HTML]
+<div class="box1">Noi dung ben trong</div>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3]
+.box1 {
+    background-color: lightblue;
+    padding: 20px;              /* 4 phia deu 20px */
+    border: 2px solid blue;
+    width: 200px;               /* Ap dung rieng cho content */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/css_padding_devtools_box_demo.png}
+    \caption{Phần tử hiển thị trên trang với viền xanh và đệm 20px}
+    \label{fig:padding_box1_rendered}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/css_padding_devtools_box1_computed_dimensions.png}
+    \caption{DevTools đo lường thực tế kích thước hiển thị: $200 \times 61.6\text{px}$}
+    \label{fig:padding_box1_computed}
+\end{subfigure}
+\caption{Thực Nghiệm Thực Tế Phân Tích Kích Thước Khối Lệnh \codeinline{.box1} Trên Trình Duyệt Chrome}
+\label{fig:css_padding_box1_devtools_analysis}
+\end{figure}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
+    \item \textbf{Phân tích chiều rộng (\term{Width})}:
+    Do mặc định là \codeinline{content-box}, thuộc tính \codeinline{width: 200px} chỉ tính riêng cho vùng chữ. Chiều rộng layout thực tế chiếm dụng là:
+    \begin{align*}
+    \text{Layout Width} &= 200\text{px} + (20\text{px} \times 2) + (2\text{px} \times 2) = \mathbf{244\text{px}}
+    \end{align*}
+    \item \textbf{Phân tích chiều cao (\term{Height}) khi không khai báo \codeinline{height}}:
+    Khi ta không ấn định thuộc tính \codeinline{height}, trình duyệt sẽ tự động đo lường chiều cao của dòng chữ bên trong (\term{content height} dựa trên \codeinline{font-size} và \codeinline{line-height}, ở đây xấp xỉ $17.6\text{px}$ đến $20\text{px}$):
+    \begin{align*}
+    \text{Layout Height} &= \text{Content Height} + \text{padding-top} + \text{padding-bottom} + \text{border-top} + \text{border-bottom} \\
+    &= 17.6\text{px} + 20\text{px} + 20\text{px} + 2\text{px} + 2\text{px} = \mathbf{61.6\text{px}}
+    \end{align*}
+    $\Longrightarrow$ Con số chính xác $\mathbf{200 \times 61.6\text{px}}$ xuất hiện trên bảng phân tích DevTools (Hình~\ref{fig:padding_box1_computed}) phản ánh đúng thuật toán đo đạc này!
+\end{itemize}
+
+\subsubsection{Thực nghiệm 2: Padding từng phía với cú pháp Shorthand 4 giá trị}
+
+\begin{codeWindow}[Thực Nghiệm 2: Padding 4 Hướng Riêng Biệt]
+\begin{lstlisting}[language=HTML]
+<div class="box2">Vi du padding 4 huong</div>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3]
+.box2 {
+    background-color: lightgreen;
+    padding: 10px 20px 5px 15px; /* Top: 10px | Right: 20px | Bottom: 5px | Left: 15px */
+    border: 1px solid green;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/css_padding_devtools_box_stretch.png}
+\caption{Thực Nghiệm Phần Tử Khối Không Khai Báo Width: Hộp Tự Động Co Giãn Tràn Kín Khung Chứa Với Lớp Đệm Bao Quanh}
+\label{fig:css_padding_box_stretch}
+\end{figure}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Đệm trên (\codeinline{padding-top})}: $10\text{px}$ cự ly với mép trên.
+    \item \textbf{Đệm phải (\codeinline{padding-right})}: $20\text{px}$ khoảng cách mép phải.
+    \item \textbf{Đệm dưới (\codeinline{padding-bottom})}: $5\text{px}$ khoảng cách mép dưới.
+    \item \textbf{Đệm trái (\codeinline{padding-left})}: $15\text{px}$ khoảng cách mép trái.
+\end{itemize}
+
+\subsubsection{Thực nghiệm 3: Bảo toàn kích thước tuyệt đối với \codeinline{border-box}}
+
+\begin{codeWindow}[Thực Nghiệm 3: Co Thắt Content Với border-box]
+\begin{lstlisting}[language=HTML]
+<div class="box3">Noi dung khong lam tang kich thuoc</div>
+\end{lstlisting}
+\begin{lstlisting}[language=CSS3]
+.box3 {
+    width: 200px;
+    height: 100px;
+    padding: 20px;
+    border: 2px solid red;
+    box-sizing: border-box;
+    background-color: pink;
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Kích thước hiển thị tổng thể}: Được cố định bất biến đúng chuẩn $\mathbf{200\text{px} \times 100\text{px}}$.
+    \item \textbf{Chiều rộng vùng content bên trong}:
+    \[
+    \text{Content Width} = 200\text{px} - (20\text{px} \times 2) - (2\text{px} \times 2) = \mathbf{156\text{px}}
+    \]
+    \item \textbf{Chiều cao vùng content bên trong}:
+    \[
+    \text{Content Height} = 100\text{px} - (20\text{px} \times 2) - (2\text{px} \times 2) = \mathbf{56\text{px}}
+    \]
+\end{itemize}
+
+\begin{prettyTableBox}[Ma Trận Ứng Xử Của Chiều Rộng \& Chiều Cao Khi Kết Hợp Với Padding]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.2cm} L{4.6cm} Z}
+\rowcolor{primaryBlue}
+\thd{Kịch Bản Khai Báo} & \thd{Mô Thức \codeinline{content-box}} & \thd{Mô Thức \codeinline{border-box}} \\
+Không khai báo \codeinline{width/height} & Trình duyệt tự đo theo khối lượng chữ rồi cộng thêm đệm và viền. & Vẫn tự đo theo khối lượng chữ (do không có mốc chặn cố định). \\
+Có khai báo kích thước cố định & Kích thước ngoài \textbf{bị phình to} thêm: $\text{kích thước} + \text{padding} + \text{border}$. & Kích thước ngoài \textbf{được bảo toàn tuyệt đối}, phần content tự co thắt lại. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{prettyTableBox}[Bảng Tổng Kết Tra Cứu Toàn Diện Về Thuộc Tính Padding]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.0cm} Z}
+\rowcolor{primaryBlue}
+\thd{Tiêu Chí Kỹ Thuật} & \thd{Quy Chuẩn Hoạt Động \& Khuyến Nghị Thực Tiễn} \\
+Vị trí không gian & Nằm giữa lõi \codeinline{content} và đường viền bao quanh \codeinline{border}. \\
+Giá trị âm & \textbf{Tuyệt đối không hợp lệ} (luôn luôn $\ge 0$). \\
+Đơn vị phần trăm (\%) & Cả 4 phía đều tính theo \textbf{chiều rộng (width) của phần tử cha}. \\
+Màu nền (\codeinline{background}) & Mặc định trải rộng phủ kín trọn vẹn cả vùng \codeinline{content} và \codeinline{padding}. \\
+Tác động kích thước & Làm phình to hộp với \codeinline{content-box}; Thu hẹp vùng lõi với \codeinline{border-box}. \\
+Ý nghĩa UX & Giúp nội dung dễ đọc, thoáng đãng; tăng diện tích bấm (\term{Touch Target}) cho nút và ô nhập liệu. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+% ==============================================================================
+% 1.4 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
 % ==============================================================================
 \section{Thuộc Tính \csshint{box-sizing} \& Công Thức Tính Tổng Kích Thước Hộp}
 \label{sec:box_sizing_deep_dive}
@@ -976,7 +1240,7 @@ div {
 \end{itemize}
 
 % ==============================================================================
-% 1.3 BA LƯU Ý SỐNG CÒN CỦA CSS BOX MODEL
+% 1.5 BA LƯU Ý SỐNG CÒN CỦA CSS BOX MODEL
 % ==============================================================================
 \section{Ba Lưu Ý Sống Còn Khi Làm Việc Với CSS Box Model}
 \label{sec:box_model_vital_notes}
