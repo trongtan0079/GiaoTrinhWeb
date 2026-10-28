@@ -1109,14 +1109,11 @@ button {
 
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
     \item \textbf{Kích thước hiển thị tổng thể}: Được cố định bất biến đúng chuẩn $\mathbf{200\text{px} \times 100\text{px}}$.
-    \item \textbf{Chiều rộng vùng content bên trong}:
-    \[
-    \text{Content Width} = 200\text{px} - (20\text{px} \times 2) - (2\text{px} \times 2) = \mathbf{156\text{px}}
-    \]
-    \item \textbf{Chiều cao vùng content bên trong}:
-    \[
-    \text{Content Height} = 100\text{px} - (20\text{px} \times 2) - (2\text{px} \times 2) = \mathbf{56\text{px}}
-    \]
+    \item \textbf{Vùng lõi content bên trong}: Tự động co thắt đồng thời trên cả hai chiều:
+    \begin{align*}
+    \text{Content Width}  &= 200\text{px} - (20\text{px} \times 2) - (2\text{px} \times 2) = \mathbf{156\text{px}} \\
+    \text{Content Height} &= 100\text{px} - (20\text{px} \times 2) - (2\text{px} \times 2) = \mathbf{56\text{px}}
+    \end{align*}
 \end{itemize}
 
 \begin{prettyTableBox}[Ma Trận Ứng Xử Của Chiều Rộng \& Chiều Cao Khi Kết Hợp Với Padding]
@@ -1142,6 +1139,8 @@ Tác động kích thước & Làm phình to hộp với \codeinline{content-box
 Ý nghĩa UX & Giúp nội dung dễ đọc, thoáng đãng; tăng diện tích bấm (\term{Touch Target}) cho nút và ô nhập liệu. \\
 \end{tabularx}
 \end{prettyTableBox}
+
+\clearpage
 
 % ==============================================================================
 % 1.4 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
