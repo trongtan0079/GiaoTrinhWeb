@@ -1312,6 +1312,18 @@ border-color: red green blue orange;       /* Tren | Phai | Duoi | Trai */
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả Hiển Thị: .border-sides (4 Cạnh Khác Nhau)]
+\centering
+\begin{tikzpicture}
+    \fill[white] (0,0) rectangle (7.2,1.5);
+    \draw[red, line width=3pt] (0,1.5) -- (7.2,1.5);
+    \draw[green!65!black, line width=3pt, dashed] (7.2,1.5) -- (7.2,0);
+    \draw[blue, line width=3pt, dotted] (7.2,0) -- (0,0);
+    \draw[orange, line width=1pt, double, double distance=1.5pt] (0,0) -- (0,1.5);
+    \node[font=\small\sffamily, text=darkText] at (3.6, 0.75) {Viền từng phía với kiểu và màu khác nhau};
+\end{tikzpicture}
+\end{browserWindow}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{figures/css_border_sides_detail.jpg}
@@ -1349,6 +1361,45 @@ Thuộc tính \codeinline{border-style} quyết định hình dạng nét vẽ c
 \codeinline{inset}, \codeinline{outset} & Tạo hiệu ứng 3D cho toàn bộ khối hộp trông như lún sâu xuống hoặc nổi lên trên mặt phẳng. \\
 \end{tabularx}
 \end{prettyTableBox}
+
+\begin{browserWindow}[Minh Họa Trực Quan 9 Kiểu Đường Viền (border-style)]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    % Row 1: none, solid, dashed
+    \fill[gray!10] (0, 2.4) rectangle (3.6, 3.3);
+    \node at (1.8, 2.85) {\textbf{none} (không viền)};
+
+    \draw[primaryBlue, line width=2pt] (4.2, 2.4) rectangle (7.8, 3.3);
+    \node at (6.0, 2.85) {\textbf{solid} (nét liền)};
+
+    \draw[accentOrange, line width=2pt, dashed] (8.4, 2.4) rectangle (12.0, 3.3);
+    \node at (10.2, 2.85) {\textbf{dashed} (gạch ngang)};
+
+    % Row 2: dotted, double, groove
+    \draw[secondaryTeal, line width=2pt, dotted] (0, 1.2) rectangle (3.6, 2.1);
+    \node at (1.8, 1.65) {\textbf{dotted} (dấu chấm)};
+
+    \draw[conceptBorder, line width=1pt, double, double distance=1.5pt] (4.2, 1.2) rectangle (7.8, 2.1);
+    \node at (6.0, 1.65) {\textbf{double} (viền đôi)};
+
+    \draw[gray!75!black, line width=2.5pt] (8.4, 1.2) rectangle (12.0, 2.1);
+    \draw[gray!30, line width=1pt] (8.43, 1.23) rectangle (11.97, 2.07);
+    \node at (10.2, 1.65) {\textbf{groove} (rãnh 3D)};
+
+    % Row 3: ridge, inset, outset
+    \draw[gray!35, line width=2.5pt] (0, 0) rectangle (3.6, 0.9);
+    \draw[gray!75!black, line width=1pt] (0.03, 0.03) rectangle (3.57, 0.87);
+    \node at (1.8, 0.45) {\textbf{ridge} (gờ nổi 3D)};
+
+    \draw[gray!80!black, line width=2pt] (4.2, 0.9) -- (7.8, 0.9) (4.2, 0.9) -- (4.2, 0);
+    \draw[gray!30, line width=2pt] (4.2, 0) -- (7.8, 0) -- (7.8, 0.9);
+    \node at (6.0, 0.45) {\textbf{inset} (lún vào)};
+
+    \draw[gray!30, line width=2pt] (8.4, 0.9) -- (12.0, 0.9) (8.4, 0.9) -- (8.4, 0);
+    \draw[gray!80!black, line width=2pt] (8.4, 0) -- (12.0, 0) -- (12.0, 0.9);
+    \node at (10.2, 0.45) {\textbf{outset} (nổi lên)};
+\end{tikzpicture}
+\end{browserWindow}
 
 \subsection{5. Kích Thước Hợp Lệ Với \csshint{border-width}}
 
@@ -1392,9 +1443,35 @@ selector {
 <div class="bw-2val">Tren/duoi 10px, Trai/phai 3px</div>
 <div class="bw-3val">Tren 10px, Trai/phai 5px, Duoi 2px</div>
 <div class="bw-4val">Tren 10px | Phai 5px | Duoi 2px | Trai 8px</div>
-<div class="bw-keyword">Vien day theo tu khoa thick</div>
+<div class="bw-keyword">Viền dày theo từ khóa `thick`</div>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: 5 Biến Thể Độ Dày border-width]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    \draw[red, line width=2.5pt] (0, 2.4) rectangle (5.6, 3.1);
+    \node at (2.8, 2.75) {.bw-all (5px cả 4 phía)};
+
+    \draw[blue, line width=4pt] (6.2, 3.1) -- (12.0, 3.1) (6.2, 2.4) -- (12.0, 2.4);
+    \draw[blue, line width=1.5pt] (6.2, 2.4) -- (6.2, 3.1) (12.0, 2.4) -- (12.0, 3.1);
+    \node at (9.1, 2.75) {.bw-2val (Trên/dưới 10px | Trái/phải 3px)};
+
+    \draw[green!60!black, line width=4pt] (0, 1.9) -- (5.6, 1.9);
+    \draw[green!60!black, line width=2.2pt] (0, 1.2) -- (0, 1.9) (5.6, 1.2) -- (5.6, 1.9);
+    \draw[green!60!black, line width=1pt] (0, 1.2) -- (5.6, 1.2);
+    \node at (2.8, 1.55) {.bw-3val (Trên 10 | Ngang 5 | Dưới 2)};
+
+    \draw[orange, line width=4pt] (6.2, 1.9) -- (12.0, 1.9);
+    \draw[orange, line width=2.2pt] (12.0, 1.2) -- (12.0, 1.9);
+    \draw[orange, line width=1pt] (6.2, 1.2) -- (12.0, 1.2);
+    \draw[orange, line width=3.2pt] (6.2, 1.2) -- (6.2, 1.9);
+    \node at (9.1, 1.55) {.bw-4val (10px | 5px | 2px | 8px)};
+
+    \draw[purple, line width=3.5pt] (2.5, 0) rectangle (9.5, 0.7);
+    \node at (6.0, 0.35) {.bw-keyword (thick $\approx$ 5px tùy trình duyệt)};
+\end{tikzpicture}
+\end{browserWindow}
 
 \begin{tipBox}[Ghi Nhớ Về border-width]
 \begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
@@ -1458,6 +1535,32 @@ selector {
 \end{lstlisting}
 \end{codeWindow}
 
+\begin{browserWindow}[Kết Quả Hiển Thị: 5 Mẫu Phối Màu border-color]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    \draw[blue, line width=2pt] (0, 2.4) rectangle (5.6, 3.1);
+    \node at (2.8, 2.75) {.border-color-all (Xanh dương)};
+
+    \draw[red, line width=2.2pt] (6.2, 3.1) -- (12.0, 3.1) (6.2, 2.4) -- (12.0, 2.4);
+    \draw[green!65!black, line width=2.2pt] (6.2, 2.4) -- (6.2, 3.1) (12.0, 2.4) -- (12.0, 3.1);
+    \node at (9.1, 2.75) {.border-color-2 (Đỏ trên/dưới | Xanh trái/phải)};
+
+    \draw[red, line width=2.2pt] (0, 1.9) -- (5.6, 1.9);
+    \draw[green!65!black, line width=2.2pt] (0, 1.2) -- (0, 1.9) (5.6, 1.2) -- (5.6, 1.9);
+    \draw[blue, line width=2.2pt] (0, 1.2) -- (5.6, 1.2);
+    \node at (2.8, 1.55) {.border-color-3 (Đỏ | Xanh lá | Xanh dương)};
+
+    \draw[red, line width=2.2pt] (6.2, 1.9) -- (12.0, 1.9);
+    \draw[green!65!black, line width=2.2pt] (12.0, 1.2) -- (12.0, 1.9);
+    \draw[blue, line width=2.2pt] (6.2, 1.2) -- (12.0, 1.2);
+    \draw[orange, line width=2.2pt] (6.2, 1.2) -- (6.2, 1.9);
+    \node at (9.1, 1.55) {.border-color-4 (4 cạnh 4 màu riêng biệt)};
+
+    \draw[red!50!white, line width=2.5pt] (2.5, 0) rectangle (9.5, 0.7);
+    \node at (6.0, 0.35) {.border-color-rgba (Viền đỏ mờ 50\% alpha)};
+\end{tikzpicture}
+\end{browserWindow}
+
 \begin{tipBox}[Ghi Nhớ Về border-color]
 \begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
     \item \codeinline{border-color} bắt buộc phải có \codeinline{border-style} đi kèm để hiển thị.
@@ -1491,6 +1594,20 @@ Cách đường viền bao bọc phần tử phụ thuộc trực tiếp vào lo
 </div>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[So Sánh Trực Quan: Border Nội Dòng (Inline) vs Khối (Block)]
+\centering
+\begin{tikzpicture}[font=\small\sffamily]
+    % Inline preview
+    \node[anchor=west, text=primaryBlue, font=\scriptsize\sffamily\bfseries] at (0, 1.85) {1. Thẻ <span> (Inline):};
+    \node[anchor=west] at (0, 1.35) {Đây là \tikz[baseline=-0.5ex]{\node[draw=red, line width=1pt, inner sep=2pt] {một đoạn};} có viền.};
+
+    % Block preview
+    \node[anchor=west, text=primaryBlue, font=\scriptsize\sffamily\bfseries] at (0, 0.75) {2. Thẻ <div> (Block):};
+    \draw[red, line width=1pt] (0, 0) rectangle (12.0, 0.5);
+    \node[anchor=west] at (0.2, 0.25) {Đây là một khối có viền bao quanh toàn bộ khối (100\% chiều ngang).};
+\end{tikzpicture}
+\end{browserWindow}
 
 \begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
     \item \textbf{Phần tử \codeinline{inline} (\codeinline{<span>})}: Viền chỉ bao quanh vừa khít đúng đoạn chữ ``một đoạn'', không tự động kéo dài chiếm toàn dòng.
@@ -1547,6 +1664,27 @@ selector {
 <div class="radius-circle">Tron</div>
 \end{lstlisting}
 \end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: 4 Hình Dạng Với border-radius]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    % 1. Bo deu 15px
+    \draw[black, line width=1.2pt, rounded corners=8pt] (0, 0.3) rectangle (2.8, 1.5);
+    \node[align=center] at (1.4, 0.9) {Bo tròn đều\\15px};
+
+    % 2. Bo rieng tung goc
+    \draw[red, line width=1.2pt] (3.3, 1.5) -- (6.1, 1.5) -- (6.1, 0.7) .. controls (6.1,0.3) .. (5.5,0.3) -- (3.5,0.3) .. controls (3.3,0.3) .. (3.3,0.5) -- (3.3,1.1) .. controls (3.3,1.5) .. (3.7,1.5);
+    \node[align=center] at (4.7, 0.9) {Bo từng góc\\khác nhau};
+
+    % 3. Elip
+    \draw[green!60!black, line width=1.2pt] (8.1, 0.9) ellipse (1.4cm and 0.6cm);
+    \node[align=center] at (8.1, 0.9) {Bo dạng elip\\(50\% / 25\%)};
+
+    % 4. Hinh tron
+    \draw[blue, line width=1.2pt] (11.0, 0.9) circle (0.7cm);
+    \node at (11.0, 0.9) {Tròn (50\%)};
+\end{tikzpicture}
+\end{browserWindow}
 
 \begin{prettyTableBox}[Bốn Thuộc Tính border-radius Tách Biệt Theo Từng Góc]
 \rowcolors{2}{white}{primaryBlue!4}
