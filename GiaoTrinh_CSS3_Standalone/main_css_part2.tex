@@ -1158,7 +1158,453 @@ Tác động kích thước & Làm phình to hộp với \codeinline{content-box
 \clearpage
 
 % ==============================================================================
-% 1.4 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
+% 1.4 CHUYÊN SÂU TẦNG BORDER (ĐƯỜNG VIỀN & BO GÓC PHẦN TỬ)
+% ==============================================================================
+\section{Chuyên Sâu Tầng \csshint{border} (Đường Viền \& Bo Góc Phần Tử)}
+\label{sec:box_model_border_deep_dive}
+
+\subsection{1. Định Nghĩa \& Vị Trí Trong CSS Box Model}
+
+Thuộc tính \codeinline{border} là đường viền bao quanh phần tử HTML, nằm ở vị trí trung gian giữa vùng đệm nội bộ (\codeinline{padding}) và khoảng cách lề ngoài (\codeinline{margin}) trong mô hình Box Model:
+
+\begin{conceptBox}[Cấu Trúc Phân Tầng Box Model (Từ Ngoài Vào Trong)]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Lớp ngoài cùng (\codeinline{Margin})}: Khoảng cách đẩy phần tử ra xa các phần tử lân cận.
+    \item \textbf{Lớp tường bao (\codeinline{Border})}: Đường viền vật lý bao quanh toàn bộ \codeinline{padding} và \codeinline{content}.
+    \item \textbf{Lớp đệm thở (\codeinline{Padding})}: Khoảng trống giữa đường viền và nội dung.
+    \item \textbf{Lớp lõi trung tâm (\codeinline{Content})}: Chứa văn bản, hình ảnh, video hoặc phần tử con.
+\end{itemize}
+\end{conceptBox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_border_overview.jpg}
+\caption{Tổng Quan Về Thuộc Tính \codeinline{border} Trong CSS Box Model: Vị Trí, Cú Pháp Shorthand, Các Thuộc Tính Thường Dùng \& Các Kiểu Hiển Thị Phổ Biến}
+\label{fig:css_border_overview}
+\end{figure}
+
+\subsection{2. Cú Pháp Viết Tắt (\term{Shorthand}) \& Các Thuộc Tính Riêng Biệt}
+
+\subsubsection{a) Cú Pháp Viết Tắt Toàn Phần (\codeinline{border} Shorthand)}
+
+Để thiết lập nhanh cả 3 yếu tố của đường viền (độ dày, kiểu nét, màu sắc) trên một dòng duy nhất, ta dùng cú pháp:
+\[
+\codeinline{border: <width> <style> <color>;}
+\]
+
+\begin{codeWindow}[Ví Dụ Cú Pháp Shorthand Cơ Bản]
+\begin{lstlisting}[language=CSS3]
+.box {
+    border: 2px solid red; /* Vien day 2px, kieu net lien (solid), mau do */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\subsubsection{b) Ba Thuộc Tính Thành Phần Riêng Biệt}
+
+Thay vì gộp chung, CSS cho phép tách riêng từng đặc tính của viền thông qua 3 thuộc tính độc lập sau:
+
+\begin{prettyTableBox}[Ba Thuộc Tính Thành Phần Cốt Lõi Của Border]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.2cm} L{5.4cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thuộc Tính} & \thd{Chức Năng Chính} & \thd{Ví Dụ Khai Báo} \\
+\codeinline{border-width} & Xác định độ dày của đường viền. & \codeinline{border-width: 3px;} \\
+\codeinline{border-style} & Xác định kiểu nét viền (\textbf{bắt buộc phải có để viền hiển thị}). & \codeinline{border-style: dotted;} \\
+\codeinline{border-color} & Xác định màu sắc của đường viền. & \codeinline{border-color: green;} \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{3. Kiểm Soát Độc Lập Từng Cạnh Riêng Biệt (Trên -- Phải -- Dưới -- Trái)}
+
+Bạn hoàn toàn có thể áp dụng cấu hình viền khác nhau cho từng cạnh riêng biệt của chiếc hộp:
+
+\begin{prettyTableBox}[Bốn Cạnh Độc Lập Của Đường Viền]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{2.5cm} L{5.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Cạnh} & \thd{Thuộc Tính Tương Ứng} & \thd{Ví Dụ Minh Họa} \\
+Trên (Top) & \codeinline{border-top} / \codeinline{border-top-style} / ... & \codeinline{border-top: 4px dashed blue;} \\
+Phải (Right) & \codeinline{border-right} / \codeinline{border-right-style} / ... & \codeinline{border-right: 2px dotted green;} \\
+Dưới (Bottom) & \codeinline{border-bottom} / \codeinline{border-bottom-style} / ... & \codeinline{border-bottom: 2px solid black;} \\
+Trái (Left) & \codeinline{border-left} / \codeinline{border-left-style} / ... & \codeinline{border-left: 4px double orange;} \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{a) Cú pháp rõ ràng -- từng phía chi tiết}
+
+Bạn có thể thiết lập viền từng phía với từng thuộc tính thành phần riêng biệt (tổng cộng $4 \times 3 = 12$ thuộc tính đơn lẻ):
+
+\begin{codeWindow}[Khai Báo Chi Tiết Từng Thuộc Tính Cho Cả 4 Phía]
+\begin{lstlisting}[language=CSS3]
+/* Canh Tren (Top) */
+border-top-width: 2px;
+border-top-style: solid;
+border-top-color: red;
+
+/* Canh Phai (Right) */
+border-right-width: 2px;
+border-right-style: dashed;
+border-right-color: green;
+
+/* Canh Duoi (Bottom) */
+border-bottom-width: 2px;
+border-bottom-style: dotted;
+border-bottom-color: blue;
+
+/* Canh Trai (Left) */
+border-left-width: 2px;
+border-left-style: double;
+border-left-color: orange;
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Ưu điểm}: Kiểm soát chi tiết tuyệt đối từng thành phần của mỗi phía.
+    \item \textbf{Nhược điểm}: Mã nguồn dài dòng, khó gọn code khi thiết lập cả 4 cạnh.
+\end{itemize}
+
+\subsubsection{b) Cú pháp viết tắt từng phía (\codeinline{border-top}, \codeinline{border-right}...)}
+
+Bạn cũng có thể viết gọn từng phía với cú pháp gộp 3 trong 1 cho mỗi cạnh:
+
+\begin{codeWindow}[Viết Gọn Từng Phía Với Cú Pháp Shorthand Theo Cạnh]
+\begin{lstlisting}[language=CSS3]
+border-top: 2px solid red;
+border-right: 2px dashed green;
+border-bottom: 2px dotted blue;
+border-left: 2px double orange;
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Ưu điểm}: Ngắn gọn, trực quan, rất dễ đọc và bảo trì.
+    \item \textbf{Nhược điểm}: Không tách riêng được từng thành phần (\codeinline{style}, \codeinline{width}, \codeinline{color}) nếu chỉ muốn ghi đè một yếu tố đơn lẻ.
+\end{itemize}
+
+\subsubsection{c) Viết tắt toàn bộ 4 phía (\codeinline{Shorthand} theo chiều kim đồng hồ)}
+
+Khi cả 4 phía giống hệt nhau, chỉ cần viết một dòng \codeinline{border: 2px solid black;}. Ngược lại, nếu muốn 4 phía khác nhau mà vẫn gọn, bạn có thể khai báo 4 giá trị trên cùng một thuộc tính thành phần theo chiều kim đồng hồ (\term{TRouBLe}: \textbf{Trên $\rightarrow$ Phải $\rightarrow$ Dưới $\rightarrow$ Trái}):
+
+\begin{codeWindow}[Shorthand 4 Phía Khác Nhau Theo Chiều Kim Đồng Hồ]
+\begin{lstlisting}[language=CSS3]
+border-width: 2px 4px 6px 8px;             /* Tren | Phai | Duoi | Trai */
+border-style: solid dashed dotted double;  /* Tren | Phai | Duoi | Trai */
+border-color: red green blue orange;       /* Tren | Phai | Duoi | Trai */
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[Ví Dụ Đầy Đủ Minh Họa Viền Từng Phía Khác Nhau]
+\begin{lstlisting}[language=HTML]
+<style>
+  .border-sides {
+    border-top: 4px solid red;
+    border-right: 4px dashed green;
+    border-bottom: 4px dotted blue;
+    border-left: 4px double orange;
+    padding: 10px;
+    width: 250px;
+  }
+</style>
+<div class="border-sides">
+  Vien tung phia voi kieu va mau khac nhau
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_border_sides_detail.jpg}
+\caption{Minh Họa Chi Tiết Thiết Lập Border Riêng Lẻ Từng Bề (Trên, Phải, Dưới, Trái) Và Bảng Đối Chiếu Trực Quan Các Kiểu Viền}
+\label{fig:css_border_sides_detail}
+\end{figure}
+
+\begin{prettyTableBox}[Bảng Ghi Nhớ Nhanh: Cú Pháp Đầy Đủ vs Viết Tắt Theo Từng Phía]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{2.2cm} L{5.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Viền Phía} & \thd{Cú Pháp Đầy Đủ (Tách Rời)} & \thd{Cú Pháp Viết Tắt (Shorthand)} \\
+Viền trên & \codeinline{border-top-width} / \codeinline{style} / \codeinline{color} & \codeinline{border-top: 2px solid red;} \\
+Viền phải & \codeinline{border-right-width} / \codeinline{style} / \codeinline{color} & \codeinline{border-right: 2px dashed green;} \\
+Viền dưới & \codeinline{border-bottom-width} / \codeinline{style} / \codeinline{color} & \codeinline{border-bottom: 2px dotted blue;} \\
+Viền trái & \codeinline{border-left-width} / \codeinline{style} / \codeinline{color} & \codeinline{border-left: 2px double orange;} \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{4. Hệ Thống Các Kiểu Đường Viền (\csshint{border-style})}
+
+Thuộc tính \codeinline{border-style} quyết định hình dạng nét vẽ của đường viền. Đây là thuộc tính \textbf{bắt buộc phải có}; nếu không khai báo (hoặc để mặc định \codeinline{none}), viền sẽ hoàn toàn vô hình dù bạn đã đặt độ dày và màu sắc.
+
+\begin{prettyTableBox}[Tổng Hợp Các Giá Trị Chuẩn Của border-style]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Kiểu (\codeinline{border-style})} & \thd{Đặc Điểm Hiển Thị Thực Tế} \\
+\codeinline{none} & Không có viền (\textbf{giá trị mặc định} của hầu hết các thẻ HTML). \\
+\codeinline{solid} & Viền nét liền mạch (phổ biến nhất trong thiết kế hiện đại). \\
+\codeinline{dashed} & Viền nét đứt dạng gạch ngang (thường dùng cho khung kéo thả file, voucher). \\
+\codeinline{dotted} & Viền dạng các dấu chấm tròn liên tiếp. \\
+\codeinline{double} & Viền hai đường song song (yêu cầu \codeinline{border-width} $\ge 3\text{px}$ để thấy rõ khe hở). \\
+\codeinline{groove}, \codeinline{ridge} & Viền tạo hiệu ứng nổi/chìm 3D dạng rãnh khắc hoặc gờ nổi (dựa vào màu viền). \\
+\codeinline{inset}, \codeinline{outset} & Tạo hiệu ứng 3D cho toàn bộ khối hộp trông như lún sâu xuống hoặc nổi lên trên mặt phẳng. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{5. Kích Thước Hợp Lệ Với \csshint{border-width}}
+
+\codeinline{border-width} là thuộc tính CSS dùng để xác định độ dày của đường viền xung quanh phần tử. Giá trị hợp lệ gồm hai nhóm:
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Đơn vị độ dài cụ thể}: \codeinline{px}, \codeinline{em}, \codeinline{rem}, \codeinline{pt},... (ví dụ: \codeinline{border-width: 1px;} cho nét mảnh, \codeinline{border-width: 10px;} cho nét đậm).
+    \item \textbf{Từ khóa định sẵn}: \codeinline{thin}, \codeinline{medium}, \codeinline{thick} (ít dùng trong thực tế do độ dày quy đổi giữa các trình duyệt không chính xác và đồng nhất bằng đơn vị cụ thể).
+\end{itemize}
+
+\begin{codeWindow}[Cú Pháp 1 Đến 4 Giá Trị Của border-width]
+\begin{lstlisting}[language=CSS3]
+selector {
+    border-width: 5px;               /* Tat ca 4 canh deu 5px */
+    border-width: 5px 10px;          /* Tren/duoi: 5px | Trai/phai: 10px */
+    border-width: 5px 10px 2px;      /* Tren: 5px | Trai+phai: 10px | Duoi: 2px */
+    border-width: 5px 10px 2px 8px;  /* Tren: 5px | Phai: 10px | Duoi: 2px | Trai: 8px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[5 Ví Dụ Minh Họa Thiết Lập border-width]
+\begin{lstlisting}[language=HTML]
+<style>
+  /* 1. Tat ca cac canh co cung do day */
+  .bw-all { border-style: solid; border-color: red; border-width: 5px; }
+
+  /* 2. Chi dinh 2 gia tri: top-bottom va left-right */
+  .bw-2val { border-style: solid; border-color: blue; border-width: 10px 3px; }
+
+  /* 3. Ba gia tri: top | left-right | bottom */
+  .bw-3val { border-style: solid; border-color: green; border-width: 10px 5px 2px; }
+
+  /* 4. Bon gia tri: moi canh mot gia tri rieng */
+  .bw-4val { border-style: solid; border-color: orange; border-width: 10px 5px 2px 8px; }
+
+  /* 5. Dung tu khoa (it dung) */
+  .bw-keyword { border-style: solid; border-color: purple; border-width: thick; }
+</style>
+
+<div class="bw-all">Vien do 5px ca 4 phia</div>
+<div class="bw-2val">Tren/duoi 10px, Trai/phai 3px</div>
+<div class="bw-3val">Tren 10px, Trai/phai 5px, Duoi 2px</div>
+<div class="bw-4val">Tren 10px | Phai 5px | Duoi 2px | Trai 8px</div>
+<div class="bw-keyword">Vien day theo tu khoa thick</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Ghi Nhớ Về border-width]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item Viền sẽ \textbf{không hiển thị} nếu thiếu \codeinline{border-style} (lưu ý quan trọng nhất).
+    \item \codeinline{border-width} luôn hoạt động đồng bộ cùng \codeinline{border-style} và \codeinline{border-color}.
+    \item Có thể kết hợp \codeinline{border-top-width}, \codeinline{border-left-width},... để chỉ định độ dày riêng cho từng cạnh.
+\end{itemize}
+\end{tipBox}
+
+\subsection{6. Màu Sắc Đường Viền Với \csshint{border-color}}
+
+\codeinline{border-color} dùng để đặt màu cho đường viền của phần tử và hoạt động cùng với \codeinline{border-style}, \codeinline{border-width}. Bạn có thể chỉ định màu bằng tất cả các hệ màu CSS chuẩn:
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Tên màu (\term{Color Name})}: \codeinline{red}, \codeinline{blue}, \codeinline{green},...
+    \item \textbf{Mã HEX}: \codeinline{\#ff0000}, \codeinline{\#00ff00},...
+    \item \textbf{RGB / RGBA}: \codeinline{rgb(255, 0, 0)}, \codeinline{rgba(0, 0, 255, 0.5)} (hỗ trợ độ trong suốt).
+    \item \textbf{HSL}: \codeinline{hsl(0, 100\%, 50\%)}.
+\end{itemize}
+
+\begin{codeWindow}[Cú Pháp 1 Đến 4 Giá Trị Của border-color]
+\begin{lstlisting}[language=CSS3]
+selector {
+    border-color: red;                    /* Tat ca cac canh */
+    border-color: red green;              /* Tren/duoi | Trai/phai */
+    border-color: red green blue;         /* Tren | Trai+phai | Duoi */
+    border-color: red green blue yellow;  /* Tren | Phai | Duoi | Trai */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[5 Ví Dụ Sử Dụng border-color Thực Tế]
+\begin{lstlisting}[language=HTML]
+<style>
+  /* To cung mau cho ca 4 vien */
+  .border-color-all {
+    border-width: 3px; border-style: solid; border-color: blue; padding: 10px;
+  }
+  /* Dung 2 mau: tren/duoi | trai/phai */
+  .border-color-2 {
+    border-width: 4px; border-style: solid; border-color: red green; padding: 10px;
+  }
+  /* Dung 3 mau: tren | trai+phai | duoi */
+  .border-color-3 {
+    border-width: 4px; border-style: solid; border-color: red green blue; padding: 10px;
+  }
+  /* Moi canh mot mau */
+  .border-color-4 {
+    border-width: 4px; border-style: solid; border-color: red green blue orange; padding: 10px;
+  }
+  /* Mau voi do trong suot (RGBA) */
+  .border-color-rgba {
+    border-width: 4px; border-style: solid; border-color: rgba(255, 0, 0, 0.5); padding: 10px;
+  }
+</style>
+
+<div class="border-color-all">Vien mau xanh duong</div>
+<div class="border-color-2">Tren/duoi do, Trai/phai xanh</div>
+<div class="border-color-3">Tren do, Trai/phai xanh, Duoi xanh duong</div>
+<div class="border-color-4">4 canh 4 mau khac nhau</div>
+<div class="border-color-rgba">Vien do mo 50%</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{tipBox}[Ghi Nhớ Về border-color]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \codeinline{border-color} bắt buộc phải có \codeinline{border-style} đi kèm để hiển thị.
+    \item Có thể đặt màu riêng cho từng cạnh bằng \codeinline{border-top-color}, \codeinline{border-right-color},...
+    \item Dùng từ khóa \codeinline{transparent} để ẩn viền 1 phía nhưng vẫn giữ nguyên không gian chiếm chỗ của nó (rất hữu ích khi xử lý hiệu ứng hover).
+\end{itemize}
+\end{tipBox}
+
+\subsection{7. Border Với Phần Tử Nội Dòng (\term{Inline}) vs Phần Tử Khối (\term{Block})}
+
+Cách đường viền bao bọc phần tử phụ thuộc trực tiếp vào loại hiển thị (\codeinline{display}) của thẻ HTML:
+
+\begin{codeWindow}[Ví Dụ Tổng Hợp Và So Sánh Border Inline vs Block]
+\begin{lstlisting}[language=CSS3]
+/* Vi du tong hop ket hop border, padding va background */
+.box {
+    border: 5px double #3498db;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+\end{lstlisting}
+\begin{lstlisting}[language=HTML]
+<!-- 1. Border cho phan tu inline (noi dong) -->
+<p>
+  Day la <span style="border: 1px solid red;">mot doan</span> co vien.
+</p>
+
+<!-- 2. Border cho phan tu block (khoi) -->
+<div style="border: 1px solid red;">
+  Day la mot khoi co vien bao quanh toan bo khoi.
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Phần tử \codeinline{inline} (\codeinline{<span>})}: Viền chỉ bao quanh vừa khít đúng đoạn chữ ``một đoạn'', không tự động kéo dài chiếm toàn dòng.
+    \item \textbf{Phần tử \codeinline{block} (\codeinline{<div>})}: Viền bao trọn toàn bộ chiều ngang của khối (mặc định bằng $100\%$ chiều ngang phần tử cha).
+\end{itemize}
+
+\subsection{8. Bo Tròn Góc Với \csshint{border-radius}}
+
+Thuộc tính \codeinline{border-radius} giúp làm cong các góc của phần tử hộp (box). Bạn có thể áp dụng cho tất cả các góc cùng lúc, từng góc riêng biệt, hoặc bo theo bán kính hình tròn và elip.
+
+\begin{codeWindow}[Cú Pháp Cơ Bản Của border-radius]
+\begin{lstlisting}[language=CSS3]
+selector {
+    border-radius: 10px;                 /* Bo deu 4 goc */
+    border-radius: 10px 20px;            /* Tren-trai + duoi-phai | Tren-phai + duoi-trai */
+    border-radius: 10px 20px 30px 40px;  /* Tren-trai | Tren-phai | Duoi-phai | Duoi-trai */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{codeWindow}[4 Ví Dụ Thực Chiến Với border-radius (Đều, Riêng Góc, Elip, Hình Tròn)]
+\begin{lstlisting}[language=HTML]
+<style>
+  /* 1. Bo tron deu 4 goc */
+  .radius-all {
+    border: 2px solid black; border-radius: 15px; padding: 10px; width: 200px;
+  }
+
+  /* 2. Bo rieng tung goc */
+  .radius-each {
+    border: 2px solid red;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 5px;
+    padding: 10px; width: 200px;
+  }
+
+  /* 3. Bo theo elip (oval shape) */
+  .radius-ellipse {
+    width: 200px; height: 100px; border: 2px solid green; border-radius: 50% / 25%;
+  }
+
+  /* 4. Hinh tron hoan hao */
+  .radius-circle {
+    width: 100px; height: 100px; border: 2px solid blue;
+    border-radius: 50%; text-align: center; line-height: 100px;
+  }
+</style>
+
+<div class="radius-all">Bo tron deu 15px</div>
+<div class="radius-each">Bo tung goc khac nhau</div>
+<div class="radius-ellipse">Bo dang elip (oval)</div>
+<div class="radius-circle">Tron</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Bốn Thuộc Tính border-radius Tách Biệt Theo Từng Góc]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{5.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thuộc Tính} & \thd{Tác Dụng Cụ Thể} \\
+\codeinline{border-top-left-radius} & Bo góc trên bên trái. \\
+\codeinline{border-top-right-radius} & Bo góc trên bên phải. \\
+\codeinline{border-bottom-right-radius} & Bo góc dưới bên phải. \\
+\codeinline{border-bottom-left-radius} & Bo góc dưới bên trái. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Ghi Nhớ Về border-radius]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item Đơn vị thường dùng: \codeinline{px}, \codeinline{\%}, \codeinline{em}.
+    \item Dùng \codeinline{border-radius: 50\%;} sẽ tạo ra \textbf{hình tròn hoàn hảo} nếu chiều rộng bằng chiều cao (\codeinline{width === height}).
+    \item Kết hợp \codeinline{border}, \codeinline{padding} và \codeinline{background} để thiết kế nút bấm (button), thẻ bài viết (card) và khung chứa đẹp mắt.
+\end{itemize}
+\end{tipBox}
+
+\subsection{9. Ảnh Hưởng Của \csshint{box-sizing} Đến \csshint{border}}
+
+Tương tự như \codeinline{padding}, đường viền \codeinline{border} chịu chi phối trực tiếp từ cơ chế tính toán kích thước của thuộc tính \codeinline{box-sizing}:
+
+\begin{prettyTableBox}[Tác Động Của box-sizing Lên Kích Thước Đường Viền]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{4.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Giá Trị \codeinline{box-sizing}} & \thd{Ý Nghĩa Với \codeinline{border}} \\
+\codeinline{content-box} (mặc định) & Độ dày \codeinline{border} cộng dồn ra ngoài, làm \textbf{tăng kích thước tổng thể} của hộp. \\
+\codeinline{border-box} & Độ dày \codeinline{border} được \textbf{tính gộp bên trong} \codeinline{width}/\codeinline{height} đã đặt. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{noteBox}[Ghi Nhớ Nhanh Toàn Diện Về Border]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item Viền tuyệt đối \textbf{không hiện} nếu không có \codeinline{border-style}.
+    \item Dùng \codeinline{border} để tạo khung, làm đẹp giao diện hoặc tạo đường kẻ phân tách bố cục.
+    \item Có thể kết hợp \codeinline{transition} để tạo hiệu ứng chuyển đổi màu sắc hoặc độ dày viền mượt mà khi rê chuột (\codeinline{:hover}).
+\end{itemize}
+\end{noteBox}
+
+\subsection{10. Đọc Thêm: Kỹ Thuật Nâng Cao \& Kinh Nghiệm Thực Chiến (Phần Bổ Sung)}
+
+\begin{conceptBox}[Mở Rộng Kiến Thức Chuyên Sâu Về CSS Border]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
+    \item \textbf{Chống giật giao diện (\term{Layout Shift}) khi Hover thêm Border}: Một lỗi rất phổ biến của người mới là chỉ khai báo \codeinline{border: 2px solid blue;} khi người dùng rê chuột (\codeinline{:hover}), khiến hộp bị nhảy kích thước thêm $4\text{px}$. \textbf{Giải pháp chuẩn}: Luôn đặt sẵn \codeinline{border: 2px solid transparent;} ở trạng thái bình thường, và chỉ đổi \codeinline{border-color: blue;} khi hover!
+    \item \textbf{Kỹ thuật vẽ hình tam giác CSS thuần}: Khi một phần tử có \codeinline{width: 0; height: 0;} và 4 cạnh \codeinline{border} dày, phần giao nhau tại các góc của 4 cạnh border thực chất là \textbf{đường chéo $45^\circ$}. Bằng cách tô màu 1 cạnh và đặt 3 cạnh còn lại thành \codeinline{transparent}, bạn tạo ra ngay mũi tên hoặc hình tam giác sắc nét mà không cần SVG.
+    \item \textbf{Phân biệt \codeinline{border} và \codeinline{outline}}: Khác với \codeinline{border} (chiếm không gian Box Model và bo được góc bằng \codeinline{border-radius}), \codeinline{outline} vẽ đè ở bên ngoài viền, \textbf{không làm thay đổi kích thước hộp} nên thường được dùng cho trạng thái \codeinline{:focus} (hỗ trợ Accessibility bàn phím).
+    \item \textbf{Thuộc tính Logic hiện đại (\term{CSS Logical Properties})}: Để hỗ trợ đa ngôn ngữ (như tiếng Ả Rập viết từ phải sang trái RTL), CSS hiện đại bổ sung \codeinline{border-inline-start}, \codeinline{border-inline-end}, \codeinline{border-block-start}, \codeinline{border-block-end} thay thế dần cho \codeinline{left/right/top/bottom}.
+\end{enumerate}
+\end{conceptBox}
+
+\clearpage
+
+% ==============================================================================
+% 1.5 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
 % ==============================================================================
 \section{Thuộc Tính \csshint{box-sizing} \& Công Thức Tính Tổng Kích Thước Hộp}
 \label{sec:box_sizing_deep_dive}
