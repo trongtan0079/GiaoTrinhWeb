@@ -1853,6 +1853,13 @@ Thuộc tính \codeinline{margin} là \textbf{khoảng cách bên ngoài phần 
 \end{itemize}
 \end{conceptBox}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_margin_overview.jpg}
+\caption{Tổng Quan Toàn Diện Về CSS \codeinline{margin}: Vị Trí Trong Box Model, Các Thuộc Tính, Giá Trị Thường Dùng, So Sánh Với \codeinline{padding} \& Ví Dụ Trực Quan}
+\label{fig:css_margin_overview}
+\end{figure}
+
 \subsection{2. Cú Pháp Rõ Ràng Từng Phía \& Cú Pháp Viết Tắt (\term{Shorthand})}
 
 \subsubsection{a) Khai báo rõ ràng từng phía}
@@ -2002,7 +2009,200 @@ margin: 10px 20px 30px 40px;
 \end{tikzpicture}
 \end{browserWindow}
 
-\subsection{7. Đọc Thêm: Kỹ Thuật Nâng Cao Với \csshint{margin} (Phần Bổ Sung)}
+\subsection{7. So Sánh Bản Chất \csshint{margin} vs \csshint{padding} \& Hành Vi Trên \csshint{block}/\csshint{inline}}
+
+Để sử dụng chính xác hai thuộc tính khoảng cách quan trọng nhất của Box Model, hãy phân biệt rõ bản chất và phạm vi tác động của chúng:
+
+\begin{prettyTableBox}[Điểm Nhấn Về Bản Chất: margin vs padding]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{2.8cm} L{4.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Thuộc Tính} & \thd{Ảnh Hưởng Tới} & \thd{Ghi Chú Cốt Lõi} \\
+\codeinline{margin} & Bên ngoài phần tử & Tạo khoảng cách với các phần tử khác; không có màu nền, không chứa nội dung. \\
+\codeinline{padding} & Bên trong phần tử & Tạo khoảng cách giữa viền (\codeinline{border}) và nội dung (\codeinline{content}); thừa hưởng màu nền của phần tử. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Ghi Nhớ Thêm Về Bản Chất Margin]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \codeinline{margin} \textbf{không có màu nền} (mặc dù bản thân phần tử có màu nền).
+    \item Dùng \codeinline{margin: 0 auto;} giúp canh giữa phần tử khối theo chiều ngang.
+    \item \codeinline{margin} giúp tạo khoảng trống giữa các khối nội dung để giao diện dễ đọc và thoáng mắt hơn.
+\end{itemize}
+\end{tipBox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_margin_vs_padding.jpg}
+\caption{Phân Biệt Trực Quan Bản Chất Của \codeinline{margin} (Khoảng Cách Bên Ngoài) Và \codeinline{padding} (Khoảng Trống Bên Trong)}
+\label{fig:css_margin_vs_padding}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_margin_block_inline.jpg}
+\caption{So Sánh Hành Vi Của \codeinline{margin} Trên 3 Kịch Bản: 2 Phần Tử \codeinline{block}, 2 Phần Tử \codeinline{inline}, Và Kết Hợp 1 \codeinline{block} + 1 \codeinline{inline}}
+\label{fig:css_margin_block_inline}
+\end{figure}
+
+\subsection{8. Thực Chiến: Tạo Khoảng Cách Giữa Các Khối Độc Lập \& Trong Cùng Container Cha}
+
+\subsubsection{a) Ví dụ 1: Hai khối \codeinline{<div>} dùng \codeinline{margin-bottom} tạo khoảng cách}
+
+\begin{codeWindow}[Hai Khối div Tạo Khoảng Cách Bằng margin-bottom: 30px]
+\begin{lstlisting}[language=HTML]
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box {
+      width: 200px;
+      height: 100px;
+      background-color: lightblue;
+      margin-bottom: 30px; /* Khoang cach duoi */
+    }
+    .box2 {
+      width: 200px;
+      height: 100px;
+      background-color: lightcoral;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">Box 1</div>
+  <div class="box2">Box 2</div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \codeinline{.box} có \codeinline{margin-bottom: 30px;} $\rightarrow$ tạo khoảng trống $30\text{px}$ giữa \textbf{Box 1} và \textbf{Box 2}.
+    \item Không có bất kỳ phần tử trung gian nào ``đẩy Box 2 xuống'' ngoài chính \codeinline{margin} của Box 1.
+    \item \codeinline{margin} hoàn toàn \textbf{không làm thay đổi kích thước} của Box 1 (nó vẫn giữ nguyên chiều rộng $200\text{px}$, chiều cao $100\text{px}$). Nếu bỏ \codeinline{margin-bottom}, Box 1 và Box 2 sẽ dính sát khít nhau.
+\end{itemize}
+
+\subsubsection{b) Ví dụ 2: Hai box nằm trong cùng một thẻ \codeinline{<div>} cha (\codeinline{.container})}
+
+\begin{codeWindow}[Hai Box Con Trong Thẻ Cha .container Kết Hợp :last-child]
+\begin{lstlisting}[language=HTML]
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      width: 500px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      border: 2px solid #999;
+    }
+    .box {
+      width: 200px;
+      height: 100px;
+      background-color: lightblue;
+      margin-bottom: 20px; /* Khoang cach giua hai box */
+    }
+    .box:last-child {
+      margin-bottom: 0; /* Box cuoi khong can margin duoi */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">Box 1</div>
+    <div class="box">Box 2</div>
+  </div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/css_margin_container_demo.png}
+\caption{Kết Quả Thực Tế Trên Trình Duyệt: Hai Box Con Nằm Trong Thẻ Cha \codeinline{.container} Cách Nhau Bởi \codeinline{margin-bottom: 20px} Và Cách Viền Cha Bởi \codeinline{padding: 20px}}
+\label{fig:css_margin_container_demo}
+\end{figure}
+
+\begin{prettyTableBox}[Giải Thích Vai Trò Từng Thành Phần Trong Ví Dụ .container]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Phần Tử / Thuộc Tính} & \thd{Vai Trò Trong Bố Cục} \\
+\codeinline{.container} & Thẻ cha chứa 2 box con, có \codeinline{padding: 20px} và viền \codeinline{border: 2px solid \#999} để quan sát rõ bố cục tổng thể. \\
+\codeinline{.box} & Hai khối hộp con nằm cùng cấp bên trong \codeinline{.container}. \\
+\codeinline{margin-bottom} & Tạo khoảng cách $20\text{px}$ giữa hai box con (riêng \codeinline{.box:last-child} đặt bằng $0$ để không dư khoảng trắng ở đáy container). \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{9. Bài Toán Thực Chiến: Căn Chỉnh Hộp Bằng \csshint{margin-left} Dựa Trên Kích Thước Thực Tế}
+
+Để kiểm chứng sự hiểu biết sâu sắc về sự kết hợp giữa \codeinline{width}, \codeinline{padding}, \codeinline{border} (ở chế độ mặc định \codeinline{content-box}) và \codeinline{margin-left}, hãy xét bài toán xếp 3 chiếc hộp theo hình bậc thang chính xác từng pixel:
+
+\begin{codeWindow}[Xếp Bậc Thang 3 Hộp Bằng margin-left Theo Kích Thước Thực Tế]
+\begin{lstlisting}[language=HTML]
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Mau chung cho cac box */
+    .box {
+      width: 100px;
+      height: 100px;
+      padding: 20px;
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      box-sizing: content-box; /* Day la mac dinh */
+    }
+    /* Box 1: Vien xanh, khong margin */
+    .box1 {
+      border: 10px solid blue;
+    }
+    /* Box 2: Vien vang, day sang phai dung bang chieu rong thuc te cua Box 1 */
+    .box2 {
+      border: 20px solid yellow;
+      margin-left: 160px; /* = width(100) + padding(20*2) + border(10*2) = 160px */
+    }
+    /* Box 3: Vien xanh la, day sang phai bang tong chieu rong Box 1 va Box 2 */
+    .box3 {
+      border: 30px solid green;
+      margin-left: 340px; /* = 160 (box1) + 180 (box2) */
+    }
+  </style>
+</head>
+<body>
+  <div class="box box1">Box 1</div>
+  <div class="box box2">Box 2</div>
+  <div class="box box3">Box 3</div>
+</body>
+</html>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/css_margin_staircase_calc.png}
+\caption{Kết Quả Xếp Bậc Thang 3 Khối Hộp \codeinline{.box1}, \codeinline{.box2}, \codeinline{.box3} Bằng Phép Tính Thủ Công \codeinline{margin-left}}
+\label{fig:css_margin_staircase_calc}
+\end{figure}
+
+\begin{noteBox}[Phân Tích Toán Học Chi Tiết Từng Box]
+\begin{itemize}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
+    \item \textbf{\codeinline{.box1} -- Viền xanh dương}: \codeinline{width: 100px} + \codeinline{padding: 20px} mỗi bên ($+40\text{px}$) + \codeinline{border: 10px} mỗi bên ($+20\text{px}$) $\Longrightarrow$ \textbf{Tổng chiều rộng thực tế: $\mathbf{160\text{px}}$}. Đặt \codeinline{margin-left: 0} (không cần dịch).
+    \item \textbf{\codeinline{.box2} -- Viền vàng}: \codeinline{width: 100px} + \codeinline{padding} ($+40\text{px}$) + \codeinline{border: 20px} mỗi bên ($+40\text{px}$) $\Longrightarrow$ \textbf{Tổng chiều rộng thực tế: $\mathbf{180\text{px}}$}. Đặt \codeinline{margin-left: 160px} để đẩy sang phải đúng bằng chiều rộng \codeinline{.box1}, đảm bảo chạm góc chuẩn xác và không đè lên \codeinline{.box1}.
+    \item \textbf{\codeinline{.box3} -- Viền xanh lá}: \codeinline{width: 100px} + \codeinline{padding} ($+40\text{px}$) + \codeinline{border: 30px} mỗi bên ($+60\text{px}$) $\Longrightarrow$ \textbf{Tổng chiều rộng thực tế: $\mathbf{200\text{px}}$}. Đặt \codeinline{margin-left: 340px} ($= 160\text{px} + 180\text{px}$) để xếp tiếp ngay sau 2 box đầu mà không bị chồng lấn.
+\end{itemize}
+\end{noteBox}
+
+\begin{warnBox}[Kết Luận Về Phương Pháp Căn Chỉnh Vị Trí Thủ Công Bằng Margin]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Ưu điểm}: Kiểm soát tuyệt đối từng pixel vị trí của mỗi phần tử mà chưa cần dùng hệ thống layout hiện đại (Flexbox / CSS Grid).
+    \item \textbf{Nhược điểm}: \textbf{Khó mở rộng} (khi thêm \codeinline{.box4} hoặc đổi độ dày viền của \codeinline{.box1}, ta phải tính tay lại toàn bộ các box phía sau) và \textbf{không phản hồi tốt (kém Responsive)} trên màn hình điện thoại nhỏ.
+\end{itemize}
+\end{warnBox}
+
+\subsection{10. Đọc Thêm: Kỹ Thuật Nâng Cao Với \csshint{margin} (Phần Bổ Sung)}
 
 \begin{conceptBox}[Mở Rộng Kiến Thức Chuyên Sâu Về CSS Margin]
 \begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
