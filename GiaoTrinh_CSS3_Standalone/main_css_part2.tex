@@ -1359,6 +1359,7 @@ Thuộc tính \codeinline{border-style} quyết định hình dạng nét vẽ c
 \codeinline{double} & Viền hai đường song song (yêu cầu \codeinline{border-width} $\ge 3\text{px}$ để thấy rõ khe hở). \\
 \codeinline{groove}, \codeinline{ridge} & Viền tạo hiệu ứng nổi/chìm 3D dạng rãnh khắc hoặc gờ nổi (dựa vào màu viền). \\
 \codeinline{inset}, \codeinline{outset} & Tạo hiệu ứng 3D cho toàn bộ khối hộp trông như lún sâu xuống hoặc nổi lên trên mặt phẳng. \\
+\codeinline{hidden} & Giống \codeinline{none} (ẩn viền), nhưng dùng riêng cho bảng (\codeinline{<table>}) để ưu tiên triệt tiêu viền khi xung đột gộp viền. \\
 \end{tabularx}
 \end{prettyTableBox}
 
@@ -1408,6 +1409,18 @@ Thuộc tính \codeinline{border-style} quyết định hình dạng nét vẽ c
     \item \textbf{Đơn vị độ dài cụ thể}: \codeinline{px}, \codeinline{em}, \codeinline{rem}, \codeinline{pt},... (ví dụ: \codeinline{border-width: 1px;} cho nét mảnh, \codeinline{border-width: 10px;} cho nét đậm).
     \item \textbf{Từ khóa định sẵn}: \codeinline{thin}, \codeinline{medium}, \codeinline{thick} (ít dùng trong thực tế do độ dày quy đổi giữa các trình duyệt không chính xác và đồng nhất bằng đơn vị cụ thể).
 \end{itemize}
+
+\begin{prettyTableBox}[Giá Trị border-width Phổ Biến \& Độ Dày Quy Đổi]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Giá Trị} & \thd{Mô Tả Quy Đổi} \\
+\codeinline{thin} & Viền mảnh (xấp xỉ $\sim 1\text{px}$). \\
+\codeinline{medium} & Viền vừa (\textbf{mặc định}, xấp xỉ $\sim 3\text{--}4\text{px}$). \\
+\codeinline{thick} & Viền dày (xấp xỉ $\sim 5\text{--}6\text{px}$). \\
+\codeinline{px}, \codeinline{em}, \codeinline{\%} & Đơn vị độ dài cụ thể (khuyên dùng để đảm bảo độ chính xác tuyệt đối). \\
+\end{tabularx}
+\end{prettyTableBox}
 
 \begin{codeWindow}[Cú Pháp 1 Đến 4 Giá Trị Của border-width]
 \begin{lstlisting}[language=CSS3]
@@ -1728,7 +1741,86 @@ Tương tự như \codeinline{padding}, đường viền \codeinline{border} ch�
 \end{itemize}
 \end{noteBox}
 
-\subsection{10. Đọc Thêm: Kỹ Thuật Nâng Cao \& Kinh Nghiệm Thực Chiến (Phần Bổ Sung)}
+\subsection{10. Tổng Hợp Thuộc Tính \& Bộ 7 Ví Dụ Cô Đọng Cho Từng Thuộc Tính \csshint{border}}
+
+\begin{prettyTableBox}[Bảng Tổng Hợp Đầy Đủ Các Nhóm Thuộc Tính Border CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Nhóm} & \thd{Thuộc Tính Liên Quan} \\
+Viết gộp & \codeinline{border}, \codeinline{border-top}, \codeinline{border-right}, \codeinline{border-bottom}, \codeinline{border-left} \\
+Chi tiết & \codeinline{border-width}, \codeinline{border-style}, \codeinline{border-color} (và các biến thể cho từng cạnh) \\
+Bo góc & \codeinline{border-radius} (và 4 góc cụ thể: \codeinline{top-left}, \codeinline{top-right}, \codeinline{bottom-right}, \codeinline{bottom-left}) \\
+Giá trị thường dùng & \codeinline{solid}, \codeinline{dashed}, \codeinline{dotted}, \codeinline{double}, \codeinline{none}, \codeinline{hidden}, \codeinline{thin}, \codeinline{medium}, \codeinline{thick},... \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{codeWindow}[Bộ 7 Ví Dụ Cô Đọng Cho Từng Thuộc Tính Border]
+\begin{lstlisting}[language=HTML]
+<style>
+  /* 1. border-width (do day vien) */
+  .border-width-example { border-style: solid; border-color: black; border-width: 5px; }
+
+  /* 2. border-style (kieu vien) */
+  .border-style-example { border-width: 3px; border-color: black; border-style: dashed; }
+
+  /* 3. border-color (mau vien) */
+  .border-color-example { border-width: 3px; border-style: solid; border-color: red; }
+
+  /* 4. Vien tung phia: border-top-* */
+  .border-top-example { border-top-width: 4px; border-top-style: solid; border-top-color: blue; }
+
+  /* 5. Vien tung phia: border-left-* */
+  .border-left-example { border-left-width: 4px; border-left-style: dotted; border-left-color: green; }
+
+  /* 6. border-radius (bo goc) */
+  .border-radius-example { border-width: 2px; border-style: solid; border-color: gray; border-radius: 10px; }
+
+  /* 7. box-sizing: border-box + border */
+  .box-sizing-example {
+    width: 200px; padding: 20px; border-width: 4px;
+    border-style: solid; border-color: brown; box-sizing: border-box;
+  }
+</style>
+<div class="border-width-example">Vien day 5px</div>
+<div class="border-style-example">Vien kieu gach ngang (dashed)</div>
+<div class="border-color-example">Vien mau do</div>
+<div class="border-top-example">Chi co vien tren (mau xanh duong)</div>
+<div class="border-left-example">Chi co vien trai (dotted xanh la)</div>
+<div class="border-radius-example">Vien bo tron 10px</div>
+<div class="box-sizing-example">Tong chieu rong van la 200px (ke ca border + padding)</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Bộ 7 Ví Dụ Cô Đọng Từng Thuộc Tính Border]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    \draw[black, line width=2.8pt] (0, 2.6) rectangle (3.7, 3.3);
+    \node at (1.85, 2.95) {1. Viền dày 5px};
+
+    \draw[black, line width=1.8pt, dashed] (4.1, 2.6) rectangle (7.8, 3.3);
+    \node at (5.95, 2.95) {2. Gạch ngang (dashed)};
+
+    \draw[red, line width=1.8pt] (8.2, 2.6) rectangle (11.9, 3.3);
+    \node at (10.05, 2.95) {3. Viền màu đỏ};
+
+    \fill[gray!8] (0, 1.4) rectangle (3.7, 2.1);
+    \draw[blue, line width=2.5pt] (0, 2.1) -- (3.7, 2.1);
+    \node at (1.85, 1.75) {4. Chỉ viền trên xanh};
+
+    \fill[gray!8] (4.1, 1.4) rectangle (7.8, 2.1);
+    \draw[green!60!black, line width=2.5pt, dotted] (4.1, 1.4) -- (4.1, 2.1);
+    \node at (5.95, 1.75) {5. Chỉ viền trái dotted};
+
+    \draw[gray, line width=1.4pt, rounded corners=6pt] (8.2, 1.4) rectangle (11.9, 2.1);
+    \node at (10.05, 1.75) {6. Bo tròn 10px};
+
+    \draw[brown!80!black, line width=2.2pt] (1.8, 0.1) rectangle (10.1, 0.9);
+    \node at (5.95, 0.5) {7. \codeinline{border-box}: Tổng chiều rộng vẫn đúng 200px (gồm border 4px + padding 20px)};
+\end{tikzpicture}
+\end{browserWindow}
+
+\subsection{11. Đọc Thêm: Kỹ Thuật Nâng Cao \& Kinh Nghiệm Thực Chiến (Phần Bổ Sung)}
 
 \begin{conceptBox}[Mở Rộng Kiến Thức Chuyên Sâu Về CSS Border]
 \begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
@@ -1742,7 +1834,189 @@ Tương tự như \codeinline{padding}, đường viền \codeinline{border} ch�
 \clearpage
 
 % ==============================================================================
-% 1.5 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
+% 1.5 CHUYÊN SÂU TẦNG MARGIN (KHOẢNG CÁCH LỀ NGOÀI & BỐ CỤC)
+% ==============================================================================
+\section{Chuyên Sâu Tầng \csshint{margin} (Khoảng Cách Lề Ngoài \& Bố Cục)}
+\label{sec:box_model_margin_deep_dive}
+
+\subsection{1. Định Nghĩa: \csshint{margin} Là Gì?}
+
+Thuộc tính \codeinline{margin} là \textbf{khoảng cách bên ngoài phần tử} -- tạo khoảng trống giữa phần tử đó với các phần tử bên ngoài nó (ví dụ: các thẻ \codeinline{<div>}, \codeinline{<p>}, \codeinline{<h1>},...).
+
+\begin{conceptBox}[Bản Chất Của Tầng Margin Trong Box Model]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Hoàn toàn trong suốt}: \codeinline{margin} \textbf{không có màu nền} (\codeinline{background-color}), \textbf{không có đường viền}, chỉ thuần túy là khoảng trống đẩy giãn xung quanh phần tử.
+    \item \textbf{Vị trí cấu trúc Box Model (từ ngoài vào trong)}:
+    \[
+    \mathbf{[\; Margin \;] \;\supset\; [\; Border \;] \;\supset\; [\; Padding \;] \;\supset\; [\; Content \;]}
+    \]
+\end{itemize}
+\end{conceptBox}
+
+\subsection{2. Cú Pháp Rõ Ràng Từng Phía \& Cú Pháp Viết Tắt (\term{Shorthand})}
+
+\subsubsection{a) Khai báo rõ ràng từng phía}
+
+\begin{codeWindow}[Thiết Lập Margin Độc Lập Cho 4 Hướng]
+\begin{lstlisting}[language=CSS3]
+margin-top: 10px;
+margin-right: 15px;
+margin-bottom: 20px;
+margin-left: 5px;
+\end{lstlisting}
+\end{codeWindow}
+
+\subsubsection{b) Cú pháp viết tắt \codeinline{margin} theo quy tắc kim đồng hồ}
+
+Tương tự \codeinline{padding}, cú pháp viết tắt của \codeinline{margin} tuân theo chiều kim đồng hồ (\term{TRouBLe}: \textbf{Trên $\rightarrow$ Phải $\rightarrow$ Dưới $\rightarrow$ Trái}):
+
+\begin{codeWindow}[Cú Pháp Shorthand 1 Đến 4 Giá Trị Của Margin]
+\begin{lstlisting}[language=CSS3]
+/* 1 gia tri -> ap dung cho ca 4 phia */
+margin: 10px;
+
+/* 2 gia tri -> Tren-duoi | Trai-phai */
+margin: 10px 20px;
+
+/* 3 gia tri -> Tren | Trai-phai | Duoi */
+margin: 10px 20px 30px;
+
+/* 4 gia tri -> Tren | Phai | Duoi | Trai */
+margin: 10px 20px 30px 40px;
+\end{lstlisting}
+\end{codeWindow}
+
+\subsection{3. Các Ví Dụ Minh Họa Rõ Ràng \& Kết Quả Trực Quan}
+
+\begin{codeWindow}[3 Kịch Bản Sử Dụng Margin Phổ Biến Nhất]
+\begin{lstlisting}[language=CSS3]
+/* Vi du 1: margin deu 4 phia */
+.box-equal {
+    margin: 20px;
+}
+
+/* Vi du 2: margin khac nhau cho tung canh (Tren | Phai | Duoi | Trai) */
+.box-sides {
+    margin: 10px 15px 20px 5px;
+}
+
+/* Vi du 3: margin tu dong (canh giua theo chieu ngang) */
+.box-center {
+    width: 300px;
+    margin: 0 auto; /* Tren/duoi: 0, Trai/phai: auto -> canh giua */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Minh Họa Trực Quan: Căn Giữa Phần Tử Khối Với margin: 0 auto]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    % Parent container
+    \draw[gray!60, dashed, line width=1pt] (0, 0) rectangle (12.0, 1.6);
+    \node[anchor=north west, text=gray!80!black] at (0.15, 1.55) {Container cha (100\% width)};
+    % Auto left arrow
+    \draw[<->, accentOrange, line width=1.2pt] (0.05, 0.7) -- (3.45, 0.7);
+    \node[text=accentOrange, fill=white, inner sep=1pt] at (1.75, 0.95) {margin-left: auto};
+    % Centered box
+    \fill[primaryBlue!15] (3.5, 0.25) rectangle (8.5, 1.15);
+    \draw[primaryBlue, line width=1.5pt] (3.5, 0.25) rectangle (8.5, 1.15);
+    \node[text=primaryBlue, font=\scriptsize\sffamily\bfseries] at (6.0, 0.7) {.box-center (width: 300px)};
+    % Auto right arrow
+    \draw[<->, accentOrange, line width=1.2pt] (8.55, 0.7) -- (11.95, 0.7);
+    \node[text=accentOrange, fill=white, inner sep=1pt] at (10.25, 0.95) {margin-right: auto};
+\end{tikzpicture}
+\end{browserWindow}
+
+\subsection{4. Các Giá Trị Đặc Biệt \& Đơn Vị Thường Dùng}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \codeinline{auto}: Trình duyệt tự động tính toán khoảng lề còn dư. Được sử dụng cực kỳ phổ biến để \textbf{canh giữa theo chiều ngang} cho phần tử khối.
+    \item \codeinline{0}: Loại bỏ hoàn toàn khoảng cách lề ngoài (không cần ghi đơn vị phía sau số $0$).
+    \item \textbf{Các đơn vị đo lường thường dùng}: \codeinline{px}, \codeinline{\%}, \codeinline{em}, \codeinline{rem}, \codeinline{vh}, \codeinline{vw}.
+\end{itemize}
+
+\subsection{5. Lưu Ý Quan Trọng Khi Làm Việc Với \csshint{margin}}
+
+\begin{prettyTableBox}[3 Tình Huống Kỹ Thuật Sống Còn Về Margin]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{4.8cm} Z}
+\rowcolor{primaryBlue}
+\thd{Tình Huống} & \thd{Mô Tả \& Nguyên Tắc Hoạt Động} \\
+\codeinline{margin collapsing} (Gộp lề dọc) & Nếu 2 phần tử khối nằm sát nhau theo chiều dọc (\codeinline{top-bottom}), lề của chúng sẽ bị \textbf{gộp lại} $\rightarrow$ trình duyệt chỉ lấy \textbf{giá trị lớn hơn}, không cộng dồn. \\
+\codeinline{margin: auto} & Để canh giữa phần tử khối (\term{block}), \textbf{bắt buộc phải kèm \codeinline{width} cố định} (nhỏ hơn phần tử cha). \\
+\codeinline{margin-left: auto;} + \codeinline{margin-right: auto;} & Tương đương \codeinline{margin: 0 auto;}, dùng để chia đều khoảng trống 2 bên giúp căn giữa ngang chuẩn xác. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{browserWindow}[Minh Họa Hiện Tượng Margin Collapsing (Gộp Lề Dọc)]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    % Box A
+    \fill[primaryBlue!15] (0.5, 2.0) rectangle (5.5, 2.7);
+    \draw[primaryBlue, line width=1.2pt] (0.5, 2.0) rectangle (5.5, 2.7);
+    \node at (3.0, 2.35) {\textbf{Box 1} (\codeinline{margin-bottom: 30px})};
+    % Collapsed gap
+    \fill[warnBg] (0.5, 1.1) rectangle (5.5, 2.0);
+    \draw[<->, accentOrange, line width=1.2pt] (3.0, 1.12) -- (3.0, 1.98);
+    \node[text=accentOrange, font=\scriptsize\sffamily\bfseries, anchor=west] at (3.2, 1.55) {Khoảng cách thực: 30px (KHÔNG PHẢI 50px!)};
+    % Box B
+    \fill[secondaryTeal!15] (0.5, 0.4) rectangle (5.5, 1.1);
+    \draw[secondaryTeal, line width=1.2pt] (0.5, 0.4) rectangle (5.5, 1.1);
+    \node at (3.0, 0.75) {\textbf{Box 2} (\codeinline{margin-top: 20px})};
+\end{tikzpicture}
+\end{browserWindow}
+
+\subsection{6. Demo HTML Thực Tế Với 4 Hướng \csshint{margin}}
+
+\begin{codeWindow}[Demo HTML Áp Dụng Margin 4 Hướng Khác Nhau]
+\begin{lstlisting}[language=HTML]
+<style>
+  .box {
+    width: 200px;
+    height: 100px;
+    background: lightblue;
+    margin: 30px 50px 10px 5px; /* Tren 30px | Phai 50px | Duoi 10px | Trai 5px */
+  }
+</style>
+<div class="box">
+  Box co margin 30px tren, 50px phai, 10px duoi, 5px trai
+</div>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: .box Với Margin 30px / 50px / 10px / 5px]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    % Outer margin area
+    \fill[warnBg] (0, 0) rectangle (7.6, 2.6);
+    \draw[warnBorder, dashed, line width=0.8pt] (0, 0) rectangle (7.6, 2.6);
+    % Inner box (margin-left: 5px -> 0.3cm, margin-right: 50px -> 2.1cm, margin-top: 30px -> 0.9cm, margin-bottom: 10px -> 0.4cm)
+    \fill[cyan!25] (0.5, 0.4) rectangle (5.5, 1.7);
+    \draw[primaryBlue, line width=1pt] (0.5, 0.4) rectangle (5.5, 1.7);
+    \node[align=center, text=darkText] at (3.0, 1.05) {Box \codeinline{200px x 100px}\\(\codeinline{background: lightblue})};
+    % Annotations
+    \node[text=warnBorder, font=\scriptsize\sffamily\bfseries] at (3.0, 2.15) {margin-top: 30px};
+    \node[text=warnBorder, font=\scriptsize\sffamily\bfseries] at (3.0, 0.2) {margin-bottom: 10px};
+    \node[text=warnBorder, font=\scriptsize\sffamily\bfseries, align=center] at (6.55, 1.05) {margin-right\\50px};
+    \node[text=warnBorder, font=\scriptsize\sffamily\bfseries, anchor=east] at (-0.1, 1.05) {margin-left: 5px $\rightarrow$};
+\end{tikzpicture}
+\end{browserWindow}
+
+\subsection{7. Đọc Thêm: Kỹ Thuật Nâng Cao Với \csshint{margin} (Phần Bổ Sung)}
+
+\begin{conceptBox}[Mở Rộng Kiến Thức Chuyên Sâu Về CSS Margin]
+\begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
+    \item \textbf{Margin âm (\term{Negative Margin})}: Khác với \codeinline{padding} (cấm giá trị âm), \codeinline{margin} \textbf{cho phép dùng số âm} (ví dụ: \codeinline{margin-top: -20px;}) để kéo phần tử dịch chuyển đè lên phần tử lân cận, thường dùng làm thẻ nổi đè lên ảnh bìa hoặc hiệu ứng xếp chồng Avatar.
+    \item \textbf{Cách hóa giải \term{Margin Collapsing}}: Nếu không muốn lề dọc bị gộp, bạn chỉ cần đặt phần tử cha thành \codeinline{display: flex;} hoặc \codeinline{display: grid;} (lề trong Flexbox và Grid \textbf{không bao giờ bị gộp}), hoặc dùng thuộc tính hiện đại \codeinline{display: flow-root;}.
+    \item \textbf{Hành vi của \codeinline{margin} trên phần tử \codeinline{inline}}: Các thẻ nội dòng như \codeinline{<span>}, \codeinline{<a>} chỉ nhận \codeinline{margin-left} và \codeinline{margin-right}; trình duyệt sẽ \textbf{bỏ qua hoàn toàn \codeinline{margin-top} và \codeinline{margin-bottom}}. Muốn dùng lề dọc cho thẻ này, hãy chuyển sang \codeinline{display: inline-block;}.
+    \item \textbf{Cú pháp hiện đại \codeinline{margin-inline: auto;}}: Thay vì viết dài dòng \codeinline{margin-left: auto; margin-right: auto;}, CSS hiện đại hỗ trợ viết gọn \codeinline{margin-inline: auto;} để căn giữa ngang mà không làm ghi đè \codeinline{margin-top} hay \codeinline{margin-bottom} sẵn có!
+\end{enumerate}
+\end{conceptBox}
+
+\clearpage
+
+% ==============================================================================
+% 1.6 THUỘC TÍNH BOX-SIZING & CÔNG THỨC TÍNH TOÁN
 % ==============================================================================
 \section{Thuộc Tính \csshint{box-sizing} \& Công Thức Tính Tổng Kích Thước Hộp}
 \label{sec:box_sizing_deep_dive}
