@@ -2082,6 +2082,34 @@ margin: 10px 20px 30px 40px;
     \item \codeinline{margin} hoàn toàn \textbf{không làm thay đổi kích thước} của Box 1 (nó vẫn giữ nguyên chiều rộng $200\text{px}$, chiều cao $100\text{px}$). Nếu bỏ \codeinline{margin-bottom}, Box 1 và Box 2 sẽ dính sát khít nhau.
 \end{itemize}
 
+\begin{browserWindow}[So Sánh Trực Quan: Có margin-bottom: 30px vs Không Dùng margin-bottom]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    % Left: With margin-bottom: 30px
+    \node[anchor=west, text=primaryBlue, font=\scriptsize\sffamily\bfseries] at (0, 2.75) {1. Có \codeinline{margin-bottom: 30px}:};
+    \fill[cyan!25] (0, 1.75) rectangle (4.5, 2.45);
+    \draw[primaryBlue!70] (0, 1.75) rectangle (4.5, 2.45);
+    \node at (2.25, 2.1) {Box 1 (200px $\times$ 100px)};
+
+    \draw[<->, red, line width=1pt] (2.25, 1.15) -- (2.25, 1.72);
+    \node[text=red, anchor=west] at (2.35, 1.43) {30px (trống, không màu)};
+
+    \fill[red!30] (0, 0.4) rectangle (4.5, 1.1);
+    \draw[red!70] (0, 0.4) rectangle (4.5, 1.1);
+    \node at (2.25, 0.75) {Box 2 (200px $\times$ 100px)};
+
+    % Right: Without margin-bottom
+    \node[anchor=west, text=primaryBlue, font=\scriptsize\sffamily\bfseries] at (6.5, 2.75) {2. Nếu không dùng \codeinline{margin-bottom}:};
+    \fill[cyan!25] (6.5, 1.75) rectangle (11.0, 2.45);
+    \draw[primaryBlue!70] (6.5, 1.75) rectangle (11.0, 2.45);
+    \node at (8.75, 2.1) {Box 1};
+
+    \fill[red!30] (6.5, 1.05) rectangle (11.0, 1.75);
+    \draw[red!70] (6.5, 1.05) rectangle (11.0, 1.75);
+    \node at (8.75, 1.4) {Box 2 (dính sát vào Box 1)};
+\end{tikzpicture}
+\end{browserWindow}
+
 \subsubsection{b) Ví dụ 2: Hai box nằm trong cùng một thẻ \codeinline{<div>} cha (\codeinline{.container})}
 
 \begin{codeWindow}[Hai Box Con Trong Thẻ Cha .container Kết Hợp :last-child]
