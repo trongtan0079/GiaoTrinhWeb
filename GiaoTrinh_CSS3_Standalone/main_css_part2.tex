@@ -2251,19 +2251,24 @@ Với phần tử khối (\term{block-level}) có chiều rộng \codeinline{wid
 \end{lstlisting}
 \end{codeWindow}
 
-\begin{noteBox}[Giải Mã Bản Chất Của Câu Lệnh \codeinline{margin: 0 auto;}]
-Câu lệnh viết rút gọn \codeinline{margin: 0 auto;} khi tách nhỏ đầy đủ thành 4 thuộc tính sẽ tương đương hoàn toàn với:
+\begin{codeWindow}[Tách Nhỏ Câu Lệnh margin: 0 auto Thành 4 Thuộc Tính Độc Lập]
 \begin{lstlisting}[language=CSS3]
 margin-top: 0;       /* Khong co khoang cach tren */
 margin-right: auto;  /* Trinh duyet tu chia deu khoang trong ben phai */
 margin-bottom: 0;    /* Khong co khoang cach duoi */
 margin-left: auto;   /* Trinh duyet tu chia deu khoang trong ben trai */
 \end{lstlisting}
-\textbf{Hình ảnh hóa phân bổ không gian}:
-\[
-\texttt{|----auto----|<-- box -->|----auto----|}
-\]
-Trình duyệt đo phần khoảng trắng còn dư của thẻ cha rồi chia đều sang hai bên trái/phải, đưa phần tử vào chính giữa theo chiều ngang.
+\end{codeWindow}
+
+\begin{noteBox}[Giải Mã Bản Chất Của Câu Lệnh \codeinline{margin: 0 auto;}]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \codeinline{margin-top: 0;} $\rightarrow$ Không có khoảng cách trên.
+    \item \codeinline{margin-bottom: 0;} $\rightarrow$ Không có khoảng cách dưới.
+    \item \codeinline{margin-left: auto;} \& \codeinline{margin-right: auto;} $\rightarrow$ Trình duyệt tự động tính phần khoảng trắng còn dư của phần tử cha rồi chia đều sang hai bên, làm cho phần tử nằm chính giữa theo chiều ngang:
+\end{itemize}
+\vspace{4pt}
+\centering
+\fcolorbox{primaryBlue!40}{white}{\texttt{\; |----auto----|<--\;\textbf{box}\;-->|----auto----| \;}}
 \end{noteBox}
 
 \begin{figure}[H]
