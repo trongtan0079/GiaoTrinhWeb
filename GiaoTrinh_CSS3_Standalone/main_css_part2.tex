@@ -2230,7 +2230,308 @@ margin: 10px 20px 30px 40px;
 \end{itemize}
 \end{warnBox}
 
-\subsection{10. Đọc Thêm: Kỹ Thuật Nâng Cao Với \csshint{margin} (Phần Bổ Sung)}
+\subsection{10. Căn Giữa Một Phần Tử Trong Trang Bằng CSS Sử Dụng \csshint{margin}}
+
+\subsubsection{a) Căn giữa theo chiều ngang (\term{Horizontal Center}) với \codeinline{margin: 0 auto;}}
+
+Với phần tử khối (\term{block-level}) có chiều rộng \codeinline{width} xác định rõ (không phải \codeinline{100\%} hay \codeinline{auto}), ta dùng câu lệnh viết gọn:
+
+\begin{codeWindow}[Căn Giữa Ngang Phần Tử Với margin: 0 auto]
+\begin{lstlisting}[language=HTML]
+<div class="box">Toi duoc can giua ngang</div>
+<style>
+  .box {
+    width: 300px;
+    background: lightblue;
+    padding: 20px;
+    margin: 0 auto; /* top-bottom: 0, left-right: auto */
+    text-align: center;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{noteBox}[Giải Mã Bản Chất Của Câu Lệnh \codeinline{margin: 0 auto;}]
+Câu lệnh viết rút gọn \codeinline{margin: 0 auto;} khi tách nhỏ đầy đủ thành 4 thuộc tính sẽ tương đương hoàn toàn với:
+\begin{lstlisting}[language=CSS3]
+margin-top: 0;       /* Khong co khoang cach tren */
+margin-right: auto;  /* Trinh duyet tu chia deu khoang trong ben phai */
+margin-bottom: 0;    /* Khong co khoang cach duoi */
+margin-left: auto;   /* Trinh duyet tu chia deu khoang trong ben trai */
+\end{lstlisting}
+\textbf{Hình ảnh hóa phân bổ không gian}:
+\[
+\texttt{|----auto----|<-- box -->|----auto----|}
+\]
+Trình duyệt đo phần khoảng trắng còn dư của thẻ cha rồi chia đều sang hai bên trái/phải, đưa phần tử vào chính giữa theo chiều ngang.
+\end{noteBox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_margin_center_auto.jpg}
+\caption{Tổng Quan Kỹ Thuật Căn Giữa Phần Tử Bằng \codeinline{margin: auto}: Ý Tưởng, Cú Pháp, Điều Kiện Áp Dụng \& Kết Quả Trực Quan}
+\label{fig:css_margin_center_auto}
+\end{figure}
+
+\begin{prettyTableBox}[Điều Kiện Hoạt Động Của \codeinline{margin: 0 auto;} Trong 4 Trường Hợp]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{4.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Trường Hợp} & \thd{Kết Quả Căn Giữa} \\
+Có \codeinline{width} cố định (vd: \codeinline{300px}) & \textbf{Căn giữa thành công} (trình duyệt tính được phần dư 2 bên). \\
+Không có \codeinline{width} & \textbf{Không căn giữa được} vì khối tự chiếm $100\%$ chiều ngang của cha. \\
+\codeinline{display: inline} & \textbf{Không áp dụng} được \codeinline{margin: auto} cho phần tử nội dòng. \\
+\codeinline{display: block} / \codeinline{flex} & \textbf{Hoạt động tốt (OK)} khi đi kèm chiều rộng xác định. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{b) Căn giữa cả chiều ngang và chiều dọc (\term{Center Both Axes})}
+
+Vì \codeinline{margin: 0 auto;} chỉ căn giữa theo chiều ngang, khi muốn đưa phần tử vào chính giữa cả 2 trục (ngang + dọc) của màn hình hoặc khung chứa, ta kết hợp với hai kỹ thuật tiêu chuẩn sau:
+
+\begin{codeWindow}[Hai Cách Căn Giữa Cả Chiều Ngang Lẫn Chiều Dọc]
+\begin{lstlisting}[language=CSS3]
+/* Cach 1: Dung position + transform */
+.center-box {
+    width: 200px;
+    height: 100px;
+    background: pink;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+\end{lstlisting}
+\begin{lstlisting}[language=HTML]
+<!-- Cach 2: Dung Flexbox (Khuyen nghi hien dai) -->
+<div class="wrapper">
+  <div class="center-box">Giua trang</div>
+</div>
+<style>
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Chiem full man hinh */
+    background: #eee;
+  }
+  .center-box {
+    width: 200px;
+    height: 100px;
+    background: tomato;
+    text-align: center;
+    line-height: 100px;
+    color: white;
+    font-weight: bold;
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Kết Quả Hiển Thị: Căn Giữa Tuyệt Đối 2 Trục (position+transform vs Flexbox)]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    % Left: position + transform
+    \fill[gray!12] (0, 0) rectangle (5.6, 2.4);
+    \draw[gray!50] (0, 0) rectangle (5.6, 2.4);
+    \draw[gray!40, dashed] (2.8, 0) -- (2.8, 2.4) (0, 1.2) -- (5.6, 1.2);
+    \fill[pink!75] (1.6, 0.7) rectangle (4.0, 1.7);
+    \draw[pink!90!black, line width=1pt] (1.6, 0.7) rectangle (4.0, 1.7);
+    \node[align=center, text=darkText] at (2.8, 1.2) {\textbf{Cách 1}\\position + transform};
+
+    % Right: Flexbox
+    \fill[gray!15] (6.4, 0) rectangle (12.0, 2.4);
+    \draw[gray!50] (6.4, 0) rectangle (12.0, 2.4);
+    \draw[<->, primaryBlue!70, dashed] (9.2, 0.05) -- (9.2, 0.68) (9.2, 1.72) -- (9.2, 2.35);
+    \draw[<->, primaryBlue!70, dashed] (6.45, 1.2) -- (7.98, 1.2) (10.42, 1.2) -- (11.95, 1.2);
+    \fill[red!75!orange] (8.0, 0.7) rectangle (10.4, 1.7);
+    \node[align=center, text=white, font=\scriptsize\sffamily\bfseries] at (9.2, 1.2) {Giữa trang\\(Flexbox)};
+\end{tikzpicture}
+\end{browserWindow}
+
+\begin{prettyTableBox}[So Sánh 3 Kỹ Thuật Căn Giữa Phổ Biến Trong CSS]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{3.5cm} C{2.1cm} C{2.1cm} Z}
+\rowcolor{primaryBlue}
+\thd{Cách Thực Hiện} & \thd{Căn Ngang} & \thd{Căn Dọc} & \thd{Ghi Chú Thực Chiến} \\
+\codeinline{margin: 0 auto} & Có & Không & Dễ dùng, gọn nhẹ, chỉ dùng để căn ngang. \\
+\codeinline{position + transform} & Có & Có & Căn chính giữa tuyệt đối theo phần tử cha có \codeinline{position}. \\
+\codeinline{flexbox} & Có & Có & Hiện đại, Responsive mạnh mẽ, dễ mở rộng nhất. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsection{11. Sử Dụng \csshint{margin} Âm (\term{Negative Margin}) \& Hiệu Ứng Chồng Lớp}
+
+Trong CSS, \textbf{margin âm (\term{negative margin})} là kỹ thuật truyền giá trị số âm ($< 0$) cho thuộc tính \codeinline{margin} để \textbf{kéo phần tử dịch chuyển ngược chiều}, hút sát lại gần, chồng lên phần tử khác hoặc nhô ra khỏi khung vị trí mặc định.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/css_margin_negative_overview.jpg}
+\caption{Tổng Quan Kỹ Thuật Margin Âm (\term{Negative Margin}): Khái Niệm, Cú Pháp, Tác Dụng 4 Hướng, 3 Ví Dụ Thực Tế \& So Sánh Với Margin Dương}
+\label{fig:css_margin_negative_overview}
+\end{figure}
+
+\subsubsection{a) Cú pháp cơ bản \& Hiệu ứng 4 hướng ngược chiều}
+
+\begin{codeWindow}[Cú Pháp Cơ Bản Của Margin Âm]
+\begin{lstlisting}[language=CSS3]
+.box {
+    margin-top: -20px;  /* Keo phan tu len tren 20px */
+    margin-left: -10px; /* Keo phan tu sang trai 10px */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{prettyTableBox}[Hiệu Ứng Đẩy Ngược Hướng Của 4 Loại Margin Âm]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{4.0cm} Z}
+\rowcolor{primaryBlue}
+\thd{Loại Margin Âm} & \thd{Hiệu Ứng Dịch Chuyển} \\
+\codeinline{margin-top: -X} & Kéo phần tử đi ngược \textbf{lên trên} $X$ đơn vị. \\
+\codeinline{margin-bottom: -X} & Kéo phần tử phía dưới \textbf{lại gần / chèn lên} phần tử hiện tại. \\
+\codeinline{margin-left: -X} & Kéo phần tử dịch chuyển \textbf{sang trái} $X$ đơn vị. \\
+\codeinline{margin-right: -X} & Kéo phần tử bên phải lại gần hoặc mở rộng phần tử \textbf{sang phải}. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{tipBox}[Nguyên Tắc Vàng Khi Dùng Margin Âm]
+\textbf{Margin âm = đẩy phần tử ngược hướng.} Dùng đúng ngữ cảnh sẽ mang lại hiệu quả thẩm mỹ và chiều sâu rất cao; ngược lại, dùng sai hoặc lạm dụng sẽ khiến bố cục rối loạn và khó bảo trì.
+\end{tipBox}
+
+\subsubsection{b) Các ứng dụng thực tế tiêu biểu}
+
+\begin{prettyTableBox}[4 Mục Đích Ứng Dụng Thực Tế Của Margin Âm]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{4.2cm} Z}
+\rowcolor{primaryBlue}
+\thd{Mục Đích} & \thd{Mô Tả Ứng Dụng} \\
+Căn chỉnh tinh vị trí & Dịch lệch phần tử vài pixel để cân đối quang học cho giao diện. \\
+Tạo hiệu ứng chồng lớp & Cho các khối hộp chồng đè lên nhau để tạo chiều sâu thị giác (\term{layering}). \\
+Kéo sát phần tử vào nhau & Làm các phần tử ``hút'' gần nhau hơn (vd: chồng viền danh sách, cụm avatar). \\
+Thiết kế nổi bật & Làm hình ảnh, icon, hoặc tiêu đề nhô lệch ra ngoài khung chứa để thu hút ánh nhìn. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\subsubsection{c) Ví dụ A: Tạo hiệu ứng ``nổi chồng'' từng bước giữa hai phần tử}
+
+\begin{codeWindow}[Thực Nghiệm Kéo Chồng .box2 Lên .box1 Bằng margin-top Âm]
+\begin{lstlisting}[language=HTML]
+<div class="box1">Box 1</div>
+<div class="box2">Box 2</div>
+
+<style>
+  .box1 {
+    width: 200px;
+    height: 100px;
+    background: lightblue;
+    margin-bottom: 20px; /* Tao khoang cach 20px voi phan tu ben duoi */
+  }
+  .box2 {
+    width: 200px;
+    height: 100px;
+    background: lightgreen;
+    margin-top: -10px; /* Keo nguoc len 10px -> khoang cach thuc chi con 10px */
+    /* Neu tang len: margin-top: -50px; border: 2px solid black; -> de len 50% Box 1 */
+  }
+</style>
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.31\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/css_margin_neg_step1_none.png}
+    \caption{Chưa dùng margin âm (cách nhau $20\text{px}$)}
+    \label{fig:margin_neg_step1}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.31\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/css_margin_neg_step2_minus10.png}
+    \caption{Đặt \codeinline{margin-top: -10px} (còn $20 - 10 = 10\text{px}$)}
+    \label{fig:margin_neg_step2}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.31\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/css_margin_neg_step3_minus50.png}
+    \caption{Tăng \codeinline{margin-top: -50px} + viền đen (chồng $50\%$)}
+    \label{fig:margin_neg_step3}
+\end{subfigure}
+\caption{Diễn Tiến Thực Tế Khi Thay Đổi \codeinline{margin-top} Âm Của \codeinline{.box2} Từ $0$ Đến $-10\text{px}$ Và $-50\text{px}$}
+\label{fig:css_margin_neg_progression}
+\end{figure}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt, parsep=0pt]
+    \item \textbf{Giai đoạn 1 (Chưa dùng margin âm -- Hình~\ref{fig:margin_neg_step1})}: \codeinline{.box1} có \codeinline{margin-bottom: 20px} tạo khoảng cách đúng $20\text{px}$ với \codeinline{.box2}.
+    \item \textbf{Giai đoạn 2 (Áp dụng \codeinline{margin-top: -10px;} -- Hình~\ref{fig:margin_neg_step2})}: \codeinline{.box2} bị kéo ngược lên $10\text{px}$, khiến khoảng cách thực tế rút ngắn chỉ còn $20 - 10 = 10\text{px}$. Nếu tăng giá trị âm lên $-20\text{px}$ trở lên, \codeinline{.box2} sẽ bắt đầu đè lên \codeinline{.box1}.
+    \item \textbf{Giai đoạn 3 (Tăng lên \codeinline{margin-top: -50px;} kèm \codeinline{border: 2px solid black;} -- Hình~\ref{fig:margin_neg_step3})}: Vì \codeinline{.box1} cao $100\text{px}$, kéo lên $50\text{px}$ khiến \codeinline{.box2} chồng đè rõ rệt lên $50\%$ chiều cao của \codeinline{.box1}; đường viền đen $2\text{px}$ giúp phân tách trực quan ranh giới giữa hai hộp.
+\end{itemize}
+
+\subsubsection{d) Ví dụ B \& C: Tạo ``độ hút'' trong danh sách và đẩy ảnh chệch khung}
+
+\begin{codeWindow}[Ứng Dụng Margin Âm Cho Danh Sách Khít Nhau \& Hình Ảnh Nhô Khỏi Khung]
+\begin{lstlisting}[language=CSS3]
+/* Vi du B: Tao "do hut" giua 2 box gan nhau trong danh sach */
+.box + .box {
+    margin-top: -5px; /* Lam cac phan tu hoi cham/chong nhe vao nhau */
+}
+
+/* Vi du C: Can chinh hinh anh hoac phan tu "chech" vi tri co dinh */
+.image {
+    margin-left: -30px; /* Day hinh anh lech sang trai nho ra khoi khung */
+}
+\end{lstlisting}
+\end{codeWindow}
+
+\begin{browserWindow}[Minh Họa Trực Quan: Độ Hút (.box + .box) \& Phần Tử Nhô Lệch (.image)]
+\centering
+\begin{tikzpicture}[font=\scriptsize\sffamily]
+    % Left: Box + Box pull
+    \node[anchor=west, text=primaryBlue, font=\scriptsize\sffamily\bfseries] at (0, 2.3) {Ví dụ B: \codeinline{.box + .box \{ margin-top: -5px; \}}};
+    \fill[primaryBlue!15] (0.3, 1.35) rectangle (4.5, 1.95);
+    \draw[primaryBlue, line width=1pt] (0.3, 1.35) rectangle (4.5, 1.95);
+    \node at (2.4, 1.65) {Item 1};
+    \fill[secondaryTeal!20] (0.3, 0.85) rectangle (4.5, 1.45);
+    \draw[secondaryTeal, line width=1pt] (0.3, 0.85) rectangle (4.5, 1.45);
+    \node at (2.4, 1.15) {Item 2 (hút chồng 5px)};
+    \fill[accentOrange!15] (0.3, 0.35) rectangle (4.5, 0.95);
+    \draw[accentOrange, line width=1pt] (0.3, 0.35) rectangle (4.5, 0.95);
+    \node at (2.4, 0.65) {Item 3 (hút chồng 5px)};
+
+    % Right: Image breakout
+    \node[anchor=west, text=primaryBlue, font=\scriptsize\sffamily\bfseries] at (6.2, 2.3) {Ví dụ C: \codeinline{.image \{ margin-left: -30px; \}}};
+    \fill[gray!10] (7.2, 0.25) rectangle (11.8, 2.0);
+    \draw[gray!60, dashed, line width=1pt] (7.2, 0.25) rectangle (11.8, 2.0);
+    \node[anchor=north east, text=gray!80!black] at (11.7, 1.95) {Khung Card};
+    \fill[accentOrange!30] (6.4, 0.65) rectangle (9.8, 1.55);
+    \draw[accentOrange!90!black, line width=1.2pt] (6.4, 0.65) rectangle (9.8, 1.55);
+    \node[align=center, text=darkText] at (8.1, 1.1) {\textbf{.image}\\(nhô lệch trái -30px)};
+\end{tikzpicture}
+\end{browserWindow}
+
+\subsubsection{e) Lưu ý sống còn \& Mẹo sử dụng \codeinline{margin} âm an toàn}
+
+\begin{prettyTableBox}[3 Rủi Ro Phổ Biến Khi Sử Dụng Margin Âm]
+\rowcolors{2}{white}{primaryBlue!4}
+\begin{tabularx}{\linewidth}{>{\bfseries\color{primaryBlue}}L{4.5cm} Z}
+\rowcolor{primaryBlue}
+\thd{Vấn Đề Thường Gặp} & \thd{Mô Tả Hệ Quả} \\
+Chồng lên nhau ngoài ý muốn & Nếu không kiểm soát kỹ, các phần tử có thể đè chữ lên nhau gây rối giao diện. \\
+Không phù hợp mọi thiết kế Responsive & Trên màn hình thiết bị nhỏ (mobile), margin âm lớn có thể làm tràn ngang hoặc vỡ bố cục. \\
+Khó debug \& bảo trì & Dễ quên lý do phần tử bị dịch lệch nếu lập trình viên không ghi chú (\term{comment}) rõ ràng. \\
+\end{tabularx}
+\end{prettyTableBox}
+
+\begin{warnBox}[Cảnh Báo \& Mẹo Thực Chiến Với Margin Âm]
+\begin{itemize}[leftmargin=1.5em, itemsep=2.5pt, parsep=0pt]
+    \item \textbf{Cảnh báo}: Margin âm có thể làm vỡ bố cục nếu không kiểm soát tốt, dễ gây lỗi đè nội dung nếu thiếu kiểm thử, và không phù hợp với bố cục cần độ co giãn linh hoạt cao. Hãy chỉ dùng có chủ đích và kiểm tra kỹ trên nhiều trình duyệt.
+    \item \textbf{Mẹo nhỏ}: Dùng margin âm để tạo hiệu ứng xếp lớp sống động mà không cần JavaScript; luôn test trên nhiều kích thước màn hình; và \textbf{ghi chú rõ trong code} để đồng đội không nhầm lẫn với lỗi căn lề.
+\end{itemize}
+\end{warnBox}
+
+\subsection{12. Đọc Thêm: Kỹ Thuật Nâng Cao Với \csshint{margin} (Phần Bổ Sung)}
 
 \begin{conceptBox}[Mở Rộng Kiến Thức Chuyên Sâu Về CSS Margin]
 \begin{enumerate}[leftmargin=1.5em, itemsep=3.5pt, parsep=0pt]
